@@ -1,0 +1,61 @@
+6
+{
+NAME=Age of Empires 2
+ID=AE2
+LAUNCHMETHOD=2
+GUID={FB69A260-5031-11d3-A2D4-006097BA6550}
+}
+{
+NAME=Fallout Tactics
+ID=FOT
+LAUNCHMETHOD=1
+GUID={BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}
+}
+{
+NAME=Unreal Tournament
+ID=UT1
+LAUNCHMETHOD=3
+LAUNCHPATTERN= Unreal://{MAP}?Name={NAME}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?Listen?port={PORT}
+JOINPATTERN= Unreal://{HOSTIP}/Index.unr?Name={NAME}
+REGENTRY=HKEY_LOCAL_MACHINE\SOFTWARE\Unreal Technology\Installed Apps\UnrealTournament\Folder
+EXE=System\UnrealTournament.exe
+GAMEMODES=CTFGame#Capture the Flag;DeathMatchPlus#Deathmatch;Domination#Domination;Assault#Assault;LastManStanding#LastManStanding;TDarkMatch#TDarkMatch
+MAPPATH=Maps
+MAPEXT=UNR
+SETTINGS=map;gamemode;timelimit;maxplayers;port
+DEFPORT=7777
+}
+{
+NAME=Unreal Tournament 2004
+beta
+ID=UT4
+LAUNCHMETHOD=3
+LAUNCHPATTERN= server {MAP}?Name={NAME}?port={PORT}?game={GAMEMODE}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?NumBots={BOTS}?GoalScore={GOALSCORE}
+JOINPATTERN={HOSTIP}:{PORT}/?Name={NAME}
+REGENTRY=HKEY_LOCAL_MACHINE\SOFTWARE\Unreal Technology\Installed Apps\UT2004\Folder
+EXE=\System\UT2004.exe
+GAMEMODES=UT2k4Assault.ASGameInfo#Assault;XGame.xCTFGame#Capture the Flag;XGame.xDeathMatch#Deathmatch;XGame.xBombingRun#Bombing Run;xGame.xDoubleDom#DoubleDomination;SkaarjPack.Invasion#Invasion;BonusPack.xLastManStandingGame#LastManStanding;xMutantGame#Mutant;Onslaught.ONSOnslaughtGame#Onslaught;XGame.xTeamGame#Team Deathmatch
+MAPPATH=\Maps\
+MAPEXT=ut2
+SETTINGS=map;gamemode;timelimit;maxplayers;port;bots;goalscore
+MODSTR=-mod=
+DEFPORT=7777
+[
+NAME=Alien Swarm
+LAUNCHPATTERN= server {MAP}?Name={NAME}?port={PORT} -Mod=AlienSwarm
+JOINPATTERN={HOSTIP}:{PORT}/?Name={NAME} -Mod=AlienSwarm
+MAPPATH=\AlienSwarm\Maps\
+]
+}
+{
+NAME=Heroes of Might and Magic III
+ID=HM3
+LAUNCHMETHOD=2
+GUID={8b743aa0-53b2-11d2-808a-00600895fb43}
+}
+{
+NAME=Heroes of Might and Magic III: Armageddon's Blade
+ID=HMA
+LAUNCHMETHOD=2
+GUID={19BD0A20-5B10-11D3-B7C6-005004B1F94B}
+}
