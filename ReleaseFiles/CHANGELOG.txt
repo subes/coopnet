@@ -1,0 +1,108 @@
+08/jun/23: Coopnet 0.96.0 is released!
+We added a new version-tracking system!
+This breaks the update check in old clients, so please update!
+New version supports dplay games on linux (you need wine or equivalent)!
+A lot of various changes were done aswell, new default colors, time estimator for filetransfer
+and a lot of small changes.
+Enjoy!
+
+08/jun/11: Coopnet 0.952 is released!
+Automatic updater added.
+File transfer function in right click menu(p2p transfer)
+Sleep mode
+Various bugfixes
+
+08/jun/1: Coopnet 0.95 is released!
+The unicode bug and the statuslist bug is fixed.
+The buggy divider location saving and maximsied state saving is disabled.
+This update changes server-client communication so you have to update the client to be able to play!
+
+08/april/28: Coopnet 0.94 is released!
+A few bugs have been fixed , and the registry reader is done.
+As for other platforms and not properly installed games, just set the path in the options menu!
+
+08/april/15: Coopnet 0.931 is released!
+A few bugs have been fixed , but nothing new.
+Game detection coming soon!
+
+08/april/11: Coopnet 0.93 is released!
+The registry reading is still missing, so the game detection doesn't work yet, but you can manually select game paths now.
+In the channel playerlist the players status is shown by icons(chatting, in-room, playing)
+The parameter launching is fully implemented now both on windows and linux, so probably this is the first multi-OS lobby application.
+The first game of this type is the first Unreal Tournament.
+Enjoy!
+
+08/march/25: Coopnet 0.92 is released!
+Some new functionality is added: home-channel, favourites, manual game-management, beta implementation of parameter based launching.
+No new games added yet , but the newer game-data is downloaded on startup, new channels might show up soon.
+
+08/feb/03: Coopnet 0.91 is released!
+HAMACHI support is added!
+This will solve any connection problems of the games, you only have to
+join a hamachi room (the host and the clients having connection problems must be connected aswell) and check in the "hamachi support" checkbox.
+Note that it needs time to change to hamachi interface, about 5-10 seconds.
+Not everyone needs to be in the hamachi room, only the host and the people who want to use that feature.
+The others should NOT check in the checkbox or they will be unable to connect.
+
+08/jan/13: Coopnet 0.9 is finally released!
+A brand new client with a lot of new and improved
+features like launch sound, nudge, connect/disconnect menuitems
+framesize-saving, time stamps!
+Enjoy!
+
+07/nov/12: Coopnet 0.88 is released!
+Compatibility mode added at room creation
+Without it faster launch can be achieved
+Player status is sent when you join, so you can see if they are still playing or not
+
+07/oct/22: Coopnet 0.87 is released!
+simple editable- viewable player profile
+password change,multi-line chat was added
+
+07/oct/14: Coopnet 0.86e is released!
+Nothing new is added, just bug fixes.
+
+07/aug/16: Coopnet 0.86d is released!
+The scrollbars are now colored as well.
+New auto-login feature available via options menu
+and some other improvements here and there.
+
+07/aug/14: Coopnet 0.86c is released:
+Now the colored skin is disabled by default, you can enable it with 4 clicks.
+The autoscroll function is improved.
+
+07/aug/14: Coopnet 0.86b is released:
+the roomlist shows the current players in the room as a tooltiptext.
+in the room yellow color shows the playing status.
+
+07/aug/12: Coopnet 0.86 is released!
+The fotdplay exe is replaced, and the main chat window is a bit improved.
+
+07/aug/11: Coopnet 0.85d is released!
+the user list is now sorted.
+Buttons have different color when mouse is over them.
+The main window remembers its position and size.
+Text style and size is selectable in options.
+
+07/aug/10: Coopnet 0.85c is released!
+The only change is a new colored chat.
+The chat protocol changed because of it so older versions will have problems.
+We also have a nice default skin thanks to Jay!
+
+07/aug/8: Coopnet 0.85b is released!
+It has fixed dplay handling, a new fotdpaly.exe, auto login, new debug mode with .exe launcher
+
+07/aug/7: Coopnet 0.84b is released!
+The private chat system is improved.
+New messages will appear in a private talk tab, but messages will still be printed wherever you can see it.
+The colors used by the components can be altered in options.
+Also there should be no more player data losses from now on.
+
+07/aug/6: Coopnet 0.83 is released!
+Fixed a problem with the chat in rooms that made clients crash.
+Also the roomlist is uneditable now, and you can join the desired room by double clicking on it.
+
+07/aug/5: Coopnet 0.82 is released!
+The roomlist is replaced with a table, a gif-image shows if the room is password protected.
+You can also see how many players are in the room. The roomlist is sortable from now on.
+If you change name now its updated even it the roomlist.
