@@ -426,7 +426,7 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_about = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Coopnet Client "+ Client.version);
+        setTitle("CoopnetClient "+ Client.version);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);

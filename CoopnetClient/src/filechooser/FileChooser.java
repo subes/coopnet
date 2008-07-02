@@ -41,6 +41,11 @@ public class FileChooser extends javax.swing.JFrame {
     /** Creates new form MyFileChooser */
     public FileChooser(int mode) {
         initComponents();
+        
+        if(mode == DIRECTORIES_ONLY_MODE){
+            setTitle("Choose directory");
+        }
+        
         choosemode = mode;
         displaymodel = new FileChooserTableModel(tbl_display);
         tbl_display.setModel(displaymodel);
