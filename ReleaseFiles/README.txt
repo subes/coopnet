@@ -8,14 +8,14 @@ Content:
 
 --- 1. INTRODUCTION:
 
-CoopNet is a lobby based Chat with the functionality of launching games. 
+Coopnet is a lobby based Chat with the functionality of launching games. 
 Its aim is to enable users of Windows and Linux to play together on the same network.
 
 
 
 --- 2. STARTING:
 
-To start coopnet:
+To start Coopnet:
   doubleclick on "CoopnetClient.jar"
 or try the following command: 
   "java -jar CoopnetClient.jar"

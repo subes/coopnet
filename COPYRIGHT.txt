@@ -1,4 +1,4 @@
-CoopNet
+Coopnet
 
 Copyright: Edwin Stang (edwinstang@gmail.com),
            Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
