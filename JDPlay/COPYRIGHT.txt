@@ -7,4 +7,4 @@ Copyright: Edwin Stang (edwinstang@gmail.com)
 The entire code base may be distributed under the terms of the GNU General
 Public License (GPL), unless otherwise noted in a separate "COPYRIGHT.txt".
 
-See "LICENCE.txt" or "http://www.gnu.org/licenses/" for the complete licence.
+See "LICENSE.txt" or "http://www.gnu.org/licenses/" for the complete licence.
