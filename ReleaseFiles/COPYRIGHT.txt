@@ -1,7 +1,7 @@
-    CoopNet
+CoopNet
 
-	Copyright 2007 Edwin Stang (edwinstang@gmail.com),
-	               Kovacs Zolt (kovacs.zsolt.85@gmail.com)
+    Copyright 2007 Edwin Stang (edwinstang@gmail.com),
+                   Kovacs Zolt (kovacs.zsolt.85@gmail.com)
 	   
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
