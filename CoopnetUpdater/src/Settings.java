@@ -54,20 +54,32 @@ import java.util.Vector;
 public class Settings {
 
     private static java.util.Properties data;
+    
+    private static String optionsDir; //Gets set OS-Specific
+	private static String settingsFile;
 
-    // Load the settings at first usage
     static {
+        //detect OS
+        if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
+            optionsDir = System.getenv("APPDATA")+"/CoopNet";
+        } else {
+            optionsDir = System.getenv("HOME")+"/.coopnet";
+        }
+		
+		settingsFile = optionsDir+"/settings";
+		
         data = new java.util.Properties();
         load();
         favourites = new Vector<String>();
         loadFavourites();
     }
+    
     //Settings names in variable form
     private final static String serverIp = "ServerIp",firstrun="FirstRun" , homeChannel = "HomeChannel",  serverPort = "ServerPort",updateURL="UpdateURL" ,  autoLogin = "AutoLogin",  debugMode = "DebugMode",  bgColor = "BackgroundColor",  fgColor = "ForegroundColor",  yourUsernameColor = "YourUsernameColor",  selectionColor = "SelectionColor",  otherUsernamesColor = "OtherUsernamesColor",  systemMessageColor = "SystemMessageColor",  whisperMessageColor = "WhisperMessageColor",  nameStyle = "NameStyle",  nameSize = "NameSize",  messageStyle = "MessageStyle",  messageSize = "MessageSize",  colorizeBody = "ColorizeBody",  colorizeText = "ColorizeText",  lastLoginName = "LastLoginName",  lastLoginPassword = "Color",  userMessageColor = "UserMessageColor",  SoundEnabled = "SoundEnabled",  TimeStamps = "TimeStamps",  mainFrameMaximised = "MainFrameMaximised",  mainFrameWidth = "MainFrameWidth",  mainFrameHeight = "MainFrameHeight",  channelVerticalSPPosition = "ChannelVerticalSPPosition",  channelChatHorizontalSPPosition = "ChannelChatHorizontalSPPosition",  channelChatVerticalSPPosition = "ChannelChatVerticalSPPosition";
     //Default values for settings
     private final static String def_serverIp = "subes.dyndns.org";
     private final static int def_serverPort = 6667;
-     private final static String def_updateURL = "http://kecske85.valodi.hu/coopnet/downloads/dist.zip";
+     private final static String def_updateURL = "http://coopnet.sourceforge.net/latest.php";
     private final static boolean def_firstrun=true;
     private final static boolean def_autoLogin = false;
     private final static boolean def_debugMode = false; // new Color(new Integer(""));
@@ -103,7 +115,7 @@ public class Settings {
      */
     private static void save() {
         try {
-            data.store(new FileOutputStream("options/settings"), "Coopnet settings");
+            data.store(new FileOutputStream(settingsFile), "Coopnet settings");
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -116,10 +128,10 @@ public class Settings {
      */
     private static void load() {
         try {
-            if (!new File("options").exists()) {
-                new File("options").mkdir();
+            if (!new File(optionsDir).exists()) {
+                new File(optionsDir).mkdir();
             }
-            data.load(new FileInputStream("options/settings"));
+            data.load(new FileInputStream(settingsFile));
         } catch (Exception ex) {
         //settings will be restored to default when they cant be read via a getter
 
