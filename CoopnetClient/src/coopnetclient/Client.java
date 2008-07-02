@@ -188,6 +188,7 @@ public class Client {
     public static void stopConnection() {
         Client.connected = false;
         Client.loggedin = false;
+        Client.currentRoom = null;
         if (clientThread != null) {
             clientThread.stopThread();
         }

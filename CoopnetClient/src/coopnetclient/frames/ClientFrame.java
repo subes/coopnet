@@ -60,6 +60,11 @@ public class ClientFrame extends javax.swing.JFrame {
         int width = coopnetclient.Settings.getMainFrameWidth();
         int height = coopnetclient.Settings.getMainFrameHeight();
         this.setSize(width, height);
+        //maximise if needed
+        int status = coopnetclient.Settings.getMainFrameMaximised();
+        if(status ==  javax.swing.JFrame.MAXIMIZED_BOTH ){
+            this.setExtendedState(status);
+        }
 
         setLocationRelativeTo(null);
         //sound options init
@@ -608,12 +613,14 @@ public class ClientFrame extends javax.swing.JFrame {
     public void quit() {
         Client.send(Protocol.quit(), null);
         Client.stopConnection();
-        //must save sizes of frame and channelpanel if any
+        //save sizes
         coopnetclient.Settings.setMainFrameMaximised(this.getExtendedState());
-        /*if (this.getExtendedState() == JFrame.NORMAL) {
+        
+        if (this.getExtendedState() == javax.swing.JFrame.NORMAL) {
         coopnetclient.Settings.setMainFrameHeight(this.getHeight());
         coopnetclient.Settings.setMainFrameWidth(this.getWidth());
-        
+        }
+        /*
         for (Component c : tabpn_Tabs.getComponents()) {
         if (c instanceof ChannelPanel) {
         ChannelPanel cp = (ChannelPanel) c;
@@ -679,6 +686,11 @@ public class ClientFrame extends javax.swing.JFrame {
             Client.profilewindow.setVisible(false);
             Client.profilewindow.dispose();
             Client.profilewindow = null;
+        }
+        if (Client.roomoperationframe != null) {
+            Client.roomoperationframe.setVisible(false);
+            Client.roomoperationframe.dispose();
+            Client.roomoperationframe = null;
         }
     }
 

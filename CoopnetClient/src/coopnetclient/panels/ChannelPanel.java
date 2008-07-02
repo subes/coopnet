@@ -420,6 +420,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         if (Client.roomoperationframe != null) {
             Client.roomoperationframe.setVisible(false);
+            Client.roomoperationframe.dispose();
             Client.roomoperationframe = null;
         }
         Client.roomoperationframe = new CreateRoomFrame(this.name);
@@ -431,6 +432,7 @@ public class ChannelPanel extends javax.swing.JPanel {
             if (rooms.selectedispassworded()) {
                 if (Client.roomoperationframe != null) {
                     Client.roomoperationframe.setVisible(false);
+                    Client.roomoperationframe.dispose();
                     Client.roomoperationframe = null;
                 }
                 Client.roomoperationframe = new RoomJoinPasswordFrame(rooms.getselectedhost(), this.name);
