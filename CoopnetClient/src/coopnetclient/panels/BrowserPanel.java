@@ -25,7 +25,7 @@ import java.io.IOException;
 
 public class BrowserPanel extends javax.swing.JPanel {
 
-    public static String url = "http://kecske85.valodi.hu/coopnet/guide.html";
+    public static String url = "http://coopnet.sourceforge.net/guide.html";
 
     /** Creates new form browser */
     public BrowserPanel() {
