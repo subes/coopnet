@@ -1,5 +1,5 @@
 /*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
-                    Kovacs Zolt (kovacs.zsolt.85@gmail.com)
+                    Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
 
     This file is part of CoopNet.
 
