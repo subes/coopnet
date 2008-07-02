@@ -223,7 +223,7 @@ public class FileChooser extends javax.swing.JFrame {
         cb_showHidden = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Select File");
+        setTitle("Choose file");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -242,8 +242,8 @@ public class FileChooser extends javax.swing.JFrame {
 
         tbl_display.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"DIR1", "Directory", "", "2008.01.01"},
-                {"DIR2", "Directory", "", "2007.03.11"},
+                {"[DIR1]", "Directory", "", "2008.01.01"},
+                {"[DIR2]", "Directory", "", "2007.03.11"},
                 {"wtf.exe", "application", "10K", "2001.00.00"},
                 {null, null, null, null}
             },
