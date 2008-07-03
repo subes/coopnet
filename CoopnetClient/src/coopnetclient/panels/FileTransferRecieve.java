@@ -245,7 +245,7 @@ public class FileTransferRecieve extends javax.swing.JPanel {
                 try {
                     SocketChannel socket;
                     running = true;
-                    lbl_statusValue.setText("Transfer starting...");
+                    lbl_statusValue.setText("Retrying...");
                     socket=SocketChannel.open();
                     socket.connect(new InetSocketAddress(ip, new Integer(port)));
                     starttime = System.currentTimeMillis();

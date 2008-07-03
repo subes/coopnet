@@ -122,7 +122,7 @@ public class FileTransferSend extends javax.swing.JPanel {
                     }
                     catch(Exception e){
                         Client.send(Protocol.turnTransferAround(reciever,filename), null);
-                        startsending2(ip,port);
+                        startsending2(ip);
                     }
                     lbl_statusValue.setText("Transferring...");
                     starttime = System.currentTimeMillis();
@@ -176,7 +176,7 @@ public class FileTransferSend extends javax.swing.JPanel {
     }
     
     //turns around the connection, connect to the reciever
-    public void startsending2(final String ip, final String port) {
+    public void startsending2(final String ip) {
         new Thread() {
 
             long starttime;
