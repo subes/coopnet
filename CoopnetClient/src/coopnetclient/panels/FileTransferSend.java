@@ -230,6 +230,7 @@ public class FileTransferSend extends javax.swing.JPanel {
                         temp.rewind();
                         bo.flush();
                     }
+                    bo.close();
                     serverSocket.close();
                     lbl_statusValue.setText("Transfer complete!");
                     pgb_progress.setValue(100);
@@ -239,7 +240,11 @@ public class FileTransferSend extends javax.swing.JPanel {
                 } catch (Exception e) {
                     //set error message
                     e.printStackTrace();
+                    sending = false;
                     lbl_statusValue.setText("Error: " + e.getLocalizedMessage());
+                    try{
+                        serverSocket.close();
+                    }catch(Exception ex){   }
                 }
             }
         }.start();

@@ -272,11 +272,11 @@ public class FileTransferRecieve extends javax.swing.JPanel {
                     lbl_statusValue.setText("Transferring...");
                     
                     long recievedbytes = 0;
-                    long currenttime;
-                    long timeelapsed;
+                    long currenttime=0;
+                    long timeelapsed=0;
                     ByteBuffer buffer = ByteBuffer.allocate(1000);
                     buffer.rewind();
-                    while (running && (socket.read(buffer)) != -1) {
+                    while (running && ((socket.read(buffer)) != -1)) {
                         buffer.flip();
                         bo.write(buffer.array(),0,buffer.limit());
                         bo.flush();
