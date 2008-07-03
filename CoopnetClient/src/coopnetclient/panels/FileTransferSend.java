@@ -23,6 +23,7 @@ import coopnetclient.Client;
 import coopnetclient.Protocol;
 import coopnetclient.Settings;
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.InetSocketAddress;
@@ -190,7 +191,7 @@ public class FileTransferSend extends javax.swing.JPanel {
                 try {
                     serverSocket = new ServerSocket(Settings.getFiletTansferPort());
                     Socket socket = serverSocket.accept();
-                    SocketChannel socketChannel = socket.getChannel();
+                    BufferedOutputStream bo = new BufferedOutputStream(socket.getOutputStream());
                     lbl_statusValue.setText("Transferring...");
                     starttime = System.currentTimeMillis();
 
@@ -207,9 +208,9 @@ public class FileTransferSend extends javax.swing.JPanel {
                             sent++;
                         } else {
                             temp.flip();
-                            socketChannel.write(temp);
+                            bo.write(temp.array(),0,temp.limit());
+                            bo.flush();
                             temp.rewind();
-                            //dont forge to sent the new byte aswell :S
                             temp.put((byte) readedbyte);
                             sent++;
                             pgb_progress.setValue((int) (((sent * 1.0) / totalbytes) * 100));
@@ -225,8 +226,9 @@ public class FileTransferSend extends javax.swing.JPanel {
                     //send last chunk
                     if (temp.position() != 0) {
                         temp.flip();
-                        socketChannel.write(temp);
+                        bo.write(temp.array(),0,temp.limit());
                         temp.rewind();
+                        bo.flush();
                     }
                     serverSocket.close();
                     lbl_statusValue.setText("Transfer complete!");
@@ -236,6 +238,7 @@ public class FileTransferSend extends javax.swing.JPanel {
 
                 } catch (Exception e) {
                     //set error message
+                    e.printStackTrace();
                     lbl_statusValue.setText("Error: " + e.getLocalizedMessage());
                 }
             }

@@ -269,20 +269,20 @@ public class FileTransferRecieve extends javax.swing.JPanel {
 
                     BufferedOutputStream bo = new BufferedOutputStream(new FileOutputStream(destfile));
 
-                    lbl_statusValue.setText("Transferring..." +
-                            "");
+                    lbl_statusValue.setText("Transferring...");
                     
                     long recievedbytes = 0;
                     long currenttime;
                     long timeelapsed;
                     ByteBuffer buffer = ByteBuffer.allocate(1000);
+                    buffer.rewind();
                     while (running && (socket.read(buffer)) != -1) {
                         buffer.flip();
                         bo.write(buffer.array(),0,buffer.limit());
-                        buffer.rewind();
-                        recievedbytes+=1000;
-
                         bo.flush();
+                        recievedbytes+=buffer.limit();
+                        buffer.rewind();                        
+                        
                         pgb_progress.setValue((int) (((recievedbytes * 1.0) / totalsize) * 100));
                         
                         if (recievedbytes % 20000 == 0) {
