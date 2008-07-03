@@ -220,6 +220,7 @@ public class FileTransferRecieve extends javax.swing.JPanel {
                     serverSocket.close();
 
                 } catch (Exception e) {
+                    e.printStackTrace();
                     lbl_statusValue.setText("Error: " + e.getLocalizedMessage());
                 }
             }
@@ -308,6 +309,7 @@ public class FileTransferRecieve extends javax.swing.JPanel {
                     serverSocket.close();
 
                 } catch (Exception e) {
+                    e.printStackTrace();
                     lbl_statusValue.setText("Error: " + e.getLocalizedMessage());
                 }
             }
