@@ -182,8 +182,7 @@ public class FileTransferRecieve extends javax.swing.JPanel {
 
                     BufferedOutputStream bo = new BufferedOutputStream(new FileOutputStream(destfile));
 
-                    lbl_statusValue.setText("Transferring..." +
-                            "");
+                    lbl_statusValue.setText("Transferring...");
                     int readedbyte;
                     long i = 0, j = 0;
                     long currenttime;
@@ -230,8 +229,8 @@ public class FileTransferRecieve extends javax.swing.JPanel {
     
     public void TurnAround(){
         try{
-        serverSocket.close();
-        startDownloading2();
+            serverSocket.close();
+            startDownloading2();
         }
         catch(Exception e){}
     }

@@ -77,6 +77,11 @@ public class ClientFrame extends javax.swing.JFrame {
                 ((FileTransferSend) c).TurnAround();
             }
         }
+        for (Component c : tabpn_tabs.getComponents()) {
+            if (c instanceof FileTransferRecieve && ((FileTransferRecieve) c).getFilename().equals(filename) && ((FileTransferRecieve) c).getSender().equals(peer)) {
+                ((FileTransferRecieve) c).TurnAround();
+            }
+        }
     }
 
     public void addTransferTab_Send(String reciever, File file) {
