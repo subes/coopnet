@@ -28,24 +28,31 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 
 public class FileTransferRecieve extends javax.swing.JPanel {
 
     String filename;
     String sender;
+    String ip;
+    String port;
     File destfile = null;
     long totalsize = 0;
     boolean running = false;
     private ServerSocket serverSocket = null;
 
     /** Creates new form FileTransfer */
-    public FileTransferRecieve(String sender, long size, String filename) {
+    public FileTransferRecieve(String sender, long size, String filename,String ip,String port) {
         initComponents();
         this.filename = filename;
         this.sender = sender;
         this.totalsize = size;
+        this.ip=ip;
+        this.port=port;
         lbl_fileValue.setText(filename);
         lbl_senderValue.setText(sender);
         tf_savePath.setText(Settings.getRecieveDestination());
@@ -130,7 +137,7 @@ public class FileTransferRecieve extends javax.swing.JPanel {
         } catch (Exception e) {
         }
     }
-
+//binds download to the port, sender connects here
     private void startDownloading() {
         new Thread() {
 
@@ -139,9 +146,18 @@ public class FileTransferRecieve extends javax.swing.JPanel {
             @Override
             public void run() {
                 try {
-                    running = true;
-                    lbl_statusValue.setText("Transfer starting...");
-                    serverSocket = new ServerSocket(Settings.getFiletTansferPort());
+                    try{
+                        running = true;
+                        lbl_statusValue.setText("Transfer starting...");
+                        serverSocket = new ServerSocket(Settings.getFiletTansferPort());
+                    }
+                    catch(Exception e){
+                        if(e instanceof java.net.BindException){
+                            Client.send(Protocol.turnTransferAround(sender,filename), null);
+                            Thread.sleep(500);
+                            startDownloading2();
+                        }
+                    }
                     Socket socket = serverSocket.accept();
                     starttime = System.currentTimeMillis();
 
@@ -198,6 +214,94 @@ public class FileTransferRecieve extends javax.swing.JPanel {
 
                     running = false;
                     bi.close();
+                    bo.close();
+                    socket.close();
+                    serverSocket.close();
+
+                } catch (Exception e) {
+                    lbl_statusValue.setText("Error: " + e.getLocalizedMessage());
+                }
+            }
+        }.start();
+
+    }
+    
+    public void TurnAround(){
+        try{
+        serverSocket.close();
+        startDownloading2();
+        }
+        catch(Exception e){}
+    }
+    
+    //turns around the connection(connect to the sender )
+    private void startDownloading2() {
+        new Thread() {
+
+            long starttime;
+
+            @Override
+            public void run() {
+                try {
+                    SocketChannel socket;
+                    running = true;
+                    lbl_statusValue.setText("Transfer starting...");
+                    socket=SocketChannel.open();
+                    socket.connect(new InetSocketAddress(ip, new Integer(port)));
+                    starttime = System.currentTimeMillis();
+
+                    String fullpath = tf_savePath.getText();
+                    if (!(new File(fullpath).exists())) {
+                        new File(fullpath).mkdirs();
+                    }
+                    if (!fullpath.endsWith("/") || !fullpath.endsWith("\\")) {
+                        fullpath = fullpath + "/";
+                    }
+                    fullpath += filename;
+
+                    destfile = new File(fullpath).getCanonicalFile();
+                    int n = 1;
+                    while (!destfile.createNewFile()) {
+                        destfile = Checkfile(destfile, n);
+                        n++;
+                    }
+
+                    BufferedOutputStream bo = new BufferedOutputStream(new FileOutputStream(destfile));
+
+                    lbl_statusValue.setText("Transferring..." +
+                            "");
+                    
+                    long recievedbytes = 0;
+                    long currenttime;
+                    long timeelapsed;
+                    ByteBuffer buffer = ByteBuffer.allocate(1000);
+                    while (running && (socket.read(buffer)) != -1) {
+                        buffer.flip();
+                        bo.write(buffer.array(),0,buffer.limit());
+                        buffer.rewind();
+                        recievedbytes+=1000;
+
+                        bo.flush();
+                        pgb_progress.setValue((int) (((recievedbytes * 1.0) / totalsize) * 100));
+                        
+                        if (recievedbytes % 20000 == 0) {
+                            currenttime = System.currentTimeMillis();
+                            timeelapsed = currenttime - starttime;
+                            timeelapsed = timeelapsed / 1000;
+                            setTImeLeft((long) ((totalsize - recievedbytes) / (recievedbytes * 1.0) * timeelapsed));
+                        }
+                    }
+                    bo.flush();
+                    if (recievedbytes == totalsize) {
+                        lbl_statusValue.setText("Transfer complete!");
+                        pgb_progress.setValue(100);
+                        btn_accept.setEnabled(true);
+                    } else {
+                        lbl_statusValue.setText("Transfer incomplete!");
+                    }
+                    btn_refuse.setText("Close");
+
+                    running = false;
                     bo.close();
                     socket.close();
                     serverSocket.close();

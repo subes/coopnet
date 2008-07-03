@@ -21,10 +21,13 @@ package coopnetclient.panels;
 
 import coopnetclient.Client;
 import coopnetclient.Protocol;
+import coopnetclient.Settings;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
@@ -33,10 +36,15 @@ public class FileTransferSend extends javax.swing.JPanel {
     File data;
     boolean sending = true;
     long totalbytes = 0;
+    private ServerSocket serverSocket = null;
+    String reciever;
+    String filename;
 
     /** Creates new form FileTransfer */
     public FileTransferSend(String reciever, File sentfile) {
         initComponents();
+        this.reciever= reciever;
+        this.filename=sentfile.getName();
         data = sentfile;
         totalbytes = data.length();
         lbl_fileValue.setText(sentfile.getName());
@@ -91,6 +99,10 @@ public class FileTransferSend extends javax.swing.JPanel {
         hours = (int) time;
         lbl_timeLeftValue.setText(hours + ":" + minutes + ":" + seconds);
     }
+    
+    public void TurnAround(){
+        
+    }
 
     public void startsending(final String ip, final String port) {
         new Thread() {
@@ -103,8 +115,15 @@ public class FileTransferSend extends javax.swing.JPanel {
                 sending = true;
                 lbl_statusValue.setText("Connecting...");
                 try {
-                    SocketChannel socket = SocketChannel.open();
-                    socket.connect(new InetSocketAddress(ip, new Integer(port)));
+                    SocketChannel socket=null;
+                    try{
+                        socket = SocketChannel.open();
+                        socket.connect(new InetSocketAddress(ip, new Integer(port)));
+                    }
+                    catch(Exception e){
+                        Client.send(Protocol.turnTransferAround(reciever,filename), null);
+                        startsending2(ip,port);
+                    }
                     lbl_statusValue.setText("Transferring...");
                     starttime = System.currentTimeMillis();
 
@@ -143,6 +162,72 @@ public class FileTransferSend extends javax.swing.JPanel {
                         temp.rewind();
                     }
                     socket.close();
+                    lbl_statusValue.setText("Transfer complete!");
+                    pgb_progress.setValue(100);
+                    btn_cancel.setText("Close");
+                    sending = false;
+
+                } catch (Exception e) {
+                    //set error message
+                    lbl_statusValue.setText("Error: " + e.getLocalizedMessage());
+                }
+            }
+        }.start();
+    }
+    
+    //turns around the connection, connect to the reciever
+    public void startsending2(final String ip, final String port) {
+        new Thread() {
+
+            long starttime;
+
+            @Override
+            public void run() {
+                long sent = 0;
+                sending = true;
+                lbl_statusValue.setText("Connecting...");
+                try {
+                    serverSocket = new ServerSocket(Settings.getFiletTansferPort());
+                    Socket socket = serverSocket.accept();
+                    SocketChannel socketChannel = socket.getChannel();
+                    lbl_statusValue.setText("Transferring...");
+                    starttime = System.currentTimeMillis();
+
+                    ByteBuffer temp = ByteBuffer.allocate(1000);
+                    BufferedInputStream bi = new BufferedInputStream(new FileInputStream(data));
+                    int readedbyte;
+                    long currenttime;
+                    long timeelapsed;
+                    long j = 0;
+
+                    while ((readedbyte = bi.read()) != -1 && sending) {
+                        if (temp.position() < temp.capacity()) {
+                            temp.put((byte) readedbyte);
+                            sent++;
+                        } else {
+                            temp.flip();
+                            socketChannel.write(temp);
+                            temp.rewind();
+                            //dont forge to sent the new byte aswell :S
+                            temp.put((byte) readedbyte);
+                            sent++;
+                            pgb_progress.setValue((int) (((sent * 1.0) / totalbytes) * 100));
+                        }
+                        j++;
+                        if (j % 20000 == 0) {
+                            currenttime = System.currentTimeMillis();
+                            timeelapsed = currenttime - starttime;
+                            timeelapsed = timeelapsed / 1000;
+                            setTImeLeft((long) ((totalbytes - sent) / (sent * 1.0) * timeelapsed));
+                        }
+                    }
+                    //send last chunk
+                    if (temp.position() != 0) {
+                        temp.flip();
+                        socketChannel.write(temp);
+                        temp.rewind();
+                    }
+                    serverSocket.close();
                     lbl_statusValue.setText("Transfer complete!");
                     pgb_progress.setValue(100);
                     btn_cancel.setText("Close");

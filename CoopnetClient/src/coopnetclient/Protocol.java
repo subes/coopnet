@@ -158,6 +158,10 @@ public class Protocol {
         return "ban " + playername;
     }
 
+    public static String turnTransferAround(String username,String filename) {
+        return "TurnAround "+username + INFORMATION_DELIMITER + filename ;
+    }
+
     public static String unban(String playername) {
         return "unban " + playername;
     }
@@ -222,10 +226,11 @@ public class Protocol {
         return "flipready";
     }
 
-    public static String Sendfile(String reciever, String filename, String sizeinbytes) {
+    public static String Sendfile(String reciever, String filename, String sizeinbytes,String port) {
         return "SendFile" + INFORMATION_DELIMITER 
                 + reciever + INFORMATION_DELIMITER 
                 + filename + INFORMATION_DELIMITER 
-                + sizeinbytes;
+                + sizeinbytes+ INFORMATION_DELIMITER                 
+                +port;
     }
 }

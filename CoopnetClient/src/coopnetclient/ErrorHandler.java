@@ -28,6 +28,8 @@ public class ErrorHandler {
             return;
         }
         if (exc.getMessage() == null) {
+            Client.mainFrame.addErrorTab(coopnetclient.panels.ErrorPanel.UNKNOWN_MODE, exc);
+            exc.printStackTrace();
             return;
         }
         //Print at least a CATCH notification
