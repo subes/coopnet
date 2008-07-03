@@ -20,6 +20,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.Settings;
 import coopnetclient.Verification;
@@ -253,8 +254,8 @@ public class EditProfileFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private void changepassword(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changepassword
 // TODO add your handling code here:
-        Client.changePasswordFrame = new ChangePasswordFrame();
-        Client.changePasswordFrame.setVisible(true);
+        Globals.changePasswordFrame = new ChangePasswordFrame();
+        Globals.changePasswordFrame.setVisible(true);
     }//GEN-LAST:event_changepassword
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
@@ -285,7 +286,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_cancel
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        coopnetclient.Client.profileFrame = null;
+        coopnetclient.Globals.profileFrame = null;
     }//GEN-LAST:event_formWindowClosing
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;

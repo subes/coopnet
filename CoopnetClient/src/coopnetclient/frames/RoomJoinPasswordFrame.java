@@ -20,6 +20,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.Protocol;
 
 public class RoomJoinPasswordFrame extends javax.swing.JFrame {
@@ -146,7 +147,7 @@ public class RoomJoinPasswordFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_cancelActionPerformed
 
 private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-    Client.roomCreationFrame=null;
+    Globals.roomCreationFrame=null;
 }//GEN-LAST:event_formWindowClosed
 
 private void pf_roomPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pf_roomPasswordActionPerformed

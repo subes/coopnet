@@ -20,6 +20,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.Protocol;
 import coopnetclient.modules.models.SortedListModel;
@@ -162,7 +163,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        coopnetclient.Client.channelListFrame = null;
+        Globals.channelListFrame = null;
     }//GEN-LAST:event_formWindowClosing
 
 private void lst_channelListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_channelListMouseClicked

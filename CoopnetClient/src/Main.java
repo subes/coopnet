@@ -18,6 +18,7 @@
 */
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 
 public class Main {
     
@@ -32,7 +33,7 @@ public class Main {
     private static void checkArgs(String[] args){
         if(args.length > 0){
             if(args[0].equals("--debug")){
-                Client.debug = true;
+                Globals.debug = true;
             }else
             if(args[0].equals("--help")){
                 printHelp();

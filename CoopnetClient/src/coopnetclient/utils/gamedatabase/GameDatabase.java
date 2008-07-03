@@ -107,7 +107,7 @@ public class GameDatabase {
     }
 
     public static String readRegistry(String fullpath) {
-        if (Client.registryOK) {
+        if (Globals.registryOK) {
             try {
                 String tmp[] = fullpath.split("\\\\");
                 RegistryKey current = Registry.getTopLevelKey(tmp[0]);

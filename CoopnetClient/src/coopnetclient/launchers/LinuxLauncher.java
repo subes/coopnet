@@ -66,11 +66,11 @@ public class LinuxLauncher implements Launcher {
             case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING:
                 isInitialized = true;
                 if (!isHost) {
-                    Client.currentRoomPanel.enableButtons();
+                    Globals.currentRoomPanel.enableButtons();
                 }
         }
         //call it here to NOT remember settings
-        Client.currentRoomPanel.showSettings();
+        Globals.currentRoomPanel.showSettings();
     }
 
     private void initDPlay() {
@@ -82,12 +82,12 @@ public class LinuxLauncher implements Launcher {
 
         if (dplay.isInitialized) {
             isInitialized = true;
-            if (Client.currentRoomPanel != null) { //May be null if user closes room too fast
-                Client.currentRoomPanel.enableButtons();
+            if (Globals.currentRoomPanel != null) { //May be null if user closes room too fast
+                Globals.currentRoomPanel.enableButtons();
             }
         } else {
             stopDPlay();
-            Client.clientFrame.printToVisibleChatbox("SYSTEM",
+            Globals.clientFrame.printToVisibleChatbox("SYSTEM",
                     "DirectPlay error!", 
                     coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
         }
@@ -112,7 +112,7 @@ public class LinuxLauncher implements Launcher {
         }
         //insert data into pattern
         callerstring = callerstring.replace("{HOSTIP}", ip);
-        callerstring = callerstring.replace("{NAME}", Client.thisPlayer_inGameName);
+        callerstring = callerstring.replace("{NAME}", Globals.thisPlayer_inGameName);
         callerstring = callerstring.replace("{MAXPLAYERS}", maxPlayers + "");
         if (map != null) {
             callerstring = callerstring.replace("{MAP}", map);

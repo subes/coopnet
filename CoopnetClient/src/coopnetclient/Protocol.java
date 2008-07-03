@@ -74,7 +74,7 @@ public class Protocol {
                 + "LIMIT" + INFORMATION_DELIMITER + limit + INFORMATION_DELIMITER 
                 + "COMPATIBLE" + INFORMATION_DELIMITER 
                 + (compatible ? "true" : "false") + INFORMATION_DELIMITER 
-                + "HAMACHI" + INFORMATION_DELIMITER + Client.hamachiAddress() 
+                + "HAMACHI" + INFORMATION_DELIMITER + Client.getHamachiAddress() 
                 + INFORMATION_DELIMITER 
                 + "MOD" + INFORMATION_DELIMITER + modIndex 
                 + INFORMATION_DELIMITER + "END";

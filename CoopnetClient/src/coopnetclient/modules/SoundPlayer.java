@@ -52,7 +52,7 @@ public class SoundPlayer {
         }
         
         soundFile = file;
-        if (Client.os.equals("windows") || !Client.isPlaying) {
+        if (Globals.os.equals("windows") || !Globals.isPlaying) {
             //On windows this works parallel, even when playing
             new Thread() {
                 @Override

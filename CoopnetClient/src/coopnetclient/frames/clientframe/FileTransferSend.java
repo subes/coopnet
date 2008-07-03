@@ -20,6 +20,7 @@
 package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.Settings;
 import java.io.BufferedInputStream;
@@ -370,9 +371,9 @@ public class FileTransferSend extends javax.swing.JPanel {
         if (btn_cancel.getText().equals("Cancel")) {
             sending = false;
             Client.send(Protocol.CancelTransfer(lbl_recieverValue.getText(), lbl_fileValue.getText()), null);
-            Client.clientFrame.removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
+            Globals.clientFrame.removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
         } else {
-            Client.clientFrame.removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
+            Globals.clientFrame.removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
         }
 
 }//GEN-LAST:event_btn_cancelActionPerformed

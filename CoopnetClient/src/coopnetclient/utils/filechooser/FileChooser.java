@@ -20,6 +20,7 @@
 package coopnetclient.utils.filechooser;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -64,7 +65,7 @@ public class FileChooser extends javax.swing.JFrame {
             if (startDir != null) {
                 currentdir = new File(startDir);
             } else {
-                if(Client.os.equals("linux")){
+                if(Globals.os.equals("linux")){
                     currentdir = new File(System.getenv("HOME"));
                 }else{
                     currentdir = new File(".").getCanonicalFile();
@@ -97,7 +98,7 @@ public class FileChooser extends javax.swing.JFrame {
     private void fillPlacesComboBox() {
         cmb_places.addItem("");
         
-        if(Client.os.equals("linux")){
+        if(Globals.os.equals("linux")){
             if(currentdir != null && !currentdir.getAbsolutePath().equals(System.getenv("HOME"))){
                 cmb_places.addItem(currentdir);
             }

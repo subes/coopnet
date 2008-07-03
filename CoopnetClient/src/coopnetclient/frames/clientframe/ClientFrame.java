@@ -21,6 +21,7 @@ package coopnetclient.frames.clientframe;
 
 import coopnetclient.frames.*;
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.ChannelPanel;
 import coopnetclient.frames.clientframe.LoginPanel;
 import coopnetclient.frames.clientframe.PrivateChatPanel;
@@ -73,9 +74,11 @@ public class ClientFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         //sound options init
         updateMenu();
+        
+        setVisible(true);
     }
 
-    public void TurnAroundTransfer(String peer, String filename) {
+    public void turnAroundTransfer(String peer, String filename) {
         for (Component c : tabpn_tabs.getComponents()) {
             if (c instanceof FileTransferSend && ((FileTransferSend) c).getFilename().equals(filename) && ((FileTransferSend) c).getReciever().equals(peer)) {
                 ((FileTransferSend) c).TurnAround();
@@ -210,7 +213,7 @@ public class ClientFrame extends javax.swing.JFrame {
         channels.add(currentchannel);
         this.repaint();
         //check if the game is installed
-        if (!Client.launcher.isLaunchable(channelname)) {
+        if (!Globals.launcher.isLaunchable(channelname)) {
             currentchannel.disablebuttons();
             currentchannel.mainchat("SYSTEM",
                     "The game couldn't be detected, please set the path manually at " +
@@ -254,13 +257,13 @@ public class ClientFrame extends javax.swing.JFrame {
 
     public void closeRoom(String channel, String hostname) { //close room tab
 
-        Client.launcher.stop();
-        tabpn_tabs.remove(Client.currentRoomPanel);
-        int index = indexOfTab(Client.currentRoomPanel.channel);
+        Globals.launcher.stop();
+        tabpn_tabs.remove(Globals.currentRoomPanel);
+        int index = indexOfTab(Globals.currentRoomPanel.channel);
         if (index != -1) {
             tabpn_tabs.setSelectedIndex(index);
         }
-        Client.currentRoomPanel = null;
+        Globals.currentRoomPanel = null;
         for (ChannelPanel cp : channels) {
             cp.enablebuttons();
         }
@@ -271,7 +274,7 @@ public class ClientFrame extends javax.swing.JFrame {
         RoomPanel room = new RoomPanel(true, channel, modindex, "", compatible, "", maxplayers);
         int index = channels.size();
         tabpn_tabs.insertTab("Room", null, room, null, index);
-        Client.currentRoomPanel = room;
+        Globals.currentRoomPanel = room;
         for (ChannelPanel cp : channels) {
             cp.disablebuttons();
         }
@@ -292,7 +295,7 @@ public class ClientFrame extends javax.swing.JFrame {
         RoomPanel room = new RoomPanel(false, channel, modname, ip, compatible, hamachiIp, maxplayers);
         int index = channels.size();
         tabpn_tabs.insertTab("Room", null, room, null, index);
-        Client.currentRoomPanel = room;
+        Globals.currentRoomPanel = room;
         for (ChannelPanel cp : channels) {
             cp.disablebuttons();
         }
@@ -304,12 +307,12 @@ public class ClientFrame extends javax.swing.JFrame {
     }
 
     public void leave() {
-        tabpn_tabs.remove(Client.currentRoomPanel);
-        int index = indexOfTab(Client.currentRoomPanel.channel);
+        tabpn_tabs.remove(Globals.currentRoomPanel);
+        int index = indexOfTab(Globals.currentRoomPanel.channel);
         if (index != -1) {
             tabpn_tabs.setSelectedIndex(index);
         }
-        Client.currentRoomPanel = null;
+        Globals.currentRoomPanel = null;
         for (ChannelPanel cp : channels) {
             cp.enablebuttons();
         }
@@ -388,8 +391,8 @@ public class ClientFrame extends javax.swing.JFrame {
         //update name in the main tab
         getChannel(channel).updatename(oldname, newname);
         //update name in the room tab
-        if (Client.currentRoomPanel != null && Client.currentRoomPanel.channel.equals(channel)) {
-            Client.currentRoomPanel.updatename(oldname, newname);
+        if (Globals.currentRoomPanel != null && Globals.currentRoomPanel.channel.equals(channel)) {
+            Globals.currentRoomPanel.updatename(oldname, newname);
             RoomStatusListCellRenderer.updateName(oldname, newname);
         }
         //update the pm tab title too
@@ -443,7 +446,7 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_about = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("CoopnetClient "+ Client.version);
+        setTitle("CoopnetClient "+ Globals.clientVersion);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -677,10 +680,10 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_aboutActionPerformed
 
     private void mi_disconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_disconnectActionPerformed
-        Disconnect();
+        disconnect();
 }//GEN-LAST:event_mi_disconnectActionPerformed
 
-    public void Disconnect() {
+    public void disconnect() {
         Client.send(Protocol.quit(), null);
         Client.stopConnection();
         removeAllTabs();
@@ -689,25 +692,25 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_connect.setEnabled(true);
         mi_channelList.setEnabled(false);
 
-        if (Client.channelListFrame != null) {
-            Client.channelListFrame.setVisible(false);
-            Client.channelListFrame.dispose();
-            Client.channelListFrame = null;
+        if (Globals.channelListFrame != null) {
+            Globals.channelListFrame.setVisible(false);
+            Globals.channelListFrame.dispose();
+            Globals.channelListFrame = null;
         }
-        if (Client.changePasswordFrame != null) {
-            Client.changePasswordFrame.setVisible(false);
-            Client.changePasswordFrame.dispose();
-            Client.changePasswordFrame = null;
+        if (Globals.changePasswordFrame != null) {
+            Globals.changePasswordFrame.setVisible(false);
+            Globals.changePasswordFrame.dispose();
+            Globals.changePasswordFrame = null;
         }
-        if (Client.profileFrame != null) {
-            Client.profileFrame.setVisible(false);
-            Client.profileFrame.dispose();
-            Client.profileFrame = null;
+        if (Globals.profileFrame != null) {
+            Globals.profileFrame.setVisible(false);
+            Globals.profileFrame.dispose();
+            Globals.profileFrame = null;
         }
-        if (Client.roomCreationFrame != null) {
-            Client.roomCreationFrame.setVisible(false);
-            Client.roomCreationFrame.dispose();
-            Client.roomCreationFrame = null;
+        if (Globals.roomCreationFrame != null) {
+            Globals.roomCreationFrame.setVisible(false);
+            Globals.roomCreationFrame.dispose();
+            Globals.roomCreationFrame = null;
         }
     }
 
@@ -768,7 +771,7 @@ public class ClientFrame extends javax.swing.JFrame {
         }
     }
     
-        private void RelocateFocus() {
+        private void relocateFocus() {
         Component comp = tabpn_tabs.getSelectedComponent();
         if (comp != null) {
             comp.requestFocus();
@@ -787,20 +790,20 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_connectActionPerformed
 
     private void mi_channelListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_channelListActionPerformed
-        Client.channelListFrame = new ChannelListFrame();
-        Client.channelListFrame.setVisible(true);
+        Globals.channelListFrame = new ChannelListFrame();
+        Globals.channelListFrame.setVisible(true);
 }//GEN-LAST:event_mi_channelListActionPerformed
 
     private void tabpn_tabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabpn_tabsStateChanged
-        RelocateFocus();
+        relocateFocus();
 }//GEN-LAST:event_tabpn_tabsStateChanged
 
     private void tabpn_tabsComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tabpn_tabsComponentAdded
-        RelocateFocus();
+        relocateFocus();
 }//GEN-LAST:event_tabpn_tabsComponentAdded
 
     private void tabpn_tabsComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tabpn_tabsComponentRemoved
-        RelocateFocus();
+        relocateFocus();
 }//GEN-LAST:event_tabpn_tabsComponentRemoved
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -847,7 +850,7 @@ private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                 try {
                     Runtime rt = Runtime.getRuntime();
                     rt.exec("java -jar CoopnetUpdater.jar");
-                    Client.clientFrame.quit();
+                    Globals.clientFrame.quit();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

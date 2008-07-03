@@ -20,6 +20,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.modules.Colorizer;
 import java.security.Security;
 import java.util.Date;
@@ -336,7 +337,7 @@ public class BugReport extends javax.swing.JFrame {
                         "Your bugreport was sent successfully,\nthank you for your help!",
                         "Success", JOptionPane.PLAIN_MESSAGE);
                 
-                Client.clientFrame.removeAllTabs();
+                Globals.clientFrame.removeAllTabs();
                 this.setVisible(false);
                 this.dispose();
             }

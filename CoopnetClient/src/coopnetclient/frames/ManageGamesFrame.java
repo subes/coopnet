@@ -20,6 +20,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.launchers.WindowsLauncher;
 import coopnetclient.modules.Colorizer;
@@ -42,7 +43,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         }
         setLocationRelativeTo(null);
         //installpath only required on linux:
-        if (Client.os.equals("windows")) {
+        if (Globals.os.equals("windows")) {
             tf_installPath.setVisible(false);
             lbl_installPath.setVisible(false);
             btn_browseInstallPath.setVisible(false);            
@@ -206,9 +207,9 @@ public class ManageGamesFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private void lst_gamesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_gamesMousePressed
         if (lst_games.getSelectedValue() != null) {
-            String path = Client.launcher.getExecutablePath(lst_games.getSelectedValue().toString());
+            String path = Globals.launcher.getExecutablePath(lst_games.getSelectedValue().toString());
             tf_path.setText(path);
-            String installpath = Client.launcher.getInstallPath(lst_games.getSelectedValue().toString());
+            String installpath = Globals.launcher.getInstallPath(lst_games.getSelectedValue().toString());
             tf_installPath.setText(installpath);
         }
 }//GEN-LAST:event_lst_gamesMousePressed
@@ -220,7 +221,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
-                    int returnVal = mfc.choose(Client.lastOpenedDir);
+                    int returnVal = mfc.choose(Globals.lastOpenedDir);
 
                     if (returnVal == FileChooser.SELECT_ACTION) {
                         File file = mfc.getSelectedFile();
@@ -233,11 +234,11 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_browsePathActionPerformed
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
-        if (Client.launcher instanceof WindowsLauncher) {
+        if (Globals.launcher instanceof WindowsLauncher) {
             if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0) {
                 GameDatabase.setLocalExecutablePath(lst_games.getSelectedValue().toString(), tf_path.getText());
                 GameDatabase.setLocalInstallPath(lst_games.getSelectedValue().toString(), tf_installPath.getText());
-                Client.clientFrame.setLaunchable(lst_games.getSelectedValue().toString(), true);
+                Globals.clientFrame.setLaunchable(lst_games.getSelectedValue().toString(), true);
                 GameDatabase.saveLocalPaths();
             } else {
                 JOptionPane.showMessageDialog(null, "Please set the path correctly!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -246,7 +247,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0 && tf_installPath.getText().length() > 0) {
                 GameDatabase.setLocalExecutablePath(lst_games.getSelectedValue().toString(), tf_path.getText());
                 GameDatabase.setLocalInstallPath(lst_games.getSelectedValue().toString(), tf_installPath.getText());
-                Client.clientFrame.setLaunchable(lst_games.getSelectedValue().toString(), true);
+                Globals.clientFrame.setLaunchable(lst_games.getSelectedValue().toString(), true);
                 GameDatabase.saveLocalPaths();
             } else {
                 JOptionPane.showMessageDialog(null, "Please set both paths correctly!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -268,7 +269,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     FileChooser mfc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
-                    int returnVal = mfc.choose(Client.lastOpenedDir);
+                    int returnVal = mfc.choose(Globals.lastOpenedDir);
 
                     if (returnVal == FileChooser.SELECT_ACTION) {
                         File file = mfc.getSelectedFile();

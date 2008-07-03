@@ -20,6 +20,7 @@
 package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.Settings;
 import coopnetclient.utils.filechooser.FileChooser;
@@ -498,12 +499,12 @@ public class FileTransferRecieve extends javax.swing.JPanel {
 private void btn_refuseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refuseActionPerformed
     if (btn_refuse.getText().equals("Refuse")) {
         Client.send(Protocol.RefuseTransfer(sender, filename), null);
-        Client.clientFrame.removeTransferTab(sender, filename);
+        Globals.clientFrame.removeTransferTab(sender, filename);
     } else if (btn_refuse.getText().equals("Cancel")) {
         running = false;
-        Client.clientFrame.removeTransferTab(sender, filename);
+        Globals.clientFrame.removeTransferTab(sender, filename);
     } else {
-        Client.clientFrame.removeTransferTab(sender, filename);
+        Globals.clientFrame.removeTransferTab(sender, filename);
     }
 }//GEN-LAST:event_btn_refuseActionPerformed
 
@@ -514,7 +515,7 @@ private void btn_browseSavePathActionPerformed(java.awt.event.ActionEvent evt) {
         public void run() {
             File inputfile = null;
             FileChooser fc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
-            int returnVal = fc.choose(Client.lastOpenedDir);
+            int returnVal = fc.choose(Globals.lastOpenedDir);
 
             if (returnVal == FileChooser.SELECT_ACTION) {
                 inputfile = fc.getSelectedFile();

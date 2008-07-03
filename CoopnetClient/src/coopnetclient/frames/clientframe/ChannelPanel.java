@@ -20,6 +20,7 @@
 package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.frames.CreateRoomFrame;
 import coopnetclient.frames.RoomJoinPasswordFrame;
 import coopnetclient.modules.listeners.ChatInputKeyListener;
@@ -158,7 +159,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 
     public void enablebuttons() {
         if (this.isLaunchable) {
-            if (Client.currentRoomPanel == null) {
+            if (Globals.currentRoomPanel == null) {
                 btn_create.setEnabled(true);
                 btn_join.setEnabled(true);
             }
@@ -204,8 +205,8 @@ public class ChannelPanel extends javax.swing.JPanel {
     public void updatename(String oldname, String newname) {
         rooms.updatename(oldname, newname);
         users.updatename(oldname, newname);
-        if (Client.currentRoomPanel != null) {
-            Client.currentRoomPanel.updatename(oldname, newname);
+        if (Globals.currentRoomPanel != null) {
+            Globals.currentRoomPanel.updatename(oldname, newname);
         }
     }
 
@@ -424,25 +425,25 @@ public class ChannelPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     private void create(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_create
         // TODO add your handling code here:
-        if (Client.roomCreationFrame != null) {
-            Client.roomCreationFrame.setVisible(false);
-            Client.roomCreationFrame.dispose();
-            Client.roomCreationFrame = null;
+        if (Globals.roomCreationFrame != null) {
+            Globals.roomCreationFrame.setVisible(false);
+            Globals.roomCreationFrame.dispose();
+            Globals.roomCreationFrame = null;
         }
-        Client.roomCreationFrame = new CreateRoomFrame(this.name);
-        Client.roomCreationFrame.setVisible(true);
+        Globals.roomCreationFrame = new CreateRoomFrame(this.name);
+        Globals.roomCreationFrame.setVisible(true);
     }//GEN-LAST:event_create
 
     private void join(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_join
         try {
             if (rooms.selectedispassworded()) {
-                if (Client.roomCreationFrame != null) {
-                    Client.roomCreationFrame.setVisible(false);
-                    Client.roomCreationFrame.dispose();
-                    Client.roomCreationFrame = null;
+                if (Globals.roomCreationFrame != null) {
+                    Globals.roomCreationFrame.setVisible(false);
+                    Globals.roomCreationFrame.dispose();
+                    Globals.roomCreationFrame = null;
                 }
-                Client.roomCreationFrame = new RoomJoinPasswordFrame(rooms.getselectedhost(), this.name);
-                Client.roomCreationFrame.setVisible(true);
+                Globals.roomCreationFrame = new RoomJoinPasswordFrame(rooms.getselectedhost(), this.name);
+                Globals.roomCreationFrame.setVisible(true);
                 return;
             }
             String tmp = null;
@@ -459,8 +460,8 @@ public class ChannelPanel extends javax.swing.JPanel {
         Client.send(Protocol.refresh(), this.name);
         rooms.clear();
         users.refresh();
-        Client.clientFrame.setSleepMode(false);
-        Client.sleepMode = false;
+        Globals.clientFrame.setSleepMode(false);
+        Globals.sleepMode = false;
         
         //Disable button for some secs, so that user cant spam refresh
         new Thread() {
@@ -479,8 +480,8 @@ public class ChannelPanel extends javax.swing.JPanel {
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
             String _name = (String) lst_userList.getSelectedValue();
-            Client.clientFrame.newPrivateChat(_name);
-            Client.clientFrame.showPMTab(_name);
+            Globals.clientFrame.newPrivateChat(_name);
+            Globals.clientFrame.showPMTab(_name);
         }
 }//GEN-LAST:event_lst_userListMouseClicked
 
@@ -498,7 +499,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 
     private void btn_leaveChannelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveChannelActionPerformed
         Client.send(Protocol.leaveChannel(), this.name);
-        Client.clientFrame.removeChannel(this.name);
+        Globals.clientFrame.removeChannel(this.name);
 }//GEN-LAST:event_btn_leaveChannelActionPerformed
 
 private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tp_chatOutputKeyTyped

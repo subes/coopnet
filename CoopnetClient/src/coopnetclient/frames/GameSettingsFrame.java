@@ -20,6 +20,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.io.File;
@@ -38,7 +39,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     public GameSettingsFrame(String gamename,String modname) {
         initComponents();
         coopnetclient.modules.Colorizer.colorize(this);
-        Client.gameSettingsFrame = this;
+        Globals.gameSettingsFrame = this;
         this.gamename = gamename;
         this.modname=modname;
         setLocationRelativeTo(null);
@@ -83,39 +84,39 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             if (field.equals("bots")) {
                 lbl_bots.setVisible(true);
                 spn_bots.setVisible(true);
-                spn_bots.setValue(Client.launcher.getBots());
+                spn_bots.setValue(Globals.launcher.getBots());
                 fieldcount++;
             }
             if (field.equals("goalscore")) {
                 lbl_scoreLimit.setVisible(true);
                 spn_scoreLimit.setVisible(true);
-                spn_scoreLimit.setValue(Client.launcher.getGoalScore());
+                spn_scoreLimit.setValue(Globals.launcher.getGoalScore());
                 fieldcount++;
             }
             if (field.equals("map")) {
                 cb_map.setModel(new DefaultComboBoxModel(loadMaps()));
                 lbl_map.setVisible(true);
                 cb_map.setVisible(true);
-                cb_map.setSelectedItem(Client.launcher.getMap());
+                cb_map.setSelectedItem(Globals.launcher.getMap());
                 fieldcount++;
             }
             if (field.equals("port")) {
                 lbl_port.setVisible(true);
                 tf_port.setVisible(true);
-                tf_port.setText(Client.launcher.getPort() + "");
+                tf_port.setText(Globals.launcher.getPort() + "");
                 fieldcount++;
             }
             if (field.equals("timelimit")) {
                 lbl_timeLimit.setVisible(true);
                 spn_timeLimit.setVisible(true);
-                spn_timeLimit.setValue(Client.launcher.getTimelimit());
+                spn_timeLimit.setValue(Globals.launcher.getTimelimit());
                 fieldcount++;
             }
             if (field.equals("gamemode")) {
                 cb_mode.setModel(new DefaultComboBoxModel(getGameModes()));
                 lbl_mode.setVisible(true);
                 cb_mode.setVisible(true);
-                cb_mode.setSelectedItem(KeyOfValue(Client.launcher.getGameMode()));
+                cb_mode.setSelectedItem(KeyOfValue(Globals.launcher.getGameMode()));
                 fieldcount++;
             }
         //end of field enabling loop
@@ -124,7 +125,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         if(mod != null){
             lbl_mod.setVisible(true);
             tf_mod.setVisible(true);
-            tf_mod.setText(Client.launcher.getMod());
+            tf_mod.setText(Globals.launcher.getMod());
         }*/
     }
 
@@ -146,7 +147,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     private String[] loadMaps() {
         //TODO
         String extension = GameDatabase.getMapExtension(gamename,modname);
-        String path = Client.launcher.getFullMapPath(gamename);
+        String path = Globals.launcher.getFullMapPath(gamename);
         System.out.println("loading maps from: "+path);
         if (path.endsWith("\\") || path.endsWith("/")) {
             path = path.substring(0, path.length() - 1);
@@ -311,7 +312,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-    Client.gameSettingsFrame = null;
+    Globals.gameSettingsFrame = null;
     dispose();
 }//GEN-LAST:event_formWindowClosing
 
@@ -320,25 +321,25 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     try {
         //if somethings unselected an exception is thrown
         if (cb_mode.isVisible()) {
-            Client.launcher.setGameMode(gamemodes.get(cb_mode.getSelectedItem().toString()));
+            Globals.launcher.setGameMode(gamemodes.get(cb_mode.getSelectedItem().toString()));
         }
         if (cb_map.isVisible()) {
-            Client.launcher.setMap(cb_map.getSelectedItem().toString());
+            Globals.launcher.setMap(cb_map.getSelectedItem().toString());
         }
         if (tf_port.isVisible()) {
-            Client.launcher.setPort(new Integer(tf_port.getText()));
+            Globals.launcher.setPort(new Integer(tf_port.getText()));
         }
         if (spn_timeLimit.isVisible()) {
-            Client.launcher.setTimelimit((Integer)spn_timeLimit.getValue());
+            Globals.launcher.setTimelimit((Integer)spn_timeLimit.getValue());
         }        
         if (spn_bots.isVisible()) {
-            Client.launcher.setBots((Integer)spn_bots.getValue());
+            Globals.launcher.setBots((Integer)spn_bots.getValue());
         }
         if (spn_scoreLimit.isVisible()) {
-            Client.launcher.setGoalScore((Integer)spn_scoreLimit.getValue());
+            Globals.launcher.setGoalScore((Integer)spn_scoreLimit.getValue());
         }
-        Client.currentRoomPanel.enableButtons();
-        Client.gameSettingsFrame = null;
+        Globals.currentRoomPanel.enableButtons();
+        Globals.gameSettingsFrame = null;
         Client.send(Protocol.SendPort(new Integer(tf_port.getText())), null);
         this.setVisible(false);
         dispose();

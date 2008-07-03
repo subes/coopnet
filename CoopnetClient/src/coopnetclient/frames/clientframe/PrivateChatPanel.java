@@ -20,6 +20,7 @@
 package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.modules.listeners.ChatInputKeyListener;
 import coopnetclient.modules.listeners.HyperlinkMouseListener;
 import javax.swing.text.StyledDocument;
@@ -140,7 +141,7 @@ public class PrivateChatPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void close(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close
-        Client.clientFrame.removePMTab(this);
+        Globals.clientFrame.removePMTab(this);
     }//GEN-LAST:event_close
 
 private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tp_chatOutputKeyTyped

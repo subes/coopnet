@@ -21,6 +21,7 @@ package coopnetclient.frames;
 
 import coopnetclient.utils.filechooser.FileChooser;
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.Protocol;
 import coopnetclient.modules.Colorizer;
@@ -46,7 +47,7 @@ public class SettingsFrame extends javax.swing.JFrame {
 
         cmb_homeChannel.setSelectedItem(coopnetclient.Settings.getHomeChannel());
         
-        if(!Client.os.equals("linux")){
+        if(!Globals.os.equals("linux")){
             tf_dplayEnv.setVisible(false);
             lbl_dplayEnv.setVisible(false);
         }
@@ -721,7 +722,7 @@ public class SettingsFrame extends javax.swing.JFrame {
             public void run() {
                 File inputfile = null;
                 FileChooser mfc =new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
-                int returnVal = mfc.choose(Client.lastOpenedDir);
+                int returnVal = mfc.choose(Globals.lastOpenedDir);
 
                 if (returnVal == FileChooser.SELECT_ACTION) {
                     inputfile = mfc.getSelectedFile();
@@ -828,7 +829,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             coopnetclient.Settings.setMessageStyle(cmb_playerMessagesType.getSelectedItem().toString());
             coopnetclient.Settings.setMessageSize(Integer.parseInt(tf_playerMessagesSize.getText()));
             
-            Client.clientFrame.updateMenu();
+            Globals.clientFrame.updateMenu();
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Please verify that you have entered valid information!\nFor example:\n  Serverport and textsizes need to be non-decimal numbers.", "Wrong input", JOptionPane.ERROR_MESSAGE);
@@ -841,12 +842,12 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
                 @Override
                 public void run() {
                     Colorizer.initColors();
-                    coopnetclient.modules.Colorizer.colorize(coopnetclient.Client.clientFrame);
+                    coopnetclient.modules.Colorizer.colorize(Globals.clientFrame);
                     //colorise other open windows too
-                    coopnetclient.modules.Colorizer.colorize(Client.channelListFrame);
-                    coopnetclient.modules.Colorizer.colorize(Client.changePasswordFrame);
-                    coopnetclient.modules.Colorizer.colorize(Client.profileFrame);
-                    coopnetclient.modules.Colorizer.colorize(Client.gameSettingsFrame);
+                    coopnetclient.modules.Colorizer.colorize(Globals.channelListFrame);
+                    coopnetclient.modules.Colorizer.colorize(Globals.changePasswordFrame);
+                    coopnetclient.modules.Colorizer.colorize(Globals.profileFrame);
+                    coopnetclient.modules.Colorizer.colorize(Globals.gameSettingsFrame);
                 //dont color settingsframe cuz it fucks it up
                 }
             });

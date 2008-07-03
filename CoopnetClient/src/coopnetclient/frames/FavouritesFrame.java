@@ -20,6 +20,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.Settings;
 import coopnetclient.modules.Colorizer;
@@ -206,17 +207,17 @@ public class FavouritesFrame extends javax.swing.JFrame {
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         if(lst_channels.getSelectedValue()!=null){
-        Settings.addFavourite(lst_channels.getSelectedValue().toString());
-        lst_favourites.setListData(Settings.getFavourites());
-        Client.clientFrame.refreshFavourites();
+            Settings.addFavourite(lst_channels.getSelectedValue().toString());
+            lst_favourites.setListData(Settings.getFavourites());
+            Globals.clientFrame.refreshFavourites();
         }
 }//GEN-LAST:event_btn_addActionPerformed
 
     private void btn_removeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_removeActionPerformed
         if(lst_favourites.getSelectedValue()!=null){
-        Settings.removeFavourite(lst_favourites.getSelectedValue().toString());
-        lst_favourites.setListData(Settings.getFavourites());
-        Client.clientFrame.refreshFavourites();
+            Settings.removeFavourite(lst_favourites.getSelectedValue().toString());
+            lst_favourites.setListData(Settings.getFavourites());
+            Globals.clientFrame.refreshFavourites();
         }
 }//GEN-LAST:event_btn_removeActionPerformed
 
@@ -226,7 +227,7 @@ public class FavouritesFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_closeActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Client.clientFrame.refreshFavourites();
+        Globals.clientFrame.refreshFavourites();
     }//GEN-LAST:event_formWindowClosing
 
     private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_filterActionPerformed

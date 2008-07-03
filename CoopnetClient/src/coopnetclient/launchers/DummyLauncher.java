@@ -27,7 +27,7 @@ public class DummyLauncher extends Thread implements Launcher {
 
     @Override
     public void initialize(String gameIdentifier, String modname, boolean isHost, String ip, boolean compatible, int maxPlayers) {
-        Client.currentRoomPanel.enableButtons();
+        Globals.currentRoomPanel.enableButtons();
         this.gamename = gameIdentifier;
     }
 

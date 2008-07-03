@@ -77,12 +77,12 @@ public class WindowsLauncher implements Launcher {
                 this.port = GameDatabase.getDefPort(gameIdentifier,modname); 
                 isInitialized = true;
                 if (!isHost) {
-                    Client.currentRoomPanel.enableButtons();
+                    Globals.currentRoomPanel.enableButtons();
                 }
             }
         }
         //call it here to NOT remember settings
-        Client.currentRoomPanel.showSettings();
+        Globals.currentRoomPanel.showSettings();
     }
 
     private void initDPlay() {
@@ -91,18 +91,18 @@ public class WindowsLauncher implements Launcher {
                 stopDPlay();
             }
 
-            jDPlay = new JDPlay(Client.thisPlayer_inGameName, gameIdentifier, ip, isHost, coopnetclient.Settings.getDebugMode());
+            jDPlay = new JDPlay(Globals.thisPlayer_inGameName, gameIdentifier, ip, isHost, coopnetclient.Settings.getDebugMode());
 
             if (jDPlay.isInitializedProperly()) {
                     isInitialized = true;
                     jDPlay.setMaxSearchRetries(MAX_RETRIES);
-                    Client.currentRoomPanel.enableButtons();
+                    Globals.currentRoomPanel.enableButtons();
             } else {
                     jDPlay.delete();
-                    Client.clientFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                    Globals.clientFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             }
         } catch (UnsatisfiedLinkError e) {
-            Client.clientFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error, you miss the JDPlay dll.", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+            Globals.clientFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error, you miss the JDPlay dll.", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
         }
     }
 
@@ -128,7 +128,7 @@ public class WindowsLauncher implements Launcher {
         }
         //insert data into pattern
         callerstring = callerstring.replace("{HOSTIP}", ip);
-        callerstring = callerstring.replace("{NAME}", Client.thisPlayer_inGameName);
+        callerstring = callerstring.replace("{NAME}", Globals.thisPlayer_inGameName);
 
         callerstring = callerstring.replace("{MAXPLAYERS}", maxPlayers + "");
         if (map != null) {

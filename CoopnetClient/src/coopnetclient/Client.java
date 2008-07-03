@@ -38,41 +38,8 @@ import javax.swing.SwingUtilities;
  * Also has the StartUp method that will initialize and start the client
  */
 public class Client {
-
-    public static boolean debug;
-    public static final String version = "0.96.1";
-    public static boolean loggedIn = false;
-    public static ClientFrame clientFrame;
-    public static RoomPanel currentRoomPanel;
-    public static JFrame profileFrame = null;
-    public static JFrame changePasswordFrame = null;
-    public static JFrame channelListFrame = null;
-    public static JFrame gameSettingsFrame = null;
-    public static JFrame roomCreationFrame = null;
-    public static String thisPlayer_loginName;
-    public static String thisPlayer_inGameName;
-    public static String os;
-    public static boolean registryOK = false;
-    public static boolean sleepMode = false;
-    public static boolean isPlaying = false;
-    public static Launcher launcher;
-    public static String lastOpenedDir;
     
-    private  static HandlerThread handlerThread;
-
-    static {
-        //detect OS
-        if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
-            System.out.println("windows detected");
-            os = "windows";
-            lastOpenedDir = ".";
-        } else {
-            System.out.println("linux detected");
-            os = "linux";
-            lastOpenedDir = System.getenv("HOME");
-        }
-        debug = Settings.getDebugMode();
-    }
+    private static HandlerThread handlerThread;
 
     /**
      * Sends the command to the server
@@ -93,12 +60,12 @@ public class Client {
             }
         }
         TrafficLogger.append("OUT: " + command);
-        if (Client.debug) {
+        if (Globals.debug) {
             System.out.println("[T]\tOUT: " + command);
         }
     }
 
-    public static String hamachiAddress() {
+    public static String getHamachiAddress() {
         String ip = "";
         try {
             Enumeration nifEnm = NetworkInterface.getNetworkInterfaces();
@@ -122,17 +89,16 @@ public class Client {
      *Initializes and starts the client
      * 
      */
-    @SuppressWarnings("empty-statement")
     public static void startup() {
-        if (os.equals("windows")) {
-            launcher = new WindowsLauncher();
+        if (Globals.os.equals("windows")) {
+            Globals.launcher = new WindowsLauncher();
             //Settings.setWineCommand(""); launcher = new LinuxLauncher(); 
             //launcher = new DummyLauncher(); 
             //LOAD LIBRARIES
             try {
                 System.loadLibrary("lib/JDPlay_jni");
                 System.loadLibrary("lib/ICE_JNIRegistry");
-                registryOK = true;
+                Globals.registryOK = true;
                 Class.forName("com.ice.jni.registry.Registry");
                 Class.forName("com.ice.jni.registry.RegistryKey");
             } catch (UnsatisfiedLinkError er) {
@@ -141,7 +107,7 @@ public class Client {
                 e.printStackTrace();
             }
         } else { //linux stuff
-            launcher = new LinuxLauncher();
+            Globals.launcher = new LinuxLauncher();
         }
         //Load Registry library
         try {
@@ -155,15 +121,16 @@ public class Client {
             @Override
             public void run() {
                 Colorizer.initLAF();
-                clientFrame = new ClientFrame();
-                clientFrame.setVisible(true);
+                Globals.clientFrame = new ClientFrame();
                 startConnection();
+                
                 try {
                     sleep(100);
                 } catch (Exception e) {
                 }
+                
                 if (Settings.getFirstRun()) {
-                    clientFrame.addGuideTab();
+                    Globals.clientFrame.addGuideTab();
                     Settings.setFirstRun(false);
                 }
             }
@@ -176,8 +143,8 @@ public class Client {
     }
 
     public static void stopConnection() {
-        Client.loggedIn = false;
-        Client.currentRoomPanel = null;
+        Globals.loggedIn = false;
+        Globals.currentRoomPanel = null;
         if (handlerThread != null) {
             handlerThread.stopThread();
         }

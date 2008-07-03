@@ -21,6 +21,7 @@ package coopnetclient.frames.clientframe;
 
 import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.modules.listeners.ChatInputKeyListener;
 import coopnetclient.modules.components.PlayerListPopupMenu;
 import coopnetclient.modules.models.SortedListModel;
@@ -64,7 +65,7 @@ public class RoomPanel extends javax.swing.JPanel {
         }
         initComponents();
 
-        Client.currentRoomPanel = this;
+        Globals.currentRoomPanel = this;
         if (isHost) {
             mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.HOST_MODE, lst_userList);
             cb_useHamachi.setVisible(false);
@@ -96,18 +97,18 @@ public class RoomPanel extends javax.swing.JPanel {
 
             @Override
             public void run() {
-                Client.launcher.initialize(channel, modname, isHost, ip, compatible, maxPlayers);
+                Globals.launcher.initialize(channel, modname, isHost, ip, compatible, maxPlayers);
             }
         }.start();
     }
 
     public void showSettings() {
         if (btn_gameSettings.isVisible()) {
-            if (Client.gameSettingsFrame == null) {
-                Client.gameSettingsFrame = new GameSettingsFrame(channel, modname);
+            if (Globals.gameSettingsFrame == null) {
+                Globals.gameSettingsFrame = new GameSettingsFrame(channel, modname);
             }
 
-            Client.gameSettingsFrame.setVisible(true);
+            Globals.gameSettingsFrame.setVisible(true);
         }
     }
 
@@ -170,7 +171,7 @@ public class RoomPanel extends javax.swing.JPanel {
     }
 
     public void launch() {
-        if (Client.isPlaying) {
+        if (Globals.isPlaying) {
             return;
         }
 
@@ -178,37 +179,37 @@ public class RoomPanel extends javax.swing.JPanel {
 
             @Override
             public void run() {
-                Client.isPlaying = true;
+                Globals.isPlaying = true;
 
-                Client.clientFrame.printToVisibleChatbox("SYSTEM", 
+                Globals.clientFrame.printToVisibleChatbox("SYSTEM", 
                         "Game launching... please wait!", 
                         coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
                 //play sound
                 SoundPlayer.playLaunchSound();
 
                 if (Settings.getSleepEnabled()) {
-                    Client.clientFrame.setSleepMode(true);
-                    Client.sleepMode = true;
+                    Globals.clientFrame.setSleepMode(true);
+                    Globals.sleepMode = true;
                 }
 
 
                 String _channel = channel;
-                boolean launched = Client.launcher.launch();
+                boolean launched = Globals.launcher.launch();
 
                 if (!launched) {
-                    Client.clientFrame.printToVisibleChatbox("SYSTEM", "Failed to start the game!", ColoredChatHandler.SYSTEM_STYLE);
+                    Globals.clientFrame.printToVisibleChatbox("SYSTEM", "Failed to start the game!", ColoredChatHandler.SYSTEM_STYLE);
                 }
 
-                Client.isPlaying = false;
+                Globals.isPlaying = false;
                 Client.send(Protocol.gameClosed(), _channel);
-                Client.clientFrame.setSleepMode(false);
-                Client.sleepMode = false;
+                Globals.clientFrame.setSleepMode(false);
+                Globals.sleepMode = false;
             }
         }.start();
     }
 
     public void setGameName(String ingamename) {
-        Client.launcher.setIngameName(ingamename);
+        Globals.launcher.setIngameName(ingamename);
     }
 
     public void enableButtons() {
@@ -404,8 +405,8 @@ public class RoomPanel extends javax.swing.JPanel {
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
             String name = (String) lst_userList.getSelectedValue();
-            Client.clientFrame.newPrivateChat(name);
-            Client.clientFrame.showPMTab(name);
+            Globals.clientFrame.newPrivateChat(name);
+            Globals.clientFrame.showPMTab(name);
         }
 }//GEN-LAST:event_lst_userListMouseClicked
 
@@ -417,10 +418,10 @@ public class RoomPanel extends javax.swing.JPanel {
         btn_ready.setEnabled(false);
         if (cb_useHamachi.isSelected()) {
             System.out.println("Hamachi support turning on");
-            Client.launcher.initialize(channel, modname, isHost, hamachiIp, compatible, maxPlayers);
+            Globals.launcher.initialize(channel, modname, isHost, hamachiIp, compatible, maxPlayers);
         } else {
             System.out.println("Hamachi support turning off");
-            Client.launcher.initialize(channel, modname, isHost, ip, compatible, maxPlayers);
+            Globals.launcher.initialize(channel, modname, isHost, ip, compatible, maxPlayers);
         }
 }//GEN-LAST:event_cb_useHamachiActionPerformed
 
@@ -429,7 +430,7 @@ public class RoomPanel extends javax.swing.JPanel {
 
             @Override
             public void run() {
-                Client.gameSettingsFrame = new GameSettingsFrame(channel, modname);
+                Globals.gameSettingsFrame = new GameSettingsFrame(channel, modname);
                 showSettings();
             }
         });
