@@ -57,20 +57,23 @@ public class Settings {
 	private static String settingsFile;
 
     static {
-		if(Client.os.equals("windows")){
-			optionsDir = System.getenv("APPDATA")+"/Coopnet";
-		}else{
-			optionsDir = System.getenv("HOME")+"/.coopnet";
-		}
+        if(Client.os.equals("windows")){
+            optionsDir = System.getenv("APPDATA")+"/Coopnet";
+        }else{
+            optionsDir = System.getenv("HOME")+"/.coopnet";
+        }
 		
-		favouritesFile = optionsDir+"/favourites";
-		settingsFile = optionsDir+"/settings";
+        favouritesFile = optionsDir+"/favourites";
+        settingsFile = optionsDir+"/settings";
 		
         data = new java.util.Properties();
         load();
         favourites = new Vector<String>();
         loadFavourites();
     }
+    
+    /**********************************************************************/
+    
     //Settings names in variable form
     private final static String serverIp = "ServerIp",
             recieveDest="FileDestination", 
@@ -109,6 +112,7 @@ public class Settings {
             channelChatVerticalSPPosition = "ChannelChatVerticalSPPosition",
             wineCommand="WineCommand",
             fileTransferPort="FiletransferPort";
+   
     //Default
     private final static String def_serverIp = "subes.dyndns.org";
     private final static int def_serverPort = 6667;

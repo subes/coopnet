@@ -36,6 +36,7 @@ public class TabbedPaneColorCL implements ChangeListener {
         updateBG();
     }
 
+    @Override
     public void stateChanged(ChangeEvent e) {
         updateBG();
     }

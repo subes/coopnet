@@ -30,12 +30,15 @@ import javax.swing.DefaultComboBoxModel;
 public class GameSettingsFrame extends javax.swing.JFrame {
 
     private int fieldcount = 0;
-
+    private String gamename;
+    private String modname;
+    private HashMap<String, String> gamemodes = new HashMap<String, String>();
+    
     /** Creates new form GameSettingsPanel */
     public GameSettingsFrame(String gamename,String modname) {
         initComponents();
         coopnetclient.coloring.Colorizer.colorize(this);
-        Client.gameSettingsWindow = this;
+        Client.gameSettingsFrame = this;
         this.gamename = gamename;
         this.modname=modname;
         setLocationRelativeTo(null);
@@ -308,7 +311,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-    Client.gameSettingsWindow = null;
+    Client.gameSettingsFrame = null;
     dispose();
 }//GEN-LAST:event_formWindowClosing
 
@@ -334,8 +337,8 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         if (spn_scoreLimit.isVisible()) {
             Client.launcher.setGoalScore((Integer)spn_scoreLimit.getValue());
         }
-        Client.currentRoom.enableButtons();
-        Client.gameSettingsWindow = null;
+        Client.currentRoomPanel.enableButtons();
+        Client.gameSettingsFrame = null;
         Client.send(Protocol.SendPort(new Integer(tf_port.getText())), null);
         this.setVisible(false);
         dispose();
@@ -360,7 +363,5 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JSpinner spn_timeLimit;
     private javax.swing.JTextField tf_port;
     // End of variables declaration//GEN-END:variables
-    String gamename;
-    String modname;
-    HashMap<String, String> gamemodes = new HashMap<String, String>();
+
 }

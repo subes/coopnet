@@ -24,6 +24,9 @@ import coopnetclient.Protocol;
 
 public class RoomJoinPasswordFrame extends javax.swing.JFrame {
 
+    private String host_name = "";
+    private String channel;
+    
     /** Creates new form RoomJoinPasswordFrame */
     public RoomJoinPasswordFrame(String host_name,String channel) {
         initComponents();
@@ -143,7 +146,7 @@ public class RoomJoinPasswordFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_cancelActionPerformed
 
 private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-    Client.roomoperationframe=null;
+    Client.roomCreationFrame=null;
 }//GEN-LAST:event_formWindowClosed
 
 private void pf_roomPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pf_roomPasswordActionPerformed
@@ -158,6 +161,4 @@ private void pf_roomPasswordActionPerformed(java.awt.event.ActionEvent evt) {//G
     private javax.swing.JPanel pnl_input;
     // End of variables declaration//GEN-END:variables
 
-    String host_name = "";
-    String channel;
 }

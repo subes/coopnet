@@ -32,7 +32,7 @@ import javax.swing.AbstractListModel;
 public class SortedListModel extends AbstractListModel {
 
     // Define a SortedSet
-    SortedSet model;
+    private SortedSet model;
 
     public SortedListModel() {
         // Create a TreeSet

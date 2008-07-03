@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.panels;
+package coopnetclient.frames.panels;
 
 import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.Client;
@@ -40,14 +40,14 @@ public class RoomPanel extends javax.swing.JPanel {
 
     private boolean isHost = false;
     private boolean compatible = true;
-    SortedListModel users;
-    PlayerListPopupMenu mypopup;
+    private SortedListModel users;
+    private PlayerListPopupMenu mypopup;
     public String channel;
     public String modname;
-    String ip;
-    String hamachiIp;
-    int maxPlayers;
-    HashMap<String, String> gamesettings = new HashMap<String, String>();
+    private String ip;
+    private String hamachiIp;
+    private int maxPlayers;
+    private HashMap<String, String> gamesettings = new HashMap<String, String>();
 
     public RoomPanel(boolean isHost, String channel, String modindex, String ip, boolean compatible, String hamachiIp, int maxPlayers) {
         this.channel = channel;
@@ -64,12 +64,12 @@ public class RoomPanel extends javax.swing.JPanel {
         }
         initComponents();
 
-        Client.currentRoom = this;
+        Client.currentRoomPanel = this;
         if (isHost) {
             mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.HOST_MODE, lst_userList);
             cb_useHamachi.setVisible(false);
         } else {
-            mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.JOIN_MODE, lst_userList);
+            mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
         }
         lst_userList.setComponentPopupMenu(mypopup);
         lst_userList.setCellRenderer(new RoomStatusListCR());
@@ -103,11 +103,11 @@ public class RoomPanel extends javax.swing.JPanel {
 
     public void showSettings() {
         if (btn_gameSettings.isVisible()) {
-            if (Client.gameSettingsWindow == null) {
-                Client.gameSettingsWindow = new GameSettingsFrame(channel, modname);
+            if (Client.gameSettingsFrame == null) {
+                Client.gameSettingsFrame = new GameSettingsFrame(channel, modname);
             }
 
-            Client.gameSettingsWindow.setVisible(true);
+            Client.gameSettingsFrame.setVisible(true);
         }
     }
 
@@ -180,15 +180,15 @@ public class RoomPanel extends javax.swing.JPanel {
             public void run() {
                 Client.isPlaying = true;
 
-                Client.mainFrame.printToVisibleChatbox("SYSTEM", 
+                Client.clientFrame.printToVisibleChatbox("SYSTEM", 
                         "Game launching... please wait!", 
                         coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
                 //play sound
                 SoundPlayer.playLaunchSound();
 
                 if (Settings.getSleepEnabled()) {
-                    Client.mainFrame.setSleepMode(true);
-                    Client.sleepmode = true;
+                    Client.clientFrame.setSleepMode(true);
+                    Client.sleepMode = true;
                 }
 
 
@@ -196,13 +196,13 @@ public class RoomPanel extends javax.swing.JPanel {
                 boolean launched = Client.launcher.launch();
 
                 if (!launched) {
-                    Client.mainFrame.printToVisibleChatbox("SYSTEM", "Failed to start the game!", ColoredChatHandler.SYSTEM_STYLE);
+                    Client.clientFrame.printToVisibleChatbox("SYSTEM", "Failed to start the game!", ColoredChatHandler.SYSTEM_STYLE);
                 }
 
                 Client.isPlaying = false;
                 Client.send(Protocol.gameClosed(), _channel);
-                Client.mainFrame.setSleepMode(false);
-                Client.sleepmode = false;
+                Client.clientFrame.setSleepMode(false);
+                Client.sleepMode = false;
             }
         }.start();
     }
@@ -404,8 +404,8 @@ public class RoomPanel extends javax.swing.JPanel {
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
             String name = (String) lst_userList.getSelectedValue();
-            Client.mainFrame.newPrivateChat(name);
-            Client.mainFrame.showPMTab(name);
+            Client.clientFrame.newPrivateChat(name);
+            Client.clientFrame.showPMTab(name);
         }
 }//GEN-LAST:event_lst_userListMouseClicked
 
@@ -429,7 +429,7 @@ public class RoomPanel extends javax.swing.JPanel {
 
             @Override
             public void run() {
-                Client.gameSettingsWindow = new GameSettingsFrame(channel, modname);
+                Client.gameSettingsFrame = new GameSettingsFrame(channel, modname);
                 showSettings();
             }
         });

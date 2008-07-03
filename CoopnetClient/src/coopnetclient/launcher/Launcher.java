@@ -21,7 +21,7 @@ package coopnetclient.launcher;
 
 public interface Launcher {
     
-    public static final int maxRetries = 10;
+    public static final int MAX_RETRIES = 10;
 
     public void initialize(String gameIdentifier,String modname, final boolean isHost, String ip, boolean compatible, int maxplayers);
     

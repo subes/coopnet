@@ -19,6 +19,7 @@
 
 package coopnetclient.modules;
 
+import coopnetclient.exceptions.NoRoomsException;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 

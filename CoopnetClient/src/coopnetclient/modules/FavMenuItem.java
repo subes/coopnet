@@ -19,6 +19,10 @@
 
 package coopnetclient.modules;
 
+import coopnetclient.Client;
+import coopnetclient.Protocol;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 
 public class FavMenuItem extends JMenuItem {
@@ -30,7 +34,12 @@ public class FavMenuItem extends JMenuItem {
     public FavMenuItem(String name) {
         super();
         setText(name);
-        addActionListener(new FavActionListener());
+        addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Client.send(Protocol.JoinChannel(e.getSource().toString()), null);
+            }
+        });
     }
 
     @Override

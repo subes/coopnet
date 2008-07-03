@@ -28,11 +28,12 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
+
+/**
+ * Renders the elements in the user list of a room
+ */
 public class RoomStatusListCR extends JLabel implements ListCellRenderer {
 
-    /**
-     * Renders the elements in the user list of a room
-     */
     public static Vector<String> readylist = new Vector<String>();
     public static Vector<String> playinglist = new Vector<String>();
 

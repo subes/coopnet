@@ -28,6 +28,7 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -40,17 +41,19 @@ public class HandlerThread extends Thread {
     public static final int WRITEBUFFER_SIZE = 400;
     public static final int READBUFFER_SIZE = 400;
     private static ByteBuffer readBuffer = ByteBuffer.allocate(READBUFFER_SIZE);
-    /** Decoder */
     private CharsetDecoder decoder = charset.newDecoder();
-    /** Encoder */
     private CharsetEncoder encoder = charset.newEncoder();
-    /** ByteBuffer - outgoing coded data */
     private ByteBuffer byteBufferOut = ByteBuffer.allocate(WRITEBUFFER_SIZE);
-    /** CharBuffer - outgoing uncoded data */
     private CharBuffer charBufferOut = CharBuffer.allocate(WRITEBUFFER_SIZE);
     private ByteBuffer attachment = null;
     private Thread sender;
+    
+    private Vector<String> outQueue = new Vector<String>();
 
+    protected void addToOutQueue(String element){
+        outQueue.add(element);
+    }
+    
     public void stopThread() {
         running = false;
         try {            
@@ -109,14 +112,14 @@ public class HandlerThread extends Thread {
                 if (input == null) {
                     JOptionPane.showMessageDialog(null, "No response from server", "ERROR", JOptionPane.ERROR_MESSAGE);
                 } else if (input.equals("OK_LOGIN")) {
-                    Client.thisplayername = name;
-                    Client.loggedin = true;
-                    Client.mainFrame.removeLoginTab();
+                    Client.thisPlayer_loginName = name;
+                    Client.loggedIn = true;
+                    Client.clientFrame.removeLoginTab();
                 } else {
-                    Client.mainFrame.addLoginTab();
+                    Client.clientFrame.addLoginTab();
                 }
             } else {
-                Client.mainFrame.addLoginTab();
+                Client.clientFrame.addLoginTab();
             }
             //READING DATA
             String input = "";
@@ -130,7 +133,7 @@ public class HandlerThread extends Thread {
             System.out.println("handlerthread stopped");
         } catch (Exception e) {
             //disconnect
-            Client.mainFrame.Disconnect();
+            Client.clientFrame.Disconnect();
             //ErrorHandler decides if there is a need for the stacktrace, 
             //this helps looking at the log of a bugreport
             //handle excptions
@@ -256,9 +259,9 @@ public class HandlerThread extends Thread {
     }
 
     public boolean doSend() {
-        if (Client.outqueue.size() > 0) {
-            String rawdata = Client.outqueue.firstElement();
-            Client.outqueue.removeElementAt(0);
+        if (outQueue.size() > 0) {
+            String rawdata = outQueue.firstElement();
+            outQueue.removeElementAt(0);
 
             // load into buffer
             byteBufferOut.clear();

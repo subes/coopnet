@@ -24,12 +24,14 @@ import coopnetclient.gamedatabase.GameDatabase;
 import coopnetclient.launcher.WindowsLauncher;
 import coopnetclient.coloring.Colorizer;
 import coopnetclient.modules.SortedListModel;
-import filechooser.FileChooser;
+import coopnetclient.utils.filechooser.FileChooser;
 import java.io.File;
 import javax.swing.JOptionPane;
 
 public class ManageGamesFrame extends javax.swing.JFrame {
 
+    private SortedListModel channels = new SortedListModel();
+    
     /** Creates new form ManageGamesFrame */
     public ManageGamesFrame() {
         initComponents();
@@ -235,7 +237,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0) {
                 GameDatabase.setLocalExecutablePath(lst_games.getSelectedValue().toString(), tf_path.getText());
                 GameDatabase.setLocalInstallPath(lst_games.getSelectedValue().toString(), tf_installPath.getText());
-                Client.mainFrame.setLaunchable(lst_games.getSelectedValue().toString(), true);
+                Client.clientFrame.setLaunchable(lst_games.getSelectedValue().toString(), true);
                 GameDatabase.saveLocalPaths();
             } else {
                 JOptionPane.showMessageDialog(null, "Please set the path correctly!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -244,7 +246,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0 && tf_installPath.getText().length() > 0) {
                 GameDatabase.setLocalExecutablePath(lst_games.getSelectedValue().toString(), tf_path.getText());
                 GameDatabase.setLocalInstallPath(lst_games.getSelectedValue().toString(), tf_installPath.getText());
-                Client.mainFrame.setLaunchable(lst_games.getSelectedValue().toString(), true);
+                Client.clientFrame.setLaunchable(lst_games.getSelectedValue().toString(), true);
                 GameDatabase.saveLocalPaths();
             } else {
                 JOptionPane.showMessageDialog(null, "Please set both paths correctly!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -306,6 +308,6 @@ private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JTextField tf_installPath;
     private javax.swing.JTextField tf_path;
     // End of variables declaration//GEN-END:variables
-    private SortedListModel channels = new SortedListModel();
+
 }
 

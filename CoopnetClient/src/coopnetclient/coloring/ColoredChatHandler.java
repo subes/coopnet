@@ -160,12 +160,7 @@ public class ColoredChatHandler {
             name = "(" + dateformat.format(date) + ") " + name;
 
         }
-        //subes removed my message identing private chat :(
-//        if (styleMode == PRIVATE_STYLE) {
-//            name += "\n";
-//            message="\t"+message;
-//        }
-//        else
+        
         if (message.startsWith("/me")) {
             name = "  **" + name;
             message = message.substring(3);

@@ -20,10 +20,10 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
-import coopnetclient.panels.ChannelPanel;
-import coopnetclient.panels.LoginPanel;
-import coopnetclient.panels.PrivateChatPanel;
-import coopnetclient.panels.RoomPanel;
+import coopnetclient.frames.panels.ChannelPanel;
+import coopnetclient.frames.panels.LoginPanel;
+import coopnetclient.frames.panels.PrivateChatPanel;
+import coopnetclient.frames.panels.RoomPanel;
 import coopnetclient.Protocol;
 import coopnetclient.Settings;
 import coopnetclient.coloring.ColoredChatHandler;
@@ -31,18 +31,21 @@ import coopnetclient.coloring.RoomStatusListCR;
 import coopnetclient.coloring.TabbedPaneColorCL;
 import coopnetclient.gamedatabase.GameDatabase;
 import coopnetclient.modules.FavMenuItem;
-import coopnetclient.panels.BrowserPanel;
-import coopnetclient.panels.ErrorPanel;
-import coopnetclient.panels.FileTransferRecieve;
-import coopnetclient.panels.FileTransferSend;
+import coopnetclient.frames.panels.BrowserPanel;
+import coopnetclient.frames.panels.ErrorPanel;
+import coopnetclient.frames.panels.FileTransferRecieve;
+import coopnetclient.frames.panels.FileTransferSend;
 import java.awt.Component;
 import java.io.File;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeListener;
 
 public class ClientFrame extends javax.swing.JFrame {
 
+    private Vector<ChannelPanel> channels = new Vector<ChannelPanel>();
+    
     /** Creates new form ClientFrame */
     public ClientFrame() {
         initComponents();
@@ -203,7 +206,7 @@ public class ClientFrame extends javax.swing.JFrame {
         ChannelPanel currentchannel = new ChannelPanel(channelname);
         tabpn_tabs.add(currentchannel, 0);
         tabpn_tabs.setTitleAt(0, channelname);
-        Client.channels.add(currentchannel);
+        channels.add(currentchannel);
         this.repaint();
         //check if the game is installed
         if (!Client.launcher.isLaunchable(channelname)) {
@@ -231,12 +234,12 @@ public class ClientFrame extends javax.swing.JFrame {
     }
 
     public void removeChannel(String channelname) {
-        Client.channels.remove(getChannel(channelname));
+        channels.remove(getChannel(channelname));
         tabpn_tabs.remove(getChannel(channelname));
     }
 
     public boolean mainTabIsVisible() {
-        return Client.channels.get(0).isVisible();
+        return channels.get(0).isVisible();
     }
 
     public void addNewRoomToList(String channel, String roomname, String hostname, String limitstr, boolean passworded) {
@@ -251,13 +254,13 @@ public class ClientFrame extends javax.swing.JFrame {
     public void closeRoom(String channel, String hostname) { //close room tab
 
         Client.launcher.stop();
-        tabpn_tabs.remove(Client.currentRoom);
-        int index = indexOfTab(Client.currentRoom.channel);
+        tabpn_tabs.remove(Client.currentRoomPanel);
+        int index = indexOfTab(Client.currentRoomPanel.channel);
         if (index != -1) {
             tabpn_tabs.setSelectedIndex(index);
         }
-        Client.currentRoom = null;
-        for (ChannelPanel cp : Client.channels) {
+        Client.currentRoomPanel = null;
+        for (ChannelPanel cp : channels) {
             cp.enablebuttons();
         }
         this.repaint();
@@ -265,10 +268,10 @@ public class ClientFrame extends javax.swing.JFrame {
 
     public void createRoom(String channel, String modindex, boolean compatible, int maxplayers) {
         RoomPanel room = new RoomPanel(true, channel, modindex, "", compatible, "", maxplayers);
-        int index = Client.channels.size();
+        int index = channels.size();
         tabpn_tabs.insertTab("Room", null, room, null, index);
-        Client.currentRoom = room;
-        for (ChannelPanel cp : Client.channels) {
+        Client.currentRoomPanel = room;
+        for (ChannelPanel cp : channels) {
             cp.disablebuttons();
         }
 
@@ -286,10 +289,10 @@ public class ClientFrame extends javax.swing.JFrame {
     public void joinRoom(String hostip, String channel, String modname, boolean compatible, String launchinfo, String hamachiIp, int maxplayers) {
         final String ip = hostip;
         RoomPanel room = new RoomPanel(false, channel, modname, ip, compatible, hamachiIp, maxplayers);
-        int index = Client.channels.size();
+        int index = channels.size();
         tabpn_tabs.insertTab("Room", null, room, null, index);
-        Client.currentRoom = room;
-        for (ChannelPanel cp : Client.channels) {
+        Client.currentRoomPanel = room;
+        for (ChannelPanel cp : channels) {
             cp.disablebuttons();
         }
         tabpn_tabs.setSelectedIndex(index);
@@ -300,13 +303,13 @@ public class ClientFrame extends javax.swing.JFrame {
     }
 
     public void leave() {
-        tabpn_tabs.remove(Client.currentRoom);
-        int index = indexOfTab(Client.currentRoom.channel);
+        tabpn_tabs.remove(Client.currentRoomPanel);
+        int index = indexOfTab(Client.currentRoomPanel.channel);
         if (index != -1) {
             tabpn_tabs.setSelectedIndex(index);
         }
-        Client.currentRoom = null;
-        for (ChannelPanel cp : Client.channels) {
+        Client.currentRoomPanel = null;
+        for (ChannelPanel cp : channels) {
             cp.enablebuttons();
         }
     }
@@ -384,8 +387,8 @@ public class ClientFrame extends javax.swing.JFrame {
         //update name in the main tab
         getChannel(channel).updatename(oldname, newname);
         //update name in the room tab
-        if (Client.currentRoom != null && Client.currentRoom.channel.equals(channel)) {
-            Client.currentRoom.updatename(oldname, newname);
+        if (Client.currentRoomPanel != null && Client.currentRoomPanel.channel.equals(channel)) {
+            Client.currentRoomPanel.updatename(oldname, newname);
             RoomStatusListCR.updateName(oldname, newname);
         }
         //update the pm tab title too
@@ -685,25 +688,25 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_connect.setEnabled(true);
         mi_channelList.setEnabled(false);
 
-        if (Client.channellistwindow != null) {
-            Client.channellistwindow.setVisible(false);
-            Client.channellistwindow.dispose();
-            Client.channellistwindow = null;
+        if (Client.channelListFrame != null) {
+            Client.channelListFrame.setVisible(false);
+            Client.channelListFrame.dispose();
+            Client.channelListFrame = null;
         }
-        if (Client.passwordchangewindow != null) {
-            Client.passwordchangewindow.setVisible(false);
-            Client.passwordchangewindow.dispose();
-            Client.passwordchangewindow = null;
+        if (Client.changePasswordFrame != null) {
+            Client.changePasswordFrame.setVisible(false);
+            Client.changePasswordFrame.dispose();
+            Client.changePasswordFrame = null;
         }
-        if (Client.profilewindow != null) {
-            Client.profilewindow.setVisible(false);
-            Client.profilewindow.dispose();
-            Client.profilewindow = null;
+        if (Client.profileFrame != null) {
+            Client.profileFrame.setVisible(false);
+            Client.profileFrame.dispose();
+            Client.profileFrame = null;
         }
-        if (Client.roomoperationframe != null) {
-            Client.roomoperationframe.setVisible(false);
-            Client.roomoperationframe.dispose();
-            Client.roomoperationframe = null;
+        if (Client.roomCreationFrame != null) {
+            Client.roomCreationFrame.setVisible(false);
+            Client.roomCreationFrame.dispose();
+            Client.roomCreationFrame = null;
         }
     }
 
@@ -720,7 +723,7 @@ public class ClientFrame extends javax.swing.JFrame {
     }
 
     public void setSleepMode(boolean slepmode) {
-        for (ChannelPanel cp : Client.channels) {
+        for (ChannelPanel cp : channels) {
             cp.setSleepMode(slepmode);
         }
     }
@@ -757,11 +760,22 @@ public class ClientFrame extends javax.swing.JFrame {
             RoomPanel rp = (RoomPanel) tc;
             rp.chat(name, message, modeStyle);
         } else {
-            ChannelPanel cp = Client.channels.get(0);
+            ChannelPanel cp = channels.get(0);
             if (cp != null) {
                 cp.mainchat(name, message, modeStyle);
             }
         }
+    }
+    
+        private void RelocateFocus() {
+        Component comp = tabpn_tabs.getSelectedComponent();
+        if (comp != null) {
+            comp.requestFocus();
+        }
+    }
+
+    public void updateMenu() {
+        mi_Sounds.setSelected(Settings.getSoundEnabled());
     }
 
     private void mi_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_connectActionPerformed
@@ -772,8 +786,8 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_connectActionPerformed
 
     private void mi_channelListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_channelListActionPerformed
-        Client.channellistwindow = new ChannelListFrame();
-        Client.channellistwindow.setVisible(true);
+        Client.channelListFrame = new ChannelListFrame();
+        Client.channelListFrame.setVisible(true);
 }//GEN-LAST:event_mi_channelListActionPerformed
 
     private void tabpn_tabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabpn_tabsStateChanged
@@ -832,7 +846,7 @@ private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                 try {
                     Runtime rt = Runtime.getRuntime();
                     rt.exec("java -jar CoopnetUpdater.jar");
-                    Client.mainFrame.quit();
+                    Client.clientFrame.quit();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -868,15 +882,5 @@ private void mi_bugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JMenuItem mi_update;
     private javax.swing.JTabbedPane tabpn_tabs;
     // End of variables declaration//GEN-END:variables
-    //private ChannelPanel currentchannel;
-    private void RelocateFocus() {
-        Component comp = tabpn_tabs.getSelectedComponent();
-        if (comp != null) {
-            comp.requestFocus();
-        }
-    }
 
-    public void updateMenu() {
-        mi_Sounds.setSelected(Settings.getSoundEnabled());
-    }
 }

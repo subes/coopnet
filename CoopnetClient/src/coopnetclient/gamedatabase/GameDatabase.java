@@ -34,9 +34,7 @@ import java.util.HashMap;
 public class GameDatabase {
 
     public static final String datafilepath = "data/gamedata";
-    static final String lpfilepath = "data/localpaths";
-    //initialiser
-    
+    static final String lpfilepath = "data/localpaths";    
 
     static {
         IDtoGameName = new HashMap<String, String>();

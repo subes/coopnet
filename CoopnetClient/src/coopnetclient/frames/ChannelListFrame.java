@@ -27,6 +27,8 @@ import java.awt.event.MouseEvent;
 
 public class ChannelListFrame extends javax.swing.JFrame {
 
+    private SortedListModel channels = new SortedListModel();
+    
     /** Creates new form ChannelListFrame */
     public ChannelListFrame() {
         initComponents();
@@ -160,7 +162,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        coopnetclient.Client.channellistwindow = null;
+        coopnetclient.Client.channelListFrame = null;
     }//GEN-LAST:event_formWindowClosing
 
 private void lst_channelListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_channelListMouseClicked
@@ -177,5 +179,5 @@ private void lst_channelListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-F
     private javax.swing.JScrollPane scrl_channelList;
     private javax.swing.JTextField tf_filter;
     // End of variables declaration//GEN-END:variables
-    private SortedListModel channels = new SortedListModel();
+
 }

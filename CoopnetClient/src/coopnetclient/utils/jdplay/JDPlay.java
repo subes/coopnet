@@ -17,26 +17,15 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package jdplay;
+package coopnetclient.utils.jdplay;
 
 public class JDPlay extends Object {
     
     /*
      *  Don't extend anything of this in Java!
      */
-    
-    private static boolean dllIsLoaded = false;
-    
+
     public JDPlay(String urlToDLL, String playerName, String gameGUID, String hostIP, boolean iamhost, boolean enableDebug) throws Error {
-        if(!dllIsLoaded){
-            try {
-                System.loadLibrary(urlToDLL);
-                dllIsLoaded = true;
-            } catch (UnsatisfiedLinkError er) {
-                throw new Error("[JDPLAY] ERROR: loading jdplay dll failed, function calls will result in UnsatisfieldLinkError!");
-            }
-        }
-        
         implementation = new Long(__c0(playerName, gameGUID, hostIP, iamhost, enableDebug));
     }
     
@@ -76,12 +65,14 @@ public class JDPlay extends Object {
     public Long getCxxwrapImpl() { return implementation; }
     
 // override equals() from Object, compare the implementation value
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof JDPlay)) return false;
         return implementation.equals(((JDPlay)o).implementation);
     }
     
 // override hashCode() from Object, return the implementation values hashCode()
+    @Override
     public int hashCode() { return implementation.hashCode(); }
     public void delete() {
         

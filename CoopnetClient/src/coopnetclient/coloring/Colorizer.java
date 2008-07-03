@@ -48,6 +48,7 @@ public class Colorizer {
 
     private static Color bgColor,  fgColor,  btnbgColor,  tfbgColor,  disabledColor,  selectionColor,  borderColor;
     private static Vector<Component> toExecuteCustomCodeIn;
+    
     //difference to bg color (calculated later)
     private final static int BTN_DIFF = 20;
     private final static int TF_DIFF = 10;
@@ -88,6 +89,8 @@ public class Colorizer {
     public static Color getBorderColor() {
         return borderColor;
     }
+    
+    /**************************************************************/
 
     //Use this for Frames
     public static void colorize(Container root) {
@@ -237,7 +240,8 @@ public class Colorizer {
         return false;
     }
 
-    /*BEGIN******************PRIVATE METHODS***********************************/    
+    /*****************************************************************/    
+    
     //Only local usage, recursive core function
     private static void enableEffectsRecursively(Container root) {
 
@@ -416,7 +420,6 @@ public class Colorizer {
         }
     }
 
-    //I hope we can remove this in the future
     private static void modifyUI() {
         UIManager.put("TabbedPane.background", bgColor);
         UIManager.put("TabbedPane.borderHightlightColor", null);
@@ -489,7 +492,7 @@ public class Colorizer {
         UIManager.put("ToolTip.foreground", fgColor);
         UIManager.put("ToolTip.foregroundInactive", disabledColor);
 
-        //BEGIN***************JOPTIONPANE COLORING
+    //BEGIN***************JOPTIONPANE COLORING
         UIManager.put("Button.background", btnbgColor);
         UIManager.put("Button.darkShadow", null);
         UIManager.put("Button.disabledText", disabledColor);
@@ -522,8 +525,7 @@ public class Colorizer {
         UIManager.put("OptionPane.warningDialog.titlePane.shadow", null);
     //END***************JOPTIONPANE COLORING
 
-    //left
-        /* UNSUED COMPONENT TYPES? DO NOT REMOVE
+        /* UNUSED COMPONENT TYPES, DO NOT REMOVE
     UIManager.put("control", btnbgColor); 
     UIManager.put("controlDkShadow", fgColor); 
     UIManager.put("controlHighlight", null); 
@@ -761,6 +763,7 @@ public class Colorizer {
                 }
                 Rectangle r = new Rectangle();
 
+                @Override
                 public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
                     g.setColor(color);
                     g.fillRect(x, y, width, height);
@@ -776,10 +779,12 @@ public class Colorizer {
                     }
                 }
 
+                @Override
                 public Insets getBorderInsets(Component c) {
                     return NO_INSETS;
                 }
 
+                @Override
                 public boolean isBorderOpaque() {
                     return true;
                 }

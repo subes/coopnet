@@ -36,7 +36,7 @@
               <EmptySpace max="32767" attributes="0"/>
               <Component id="btn_close" min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="sp_chatHorizontal" alignment="0" pref="435" max="32767" attributes="0"/>
+          <Component id="sp_chatHorizontal" alignment="0" pref="446" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -50,7 +50,7 @@
                   <Component id="btn_gameSettings" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="sp_chatHorizontal" pref="369" max="32767" attributes="0"/>
+              <Component id="sp_chatHorizontal" pref="371" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

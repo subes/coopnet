@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package filechooser;
+package coopnetclient.utils.filechooser;
 
 import coopnetclient.Client;
 import java.awt.Rectangle;
@@ -59,10 +59,10 @@ public class FileChooser extends javax.swing.JFrame {
      * and returns what action the user made:
      * select or cancel
      */
-    public int choose(File startDir) {
+    public int choose(String startDir) {
         try {
             if (startDir != null) {
-                currentdir = new File(startDir.getCanonicalPath());
+                currentdir = new File(startDir);
             } else {
                 if(Client.os.equals("linux")){
                     currentdir = new File(System.getenv("HOME"));

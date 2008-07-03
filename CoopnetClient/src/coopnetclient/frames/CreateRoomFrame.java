@@ -26,9 +26,9 @@ import javax.swing.DefaultComboBoxModel;
 
 public class CreateRoomFrame extends javax.swing.JFrame {
 
-    String channel;
-    String modname;
-    Object[] modnames;
+    private String channel;
+    private String modname;
+    private Object[] modnames;
 
     /** Creates new form CreateFrame */
     public CreateRoomFrame(String channel) {
@@ -259,7 +259,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_pf_passwordActionPerformed
 
 private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-    Client.roomoperationframe = null;
+    Client.roomCreationFrame = null;
 }//GEN-LAST:event_formWindowClosed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;

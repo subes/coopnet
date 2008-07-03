@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.panels;
+package coopnetclient.frames.panels;
 
 import coopnetclient.Client;
 import coopnetclient.coloring.Colorizer;
@@ -81,7 +81,7 @@ public class BrowserPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void btn_closeclose(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeclose
-    Client.mainFrame.removeGuideTab();
+    Client.clientFrame.removeGuideTab();
 }//GEN-LAST:event_btn_closeclose
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_close;

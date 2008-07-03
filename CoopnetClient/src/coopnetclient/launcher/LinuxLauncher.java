@@ -41,6 +41,7 @@ public class LinuxLauncher implements Launcher {
     private int goalScore = 0;
     private DPlayExeHandler dplay;
 
+    @Override
     public void initialize(String gameIdentifier, String modname, boolean isHost, String ip, boolean compatible, int maxPlayers) {
         if (ip != null && ip.startsWith("/")) {
             ip = ip.substring(1);
@@ -64,11 +65,11 @@ public class LinuxLauncher implements Launcher {
             case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING:
                 isInitialized = true;
                 if (!isHost) {
-                    Client.currentRoom.enableButtons();
+                    Client.currentRoomPanel.enableButtons();
                 }
         }
         //call it here to NOT remember settings
-        Client.currentRoom.showSettings();
+        Client.currentRoomPanel.showSettings();
     }
 
     private void initDPlay() {
@@ -80,12 +81,12 @@ public class LinuxLauncher implements Launcher {
 
         if (dplay.isInitialized) {
             isInitialized = true;
-            if (Client.currentRoom != null) { //May be null if user closes room too fast
-                Client.currentRoom.enableButtons();
+            if (Client.currentRoomPanel != null) { //May be null if user closes room too fast
+                Client.currentRoomPanel.enableButtons();
             }
         } else {
             stopDPlay();
-            Client.mainFrame.printToVisibleChatbox("SYSTEM",
+            Client.clientFrame.printToVisibleChatbox("SYSTEM",
                     "DirectPlay error!", 
                     coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
         }
@@ -110,7 +111,7 @@ public class LinuxLauncher implements Launcher {
         }
         //insert data into pattern
         callerstring = callerstring.replace("{HOSTIP}", ip);
-        callerstring = callerstring.replace("{NAME}", Client.inGameName);
+        callerstring = callerstring.replace("{NAME}", Client.thisPlayer_inGameName);
         callerstring = callerstring.replace("{MAXPLAYERS}", maxPlayers + "");
         if (map != null) {
             callerstring = callerstring.replace("{MAP}", map);
@@ -147,10 +148,12 @@ public class LinuxLauncher implements Launcher {
         }
     }
 
+    @Override
     public void setIngameName(String name) {
         dplay.setPlayerName(name);
     }
 
+    @Override
     public boolean launch() {
         boolean launched = false;
         switch (launchMethod) {
@@ -164,42 +167,52 @@ public class LinuxLauncher implements Launcher {
         return launched;
     }
 
+    @Override
     public void stop() {
         stopDPlay();
     }
 
+    @Override
     public void setGameMode(String mode) {
         gameMode = mode;
     }
 
+    @Override
     public void setMap(String map) {
         this.map = map;
     }
 
+    @Override
     public void setTimelimit(int limit) {
         timeLimit = limit;
     }
 
+    @Override
     public void setPort(int port) {
         this.port = port;
     }
 
+    @Override
     public String getGameMode() {
         return gameMode;
     }
 
+    @Override
     public String getMap() {
         return this.map;
     }
 
+    @Override
     public int getTimelimit() {
         return timeLimit;
     }
 
+    @Override
     public int getPort() {
         return this.port;
     }
 
+    @Override
     public String getFullMapPath(String gamename) {
         String tmp = GameDatabase.getLocalInstallPath(gamename);
         if (tmp == null || tmp.length() == 0) {
@@ -220,6 +233,7 @@ public class LinuxLauncher implements Launcher {
         return path;
     }
 
+    @Override
     public boolean isLaunchable(String gamename) {
         String test = null;
         if (GameDatabase.getLaunchMethod(gamename, modName) == GameDatabase.LAUNCHMETHOD_DIRECTPLAY 
@@ -234,34 +248,42 @@ public class LinuxLauncher implements Launcher {
         }
     }
 
+    @Override
     public String getExecutablePath(String gamename) {
         return GameDatabase.getLocalExecutablePath(gamename);
     }
 
+    @Override
     public String getInstallPath(String gamename) {
         return GameDatabase.getLocalInstallPath(gamename);
     }
 
+    @Override
     public String getMod() {
         return modName;
     }
 
-    public void setMod(String newmod) {
+    @Override
+      public void setMod(String newmod) {
         modName = newmod;
     }
 
-    public int getBots() {
+    @Override
+  public int getBots() {
         return bots;
     }
 
+    @Override
     public void setBots(int bots) {
         this.bots = bots;
     }
 
+    @Override
     public int getGoalScore() {
         return goalScore;
     }
 
+    @Override
     public void setGoalScore(int score) {
         goalScore = score;
     }

@@ -19,7 +19,7 @@
 
 package coopnetclient.frames;
 
-import filechooser.FileChooser;
+import coopnetclient.utils.filechooser.FileChooser;
 import coopnetclient.Client;
 import coopnetclient.gamedatabase.GameDatabase;
 import coopnetclient.Protocol;
@@ -699,7 +699,7 @@ public class SettingsFrame extends javax.swing.JFrame {
 
     private void clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clicked
         //save the data
-        Save();
+        saveSettings();
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_clicked
@@ -710,81 +710,148 @@ public class SettingsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_cancel
 
     private void btn_apply_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_apply_ActionPerformed
-        Save();
+        saveSettings();
         //Colorizer.colorize(this); //Needs fix
 }//GEN-LAST:event_btn_apply_ActionPerformed
 
     private void btn_browseReceiveDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browseReceiveDirActionPerformed
-    new Thread() {
+        new Thread() {
 
-        @Override
-        public void run() {
-            File inputfile = null;
-            FileChooser mfc =new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
-            int returnVal = mfc.choose(Client.lastOpenedDir);
+            @Override
+            public void run() {
+                File inputfile = null;
+                FileChooser mfc =new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
+                int returnVal = mfc.choose(Client.lastOpenedDir);
 
-            if (returnVal == FileChooser.SELECT_ACTION) {
-                inputfile = mfc.getSelectedFile();
-                if (inputfile != null) {
-                    tf_receiveDir.setText(inputfile.getPath());
+                if (returnVal == FileChooser.SELECT_ACTION) {
+                    inputfile = mfc.getSelectedFile();
+                    if (inputfile != null) {
+                        tf_receiveDir.setText(inputfile.getPath());
+                    }
                 }
             }
-        }
-    }.start();
+        }.start();
 }//GEN-LAST:event_btn_browseReceiveDirActionPerformed
 
-//Enables or disables the corresponding buttons of Text Colors
-private void toggleItemsOf_cb_ColorizeText(){
-    btn_yourUsername.setEnabled(cb_colorizeText.isSelected());
-    btn_otherUsernames.setEnabled(cb_colorizeText.isSelected());
-    btn_userMessages.setEnabled(cb_colorizeText.isSelected());
-    btn_systemMessages.setEnabled(cb_colorizeText.isSelected());
-    btn_whisperMessages.setEnabled(cb_colorizeText.isSelected());
-}
+    //Enables or disables the corresponding buttons of Text Colors
+    private void toggleItemsOf_cb_ColorizeText(){
+        btn_yourUsername.setEnabled(cb_colorizeText.isSelected());
+        btn_otherUsernames.setEnabled(cb_colorizeText.isSelected());
+        btn_userMessages.setEnabled(cb_colorizeText.isSelected());
+        btn_systemMessages.setEnabled(cb_colorizeText.isSelected());
+        btn_whisperMessages.setEnabled(cb_colorizeText.isSelected());
+    }
 
 private void cb_colorizeTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_colorizeTextActionPerformed
     toggleItemsOf_cb_ColorizeText();
 }//GEN-LAST:event_cb_colorizeTextActionPerformed
 
-private void toggleItemsOf_cb_ColorizeBody(){
-    btn_foreground.setEnabled(cb_colorizeBody.isSelected());
-    btn_background.setEnabled(cb_colorizeBody.isSelected());
-    btn_selection.setEnabled(cb_colorizeBody.isSelected());
-}
+    private void toggleItemsOf_cb_ColorizeBody(){
+        btn_foreground.setEnabled(cb_colorizeBody.isSelected());
+        btn_background.setEnabled(cb_colorizeBody.isSelected());
+        btn_selection.setEnabled(cb_colorizeBody.isSelected());
+    }
 
 private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_colorizeBodyActionPerformed
     toggleItemsOf_cb_ColorizeBody();
 }//GEN-LAST:event_cb_colorizeBodyActionPerformed
 
-private void toggleItemsOf_cb_NativeStyle(){
-    if(cb_nativeStyle.isSelected() == true){
-        cb_colorizeBody.setSelected(false);
-        toggleItemsOf_cb_ColorizeBody();
-        
-        //Set selection to current LAF
-        UIManager.LookAndFeelInfo infos[] = UIManager.getInstalledLookAndFeels();
-        for(int i = 0; i < infos.length; i++){
-            if(UIManager.getSystemLookAndFeelClassName().equals(infos[i].getClassName())){
-                cmb_style.setSelectedItem(infos[i].getName());
+    private void toggleItemsOf_cb_NativeStyle(){
+        if(cb_nativeStyle.isSelected() == true){
+            cb_colorizeBody.setSelected(false);
+            toggleItemsOf_cb_ColorizeBody();
+
+            //Set selection to current LAF
+            UIManager.LookAndFeelInfo infos[] = UIManager.getInstalledLookAndFeels();
+            for(int i = 0; i < infos.length; i++){
+                if(UIManager.getSystemLookAndFeelClassName().equals(infos[i].getClassName())){
+                    cmb_style.setSelectedItem(infos[i].getName());
+                }
+            }
+        }else{
+            //Set selection to current LAF
+            UIManager.LookAndFeelInfo infos[] = UIManager.getInstalledLookAndFeels();
+            for(int i = 0; i < infos.length; i++){
+                if(UIManager.getLookAndFeel().getClass().getName().equals(infos[i].getClassName())){
+                    cmb_style.setSelectedItem(infos[i].getName());
+                }
             }
         }
-    }else{
-        //Set selection to current LAF
-        UIManager.LookAndFeelInfo infos[] = UIManager.getInstalledLookAndFeels();
-        for(int i = 0; i < infos.length; i++){
-            if(UIManager.getLookAndFeel().getClass().getName().equals(infos[i].getClassName())){
-                cmb_style.setSelectedItem(infos[i].getName());
-            }
+
+        cmb_style.setEnabled(!cb_nativeStyle.isSelected());
+        if(Colorizer.getCurrentLAFisSupportedForColoring()){
+            cb_colorizeBody.setEnabled(!cb_nativeStyle.isSelected());
+        }else{
+            cb_colorizeBody.setEnabled(false);
         }
     }
-    
-    cmb_style.setEnabled(!cb_nativeStyle.isSelected());
-    if(Colorizer.getCurrentLAFisSupportedForColoring()){
-        cb_colorizeBody.setEnabled(!cb_nativeStyle.isSelected());
-    }else{
-        cb_colorizeBody.setEnabled(false);
+
+    private void saveSettings() {
+        boolean error = false;
+
+        try {
+            coopnetclient.Settings.setServerIp(tf_serverAddress.getText());
+            coopnetclient.Settings.setServerPort(Integer.parseInt(tf_serverPort.getText()));
+
+            coopnetclient.Settings.setAutoLogin(cb_autoLogin.isSelected());
+            coopnetclient.Settings.setSoundEnabled(cb_sounds.isSelected());
+            coopnetclient.Settings.setTimeStampEnabled(cb_timeStamps.isSelected());
+
+            if (cb_sleepMode.isSelected() != coopnetclient.Settings.getSleepEnabled()) {
+                coopnetclient.Settings.setSleepenabled(cb_sleepMode.isSelected());
+                Client.send(Protocol.SetSleep(cb_sleepMode.isSelected()), null);
+            }
+            coopnetclient.Settings.setRecieveDestination(tf_receiveDir.getText());
+            coopnetclient.Settings.setHomeChannel(cmb_homeChannel.getSelectedItem().toString());
+            coopnetclient.Settings.setWineCommand(tf_dplayEnv.getText());
+             coopnetclient.Settings.setFiletTansferPort(new Integer(tf_transferPort.getText()));
+
+            //Colors
+            coopnetclient.Settings.setBackgroundColor(btn_background.getForeground());
+            coopnetclient.Settings.setForegroundColor(btn_foreground.getForeground());
+
+            coopnetclient.Settings.setYourUsernameColor(btn_yourUsername.getForeground());
+            coopnetclient.Settings.setOtherUsernamesColor(btn_otherUsernames.getForeground());
+            coopnetclient.Settings.setSystemMessageColor(btn_systemMessages.getForeground());
+            coopnetclient.Settings.setWhisperMessageColor(btn_whisperMessages.getForeground());
+            coopnetclient.Settings.setUserMessageColor(btn_userMessages.getForeground());
+            coopnetclient.Settings.setSelectionColor(btn_selection.getForeground());
+            
+            coopnetclient.Settings.setSelectedLookAndFeel((String)cmb_style.getSelectedItem());
+            coopnetclient.Settings.setUseNativeLookAndFeel(cb_nativeStyle.isSelected());
+            
+            coopnetclient.Settings.setColorizeBody(cb_colorizeBody.isSelected());
+            coopnetclient.Settings.setColorizeText(cb_colorizeText.isSelected());
+
+            coopnetclient.Settings.setNameStyle(cmb_playerNamesType.getSelectedItem().toString());
+            coopnetclient.Settings.setNameSize(Integer.parseInt(tf_playerNamesSize.getText()));
+            coopnetclient.Settings.setMessageStyle(cmb_playerMessagesType.getSelectedItem().toString());
+            coopnetclient.Settings.setMessageSize(Integer.parseInt(tf_playerMessagesSize.getText()));
+            
+            Client.clientFrame.updateMenu();
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Please verify that you have entered valid information!\nFor example:\n  Serverport and textsizes need to be non-decimal numbers.", "Wrong input", JOptionPane.ERROR_MESSAGE);
+            error = true;
+        }
+
+        if (!error) {
+            SwingUtilities.invokeLater(new Thread() {
+
+                @Override
+                public void run() {
+                    Colorizer.initColors();
+                    coopnetclient.coloring.Colorizer.colorize(coopnetclient.Client.clientFrame);
+                    //colorise other open windows too
+                    coopnetclient.coloring.Colorizer.colorize(Client.channelListFrame);
+                    coopnetclient.coloring.Colorizer.colorize(Client.changePasswordFrame);
+                    coopnetclient.coloring.Colorizer.colorize(Client.profileFrame);
+                    coopnetclient.coloring.Colorizer.colorize(Client.gameSettingsFrame);
+                //dont color settingsframe cuz it fucks it up
+                }
+            });
+        }
     }
-}
 
 private void cb_nativeStyleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_nativeStyleActionPerformed
     toggleItemsOf_cb_NativeStyle();
@@ -854,71 +921,6 @@ private void cb_nativeStyleActionPerformed(java.awt.event.ActionEvent evt) {//GE
     private javax.swing.JTextField tf_serverPort;
     private javax.swing.JTextField tf_transferPort;
     // End of variables declaration//GEN-END:variables
-    private void Save() {
-        boolean error = false;
 
-        try {
-            coopnetclient.Settings.setServerIp(tf_serverAddress.getText());
-            coopnetclient.Settings.setServerPort(Integer.parseInt(tf_serverPort.getText()));
-
-            coopnetclient.Settings.setAutoLogin(cb_autoLogin.isSelected());
-            coopnetclient.Settings.setSoundEnabled(cb_sounds.isSelected());
-            coopnetclient.Settings.setTimeStampEnabled(cb_timeStamps.isSelected());
-
-            if (cb_sleepMode.isSelected() != coopnetclient.Settings.getSleepEnabled()) {
-                coopnetclient.Settings.setSleepenabled(cb_sleepMode.isSelected());
-                Client.send(Protocol.SetSleep(cb_sleepMode.isSelected()), null);
-            }
-            coopnetclient.Settings.setRecieveDestination(tf_receiveDir.getText());
-            coopnetclient.Settings.setHomeChannel(cmb_homeChannel.getSelectedItem().toString());
-            coopnetclient.Settings.setWineCommand(tf_dplayEnv.getText());
-             coopnetclient.Settings.setFiletTansferPort(new Integer(tf_transferPort.getText()));
-
-            //Colors
-            coopnetclient.Settings.setBackgroundColor(btn_background.getForeground());
-            coopnetclient.Settings.setForegroundColor(btn_foreground.getForeground());
-
-            coopnetclient.Settings.setYourUsernameColor(btn_yourUsername.getForeground());
-            coopnetclient.Settings.setOtherUsernamesColor(btn_otherUsernames.getForeground());
-            coopnetclient.Settings.setSystemMessageColor(btn_systemMessages.getForeground());
-            coopnetclient.Settings.setWhisperMessageColor(btn_whisperMessages.getForeground());
-            coopnetclient.Settings.setUserMessageColor(btn_userMessages.getForeground());
-            coopnetclient.Settings.setSelectionColor(btn_selection.getForeground());
-            
-            coopnetclient.Settings.setSelectedLookAndFeel((String)cmb_style.getSelectedItem());
-            coopnetclient.Settings.setUseNativeLookAndFeel(cb_nativeStyle.isSelected());
-            
-            coopnetclient.Settings.setColorizeBody(cb_colorizeBody.isSelected());
-            coopnetclient.Settings.setColorizeText(cb_colorizeText.isSelected());
-
-            coopnetclient.Settings.setNameStyle(cmb_playerNamesType.getSelectedItem().toString());
-            coopnetclient.Settings.setNameSize(Integer.parseInt(tf_playerNamesSize.getText()));
-            coopnetclient.Settings.setMessageStyle(cmb_playerMessagesType.getSelectedItem().toString());
-            coopnetclient.Settings.setMessageSize(Integer.parseInt(tf_playerMessagesSize.getText()));
-            
-            Client.mainFrame.updateMenu();
-
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Please verify that you have entered valid information!\nFor example:\n  Serverport and textsizes need to be non-decimal numbers.", "Wrong input", JOptionPane.ERROR_MESSAGE);
-            error = true;
-        }
-
-        if (!error) {
-            SwingUtilities.invokeLater(new Thread() {
-
-                @Override
-                public void run() {
-                    Colorizer.initColors();
-                    coopnetclient.coloring.Colorizer.colorize(coopnetclient.Client.mainFrame);
-                    //colorise other open windows too
-                    coopnetclient.coloring.Colorizer.colorize(Client.channellistwindow);
-                    coopnetclient.coloring.Colorizer.colorize(Client.passwordchangewindow);
-                    coopnetclient.coloring.Colorizer.colorize(Client.profilewindow);
-                    coopnetclient.coloring.Colorizer.colorize(Client.gameSettingsWindow);
-                //dont color settingsframe cuz it fucks it up
-                }
-            });
-        }
-    }
 }
 

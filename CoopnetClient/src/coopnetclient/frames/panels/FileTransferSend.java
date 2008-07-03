@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.panels;
+package coopnetclient.frames.panels;
 
 import coopnetclient.Client;
 import coopnetclient.Protocol;
@@ -34,12 +34,12 @@ import java.nio.channels.SocketChannel;
 
 public class FileTransferSend extends javax.swing.JPanel {
 
-    File data;
-    boolean sending = true;
-    long totalbytes = 0;
+    private File data;
+    private boolean sending = true;
+    private long totalbytes = 0;
     private ServerSocket serverSocket = null;
-    String reciever;
-    String filename;
+    private String reciever;
+    private String filename;
 
     /** Creates new form FileTransfer */
     public FileTransferSend(String reciever, File sentfile) {
@@ -370,9 +370,9 @@ public class FileTransferSend extends javax.swing.JPanel {
         if (btn_cancel.getText().equals("Cancel")) {
             sending = false;
             Client.send(Protocol.CancelTransfer(lbl_recieverValue.getText(), lbl_fileValue.getText()), null);
-            Client.mainFrame.removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
+            Client.clientFrame.removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
         } else {
-            Client.mainFrame.removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
+            Client.clientFrame.removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
         }
 
 }//GEN-LAST:event_btn_cancelActionPerformed

@@ -17,12 +17,12 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.panels;
+package coopnetclient.frames.panels;
 
 import coopnetclient.Client;
 import coopnetclient.Protocol;
 import coopnetclient.Settings;
-import filechooser.FileChooser;
+import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Desktop;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -36,13 +36,13 @@ import java.nio.channels.SocketChannel;
 
 public class FileTransferRecieve extends javax.swing.JPanel {
 
-    String filename;
-    String sender;
-    String ip;
-    String port;
-    File destfile = null;
-    long totalsize = 0;
-    boolean running = false;
+    private String filename;
+    private String sender;
+    private String ip;
+    private String port;
+    private File destfile = null;
+    private long totalsize = 0;
+    private boolean running = false;
     private ServerSocket serverSocket = null;
 
     /** Creates new form FileTransfer */
@@ -498,12 +498,12 @@ public class FileTransferRecieve extends javax.swing.JPanel {
 private void btn_refuseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refuseActionPerformed
     if (btn_refuse.getText().equals("Refuse")) {
         Client.send(Protocol.RefuseTransfer(sender, filename), null);
-        Client.mainFrame.removeTransferTab(sender, filename);
+        Client.clientFrame.removeTransferTab(sender, filename);
     } else if (btn_refuse.getText().equals("Cancel")) {
         running = false;
-        Client.mainFrame.removeTransferTab(sender, filename);
+        Client.clientFrame.removeTransferTab(sender, filename);
     } else {
-        Client.mainFrame.removeTransferTab(sender, filename);
+        Client.clientFrame.removeTransferTab(sender, filename);
     }
 }//GEN-LAST:event_btn_refuseActionPerformed
 

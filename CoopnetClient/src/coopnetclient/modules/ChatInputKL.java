@@ -19,7 +19,7 @@
 
 package coopnetclient.modules;
 
-import coopnetclient.panels.PrivateChatPanel;
+import coopnetclient.frames.panels.PrivateChatPanel;
 import coopnetclient.Client;
 import coopnetclient.Protocol;
 import java.awt.event.*;
@@ -76,15 +76,15 @@ public class ChatInputKL implements KeyListener {
                     Client.send(Protocol.roomChat(command), prefix);
                 } else if (this.mode == PRIVATE_CHAT_MODE) { // private chat
 
-                    int index = Client.mainFrame.indexOfTab(prefix);
+                    int index = Client.clientFrame.indexOfTab(prefix);
 
                     PrivateChatPanel privatechat = null;
                     if (index != -1) {
-                        privatechat = (PrivateChatPanel) Client.mainFrame.getTabComponentAt(index);
+                        privatechat = (PrivateChatPanel) Client.clientFrame.getTabComponentAt(index);
                     }
 
                     if (privatechat != null) {
-                        privatechat.append(Client.thisplayername, command);
+                        privatechat.append(Client.thisPlayer_loginName, command);
                     }
                     Client.send(Protocol.privatechat(command, prefix), null);
                 }

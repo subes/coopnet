@@ -29,6 +29,8 @@ import javax.swing.DefaultListModel;
 
 public class FavouritesFrame extends javax.swing.JFrame {
     
+    private SortedListModel channels = new SortedListModel();
+    
     /** Creates new form FavouritesFrame */
     public FavouritesFrame() {
         initComponents();
@@ -206,7 +208,7 @@ public class FavouritesFrame extends javax.swing.JFrame {
         if(lst_channels.getSelectedValue()!=null){
         Settings.addFavourite(lst_channels.getSelectedValue().toString());
         lst_favourites.setListData(Settings.getFavourites());
-        Client.mainFrame.refreshFavourites();
+        Client.clientFrame.refreshFavourites();
         }
 }//GEN-LAST:event_btn_addActionPerformed
 
@@ -214,7 +216,7 @@ public class FavouritesFrame extends javax.swing.JFrame {
         if(lst_favourites.getSelectedValue()!=null){
         Settings.removeFavourite(lst_favourites.getSelectedValue().toString());
         lst_favourites.setListData(Settings.getFavourites());
-        Client.mainFrame.refreshFavourites();
+        Client.clientFrame.refreshFavourites();
         }
 }//GEN-LAST:event_btn_removeActionPerformed
 
@@ -224,7 +226,7 @@ public class FavouritesFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_closeActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Client.mainFrame.refreshFavourites();
+        Client.clientFrame.refreshFavourites();
     }//GEN-LAST:event_formWindowClosing
 
     private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_filterActionPerformed
@@ -254,6 +256,5 @@ public class FavouritesFrame extends javax.swing.JFrame {
     private javax.swing.JSplitPane sp_lists;
     private javax.swing.JTextField tf_filter;
     // End of variables declaration//GEN-END:variables
-    Vector<String> favouritesdata= Settings.getFavourites();
-    private SortedListModel channels = new SortedListModel();
+
 }

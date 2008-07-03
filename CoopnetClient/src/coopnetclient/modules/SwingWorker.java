@@ -30,6 +30,7 @@ public class SwingWorker implements Runnable {
         this.command = command;
     }
 
+    @Override
     public void run() {
         try {
             CommandHandler.execute(command);

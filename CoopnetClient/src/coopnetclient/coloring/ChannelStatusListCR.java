@@ -29,11 +29,11 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 
+/**
+ * Renders the elements in the user list of a room
+ */
 public class ChannelStatusListCR extends JLabel implements ListCellRenderer {
 
-    /**
-     * Renders the elements in the user list of a room
-     */
     public static ImageIcon chaticon = new ImageIcon("data/icons/chaticon.gif");
     public static ImageIcon roomicon = new ImageIcon("data/icons/roomicon.gif");
     public static ImageIcon gameicon = new ImageIcon("data/icons/gameicon.gif");

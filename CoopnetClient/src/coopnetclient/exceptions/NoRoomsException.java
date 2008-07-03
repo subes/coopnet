@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.modules;
+package coopnetclient.exceptions;
 
 /**
  *  thrown when there are no rooms in the list

@@ -75,8 +75,8 @@
                           </Group>
                           <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="cb_map" pref="245" max="32767" attributes="1"/>
-                              <Component id="cb_mode" alignment="1" pref="245" max="32767" attributes="1"/>
+                              <Component id="cb_map" pref="260" max="32767" attributes="1"/>
+                              <Component id="cb_mode" alignment="1" pref="260" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>

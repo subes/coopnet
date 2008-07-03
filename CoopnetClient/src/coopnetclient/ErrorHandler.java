@@ -28,7 +28,7 @@ public class ErrorHandler {
             return;
         }
         if (exc.getMessage() == null) {
-            Client.mainFrame.addErrorTab(coopnetclient.panels.ErrorPanel.UNKNOWN_MODE, exc);
+            Client.clientFrame.addErrorTab(coopnetclient.frames.panels.ErrorPanel.UNKNOWN_MODE, exc);
             exc.printStackTrace();
             return;
         }
@@ -40,15 +40,15 @@ public class ErrorHandler {
             }
 
             if (exc.getMessage().contains("Connection refused") || exc.getMessage().contains("timed out")) {
-                Client.mainFrame.addErrorTab(coopnetclient.panels.ErrorPanel.CONNECTION_REFUSED_MODE, exc);
+                Client.clientFrame.addErrorTab(coopnetclient.frames.panels.ErrorPanel.CONNECTION_REFUSED_MODE, exc);
             } else if (exc.getMessage().equals("Connection reset")) {
-                Client.mainFrame.addErrorTab(coopnetclient.panels.ErrorPanel.CONNECTION_RESET_MODE, exc);
+                Client.clientFrame.addErrorTab(coopnetclient.frames.panels.ErrorPanel.CONNECTION_RESET_MODE, exc);
             } else {
-                Client.mainFrame.addErrorTab(coopnetclient.panels.ErrorPanel.UNKNOWN_IO_MODE, exc);
+                Client.clientFrame.addErrorTab(coopnetclient.frames.panels.ErrorPanel.UNKNOWN_IO_MODE, exc);
                 exc.printStackTrace();
             }
         } else { // regular errors
-            Client.mainFrame.addErrorTab(coopnetclient.panels.ErrorPanel.UNKNOWN_MODE, exc);
+            Client.clientFrame.addErrorTab(coopnetclient.frames.panels.ErrorPanel.UNKNOWN_MODE, exc);
             //Here we really want a stacktrace
             exc.printStackTrace();
         }

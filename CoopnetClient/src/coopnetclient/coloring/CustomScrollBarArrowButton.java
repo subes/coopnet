@@ -33,9 +33,4 @@ public class CustomScrollBarArrowButton extends BasicArrowButton {
 
         setBorder(BorderFactory.createLineBorder(coopnetclient.coloring.Colorizer.getForegroundColor(), 1));
     }
-
-    public void customCodeForColorizer() {
-        //Disabling hover effect by this
-        setForeground(coopnetclient.coloring.Colorizer.getButtonBackgroundColor());
-    }
 }

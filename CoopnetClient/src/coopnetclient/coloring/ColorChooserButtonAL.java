@@ -41,12 +41,14 @@ public class ColorChooserButtonAL implements ActionListener {
         parent.setText(fg.getRed() + "." + fg.getGreen() + "." + fg.getBlue());
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
 
         chooser = new JColorChooser();
         
         ActionListener okListener = new ActionListener() {
 
+            @Override
             public void actionPerformed(ActionEvent e) {
                 Color clr = chooser.getColor();
                 parent.setForeground(clr);
@@ -57,12 +59,13 @@ public class ColorChooserButtonAL implements ActionListener {
 
         ActionListener cancelListener = new ActionListener() {
 
+            @Override
             public void actionPerformed(ActionEvent e) {
                 dialog.dispose();
             }
         };
         
-        dialog = chooser.createDialog(null, "Pick a color", true, chooser, okListener, cancelListener);
+        dialog = JColorChooser.createDialog(null, "Pick a color", true, chooser, okListener, cancelListener);
         coopnetclient.coloring.Colorizer.colorize(dialog);
         chooser.setColor(parent.getForeground());
         

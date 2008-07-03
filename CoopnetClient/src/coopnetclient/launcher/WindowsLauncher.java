@@ -22,7 +22,7 @@ package coopnetclient.launcher;
 import coopnetclient.*;
 import coopnetclient.gamedatabase.GameDatabase;
 import java.io.IOException;
-import jdplay.JDPlay;
+import coopnetclient.utils.jdplay.JDPlay;
 
 public class WindowsLauncher implements Launcher {
 
@@ -46,6 +46,7 @@ public class WindowsLauncher implements Launcher {
     public WindowsLauncher() {
     }
 
+    @Override
     public void initialize(String gameIdentifier,String modname, boolean isHost, String ip, boolean compatible, int maxPlayers) {
         if (ip != null && ip.startsWith("/")) {
             ip = ip.substring(1);
@@ -76,12 +77,12 @@ public class WindowsLauncher implements Launcher {
                 this.port = GameDatabase.getDefPort(gameIdentifier,modname); 
                 isInitialized = true;
                 if (!isHost) {
-                    Client.currentRoom.enableButtons();
+                    Client.currentRoomPanel.enableButtons();
                 }
             }
         }
         //call it here to NOT remember settings
-        Client.currentRoom.showSettings();
+        Client.currentRoomPanel.showSettings();
     }
 
     private void initDPlay() {
@@ -90,18 +91,18 @@ public class WindowsLauncher implements Launcher {
                 stopDPlay();
             }
 
-            jDPlay = new JDPlay(Client.inGameName, gameIdentifier, ip, isHost, coopnetclient.Settings.getDebugMode());
+            jDPlay = new JDPlay(Client.thisPlayer_inGameName, gameIdentifier, ip, isHost, coopnetclient.Settings.getDebugMode());
 
             if (jDPlay.isInitializedProperly()) {
                     isInitialized = true;
-                    jDPlay.setMaxSearchRetries(maxRetries);
-                    Client.currentRoom.enableButtons();
+                    jDPlay.setMaxSearchRetries(MAX_RETRIES);
+                    Client.currentRoomPanel.enableButtons();
             } else {
                     jDPlay.delete();
-                    Client.mainFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error!", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                    Client.clientFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error!", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
             }
         } catch (UnsatisfiedLinkError e) {
-            Client.mainFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error, you miss the JDPlay dll.", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+            Client.clientFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error, you miss the JDPlay dll.", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
         }
     }
 
@@ -127,7 +128,7 @@ public class WindowsLauncher implements Launcher {
         }
         //insert data into pattern
         callerstring = callerstring.replace("{HOSTIP}", ip);
-        callerstring = callerstring.replace("{NAME}", Client.inGameName);
+        callerstring = callerstring.replace("{NAME}", Client.thisPlayer_inGameName);
 
         callerstring = callerstring.replace("{MAXPLAYERS}", maxPlayers + "");
         if (map != null) {
@@ -169,10 +170,12 @@ public class WindowsLauncher implements Launcher {
         }
     }
 
+    @Override
     public void setIngameName(String name) {
         jDPlay.setPlayerName(name);
     }
 
+    @Override
     public boolean launch() {
 
         switch (launchMethod) {
@@ -188,44 +191,54 @@ public class WindowsLauncher implements Launcher {
         return false;
     }
 
+    @Override
     public void stop() {
         if (isInitialized) {
             stopDPlay();
         }
     }
 
+    @Override
     public void setGameMode(String mode) {
         gameMode = mode;
     }
 
+    @Override
     public void setMap(String map) {
         this.map = map;
     }
 
+    @Override
     public void setTimelimit(int limit) {
         timeLimit = limit;
     }
 
+    @Override
     public void setPort(int port) {
         this.port = port;
     }
 
+    @Override
     public String getGameMode() {
         return gameMode;
     }
 
+    @Override
     public String getMap() {
         return this.map;
     }
 
+    @Override
     public int getTimelimit() {
         return timeLimit;
     }
 
+    @Override
     public int getPort() {
         return this.port;
     }
 
+    @Override
     public String getFullMapPath(String gamename) {
         String tmp = getLaunchPathWithExe(gamename);
         if (tmp == null || tmp.length() == 0) {
@@ -259,6 +272,7 @@ public class WindowsLauncher implements Launcher {
         return path;
     }
 
+    @Override
     public boolean isLaunchable(String gamename) {
         String test = null;
 
@@ -273,10 +287,12 @@ public class WindowsLauncher implements Launcher {
         }
     }
 
+    @Override
     public String getExecutablePath(String gamename) {
         return getLaunchPathWithExe(gamename);
     }
 
+    @Override
     public String getInstallPath(String gamename) {
         String exepath = getLaunchPathWithExe(gamename);
         String relativexepath = GameDatabase.getRelativeExePath(gamename,modName);
@@ -288,26 +304,32 @@ public class WindowsLauncher implements Launcher {
         }
     }
 
+    @Override
     public String getMod() {
         return modName;
     }
 
+    @Override
     public void setMod(String newmod) {
         modName= newmod;
     }
 
+    @Override
     public int getBots() {
         return bots;
     }
 
+    @Override
     public void setBots(int bots) {
         this.bots=bots;
     }
 
+    @Override
     public int getGoalScore() {
         return goalScore;
     }
 
+    @Override
     public void setGoalScore(int score) {
         goalScore= score;
     }

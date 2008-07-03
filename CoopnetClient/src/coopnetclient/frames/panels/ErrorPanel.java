@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.panels;
+package coopnetclient.frames.panels;
 
 import coopnetclient.frames.BugReport;
 
@@ -27,7 +27,7 @@ public class ErrorPanel extends javax.swing.JPanel {
     public static final int CONNECTION_REFUSED_MODE = 1;
     public static final int CONNECTION_RESET_MODE = 2;
     public static final int UNKNOWN_IO_MODE = 3;
-    private int mode;
+    
     private Exception exc;
     private String trafficLog;
 
@@ -42,7 +42,6 @@ public class ErrorPanel extends javax.swing.JPanel {
     
     public ErrorPanel(int mode, Exception e) {
         initComponents();
-        this.mode = mode;
         this.exc = e;
         this.trafficLog = coopnetclient.TrafficLogger.getEndOfLog();
         

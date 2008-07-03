@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package filechooser;
+package coopnetclient.utils.filechooser;
 
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;

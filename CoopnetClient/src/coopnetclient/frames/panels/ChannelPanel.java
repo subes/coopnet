@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.panels;
+package coopnetclient.frames.panels;
 
 import coopnetclient.Client;
 import coopnetclient.frames.CreateRoomFrame;
@@ -41,6 +41,12 @@ import javax.swing.text.StyledDocument;
 public class ChannelPanel extends javax.swing.JPanel {
 
     public String ID;
+    private ChannelStatusListModel users = new ChannelStatusListModel();
+    private RoomTableModel rooms;
+    private PlayerListPopupMenu mypopup;
+    public String name;
+    public boolean isLaunchable = false;
+    private ChannelStatusListCR renderer = new ChannelStatusListCR(users);
 
     /** Creates new form ChannelPanel */
     public ChannelPanel(String name) {
@@ -79,7 +85,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 
         tp_chatInput.addKeyListener(new ChatInputKL(ChatInputKL.CHANNEL_CHAT_MODE, this.name));
 
-        mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.JOIN_MODE, lst_userList);
+        mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
         lst_userList.setComponentPopupMenu(mypopup);
         
         disablebuttons();
@@ -152,7 +158,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 
     public void enablebuttons() {
         if (this.isLaunchable) {
-            if (Client.currentRoom == null) {
+            if (Client.currentRoomPanel == null) {
                 btn_create.setEnabled(true);
                 btn_join.setEnabled(true);
             }
@@ -198,8 +204,8 @@ public class ChannelPanel extends javax.swing.JPanel {
     public void updatename(String oldname, String newname) {
         rooms.updatename(oldname, newname);
         users.updatename(oldname, newname);
-        if (Client.currentRoom != null) {
-            Client.currentRoom.updatename(oldname, newname);
+        if (Client.currentRoomPanel != null) {
+            Client.currentRoomPanel.updatename(oldname, newname);
         }
     }
 
@@ -418,25 +424,25 @@ public class ChannelPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
     private void create(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_create
         // TODO add your handling code here:
-        if (Client.roomoperationframe != null) {
-            Client.roomoperationframe.setVisible(false);
-            Client.roomoperationframe.dispose();
-            Client.roomoperationframe = null;
+        if (Client.roomCreationFrame != null) {
+            Client.roomCreationFrame.setVisible(false);
+            Client.roomCreationFrame.dispose();
+            Client.roomCreationFrame = null;
         }
-        Client.roomoperationframe = new CreateRoomFrame(this.name);
-        Client.roomoperationframe.setVisible(true);
+        Client.roomCreationFrame = new CreateRoomFrame(this.name);
+        Client.roomCreationFrame.setVisible(true);
     }//GEN-LAST:event_create
 
     private void join(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_join
         try {
             if (rooms.selectedispassworded()) {
-                if (Client.roomoperationframe != null) {
-                    Client.roomoperationframe.setVisible(false);
-                    Client.roomoperationframe.dispose();
-                    Client.roomoperationframe = null;
+                if (Client.roomCreationFrame != null) {
+                    Client.roomCreationFrame.setVisible(false);
+                    Client.roomCreationFrame.dispose();
+                    Client.roomCreationFrame = null;
                 }
-                Client.roomoperationframe = new RoomJoinPasswordFrame(rooms.getselectedhost(), this.name);
-                Client.roomoperationframe.setVisible(true);
+                Client.roomCreationFrame = new RoomJoinPasswordFrame(rooms.getselectedhost(), this.name);
+                Client.roomCreationFrame.setVisible(true);
                 return;
             }
             String tmp = null;
@@ -453,8 +459,8 @@ public class ChannelPanel extends javax.swing.JPanel {
         Client.send(Protocol.refresh(), this.name);
         rooms.clear();
         users.refresh();
-        Client.mainFrame.setSleepMode(false);
-        Client.sleepmode = false;
+        Client.clientFrame.setSleepMode(false);
+        Client.sleepMode = false;
         
         //Disable button for some secs, so that user cant spam refresh
         new Thread() {
@@ -473,8 +479,8 @@ public class ChannelPanel extends javax.swing.JPanel {
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
             String _name = (String) lst_userList.getSelectedValue();
-            Client.mainFrame.newPrivateChat(_name);
-            Client.mainFrame.showPMTab(_name);
+            Client.clientFrame.newPrivateChat(_name);
+            Client.clientFrame.showPMTab(_name);
         }
 }//GEN-LAST:event_lst_userListMouseClicked
 
@@ -492,7 +498,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 
     private void btn_leaveChannelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveChannelActionPerformed
         Client.send(Protocol.leaveChannel(), this.name);
-        Client.mainFrame.removeChannel(this.name);
+        Client.clientFrame.removeChannel(this.name);
 }//GEN-LAST:event_btn_leaveChannelActionPerformed
 
 private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tp_chatOutputKeyTyped
@@ -536,10 +542,5 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
     private javax.swing.JTextPane tp_chatInput;
     private javax.swing.JTextPane tp_chatOutput;
     // End of variables declaration//GEN-END:variables
-    private ChannelStatusListModel users = new ChannelStatusListModel();
-    private RoomTableModel rooms;
-    PlayerListPopupMenu mypopup;
-    public String name;
-    public boolean isLaunchable = false;
-    private ChannelStatusListCR renderer = new ChannelStatusListCR(users);
+
 }

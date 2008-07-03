@@ -25,14 +25,13 @@ import coopnetclient.launcher.Launcher;
 import coopnetclient.launcher.WindowsLauncher;
 import coopnetclient.coloring.Colorizer;
 import coopnetclient.frames.ClientFrame;
-import coopnetclient.launcher.DummyLauncher;
-import coopnetclient.panels.ChannelPanel;
-import coopnetclient.panels.RoomPanel;
-import java.io.File;
-import java.net.*;
+import coopnetclient.frames.panels.RoomPanel;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.Enumeration;
 import java.util.Vector;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  * Contains the global  fields of the client, these fields are used by most of the other classes.<br>
@@ -40,43 +39,37 @@ import javax.swing.*;
  */
 public class Client {
 
-    private static boolean connected = false;
     public static boolean debug;
     public static final String version = "0.96.1";
-    public static boolean loggedin = false;
-    public static ClientFrame mainFrame;
-    public static RoomPanel currentRoom;
-    public static JFrame profilewindow = null;
-    public static JFrame passwordchangewindow = null;
-    public static JFrame channellistwindow = null;
-    public static JFrame gameSettingsWindow = null;
-    public static JFrame roomoperationframe = null;
-    public static String thisplayername;
-    public static String inGameName;
-    public static String gamedataurl;
-    public static String os = null;
-    public static boolean alreadyrunning = false;
-    public static boolean jdplayIsSupported = true;
+    public static boolean loggedIn = false;
+    public static ClientFrame clientFrame;
+    public static RoomPanel currentRoomPanel;
+    public static JFrame profileFrame = null;
+    public static JFrame changePasswordFrame = null;
+    public static JFrame channelListFrame = null;
+    public static JFrame gameSettingsFrame = null;
+    public static JFrame roomCreationFrame = null;
+    public static String thisPlayer_loginName;
+    public static String thisPlayer_inGameName;
+    public static String os;
     public static boolean registryOK = false;
-    public static boolean sleepmode = false;
+    public static boolean sleepMode = false;
     public static boolean isPlaying = false;
-    public static Vector<ChannelPanel> channels = new Vector<ChannelPanel>();
-    public static HandlerThread clientThread;
     public static Launcher launcher;
-    static Vector<String> outqueue = new Vector<String>();
-    public static File lastOpenedDir;
+    public static String lastOpenedDir;
     
+    private  static HandlerThread handlerThread;
 
     static {
         //detect OS
         if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
             System.out.println("windows detected");
             os = "windows";
-            lastOpenedDir = new File(".");
+            lastOpenedDir = ".";
         } else {
             System.out.println("linux detected");
             os = "linux";
-            lastOpenedDir = new File(System.getenv("HOME"));
+            lastOpenedDir = System.getenv("HOME");
         }
         debug = Settings.getDebugMode();
     }
@@ -88,15 +81,15 @@ public class Client {
         if (channel != null && channel.length() > 0) {
             command = "on " + GameDatabase.IDofGame(channel) + ":" + command;
         }
-        if (clientThread != null) {
+        if (handlerThread != null) {
             command += Protocol.MESSAGE_DELIMITER;
 
             if (command.length() > HandlerThread.WRITEBUFFER_SIZE) {
                 for (String piece : cutToLength(command, HandlerThread.WRITEBUFFER_SIZE)) {
-                    outqueue.add(piece);
+                    handlerThread.addToOutQueue(piece);
                 }
             } else {
-                outqueue.add(command);
+                handlerThread.addToOutQueue(command);
             }
         }
         TrafficLogger.append("OUT: " + command);
@@ -143,14 +136,12 @@ public class Client {
                 Class.forName("com.ice.jni.registry.Registry");
                 Class.forName("com.ice.jni.registry.RegistryKey");
             } catch (UnsatisfiedLinkError er) {
-                jdplayIsSupported = false;
                 System.out.println("Error while loading external dlls");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         } else { //linux stuff
             launcher = new LinuxLauncher();
-            jdplayIsSupported = true;
         }
         //Load Registry library
         try {
@@ -164,15 +155,15 @@ public class Client {
             @Override
             public void run() {
                 Colorizer.initLAF();
-                mainFrame = new ClientFrame();
-                mainFrame.setVisible(true);
+                clientFrame = new ClientFrame();
+                clientFrame.setVisible(true);
                 startConnection();
                 try {
                     sleep(100);
                 } catch (Exception e) {
                 }
                 if (Settings.getFirstRun()) {
-                    mainFrame.addGuideTab();
+                    clientFrame.addGuideTab();
                     Settings.setFirstRun(false);
                 }
             }
@@ -180,19 +171,17 @@ public class Client {
     }
 
     public static void startConnection() {
-        Client.connected = true;
-        clientThread = new HandlerThread();
-        clientThread.start();
+        handlerThread = new HandlerThread();
+        handlerThread.start();
     }
 
     public static void stopConnection() {
-        Client.connected = false;
-        Client.loggedin = false;
-        Client.currentRoom = null;
-        if (clientThread != null) {
-            clientThread.stopThread();
+        Client.loggedIn = false;
+        Client.currentRoomPanel = null;
+        if (handlerThread != null) {
+            handlerThread.stopThread();
         }
-        clientThread = null;
+        handlerThread = null;
     }
 
     private static String[] cutToLength(String stringtocut, int size) {

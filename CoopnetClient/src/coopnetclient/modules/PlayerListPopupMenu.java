@@ -21,7 +21,7 @@ package coopnetclient.modules;
 
 import coopnetclient.Client;
 import coopnetclient.Protocol;
-import filechooser.FileChooser;
+import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,58 +33,41 @@ import javax.swing.JSeparator;
 
 public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
-    public static final String HOST_MODE = "host";
-    public static final String JOIN_MODE = "";
-    String mode;
-    JList source;
-    JMenuItem playername;
-    JMenuItem ban;
-    JMenuItem unban;
-    JMenuItem mute;
-    JMenuItem unmute;
-    JMenuItem whisper;
-    JMenuItem kick;
-    JMenuItem showprofile;
-    JMenuItem nudge;
-    JMenuItem sendfile;
+    public static final int HOST_MODE = 0;
+    public static final int GENERAL_MODE = 1;
+    
+    private JList source;
+    private JMenuItem playername;
 
     /**
     if mode is "host" u get kick
      * any other mode will result in general popupmenu
      */
-    public PlayerListPopupMenu(String mode, JList source) {
+    public PlayerListPopupMenu(int mode, JList source) {
         super();
         this.source = source;
 
         playername = new JMenuItem();
         playername.setEnabled(false);
-
-        ban = makeMenuItem("Ban");
-        unban = makeMenuItem("UnBan");
-        mute = makeMenuItem("Mute");
-        unmute = makeMenuItem("UnMute");
-        whisper = makeMenuItem("Whisper");
-        kick = makeMenuItem("Kick");
-        showprofile = makeMenuItem("Show players profile...");
-        nudge = makeMenuItem("Send nudge");
-        sendfile = makeMenuItem("Send File...");
-
-        this.mode = mode;
         this.add(playername);
+        
         this.add(new JSeparator());
-        this.add(nudge);
-        this.add(sendfile);
+        
+        this.add(makeMenuItem("Send nudge"));
+        this.add(makeMenuItem("Send file..."));
         this.add(new JSeparator());
-        if (mode.equals("host")) {
-            this.add(kick);
+        if (mode == HOST_MODE) {
+            this.add(makeMenuItem("Kick"));
         }
-        this.add(ban);
-        this.add(unban);
-        this.add(mute);
-        this.add(unmute);
-        this.add(whisper);
+        this.add(makeMenuItem("Ban"));
+        this.add(makeMenuItem("UnBan"));
+        this.add(makeMenuItem("Mute"));
+        this.add(makeMenuItem("UnMute"));
+        this.add(makeMenuItem("Whisper"));
+        
         this.add(new JSeparator());
-        this.add(showprofile);
+        
+        this.add(makeMenuItem("Show players profile..."));
     }
 
     private JMenuItem makeMenuItem(String label) {
@@ -120,8 +103,8 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         } else if (command.equals("UnMute")) {
             Client.send(Protocol.unmute(subject), null);
         } else if (command.equals("Whisper")) {
-            Client.mainFrame.newPrivateChat(subject);
-            Client.mainFrame.showPMTab(subject);
+            Client.clientFrame.newPrivateChat(subject);
+            Client.clientFrame.showPMTab(subject);
         } else if (command.equals("Show players profile...")) {
             Client.send(Protocol.requestProfile(subject), null);
         } else if (command.equals("Send nudge")) {
@@ -141,8 +124,8 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
                         inputfile = mfc.getSelectedFile();
                         if (inputfile != null) {
                             Client.send(Protocol.Sendfile(subject, inputfile.getName(), inputfile.length() + "" , coopnetclient.Settings.getFiletTansferPort()+""), null);
-                            Client.mainFrame.addTransferTab_Send(subject, inputfile);
-                            Client.lastOpenedDir = new File(inputfile.getParent());
+                            Client.clientFrame.addTransferTab_Send(subject, inputfile);
+                            Client.lastOpenedDir = inputfile.getParent();
                         }
                     }
                 }

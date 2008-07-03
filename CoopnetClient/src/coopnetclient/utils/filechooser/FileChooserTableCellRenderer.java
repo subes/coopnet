@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package filechooser;
+package coopnetclient.utils.filechooser;
 
 import java.awt.Component;
 import java.awt.Image;

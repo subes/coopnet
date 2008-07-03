@@ -171,7 +171,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_cancel
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        coopnetclient.Client.passwordchangewindow=null;
+        coopnetclient.Client.changePasswordFrame=null;
     }//GEN-LAST:event_formWindowClosing
    
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -45,13 +45,13 @@ public class DPlayExeHandler {
     public DPlayExeHandler(final String gameIdentifier, String modname, boolean isHost, String ip, boolean compatible) {
         //Compile command string
         String execCommand = Settings.getWineCommand() + " lib/JDPlay_rmt.exe" +
-                " --player " + Client.inGameName + 
+                " --player " + Client.thisPlayer_inGameName + 
                 " --game " + GameDatabase.getGuid(gameIdentifier,modname);
 
         if (!isHost) {
             execCommand += " --host " + ip;
             if (compatible) {
-                execCommand += " --search " + Launcher.maxRetries;
+                execCommand += " --search " + Launcher.MAX_RETRIES;
             }
         }
 
@@ -79,11 +79,11 @@ public class DPlayExeHandler {
                     isInitialized = true;
                     isReady = true;
                 }else if(ret == 1){ //ERR init
-                    Client.mainFrame.printToVisibleChatbox("SYSTEM",
+                    Client.clientFrame.printToVisibleChatbox("SYSTEM",
                             "DirectPlay failed to initialize properly, maybe you miss some dlls?",
                             coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
                 }else{ 
-                    Client.mainFrame.printToVisibleChatbox("SYSTEM", 
+                    Client.clientFrame.printToVisibleChatbox("SYSTEM", 
                             "DirectPlay failed to initialize properly, maybe JDPlay_rmt.exe is missing?",
                             coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
                 }
@@ -142,11 +142,11 @@ public class DPlayExeHandler {
     
     private void printCommunicationError(Exception e){
         if(e == null){
-            Client.mainFrame.printToVisibleChatbox("SYSTEM", 
+            Client.clientFrame.printToVisibleChatbox("SYSTEM", 
                     "DirectPlay communication error.", 
                     ColoredChatHandler.SYSTEM_STYLE);
         }else{
-            Client.mainFrame.printToVisibleChatbox("SYSTEM", 
+            Client.clientFrame.printToVisibleChatbox("SYSTEM", 
                     "DirectPlay communication error; "+e.getMessage(),
                     ColoredChatHandler.SYSTEM_STYLE);
         }
@@ -196,7 +196,7 @@ public class DPlayExeHandler {
                     playing = false;
                 }else if(ret == 1){ //ERR launch
                     playing = false;
-                    Client.mainFrame.printToVisibleChatbox("SYSTEM", 
+                    Client.clientFrame.printToVisibleChatbox("SYSTEM", 
                             "Unable to start the game, maybe you miss some dlls?",
                             ColoredChatHandler.SYSTEM_STYLE);
                     return;

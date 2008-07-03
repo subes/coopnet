@@ -32,7 +32,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lbl_filter" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="tf_filter" pref="269" max="32767" attributes="1"/>
+                      <Component id="tf_filter" pref="281" max="32767" attributes="1"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jb_joinChannelButton" min="-2" max="-2" attributes="0"/>
