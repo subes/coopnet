@@ -36,6 +36,10 @@ public class Protocol {
     public static final String MESSAGE_DELIMITER = "\uAB04"; // 0x04 = EOT = End Of Transmission
     public static byte[] ENCODED_MESSAGE_DELIMITER;
     
+    //Heartbeat characters
+    public static final String HEARTBEAT_REQUEST = "\u2661";
+    public static final String HEARTBEAT_RESPONSE = "\u2665";
+    
     static{
         try{
             CharsetEncoder encoder = Charset.forName("UTF-8").newEncoder();

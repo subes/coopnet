@@ -48,8 +48,9 @@ public class CommandHandler {
             System.out.println("[T]\tIN: " + input);
         }
 
-        if (input.equals("RPRQ")) {
-            Client.send("RPACK", null);
+        //Heartbeat
+        if (input.equals(Protocol.HEARTBEAT_REQUEST)) {
+            Client.send(Protocol.HEARTBEAT_RESPONSE, null);
         }
 
         if (input.equals("updateURL ")) {
