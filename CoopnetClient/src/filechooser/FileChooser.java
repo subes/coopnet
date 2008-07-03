@@ -79,6 +79,7 @@ public class FileChooser extends javax.swing.JFrame {
         fillPlacesComboBox();
         
         this.setVisible(true);
+        tbl_display.requestFocus();
         while (ischoosing) {
             try {
                 Thread.sleep(100);
