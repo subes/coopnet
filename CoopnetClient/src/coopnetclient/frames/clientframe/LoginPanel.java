@@ -22,7 +22,7 @@ package coopnetclient.frames.clientframe;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
-import coopnetclient.Verification;
+import coopnetclient.modules.Verification;
 
 public class LoginPanel extends javax.swing.JPanel {
 
@@ -30,8 +30,8 @@ public class LoginPanel extends javax.swing.JPanel {
     public LoginPanel() {
 
         initComponents();
-        tf_name.setText(coopnetclient.Settings.getLastLoginName());
-        cb_autoLogin.setSelected(coopnetclient.Settings.getAutoLogin());
+        tf_name.setText(coopnetclient.modules.Settings.getLastLoginName());
+        cb_autoLogin.setSelected(coopnetclient.modules.Settings.getAutoLogin());
         coopnetclient.modules.Colorizer.colorize(this);
     }
 
@@ -46,16 +46,16 @@ public class LoginPanel extends javax.swing.JPanel {
             Client.send(Protocol.login(tf_name.getText(), passw), null);
 
             Globals.thisPlayer_loginName = tf_name.getText();
-            coopnetclient.Settings.setLastLoginName(tf_name.getText());
-            coopnetclient.Settings.setAutoLogin(cb_autoLogin.isSelected());
+            coopnetclient.modules.Settings.setLastLoginName(tf_name.getText());
+            coopnetclient.modules.Settings.setAutoLogin(cb_autoLogin.isSelected());
 
-            if (coopnetclient.Settings.getAutoLogin()) {
-                coopnetclient.Settings.setLastLoginPassword(String.copyValueOf(pf_password.getPassword()));
+            if (coopnetclient.modules.Settings.getAutoLogin()) {
+                coopnetclient.modules.Settings.setLastLoginPassword(String.copyValueOf(pf_password.getPassword()));
             } else {
-                coopnetclient.Settings.setLastLoginPassword("");
+                coopnetclient.modules.Settings.setLastLoginPassword("");
             }
 
-            String s = coopnetclient.Settings.getHomeChannel();
+            String s = coopnetclient.modules.Settings.getHomeChannel();
             if (s.length() > 0) {
                 Client.send(Protocol.JoinChannel(s), null);
             }

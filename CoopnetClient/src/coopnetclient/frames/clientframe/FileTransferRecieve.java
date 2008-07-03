@@ -22,7 +22,7 @@ package coopnetclient.frames.clientframe;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
-import coopnetclient.Settings;
+import coopnetclient.modules.Settings;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Desktop;
 import java.io.BufferedInputStream;

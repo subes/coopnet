@@ -27,7 +27,7 @@ import coopnetclient.frames.clientframe.LoginPanel;
 import coopnetclient.frames.clientframe.PrivateChatPanel;
 import coopnetclient.frames.clientframe.RoomPanel;
 import coopnetclient.Protocol;
-import coopnetclient.Settings;
+import coopnetclient.modules.Settings;
 import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.modules.renderers.RoomStatusListCellRenderer;
 import coopnetclient.modules.listeners.TabbedPaneColorChangeListener;
@@ -62,11 +62,11 @@ public class ClientFrame extends javax.swing.JFrame {
         coopnetclient.modules.Colorizer.colorize(this);
 
         //load the size from options
-        int width = coopnetclient.Settings.getMainFrameWidth();
-        int height = coopnetclient.Settings.getMainFrameHeight();
+        int width = coopnetclient.modules.Settings.getMainFrameWidth();
+        int height = coopnetclient.modules.Settings.getMainFrameHeight();
         this.setSize(width, height);
         //maximise if needed
-        int status = coopnetclient.Settings.getMainFrameMaximised();
+        int status = coopnetclient.modules.Settings.getMainFrameMaximised();
         if(status ==  javax.swing.JFrame.MAXIMIZED_BOTH ){
             this.setExtendedState(status);
         }
@@ -634,11 +634,11 @@ public class ClientFrame extends javax.swing.JFrame {
         Client.send(Protocol.quit(), null);
         Client.stopConnection();
         //save sizes
-        coopnetclient.Settings.setMainFrameMaximised(this.getExtendedState());
+        coopnetclient.modules.Settings.setMainFrameMaximised(this.getExtendedState());
         
         if (this.getExtendedState() == javax.swing.JFrame.NORMAL) {
-        coopnetclient.Settings.setMainFrameHeight(this.getHeight());
-        coopnetclient.Settings.setMainFrameWidth(this.getWidth());
+        coopnetclient.modules.Settings.setMainFrameHeight(this.getHeight());
+        coopnetclient.modules.Settings.setMainFrameWidth(this.getWidth());
         }
         /*
         for (Component c : tabpn_Tabs.getComponents()) {
@@ -812,7 +812,7 @@ public class ClientFrame extends javax.swing.JFrame {
 
     private void mi_SoundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_SoundsActionPerformed
         boolean enabled = mi_Sounds.isSelected();
-        coopnetclient.Settings.setSoundEnabled(enabled);
+        coopnetclient.modules.Settings.setSoundEnabled(enabled);
 }//GEN-LAST:event_mi_SoundsActionPerformed
 
     private void mi_manageFavsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_manageFavsActionPerformed

@@ -26,7 +26,7 @@ import coopnetclient.modules.listeners.ChatInputKeyListener;
 import coopnetclient.modules.components.PlayerListPopupMenu;
 import coopnetclient.modules.models.SortedListModel;
 import coopnetclient.Protocol;
-import coopnetclient.Settings;
+import coopnetclient.modules.Settings;
 import coopnetclient.modules.SoundPlayer;
 import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.modules.renderers.RoomStatusListCellRenderer;
@@ -118,8 +118,8 @@ public class RoomPanel extends javax.swing.JPanel {
     }
 
     public void customCodeForColorizer() {
-        if (coopnetclient.Settings.getColorizeText()) {
-            tp_chatInput.setForeground(coopnetclient.Settings.getUserMessageColor());
+        if (coopnetclient.modules.Settings.getColorizeText()) {
+            tp_chatInput.setForeground(coopnetclient.modules.Settings.getUserMessageColor());
         }
 
         //Fix color of current/next input
@@ -130,8 +130,8 @@ public class RoomPanel extends javax.swing.JPanel {
             tp_chatInput.setText("");
         }
 
-        if (coopnetclient.Settings.getColorizeBody()) {
-            tp_chatOutput.setBackground(coopnetclient.Settings.getBackgroundColor());
+        if (coopnetclient.modules.Settings.getColorizeBody()) {
+            tp_chatOutput.setBackground(coopnetclient.modules.Settings.getBackgroundColor());
         }
     }
 

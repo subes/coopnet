@@ -1,5 +1,6 @@
 package coopnetclient;
 
+import coopnetclient.modules.Settings;
 import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.RoomPanel;
 import coopnetclient.launchers.Launcher;

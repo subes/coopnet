@@ -22,7 +22,7 @@ package coopnetclient.launchers.handlers;
 import coopnetclient.launchers.*;
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.Settings;
+import coopnetclient.modules.Settings;
 import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.io.BufferedReader;

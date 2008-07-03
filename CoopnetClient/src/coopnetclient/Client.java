@@ -19,6 +19,7 @@
 
 package coopnetclient;
 
+import coopnetclient.modules.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.launchers.LinuxLauncher;
 import coopnetclient.launchers.Launcher;

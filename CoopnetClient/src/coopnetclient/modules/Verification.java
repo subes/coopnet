@@ -17,8 +17,9 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient;
+package coopnetclient.modules;
 
+import coopnetclient.*;
 import javax.swing.JOptionPane;
 
 public class Verification {

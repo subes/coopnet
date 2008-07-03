@@ -19,7 +19,7 @@
 
 package coopnetclient.modules.renderers;
 
-import coopnetclient.Settings;
+import coopnetclient.modules.Settings;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;

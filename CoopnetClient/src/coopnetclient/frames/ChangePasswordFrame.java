@@ -21,8 +21,8 @@ package coopnetclient.frames;
 
 import coopnetclient.Client;
 import coopnetclient.Protocol;
-import coopnetclient.Settings;
-import coopnetclient.Verification;
+import coopnetclient.modules.Settings;
+import coopnetclient.modules.Verification;
 import javax.swing.JOptionPane;
 
 public class ChangePasswordFrame extends javax.swing.JFrame {

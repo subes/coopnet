@@ -19,6 +19,8 @@
 
 package coopnetclient;
 
+import coopnetclient.modules.Verification;
+import coopnetclient.modules.Settings;
 import coopnetclient.modules.SoundPlayer;
 import coopnetclient.modules.FrameIconFlasher;
 import coopnetclient.frames.EditProfileFrame;

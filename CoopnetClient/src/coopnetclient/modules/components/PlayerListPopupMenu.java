@@ -124,7 +124,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
                     if (returnVal == FileChooser.SELECT_ACTION) {
                         inputfile = mfc.getSelectedFile();
                         if (inputfile != null) {
-                            Client.send(Protocol.Sendfile(subject, inputfile.getName(), inputfile.length() + "" , coopnetclient.Settings.getFiletTansferPort()+""), null);
+                            Client.send(Protocol.Sendfile(subject, inputfile.getName(), inputfile.length() + "" , coopnetclient.modules.Settings.getFiletTansferPort()+""), null);
                             Globals.clientFrame.addTransferTab_Send(subject, inputfile);
                             Globals.lastOpenedDir = inputfile.getParent();
                         }

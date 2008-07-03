@@ -57,80 +57,80 @@ public class ColoredChatHandler {
         if (styleMode == SYSTEM_STYLE) {
             //systemmessage
 
-            if (coopnetclient.Settings.getColorizeText()) {
-                StyleConstants.setForeground(nameStyle, coopnetclient.Settings.getSystemMessageColor());
-                StyleConstants.setForeground(messageStyle, coopnetclient.Settings.getSystemMessageColor());
+            if (coopnetclient.modules.Settings.getColorizeText()) {
+                StyleConstants.setForeground(nameStyle, coopnetclient.modules.Settings.getSystemMessageColor());
+                StyleConstants.setForeground(messageStyle, coopnetclient.modules.Settings.getSystemMessageColor());
             }
 
             StyleConstants.setFontFamily(nameStyle, "monospaced");
-            StyleConstants.setFontSize(nameStyle, coopnetclient.Settings.getNameSize());
+            StyleConstants.setFontSize(nameStyle, coopnetclient.modules.Settings.getNameSize());
 
             StyleConstants.setFontFamily(messageStyle, "monospaced");
-            StyleConstants.setFontSize(messageStyle, coopnetclient.Settings.getMessageSize());
+            StyleConstants.setFontSize(messageStyle, coopnetclient.modules.Settings.getMessageSize());
 
         } else if (styleMode == USER_STYLE) {
             //usermessage
 
-            if (coopnetclient.Settings.getColorizeText()) {
-                if (name.equals(coopnetclient.Settings.getLastLoginName())) {
-                    StyleConstants.setForeground(nameStyle, coopnetclient.Settings.getYourUsernameColor());
+            if (coopnetclient.modules.Settings.getColorizeText()) {
+                if (name.equals(coopnetclient.modules.Settings.getLastLoginName())) {
+                    StyleConstants.setForeground(nameStyle, coopnetclient.modules.Settings.getYourUsernameColor());
                 } else {
-                    StyleConstants.setForeground(nameStyle, coopnetclient.Settings.getOtherUsernamesColor());
+                    StyleConstants.setForeground(nameStyle, coopnetclient.modules.Settings.getOtherUsernamesColor());
                 }
-                StyleConstants.setForeground(messageStyle, coopnetclient.Settings.getUserMessageColor());
+                StyleConstants.setForeground(messageStyle, coopnetclient.modules.Settings.getUserMessageColor());
             }
 
-            StyleConstants.setFontFamily(nameStyle, coopnetclient.Settings.getNameStyle());
-            StyleConstants.setFontSize(nameStyle, coopnetclient.Settings.getNameSize());
+            StyleConstants.setFontFamily(nameStyle, coopnetclient.modules.Settings.getNameStyle());
+            StyleConstants.setFontSize(nameStyle, coopnetclient.modules.Settings.getNameSize());
 
-            StyleConstants.setFontFamily(messageStyle, coopnetclient.Settings.getMessageStyle());
-            StyleConstants.setFontSize(messageStyle, coopnetclient.Settings.getMessageSize());
+            StyleConstants.setFontFamily(messageStyle, coopnetclient.modules.Settings.getMessageStyle());
+            StyleConstants.setFontSize(messageStyle, coopnetclient.modules.Settings.getMessageSize());
 
         } else if (styleMode == PRIVATE_NOTIFICATION_STYLE) {
             //private chat notification
 
-            if (coopnetclient.Settings.getColorizeText()) {
-                StyleConstants.setForeground(nameStyle, coopnetclient.Settings.getWhisperMessageColor());
-                StyleConstants.setForeground(messageStyle, coopnetclient.Settings.getWhisperMessageColor());
+            if (coopnetclient.modules.Settings.getColorizeText()) {
+                StyleConstants.setForeground(nameStyle, coopnetclient.modules.Settings.getWhisperMessageColor());
+                StyleConstants.setForeground(messageStyle, coopnetclient.modules.Settings.getWhisperMessageColor());
             }
 
-            StyleConstants.setFontFamily(nameStyle, coopnetclient.Settings.getNameStyle());
-            StyleConstants.setFontSize(nameStyle, coopnetclient.Settings.getNameSize());
+            StyleConstants.setFontFamily(nameStyle, coopnetclient.modules.Settings.getNameStyle());
+            StyleConstants.setFontSize(nameStyle, coopnetclient.modules.Settings.getNameSize());
 
-            StyleConstants.setFontFamily(messageStyle, coopnetclient.Settings.getMessageStyle());
-            StyleConstants.setFontSize(messageStyle, coopnetclient.Settings.getMessageSize());
+            StyleConstants.setFontFamily(messageStyle, coopnetclient.modules.Settings.getMessageStyle());
+            StyleConstants.setFontSize(messageStyle, coopnetclient.modules.Settings.getMessageSize());
 
         } else if (styleMode == PRIVATE_STYLE) {
             //usermessage
 
-            if (coopnetclient.Settings.getColorizeText()) {
-                if (name.equals(coopnetclient.Settings.getLastLoginName())) {
-                    StyleConstants.setForeground(nameStyle, coopnetclient.Settings.getYourUsernameColor());
+            if (coopnetclient.modules.Settings.getColorizeText()) {
+                if (name.equals(coopnetclient.modules.Settings.getLastLoginName())) {
+                    StyleConstants.setForeground(nameStyle, coopnetclient.modules.Settings.getYourUsernameColor());
                 } else {
-                    StyleConstants.setForeground(nameStyle, coopnetclient.Settings.getOtherUsernamesColor());
+                    StyleConstants.setForeground(nameStyle, coopnetclient.modules.Settings.getOtherUsernamesColor());
                 }
-                StyleConstants.setForeground(messageStyle, coopnetclient.Settings.getUserMessageColor());
+                StyleConstants.setForeground(messageStyle, coopnetclient.modules.Settings.getUserMessageColor());
             }
 
-            StyleConstants.setFontFamily(nameStyle, coopnetclient.Settings.getNameStyle());
-            StyleConstants.setFontSize(nameStyle, coopnetclient.Settings.getNameSize());
+            StyleConstants.setFontFamily(nameStyle, coopnetclient.modules.Settings.getNameStyle());
+            StyleConstants.setFontSize(nameStyle, coopnetclient.modules.Settings.getNameSize());
 
-            StyleConstants.setFontFamily(messageStyle, coopnetclient.Settings.getMessageStyle());
-            StyleConstants.setFontSize(messageStyle, coopnetclient.Settings.getMessageSize());
+            StyleConstants.setFontFamily(messageStyle, coopnetclient.modules.Settings.getMessageStyle());
+            StyleConstants.setFontSize(messageStyle, coopnetclient.modules.Settings.getMessageSize());
 
         } else {
             //regular
 
-            if (coopnetclient.Settings.getColorizeBody()) {
-                StyleConstants.setForeground(nameStyle, coopnetclient.Settings.getForegroundColor());
-                StyleConstants.setForeground(messageStyle, coopnetclient.Settings.getForegroundColor());
+            if (coopnetclient.modules.Settings.getColorizeBody()) {
+                StyleConstants.setForeground(nameStyle, coopnetclient.modules.Settings.getForegroundColor());
+                StyleConstants.setForeground(messageStyle, coopnetclient.modules.Settings.getForegroundColor());
             }
 
-            StyleConstants.setFontFamily(nameStyle, coopnetclient.Settings.getNameStyle());
-            StyleConstants.setFontSize(nameStyle, coopnetclient.Settings.getNameSize());
+            StyleConstants.setFontFamily(nameStyle, coopnetclient.modules.Settings.getNameStyle());
+            StyleConstants.setFontSize(nameStyle, coopnetclient.modules.Settings.getNameSize());
 
-            StyleConstants.setFontFamily(messageStyle, coopnetclient.Settings.getMessageStyle());
-            StyleConstants.setFontSize(messageStyle, coopnetclient.Settings.getMessageSize());
+            StyleConstants.setFontFamily(messageStyle, coopnetclient.modules.Settings.getMessageStyle());
+            StyleConstants.setFontSize(messageStyle, coopnetclient.modules.Settings.getMessageSize());
 
         }
 
@@ -153,7 +153,7 @@ public class ColoredChatHandler {
             name += " whispers";
         }
 
-        if (name.length() != 0 && coopnetclient.Settings.getTimeStampEnabled() && styleMode != SYSTEM_STYLE) {
+        if (name.length() != 0 && coopnetclient.modules.Settings.getTimeStampEnabled() && styleMode != SYSTEM_STYLE) {
             Date date = new Date();
             SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm:ss");
 

@@ -19,6 +19,7 @@
 
 package coopnetclient;
 
+import coopnetclient.modules.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;

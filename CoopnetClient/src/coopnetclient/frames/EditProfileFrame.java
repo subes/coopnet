@@ -22,8 +22,8 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
-import coopnetclient.Settings;
-import coopnetclient.Verification;
+import coopnetclient.modules.Settings;
+import coopnetclient.modules.Verification;
 
 public class EditProfileFrame extends javax.swing.JFrame {
 

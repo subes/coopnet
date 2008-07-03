@@ -91,7 +91,7 @@ public class WindowsLauncher implements Launcher {
                 stopDPlay();
             }
 
-            jDPlay = new JDPlay(Globals.thisPlayer_inGameName, gameIdentifier, ip, isHost, coopnetclient.Settings.getDebugMode());
+            jDPlay = new JDPlay(Globals.thisPlayer_inGameName, gameIdentifier, ip, isHost, coopnetclient.modules.Settings.getDebugMode());
 
             if (jDPlay.isInitializedProperly()) {
                     isInitialized = true;

@@ -73,7 +73,7 @@ public class HandlerThread extends Thread {
         socketChannel = null;
         try {
             socketChannel = SocketChannel.open();
-            socketChannel.connect(new InetSocketAddress(coopnetclient.Settings.getServerIp(), coopnetclient.Settings.getServerPort()));
+            socketChannel.connect(new InetSocketAddress(coopnetclient.modules.Settings.getServerIp(), coopnetclient.modules.Settings.getServerPort()));
             
             //start sender thread
             sender = new Thread() {
@@ -92,12 +92,12 @@ public class HandlerThread extends Thread {
             sender.start();
 
             //login
-            if (coopnetclient.Settings.getAutoLogin()) {
-                String name = coopnetclient.Settings.getLastLoginName();
-                String passw = coopnetclient.Settings.getLastLoginPassword();
+            if (coopnetclient.modules.Settings.getAutoLogin()) {
+                String name = coopnetclient.modules.Settings.getLastLoginName();
+                String passw = coopnetclient.modules.Settings.getLastLoginPassword();
 
                 Client.send(Protocol.login(name, passw), null);
-                String s = coopnetclient.Settings.getHomeChannel();
+                String s = coopnetclient.modules.Settings.getHomeChannel();
                 if (s.length() > 0) {
                     Client.send(Protocol.JoinChannel(s), null);
                 }

@@ -42,8 +42,8 @@ public class PrivateChatPanel extends javax.swing.JPanel {
     }
 
     public void customCodeForColorizer() {
-        if (coopnetclient.Settings.getColorizeText()) {
-            tp_chatInput.setForeground(coopnetclient.Settings.getUserMessageColor());
+        if (coopnetclient.modules.Settings.getColorizeText()) {
+            tp_chatInput.setForeground(coopnetclient.modules.Settings.getUserMessageColor());
         }
 
         //Fix color of current/next input
@@ -54,8 +54,8 @@ public class PrivateChatPanel extends javax.swing.JPanel {
             tp_chatInput.setText("");
         }
 
-        if (coopnetclient.Settings.getColorizeBody()) {
-            tp_chatOutput.setBackground(coopnetclient.Settings.getBackgroundColor());
+        if (coopnetclient.modules.Settings.getColorizeBody()) {
+            tp_chatOutput.setBackground(coopnetclient.modules.Settings.getBackgroundColor());
         }
     }
 
