@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.launcher;
+package coopnetclient.launchers;
 
 public interface Launcher {
     

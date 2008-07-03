@@ -20,7 +20,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.frames.clientframepanels.*;
-import coopnetclient.frames.*;
+import coopnetclient.utils.gamedatabase.*;
 import coopnetclient.Client;
 import coopnetclient.frames.clientframepanels.ChannelPanel;
 import coopnetclient.frames.clientframepanels.LoginPanel;
@@ -31,7 +31,7 @@ import coopnetclient.Settings;
 import coopnetclient.coloring.ColoredChatHandler;
 import coopnetclient.coloring.RoomStatusListCR;
 import coopnetclient.coloring.TabbedPaneColorCL;
-import coopnetclient.gamedatabase.GameDatabase;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.FavMenuItem;
 import coopnetclient.frames.clientframepanels.BrowserPanel;
 import coopnetclient.frames.clientframepanels.ErrorPanel;

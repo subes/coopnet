@@ -19,10 +19,10 @@
 
 package coopnetclient;
 
-import coopnetclient.gamedatabase.GameDatabase;
-import coopnetclient.launcher.LinuxLauncher;
-import coopnetclient.launcher.Launcher;
-import coopnetclient.launcher.WindowsLauncher;
+import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.launchers.LinuxLauncher;
+import coopnetclient.launchers.Launcher;
+import coopnetclient.launchers.WindowsLauncher;
 import coopnetclient.coloring.Colorizer;
 import coopnetclient.frames.ClientFrame;
 import coopnetclient.frames.clientframepanels.RoomPanel;

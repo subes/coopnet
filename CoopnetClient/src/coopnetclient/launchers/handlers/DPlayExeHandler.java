@@ -17,12 +17,13 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.launcher;
+package coopnetclient.launchers.handlers;
 
+import coopnetclient.launchers.*;
 import coopnetclient.Client;
 import coopnetclient.Settings;
 import coopnetclient.coloring.ColoredChatHandler;
-import coopnetclient.gamedatabase.GameDatabase;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

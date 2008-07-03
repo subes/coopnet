@@ -22,16 +22,16 @@ package coopnetclient.frames.clientframepanels;
 import coopnetclient.Client;
 import coopnetclient.frames.CreateRoomFrame;
 import coopnetclient.frames.RoomJoinPasswordFrame;
-import coopnetclient.modules.ChatInputKL;
-import coopnetclient.modules.RoomPasswordPicTableCR;
-import coopnetclient.modules.UsersInRoomTableCR;
-import coopnetclient.modules.RoomTableModel;
+import coopnetclient.modules.listeners.ChatInputKeyListener;
+import coopnetclient.modules.renderers.RoomPasswordPicTableCellRenderer;
+import coopnetclient.modules.renderers.UsersInRoomTableCellRenderer;
+import coopnetclient.modules.models.RoomTableModel;
 import coopnetclient.modules.PlayerListPopupMenu;
 import coopnetclient.Protocol;
 import coopnetclient.coloring.ChannelStatusListCR;
-import coopnetclient.gamedatabase.GameDatabase;
-import coopnetclient.modules.ChannelStatusListModel;
-import coopnetclient.modules.HyperlinkMouseListener;
+import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.modules.models.ChannelStatusListModel;
+import coopnetclient.modules.listeners.HyperlinkMouseListener;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -70,7 +70,7 @@ public class ChannelPanel extends javax.swing.JPanel {
             rend.setHorizontalAlignment(SwingConstants.CENTER);
         }*/
         
-        RoomPasswordPicTableCR picrend = new RoomPasswordPicTableCR();
+        RoomPasswordPicTableCellRenderer picrend = new RoomPasswordPicTableCellRenderer();
         picrend.setHorizontalAlignment(SwingConstants.CENTER);
         tbl_roomList.setDefaultRenderer(Boolean.class, picrend);
         
@@ -79,11 +79,11 @@ public class ChannelPanel extends javax.swing.JPanel {
         tbl_roomList.setDefaultRenderer(String.class, rend);
         
         TableColumn col = tbl_roomList.getColumnModel().getColumn(3);
-        UsersInRoomTableCR userrend = new UsersInRoomTableCR(rooms);
+        UsersInRoomTableCellRenderer userrend = new UsersInRoomTableCellRenderer(rooms);
         userrend.setHorizontalAlignment(SwingConstants.CENTER);
         col.setCellRenderer(userrend);
 
-        tp_chatInput.addKeyListener(new ChatInputKL(ChatInputKL.CHANNEL_CHAT_MODE, this.name));
+        tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.CHANNEL_CHAT_MODE, this.name));
 
         mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
         lst_userList.setComponentPopupMenu(mypopup);

@@ -17,19 +17,19 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.modules;
+package coopnetclient.modules.renderers;
 
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class RoomPasswordPicTableCR extends DefaultTableCellRenderer{
+public class RoomPasswordPicTableCellRenderer extends DefaultTableCellRenderer{
     
     /**
      * this renders the picture in the room list showing if its public or password protected
      */
     
     /** Creates a new instance of MyPasswordrenderer */
-    public RoomPasswordPicTableCR() {
+    public RoomPasswordPicTableCellRenderer() {
     }
     
     @Override

@@ -21,7 +21,7 @@ package coopnetclient.frames;
 
 import coopnetclient.Client;
 import coopnetclient.Protocol;
-import coopnetclient.gamedatabase.GameDatabase;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Vector;

@@ -20,8 +20,8 @@
 package coopnetclient.frames.clientframepanels;
 
 import coopnetclient.Client;
-import coopnetclient.modules.ChatInputKL;
-import coopnetclient.modules.HyperlinkMouseListener;
+import coopnetclient.modules.listeners.ChatInputKeyListener;
+import coopnetclient.modules.listeners.HyperlinkMouseListener;
 import javax.swing.text.StyledDocument;
 
 public class PrivateChatPanel extends javax.swing.JPanel {
@@ -31,7 +31,7 @@ public class PrivateChatPanel extends javax.swing.JPanel {
         initComponents();
         coopnetclient.coloring.Colorizer.colorize(this);
 
-        tp_chatInput.addKeyListener(new ChatInputKL(2, partner));
+        tp_chatInput.addKeyListener(new ChatInputKeyListener(2, partner));
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
     }
 

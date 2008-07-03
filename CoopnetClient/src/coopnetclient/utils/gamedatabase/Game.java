@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.gamedatabase;
+package coopnetclient.utils.gamedatabase;
 
 import java.util.HashMap;
 import java.util.ArrayList;

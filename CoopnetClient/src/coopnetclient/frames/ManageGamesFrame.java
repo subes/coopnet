@@ -20,10 +20,10 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
-import coopnetclient.gamedatabase.GameDatabase;
-import coopnetclient.launcher.WindowsLauncher;
+import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.launchers.WindowsLauncher;
 import coopnetclient.coloring.Colorizer;
-import coopnetclient.modules.SortedListModel;
+import coopnetclient.modules.models.SortedListModel;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.io.File;
 import javax.swing.JOptionPane;

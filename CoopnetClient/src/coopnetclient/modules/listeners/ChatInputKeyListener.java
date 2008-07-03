@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.modules;
+package coopnetclient.modules.listeners;
 
 import coopnetclient.frames.clientframepanels.PrivateChatPanel;
 import coopnetclient.Client;
@@ -25,7 +25,7 @@ import coopnetclient.Protocol;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class ChatInputKL implements KeyListener {
+public class ChatInputKeyListener implements KeyListener {
 
     public final static int CHANNEL_CHAT_MODE = 0;
     public final static int ROOM_CHAT_MODE = 1;
@@ -40,7 +40,7 @@ public class ChatInputKL implements KeyListener {
      * 1 - room<    br>
      * 2 - private  <br>
      */
-    public ChatInputKL(int mode, String prefix) {
+    public ChatInputKeyListener(int mode, String prefix) {
         this.prefix = prefix; // players name in private chat or channel name
         this.mode = mode;
     }

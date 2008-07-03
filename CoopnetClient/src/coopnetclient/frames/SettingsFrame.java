@@ -21,7 +21,7 @@ package coopnetclient.frames;
 
 import coopnetclient.utils.filechooser.FileChooser;
 import coopnetclient.Client;
-import coopnetclient.gamedatabase.GameDatabase;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.Protocol;
 import coopnetclient.coloring.Colorizer;
 import java.awt.GraphicsEnvironment;

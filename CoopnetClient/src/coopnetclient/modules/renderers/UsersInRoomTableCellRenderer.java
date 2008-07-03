@@ -17,18 +17,19 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.modules;
+package coopnetclient.modules.renderers;
 
+import coopnetclient.modules.models.RoomTableModel;
 import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class UsersInRoomTableCR extends DefaultTableCellRenderer {
+public class UsersInRoomTableCellRenderer extends DefaultTableCellRenderer {
     // This method is called each time a cell in a column
     // using this renderer needs to be rendered.
     RoomTableModel model;
 
-    public UsersInRoomTableCR(RoomTableModel model_) {
+    public UsersInRoomTableCellRenderer(RoomTableModel model_) {
         model = model_;
     }
 

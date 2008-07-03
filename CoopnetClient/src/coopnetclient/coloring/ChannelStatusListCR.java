@@ -20,7 +20,7 @@
 package coopnetclient.coloring;
 
 import coopnetclient.Settings;
-import coopnetclient.modules.ChannelStatusListModel;
+import coopnetclient.modules.models.ChannelStatusListModel;
 import java.awt.Component;
 import java.awt.Font;
 import javax.swing.ImageIcon;

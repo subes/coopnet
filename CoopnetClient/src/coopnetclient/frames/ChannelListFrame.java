@@ -20,9 +20,9 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
-import coopnetclient.gamedatabase.GameDatabase;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.Protocol;
-import coopnetclient.modules.SortedListModel;
+import coopnetclient.modules.models.SortedListModel;
 import java.awt.event.MouseEvent;
 
 public class ChannelListFrame extends javax.swing.JFrame {

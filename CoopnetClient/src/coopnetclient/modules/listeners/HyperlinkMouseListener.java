@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.modules;
+package coopnetclient.modules.listeners;
 
 import java.awt.Point;
 import java.awt.event.MouseAdapter;

@@ -21,7 +21,7 @@ package coopnetclient.frames;
 
 import coopnetclient.Client;
 import coopnetclient.Protocol;
-import coopnetclient.gamedatabase.GameDatabase;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import javax.swing.DefaultComboBoxModel;
 
 public class CreateRoomFrame extends javax.swing.JFrame {

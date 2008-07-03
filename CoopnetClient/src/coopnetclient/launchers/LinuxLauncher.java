@@ -17,101 +17,85 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.launcher;
+package coopnetclient.launchers;
 
+import coopnetclient.launchers.handlers.DPlayExeHandler;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.*;
-import coopnetclient.gamedatabase.GameDatabase;
 import java.io.IOException;
-import coopnetclient.utils.jdplay.JDPlay;
 
-public class WindowsLauncher implements Launcher {
+public class LinuxLauncher implements Launcher {
 
-    private JDPlay jDPlay = null;
     private boolean isInitialized = false;
     private boolean isHost;
     private int launchMethod;
     private String ip;
     private String gameIdentifier;
+    private String modName;
     private boolean compatible;
-    private boolean compatibleForced;
     private int maxPlayers;
     private String gameMode;
     private String map;
-    private String modName;
     private int timeLimit = 0;
     private int port;
-    private int bots =0;
+    private int bots = 0;
     private int goalScore = 0;
-
-    public WindowsLauncher() {
-    }
+    private DPlayExeHandler dplay;
 
     @Override
-    public void initialize(String gameIdentifier,String modname, boolean isHost, String ip, boolean compatible, int maxPlayers) {
+    public void initialize(String gameIdentifier, String modname, boolean isHost, String ip, boolean compatible, int maxPlayers) {
         if (ip != null && ip.startsWith("/")) {
             ip = ip.substring(1);
         }
+        this.modName = modname;
+
         this.ip = ip;
-               
-        this.maxPlayers = maxPlayers==0?99:maxPlayers;
+        this.port = GameDatabase.getDefPort(gameIdentifier, modname);
+        this.maxPlayers = maxPlayers == 0 ? 99 : maxPlayers;
         this.compatible = compatible;
-        this.launchMethod = GameDatabase.getLaunchMethod(gameIdentifier,modname);
+        this.launchMethod = GameDatabase.getLaunchMethod(gameIdentifier, modname);
         this.isHost = isHost;
-        this.modName= modname;
-		
+        this.gameIdentifier = gameIdentifier;
+
         switch (launchMethod) {
-            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY: {
-                compatibleForced = false;
-                this.gameIdentifier = GameDatabase.getGuid(gameIdentifier,modname);
+            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY:
+                this.compatible = true;
+            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY:
                 initDPlay();
                 break;
-            }
-            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY: {
-                compatibleForced = true;
-                this.gameIdentifier = GameDatabase.getGuid(gameIdentifier,modname);
-                initDPlay();
-                break;
-            }
-            case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING: {
-                this.gameIdentifier = gameIdentifier;
-                this.port = GameDatabase.getDefPort(gameIdentifier,modname); 
+            case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING:
                 isInitialized = true;
                 if (!isHost) {
                     Client.currentRoomPanel.enableButtons();
                 }
-            }
         }
         //call it here to NOT remember settings
         Client.currentRoomPanel.showSettings();
     }
 
     private void initDPlay() {
-        try {
-            if (isInitialized) {
-                stopDPlay();
-            }
+        if (isInitialized) {
+            stopDPlay();
+        }
 
-            jDPlay = new JDPlay(Client.thisPlayer_inGameName, gameIdentifier, ip, isHost, coopnetclient.Settings.getDebugMode());
+        dplay = new DPlayExeHandler(gameIdentifier, modName, isHost, ip, compatible);
 
-            if (jDPlay.isInitializedProperly()) {
-                    isInitialized = true;
-                    jDPlay.setMaxSearchRetries(MAX_RETRIES);
-                    Client.currentRoomPanel.enableButtons();
-            } else {
-                    jDPlay.delete();
-                    Client.clientFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error!", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+        if (dplay.isInitialized) {
+            isInitialized = true;
+            if (Client.currentRoomPanel != null) { //May be null if user closes room too fast
+                Client.currentRoomPanel.enableButtons();
             }
-        } catch (UnsatisfiedLinkError e) {
-            Client.clientFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error, you miss the JDPlay dll.", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+        } else {
+            stopDPlay();
+            Client.clientFrame.printToVisibleChatbox("SYSTEM",
+                    "DirectPlay error!", 
+                    coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
         }
     }
 
     private boolean launchDPlay() {
-        if(compatible || compatibleForced){
-            return jDPlay.launch(true);
-        }else{
-            return jDPlay.launch(false);
-        }
+        dplay.launch();
+        return true;
     }
 
     private boolean launchParam(String gamename) {
@@ -122,14 +106,13 @@ public class WindowsLauncher implements Launcher {
         }
         callerstring += " ";
         if (this.isHost) {
-            callerstring += GameDatabase.getHostPattern(gamename,modName);
+            callerstring += GameDatabase.getHostPattern(gamename, modName);
         } else {
-            callerstring += GameDatabase.getJoinPattern(gamename,modName);
+            callerstring += GameDatabase.getJoinPattern(gamename, modName);
         }
         //insert data into pattern
         callerstring = callerstring.replace("{HOSTIP}", ip);
         callerstring = callerstring.replace("{NAME}", Client.thisPlayer_inGameName);
-
         callerstring = callerstring.replace("{MAXPLAYERS}", maxPlayers + "");
         if (map != null) {
             callerstring = callerstring.replace("{MAP}", map);
@@ -138,13 +121,10 @@ public class WindowsLauncher implements Launcher {
             callerstring = callerstring.replace("{GAMEMODE}", gameMode);
         }
         callerstring = callerstring.replace("{PORT}", port + "");
-        
         callerstring = callerstring.replace("{BOTS}", bots + "");
-        
         callerstring = callerstring.replace("{GOALSCORE}", goalScore + "");
-
         callerstring = callerstring.replace("{TIMELIMIT}", timeLimit + "");
-        //other fields to parse?
+        //other fields to parse?        
 
         System.out.println(callerstring);
 
@@ -164,38 +144,33 @@ public class WindowsLauncher implements Launcher {
     }
 
     public void stopDPlay() {
-        if (jDPlay != null) {
-            jDPlay.delete();
-            isInitialized = false;
+        if (dplay != null) {
+            dplay.stopDPlay();
         }
     }
 
     @Override
     public void setIngameName(String name) {
-        jDPlay.setPlayerName(name);
+        dplay.setPlayerName(name);
     }
 
     @Override
     public boolean launch() {
-
+        boolean launched = false;
         switch (launchMethod) {
-            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY: 
-            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY: 
-                if (isInitialized) {
-                    return launchDPlay();
-                }
+            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY:
+            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY:
+                launched = launchDPlay();
                 break;
-            case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING: 
-                return launchParam(gameIdentifier);
+            case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING:
+                launched = launchParam(gameIdentifier);
         }
-        return false;
+        return launched;
     }
 
     @Override
     public void stop() {
-        if (isInitialized) {
-            stopDPlay();
-        }
+        stopDPlay();
     }
 
     @Override
@@ -240,43 +215,30 @@ public class WindowsLauncher implements Launcher {
 
     @Override
     public String getFullMapPath(String gamename) {
-        String tmp = getLaunchPathWithExe(gamename);
+        String tmp = GameDatabase.getLocalInstallPath(gamename);
         if (tmp == null || tmp.length() == 0) {
             return null;
         }
-        String relativeexepath = GameDatabase.getRelativeExePath(gamename,modName);
-        String mappath=  GameDatabase.getMapPath(gamename,modName);
-        tmp = tmp.replace(relativeexepath,mappath);
+        String relativemappath = GameDatabase.getMapPath(gamename, modName);
+        relativemappath = relativemappath.replace('\\', '/');
+        if (!tmp.endsWith("/")) {
+            tmp += "/";
+        }
+        tmp = tmp + relativemappath;
         return tmp;
     }
 
     private String getLaunchPathWithExe(String gamename) {
-        String path = "";
-        //read registry TODO
-        path = GameDatabase.readRegistry(GameDatabase.getRegEntry(gamename,modName));
-
-        //if its not detected try loading from local paths(given by user)
-        if (path == null || (path != null && path.length() == 0)) {
-            String tmp = GameDatabase.getLocalExecutablePath(gamename);
-            if (tmp != null) {
-                path = tmp;
-            }
-        }
-        // make sure ret points to the exe
-        if (path != null && path.length() > 0 && !path.endsWith(".exe")) {
-            String tmp = GameDatabase.getRelativeExePath(gamename,modName);
-            if (tmp != null) {
-                path = path + tmp;
-            }
-        }
+        //user should be able to give the correct executable , no checking
+        String path = GameDatabase.getLocalExecutablePath(gamename);
         return path;
     }
 
     @Override
     public boolean isLaunchable(String gamename) {
         String test = null;
-
-        if (GameDatabase.getLaunchMethod(gamename,modName) == GameDatabase.LAUNCHMETHOD_DIRECTPLAY || GameDatabase.getLaunchMethod(gamename,modName) == GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY) {
+        if (GameDatabase.getLaunchMethod(gamename, modName) == GameDatabase.LAUNCHMETHOD_DIRECTPLAY 
+                || GameDatabase.getLaunchMethod(gamename, modName) == GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY) {
             return true;
         }
         test = getLaunchPathWithExe(gamename);
@@ -289,19 +251,12 @@ public class WindowsLauncher implements Launcher {
 
     @Override
     public String getExecutablePath(String gamename) {
-        return getLaunchPathWithExe(gamename);
+        return GameDatabase.getLocalExecutablePath(gamename);
     }
 
     @Override
     public String getInstallPath(String gamename) {
-        String exepath = getLaunchPathWithExe(gamename);
-        String relativexepath = GameDatabase.getRelativeExePath(gamename,modName);
-
-        if (exepath != null && exepath.length() > 0 && relativexepath != null) {
-            return exepath.substring(0, exepath.length() - relativexepath.length());
-        } else {
-            return "";
-        }
+        return GameDatabase.getLocalInstallPath(gamename);
     }
 
     @Override
@@ -310,18 +265,18 @@ public class WindowsLauncher implements Launcher {
     }
 
     @Override
-    public void setMod(String newmod) {
-        modName= newmod;
+      public void setMod(String newmod) {
+        modName = newmod;
     }
 
     @Override
-    public int getBots() {
+  public int getBots() {
         return bots;
     }
 
     @Override
     public void setBots(int bots) {
-        this.bots=bots;
+        this.bots = bots;
     }
 
     @Override
@@ -331,6 +286,6 @@ public class WindowsLauncher implements Launcher {
 
     @Override
     public void setGoalScore(int score) {
-        goalScore= score;
+        goalScore = score;
     }
 }

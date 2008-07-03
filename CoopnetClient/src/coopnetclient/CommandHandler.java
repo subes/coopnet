@@ -19,11 +19,12 @@
 
 package coopnetclient;
 
+import coopnetclient.modules.SoundPlayer;
 import coopnetclient.coloring.FrameIconFlasher;
 import coopnetclient.frames.EditProfileFrame;
 import coopnetclient.frames.ShowProfileFrame;
 import coopnetclient.coloring.RoomStatusListCR;
-import coopnetclient.gamedatabase.GameDatabase;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.FileDownloader;
 import javax.swing.JOptionPane;
 

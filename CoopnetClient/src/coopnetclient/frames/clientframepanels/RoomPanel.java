@@ -21,16 +21,16 @@ package coopnetclient.frames.clientframepanels;
 
 import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.Client;
-import coopnetclient.modules.ChatInputKL;
+import coopnetclient.modules.listeners.ChatInputKeyListener;
 import coopnetclient.modules.PlayerListPopupMenu;
-import coopnetclient.modules.SortedListModel;
+import coopnetclient.modules.models.SortedListModel;
 import coopnetclient.Protocol;
 import coopnetclient.Settings;
-import coopnetclient.SoundPlayer;
+import coopnetclient.modules.SoundPlayer;
 import coopnetclient.coloring.ColoredChatHandler;
 import coopnetclient.coloring.RoomStatusListCR;
-import coopnetclient.gamedatabase.GameDatabase;
-import coopnetclient.modules.HyperlinkMouseListener;
+import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.modules.listeners.HyperlinkMouseListener;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import javax.swing.SwingUtilities;
@@ -74,7 +74,7 @@ public class RoomPanel extends javax.swing.JPanel {
         lst_userList.setComponentPopupMenu(mypopup);
         lst_userList.setCellRenderer(new RoomStatusListCR());
 
-        tp_chatInput.addKeyListener(new ChatInputKL(ChatInputKL.ROOM_CHAT_MODE, channel));
+        tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.ROOM_CHAT_MODE, channel));
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
 
         if (!isHost) {
