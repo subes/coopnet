@@ -156,6 +156,7 @@ public class FileTransferRecieve extends javax.swing.JPanel {
                             Client.send(Protocol.turnTransferAround(sender,filename), null);
                             Thread.sleep(500);
                             startDownloading2();
+                            return;
                         }
                     }
                     Socket socket = serverSocket.accept();
