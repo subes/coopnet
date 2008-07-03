@@ -34,7 +34,7 @@ public class RoomJoinPasswordFrame extends javax.swing.JFrame {
         this.host_name = host_name;
         this.channel=channel;
         
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
         setLocationRelativeTo(null);
     }
 

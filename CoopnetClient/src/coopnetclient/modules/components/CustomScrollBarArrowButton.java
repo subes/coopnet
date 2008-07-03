@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.coloring;
+package coopnetclient.modules.components;
 
 import javax.swing.BorderFactory;
 import javax.swing.plaf.basic.BasicArrowButton;
@@ -26,11 +26,11 @@ public class CustomScrollBarArrowButton extends BasicArrowButton {
 
     public CustomScrollBarArrowButton(int direction) {
         super(direction,
-                coopnetclient.coloring.Colorizer.getButtonBackgroundColor(),
-                coopnetclient.coloring.Colorizer.getButtonBackgroundColor(),
-                coopnetclient.coloring.Colorizer.getForegroundColor(),
-                coopnetclient.coloring.Colorizer.getButtonBackgroundColor());
+                coopnetclient.modules.Colorizer.getButtonBackgroundColor(),
+                coopnetclient.modules.Colorizer.getButtonBackgroundColor(),
+                coopnetclient.modules.Colorizer.getForegroundColor(),
+                coopnetclient.modules.Colorizer.getButtonBackgroundColor());
 
-        setBorder(BorderFactory.createLineBorder(coopnetclient.coloring.Colorizer.getForegroundColor(), 1));
+        setBorder(BorderFactory.createLineBorder(coopnetclient.modules.Colorizer.getForegroundColor(), 1));
     }
 }

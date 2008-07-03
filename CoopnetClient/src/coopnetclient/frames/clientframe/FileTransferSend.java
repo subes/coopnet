@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.frames.clientframepanels;
+package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
 import coopnetclient.Protocol;
@@ -72,7 +72,7 @@ public class FileTransferSend extends javax.swing.JPanel {
         if (i > 3) {
             lbl_sizeValue.setText("TOO BIG!!! Please cancel!");
         }
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
     }
 
     public String getReciever() {

@@ -17,8 +17,9 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.coloring;
+package coopnetclient.modules.components.ui;
 
+import coopnetclient.modules.components.CustomScrollBarArrowButton;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -28,9 +29,9 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 public class CustomScrollBarUI extends BasicScrollBarUI {
     
-    Color btnbg = coopnetclient.coloring.Colorizer.getButtonBackgroundColor(),
-          bg = coopnetclient.coloring.Colorizer.getTextfieldBackgroundColor(), 
-          fg = coopnetclient.coloring.Colorizer.getForegroundColor();
+    Color btnbg = coopnetclient.modules.Colorizer.getButtonBackgroundColor(),
+          bg = coopnetclient.modules.Colorizer.getTextfieldBackgroundColor(), 
+          fg = coopnetclient.modules.Colorizer.getForegroundColor();
     
 // this draws scroller
     @Override

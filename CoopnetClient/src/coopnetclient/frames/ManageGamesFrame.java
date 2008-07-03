@@ -22,7 +22,7 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.launchers.WindowsLauncher;
-import coopnetclient.coloring.Colorizer;
+import coopnetclient.modules.Colorizer;
 import coopnetclient.modules.models.SortedListModel;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.io.File;

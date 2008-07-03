@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.frames.clientframepanels;
+package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
 import coopnetclient.Protocol;
@@ -31,7 +31,7 @@ public class LoginPanel extends javax.swing.JPanel {
         initComponents();
         tf_name.setText(coopnetclient.Settings.getLastLoginName());
         cb_autoLogin.setSelected(coopnetclient.Settings.getAutoLogin());
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
     }
 
     @Override

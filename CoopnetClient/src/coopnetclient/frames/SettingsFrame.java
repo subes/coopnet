@@ -23,10 +23,10 @@ import coopnetclient.utils.filechooser.FileChooser;
 import coopnetclient.Client;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.Protocol;
-import coopnetclient.coloring.Colorizer;
+import coopnetclient.modules.Colorizer;
 import java.awt.GraphicsEnvironment;
 import javax.swing.JOptionPane;
-import coopnetclient.coloring.ColorChooserButtonAL;
+import coopnetclient.modules.listeners.ColorChooserButtonActionListener;
 import java.io.File;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -37,7 +37,7 @@ public class SettingsFrame extends javax.swing.JFrame {
     public SettingsFrame() {
         initComponents();
         cmb_homeChannel.insertItemAt("", 0);
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
         setLocationRelativeTo(null);
 
         //FILL IN FIELDS
@@ -84,14 +84,14 @@ public class SettingsFrame extends javax.swing.JFrame {
         
         //add action listener to color buttons
         colorizeColorButtons();
-        btn_background.addActionListener(new ColorChooserButtonAL(btn_background));
-        btn_foreground.addActionListener(new ColorChooserButtonAL(btn_foreground));
-        btn_yourUsername.addActionListener(new ColorChooserButtonAL(btn_yourUsername));
-        btn_otherUsernames.addActionListener(new ColorChooserButtonAL(btn_otherUsernames));
-        btn_systemMessages.addActionListener(new ColorChooserButtonAL(btn_systemMessages));
-        btn_whisperMessages.addActionListener(new ColorChooserButtonAL(btn_whisperMessages));
-        btn_userMessages.addActionListener(new ColorChooserButtonAL(btn_userMessages));
-        btn_selection.addActionListener(new ColorChooserButtonAL(btn_selection));
+        btn_background.addActionListener(new ColorChooserButtonActionListener(btn_background));
+        btn_foreground.addActionListener(new ColorChooserButtonActionListener(btn_foreground));
+        btn_yourUsername.addActionListener(new ColorChooserButtonActionListener(btn_yourUsername));
+        btn_otherUsernames.addActionListener(new ColorChooserButtonActionListener(btn_otherUsernames));
+        btn_systemMessages.addActionListener(new ColorChooserButtonActionListener(btn_systemMessages));
+        btn_whisperMessages.addActionListener(new ColorChooserButtonActionListener(btn_whisperMessages));
+        btn_userMessages.addActionListener(new ColorChooserButtonActionListener(btn_userMessages));
+        btn_selection.addActionListener(new ColorChooserButtonActionListener(btn_selection));
 
         //Toggle buttons corresponding to checkboxes
         toggleItemsOf_cb_NativeStyle();
@@ -841,12 +841,12 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
                 @Override
                 public void run() {
                     Colorizer.initColors();
-                    coopnetclient.coloring.Colorizer.colorize(coopnetclient.Client.clientFrame);
+                    coopnetclient.modules.Colorizer.colorize(coopnetclient.Client.clientFrame);
                     //colorise other open windows too
-                    coopnetclient.coloring.Colorizer.colorize(Client.channelListFrame);
-                    coopnetclient.coloring.Colorizer.colorize(Client.changePasswordFrame);
-                    coopnetclient.coloring.Colorizer.colorize(Client.profileFrame);
-                    coopnetclient.coloring.Colorizer.colorize(Client.gameSettingsFrame);
+                    coopnetclient.modules.Colorizer.colorize(Client.channelListFrame);
+                    coopnetclient.modules.Colorizer.colorize(Client.changePasswordFrame);
+                    coopnetclient.modules.Colorizer.colorize(Client.profileFrame);
+                    coopnetclient.modules.Colorizer.colorize(Client.gameSettingsFrame);
                 //dont color settingsframe cuz it fucks it up
                 }
             });

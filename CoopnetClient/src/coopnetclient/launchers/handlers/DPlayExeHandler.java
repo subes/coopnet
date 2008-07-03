@@ -22,7 +22,7 @@ package coopnetclient.launchers.handlers;
 import coopnetclient.launchers.*;
 import coopnetclient.Client;
 import coopnetclient.Settings;
-import coopnetclient.coloring.ColoredChatHandler;
+import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -82,11 +82,11 @@ public class DPlayExeHandler {
                 }else if(ret == 1){ //ERR init
                     Client.clientFrame.printToVisibleChatbox("SYSTEM",
                             "DirectPlay failed to initialize properly, maybe you miss some dlls?",
-                            coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                            coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
                 }else{ 
                     Client.clientFrame.printToVisibleChatbox("SYSTEM", 
                             "DirectPlay failed to initialize properly, maybe JDPlay_rmt.exe is missing?",
-                            coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                            coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
                 }
             } catch (IOException e) {
                 printCommunicationError(e);

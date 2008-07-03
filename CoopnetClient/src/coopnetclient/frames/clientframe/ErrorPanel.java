@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.frames.clientframepanels;
+package coopnetclient.frames.clientframe;
 
 import coopnetclient.frames.BugReport;
 
@@ -45,7 +45,7 @@ public class ErrorPanel extends javax.swing.JPanel {
         this.exc = e;
         this.trafficLog = coopnetclient.TrafficLogger.getEndOfLog();
         
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
         switch (mode) {
             case 0: {
                 lbl_errortext.setText(unknownerror);

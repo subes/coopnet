@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.frames.clientframepanels;
+package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
 import coopnetclient.frames.CreateRoomFrame;
@@ -26,9 +26,9 @@ import coopnetclient.modules.listeners.ChatInputKeyListener;
 import coopnetclient.modules.renderers.RoomPasswordPicTableCellRenderer;
 import coopnetclient.modules.renderers.UsersInRoomTableCellRenderer;
 import coopnetclient.modules.models.RoomTableModel;
-import coopnetclient.modules.PlayerListPopupMenu;
+import coopnetclient.modules.components.PlayerListPopupMenu;
 import coopnetclient.Protocol;
-import coopnetclient.coloring.ChannelStatusListCR;
+import coopnetclient.modules.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.models.ChannelStatusListModel;
 import coopnetclient.modules.listeners.HyperlinkMouseListener;
@@ -46,14 +46,14 @@ public class ChannelPanel extends javax.swing.JPanel {
     private PlayerListPopupMenu mypopup;
     public String name;
     public boolean isLaunchable = false;
-    private ChannelStatusListCR renderer = new ChannelStatusListCR(users);
+    private ChannelStatusListCellRenderer renderer = new ChannelStatusListCellRenderer(users);
 
     /** Creates new form ChannelPanel */
     public ChannelPanel(String name) {
         this.name = name;
         ID = GameDatabase.IDofGame(name);
         initComponents();
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
 
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
 
@@ -172,7 +172,7 @@ public class ChannelPanel extends javax.swing.JPanel {
     public void mainchat(String name, String message, int modeStyle) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
 
-        coopnetclient.coloring.ColoredChatHandler.addColoredText(name, message, modeStyle, doc, scrl_chatOutput, tp_chatOutput);
+        coopnetclient.modules.ColoredChatHandler.addColoredText(name, message, modeStyle, doc, scrl_chatOutput, tp_chatOutput);
     }
 
     public void removeplayerfromplayerlist(String playername) {

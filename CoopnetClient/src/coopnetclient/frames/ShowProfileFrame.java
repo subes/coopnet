@@ -29,7 +29,7 @@ public class ShowProfileFrame extends javax.swing.JFrame {
         tf_country.setText(_country) ;
         tf_website.setText(_webpage);
         
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
         setLocationRelativeTo(null);
 
     }

@@ -31,7 +31,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     public ChangePasswordFrame() {
         initComponents();
         
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
         setLocationRelativeTo(null);
     }
     

@@ -17,21 +17,21 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.coloring;
+package coopnetclient.modules.listeners;
 
 import java.awt.Color;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class TabbedPaneColorCL implements ChangeListener {
+public class TabbedPaneColorChangeListener implements ChangeListener {
 
     JTabbedPane parent;
     Color unselectedBG;
 
-    public TabbedPaneColorCL(JTabbedPane parent) {
+    public TabbedPaneColorChangeListener(JTabbedPane parent) {
         this.parent = parent;
-        unselectedBG = coopnetclient.coloring.Colorizer.getSelectionColor();
+        unselectedBG = coopnetclient.modules.Colorizer.getSelectionColor();
 
         updateBG();
     }

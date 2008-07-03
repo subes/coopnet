@@ -37,7 +37,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     /** Creates new form GameSettingsPanel */
     public GameSettingsFrame(String gamename,String modname) {
         initComponents();
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
         Client.gameSettingsFrame = this;
         this.gamename = gamename;
         this.modname=modname;

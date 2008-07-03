@@ -17,8 +17,10 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.coloring;
+package coopnetclient.modules;
 
+import coopnetclient.modules.components.ui.CustomScrollBarUI;
+import coopnetclient.modules.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.*;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
@@ -308,7 +310,7 @@ public class Colorizer {
 
                 ChangeListener[] listeners = tp.getChangeListeners();
                 for (ChangeListener cl : listeners) {
-                    if (cl instanceof TabbedPaneColorCL) {
+                    if (cl instanceof TabbedPaneColorChangeListener) {
                         tp.removeChangeListener(cl);
                         if (tp.getTabCount() > 0) {
                             for (int i = 0; i < tp.getTabCount(); i++) {
@@ -318,7 +320,7 @@ public class Colorizer {
                     }
                 }
                 if (bgColor != null) {
-                    tp.addChangeListener(new TabbedPaneColorCL(tp));
+                    tp.addChangeListener(new TabbedPaneColorChangeListener(tp));
                 }
 
             } else if (c instanceof JTextComponent) {

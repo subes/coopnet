@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.coloring;
+package coopnetclient.modules.renderers;
 
 import coopnetclient.Settings;
 import coopnetclient.modules.models.ChannelStatusListModel;
@@ -32,14 +32,14 @@ import javax.swing.UIManager;
 /**
  * Renders the elements in the user list of a room
  */
-public class ChannelStatusListCR extends JLabel implements ListCellRenderer {
+public class ChannelStatusListCellRenderer extends JLabel implements ListCellRenderer {
 
     public static ImageIcon chaticon = new ImageIcon("data/icons/chaticon.gif");
     public static ImageIcon roomicon = new ImageIcon("data/icons/roomicon.gif");
     public static ImageIcon gameicon = new ImageIcon("data/icons/gameicon.gif");
     private ChannelStatusListModel model;
 
-    public ChannelStatusListCR(ChannelStatusListModel model) {
+    public ChannelStatusListCellRenderer(ChannelStatusListModel model) {
         setOpaque(true);
         this.model = model;
     }

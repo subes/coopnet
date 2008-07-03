@@ -20,7 +20,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
-import coopnetclient.coloring.Colorizer;
+import coopnetclient.modules.Colorizer;
 import java.security.Security;
 import java.util.Date;
 import java.util.Properties;

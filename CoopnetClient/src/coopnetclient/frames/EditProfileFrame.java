@@ -72,7 +72,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
         tf_inGameName.setText(ingamename);
         cb_emailIsPublic.setSelected(emailpublicity.equals("true"));
 
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
         setLocationRelativeTo(null);
     }
     

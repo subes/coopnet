@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.coloring;
+package coopnetclient.modules.listeners;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -26,13 +26,13 @@ import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JDialog;
 
-public class ColorChooserButtonAL implements ActionListener {
+public class ColorChooserButtonActionListener implements ActionListener {
 
     JButton parent;
     JDialog dialog;
     JColorChooser chooser;
 
-    public ColorChooserButtonAL(JButton parent) {
+    public ColorChooserButtonActionListener(JButton parent) {
         super();
         this.parent = parent;
 
@@ -66,7 +66,7 @@ public class ColorChooserButtonAL implements ActionListener {
         };
         
         dialog = JColorChooser.createDialog(null, "Pick a color", true, chooser, okListener, cancelListener);
-        coopnetclient.coloring.Colorizer.colorize(dialog);
+        coopnetclient.modules.Colorizer.colorize(dialog);
         chooser.setColor(parent.getForeground());
         
         dialog.setVisible(true);

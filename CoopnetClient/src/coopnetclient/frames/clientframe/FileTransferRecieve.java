@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.frames.clientframepanels;
+package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
 import coopnetclient.Protocol;
@@ -56,7 +56,7 @@ public class FileTransferRecieve extends javax.swing.JPanel {
         lbl_fileValue.setText(filename);
         lbl_senderValue.setText(sender);
         tf_savePath.setText(Settings.getRecieveDestination());
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
 
         int i = 0;
         while (size > 1024) {

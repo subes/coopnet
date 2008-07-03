@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.coloring;
+package coopnetclient.modules.renderers;
 
 import coopnetclient.Settings;
 import java.awt.Color;
@@ -32,12 +32,12 @@ import javax.swing.ListCellRenderer;
 /**
  * Renders the elements in the user list of a room
  */
-public class RoomStatusListCR extends JLabel implements ListCellRenderer {
+public class RoomStatusListCellRenderer extends JLabel implements ListCellRenderer {
 
     public static Vector<String> readylist = new Vector<String>();
     public static Vector<String> playinglist = new Vector<String>();
 
-    public RoomStatusListCR() {
+    public RoomStatusListCellRenderer() {
         setOpaque(true);
     }
 

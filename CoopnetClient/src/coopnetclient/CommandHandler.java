@@ -20,10 +20,10 @@
 package coopnetclient;
 
 import coopnetclient.modules.SoundPlayer;
-import coopnetclient.coloring.FrameIconFlasher;
+import coopnetclient.modules.FrameIconFlasher;
 import coopnetclient.frames.EditProfileFrame;
 import coopnetclient.frames.ShowProfileFrame;
-import coopnetclient.coloring.RoomStatusListCR;
+import coopnetclient.modules.renderers.RoomStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.FileDownloader;
 import javax.swing.JOptionPane;
@@ -125,7 +125,7 @@ public class CommandHandler {
             } else if (input.startsWith("nudge ")) {
                 String tmp = input.substring(6);
                 new FrameIconFlasher(Client.clientFrame, "data/icons/nudge.gif", tmp + " sent you a nudge!");
-                Client.clientFrame.printToVisibleChatbox("SYSTEM", tmp + " sent you a nudge!", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                Client.clientFrame.printToVisibleChatbox("SYSTEM", tmp + " sent you a nudge!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
                 SoundPlayer.playNudgeSound();
             } else if (input.startsWith("error")) {
                 JOptionPane.showMessageDialog(null, input.substring(6), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -160,7 +160,7 @@ public class CommandHandler {
                 if (tmp.length == 1) {
                     return;
                 }
-                Client.clientFrame.mainChat(currentchannel, tmp[0], tmp[1], coopnetclient.coloring.ColoredChatHandler.USER_STYLE);
+                Client.clientFrame.mainChat(currentchannel, tmp[0], tmp[1], coopnetclient.modules.ColoredChatHandler.USER_STYLE);
                 if (Client.sleepMode) {
                     Client.clientFrame.setSleepMode(false);
                     Client.sleepMode = false;
@@ -173,14 +173,14 @@ public class CommandHandler {
             //prints message to the room-chat
             if (input.startsWith("room ")) {
                 String[] tmp = input.substring(5).split(Protocol.INFORMATION_DELIMITER);
-                Client.currentRoomPanel.chat(tmp[0], tmp[1], coopnetclient.coloring.ColoredChatHandler.USER_STYLE);
+                Client.currentRoomPanel.chat(tmp[0], tmp[1], coopnetclient.modules.ColoredChatHandler.USER_STYLE);
             } else 
             //the server accepted the join request, must create a new room tab now in client mode
             if (input.startsWith("join ")) {
                 String[] tmp = input.substring(5).split(Protocol.INFORMATION_DELIMITER); // join, ip,compatibility,hamachiip, maxplayers, modindex
                 Client.clientFrame.joinRoom(tmp[1], currentchannel, tmp[5], tmp[2].equals("true"), GameDatabase.getGuid(currentchannel, null), tmp[3], new Integer(tmp[4]));
-                RoomStatusListCR.readylist.clear();
-                RoomStatusListCR.playinglist.clear();
+                RoomStatusListCellRenderer.readylist.clear();
+                RoomStatusListCellRenderer.playinglist.clear();
             } else 
             //the server accepted the room creation request, must create a new room tab in server mode
             if (input.startsWith("create ")) {
@@ -189,14 +189,14 @@ public class CommandHandler {
                 int maxplayers = Integer.valueOf(tmp[2]);
                 String modindex = tmp[3];
                 Client.clientFrame.createRoom(currentchannel, modindex, compatible, maxplayers);
-                RoomStatusListCR.readylist.clear();
-                RoomStatusListCR.playinglist.clear();
+                RoomStatusListCellRenderer.readylist.clear();
+                RoomStatusListCellRenderer.playinglist.clear();
             } else 
             //server accepted leave request, must delete room tab
             if (input.startsWith("leave")) {
                 Client.clientFrame.leave();
-                RoomStatusListCR.readylist.clear();
-                RoomStatusListCR.playinglist.clear();
+                RoomStatusListCellRenderer.readylist.clear();
+                RoomStatusListCellRenderer.playinglist.clear();
             } else 
             //the owner of the room closed it, must remove from room list
             if (input.startsWith("removeroom")) {
@@ -204,18 +204,18 @@ public class CommandHandler {
             } else             
             //the currently joined room was closed, must delete room tab
             if (input.startsWith("close")) {
-                RoomStatusListCR.readylist.clear();
-                RoomStatusListCR.playinglist.clear();
+                RoomStatusListCellRenderer.readylist.clear();
+                RoomStatusListCellRenderer.playinglist.clear();
                 Client.clientFrame.closeRoom(currentchannel, input.substring(6));
-                Client.clientFrame.mainChat(currentchannel, "SYSTEM", "The Room has been closed!", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                Client.clientFrame.mainChat(currentchannel, "SYSTEM", "The Room has been closed!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
 
             } else 
             //been kicked of the current room, must delete room tab
             if (input.startsWith("kicked")) {
-                RoomStatusListCR.readylist.clear();
-                RoomStatusListCR.playinglist.clear();
+                RoomStatusListCellRenderer.readylist.clear();
+                RoomStatusListCellRenderer.playinglist.clear();
                 Client.clientFrame.leave();
-                Client.clientFrame.mainChat(currentchannel, "SYSTEM", "You have been kicked by the host!", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                Client.clientFrame.mainChat(currentchannel, "SYSTEM", "You have been kicked by the host!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             } else 
             //add a player to the rooms player list
             if (input.startsWith("addmember ")) {
@@ -223,8 +223,8 @@ public class CommandHandler {
             } else 
             // remove a player from the rooms player list
             if (input.startsWith("removemember")) {
-                RoomStatusListCR.readylist.remove(input.substring(13));
-                RoomStatusListCR.playinglist.remove(input.substring(13));
+                RoomStatusListCellRenderer.readylist.remove(input.substring(13));
+                RoomStatusListCellRenderer.playinglist.remove(input.substring(13));
                 Client.currentRoomPanel.removemember(input.substring(13));
             } else 
             //add a new room to the room list
@@ -248,27 +248,27 @@ public class CommandHandler {
             } else 
             //print a message from the server
             if (input.startsWith("echo ")) {
-                Client.clientFrame.printToVisibleChatbox("SYSTEM", input.substring(5), coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                Client.clientFrame.printToVisibleChatbox("SYSTEM", input.substring(5), coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             } else 
             //set players(name in parameter) ready status to not ready
             if (input.startsWith("unready ")) {
-                RoomStatusListCR.unReadyPlayer(input.substring(8));
+                RoomStatusListCellRenderer.unReadyPlayer(input.substring(8));
                 Client.clientFrame.repaint();
             } else 
             //set players(name in parameter) ready status to ready
             if (input.startsWith("ready ")) {
-                RoomStatusListCR.readyPlayer(input.substring(6));
+                RoomStatusListCellRenderer.readyPlayer(input.substring(6));
                 Client.clientFrame.repaint();
             } else 
             //set players(name in parameter) status to playing
             if (input.startsWith("playing ")) {
-                RoomStatusListCR.setPlaying(input.substring(8));
+                RoomStatusListCellRenderer.setPlaying(input.substring(8));
                 Client.clientFrame.repaint();
             } else 
             //set the players(name in parameter) status to not playing
             if (input.startsWith("gameclosed ")) {
                 if (Client.currentRoomPanel != null) {
-                    RoomStatusListCR.gameClosed(input.substring(11));
+                    RoomStatusListCellRenderer.gameClosed(input.substring(11));
                 }
                 Client.clientFrame.gameClosed(currentchannel, input.substring(11));
                 Client.clientFrame.repaint();
@@ -283,12 +283,12 @@ public class CommandHandler {
             //confirmation message from the server. the password was changed succesfully
             if (input.startsWith("passwordchanged")) {
                 Client.changePasswordFrame.setVisible(false);
-                Client.clientFrame.printToVisibleChatbox("SYSTEM", "Password changed!", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                Client.clientFrame.printToVisibleChatbox("SYSTEM", "Password changed!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             } else 
             //confirmation message from the server. the name was changed successfully(if changed)
             if (input.startsWith("profilesaved")) {
                 Client.profileFrame.setVisible(false);
-                Client.clientFrame.printToVisibleChatbox("SYSTEM", "Profile saved!", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                Client.clientFrame.printToVisibleChatbox("SYSTEM", "Profile saved!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             } else 
             //show the profile-editing window with the data in parameters
             if (input.startsWith("editprofile")) {
@@ -332,14 +332,14 @@ public class CommandHandler {
             //a player changed its name, msut update in player list and room list
             if (input.startsWith("updatename ")) {
                 String[] tmp = input.substring(11).split(Protocol.INFORMATION_DELIMITER);      // 0 oldname 1 new name
-                Client.clientFrame.mainChat(currentchannel, "SYSTEM", tmp[0] + " is now known as " + tmp[1], coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                Client.clientFrame.mainChat(currentchannel, "SYSTEM", tmp[0] + " is now known as " + tmp[1], coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
                 Client.clientFrame.updateName(currentchannel, tmp[0], tmp[1]);
 
                 Client.clientFrame.repaint();
             } else if (input.startsWith("SendingFile")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1sender  2file 3size 4 ip 5 port
                 Client.clientFrame.addTransferTab_Recieve(tmp[1], tmp[3], tmp[2],tmp[4],tmp[5]);
-                Client.clientFrame.printToVisibleChatbox("SYSTEM", tmp[1] + " wants to send you a file!", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                Client.clientFrame.printToVisibleChatbox("SYSTEM", tmp[1] + " wants to send you a file!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             } else if (input.startsWith("AcceptedFile")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//0command 1reciever  2filename 3 ip 4 port
                 Client.clientFrame.startSending(tmp[3], tmp[1], tmp[2], tmp[4]);

@@ -17,26 +17,25 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.frames;
+package coopnetclient.frames.clientframe;
 
-import coopnetclient.frames.clientframepanels.*;
-import coopnetclient.utils.gamedatabase.*;
+import coopnetclient.frames.*;
 import coopnetclient.Client;
-import coopnetclient.frames.clientframepanels.ChannelPanel;
-import coopnetclient.frames.clientframepanels.LoginPanel;
-import coopnetclient.frames.clientframepanels.PrivateChatPanel;
-import coopnetclient.frames.clientframepanels.RoomPanel;
+import coopnetclient.frames.clientframe.ChannelPanel;
+import coopnetclient.frames.clientframe.LoginPanel;
+import coopnetclient.frames.clientframe.PrivateChatPanel;
+import coopnetclient.frames.clientframe.RoomPanel;
 import coopnetclient.Protocol;
 import coopnetclient.Settings;
-import coopnetclient.coloring.ColoredChatHandler;
-import coopnetclient.coloring.RoomStatusListCR;
-import coopnetclient.coloring.TabbedPaneColorCL;
+import coopnetclient.modules.ColoredChatHandler;
+import coopnetclient.modules.renderers.RoomStatusListCellRenderer;
+import coopnetclient.modules.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.modules.FavMenuItem;
-import coopnetclient.frames.clientframepanels.BrowserPanel;
-import coopnetclient.frames.clientframepanels.ErrorPanel;
-import coopnetclient.frames.clientframepanels.FileTransferRecieve;
-import coopnetclient.frames.clientframepanels.FileTransferSend;
+import coopnetclient.modules.components.FavMenuItem;
+import coopnetclient.frames.clientframe.BrowserPanel;
+import coopnetclient.frames.clientframe.ErrorPanel;
+import coopnetclient.frames.clientframe.FileTransferRecieve;
+import coopnetclient.frames.clientframe.FileTransferSend;
 import java.awt.Component;
 import java.io.File;
 import java.util.Vector;
@@ -59,7 +58,7 @@ public class ClientFrame extends javax.swing.JFrame {
 
         refreshFavourites();
 
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
 
         //load the size from options
         int width = coopnetclient.Settings.getMainFrameWidth();
@@ -349,8 +348,8 @@ public class ClientFrame extends javax.swing.JFrame {
             if (Settings.getColorizeBody()) {
                 ChangeListener[] listeners = tabpn_tabs.getChangeListeners();
                 for (int i = 0; i < listeners.length; i++) {
-                    if (listeners[i] instanceof TabbedPaneColorCL) {
-                        TabbedPaneColorCL cl = (TabbedPaneColorCL) listeners[i];
+                    if (listeners[i] instanceof TabbedPaneColorChangeListener) {
+                        TabbedPaneColorChangeListener cl = (TabbedPaneColorChangeListener) listeners[i];
                         cl.updateBG();
                         break;
                     }
@@ -361,7 +360,7 @@ public class ClientFrame extends javax.swing.JFrame {
         }
         privatechat.append(sender, message);
         if (!privatechat.isVisible()) {
-            printToVisibleChatbox(sender, message, coopnetclient.coloring.ColoredChatHandler.PRIVATE_NOTIFICATION_STYLE);
+            printToVisibleChatbox(sender, message, coopnetclient.modules.ColoredChatHandler.PRIVATE_NOTIFICATION_STYLE);
         }
     }
 
@@ -391,7 +390,7 @@ public class ClientFrame extends javax.swing.JFrame {
         //update name in the room tab
         if (Client.currentRoomPanel != null && Client.currentRoomPanel.channel.equals(channel)) {
             Client.currentRoomPanel.updatename(oldname, newname);
-            RoomStatusListCR.updateName(oldname, newname);
+            RoomStatusListCellRenderer.updateName(oldname, newname);
         }
         //update the pm tab title too
         int index = tabpn_tabs.indexOfTab(oldname);

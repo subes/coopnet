@@ -89,7 +89,7 @@ public class LinuxLauncher implements Launcher {
             stopDPlay();
             Client.clientFrame.printToVisibleChatbox("SYSTEM",
                     "DirectPlay error!", 
-                    coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                    coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
         }
     }
 

@@ -17,18 +17,18 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.frames.clientframepanels;
+package coopnetclient.frames.clientframe;
 
 import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.Client;
 import coopnetclient.modules.listeners.ChatInputKeyListener;
-import coopnetclient.modules.PlayerListPopupMenu;
+import coopnetclient.modules.components.PlayerListPopupMenu;
 import coopnetclient.modules.models.SortedListModel;
 import coopnetclient.Protocol;
 import coopnetclient.Settings;
 import coopnetclient.modules.SoundPlayer;
-import coopnetclient.coloring.ColoredChatHandler;
-import coopnetclient.coloring.RoomStatusListCR;
+import coopnetclient.modules.ColoredChatHandler;
+import coopnetclient.modules.renderers.RoomStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.listeners.HyperlinkMouseListener;
 import java.awt.event.MouseEvent;
@@ -72,7 +72,7 @@ public class RoomPanel extends javax.swing.JPanel {
             mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
         }
         lst_userList.setComponentPopupMenu(mypopup);
-        lst_userList.setCellRenderer(new RoomStatusListCR());
+        lst_userList.setCellRenderer(new RoomStatusListCellRenderer());
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.ROOM_CHAT_MODE, channel));
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
@@ -81,7 +81,7 @@ public class RoomPanel extends javax.swing.JPanel {
             convertToJoinPanel();
         }
 
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
 
         initLauncher();
 
@@ -160,7 +160,7 @@ public class RoomPanel extends javax.swing.JPanel {
 
     public void chat(String name, String message, int modeStyle) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
-        coopnetclient.coloring.ColoredChatHandler.addColoredText(name, message,
+        coopnetclient.modules.ColoredChatHandler.addColoredText(name, message,
                 modeStyle, doc, scrl_chatOutput, tp_chatOutput);
     }
 
@@ -182,7 +182,7 @@ public class RoomPanel extends javax.swing.JPanel {
 
                 Client.clientFrame.printToVisibleChatbox("SYSTEM", 
                         "Game launching... please wait!", 
-                        coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                        coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
                 //play sound
                 SoundPlayer.playLaunchSound();
 

@@ -99,10 +99,10 @@ public class WindowsLauncher implements Launcher {
                     Client.currentRoomPanel.enableButtons();
             } else {
                     jDPlay.delete();
-                    Client.clientFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error!", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+                    Client.clientFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             }
         } catch (UnsatisfiedLinkError e) {
-            Client.clientFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error, you miss the JDPlay dll.", coopnetclient.coloring.ColoredChatHandler.SYSTEM_STYLE);
+            Client.clientFrame.printToVisibleChatbox("SYSTEM", "DirectPlay error, you miss the JDPlay dll.", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
         }
     }
 

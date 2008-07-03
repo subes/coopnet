@@ -19,7 +19,7 @@
 
 package coopnetclient.modules.listeners;
 
-import coopnetclient.frames.clientframepanels.PrivateChatPanel;
+import coopnetclient.frames.clientframe.PrivateChatPanel;
 import coopnetclient.Client;
 import coopnetclient.Protocol;
 import java.awt.event.*;

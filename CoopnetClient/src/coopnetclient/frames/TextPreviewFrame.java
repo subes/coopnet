@@ -24,7 +24,7 @@ public class TextPreviewFrame extends javax.swing.JFrame {
     /** Creates new form TextPreviewFrame */
     public TextPreviewFrame(String title, String text) {
         initComponents();
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
         
         setTitle(title);
         ta_text.setText(text);

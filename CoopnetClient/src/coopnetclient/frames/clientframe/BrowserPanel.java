@@ -17,10 +17,10 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.frames.clientframepanels;
+package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
-import coopnetclient.coloring.Colorizer;
+import coopnetclient.modules.Colorizer;
 import java.io.IOException;
 
 public class BrowserPanel extends javax.swing.JPanel {

@@ -17,7 +17,7 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.frames.clientframepanels;
+package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
 import coopnetclient.modules.listeners.ChatInputKeyListener;
@@ -29,7 +29,7 @@ public class PrivateChatPanel extends javax.swing.JPanel {
     /** Creates new form PrivateChatPanel */
     public PrivateChatPanel(String partner) {
         initComponents();
-        coopnetclient.coloring.Colorizer.colorize(this);
+        coopnetclient.modules.Colorizer.colorize(this);
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(2, partner));
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
@@ -60,8 +60,8 @@ public class PrivateChatPanel extends javax.swing.JPanel {
 
     public void append(String sender, String message) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
-        coopnetclient.coloring.ColoredChatHandler.addColoredText(sender, 
-                message, coopnetclient.coloring.ColoredChatHandler.PRIVATE_STYLE,
+        coopnetclient.modules.ColoredChatHandler.addColoredText(sender, 
+                message, coopnetclient.modules.ColoredChatHandler.PRIVATE_STYLE,
                 doc, scrl_chatOutput, tp_chatOutput);
     }
 
