@@ -472,6 +472,9 @@ private void tbl_displayKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
         tbl_display.getSelectionModel().setSelectionInterval(displaymodel.getRowCount() - 2, displaymodel.getRowCount() - 1);
         Rectangle rect = tbl_display.getCellRect(displaymodel.getRowCount() - 1, 0, true);
         tbl_display.scrollRectToVisible(rect);
+    }else
+    if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+        btn_up.doClick();
     }
 }//GEN-LAST:event_tbl_displayKeyPressed
 
