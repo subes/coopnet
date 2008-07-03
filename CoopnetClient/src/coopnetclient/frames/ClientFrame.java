@@ -19,11 +19,13 @@
 
 package coopnetclient.frames;
 
+import coopnetclient.frames.clientframepanels.*;
+import coopnetclient.frames.*;
 import coopnetclient.Client;
-import coopnetclient.frames.panels.ChannelPanel;
-import coopnetclient.frames.panels.LoginPanel;
-import coopnetclient.frames.panels.PrivateChatPanel;
-import coopnetclient.frames.panels.RoomPanel;
+import coopnetclient.frames.clientframepanels.ChannelPanel;
+import coopnetclient.frames.clientframepanels.LoginPanel;
+import coopnetclient.frames.clientframepanels.PrivateChatPanel;
+import coopnetclient.frames.clientframepanels.RoomPanel;
 import coopnetclient.Protocol;
 import coopnetclient.Settings;
 import coopnetclient.coloring.ColoredChatHandler;
@@ -31,10 +33,10 @@ import coopnetclient.coloring.RoomStatusListCR;
 import coopnetclient.coloring.TabbedPaneColorCL;
 import coopnetclient.gamedatabase.GameDatabase;
 import coopnetclient.modules.FavMenuItem;
-import coopnetclient.frames.panels.BrowserPanel;
-import coopnetclient.frames.panels.ErrorPanel;
-import coopnetclient.frames.panels.FileTransferRecieve;
-import coopnetclient.frames.panels.FileTransferSend;
+import coopnetclient.frames.clientframepanels.BrowserPanel;
+import coopnetclient.frames.clientframepanels.ErrorPanel;
+import coopnetclient.frames.clientframepanels.FileTransferRecieve;
+import coopnetclient.frames.clientframepanels.FileTransferSend;
 import java.awt.Component;
 import java.io.File;
 import java.util.Vector;

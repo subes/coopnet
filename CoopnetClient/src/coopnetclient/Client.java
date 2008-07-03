@@ -25,7 +25,7 @@ import coopnetclient.launcher.Launcher;
 import coopnetclient.launcher.WindowsLauncher;
 import coopnetclient.coloring.Colorizer;
 import coopnetclient.frames.ClientFrame;
-import coopnetclient.frames.panels.RoomPanel;
+import coopnetclient.frames.clientframepanels.RoomPanel;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
