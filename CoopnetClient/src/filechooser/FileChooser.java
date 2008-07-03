@@ -81,14 +81,14 @@ public class FileChooser extends javax.swing.JFrame {
         openDirectory(currentdir);
         if(!Client.os.equals("linux")){
             addDrives();
-            cb_places.setSelectedItem(currenctdrive);
+            cmb_places.setSelectedItem(currenctdrive);
         }else{
             if(startDir != null && !startDir.getAbsolutePath().equals(System.getenv("HOME"))){
-                cb_places.addItem(startDir);
+                cmb_places.addItem(startDir);
             }
-            cb_places.addItem(System.getenv("HOME"));
-            cb_places.addItem("/");
-            cb_places.setSelectedItem(startDir);
+            cmb_places.addItem(System.getenv("HOME"));
+            cmb_places.addItem("/");
+            cmb_places.setSelectedItem(startDir);
         }
         this.setVisible(true);
         while (ischoosing) {
@@ -109,7 +109,7 @@ public class FileChooser extends javax.swing.JFrame {
         for (File root : File.listRoots()) {
             try {
                 String rootname = root.getCanonicalPath();
-                cb_places.addItem(rootname);
+                cmb_places.addItem(rootname);
             } catch (Exception e) {
             }
         }
@@ -216,7 +216,7 @@ public class FileChooser extends javax.swing.JFrame {
         tbl_display = new javax.swing.JTable();
         btn_select = new javax.swing.JButton();
         btn_cancel = new javax.swing.JButton();
-        cb_places = new javax.swing.JComboBox();
+        cmb_places = new javax.swing.JComboBox();
         lbl_places = new javax.swing.JLabel();
         lbl_currentDir = new javax.swing.JLabel();
         tf_currentDir = new javax.swing.JTextField();
@@ -298,10 +298,14 @@ public class FileChooser extends javax.swing.JFrame {
             }
         });
 
-        cb_places.setFocusable(false);
-        cb_places.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_placesActionPerformed(evt);
+        cmb_places.setFocusable(false);
+        cmb_places.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                cmb_placesPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
             }
         });
 
@@ -340,7 +344,7 @@ public class FileChooser extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(cb_places, 0, 284, Short.MAX_VALUE)
+                                .addComponent(cmb_places, 0, 284, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_up))
                             .addComponent(tf_currentDir, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE))))
@@ -353,7 +357,7 @@ public class FileChooser extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_places)
                     .addComponent(btn_up)
-                    .addComponent(cb_places, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmb_places, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_currentDir)
@@ -469,12 +473,6 @@ private void tbl_displayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
     }
 }//GEN-LAST:event_tbl_displayMouseClicked
 
-private void cb_placesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_placesActionPerformed
-    if (this.isVisible()) {
-        openDirectory(new File(((JComboBox) evt.getSource()).getSelectedItem().toString()));
-    }
-}//GEN-LAST:event_cb_placesActionPerformed
-
 private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
     //set cancel when x was clicked
     if (ischoosing) {
@@ -486,6 +484,13 @@ private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event
 private void cb_showHiddenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_showHiddenActionPerformed
     openDirectory(currentdir);
 }//GEN-LAST:event_cb_showHiddenActionPerformed
+
+private void cmb_placesPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cmb_placesPopupMenuWillBecomeInvisible
+    System.out.println("EVENT");
+    if (this.isVisible()) {
+        openDirectory(new File(((JComboBox) evt.getSource()).getSelectedItem().toString()));
+    }
+}//GEN-LAST:event_cmb_placesPopupMenuWillBecomeInvisible
     /*
     public static void main(String args[]) {
     MyFileChooser mfc =new MyFileChooser(MyFileChooser.ANY_MODE);
@@ -499,8 +504,8 @@ private void cb_showHiddenActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_select;
     private javax.swing.JButton btn_up;
-    private javax.swing.JComboBox cb_places;
     private javax.swing.JCheckBox cb_showHidden;
+    private javax.swing.JComboBox cmb_places;
     private javax.swing.JLabel lbl_currentDir;
     private javax.swing.JLabel lbl_places;
     private javax.swing.JScrollPane scrl_display;

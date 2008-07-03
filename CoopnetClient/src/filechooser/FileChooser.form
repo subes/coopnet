@@ -44,7 +44,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="cb_places" pref="284" max="32767" attributes="0"/>
+                              <Component id="cmb_places" pref="284" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btn_up" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -63,7 +63,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lbl_places" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_up" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cb_places" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cmb_places" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -189,7 +189,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_cancelActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="cb_places">
+    <Component class="javax.swing.JComboBox" name="cmb_places">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
@@ -197,7 +197,7 @@
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cb_placesActionPerformed"/>
+        <EventHandler event="popupMenuWillBecomeInvisible" listener="javax.swing.event.PopupMenuListener" parameters="javax.swing.event.PopupMenuEvent" handler="cmb_placesPopupMenuWillBecomeInvisible"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_places">
