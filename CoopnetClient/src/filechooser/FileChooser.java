@@ -73,23 +73,11 @@ public class FileChooser extends javax.swing.JFrame {
         } catch (Exception e) {
             return CANCEL_ACTION;
         }
-        
-        
-        String currenctdrive = currentdir.getPath().substring(0,
-                currentdir.getPath().indexOf(File.separatorChar)) 
-                + File.separatorChar;
+       
         openDirectory(currentdir);
-        if(!Client.os.equals("linux")){
-            addDrives();
-            cmb_places.setSelectedItem(currenctdrive);
-        }else{
-            if(startDir != null && !startDir.getAbsolutePath().equals(System.getenv("HOME"))){
-                cmb_places.addItem(startDir);
-            }
-            cmb_places.addItem(System.getenv("HOME"));
-            cmb_places.addItem("/");
-            cmb_places.setSelectedItem(startDir);
-        }
+        
+        fillPlacesComboBox();
+        
         this.setVisible(true);
         while (ischoosing) {
             try {
@@ -105,14 +93,32 @@ public class FileChooser extends javax.swing.JFrame {
         return selectedfile;
     }
 
-    private void addDrives() {
-        for (File root : File.listRoots()) {
-            try {
-                String rootname = root.getCanonicalPath();
-                cmb_places.addItem(rootname);
-            } catch (Exception e) {
+    private void fillPlacesComboBox() {
+        cmb_places.addItem("");
+        
+        if(Client.os.equals("linux")){
+            if(currentdir != null && !currentdir.getAbsolutePath().equals(System.getenv("HOME"))){
+                cmb_places.addItem(currentdir);
             }
+            cmb_places.addItem(System.getenv("HOME"));
+        }else{
+            if(currentdir != null && !currentdir.getAbsolutePath().equals(System.getenv("USERPROFILE"))){
+                cmb_places.addItem(currentdir);
+            }
+            cmb_places.addItem(System.getenv("USERPROFILE"));
         }
+        
+        cmb_places.addItem(" - - - - - - - - - - ");
+        
+        for (File root : File.listRoots()) {
+                try {
+                    String rootname = root.getCanonicalPath();
+                    cmb_places.addItem(rootname);
+                } catch (Exception e) {
+                }
+        }
+        
+        cmb_places.setSelectedIndex(0);
     }
 
     private String getFileType(File file) {
@@ -141,7 +147,7 @@ public class FileChooser extends javax.swing.JFrame {
     }
 
     private void openDirectory(File directory) {
-        String prevdir = "..";
+        String prevdir = "";
         TreeSet<File> directories = new TreeSet<File>();
         TreeSet<File> files = new TreeSet<File>();
         //stores where we were when going up
@@ -166,6 +172,10 @@ public class FileChooser extends javax.swing.JFrame {
             }
             currentdir = directory;
             displaymodel.clear();
+            
+            //Add current directory
+            displaymodel.addNewFile(".", "", 0, "", false);
+            
             if (directory.getParent() != null) {
                 btn_up.setEnabled(true);
                 displaymodel.addNewFile("..", "", 0, "", false);
@@ -197,7 +207,11 @@ public class FileChooser extends javax.swing.JFrame {
                 Rectangle rect = tbl_display.getCellRect(0, 0, true);
                 tbl_display.scrollRectToVisible(rect);
             }
+        } catch(NullPointerException e){
+            //Invalid dir
+            displaymodel.clear();
         } catch (Exception e) {//ignore errors
+            e.printStackTrace();
             return;
         }
     }
@@ -385,12 +399,17 @@ private void btn_selectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         String filename = displaymodel.getSelectedFile();
         
         //dont select if its the . or .. that was selected
-        if(filename.equals("..") || filename.equals(".")){
+        if(filename.equals("..")){
             return;
         }
         
         //create selected file
-        selectedfile = new File(currentdir.getCanonicalPath() + File.separatorChar + filename);
+        if(filename.equals(".")){
+            selectedfile = currentdir;
+        }else{
+            selectedfile = new File(currentdir.getCanonicalPath() + File.separatorChar + filename);
+        }
+        
         //chose action
         switch (choosemode) {
             case DIRECTORIES_ONLY_MODE: {
@@ -459,16 +478,20 @@ private void tbl_displayKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
 private void tbl_displayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_displayMouseClicked
     if (evt.getClickCount() == 2 && evt.getButton() == evt.BUTTON1) {
         String filename = displaymodel.getSelectedFile();
-
-        File file = new File(currentdir.getPath() + File.separatorChar + filename);
-        //System.out.println("File selected:" + file);
-        if (file.isDirectory()) {//open directory
-            openDirectory(file);
-        } else {//file was selected            
-            selectedfile = file;
-            chooseresult = SELECT_ACTION;
-            ischoosing = false;
-            this.setVisible(false);
+        
+        if(filename != null){
+            File file = new File(currentdir.getPath() + File.separatorChar + filename);
+            //System.out.println("File selected:" + file);
+            if (file.isDirectory()) {//open directory
+                openDirectory(file);
+            } else {//file was selected   
+                if(!(filename.equals(".") || filename.equals(".."))){
+                    selectedfile = file;
+                    chooseresult = SELECT_ACTION;
+                    ischoosing = false;
+                    this.setVisible(false);
+                }
+            }
         }
     }
 }//GEN-LAST:event_tbl_displayMouseClicked
@@ -486,9 +509,15 @@ private void cb_showHiddenActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 }//GEN-LAST:event_cb_showHiddenActionPerformed
 
 private void cmb_placesPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cmb_placesPopupMenuWillBecomeInvisible
-    System.out.println("EVENT");
     if (this.isVisible()) {
-        openDirectory(new File(((JComboBox) evt.getSource()).getSelectedItem().toString()));
+        JComboBox source = (JComboBox) evt.getSource();
+        
+        //Ignore the first ("") and fourth (" - - - - - - ") entry
+        if(source.getSelectedIndex() != 0 && source.getSelectedIndex() != 3){
+            openDirectory(new File(source.getSelectedItem().toString()));
+        }
+        
+        source.setSelectedIndex(0);
     }
 }//GEN-LAST:event_cmb_placesPopupMenuWillBecomeInvisible
     /*

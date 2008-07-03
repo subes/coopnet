@@ -47,7 +47,7 @@ class FileChooserTableCellRenderer extends DefaultTableCellRenderer {
         if (vColIndex == 0) {
             boolean isHidden = ((FileChooserTableModel)table.getModel()).fileIsHidden(rowIndex);
             
-            if(value.equals("..") ||table.getModel().getValueAt(rowIndex, vColIndex+1).equals("dir")){
+            if(value.equals("..") || value.equals(".") ||table.getModel().getValueAt(rowIndex, vColIndex+1).equals("dir")){
                 if(isHidden){
                     setIcon(dirIconHidden);
                 }else{
