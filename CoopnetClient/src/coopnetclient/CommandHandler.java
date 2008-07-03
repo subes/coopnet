@@ -348,7 +348,7 @@ public class CommandHandler {
                 Client.mainFrame.cancelledTransfer(tmp[1], tmp[2]);
             } else
                 //turn around transfer connection direction
-                if (input.startsWith("TurnAround ")) {
+                if (input.startsWith("TurnAround")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1sender  2filename
                 Client.mainFrame.TurnAroundTransfer(tmp[1], tmp[2]);
             }

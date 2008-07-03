@@ -159,7 +159,7 @@ public class Protocol {
     }
 
     public static String turnTransferAround(String username,String filename) {
-        return "TurnAround "+username + INFORMATION_DELIMITER + filename ;
+        return "TurnAround"  + INFORMATION_DELIMITER +username + INFORMATION_DELIMITER + filename ;
     }
 
     public static String unban(String playername) {
