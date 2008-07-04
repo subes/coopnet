@@ -28,6 +28,11 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="cmb_places" pref="329" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btn_up" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Component id="scrl_display" alignment="0" pref="380" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btn_select" min="-2" max="-2" attributes="0"/>
@@ -36,21 +41,7 @@
                       <EmptySpace pref="161" max="32767" attributes="0"/>
                       <Component id="cb_showHidden" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lbl_places" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbl_currentDir" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="cmb_places" pref="284" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btn_up" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="tf_currentDir" pref="335" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
+                  <Component id="tf_currentDir" alignment="0" pref="380" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -61,17 +52,13 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lbl_places" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_up" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cmb_places" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lbl_currentDir" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="tf_currentDir" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="tf_currentDir" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="scrl_display" pref="209" max="32767" attributes="0"/>
+              <Component id="scrl_display" pref="212" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btn_select" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -198,17 +185,8 @@
       </Properties>
       <Events>
         <EventHandler event="popupMenuWillBecomeInvisible" listener="javax.swing.event.PopupMenuListener" parameters="javax.swing.event.PopupMenuEvent" handler="cmb_placesPopupMenuWillBecomeInvisible"/>
+        <EventHandler event="popupMenuWillBecomeVisible" listener="javax.swing.event.PopupMenuListener" parameters="javax.swing.event.PopupMenuEvent" handler="cmb_placesPopupMenuWillBecomeVisible"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lbl_places">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Places:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lbl_currentDir">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Current:"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tf_currentDir">
       <Properties>

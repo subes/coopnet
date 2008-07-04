@@ -45,7 +45,7 @@ public class Globals {
         //Detect OS
         if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
             operatingSystem = OS_WINDOWS;
-            lastOpenedDir = ".";
+            lastOpenedDir = System.getenv("USERPROFILE");
         } else {
             operatingSystem = OS_LINUX;
             lastOpenedDir = System.getenv("HOME");
