@@ -46,7 +46,7 @@ public class DPlayExeHandler {
     public DPlayExeHandler(final String gameIdentifier, String modname, boolean isHost, String ip, boolean compatible) {
         //Compile command string
         String execCommand = Settings.getWineCommand() + " lib/JDPlay_rmt.exe" +
-                " --player " + Globals.thisPlayer_inGameName + 
+                " --player " + Globals.getThisPlayer_inGameName() + 
                 " --game " + GameDatabase.getGuid(gameIdentifier,modname);
 
         if (!isHost) {
@@ -56,12 +56,12 @@ public class DPlayExeHandler {
             }
         }
 
-        if (Globals.debug) {
+        if (Globals.getDebug()) {
             execCommand += " --debug ";
         }
 		
         //Print exec string
-        if(Globals.debug){
+        if(Globals.getDebug()){
             System.out.println("[RMT]\t"+execCommand);
         }
         
@@ -80,11 +80,11 @@ public class DPlayExeHandler {
                     isInitialized = true;
                     isReady = true;
                 }else if(ret == 1){ //ERR init
-                    Globals.clientFrame.printToVisibleChatbox("SYSTEM",
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                             "DirectPlay failed to initialize properly, maybe you miss some dlls?",
                             coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
                 }else{ 
-                    Globals.clientFrame.printToVisibleChatbox("SYSTEM", 
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
                             "DirectPlay failed to initialize properly, maybe JDPlay_rmt.exe is missing?",
                             coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
                 }
@@ -104,12 +104,12 @@ public class DPlayExeHandler {
         try {
             do{
                 String ret = in.readLine();
-                if (Globals.debug) {
+                if (Globals.getDebug()) {
                     System.out.println("[RMT]\tIN: " + ret);
                 }
                 
                 if(ret == null){
-                    if(Globals.debug){
+                    if(Globals.getDebug()){
                         System.out.println("[RMT]\tRead null, JDPlay_rmt.exe closed");
                     }
                     return -1;
@@ -129,7 +129,7 @@ public class DPlayExeHandler {
     
     private boolean write(String toWrite){
         try{
-            if (Globals.debug) {
+            if (Globals.getDebug()) {
                 System.out.println("[RMT]\tOUT: "+toWrite);
             }
             out.write(toWrite.getBytes());
@@ -143,11 +143,11 @@ public class DPlayExeHandler {
     
     private void printCommunicationError(Exception e){
         if(e == null){
-            Globals.clientFrame.printToVisibleChatbox("SYSTEM", 
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
                     "DirectPlay communication error.", 
                     ColoredChatHandler.SYSTEM_STYLE);
         }else{
-            Globals.clientFrame.printToVisibleChatbox("SYSTEM", 
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
                     "DirectPlay communication error; "+e.getMessage(),
                     ColoredChatHandler.SYSTEM_STYLE);
         }
@@ -197,7 +197,7 @@ public class DPlayExeHandler {
                     playing = false;
                 }else if(ret == 1){ //ERR launch
                     playing = false;
-                    Globals.clientFrame.printToVisibleChatbox("SYSTEM", 
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
                             "Unable to start the game, maybe you miss some dlls?",
                             ColoredChatHandler.SYSTEM_STYLE);
                     return;
@@ -220,14 +220,14 @@ public class DPlayExeHandler {
 	
     public void stopDPlay() {
         if (playing){
-            if(Globals.debug){
+            if(Globals.getDebug()){
                 System.out.println("[RMT]\twaiting for close");
             }
             waiting_stopDPlay = true;
             waiting_setPlayerName = null;
             waiting_launch = false;
         } else {
-            if(Globals.debug){
+            if(Globals.getDebug()){
                 System.out.println("[RMT]\tclosing");
             }
             isReady = false;

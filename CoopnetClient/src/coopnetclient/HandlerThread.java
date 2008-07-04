@@ -112,14 +112,14 @@ public class HandlerThread extends Thread {
                 if (input == null) {
                     JOptionPane.showMessageDialog(null, "No response from server", "ERROR", JOptionPane.ERROR_MESSAGE);
                 } else if (input.equals("OK_LOGIN")) {
-                    Globals.thisPlayer_loginName = name;
-                    Globals.loggedIn = true;
-                    Globals.clientFrame.removeLoginTab();
+                    Globals.setThisPlayer_loginName(name);
+                    Globals.setUserIsLoggedIn(true);
+                    Globals.getClientFrame().removeLoginTab();
                 } else {
-                    Globals.clientFrame.addLoginTab();
+                    Globals.getClientFrame().addLoginTab();
                 }
             } else {
-                Globals.clientFrame.addLoginTab();
+                Globals.getClientFrame().addLoginTab();
             }
             //READING DATA
             String input = "";
@@ -133,7 +133,7 @@ public class HandlerThread extends Thread {
             System.out.println("handlerthread stopped");
         } catch (Exception e) {
             //disconnect
-            Globals.clientFrame.disconnect();
+            Globals.getClientFrame().disconnect();
             //ErrorHandler decides if there is a need for the stacktrace, 
             //this helps looking at the log of a bugreport
             //handle excptions

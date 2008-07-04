@@ -45,7 +45,7 @@ public class LoginPanel extends javax.swing.JPanel {
             String passw = new String(pf_password.getPassword());
             Client.send(Protocol.login(tf_name.getText(), passw), null);
 
-            Globals.thisPlayer_loginName = tf_name.getText();
+            Globals.setThisPlayer_loginName(tf_name.getText());
             coopnetclient.modules.Settings.setLastLoginName(tf_name.getText());
             coopnetclient.modules.Settings.setAutoLogin(cb_autoLogin.isSelected());
 

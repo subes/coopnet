@@ -58,7 +58,7 @@ public class Settings {
 	private static String settingsFile;
 
     static {
-        if(Globals.os.equals("windows")){
+        if(Globals.getOperatingSystem() == Globals.OS_WINDOWS){
             optionsDir = System.getenv("APPDATA")+"/Coopnet";
         }else{
             optionsDir = System.getenv("HOME")+"/.coopnet";

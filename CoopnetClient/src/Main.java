@@ -33,7 +33,7 @@ public class Main {
     private static void checkArgs(String[] args){
         if(args.length > 0){
             if(args[0].equals("--debug")){
-                Globals.debug = true;
+                Globals.enableDebug();
             }else
             if(args[0].equals("--help")){
                 printHelp();

@@ -61,11 +61,6 @@ public class ChannelListFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Join channel");
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
 
         lbl_filter.setText("Filter:");
 
@@ -110,7 +105,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
+                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jb_joinChannelButton)
                         .addGap(10, 10, 10)
@@ -161,10 +156,6 @@ public class ChannelListFrame extends javax.swing.JFrame {
         this.setVisible(false);
         this.dispose();
 }//GEN-LAST:event_btn_cancelActionPerformed
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Globals.channelListFrame = null;
-    }//GEN-LAST:event_formWindowClosing
 
 private void lst_channelListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_channelListMouseClicked
     if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {

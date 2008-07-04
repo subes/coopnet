@@ -77,15 +77,15 @@ public class ChatInputKeyListener implements KeyListener {
                     Client.send(Protocol.roomChat(command), prefix);
                 } else if (this.mode == PRIVATE_CHAT_MODE) { // private chat
 
-                    int index = Globals.clientFrame.indexOfTab(prefix);
+                    int index = Globals.getClientFrame().indexOfTab(prefix);
 
                     PrivateChatPanel privatechat = null;
                     if (index != -1) {
-                        privatechat = (PrivateChatPanel) Globals.clientFrame.getTabComponentAt(index);
+                        privatechat = (PrivateChatPanel) Globals.getClientFrame().getTabComponentAt(index);
                     }
 
                     if (privatechat != null) {
-                        privatechat.append(Globals.thisPlayer_loginName, command);
+                        privatechat.append(Globals.getThisPlayer_loginName(), command);
                     }
                     Client.send(Protocol.privatechat(command, prefix), null);
                 }

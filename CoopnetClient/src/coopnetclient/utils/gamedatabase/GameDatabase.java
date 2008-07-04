@@ -34,9 +34,21 @@ import java.util.HashMap;
 public class GameDatabase {
 
     public static final String datafilepath = "data/gamedata";
-    static final String lpfilepath = "data/localpaths";    
-
+    private static final String lpfilepath = "data/localpaths";    
+    private static boolean registryOK = false;
+    
     static {
+        try {
+            System.loadLibrary("lib/ICE_JNIRegistry");
+            registryOK = true;
+            Class.forName("com.ice.jni.registry.Registry");
+            Class.forName("com.ice.jni.registry.RegistryKey");
+        } catch (UnsatisfiedLinkError er) {
+            System.out.println("Error while loading external dlls");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        
         IDtoGameName = new HashMap<String, String>();
         localexecutablepath = new HashMap<String, String>();
         localinstallpath = new HashMap<String, String>();
@@ -107,7 +119,7 @@ public class GameDatabase {
     }
 
     public static String readRegistry(String fullpath) {
-        if (Globals.registryOK) {
+        if (registryOK) {
             try {
                 String tmp[] = fullpath.split("\\\\");
                 RegistryKey current = Registry.getTopLevelKey(tmp[0]);

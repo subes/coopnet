@@ -39,7 +39,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     public GameSettingsFrame(String gamename,String modname) {
         initComponents();
         coopnetclient.modules.Colorizer.colorize(this);
-        Globals.gameSettingsFrame = this;
+        Globals.setGameSettingsFrame(this);
         this.gamename = gamename;
         this.modname=modname;
         setLocationRelativeTo(null);
@@ -84,39 +84,39 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             if (field.equals("bots")) {
                 lbl_bots.setVisible(true);
                 spn_bots.setVisible(true);
-                spn_bots.setValue(Globals.launcher.getBots());
+                spn_bots.setValue(Globals.getLauncher().getBots());
                 fieldcount++;
             }
             if (field.equals("goalscore")) {
                 lbl_scoreLimit.setVisible(true);
                 spn_scoreLimit.setVisible(true);
-                spn_scoreLimit.setValue(Globals.launcher.getGoalScore());
+                spn_scoreLimit.setValue(Globals.getLauncher().getGoalScore());
                 fieldcount++;
             }
             if (field.equals("map")) {
                 cb_map.setModel(new DefaultComboBoxModel(loadMaps()));
                 lbl_map.setVisible(true);
                 cb_map.setVisible(true);
-                cb_map.setSelectedItem(Globals.launcher.getMap());
+                cb_map.setSelectedItem(Globals.getLauncher().getMap());
                 fieldcount++;
             }
             if (field.equals("port")) {
                 lbl_port.setVisible(true);
                 tf_port.setVisible(true);
-                tf_port.setText(Globals.launcher.getPort() + "");
+                tf_port.setText(Globals.getLauncher().getPort() + "");
                 fieldcount++;
             }
             if (field.equals("timelimit")) {
                 lbl_timeLimit.setVisible(true);
                 spn_timeLimit.setVisible(true);
-                spn_timeLimit.setValue(Globals.launcher.getTimelimit());
+                spn_timeLimit.setValue(Globals.getLauncher().getTimelimit());
                 fieldcount++;
             }
             if (field.equals("gamemode")) {
                 cb_mode.setModel(new DefaultComboBoxModel(getGameModes()));
                 lbl_mode.setVisible(true);
                 cb_mode.setVisible(true);
-                cb_mode.setSelectedItem(KeyOfValue(Globals.launcher.getGameMode()));
+                cb_mode.setSelectedItem(KeyOfValue(Globals.getLauncher().getGameMode()));
                 fieldcount++;
             }
         //end of field enabling loop
@@ -125,7 +125,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         if(mod != null){
             lbl_mod.setVisible(true);
             tf_mod.setVisible(true);
-            tf_mod.setText(Globals.launcher.getMod());
+            tf_mod.setText(Globals.getLauncher().getMod());
         }*/
     }
 
@@ -147,7 +147,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     private String[] loadMaps() {
         //TODO
         String extension = GameDatabase.getMapExtension(gamename,modname);
-        String path = Globals.launcher.getFullMapPath(gamename);
+        String path = Globals.getLauncher().getFullMapPath(gamename);
         System.out.println("loading maps from: "+path);
         if (path.endsWith("\\") || path.endsWith("/")) {
             path = path.substring(0, path.length() - 1);
@@ -192,11 +192,6 @@ public class GameSettingsFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Game settings");
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
 
         btn_save.setText("Save");
         btn_save.addActionListener(new java.awt.event.ActionListener() {
@@ -297,7 +292,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_save)
-                .addContainerGap(290, Short.MAX_VALUE))
+                .addContainerGap(298, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,35 +306,29 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-    Globals.gameSettingsFrame = null;
-    dispose();
-}//GEN-LAST:event_formWindowClosing
-
 private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
     //update the launcher
     try {
         //if somethings unselected an exception is thrown
         if (cb_mode.isVisible()) {
-            Globals.launcher.setGameMode(gamemodes.get(cb_mode.getSelectedItem().toString()));
+            Globals.getLauncher().setGameMode(gamemodes.get(cb_mode.getSelectedItem().toString()));
         }
         if (cb_map.isVisible()) {
-            Globals.launcher.setMap(cb_map.getSelectedItem().toString());
+            Globals.getLauncher().setMap(cb_map.getSelectedItem().toString());
         }
         if (tf_port.isVisible()) {
-            Globals.launcher.setPort(new Integer(tf_port.getText()));
+            Globals.getLauncher().setPort(new Integer(tf_port.getText()));
         }
         if (spn_timeLimit.isVisible()) {
-            Globals.launcher.setTimelimit((Integer)spn_timeLimit.getValue());
+            Globals.getLauncher().setTimelimit((Integer)spn_timeLimit.getValue());
         }        
         if (spn_bots.isVisible()) {
-            Globals.launcher.setBots((Integer)spn_bots.getValue());
+            Globals.getLauncher().setBots((Integer)spn_bots.getValue());
         }
         if (spn_scoreLimit.isVisible()) {
-            Globals.launcher.setGoalScore((Integer)spn_scoreLimit.getValue());
+            Globals.getLauncher().setGoalScore((Integer)spn_scoreLimit.getValue());
         }
-        Globals.currentRoomPanel.enableButtons();
-        Globals.gameSettingsFrame = null;
+        Globals.getCurrentRoomPanel().enableButtons();
         Client.send(Protocol.SendPort(new Integer(tf_port.getText())), null);
         this.setVisible(false);
         dispose();

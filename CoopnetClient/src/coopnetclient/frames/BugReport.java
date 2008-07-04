@@ -336,7 +336,7 @@ public class BugReport extends javax.swing.JFrame {
                         "Your bugreport was sent successfully,\nthank you for your help!",
                         "Success", JOptionPane.PLAIN_MESSAGE);
                 
-                Globals.clientFrame.removeAllTabs();
+                Globals.getClientFrame().removeAllTabs();
                 this.setVisible(false);
                 this.dispose();
             }

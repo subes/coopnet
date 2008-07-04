@@ -28,7 +28,6 @@ import coopnetclient.frames.clientframe.ClientFrame;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
-import java.util.Vector;
 import javax.swing.SwingUtilities;
 
 /**
@@ -51,7 +50,7 @@ public class Client {
             handlerThread.addToOutQueue(command); 
         }
         TrafficLogger.append("OUT: " + command);
-        if (Globals.debug) {
+        if (Globals.getDebug()) {
             System.out.println("[T]\tOUT: " + command);
         }
     }
@@ -81,24 +80,18 @@ public class Client {
      * 
      */
     public static void startup() {
-        if (Globals.os.equals("windows")) {
-            Globals.launcher = new WindowsLauncher();
+        if (Globals.getOperatingSystem() == Globals.OS_WINDOWS) {
+            Globals.setLauncher(new WindowsLauncher());
             //Settings.setWineCommand(""); launcher = new LinuxLauncher(); 
             //launcher = new DummyLauncher(); 
             //LOAD LIBRARIES
             try {
                 System.loadLibrary("lib/JDPlay_jni");
-                System.loadLibrary("lib/ICE_JNIRegistry");
-                Globals.registryOK = true;
-                Class.forName("com.ice.jni.registry.Registry");
-                Class.forName("com.ice.jni.registry.RegistryKey");
             } catch (UnsatisfiedLinkError er) {
                 System.out.println("Error while loading external dlls");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
         } else { //linux stuff
-            Globals.launcher = new LinuxLauncher();
+            Globals.setLauncher(new LinuxLauncher());
         }
         //Load Registry library
         try {
@@ -112,7 +105,7 @@ public class Client {
             @Override
             public void run() {
                 Colorizer.initLAF();
-                Globals.clientFrame = new ClientFrame();
+                Globals.setClientFrame(new ClientFrame());
                 startConnection();
                 
                 try {
@@ -121,7 +114,7 @@ public class Client {
                 }
                 
                 if (Settings.getFirstRun()) {
-                    Globals.clientFrame.addGuideTab();
+                    Globals.getClientFrame().addGuideTab();
                     Settings.setFirstRun(false);
                 }
             }
@@ -134,8 +127,8 @@ public class Client {
     }
 
     public static void stopConnection() {
-        Globals.loggedIn = false;
-        Globals.currentRoomPanel = null;
+        Globals.setUserIsLoggedIn(false);
+        Globals.setCurrentRoomPanel(null);
         if (handlerThread != null) {
             handlerThread.stopThread();
         }

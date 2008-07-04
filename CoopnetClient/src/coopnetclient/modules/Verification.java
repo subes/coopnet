@@ -27,7 +27,7 @@ public class Verification {
     public static boolean verifyClientVersion(String checkAgainst) {
         //Here we have a number scheme x.x.x
         String[] checkAgainstSplit = checkAgainst.split("\\.");
-        String[] clientVersionSplit = Globals.clientVersion.split("\\.");
+        String[] clientVersionSplit = Globals.getClientVersion().split("\\.");
 
         for (int i = 0; i < clientVersionSplit.length; i++) {
             if (Integer.parseInt(clientVersionSplit[i]) < Integer.parseInt(checkAgainstSplit[i])) {

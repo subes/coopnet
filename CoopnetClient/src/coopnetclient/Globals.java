@@ -1,5 +1,8 @@
 package coopnetclient;
 
+import coopnetclient.frames.ChangePasswordFrame;
+import coopnetclient.frames.ChannelListFrame;
+import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.modules.Settings;
 import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.RoomPanel;
@@ -8,34 +11,45 @@ import javax.swing.JFrame;
 
 public class Globals {
 
-    public static boolean debug;
-    public static final String clientVersion = "0.96.1";
-    public static boolean loggedIn = false;
-    public static ClientFrame clientFrame;
-    public static RoomPanel currentRoomPanel;
-    public static JFrame profileFrame = null;
-    public static JFrame changePasswordFrame = null;
-    public static JFrame channelListFrame = null;
-    public static JFrame gameSettingsFrame = null;
-    public static JFrame roomCreationFrame = null;
-    public static String thisPlayer_loginName;
-    public static String thisPlayer_inGameName;
-    public static String os;
-    public static boolean registryOK = false;
-    public static boolean sleepMode = false;
-    public static boolean isPlaying = false;
-    public static Launcher launcher;
-    public static String lastOpenedDir;
+    //Constants
+    public static final int OS_WINDOWS = 0;
+    public static final int OS_LINUX = 1;
+    
+    //Set via static{}
+    private static int operatingSystem;
+    private static String lastOpenedDir;
+    
+    //Preset value
+    private static boolean debug = false;
+    private static final String clientVersion = "0.96.1";
+    private static boolean userIsLoggedIn = false;
+    private static boolean sleepModeStatus = false;
+    private static boolean isPlayingStatus = false;
+    
+    //First set when known
+    private static String thisPlayer_loginName;
+    private static String thisPlayer_inGameName;
+    
+    //Objects
+    private static Launcher launcher;
+    private static ClientFrame clientFrame;
+    private static RoomPanel currentRoomPanel;
+    private static JFrame profileFrame; //TODO frames handle properly
+    private static ChangePasswordFrame changePasswordFrame;
+    private static ChannelListFrame channelListFrame;
+    private static GameSettingsFrame gameSettingsFrame;
+    private static JFrame roomCreationFrame;
+    
     
     static {
         //Detect OS
         if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
             System.out.println("windows detected");
-            os = "windows";
+            operatingSystem = OS_WINDOWS;
             lastOpenedDir = ".";
         } else {
             System.out.println("linux detected");
-            os = "linux";
+            operatingSystem = OS_LINUX;
             lastOpenedDir = System.getenv("HOME");
         }
         
@@ -43,4 +57,134 @@ public class Globals {
         debug = Settings.getDebugMode();
     }
     
+    public static void enableDebug(){
+        debug = true;
+    }
+    
+    public static boolean getDebug(){
+        return debug;
+    }
+    
+    public static String getClientVersion(){
+        return clientVersion;
+    }
+    
+    public static void setUserIsLoggedIn(boolean value){
+        userIsLoggedIn = value;
+    }
+    
+    public static boolean getUserIsLoggedIn(){
+        return userIsLoggedIn;
+    }
+    
+    public static void setThisPlayer_loginName(String value){
+        thisPlayer_loginName = value;
+        //System.out.println("newLoginName: "+value);
+    }
+    
+    public static String getThisPlayer_loginName(){
+        return thisPlayer_loginName;
+    }
+    
+    public static void setThisPlayer_inGameName(String value){
+        thisPlayer_inGameName = value;
+        //System.out.println("newIngameName: "+value);
+    }
+    
+    public static String getThisPlayer_inGameName(){
+        return  thisPlayer_inGameName;
+    }
+    
+    public static int getOperatingSystem(){
+        return operatingSystem;
+    }
+    
+    public static void setSleepModeStatus(boolean value){
+        sleepModeStatus = true;
+        Globals.getClientFrame().updateSleepMode();
+    }
+    
+    public static boolean getSleepModeStatus(){
+        return sleepModeStatus;
+    }
+    
+    public static void setIsPlayingStatus(boolean value){
+        isPlayingStatus = value;
+    }
+    
+    public static boolean getIsPlayingStatus(){
+        return isPlayingStatus;
+    }
+    
+    public static void setLastOpenedDir(String value){
+        lastOpenedDir = value;
+    }
+    
+    public static String getLastOpenedDir(){
+        return lastOpenedDir;
+    }
+    
+    public static void setLauncher(Launcher value){
+        launcher = value;
+    }
+    
+    public static Launcher getLauncher(){
+        return launcher;
+    }
+    
+    public static void setClientFrame(ClientFrame value){
+        clientFrame = value;
+    }
+    
+    public static ClientFrame getClientFrame(){
+        return clientFrame;
+    }
+    
+    public static void setCurrentRoomPanel(RoomPanel value){
+        currentRoomPanel = value;
+    }
+    
+    public static RoomPanel getCurrentRoomPanel(){
+        return currentRoomPanel;
+    }
+    
+    public static void setProfileFrame(JFrame value){
+        profileFrame = value;
+    }
+    
+    public static JFrame getProfileFrame(){
+        return profileFrame;
+    }
+    
+    public static void setChangePasswordFrame(ChangePasswordFrame value){
+        changePasswordFrame = value;
+    }
+    
+    public static ChangePasswordFrame getChangePasswordFrame(){
+        return changePasswordFrame;
+    }
+    
+    public static void setChannelListFrame(ChannelListFrame value){
+        channelListFrame = value;
+    }
+    
+    public static ChannelListFrame getChannelListFrame(){
+        return channelListFrame;
+    }
+    
+    public static void setGameSettingsFrame(GameSettingsFrame value){
+        gameSettingsFrame = value;
+    }
+    
+    public static GameSettingsFrame getGameSettingsFrame(){
+        return gameSettingsFrame;
+    }
+    
+    public static void setRoomCreationFrame(JFrame value){
+        roomCreationFrame = value;
+    }
+    
+    public static JFrame getRoomCreationFrame(){
+        return roomCreationFrame;
+    }
 }

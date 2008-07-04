@@ -65,7 +65,7 @@ public class FileChooser extends javax.swing.JFrame {
             if (startDir != null) {
                 currentdir = new File(startDir);
             } else {
-                if(Globals.os.equals("linux")){
+                if(Globals.getOperatingSystem() == Globals.OS_LINUX){
                     currentdir = new File(System.getenv("HOME"));
                 }else{
                     currentdir = new File(".").getCanonicalFile();
@@ -98,7 +98,7 @@ public class FileChooser extends javax.swing.JFrame {
     private void fillPlacesComboBox() {
         cmb_places.addItem("");
         
-        if(Globals.os.equals("linux")){
+        if(Globals.getOperatingSystem() == Globals.OS_LINUX){
             if(currentdir != null && !currentdir.getAbsolutePath().equals(System.getenv("HOME"))){
                 cmb_places.addItem(currentdir);
             }

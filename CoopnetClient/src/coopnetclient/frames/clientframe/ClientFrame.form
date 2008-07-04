@@ -163,7 +163,7 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-      <Connection code="&quot;CoopnetClient &quot;+ Globals.clientVersion" type="code"/>
+      <Connection code="&quot;CoopnetClient &quot;+ Globals.getClientVersion()" type="code"/>
     </Property>
   </Properties>
   <AccessibilityProperties>

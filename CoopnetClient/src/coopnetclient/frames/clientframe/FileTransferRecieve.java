@@ -499,12 +499,12 @@ public class FileTransferRecieve extends javax.swing.JPanel {
 private void btn_refuseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refuseActionPerformed
     if (btn_refuse.getText().equals("Refuse")) {
         Client.send(Protocol.RefuseTransfer(sender, filename), null);
-        Globals.clientFrame.removeTransferTab(sender, filename);
+        Globals.getClientFrame().removeTransferTab(sender, filename);
     } else if (btn_refuse.getText().equals("Cancel")) {
         running = false;
-        Globals.clientFrame.removeTransferTab(sender, filename);
+        Globals.getClientFrame().removeTransferTab(sender, filename);
     } else {
-        Globals.clientFrame.removeTransferTab(sender, filename);
+        Globals.getClientFrame().removeTransferTab(sender, filename);
     }
 }//GEN-LAST:event_btn_refuseActionPerformed
 
@@ -515,7 +515,7 @@ private void btn_browseSavePathActionPerformed(java.awt.event.ActionEvent evt) {
         public void run() {
             File inputfile = null;
             FileChooser fc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
-            int returnVal = fc.choose(Globals.lastOpenedDir);
+            int returnVal = fc.choose(Globals.getLastOpenedDir());
 
             if (returnVal == FileChooser.SELECT_ACTION) {
                 inputfile = fc.getSelectedFile();

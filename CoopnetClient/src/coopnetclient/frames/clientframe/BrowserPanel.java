@@ -80,7 +80,7 @@ public class BrowserPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void btn_closeclose(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeclose
-    Globals.clientFrame.removeGuideTab();
+    Globals.getClientFrame().removeGuideTab();
 }//GEN-LAST:event_btn_closeclose
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_close;

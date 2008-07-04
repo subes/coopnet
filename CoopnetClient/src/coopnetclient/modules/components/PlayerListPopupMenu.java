@@ -104,8 +104,8 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         } else if (command.equals("UnMute")) {
             Client.send(Protocol.unmute(subject), null);
         } else if (command.equals("Whisper")) {
-            Globals.clientFrame.newPrivateChat(subject);
-            Globals.clientFrame.showPMTab(subject);
+            Globals.getClientFrame().newPrivateChat(subject);
+            Globals.getClientFrame().showPMTab(subject);
         } else if (command.equals("Show players profile...")) {
             Client.send(Protocol.requestProfile(subject), null);
         } else if (command.equals("Send nudge")) {
@@ -119,14 +119,14 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
                     File inputfile = null;
 
                     FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
-                    int returnVal = mfc.choose(Globals.lastOpenedDir);
+                    int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
                     if (returnVal == FileChooser.SELECT_ACTION) {
                         inputfile = mfc.getSelectedFile();
                         if (inputfile != null) {
                             Client.send(Protocol.Sendfile(subject, inputfile.getName(), inputfile.length() + "" , coopnetclient.modules.Settings.getFiletTansferPort()+""), null);
-                            Globals.clientFrame.addTransferTab_Send(subject, inputfile);
-                            Globals.lastOpenedDir = inputfile.getParent();
+                            Globals.getClientFrame().addTransferTab_Send(subject, inputfile);
+                            Globals.setLastOpenedDir(inputfile.getParent());
                         }
                     }
                 }

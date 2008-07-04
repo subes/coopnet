@@ -371,9 +371,9 @@ public class FileTransferSend extends javax.swing.JPanel {
         if (btn_cancel.getText().equals("Cancel")) {
             sending = false;
             Client.send(Protocol.CancelTransfer(lbl_recieverValue.getText(), lbl_fileValue.getText()), null);
-            Globals.clientFrame.removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
+            Globals.getClientFrame().removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
         } else {
-            Globals.clientFrame.removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
+            Globals.getClientFrame().removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
         }
 
 }//GEN-LAST:event_btn_cancelActionPerformed
