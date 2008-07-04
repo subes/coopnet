@@ -21,6 +21,7 @@ package coopnetclient.frames.clientframe;
 
 import coopnetclient.frames.*;
 import coopnetclient.Client;
+import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.ChannelPanel;
 import coopnetclient.frames.clientframe.LoginPanel;
@@ -184,8 +185,12 @@ public class ClientFrame extends javax.swing.JFrame {
 
             @Override
             public void run() {
-                tabpn_tabs.addTab("Login", new LoginPanel());
-                mi_profile.setEnabled(false);
+                try{
+                    tabpn_tabs.addTab("Login", new LoginPanel());
+                    mi_profile.setEnabled(false);
+                }catch(Exception e){
+                    ErrorHandler.handleException(e);
+                }
             }
         });
     }
@@ -792,18 +797,22 @@ private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
         @Override
         public void run() {
-            int n = JOptionPane.showConfirmDialog(null, 
-                    "<html>Would you like to update your Coopnet-client now?<br>" +
-                    "(The client will close and update itself)", "Client outdated",
-                    JOptionPane.YES_NO_OPTION);
-            if (n == JOptionPane.YES_OPTION) {
-                try {
-                    Runtime rt = Runtime.getRuntime();
-                    rt.exec("java -jar CoopnetUpdater.jar");
-                    Globals.getClientFrame().quit();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+            try{
+                int n = JOptionPane.showConfirmDialog(null, 
+                        "<html>Would you like to update your Coopnet-client now?<br>" +
+                        "(The client will close and update itself)", "Client outdated",
+                        JOptionPane.YES_NO_OPTION);
+                if (n == JOptionPane.YES_OPTION) {
+                    try {
+                        Runtime rt = Runtime.getRuntime();
+                        rt.exec("java -jar CoopnetUpdater.jar");
+                        Globals.getClientFrame().quit();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
+            }catch(Exception e){
+                ErrorHandler.handleException(e);
             }
         }
     }.start();

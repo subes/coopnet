@@ -21,6 +21,7 @@ package coopnetclient.frames.clientframe;
 
 import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.Client;
+import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.modules.listeners.ChatInputKeyListener;
 import coopnetclient.modules.components.PlayerListPopupMenu;
@@ -100,7 +101,11 @@ public class RoomPanel extends javax.swing.JPanel {
 
             @Override
             public void run() {
-                Globals.getLauncher().initialize(channel, modname, isHost, ip, compatible, maxPlayers);
+                try{
+                    Globals.getLauncher().initialize(channel, modname, isHost, ip, compatible, maxPlayers);
+                }catch(Exception e){
+                    ErrorHandler.handleException(e);
+                }
             }
         }.start();
     }
@@ -200,29 +205,33 @@ public class RoomPanel extends javax.swing.JPanel {
 
             @Override
             public void run() {
-                Globals.setIsPlayingStatus(true);
+                try{
+                    Globals.setIsPlayingStatus(true);
 
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
-                        "Game launching... please wait!", 
-                        coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
-                //play sound
-                SoundPlayer.playLaunchSound();
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
+                            "Game launching... please wait!", 
+                            coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                    //play sound
+                    SoundPlayer.playLaunchSound();
 
-                if (Settings.getSleepEnabled()) {
-                    Globals.setSleepModeStatus(true);
+                    if (Settings.getSleepEnabled()) {
+                        Globals.setSleepModeStatus(true);
+                    }
+
+
+                    String _channel = channel;
+                    boolean launched = Globals.getLauncher().launch();
+
+                    if (!launched) {
+                        Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed to start the game!", ColoredChatHandler.SYSTEM_STYLE);
+                    }
+
+                    Globals.setIsPlayingStatus(false);
+                    Client.send(Protocol.gameClosed(), _channel);
+                    Globals.setSleepModeStatus(false);
+                }catch(Exception e){
+                    ErrorHandler.handleException(e);
                 }
-
-
-                String _channel = channel;
-                boolean launched = Globals.getLauncher().launch();
-
-                if (!launched) {
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed to start the game!", ColoredChatHandler.SYSTEM_STYLE);
-                }
-
-                Globals.setIsPlayingStatus(false);
-                Client.send(Protocol.gameClosed(), _channel);
-                Globals.setSleepModeStatus(false);
             }
         }.start();
     }
@@ -447,8 +456,12 @@ public class RoomPanel extends javax.swing.JPanel {
 
             @Override
             public void run() {
-                Globals.setGameSettingsFrame(new GameSettingsFrame(channel, modname));
-                showSettings();
+                try{
+                    Globals.setGameSettingsFrame(new GameSettingsFrame(channel, modname));
+                    showSettings();
+                }catch(Exception e){
+                    ErrorHandler.handleException(e);
+                }
             }
         });
 }//GEN-LAST:event_btn_gameSettingsActionPerformed

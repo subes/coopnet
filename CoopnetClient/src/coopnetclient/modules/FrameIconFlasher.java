@@ -19,6 +19,7 @@
 
 package coopnetclient.modules;
 
+import coopnetclient.ErrorHandler;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
@@ -47,23 +48,27 @@ public class FrameIconFlasher extends Thread {
 
     @Override
     public void run() {
-        Image prevIcon = parent.getIconImage();
-        String prevTitle = parent.getTitle();
+        try{
+            Image prevIcon = parent.getIconImage();
+            String prevTitle = parent.getTitle();
 
-        while (!parent.isActive()) {
-            parent.setIconImage(flashIcon);
-            parent.setTitle(flashTitle);
-            try {
-                sleep(flashInterval);
-            } catch (InterruptedException ex) {
+            while (!parent.isActive()) {
+                parent.setIconImage(flashIcon);
+                parent.setTitle(flashTitle);
+                try {
+                    sleep(flashInterval);
+                } catch (InterruptedException ex) {
+                }
+                parent.setIconImage(prevIcon);
+                parent.setTitle(prevTitle);
+                try {
+                    sleep(flashInterval);
+                } catch (InterruptedException ex) {
+                }
             }
-            parent.setIconImage(prevIcon);
-            parent.setTitle(prevTitle);
-            try {
-                sleep(flashInterval);
-            } catch (InterruptedException ex) {
-            }
+            FrameIconFlasher.isActive = false;
+        }catch(Exception e){
+            ErrorHandler.handleException(e);
         }
-        FrameIconFlasher.isActive = false;
     }
 }

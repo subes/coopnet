@@ -7,8 +7,6 @@ import coopnetclient.modules.Settings;
 import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.RoomPanel;
 import coopnetclient.launchers.Launcher;
-import coopnetclient.modules.renderers.RoomStatusListCellRenderer;
-import javax.naming.OperationNotSupportedException;
 import javax.swing.JFrame;
 
 public class Globals {
@@ -46,11 +44,9 @@ public class Globals {
     static {
         //Detect OS
         if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
-            System.out.println("windows detected");
             operatingSystem = OS_WINDOWS;
             lastOpenedDir = ".";
         } else {
-            System.out.println("linux detected");
             operatingSystem = OS_LINUX;
             lastOpenedDir = System.getenv("HOME");
         }

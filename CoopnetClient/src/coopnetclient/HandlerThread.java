@@ -29,6 +29,8 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -69,8 +71,8 @@ public class HandlerThread extends Thread {
      */
     @Override
     public void run() {
-        socketChannel = null;
         try {
+            socketChannel = null;
             socketChannel = SocketChannel.open();
             socketChannel.connect(new InetSocketAddress(coopnetclient.modules.Settings.getServerIp(), coopnetclient.modules.Settings.getServerPort()));
             socketChannel.socket().setSendBufferSize(WRITEBUFFER_SIZE);
@@ -79,13 +81,15 @@ public class HandlerThread extends Thread {
 
                 @Override
                 public void run() {
-                    while (running) {
-                        try {
-                            sleep(10);
+                    try{
+                        while (running) {
+                            try {
+                                sleep(10);
+                            } catch (InterruptedException ex) {}
                             doSend();
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
+                    } catch (Exception e) {
+                       ErrorHandler.handleException(e);
                     }
                 }
             };
@@ -133,7 +137,6 @@ public class HandlerThread extends Thread {
             System.out.println("handlerthread stopped");
         } catch (Exception e) {
             //disconnect
-            e.printStackTrace();
             Globals.getClientFrame().disconnect();
             //ErrorHandler decides if there is a need for the stacktrace, 
             //this helps looking at the log of a bugreport

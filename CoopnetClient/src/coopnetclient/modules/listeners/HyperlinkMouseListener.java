@@ -19,6 +19,7 @@
 
 package coopnetclient.modules.listeners;
 
+import coopnetclient.ErrorHandler;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -99,6 +100,7 @@ public class HyperlinkMouseListener extends MouseAdapter {
                         }
                     }
                 } catch (Exception e) {
+                    ErrorHandler.handleException(e);
                 }
             }
         }.start();

@@ -57,7 +57,11 @@ public class SoundPlayer {
             new Thread() {
                 @Override
                 public void run() {
-                    playSound();
+                    try{
+                        playSound();
+                    }catch(Exception e){
+                        ErrorHandler.handleException(e);
+                    }
                 }
             }.start();
         } else {

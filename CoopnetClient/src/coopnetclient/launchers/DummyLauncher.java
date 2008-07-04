@@ -21,7 +21,7 @@ package coopnetclient.launchers;
 
 import coopnetclient.*;
 
-public class DummyLauncher extends Thread implements Launcher {
+public class DummyLauncher implements Launcher {
 
     String gamename;
 
@@ -34,7 +34,7 @@ public class DummyLauncher extends Thread implements Launcher {
     @Override
     public boolean launch() {
         try {
-            sleep(10000);
+            Thread.sleep(10000);
             return true;
         } catch (InterruptedException ex) {
         }
@@ -130,5 +130,9 @@ public class DummyLauncher extends Thread implements Launcher {
 
     @Override
     public void setGoalScore(int score) {
+    }
+
+    @Override
+    public void stop() {
     }
 }

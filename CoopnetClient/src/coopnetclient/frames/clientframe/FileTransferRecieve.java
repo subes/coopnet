@@ -20,6 +20,7 @@
 package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
+import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.modules.Settings;
@@ -513,15 +514,19 @@ private void btn_browseSavePathActionPerformed(java.awt.event.ActionEvent evt) {
 
             @Override
         public void run() {
-            File inputfile = null;
-            FileChooser fc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
-            int returnVal = fc.choose(Globals.getLastOpenedDir());
+            try{
+                File inputfile = null;
+                FileChooser fc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
+                int returnVal = fc.choose(Globals.getLastOpenedDir());
 
-            if (returnVal == FileChooser.SELECT_ACTION) {
-                inputfile = fc.getSelectedFile();
-                if (inputfile != null) {
-                    tf_savePath.setText(inputfile.getPath());
+                if (returnVal == FileChooser.SELECT_ACTION) {
+                    inputfile = fc.getSelectedFile();
+                    if (inputfile != null) {
+                        tf_savePath.setText(inputfile.getPath());
+                    }
                 }
+            }catch(Exception e){
+                ErrorHandler.handleException(e);
             }
         }
     }.start();

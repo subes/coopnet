@@ -64,18 +64,22 @@ public class CommandHandler {
 
                     @Override
                     public void run() {
-                        int n = JOptionPane.showConfirmDialog(null,
-                                "<html>You have an outdated version of the client!<br>" +
-                                "Would you like to update now?<br>(The client will close and update itself)",
-                                "Client outdated", JOptionPane.YES_NO_OPTION);
-                        if (n == JOptionPane.YES_OPTION) {
-                            try {
-                                Runtime rt = Runtime.getRuntime();
-                                rt.exec("java -jar CoopnetUpdater.jar");
-                                Globals.getClientFrame().quit();
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
+                        try{
+                            int n = JOptionPane.showConfirmDialog(null,
+                                    "<html>You have an outdated version of the client!<br>" +
+                                    "Would you like to update now?<br>(The client will close and update itself)",
+                                    "Client outdated", JOptionPane.YES_NO_OPTION);
+                            if (n == JOptionPane.YES_OPTION) {
+                                try {
+                                    Runtime rt = Runtime.getRuntime();
+                                    rt.exec("java -jar CoopnetUpdater.jar");
+                                    Globals.getClientFrame().quit();
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
                             }
+                        }catch(Exception e){
+                            ErrorHandler.handleException(e);
                         }
                     }
                 }.start();
@@ -145,13 +149,17 @@ public class CommandHandler {
 
                         @Override
                         public void run() {
-                            boolean ret = false;
-                            ret = FileDownloader.downloadFile(gameDataUrl, GameDatabase.datafilepath);
-                            if (!ret) {
-                                //give notice to user of failure
-                                JOptionPane.showMessageDialog(null, "You have an outdated version of the gamedata, but couldn't update it!", "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
-                            } else {//succesfull
-                                GameDatabase.load("");
+                            try{
+                                boolean ret = false;
+                                ret = FileDownloader.downloadFile(gameDataUrl, GameDatabase.datafilepath);
+                                if (!ret) {
+                                    //give notice to user of failure
+                                    JOptionPane.showMessageDialog(null, "You have an outdated version of the gamedata, but couldn't update it!", "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
+                                } else {//succesfull
+                                    GameDatabase.load("");
+                                }
+                            }catch(Exception e){
+                                ErrorHandler.handleException(e);
                             }
                         }
                     }.start();

@@ -20,6 +20,7 @@
 package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
+import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.frames.CreateRoomFrame;
 import coopnetclient.frames.RoomJoinPasswordFrame;
@@ -460,11 +461,15 @@ public class ChannelPanel extends javax.swing.JPanel {
 
             @Override
             public void run() {
-                btn_refresh.setEnabled(false);
-                try {
-                    sleep(3000);
-                } catch (InterruptedException ex) {}
-                btn_refresh.setEnabled(true);
+                try{
+                    btn_refresh.setEnabled(false);
+                    try {
+                        sleep(3000);
+                    } catch (InterruptedException ex) {}
+                    btn_refresh.setEnabled(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }.start();
     }//GEN-LAST:event_refresh

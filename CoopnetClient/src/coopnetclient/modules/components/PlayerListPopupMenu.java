@@ -20,6 +20,7 @@
 package coopnetclient.modules.components;
 
 import coopnetclient.Client;
+import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.utils.filechooser.FileChooser;
@@ -116,18 +117,22 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
                 @Override
                 public void run() {
-                    File inputfile = null;
+                    try{
+                        File inputfile = null;
 
-                    FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
-                    int returnVal = mfc.choose(Globals.getLastOpenedDir());
+                        FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
+                        int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
-                    if (returnVal == FileChooser.SELECT_ACTION) {
-                        inputfile = mfc.getSelectedFile();
-                        if (inputfile != null) {
-                            Client.send(Protocol.Sendfile(subject, inputfile.getName(), inputfile.length() + "" , coopnetclient.modules.Settings.getFiletTansferPort()+""), null);
-                            Globals.getClientFrame().addTransferTab_Send(subject, inputfile);
-                            Globals.setLastOpenedDir(inputfile.getParent());
+                        if (returnVal == FileChooser.SELECT_ACTION) {
+                            inputfile = mfc.getSelectedFile();
+                            if (inputfile != null) {
+                                Client.send(Protocol.Sendfile(subject, inputfile.getName(), inputfile.length() + "" , coopnetclient.modules.Settings.getFiletTansferPort()+""), null);
+                                Globals.getClientFrame().addTransferTab_Send(subject, inputfile);
+                                Globals.setLastOpenedDir(inputfile.getParent());
+                            }
                         }
+                    }catch(Exception e){
+                        ErrorHandler.handleException(e);
                     }
                 }
             }.start();

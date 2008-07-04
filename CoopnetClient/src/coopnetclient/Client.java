@@ -104,18 +104,22 @@ public class Client {
 
             @Override
             public void run() {
-                Colorizer.initLAF();
-                Globals.createClientFrame();
-                startConnection();
-                
-                try {
-                    sleep(100);
-                } catch (Exception e) {
-                }
-                
-                if (Settings.getFirstRun()) {
-                    Globals.getClientFrame().addGuideTab();
-                    Settings.setFirstRun(false);
+                try{
+                    Colorizer.initLAF();
+                    Globals.createClientFrame();
+                    startConnection();
+
+                    try {
+                        sleep(100);
+                    } catch (Exception e) {
+                    }
+
+                    if (Settings.getFirstRun()) {
+                        Globals.getClientFrame().addGuideTab();
+                        Settings.setFirstRun(false);
+                    }
+                }catch(Exception e){
+                    ErrorHandler.handleException(e);
                 }
             }
         });

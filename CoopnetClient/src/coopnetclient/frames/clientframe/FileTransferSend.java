@@ -171,7 +171,8 @@ public class FileTransferSend extends javax.swing.JPanel {
                     sending = false;
 
                 } catch (Exception e) {
-                    //set error message
+                    //set error messag
+                    e.printStackTrace();
                     lbl_statusValue.setText("Error: " + e.getLocalizedMessage());
                 }
             }

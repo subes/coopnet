@@ -19,6 +19,7 @@
 
 package coopnetclient.frames;
 
+import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.launchers.WindowsLauncher;
@@ -219,14 +220,17 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
                 @Override
                 public void run() {
-                    FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
-                    int returnVal = mfc.choose(Globals.getLastOpenedDir());
+                    try{
+                        FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
+                        int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
-                    if (returnVal == FileChooser.SELECT_ACTION) {
-                        File file = mfc.getSelectedFile();
-                        tf_path.setText(file.getAbsolutePath());
-                    }//else cancelled
-
+                        if (returnVal == FileChooser.SELECT_ACTION) {
+                            File file = mfc.getSelectedFile();
+                            tf_path.setText(file.getAbsolutePath());
+                        }//else cancelled
+                    }catch(Exception e){
+                        ErrorHandler.handleException(e);
+                    }
                 }
             }.start();
         }
@@ -267,14 +271,17 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
                 @Override
                 public void run() {
-                    FileChooser mfc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
-                    int returnVal = mfc.choose(Globals.getLastOpenedDir());
+                    try{
+                        FileChooser mfc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
+                        int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
-                    if (returnVal == FileChooser.SELECT_ACTION) {
-                        File file = mfc.getSelectedFile();
-                        tf_installPath.setText(file.getAbsolutePath());
-                    }//else cancelled
-
+                        if (returnVal == FileChooser.SELECT_ACTION) {
+                            File file = mfc.getSelectedFile();
+                            tf_installPath.setText(file.getAbsolutePath());
+                        }//else cancelled
+                    }catch(Exception e){
+                        ErrorHandler.handleException(e);
+                    }
                 }
             }.start();
         }
