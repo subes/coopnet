@@ -248,7 +248,6 @@ public class EditProfileFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void changepassword(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changepassword
-// TODO add your handling code here:
         Globals.setChangePasswordFrame(new ChangePasswordFrame());
         Globals.getChangePasswordFrame().setVisible(true);
     }//GEN-LAST:event_changepassword

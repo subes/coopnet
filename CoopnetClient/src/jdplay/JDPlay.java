@@ -17,17 +17,13 @@
     along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package coopnetclient.utils.jdplay;
+package jdplay;
 
 public class JDPlay extends Object {
     
     /*
      *  Don't extend anything of this in Java!
      */
-
-    public JDPlay(String urlToDLL, String playerName, String gameGUID, String hostIP, boolean iamhost, boolean enableDebug) throws Error {
-        implementation = new Long(__c0(playerName, gameGUID, hostIP, iamhost, enableDebug));
-    }
     
     public JDPlay(String playerName, String gameGUID, String hostIP, boolean iamhost, boolean enableDebug) {
         implementation = new Long(__c0(playerName, gameGUID, hostIP, iamhost, enableDebug));

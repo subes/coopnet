@@ -82,10 +82,10 @@ public class CommandHandler {
             }
         }
 
-        if (!Globals.getUserIsLoggedIn()) {
+        if (!Globals.getLoggedInStatus()) {
             if (input.startsWith("OK_LOGIN")) {
                 //logged in, start the client
-                Globals.setUserIsLoggedIn(true);
+                Globals.setLoggedInStatus(true);
                 Globals.getClientFrame().removeLoginTab();
             } else if (input.startsWith("no such user")) {
                 JOptionPane.showMessageDialog(null, "No such user!", "Alert", JOptionPane.ERROR_MESSAGE);
@@ -113,12 +113,12 @@ public class CommandHandler {
 
             if (input.startsWith("setport ")) {
                 int port = new Integer(input.substring(8));
-                if (Globals.getCurrentRoomPanel() != null) {
+                if (Globals.getRoomPanel() != null) {
                     Globals.getLauncher().setPort(port);
                 }
             } else if (input.startsWith("setmod ")) {
                 String mod = input.substring(7);
-                if (Globals.getCurrentRoomPanel() != null) {
+                if (Globals.getRoomPanel() != null) {
                     Globals.getLauncher().setMod(mod);
                 }
             } else if (input.startsWith("joinchannel ")) {
@@ -175,14 +175,12 @@ public class CommandHandler {
             //prints message to the room-chat
             if (input.startsWith("room ")) {
                 String[] tmp = input.substring(5).split(Protocol.INFORMATION_DELIMITER);
-                Globals.getCurrentRoomPanel().chat(tmp[0], tmp[1], coopnetclient.modules.ColoredChatHandler.USER_STYLE);
+                Globals.getRoomPanel().chat(tmp[0], tmp[1], coopnetclient.modules.ColoredChatHandler.USER_STYLE);
             } else 
             //the server accepted the join request, must create a new room tab now in client mode
             if (input.startsWith("join ")) {
                 String[] tmp = input.substring(5).split(Protocol.INFORMATION_DELIMITER); // join, ip,compatibility,hamachiip, maxplayers, modindex
-                Globals.getClientFrame().joinRoom(tmp[1], currentchannel, tmp[5], tmp[2].equals("true"), GameDatabase.getGuid(currentchannel, null), tmp[3], new Integer(tmp[4]));
-                RoomStatusListCellRenderer.readylist.clear();
-                RoomStatusListCellRenderer.playinglist.clear();
+                Globals.createRoomPanel(false, currentchannel, tmp[5], tmp[1], tmp[2].equals("true"), tmp[3], new Integer(tmp[4]));
             } else 
             //the server accepted the room creation request, must create a new room tab in server mode
             if (input.startsWith("create ")) {
@@ -190,15 +188,11 @@ public class CommandHandler {
                 boolean compatible = Boolean.valueOf(tmp[1]);
                 int maxplayers = Integer.valueOf(tmp[2]);
                 String modindex = tmp[3];
-                Globals.getClientFrame().createRoom(currentchannel, modindex, compatible, maxplayers);
-                RoomStatusListCellRenderer.readylist.clear();
-                RoomStatusListCellRenderer.playinglist.clear();
+                Globals.createRoomPanel(true, currentchannel, modindex, "", compatible, "", maxplayers);
             } else 
             //server accepted leave request, must delete room tab
             if (input.startsWith("leave")) {
-                Globals.getClientFrame().leave();
-                RoomStatusListCellRenderer.readylist.clear();
-                RoomStatusListCellRenderer.playinglist.clear();
+                Globals.removeRoomPanel();
             } else 
             //the owner of the room closed it, must remove from room list
             if (input.startsWith("removeroom")) {
@@ -206,28 +200,22 @@ public class CommandHandler {
             } else             
             //the currently joined room was closed, must delete room tab
             if (input.startsWith("close")) {
-                RoomStatusListCellRenderer.readylist.clear();
-                RoomStatusListCellRenderer.playinglist.clear();
-                Globals.getClientFrame().closeRoom(currentchannel, input.substring(6));
+                Globals.removeRoomPanel();
                 Globals.getClientFrame().mainChat(currentchannel, "SYSTEM", "The Room has been closed!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
 
             } else 
             //been kicked of the current room, must delete room tab
             if (input.startsWith("kicked")) {
-                RoomStatusListCellRenderer.readylist.clear();
-                RoomStatusListCellRenderer.playinglist.clear();
-                Globals.getClientFrame().leave();
+                Globals.removeRoomPanel();
                 Globals.getClientFrame().mainChat(currentchannel, "SYSTEM", "You have been kicked by the host!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             } else 
             //add a player to the rooms player list
             if (input.startsWith("addmember ")) {
-                Globals.getCurrentRoomPanel().addmember(input.substring(10));
+                Globals.getRoomPanel().addmember(input.substring(10));
             } else 
             // remove a player from the rooms player list
             if (input.startsWith("removemember")) {
-                RoomStatusListCellRenderer.readylist.remove(input.substring(13));
-                RoomStatusListCellRenderer.playinglist.remove(input.substring(13));
-                Globals.getCurrentRoomPanel().removemember(input.substring(13));
+                Globals.getRoomPanel().removeMember(input.substring(13));
             } else 
             //add a new room to the room list
             if (input.startsWith("addroom")) {
@@ -240,7 +228,6 @@ public class CommandHandler {
             //remove a user from the player list in main window
             if (input.startsWith("logoff")) {
                 Globals.getClientFrame().removeUser(currentchannel, input.substring(7));
-
             } else 
             //show a private message
             if (input.startsWith("private ")) {
@@ -253,30 +240,27 @@ public class CommandHandler {
             } else 
             //set players(name in parameter) ready status to not ready
             if (input.startsWith("unready ")) {
-                RoomStatusListCellRenderer.unReadyPlayer(input.substring(8));
-                Globals.getClientFrame().repaint();
+                Globals.getRoomPanel().unReadyPlayer(input.substring(8));
             } else 
             //set players(name in parameter) ready status to ready
             if (input.startsWith("ready ")) {
-                RoomStatusListCellRenderer.readyPlayer(input.substring(6));
-                Globals.getClientFrame().repaint();
+                Globals.getRoomPanel().readyPlayer(input.substring(6));
             } else 
             //set players(name in parameter) status to playing
             if (input.startsWith("playing ")) {
-                RoomStatusListCellRenderer.setPlaying(input.substring(8));
-                Globals.getClientFrame().repaint();
+                Globals.getRoomPanel().setPlaying(input.substring(8));
             } else 
             //set the players(name in parameter) status to not playing
             if (input.startsWith("gameclosed ")) {
-                if (Globals.getCurrentRoomPanel() != null) {
-                    RoomStatusListCellRenderer.gameClosed(input.substring(11));
+                if (Globals.getRoomPanel() != null) {
+                    Globals.getRoomPanel().gameClosed(input.substring(11));
                 }
                 Globals.getClientFrame().gameClosed(currentchannel, input.substring(11));
                 Globals.getClientFrame().repaint();
             } else 
             //launch the game if not running already
             if (input.startsWith("launch")) {
-                Globals.getCurrentRoomPanel().launch();
+                Globals.getRoomPanel().launch();
             } else if (input.startsWith("setplayingstatus ")) {
                 String host = input.substring(17);
                 Globals.getClientFrame().setPlayingStatus(currentchannel, host);
@@ -326,8 +310,8 @@ public class CommandHandler {
             //set the players in-game name
             if (input.startsWith("gamename ")) {
                 Globals.setThisPlayer_inGameName(input.substring(9));
-                if (Globals.getCurrentRoomPanel() != null) {
-                    Globals.getCurrentRoomPanel().setGameName(input.substring(9));
+                if (Globals.getRoomPanel() != null) {
+                    Globals.getRoomPanel().setGameName(input.substring(9));
                 }
             } else 
             //a player changed its name, msut update in player list and room list

@@ -88,7 +88,7 @@ public class Client {
             try {
                 System.loadLibrary("lib/JDPlay_jni");
             } catch (UnsatisfiedLinkError er) {
-                System.out.println("Error while loading external dlls");
+                er.printStackTrace();
             }
         } else { //linux stuff
             Globals.setLauncher(new LinuxLauncher());
@@ -105,7 +105,7 @@ public class Client {
             @Override
             public void run() {
                 Colorizer.initLAF();
-                Globals.setClientFrame(new ClientFrame());
+                Globals.createClientFrame();
                 startConnection();
                 
                 try {
@@ -127,8 +127,8 @@ public class Client {
     }
 
     public static void stopConnection() {
-        Globals.setUserIsLoggedIn(false);
-        Globals.setCurrentRoomPanel(null);
+        Globals.setLoggedInStatus(false);
+        Globals.removeRoomPanel();
         if (handlerThread != null) {
             handlerThread.stopThread();
         }

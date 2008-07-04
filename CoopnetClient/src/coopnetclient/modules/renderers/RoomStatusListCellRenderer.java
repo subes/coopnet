@@ -19,6 +19,7 @@
 
 package coopnetclient.modules.renderers;
 
+import coopnetclient.Globals;
 import coopnetclient.modules.Settings;
 import java.awt.Color;
 import java.awt.Component;
@@ -34,49 +35,58 @@ import javax.swing.ListCellRenderer;
  */
 public class RoomStatusListCellRenderer extends JLabel implements ListCellRenderer {
 
-    public static Vector<String> readylist = new Vector<String>();
-    public static Vector<String> playinglist = new Vector<String>();
+    private Vector<String> readylist = new Vector<String>();
+    private Vector<String> playinglist = new Vector<String>();
 
     public RoomStatusListCellRenderer() {
         setOpaque(true);
     }
+    
+    public void removePlayer(String playerName){
+        readylist.remove(playerName);
+        playinglist.remove(playerName);
+        Globals.getClientFrame().repaint();
+    }
 
-    public static void updateName(String oldname, String newname) {
-        if (readylist.remove(oldname)) {
-            readylist.add(newname);
-        }
+    public void updateName(String oldname, String newname) {
         if (playinglist.remove(oldname)) {
             playinglist.add(newname);
         }
+        Globals.getClientFrame().repaint();
     }
 
-    public static void setPlaying(String playername) {
+    public void setPlaying(String playername) {
         if (!playinglist.contains(playername)) {
             playinglist.add(playername);
         }
+        Globals.getClientFrame().repaint();
     }
 
-    public static void readyPlayer(String playername) {
+    public void readyPlayer(String playername) {
         if (!readylist.contains(playername)) {
             readylist.add(playername);
         }
+        Globals.getClientFrame().repaint();
     }
 
-    public static void unReadyPlayer(String playername) {
+    public void unReadyPlayer(String playername) {
         readylist.remove(playername);
         playinglist.remove(playername);
+        Globals.getClientFrame().repaint();
     }
 
-    public static void launch() {
+    public void launch() {
         for (String playername : readylist) {
             if (!playinglist.contains(playername)) {
                 playinglist.add(playername);
             }
         }
+        Globals.getClientFrame().repaint();
     }
 
-    public static void gameClosed(String playername) {
+    public void gameClosed(String playername) {
         playinglist.remove(playername);
+        Globals.getClientFrame().repaint();
     }
 
     @Override

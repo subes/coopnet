@@ -66,11 +66,11 @@ public class LinuxLauncher implements Launcher {
             case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING:
                 isInitialized = true;
                 if (!isHost) {
-                    Globals.getCurrentRoomPanel().enableButtons();
+                    Globals.getRoomPanel().enableButtons();
                 }
         }
         //call it here to NOT remember settings
-        Globals.getCurrentRoomPanel().showSettings();
+        Globals.getRoomPanel().showSettings();
     }
 
     private void initDPlay() {
@@ -82,8 +82,8 @@ public class LinuxLauncher implements Launcher {
 
         if (dplay.isInitialized) {
             isInitialized = true;
-            if (Globals.getCurrentRoomPanel() != null) { //May be null if user closes room too fast
-                Globals.getCurrentRoomPanel().enableButtons();
+            if (Globals.getRoomPanel() != null) { //May be null if user closes room too fast
+                Globals.getRoomPanel().enableButtons();
             }
         } else {
             stopDPlay();

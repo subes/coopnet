@@ -49,6 +49,7 @@ public class RoomPanel extends javax.swing.JPanel {
     private String hamachiIp;
     private int maxPlayers;
     private HashMap<String, String> gamesettings = new HashMap<String, String>();
+    private RoomStatusListCellRenderer roomStatusListCR;
 
     public RoomPanel(boolean isHost, String channel, String modindex, String ip, boolean compatible, String hamachiIp, int maxPlayers) {
         this.channel = channel;
@@ -58,14 +59,14 @@ public class RoomPanel extends javax.swing.JPanel {
         this.hamachiIp = hamachiIp;
         this.users = new SortedListModel();
         this.compatible = compatible;
+        
         if (Integer.valueOf(modindex) == -1) {
             this.modname = null;
         } else {
             this.modname = GameDatabase.getGameModNames(channel)[Integer.valueOf(modindex)].toString();
         }
         initComponents();
-
-        Globals.setCurrentRoomPanel(this);
+        
         if (isHost) {
             mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.HOST_MODE, lst_userList);
             cb_useHamachi.setVisible(false);
@@ -73,7 +74,9 @@ public class RoomPanel extends javax.swing.JPanel {
             mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
         }
         lst_userList.setComponentPopupMenu(mypopup);
-        lst_userList.setCellRenderer(new RoomStatusListCellRenderer());
+        
+        roomStatusListCR = new RoomStatusListCellRenderer();
+        lst_userList.setCellRenderer(roomStatusListCR);
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.ROOM_CHAT_MODE, channel));
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
@@ -154,7 +157,8 @@ public class RoomPanel extends javax.swing.JPanel {
         users.add(playername);
     }
 
-    public void removemember(String playername) {
+    public void removeMember(String playername) {
+        roomStatusListCR.readyPlayer(playername);
         users.removeElement(playername);
         lst_userList.repaint();
     }
@@ -165,9 +169,26 @@ public class RoomPanel extends javax.swing.JPanel {
                 modeStyle, doc, scrl_chatOutput, tp_chatOutput);
     }
 
-    public void updatename(String oldname, String newname) {
+    public void updateName(String oldname, String newname) {
+        roomStatusListCR.updateName(oldname, newname);
         users.removeElement(oldname);
         users.add(newname);
+    }
+    
+    public void unReadyPlayer(String playerName){
+        roomStatusListCR.unReadyPlayer(playerName);
+    }
+    
+    public void readyPlayer(String playerName){
+        roomStatusListCR.readyPlayer(playerName);
+    }
+    
+    public void setPlaying(String playerName){
+        roomStatusListCR.setPlaying(playerName);
+    }
+    
+    public void gameClosed(String playerName){
+        roomStatusListCR.gameClosed(playerName);
     }
 
     public void launch() {
@@ -387,7 +408,6 @@ public class RoomPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_clickedbtn_launch
 
     private void clickedbtn_ready(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_ready
-        // TODO add your handling code here:
         Client.send(Protocol.flipReadystatus(), null);
         if (btn_ready.getText().equals("Ready")) {
             btn_ready.setText("Unready");
@@ -409,7 +429,6 @@ public class RoomPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_lst_userListMouseClicked
 
     private void cb_useHamachiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_useHamachiActionPerformed
-        // TODO add your handling code here:
         if (btn_ready.getText().equals("Unready")) {
             btn_ready.doClick();
         }

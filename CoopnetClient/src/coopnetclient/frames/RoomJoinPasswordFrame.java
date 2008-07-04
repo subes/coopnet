@@ -128,7 +128,6 @@ public class RoomJoinPasswordFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void join(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_join
-        // TODO add your handling code here:
         String passw = new String(pf_roomPassword.getPassword());
         if (host_name != null) {
             Client.send(Protocol.joinRoom(host_name, passw),channel);

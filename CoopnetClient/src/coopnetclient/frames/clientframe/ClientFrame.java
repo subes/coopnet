@@ -135,8 +135,7 @@ public class ClientFrame extends javax.swing.JFrame {
     }
 
     public void gameClosed(String channel, String playername) {
-        ChannelPanel cp = getChannel(channel);
-        cp.GameClosed(playername);
+        getChannel(channel).gameClosed(playername);
     }
 
     public void setPlayingStatus(String channel, String player) {
@@ -255,67 +254,37 @@ public class ClientFrame extends javax.swing.JFrame {
         getChannel(channel).adduser(name);
     }
 
-    public void closeRoom(String channel, String hostname) { //close room tab
-
-        Globals.getLauncher().stop();
-        tabpn_tabs.remove(Globals.getCurrentRoomPanel());
-        int index = indexOfTab(Globals.getCurrentRoomPanel().channel);
-        if (index != -1) {
-            tabpn_tabs.setSelectedIndex(index);
-        }
-        Globals.setCurrentRoomPanel(null);
-        for (ChannelPanel cp : channels) {
-            cp.enablebuttons();
-        }
-        this.repaint();
-    }
-
-    public void createRoom(String channel, String modindex, boolean compatible, int maxplayers) {
-        RoomPanel room = new RoomPanel(true, channel, modindex, "", compatible, "", maxplayers);
-        int index = channels.size();
-        tabpn_tabs.insertTab("Room", null, room, null, index);
-        Globals.setCurrentRoomPanel(room);
-        for (ChannelPanel cp : channels) {
-            cp.disablebuttons();
-        }
-
-        tabpn_tabs.setSelectedIndex(index);
-        this.repaint();
-    //call it here to DO remember settings
-    //Client.currentroom.showsettings();
-    //DO NOT REMOVE ABOVE COMMENT
-    }
-
     public int getSelectedRoomListRowIndex(String channel) {
         return getChannel(channel).getSelectedRoomListRowIndex();
     }
-
-    public void joinRoom(String hostip, String channel, String modname, boolean compatible, String launchinfo, String hamachiIp, int maxplayers) {
-        final String ip = hostip;
-        RoomPanel room = new RoomPanel(false, channel, modname, ip, compatible, hamachiIp, maxplayers);
-        int index = channels.size();
-        tabpn_tabs.insertTab("Room", null, room, null, index);
-        Globals.setCurrentRoomPanel(room);
+    
+    //Only used by Globals as callback!
+    public void removeRoomPanelTab(){
+        tabpn_tabs.remove(Globals.getRoomPanel());
+        
+        int index = indexOfTab(Globals.getRoomPanel().channel);
+        if(index != -1){
+            tabpn_tabs.setSelectedIndex(index);
+        }
+        
+        for (ChannelPanel cp : channels) {
+            cp.enablebuttons();
+        }
+    }
+    
+    //Only used by Globals as callback!
+    public void addRoomPanelTab(){
+        tabpn_tabs.insertTab("Room", null, Globals.getRoomPanel(), null, channels.size());
+        
+        tabpn_tabs.setSelectedComponent(Globals.getRoomPanel());
+        
         for (ChannelPanel cp : channels) {
             cp.disablebuttons();
         }
-        tabpn_tabs.setSelectedIndex(index);
     }
 
     public void addMemberToRoom(String channel, String hostname, String playername) {
         getChannel(channel).addmembertoroom(hostname, playername);
-    }
-
-    public void leave() {
-        tabpn_tabs.remove(Globals.getCurrentRoomPanel());
-        int index = indexOfTab(Globals.getCurrentRoomPanel().channel);
-        if (index != -1) {
-            tabpn_tabs.setSelectedIndex(index);
-        }
-        Globals.setCurrentRoomPanel(null);
-        for (ChannelPanel cp : channels) {
-            cp.enablebuttons();
-        }
     }
 
     public void leftRoom(String channel, String hostname, String playername) {
@@ -391,9 +360,8 @@ public class ClientFrame extends javax.swing.JFrame {
         //update name in the main tab
         getChannel(channel).updatename(oldname, newname);
         //update name in the room tab
-        if (Globals.getCurrentRoomPanel() != null && Globals.getCurrentRoomPanel().channel.equals(channel)) {
-            Globals.getCurrentRoomPanel().updatename(oldname, newname);
-            RoomStatusListCellRenderer.updateName(oldname, newname);
+        if (Globals.getRoomPanel() != null && Globals.getRoomPanel().channel.equals(channel)) {
+            Globals.getRoomPanel().updateName(oldname, newname);
         }
         //update the pm tab title too
         int index = tabpn_tabs.indexOfTab(oldname);
@@ -637,20 +605,10 @@ public class ClientFrame extends javax.swing.JFrame {
         coopnetclient.modules.Settings.setMainFrameMaximised(this.getExtendedState());
         
         if (this.getExtendedState() == javax.swing.JFrame.NORMAL) {
-        coopnetclient.modules.Settings.setMainFrameHeight(this.getHeight());
-        coopnetclient.modules.Settings.setMainFrameWidth(this.getWidth());
+            coopnetclient.modules.Settings.setMainFrameHeight(this.getHeight());
+            coopnetclient.modules.Settings.setMainFrameWidth(this.getWidth());
         }
-        /*
-        for (Component c : tabpn_Tabs.getComponents()) {
-        if (c instanceof ChannelPanel) {
-        ChannelPanel cp = (ChannelPanel) c;
-        coopnetclient.Settings.setChannelChatHorizontalSPPosition(cp.getChannelChatHorizontalposition());
-        coopnetclient.Settings.setChannelChatVerticalSPPosition(cp.getChannelChatVerticalposition());
-        coopnetclient.Settings.setChannelVerticalSPPosition(cp.getChannelVerticalposition());
-        break;
-        }
-        }
-        }*/
+        
         System.exit(0);
     }
 

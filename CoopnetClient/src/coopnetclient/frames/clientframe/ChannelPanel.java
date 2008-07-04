@@ -93,7 +93,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         enablebuttons();
     }
 
-    public void GameClosed(String playername) {
+    public void gameClosed(String playername) {
         users.playerClosedGame(playername);
     }
 
@@ -159,10 +159,8 @@ public class ChannelPanel extends javax.swing.JPanel {
 
     public void enablebuttons() {
         if (this.isLaunchable) {
-            if (Globals.getCurrentRoomPanel() == null) {
-                btn_create.setEnabled(true);
-                btn_join.setEnabled(true);
-            }
+            btn_create.setEnabled(true);
+            btn_join.setEnabled(true);
         }
     }
 
@@ -205,8 +203,8 @@ public class ChannelPanel extends javax.swing.JPanel {
     public void updatename(String oldname, String newname) {
         rooms.updatename(oldname, newname);
         users.updatename(oldname, newname);
-        if (Globals.getCurrentRoomPanel() != null) {
-            Globals.getCurrentRoomPanel().updatename(oldname, newname);
+        if (Globals.getRoomPanel() != null) {
+            Globals.getRoomPanel().updateName(oldname, newname);
         }
     }
 
@@ -424,7 +422,6 @@ public class ChannelPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     private void create(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_create
-        // TODO add your handling code here:
         if (Globals.getRoomCreationFrame() != null) {
             Globals.getRoomCreationFrame().dispose();
         }

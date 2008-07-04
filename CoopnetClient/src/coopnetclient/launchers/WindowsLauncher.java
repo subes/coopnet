@@ -22,7 +22,7 @@ package coopnetclient.launchers;
 import coopnetclient.*;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.io.IOException;
-import coopnetclient.utils.jdplay.JDPlay;
+import jdplay.JDPlay;
 
 public class WindowsLauncher implements Launcher {
 
@@ -77,12 +77,12 @@ public class WindowsLauncher implements Launcher {
                 this.port = GameDatabase.getDefPort(gameIdentifier,modname); 
                 isInitialized = true;
                 if (!isHost) {
-                    Globals.getCurrentRoomPanel().enableButtons();
+                    Globals.getRoomPanel().enableButtons();
                 }
             }
         }
         //call it here to NOT remember settings
-        Globals.getCurrentRoomPanel().showSettings();
+        Globals.getRoomPanel().showSettings();
     }
 
     private void initDPlay() {
@@ -96,13 +96,14 @@ public class WindowsLauncher implements Launcher {
             if (jDPlay.isInitializedProperly()) {
                     isInitialized = true;
                     jDPlay.setMaxSearchRetries(MAX_RETRIES);
-                    Globals.getCurrentRoomPanel().enableButtons();
+                    Globals.getRoomPanel().enableButtons();
             } else {
                     jDPlay.delete();
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "DirectPlay error!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             }
         } catch (UnsatisfiedLinkError e) {
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "DirectPlay error, you miss the JDPlay dll.", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+            e.printStackTrace();
         }
     }
 
@@ -252,7 +253,7 @@ public class WindowsLauncher implements Launcher {
 
     private String getLaunchPathWithExe(String gamename) {
         String path = "";
-        //read registry TODO
+
         path = GameDatabase.readRegistry(GameDatabase.getRegEntry(gamename,modName));
 
         //if its not detected try loading from local paths(given by user)

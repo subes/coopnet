@@ -7,6 +7,8 @@ import coopnetclient.modules.Settings;
 import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.RoomPanel;
 import coopnetclient.launchers.Launcher;
+import coopnetclient.modules.renderers.RoomStatusListCellRenderer;
+import javax.naming.OperationNotSupportedException;
 import javax.swing.JFrame;
 
 public class Globals {
@@ -22,7 +24,7 @@ public class Globals {
     //Preset value
     private static boolean debug = false;
     private static final String clientVersion = "0.96.1";
-    private static boolean userIsLoggedIn = false;
+    private static boolean loggedInStatus = false;
     private static boolean sleepModeStatus = false;
     private static boolean isPlayingStatus = false;
     
@@ -33,7 +35,7 @@ public class Globals {
     //Objects
     private static Launcher launcher;
     private static ClientFrame clientFrame;
-    private static RoomPanel currentRoomPanel;
+    private static RoomPanel roomPanel;
     private static JFrame profileFrame; //TODO frames handle properly
     private static ChangePasswordFrame changePasswordFrame;
     private static ChannelListFrame channelListFrame;
@@ -69,12 +71,12 @@ public class Globals {
         return clientVersion;
     }
     
-    public static void setUserIsLoggedIn(boolean value){
-        userIsLoggedIn = value;
+    public static void setLoggedInStatus(boolean value){
+        loggedInStatus = value;
     }
     
-    public static boolean getUserIsLoggedIn(){
-        return userIsLoggedIn;
+    public static boolean getLoggedInStatus(){
+        return loggedInStatus;
     }
     
     public static void setThisPlayer_loginName(String value){
@@ -132,20 +134,41 @@ public class Globals {
         return launcher;
     }
     
-    public static void setClientFrame(ClientFrame value){
-        clientFrame = value;
+    public static void createClientFrame(){
+        if(clientFrame == null){
+            clientFrame = new ClientFrame();
+        }else{
+            if(getDebug()){
+                System.out.println("[WARNING]\tClientFrame is supposed to be created only once!");
+            }
+        }
     }
     
     public static ClientFrame getClientFrame(){
         return clientFrame;
     }
     
-    public static void setCurrentRoomPanel(RoomPanel value){
-        currentRoomPanel = value;
+    public static void createRoomPanel(boolean isHost, String channel, String modindex, String ip, boolean compatible, String hamachiIp, int maxPlayers){
+        if(roomPanel == null){
+            roomPanel = new RoomPanel(isHost, channel, modindex, ip, compatible, hamachiIp, maxPlayers);
+            clientFrame.addRoomPanelTab();
+        }else{
+            if(getDebug()){
+                System.out.println("[WARNING]\tClose the current RoomPanel before opening a new one!");
+            }
+        }
     }
     
-    public static RoomPanel getCurrentRoomPanel(){
-        return currentRoomPanel;
+    public static void removeRoomPanel(){
+        if(roomPanel != null){
+            Globals.getLauncher().stop();
+            clientFrame.removeRoomPanelTab();
+            roomPanel = null;
+        }
+    }
+    
+    public static RoomPanel getRoomPanel(){
+        return roomPanel;
     }
     
     public static void setProfileFrame(JFrame value){

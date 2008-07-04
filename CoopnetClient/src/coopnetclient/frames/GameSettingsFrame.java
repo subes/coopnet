@@ -145,7 +145,6 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }
 
     private String[] loadMaps() {
-        //TODO
         String extension = GameDatabase.getMapExtension(gamename,modname);
         String path = Globals.getLauncher().getFullMapPath(gamename);
         System.out.println("loading maps from: "+path);
@@ -328,7 +327,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         if (spn_scoreLimit.isVisible()) {
             Globals.getLauncher().setGoalScore((Integer)spn_scoreLimit.getValue());
         }
-        Globals.getCurrentRoomPanel().enableButtons();
+        Globals.getRoomPanel().enableButtons();
         Client.send(Protocol.SendPort(new Integer(tf_port.getText())), null);
         this.setVisible(false);
         dispose();
