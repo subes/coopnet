@@ -20,11 +20,29 @@
 package coopnetclient.modules.models;
 
 import coopnetclient.exceptions.NoRoomsException;
+import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 public class RoomTableModel extends DefaultTableModel {
 
+    private class Room{
+        
+        int type;
+        String name;
+        String hostName;
+        int maxplayers;
+        ArrayList<String> playersInRoom = new ArrayList<String>();
+        
+        public Room(int type, String name,String hostName,int maxplayers){
+            this.type= type;
+            this.name=name;
+            this.hostName=hostName;
+            this.maxplayers=maxplayers;
+        }
+        
+    }
+    
     /** Creates a new instance of MyTableModel */
     public RoomTableModel(javax.swing.JTable parent) {
         super();

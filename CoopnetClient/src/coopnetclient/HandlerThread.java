@@ -1,22 +1,21 @@
 /*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
-                    Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
 
-    This file is part of Coopnet.
+This file is part of Coopnet.
 
-    Coopnet is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+Coopnet is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    Coopnet is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Coopnet is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+You should have received a copy of the GNU General Public License
+along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package coopnetclient;
 
 import coopnetclient.modules.SwingWorker;
@@ -28,12 +27,13 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
+import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class HandlerThread extends Thread {
-    
+
     private final String CHARSET = "UTF-8";
     private Charset charset = Charset.forName(CHARSET);
     boolean running = true;
@@ -47,16 +47,15 @@ public class HandlerThread extends Thread {
     private CharBuffer charBufferOut = CharBuffer.allocate(WRITEBUFFER_SIZE);
     private ByteBuffer attachment = null;
     private Thread sender;
-    
     private Vector<String> outQueue = new Vector<String>();
 
-    protected void addToOutQueue(String element){
+    protected void addToOutQueue(String element) {
         outQueue.add(element);
     }
-    
+
     public void stopThread() {
         running = false;
-        try {            
+        try {
             socketChannel.socket().close();
             sender.join();
         } catch (Exception e) {
@@ -74,11 +73,12 @@ public class HandlerThread extends Thread {
         try {
             socketChannel = SocketChannel.open();
             socketChannel.connect(new InetSocketAddress(coopnetclient.modules.Settings.getServerIp(), coopnetclient.modules.Settings.getServerPort()));
-            
+            socketChannel.socket().setSendBufferSize(WRITEBUFFER_SIZE);
             //start sender thread
             sender = new Thread() {
+
                 @Override
-                public void run() {                    
+                public void run() {
                     while (running) {
                         try {
                             sleep(10);
@@ -156,17 +156,35 @@ public class HandlerThread extends Thread {
         return null;
     }
 
-    private ByteBuffer extractBytes(ByteBuffer buffer) {
+    private static ByteBuffer[] cutToLength(ByteBuffer byteBuffer, int size) {
+        ArrayList<ByteBuffer> dataarray = new ArrayList<ByteBuffer>();
+        int begin, end;
+        begin = 0;
+        end = 0;
+
+        while (end < byteBuffer.limit()) {
+            end += size;
+            if (end > byteBuffer.limit()) {
+                end = byteBuffer.limit();
+            }
+            dataarray.add(arrayCut(byteBuffer, begin, end));
+            begin = end;
+        }
+
+        return dataarray.toArray(new ByteBuffer[1]);
+    }
+
+    private static ByteBuffer extractBytes(ByteBuffer buffer) {
         ByteBuffer temp = ByteBuffer.allocate(buffer.limit());
         //copy data
         buffer.rewind();
         temp.put(buffer);
         temp.flip();
-        
+
         return temp;
     }
 
-    private ByteBuffer arrayCut(ByteBuffer buffer, int start, int end) {
+    private static ByteBuffer arrayCut(ByteBuffer buffer, int start, int end) {
         ByteBuffer temp = ByteBuffer.allocate(buffer.limit());
         //copy data 
         for (int i = start; i < end; i++) {
@@ -176,7 +194,7 @@ public class HandlerThread extends Thread {
         return temp;
     }
 
-    private ByteBuffer arrayConcat(ByteBuffer buffer1, ByteBuffer buffer2, int offset1, int offset2) {
+    private static ByteBuffer arrayConcat(ByteBuffer buffer1, ByteBuffer buffer2, int offset1, int offset2) {
         int size1, size2;
         size1 = buffer1 == null ? 0 : buffer1.limit();
         size2 = buffer2 == null ? 0 : buffer2.limit();
@@ -198,27 +216,27 @@ public class HandlerThread extends Thread {
 
     private static int findDelimiter(ByteBuffer buffer, int start) {
         byte[] array = buffer.array();
-        
-        if(array != null){
+
+        if (array != null) {
             int i = start;
-            while (i < array.length - Protocol.ENCODED_MESSAGE_DELIMITER.length +1) {
+            while (i < array.length - Protocol.ENCODED_MESSAGE_DELIMITER.length + 1) {
                 boolean isFound = true;
                 int j = 0;
-                while(j < Protocol.ENCODED_MESSAGE_DELIMITER.length && isFound){
-                    if(array[i+j] != Protocol.ENCODED_MESSAGE_DELIMITER[j]){
+                while (j < Protocol.ENCODED_MESSAGE_DELIMITER.length && isFound) {
+                    if (array[i + j] != Protocol.ENCODED_MESSAGE_DELIMITER[j]) {
                         isFound = false;
-                    }else{
+                    } else {
                         j++;
                     }
                 }
-                
-                if(isFound){
-                    return i+Protocol.ENCODED_MESSAGE_DELIMITER.length;
-                }else{
-                    if(j == 0){
+
+                if (isFound) {
+                    return i + Protocol.ENCODED_MESSAGE_DELIMITER.length;
+                } else {
+                    if (j == 0) {
                         i++;
-                    }else{
-                        i+=j;
+                    } else {
+                        i += j;
                     }
                 }
             }
@@ -226,16 +244,15 @@ public class HandlerThread extends Thread {
         return -1;
     }
 
-    
     private String read() throws Exception {
         //return remaining message if any
         int idx;
-        if( attachment!=null && (idx = findDelimiter(attachment, 0)) > -1){
+        if (attachment != null && (idx = findDelimiter(attachment, 0)) > -1) {
             ByteBuffer packet = arrayCut(attachment, 0, idx - 3);
             attachment = arrayCut(attachment, idx, attachment.limit()); //cut off packet from start
-            return  process(packet);
+            return process(packet);
         }
-        
+
         //read new mesages from socket
         readBuffer.clear();
         if (socketChannel.read(readBuffer) == -1) {
@@ -244,43 +261,60 @@ public class HandlerThread extends Thread {
         }
         readBuffer.flip();
 
-        ByteBuffer prev =  attachment;
+        ByteBuffer prev = attachment;
         //search for delimiter
         ByteBuffer bufarray = extractBytes(readBuffer);
         ByteBuffer tmp = arrayConcat(prev, bufarray, 0, 0);
-        attachment=tmp;
-        if( attachment!=null && (idx = findDelimiter(attachment, 0)) > -1){
+        attachment = tmp;
+        if (attachment != null && (idx = findDelimiter(attachment, 0)) > -1) {
             ByteBuffer packet = arrayCut(attachment, 0, idx - 3);
             attachment = arrayCut(attachment, idx, attachment.limit()); //cut off packet from start
-            return  process(packet);
+            return process(packet);
         }
         return null;
-        
+
     }
 
     public boolean doSend() {
         if (outQueue.size() > 0) {
             String rawdata = outQueue.firstElement();
             outQueue.removeElementAt(0);
-
-            // load into buffer
-            byteBufferOut.clear();
-            charBufferOut.clear();
-            charBufferOut.append(rawdata);
-            charBufferOut.flip();
-            // encode
-            encoder.reset();
-            encoder.encode(charBufferOut, byteBufferOut, true);
-            encoder.flush(byteBufferOut);
-            byteBufferOut.flip();
-            // send
+            //new code
             try {
-                socketChannel.write(byteBufferOut);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return false;
+                CharBuffer charBuffer = CharBuffer.wrap(rawdata);
+                ByteBuffer byteBuffer = encoder.encode(charBuffer);
+                if (byteBuffer.limit() > WRITEBUFFER_SIZE) {
+                    for (ByteBuffer piece : cutToLength(byteBuffer, WRITEBUFFER_SIZE)) {
+                        socketChannel.write(piece);
+                    }
+                } else {
+                    socketChannel.write(byteBuffer);
+                }
+            } catch (Exception e) {
+                System.out.println("Failed to send: " + rawdata);
+                e.printStackTrace();
             }
-            return true;
+        /*old code
+         * 
+        // load into buffer
+        byteBufferOut.clear();
+        charBufferOut.clear();
+        charBufferOut.append(rawdata);
+        charBufferOut.flip();
+        // encode
+        encoder.reset();
+        encoder.encode(charBufferOut, byteBufferOut, true);
+        encoder.flush(byteBufferOut);
+        byteBufferOut.flip();
+        // send
+        try {
+        
+        socketChannel.write(byteBufferOut);
+        } catch (IOException ex) {
+        ex.printStackTrace();
+        return false;
+        }
+        return true;*/
         }
         return false;
     }

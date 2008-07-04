@@ -22,16 +22,13 @@ package coopnetclient;
 import coopnetclient.modules.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.launchers.LinuxLauncher;
-import coopnetclient.launchers.Launcher;
 import coopnetclient.launchers.WindowsLauncher;
 import coopnetclient.modules.Colorizer;
 import coopnetclient.frames.clientframe.ClientFrame;
-import coopnetclient.frames.clientframe.RoomPanel;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
 import java.util.Vector;
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
@@ -51,14 +48,7 @@ public class Client {
         }
         if (handlerThread != null) {
             command += Protocol.MESSAGE_DELIMITER;
-
-            if (command.length() > HandlerThread.WRITEBUFFER_SIZE) {
-                for (String piece : cutToLength(command, HandlerThread.WRITEBUFFER_SIZE)) {
-                    handlerThread.addToOutQueue(piece);
-                }
-            } else {
-                handlerThread.addToOutQueue(command);
-            }
+            handlerThread.addToOutQueue(command); 
         }
         TrafficLogger.append("OUT: " + command);
         if (Globals.debug) {
@@ -150,23 +140,5 @@ public class Client {
             handlerThread.stopThread();
         }
         handlerThread = null;
-    }
-
-    private static String[] cutToLength(String stringtocut, int size) {
-        Vector<String> dataarray = new Vector<String>();
-
-        int begin, end;
-        begin = 0;
-        end = 0;
-
-        while (end < stringtocut.length()) {
-            end += size;
-            if (end > stringtocut.length()) {
-                end = stringtocut.length();
-            }
-            dataarray.add(stringtocut.substring(begin, end));
-            begin = end;
-        }
-        return dataarray.toArray(new String[1]);
     }
 }
