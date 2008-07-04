@@ -30,7 +30,7 @@
               <Component id="btn_cancel" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="315" max="32767" attributes="0"/>
           </Group>
-          <Component id="pnl_input" alignment="0" pref="461" max="32767" attributes="0"/>
+          <Component id="pnl_input" alignment="0" pref="465" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">

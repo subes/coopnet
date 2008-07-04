@@ -19,7 +19,6 @@
 
 package coopnetclient.frames.clientframe;
 
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.modules.listeners.ChatInputKeyListener;
 import coopnetclient.modules.listeners.HyperlinkMouseListener;

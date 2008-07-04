@@ -19,7 +19,6 @@
 
 package coopnetclient.frames;
 
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.modules.Colorizer;
 import java.security.Security;

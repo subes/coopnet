@@ -19,7 +19,6 @@
 
 package coopnetclient.frames;
 
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.launchers.WindowsLauncher;

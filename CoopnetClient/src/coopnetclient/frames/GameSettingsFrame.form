@@ -39,7 +39,7 @@
               <Component id="pnl_settings" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_save" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="25" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -75,8 +75,8 @@
                           </Group>
                           <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="cb_map" pref="260" max="32767" attributes="1"/>
-                              <Component id="cb_mode" alignment="1" pref="260" max="32767" attributes="1"/>
+                              <Component id="cb_map" pref="268" max="32767" attributes="1"/>
+                              <Component id="cb_mode" alignment="1" pref="268" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>

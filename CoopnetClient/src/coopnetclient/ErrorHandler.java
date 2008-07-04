@@ -24,7 +24,7 @@ import java.io.IOException;
 public class ErrorHandler {
 
     public static void handleException(Exception exc) {
-        if (exc == null) {
+        if (exc == null || exc instanceof java.nio.channels.AsynchronousCloseException) {
             return;
         }
         if (exc.getMessage() == null) {

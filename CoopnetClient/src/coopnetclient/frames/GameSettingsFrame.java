@@ -240,8 +240,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                             .addComponent(lbl_map))
                         .addGap(39, 39, 39)
                         .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cb_map, 0, 245, Short.MAX_VALUE)
-                            .addComponent(cb_mode, 0, 245, Short.MAX_VALUE))
+                            .addComponent(cb_map, 0, 268, Short.MAX_VALUE)
+                            .addComponent(cb_mode, 0, 268, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_settingsLayout.createSequentialGroup()
@@ -305,7 +305,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                 .addComponent(pnl_settings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_save)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

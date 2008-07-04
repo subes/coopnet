@@ -33,15 +33,15 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lbl_longDescription" pref="490" max="32767" attributes="1"/>
+                      <Component id="lbl_longDescription" pref="496" max="32767" attributes="1"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lbl_shortDescription" pref="490" max="32767" attributes="0"/>
+                      <Component id="lbl_shortDescription" pref="496" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lbl_email" pref="490" max="32767" attributes="1"/>
+                      <Component id="lbl_email" pref="496" max="32767" attributes="1"/>
                   </Group>
                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                       <Group type="102" alignment="0" attributes="1">
@@ -76,7 +76,7 @@
                               <EmptySpace min="12" pref="12" max="12" attributes="0"/>
                               <Component id="lbl_note" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="lbl_info" alignment="0" pref="490" max="32767" attributes="1"/>
+                          <Component id="lbl_info" alignment="0" pref="496" max="32767" attributes="1"/>
                       </Group>
                   </Group>
               </Group>

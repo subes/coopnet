@@ -21,7 +21,6 @@ package coopnetclient.modules;
 
 import coopnetclient.modules.components.ui.CustomScrollBarUI;
 import coopnetclient.modules.listeners.TabbedPaneColorChangeListener;
-import coopnetclient.*;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -20,7 +20,6 @@
 package coopnetclient.launchers.handlers;
 
 import coopnetclient.launchers.*;
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.ColoredChatHandler;
