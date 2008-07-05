@@ -66,11 +66,15 @@ public class LinuxLauncher implements Launcher {
             case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING:
                 isInitialized = true;
                 if (!isHost) {
-                    Globals.getRoomPanel().enableButtons();
+                    if(Globals.getRoomPanel() != null){
+                        Globals.getRoomPanel().enableButtons();
+                    }
                 }
         }
         //call it here to NOT remember settings
-        Globals.getRoomPanel().showSettings();
+        if(Globals.getRoomPanel() != null){
+            Globals.getRoomPanel().showSettings();
+        }
     }
 
     private void initDPlay() {
@@ -146,6 +150,7 @@ public class LinuxLauncher implements Launcher {
     public void stopDPlay() {
         if (dplay != null) {
             dplay.stopDPlay();
+            isInitialized = false;
         }
     }
 
@@ -156,21 +161,24 @@ public class LinuxLauncher implements Launcher {
 
     @Override
     public boolean launch() {
-        boolean launched = false;
         switch (launchMethod) {
             case GameDatabase.LAUNCHMETHOD_DIRECTPLAY:
             case GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY:
-                launched = launchDPlay();
+                if(isInitialized){
+                    return launchDPlay();
+                }
                 break;
             case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING:
-                launched = launchParam(gameIdentifier);
+                return launchParam(gameIdentifier);
         }
-        return launched;
+        return false;
     }
 
     @Override
     public void stop() {
-        stopDPlay();
+        if(isInitialized){
+            stopDPlay();
+        }
     }
 
     @Override

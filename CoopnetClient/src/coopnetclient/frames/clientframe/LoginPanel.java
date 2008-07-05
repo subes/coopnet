@@ -54,6 +54,10 @@ public class LoginPanel extends javax.swing.JPanel {
             } else {
                 coopnetclient.modules.Settings.setLastLoginPassword("");
             }
+            
+            try{
+                Thread.sleep(100);
+            }catch(InterruptedException ex){}
 
             String s = coopnetclient.modules.Settings.getHomeChannel();
             if (s.length() > 0) {

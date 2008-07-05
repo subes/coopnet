@@ -80,9 +80,10 @@ public class Client {
      */
     public static void startup() {
         if (Globals.getOperatingSystem() == Globals.OS_WINDOWS) {
+            if(Globals.getDebug()){
+                System.out.println("[L]\tOS: windows");
+            }
             Globals.setLauncher(new WindowsLauncher());
-            //Settings.setWineCommand(""); launcher = new LinuxLauncher(); 
-            //launcher = new DummyLauncher(); 
             //LOAD LIBRARIES
             try {
                 System.loadLibrary("lib/JDPlay_jni");
@@ -90,6 +91,9 @@ public class Client {
                 er.printStackTrace();
             }
         } else { //linux stuff
+            if(Globals.getDebug()){
+                System.out.println("[L]\tOS: linux");
+            }
             Globals.setLauncher(new LinuxLauncher());
         }
         //Load Registry library

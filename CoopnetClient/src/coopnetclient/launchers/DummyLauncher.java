@@ -27,7 +27,9 @@ public class DummyLauncher implements Launcher {
 
     @Override
     public void initialize(String gameIdentifier, String modname, boolean isHost, String ip, boolean compatible, int maxPlayers) {
-        Globals.getRoomPanel().enableButtons();
+        if(Globals.getRoomPanel() != null){
+            Globals.getRoomPanel().enableButtons();
+        }
         this.gamename = gameIdentifier;
     }
 

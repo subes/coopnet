@@ -24,9 +24,16 @@ import java.io.IOException;
 public class ErrorHandler {
 
     public static void handleException(Exception exc) {
-        if (exc == null || exc instanceof java.nio.channels.AsynchronousCloseException) {
+        if (exc == null) {
             return;
         }
+        
+        exc.printStackTrace();
+        
+        if(exc instanceof java.nio.channels.AsynchronousCloseException){
+            return;
+        }
+        
         if (exc.getMessage() == null) {
             Globals.getClientFrame().addErrorTab(coopnetclient.frames.clientframe.ErrorPanel.UNKNOWN_MODE, exc);
             exc.printStackTrace();

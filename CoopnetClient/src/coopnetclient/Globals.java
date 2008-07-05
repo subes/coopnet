@@ -69,10 +69,10 @@ public class Globals {
             operatingSystem = OS_WINDOWS;
             lastOpenedDir = System.getenv("USERPROFILE");
         } else {
+            
             operatingSystem = OS_LINUX;
             lastOpenedDir = System.getenv("HOME");
         }
-        
         //Set debug
         debug = Settings.getDebugMode();
     }

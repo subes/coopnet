@@ -38,15 +38,17 @@ public class GameDatabase {
     private static boolean registryOK = false;
     
     static {
-        try {
-            System.loadLibrary("lib/ICE_JNIRegistry");
-            registryOK = true;
-            Class.forName("com.ice.jni.registry.Registry");
-            Class.forName("com.ice.jni.registry.RegistryKey");
-        } catch (UnsatisfiedLinkError er) {
-            System.out.println("Error while loading external dlls");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        if(Globals.getOperatingSystem() == Globals.OS_WINDOWS){
+            try {
+                System.loadLibrary("lib/ICE_JNIRegistry");
+                Class.forName("com.ice.jni.registry.Registry");
+                Class.forName("com.ice.jni.registry.RegistryKey");
+                registryOK = true;
+            } catch (UnsatisfiedLinkError er) {
+                System.out.println("Error while loading external dlls");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         
         IDtoGameName = new HashMap<String, String>();
