@@ -42,6 +42,7 @@ public class Globals {
     
     //Objects
     private static Launcher launcher;
+    
     private static ClientFrame clientFrame;
     private static RoomPanel roomPanel; //TODO: move handling of that to ClientFrame
     
@@ -77,14 +78,22 @@ public class Globals {
     
     public static void recolorFrames(){
         Colorizer.colorize(clientFrame);
-        //colorise other open windows too
-        Colorizer.colorize(channelListFrame);
+        Colorizer.colorize(roomPanel);
         Colorizer.colorize(changePasswordFrame);
-        Colorizer.colorize(showProfileFrame);
-        Colorizer.colorize(editProfileFrame);
+        Colorizer.colorize(channelListFrame);
+        Colorizer.colorize(favouritesFrame);
         Colorizer.colorize(gameSettingsFrame);
-        //dont color settingsframe cuz it fucks it up
-        //TODO: add more frames to this
+        Colorizer.colorize(settingsFrame);
+        Colorizer.colorize(manageGamesFrame);
+    
+        Colorizer.colorize(editProfileFrame);
+        Colorizer.colorize(showProfileFrame);
+    
+        Colorizer.colorize(roomJoinPasswordFrame);
+        Colorizer.colorize(createRoomFrame);
+    
+        Colorizer.colorize(bugReportFrame);
+        Colorizer.colorize(textPreviewFrame);
     }
     
     public static void enableDebug(){
