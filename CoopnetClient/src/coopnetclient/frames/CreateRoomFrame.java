@@ -43,9 +43,6 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         if (GameDatabase.getLaunchMethod(channel, null) != GameDatabase.LAUNCHMETHOD_DIRECTPLAY) {
             cb_compatibility.setVisible(false);
         }
-        coopnetclient.modules.Colorizer.colorize(this);
-        setLocationRelativeTo(null);
-        pack();
     }
 
     /** This method is called from within the constructor to

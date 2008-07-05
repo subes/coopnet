@@ -24,15 +24,11 @@ public class TextPreviewFrame extends javax.swing.JFrame {
     /** Creates new form TextPreviewFrame */
     public TextPreviewFrame(String title, String text) {
         initComponents();
-        coopnetclient.modules.Colorizer.colorize(this);
         
         setTitle(title);
         ta_text.setText(text);
         
         ta_text.setCaretPosition(0);
-        
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
     }
     
     /** This method is called from within the constructor to

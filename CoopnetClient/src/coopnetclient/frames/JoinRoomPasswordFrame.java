@@ -34,9 +34,6 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         
         this.host_name = host_name;
         this.channel=channel;
-        
-        coopnetclient.modules.Colorizer.colorize(this);
-        setLocationRelativeTo(null);
     }
 
     /** This method is called from within the constructor to

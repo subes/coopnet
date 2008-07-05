@@ -28,10 +28,6 @@ public class ShowProfileFrame extends javax.swing.JFrame {
         tf_email.setText(email);
         tf_country.setText(country) ;
         tf_website.setText(webpage);
-        
-        coopnetclient.modules.Colorizer.colorize(this);
-        setLocationRelativeTo(null);
-
     }
     
     /** This method is called from within the constructor to

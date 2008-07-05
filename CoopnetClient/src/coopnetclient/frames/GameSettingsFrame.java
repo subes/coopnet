@@ -38,13 +38,10 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     /** Creates new form GameSettingsPanel */
     public GameSettingsFrame(String gamename,String modname) {
         initComponents();
-        coopnetclient.modules.Colorizer.colorize(this);
         this.gamename = gamename;
         this.modname = modname;
-        setLocationRelativeTo(null);
         hideAll();
         customize();
-        pack();
     }
 
     private String KeyOfValue(String value) {

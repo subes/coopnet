@@ -45,9 +45,6 @@ public class BugReportFrame extends javax.swing.JFrame {
         initComponents();
         this.exc=e;
         this.trafficLog = trafficLog;
-        Colorizer.colorize(this);
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
     
     public BugReportFrame() {

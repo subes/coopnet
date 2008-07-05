@@ -31,9 +31,6 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     /** Creates new form ChangePassword */
     public ChangePasswordFrame() {
         initComponents();
-        
-        coopnetclient.modules.Colorizer.colorize(this);
-        setLocationRelativeTo(null);
     }
     
     /** This method is called from within the constructor to

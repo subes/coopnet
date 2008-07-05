@@ -40,8 +40,6 @@ public class FavouritesFrame extends javax.swing.JFrame {
                 channels.add(st);
         }
         lst_favourites.setListData(Settings.getFavourites());
-        Colorizer.colorize(this);
-        setLocationRelativeTo(null);
     }
     
     /** This method is called from within the constructor to

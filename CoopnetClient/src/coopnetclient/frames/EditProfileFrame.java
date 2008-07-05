@@ -72,9 +72,6 @@ public class EditProfileFrame extends javax.swing.JFrame {
         tf_website.setText(webpage);
         tf_inGameName.setText(ingamename);
         cb_emailIsPublic.setSelected(emailpublicity.equals("true"));
-
-        coopnetclient.modules.Colorizer.colorize(this);
-        setLocationRelativeTo(null);
     }
     
     private int indexOfCountry(String name) {

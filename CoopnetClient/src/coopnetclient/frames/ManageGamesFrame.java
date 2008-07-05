@@ -41,15 +41,12 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 channels.add(st);
             }
         }
-        setLocationRelativeTo(null);
         //installpath only required on linux:
         if (Globals.getOperatingSystem() == Globals.OS_WINDOWS) {
             tf_installPath.setVisible(false);
             lbl_installPath.setVisible(false);
             btn_browseInstallPath.setVisible(false);            
         }
-        Colorizer.colorize(this);
-        pack();
     }
 
     /** This method is called from within the constructor to

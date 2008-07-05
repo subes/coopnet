@@ -75,7 +75,7 @@
                           <Component id="cb_sleepMode" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="cb_sounds" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="lbl_homeChannel" pref="96" max="32767" attributes="1"/>
+                              <Component id="lbl_homeChannel" max="32767" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cmb_homeChannel" min="-2" pref="465" max="-2" attributes="1"/>
                           </Group>
@@ -102,7 +102,7 @@
                           <Component id="lbl_dplayEnv" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tf_dplayEnv" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="178" max="32767" attributes="0"/>
+                      <EmptySpace pref="166" max="32767" attributes="0"/>
                       <Component id="cb_sounds" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cb_sleepMode" min="-2" max="-2" attributes="0"/>
@@ -172,12 +172,12 @@
                                   </Group>
                                   <Component id="tf_serverPort" alignment="0" min="-2" pref="70" max="-2" attributes="1"/>
                               </Group>
-                              <EmptySpace pref="34" max="32767" attributes="0"/>
+                              <EmptySpace pref="9" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="lbl_receiveDir" alignment="0" min="-2" max="-2" attributes="1"/>
-                                  <Component id="lbl_transferPort" pref="112" max="32767" attributes="1"/>
+                                  <Component id="lbl_transferPort" pref="132" max="32767" attributes="1"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -220,7 +220,7 @@
                           <Component id="lbl_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tf_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="148" max="32767" attributes="0"/>
+                      <EmptySpace pref="140" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -481,11 +481,11 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btn_whisperMessages" alignment="0" pref="222" max="32767" attributes="1"/>
-                                      <Component id="btn_otherUsernames" alignment="1" pref="222" max="32767" attributes="1"/>
-                                      <Component id="btn_yourUsername" alignment="1" pref="222" max="32767" attributes="1"/>
-                                      <Component id="btn_userMessages" alignment="1" pref="222" max="32767" attributes="1"/>
-                                      <Component id="btn_systemMessages" pref="222" max="32767" attributes="1"/>
+                                      <Component id="btn_whisperMessages" alignment="0" pref="186" max="32767" attributes="1"/>
+                                      <Component id="btn_otherUsernames" alignment="1" pref="186" max="32767" attributes="1"/>
+                                      <Component id="btn_yourUsername" alignment="1" pref="186" max="32767" attributes="1"/>
+                                      <Component id="btn_userMessages" alignment="1" pref="186" max="32767" attributes="1"/>
+                                      <Component id="btn_systemMessages" pref="186" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                               <Component id="cb_colorizeText" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -671,14 +671,14 @@
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
-                                          <Component id="lbl_selection" pref="94" max="32767" attributes="1"/>
+                                          <Component id="lbl_selection" pref="89" max="32767" attributes="1"/>
                                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btn_foreground" alignment="1" pref="190" max="32767" attributes="1"/>
-                                      <Component id="btn_background" alignment="0" pref="190" max="32767" attributes="1"/>
-                                      <Component id="btn_selection" alignment="0" pref="190" max="32767" attributes="1"/>
+                                      <Component id="btn_foreground" alignment="1" pref="184" max="32767" attributes="1"/>
+                                      <Component id="btn_background" alignment="0" pref="184" max="32767" attributes="1"/>
+                                      <Component id="btn_selection" alignment="0" pref="184" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                               <Component id="cb_colorizeBody" alignment="0" min="-2" max="-2" attributes="1"/>

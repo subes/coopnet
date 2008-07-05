@@ -39,8 +39,6 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 channels.add(st);
             }
         }
-        coopnetclient.modules.Colorizer.colorize(this);
-        setLocationRelativeTo(null);
     }
 
     /** This method is called from within the constructor to

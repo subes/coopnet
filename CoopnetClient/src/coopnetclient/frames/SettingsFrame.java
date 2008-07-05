@@ -39,8 +39,6 @@ public class SettingsFrame extends javax.swing.JFrame {
     public SettingsFrame() {
         initComponents();
         cmb_homeChannel.insertItemAt("", 0);
-        coopnetclient.modules.Colorizer.colorize(this);
-        setLocationRelativeTo(null);
 
         //FILL IN FIELDS
         tf_serverAddress.setText(coopnetclient.modules.Settings.getServerIp());

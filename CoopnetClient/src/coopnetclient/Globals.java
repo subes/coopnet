@@ -18,6 +18,7 @@ import coopnetclient.frames.clientframe.RoomPanel;
 import coopnetclient.launchers.Launcher;
 import coopnetclient.modules.Colorizer;
 import java.awt.Point;
+import javax.swing.JFrame;
 
 public class Globals {
 
@@ -174,7 +175,7 @@ public class Globals {
     public static void openClientFrame(){
         if(clientFrame == null){
             clientFrame = new ClientFrame();
-            clientFrame.setVisible(true);
+            setupFrame(clientFrame);
         }else{
             if(getDebug()){
                 System.out.println("[WARNING]\tClientFrame is supposed to be created only once!");
@@ -221,11 +222,10 @@ public class Globals {
             Point prevLocation = showProfileFrame.getLocation();
             showProfileFrame.dispose();
             showProfileFrame = new ShowProfileFrame(name, email, country, webpage);
-            showProfileFrame.setLocation(prevLocation);
-            showProfileFrame.setVisible(true);
+            setupFrame(showProfileFrame, prevLocation);
         }else{
             showProfileFrame = new ShowProfileFrame(name, email, country, webpage);
-            showProfileFrame.setVisible(true);
+            setupFrame(showProfileFrame);
         }
     }
     
@@ -241,11 +241,10 @@ public class Globals {
             closeChangePasswordFrame();
             editProfileFrame.dispose();
             editProfileFrame = new EditProfileFrame(name, ingamename, email, emailpublicity, country, webpage);
-            editProfileFrame.setLocation(prevLocation);
-            editProfileFrame.setVisible(true);
+            setupFrame(editProfileFrame, prevLocation);
         }else{
             editProfileFrame = new EditProfileFrame(name, ingamename, email, emailpublicity, country, webpage);
-            editProfileFrame.setVisible(true);
+            setupFrame(editProfileFrame);
         }
     }
     
@@ -261,7 +260,7 @@ public class Globals {
             changePasswordFrame.setVisible(true);
         }else{
             changePasswordFrame = new ChangePasswordFrame();
-            changePasswordFrame.setVisible(true);
+            setupFrame(changePasswordFrame);
         }
     }
     
@@ -276,7 +275,7 @@ public class Globals {
             channelListFrame.setVisible(true);
         }else{
             channelListFrame = new ChannelListFrame();
-            channelListFrame.setVisible(true);
+            setupFrame(channelListFrame);
         }
     }
     
@@ -291,7 +290,7 @@ public class Globals {
             gameSettingsFrame.setVisible(true);
         }else{
             gameSettingsFrame = new GameSettingsFrame(gameName, modName);
-            gameSettingsFrame.setVisible(true);
+            setupFrame(gameSettingsFrame);
         }
     }
     
@@ -316,7 +315,7 @@ public class Globals {
         }
         
         roomJoinPasswordFrame = new JoinRoomPasswordFrame(roomHost, channel);
-        roomJoinPasswordFrame.setVisible(true);
+        setupFrame(roomJoinPasswordFrame);
     }
     
     public static void openCreateRoomFrame(String channel){
@@ -334,7 +333,7 @@ public class Globals {
         }
         
         createRoomFrame = new CreateRoomFrame(channel);
-        createRoomFrame.setVisible(true); 
+        setupFrame(createRoomFrame);
     }
     
     public static void closeRoomCreationFrame(){
@@ -351,7 +350,7 @@ public class Globals {
             favouritesFrame.setVisible(true);
         }else{
             favouritesFrame = new FavouritesFrame();
-            favouritesFrame.setVisible(true);
+            setupFrame(favouritesFrame);
         }
     }
     
@@ -366,7 +365,7 @@ public class Globals {
             settingsFrame.setVisible(true);
         }else{
             settingsFrame = new SettingsFrame();
-            settingsFrame.setVisible(true);
+            setupFrame(settingsFrame);
         }
     }
     
@@ -381,7 +380,7 @@ public class Globals {
             manageGamesFrame.setVisible(true);
         }else{
             manageGamesFrame = new ManageGamesFrame();
-            manageGamesFrame.setVisible(true);
+            setupFrame(manageGamesFrame);
         }
     }
     
@@ -396,7 +395,7 @@ public class Globals {
             bugReportFrame.setVisible(true);
         }else{
             bugReportFrame = new BugReportFrame();
-            bugReportFrame.setVisible(true);
+            setupFrame(bugReportFrame);
         }
     }
     
@@ -405,7 +404,7 @@ public class Globals {
             bugReportFrame.setVisible(true);
         }else{
             bugReportFrame = new BugReportFrame(exception, trafficLog);
-            bugReportFrame.setVisible(true);
+            setupFrame(bugReportFrame);
         }
     }
     
@@ -421,11 +420,10 @@ public class Globals {
             Point prevPosition = textPreviewFrame.getLocation();
             textPreviewFrame.dispose();
             textPreviewFrame = new TextPreviewFrame(title, text);
-            textPreviewFrame.setLocation(prevPosition);
-            textPreviewFrame.setVisible(true);
+            setupFrame(textPreviewFrame, prevPosition);
         }else{
             textPreviewFrame = new TextPreviewFrame(title, text);
-            textPreviewFrame.setVisible(true);
+            setupFrame(textPreviewFrame);
         }
         
     }
@@ -434,5 +432,19 @@ public class Globals {
         if(textPreviewFrame != null){
             textPreviewFrame.dispose();
         }
+    }
+    
+    private static void setupFrame(JFrame frame){
+        frame.setLocationRelativeTo(null);
+        Colorizer.colorize(frame);
+        frame.pack();
+        frame.setVisible(true);
+    }
+    
+    private static void setupFrame(JFrame frame, Point position){
+        frame.setLocation(position);
+        Colorizer.colorize(frame);
+        frame.pack();
+        frame.setVisible(true);
     }
 }
