@@ -44,7 +44,7 @@ public class HandlerThread extends Thread {
     public static final int READBUFFER_SIZE = 400;
     private static ByteBuffer readBuffer = ByteBuffer.allocate(READBUFFER_SIZE);
     private CharsetDecoder decoder = charset.newDecoder();
-    private CharsetEncoder encoder = charset.newEncoder();
+    private CharsetEncoder encoder = charset.newEncoder();    
     private ByteBuffer byteBufferOut = ByteBuffer.allocate(WRITEBUFFER_SIZE);
     private CharBuffer charBufferOut = CharBuffer.allocate(WRITEBUFFER_SIZE);
     private ByteBuffer attachment = null;
@@ -297,28 +297,8 @@ public class HandlerThread extends Thread {
             } catch (Exception e) {
                 System.out.println("Failed to send: " + rawdata);
                 e.printStackTrace();
-            }
-        /*old code
-         * 
-        // load into buffer
-        byteBufferOut.clear();
-        charBufferOut.clear();
-        charBufferOut.append(rawdata);
-        charBufferOut.flip();
-        // encode
-        encoder.reset();
-        encoder.encode(charBufferOut, byteBufferOut, true);
-        encoder.flush(byteBufferOut);
-        byteBufferOut.flip();
-        // send
-        try {
-        
-        socketChannel.write(byteBufferOut);
-        } catch (IOException ex) {
-        ex.printStackTrace();
-        return false;
-        }
-        return true;*/
+            }        
+        return true;
         }
         return false;
     }

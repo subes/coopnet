@@ -120,13 +120,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                 fieldcount++;
             }
         //end of field enabling loop
-        }
-        /*String mod = GameDatabase.getModComamnd(gamename);
-        if(mod != null){
-            lbl_mod.setVisible(true);
-            tf_mod.setVisible(true);
-            tf_mod.setText(Globals.getLauncher().getMod());
-        }*/
+        }       
     }
 
     private String[] getGameModes() {
@@ -330,7 +324,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         Globals.getRoomPanel().enableButtons();
         Client.send(Protocol.SendPort(new Integer(tf_port.getText())), null);
         this.setVisible(false);
-        dispose();
+        dispose();        
     } catch (Exception e) {
     }
 

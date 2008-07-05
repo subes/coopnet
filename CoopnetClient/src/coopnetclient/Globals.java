@@ -98,7 +98,7 @@ public class Globals {
     }
     
     public static void setSleepModeStatus(boolean value){
-        sleepModeStatus = true;
+        sleepModeStatus = value;
         Globals.getClientFrame().updateSleepMode();
     }
     

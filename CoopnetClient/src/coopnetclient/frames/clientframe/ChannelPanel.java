@@ -377,6 +377,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         scrl_roomList.setViewportView(tbl_roomList);
 
         btn_leaveChannel.setText("Leave Channel");
+        btn_leaveChannel.setFocusable(false);
         btn_leaveChannel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_leaveChannelActionPerformed(evt);
@@ -393,7 +394,7 @@ public class ChannelPanel extends javax.swing.JPanel {
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_refresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(btn_leaveChannel))
             .addComponent(scrl_roomList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
@@ -406,7 +407,7 @@ public class ChannelPanel extends javax.swing.JPanel {
                     .addComponent(btn_refresh)
                     .addComponent(btn_leaveChannel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
+                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
         );
 
         sp_vertical.setLeftComponent(pnl_roomActions);

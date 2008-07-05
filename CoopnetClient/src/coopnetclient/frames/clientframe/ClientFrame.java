@@ -266,6 +266,7 @@ public class ClientFrame extends javax.swing.JFrame {
     //Only used by Globals as callback!
     public void removeRoomPanelTab(){
         tabpn_tabs.remove(Globals.getRoomPanel());
+        Globals.setGameSettingsFrame(null);
         
         int index = indexOfTab(Globals.getRoomPanel().channel);
         if(index != -1){

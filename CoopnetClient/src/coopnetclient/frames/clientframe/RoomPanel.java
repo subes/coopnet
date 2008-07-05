@@ -360,6 +360,7 @@ public class RoomPanel extends javax.swing.JPanel {
         });
 
         btn_gameSettings.setText("Game Settings");
+        btn_gameSettings.setFocusable(false);
         btn_gameSettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_gameSettingsActionPerformed(evt);
