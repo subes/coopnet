@@ -204,7 +204,6 @@ public class FileChooser extends javax.swing.JFrame {
                 Rectangle rect = tbl_display.getCellRect(i, 0, true);
                 tbl_display.scrollRectToVisible(rect);
             } else {//set slection to top
-                System.out.println("TOP");
                 tbl_display.getSelectionModel().setSelectionInterval(1, 1);
                 Rectangle rect = tbl_display.getCellRect(1, 1, true);
                 tbl_display.scrollRectToVisible(rect);

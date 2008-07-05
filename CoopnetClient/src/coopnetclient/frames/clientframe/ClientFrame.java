@@ -93,7 +93,7 @@ public class ClientFrame extends javax.swing.JFrame {
     }
 
     public void addTransferTab_Send(String reciever, File file) {
-        tabpn_tabs.add("Send File to " + reciever, new FileTransferSend(reciever, file));
+        tabpn_tabs.add("Send file to " + reciever, new FileTransferSend(reciever, file));
     }
 
     public void addTransferTab_Recieve(String sender, String size, String filename,String ip,String port) {
@@ -103,7 +103,7 @@ public class ClientFrame extends javax.swing.JFrame {
     public void startSending(String ip, String reciever, String filename, String port) {
         for (Component c : tabpn_tabs.getComponents()) {
             if (c instanceof FileTransferSend && ((FileTransferSend) c).getFilename().equals(filename) && ((FileTransferSend) c).getReciever().equals(reciever)) {
-                ((FileTransferSend) c).startsending(ip, port);
+                ((FileTransferSend) c).startSending(ip, port);
             }
         }
     }

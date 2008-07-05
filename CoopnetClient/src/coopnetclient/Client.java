@@ -24,7 +24,6 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.launchers.LinuxLauncher;
 import coopnetclient.launchers.WindowsLauncher;
 import coopnetclient.modules.Colorizer;
-import coopnetclient.frames.clientframe.ClientFrame;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;

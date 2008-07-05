@@ -67,19 +67,16 @@ public class FileTransferRecieve extends javax.swing.JPanel {
         }
         lbl_sizeValue.setText(size + " ");
         if (i == 0) {
-            lbl_sizeValue.setText(lbl_sizeValue.getText() + "bytes");
+            lbl_sizeValue.setText(lbl_sizeValue.getText() + " B");
         }
         if (i == 1) {
-            lbl_sizeValue.setText(lbl_sizeValue.getText() + "kilobytes");
+            lbl_sizeValue.setText(lbl_sizeValue.getText() + " KB");
         }
         if (i == 2) {
-            lbl_sizeValue.setText(lbl_sizeValue.getText() + "megabytes");
+            lbl_sizeValue.setText(lbl_sizeValue.getText() + " MB");
         }
         if (i == 3) {
-            lbl_sizeValue.setText(lbl_sizeValue.getText() + "gigabytes!!!");
-        }
-        if (i > 3) {
-            lbl_sizeValue.setText("TOO BIG!!! Please cancel!");
+            lbl_sizeValue.setText(lbl_sizeValue.getText() + " GB");
         }
     }
 
@@ -109,7 +106,7 @@ public class FileTransferRecieve extends javax.swing.JPanel {
 
     }
 
-    public void setTImeLeft(long time) {
+    public void setTimeLeft(long time) {
         int seconds = 0;
         int minutes = 0;
         long hours = 0;
@@ -157,7 +154,7 @@ public class FileTransferRecieve extends javax.swing.JPanel {
                         if(e instanceof java.net.BindException){
                             Client.send(Protocol.turnTransferAround(sender,filename), null);
                             Thread.sleep(500);
-                            startDownloading2();
+                            startDownloadingRetry();
                             return;
                         }
                     }
@@ -201,7 +198,7 @@ public class FileTransferRecieve extends javax.swing.JPanel {
                             currenttime = System.currentTimeMillis();
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
-                            setTImeLeft((long) ((totalsize - i) / (i * 1.0) * timeelapsed));
+                            setTimeLeft((long) ((totalsize - i) / (i * 1.0) * timeelapsed));
                         }
                     }
                     bo.flush();
@@ -232,13 +229,13 @@ public class FileTransferRecieve extends javax.swing.JPanel {
     public void TurnAround(){
         try{
             serverSocket.close();
-            startDownloading2();
+            startDownloadingRetry();
         }
         catch(Exception e){}
     }
     
     //turns around the connection(connect to the sender )
-    private void startDownloading2() {
+    private void startDownloadingRetry() {
         new Thread() {
 
             long starttime;
@@ -291,7 +288,7 @@ public class FileTransferRecieve extends javax.swing.JPanel {
                             currenttime = System.currentTimeMillis();
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
-                            setTImeLeft((long) ((totalsize - recievedbytes) / (recievedbytes * 1.0) * timeelapsed));
+                            setTimeLeft((long) ((totalsize - recievedbytes) / (recievedbytes * 1.0) * timeelapsed));
                         }
                     }
                     bo.flush();
@@ -392,7 +389,7 @@ public class FileTransferRecieve extends javax.swing.JPanel {
             }
         });
 
-        lbl_note.setText("Note: You need to open port "+ Settings.getFiletTansferPort() +" to recieve files!");
+        lbl_note.setText("<html><b>Note:</b> At least one of you has to have an open port for the transfer to work. Your port is: "+ Settings.getFiletTansferPort());
 
         lbl_timeLeft.setText("??:??:??");
 
@@ -405,18 +402,18 @@ public class FileTransferRecieve extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pgb_progress, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
+                    .addComponent(lbl_note, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                    .addComponent(pgb_progress, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbl_progress)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 277, Short.MAX_VALUE)
                         .addComponent(lbl_timeLeftValue)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbl_timeLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btn_accept)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 356, Short.MAX_VALUE)
                         .addComponent(btn_refuse))
-                    .addComponent(lbl_note)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(lbl_status, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -426,14 +423,14 @@ public class FileTransferRecieve extends javax.swing.JPanel {
                             .addComponent(lbl_size, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_senderValue, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
-                            .addComponent(lbl_fileValue, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
-                            .addComponent(lbl_sizeValue, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+                            .addComponent(lbl_senderValue, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                            .addComponent(lbl_fileValue, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                            .addComponent(lbl_sizeValue, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(tf_savePath, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                                .addComponent(tf_savePath, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btn_browseSavePath))
-                            .addComponent(lbl_statusValue, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE))))
+                            .addComponent(lbl_statusValue, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -480,7 +477,7 @@ public class FileTransferRecieve extends javax.swing.JPanel {
         if (btn_accept.getText().equals("Accept")) {
             startDownloading();
             Client.send(Protocol.AcceptTransfer(sender, filename), null);
-            btn_accept.setText("Open File");
+            btn_accept.setText("Open file");
             btn_accept.setEnabled(false);
             btn_refuse.setText("Cancel");
         } else {

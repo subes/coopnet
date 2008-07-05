@@ -25,10 +25,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="pgb_progress" alignment="0" pref="374" max="32767" attributes="1"/>
+                  <Component id="lbl_note" alignment="1" pref="395" max="32767" attributes="0"/>
+                  <Component id="pgb_progress" alignment="0" pref="395" max="32767" attributes="1"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lbl_progress" min="-2" max="-2" attributes="1"/>
                       <EmptySpace pref="209" max="32767" attributes="0"/>
@@ -45,10 +46,10 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="lbl_recieverValue" alignment="0" pref="310" max="32767" attributes="1"/>
-                          <Component id="lbl_fileValue" alignment="0" pref="310" max="32767" attributes="1"/>
-                          <Component id="lbl_sizeValue" alignment="0" pref="310" max="32767" attributes="1"/>
-                          <Component id="lbl_statusValue" alignment="0" pref="310" max="32767" attributes="1"/>
+                          <Component id="lbl_recieverValue" alignment="0" pref="331" max="32767" attributes="1"/>
+                          <Component id="lbl_fileValue" alignment="0" pref="331" max="32767" attributes="1"/>
+                          <Component id="lbl_sizeValue" alignment="0" pref="331" max="32767" attributes="1"/>
+                          <Component id="lbl_statusValue" alignment="0" pref="331" max="32767" attributes="1"/>
                       </Group>
                   </Group>
                   <Component id="btn_cancel" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -90,7 +91,9 @@
               <Component id="pgb_progress" min="-2" pref="16" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="btn_cancel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="19" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lbl_note" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -159,6 +162,13 @@
     <Component class="javax.swing.JLabel" name="lbl_timeLeftValue">
       <Properties>
         <Property name="text" type="java.lang.String" value="??:??:??"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_note">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&quot;&lt;html&gt;&lt;b&gt;Note:&lt;/b&gt; At least one of you has to have an open port for the transfer to work. Your port is: &quot;+ Settings.getFiletTansferPort()" type="code"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>

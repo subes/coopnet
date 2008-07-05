@@ -59,19 +59,16 @@ public class FileTransferSend extends javax.swing.JPanel {
         }
         lbl_sizeValue.setText(size + " ");
         if (i == 0) {
-            lbl_sizeValue.setText(lbl_sizeValue.getText() + "bytes");
+            lbl_sizeValue.setText(lbl_sizeValue.getText() + " B");
         }
         if (i == 1) {
-            lbl_sizeValue.setText(lbl_sizeValue.getText() + "kilobytes");
+            lbl_sizeValue.setText(lbl_sizeValue.getText() + " KB");
         }
         if (i == 2) {
-            lbl_sizeValue.setText(lbl_sizeValue.getText() + "megabytes");
+            lbl_sizeValue.setText(lbl_sizeValue.getText() + " MB");
         }
         if (i == 3) {
-            lbl_sizeValue.setText(lbl_sizeValue.getText() + "gigabytes!!!");
-        }
-        if (i > 3) {
-            lbl_sizeValue.setText("TOO BIG!!! Please cancel!");
+            lbl_sizeValue.setText(lbl_sizeValue.getText() + " GB");
         }
         coopnetclient.modules.Colorizer.colorize(this);
     }
@@ -89,7 +86,7 @@ public class FileTransferSend extends javax.swing.JPanel {
         btn_cancel.setText("Close");
     }
 
-    public void setTImeLeft(long time) {
+    public void setTimeLeft(long time) {
         int seconds = 0;
         int minutes = 0;
         int hours = 0;
@@ -106,7 +103,7 @@ public class FileTransferSend extends javax.swing.JPanel {
         
     }
 
-    public void startsending(final String ip, final String port) {
+    public void startSending(final String ip, final String port) {
         new Thread() {
 
             long starttime;
@@ -124,7 +121,7 @@ public class FileTransferSend extends javax.swing.JPanel {
                     }
                     catch(Exception e){
                         Client.send(Protocol.turnTransferAround(reciever,filename), null);
-                        startsending2();
+                        startSendingRetry();
                         return;
                     }
                     lbl_statusValue.setText("Transferring...");
@@ -155,7 +152,7 @@ public class FileTransferSend extends javax.swing.JPanel {
                             currenttime = System.currentTimeMillis();
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
-                            setTImeLeft((long) ((totalbytes - sent) / (sent * 1.0) * timeelapsed));
+                            setTimeLeft((long) ((totalbytes - sent) / (sent * 1.0) * timeelapsed));
                         }
                     }
                     //send last chunk
@@ -180,7 +177,7 @@ public class FileTransferSend extends javax.swing.JPanel {
     }
     
     //turns around the connection, connect to the reciever
-    public void startsending2() {
+    public void startSendingRetry() {
         new Thread() {
 
             long starttime;
@@ -222,7 +219,7 @@ public class FileTransferSend extends javax.swing.JPanel {
                             currenttime = System.currentTimeMillis();
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
-                            setTImeLeft((long) ((totalbytes - sent) / (sent * 1.0) * timeelapsed));
+                            setTimeLeft((long) ((totalbytes - sent) / (sent * 1.0) * timeelapsed));
                         }
                     }
                     //send last chunk
@@ -274,6 +271,7 @@ public class FileTransferSend extends javax.swing.JPanel {
         lbl_statusValue = new javax.swing.JLabel();
         lbl_timeLeft = new javax.swing.JLabel();
         lbl_timeLeftValue = new javax.swing.JLabel();
+        lbl_note = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder("Send File"));
         setMaximumSize(null);
@@ -307,6 +305,8 @@ public class FileTransferSend extends javax.swing.JPanel {
 
         lbl_timeLeftValue.setText("??:??:??");
 
+        lbl_note.setText("<html><b>Note:</b> At least one of you has to have an open port for the transfer to work. Your port is: "+ Settings.getFiletTansferPort());
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -314,10 +314,11 @@ public class FileTransferSend extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pgb_progress, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+                    .addComponent(lbl_note, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+                    .addComponent(pgb_progress, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbl_progress)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 188, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
                         .addComponent(lbl_timeLeft)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lbl_timeLeftValue, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -329,10 +330,10 @@ public class FileTransferSend extends javax.swing.JPanel {
                             .addComponent(lbl_size, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lbl_recieverValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
-                            .addComponent(lbl_fileValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
-                            .addComponent(lbl_sizeValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
-                            .addComponent(lbl_statusValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)))
+                            .addComponent(lbl_recieverValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                            .addComponent(lbl_fileValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                            .addComponent(lbl_sizeValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                            .addComponent(lbl_statusValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)))
                     .addComponent(btn_cancel, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -364,7 +365,9 @@ public class FileTransferSend extends javax.swing.JPanel {
                 .addComponent(pgb_progress, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_cancel)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_note)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -382,6 +385,7 @@ public class FileTransferSend extends javax.swing.JPanel {
     private javax.swing.JButton btn_cancel;
     private javax.swing.JLabel lbl_file;
     private javax.swing.JLabel lbl_fileValue;
+    private javax.swing.JLabel lbl_note;
     private javax.swing.JLabel lbl_progress;
     private javax.swing.JLabel lbl_reciever;
     private javax.swing.JLabel lbl_recieverValue;

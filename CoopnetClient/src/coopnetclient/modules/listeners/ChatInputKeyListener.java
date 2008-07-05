@@ -23,6 +23,7 @@ import coopnetclient.frames.clientframe.PrivateChatPanel;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
+import coopnetclient.modules.ColoredChatHandler;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -58,7 +59,9 @@ public class ChatInputKeyListener implements KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
             if (ctrlIsPressed) { //CTRL+ENTER prints new line
-                source.setText(source.getText() + "\n");
+                if(source.getText().length() > 0 && !source.getText().startsWith("\n") && !source.getText().endsWith("\n\n")){
+                    source.setText(source.getText() + "\n");
+                }
             } else {
 
                 String command = source.getText();
@@ -68,6 +71,10 @@ public class ChatInputKeyListener implements KeyListener {
                     return;
                 }
                 if ((command.trim()).equals("")) {
+                    return;
+                }
+                if(command.length() > 2500){
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Could not send message, because it is too big!", ColoredChatHandler.SYSTEM_STYLE);
                     return;
                 }
 

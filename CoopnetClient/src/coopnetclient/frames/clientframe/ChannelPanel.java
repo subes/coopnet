@@ -465,10 +465,16 @@ public class ChannelPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_refresh
 
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
+        if(evt.getButton() == MouseEvent.BUTTON3){
+            lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+            lst_userList.getComponentPopupMenu().show(lst_userList, evt.getX(), evt.getY());
+        }else
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
-            String _name = (String) lst_userList.getSelectedValue();
-            Globals.getClientFrame().newPrivateChat(_name);
-            Globals.getClientFrame().showPMTab(_name);
+            String name = (String) lst_userList.getSelectedValue();
+            if(name != null && !name.equals("") && !name.equals(Globals.getThisPlayer_loginName())){
+                Globals.getClientFrame().newPrivateChat(name);
+                Globals.getClientFrame().showPMTab(name);
+            }
         }
 }//GEN-LAST:event_lst_userListMouseClicked
 

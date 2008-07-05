@@ -111,7 +111,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             Client.send(Protocol.requestProfile(subject), null);
         } else if (command.equals("Send nudge")) {
             Client.send(Protocol.nudge(subject), null);
-        } else if (command.equals("Send File...")) {
+        } else if (command.equals("Send file...")) {
 
             new Thread() {
 
@@ -141,7 +141,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
     @Override
     public void show(Component invoker, int x, int y) {
         super.show(invoker, x, y);
-        if (source == null || source.getSelectedValue() == null) {
+        if (source == null || source.getSelectedValue() == null || source.getSelectedValue().equals(Globals.getThisPlayer_loginName())) {
             setVisible(false);
         } else {
             playername.setText((String) source.getSelectedValue());
