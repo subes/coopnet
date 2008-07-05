@@ -19,7 +19,6 @@
 
 package coopnetclient.utils.filechooser;
 
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -27,7 +26,6 @@ import java.io.File;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.TreeSet;
-import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 
@@ -96,7 +94,7 @@ public class FileChooser extends javax.swing.JFrame {
     }
 
     private void fillPlacesComboBox() {
-        cmb_places.addItem("Jump to ...");
+        cmb_places.addItem("Click here to jump...");
         cmb_places.addItem("<html><b>- Places -");
         
         if(Globals.getOperatingSystem() == Globals.OS_LINUX){
@@ -206,8 +204,9 @@ public class FileChooser extends javax.swing.JFrame {
                 Rectangle rect = tbl_display.getCellRect(i, 0, true);
                 tbl_display.scrollRectToVisible(rect);
             } else {//set slection to top
-                tbl_display.getSelectionModel().setSelectionInterval(0, 0);
-                Rectangle rect = tbl_display.getCellRect(0, 0, true);
+                System.out.println("TOP");
+                tbl_display.getSelectionModel().setSelectionInterval(1, 1);
+                Rectangle rect = tbl_display.getCellRect(1, 1, true);
                 tbl_display.scrollRectToVisible(rect);
             }
         } catch(NullPointerException e){
@@ -505,7 +504,7 @@ private void cmb_placesPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuE
         openDirectory(new File(cmb_places.getSelectedItem().toString()));
     }
     cmb_places.removeItemAt(0);
-    cmb_places.insertItemAt("Jump to ...", 0);
+    cmb_places.insertItemAt("Click here to jump...", 0);
     cmb_places.setSelectedIndex(0);
 }//GEN-LAST:event_cmb_placesPopupMenuWillBecomeInvisible
 
