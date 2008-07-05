@@ -248,8 +248,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void changepassword(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changepassword
-        Globals.setChangePasswordFrame(new ChangePasswordFrame());
-        Globals.getChangePasswordFrame().setVisible(true);
+        Globals.openChangePasswordFrame();
     }//GEN-LAST:event_changepassword
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed

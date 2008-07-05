@@ -19,7 +19,6 @@
 
 package coopnetclient.frames.clientframe;
 
-import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
@@ -112,11 +111,7 @@ public class RoomPanel extends javax.swing.JPanel {
 
     public void showSettings() {
         if (btn_gameSettings.isVisible()) {
-            if (Globals.getGameSettingsFrame() == null) {
-                Globals.setGameSettingsFrame(new GameSettingsFrame(channel, modname));
-            }
-
-            Globals.getGameSettingsFrame().setVisible(true);
+            Globals.openGameSettingsFrame(channel, modname);
         }
     }
 
@@ -458,7 +453,6 @@ public class RoomPanel extends javax.swing.JPanel {
             @Override
             public void run() {
                 try{
-                    Globals.setGameSettingsFrame(new GameSettingsFrame(channel, modname));
                     showSettings();
                 }catch(Exception e){
                     ErrorHandler.handleException(e);

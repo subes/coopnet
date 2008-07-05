@@ -153,7 +153,7 @@ public class RoomTableModel extends DefaultTableModel {
         fireTableDataChanged();
     }
 
-    public String getselectedhost() throws NoRoomsException {
+    public String getSelectedHost() throws NoRoomsException {
         int i = parent.getSelectedRow();
         if (i == -1) {
             throw new NoRoomsException();
@@ -173,13 +173,12 @@ public class RoomTableModel extends DefaultTableModel {
         return name.get(indexOf(host));
     }
 
-    public boolean selectedispassworded() throws NoRoomsException {
+    public boolean selectedRoomIsPassworded() throws NoRoomsException {
         int i = parent.getSelectedRow();
         if (i == -1) {
             throw new NoRoomsException();
         }
         return password.get(i);
-
     }
 
     public void addnewroom(String _name, String _host, String _playerlimitstr, boolean _passw) {

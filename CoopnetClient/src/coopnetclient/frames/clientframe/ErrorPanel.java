@@ -19,7 +19,7 @@
 
 package coopnetclient.frames.clientframe;
 
-import coopnetclient.frames.BugReport;
+import coopnetclient.Globals;
 
 public class ErrorPanel extends javax.swing.JPanel {
 
@@ -123,7 +123,7 @@ public class ErrorPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_reportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reportActionPerformed
-        new BugReport(exc, trafficLog);
+        Globals.openBugReportFrame(exc, trafficLog);
 }//GEN-LAST:event_btn_reportActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_report;

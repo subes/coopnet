@@ -20,6 +20,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.Verification;
@@ -161,8 +162,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_saveActionPerformed
 
     private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel
-        this.setVisible(false);
-        this.dispose();
+        Globals.closeChangePasswordFrame();
     }//GEN-LAST:event_cancel
    
     // Variables declaration - do not modify//GEN-BEGIN:variables

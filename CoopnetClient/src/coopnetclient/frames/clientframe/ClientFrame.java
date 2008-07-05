@@ -266,7 +266,6 @@ public class ClientFrame extends javax.swing.JFrame {
     //Only used by Globals as callback!
     public void removeRoomPanelTab(){
         tabpn_tabs.remove(Globals.getRoomPanel());
-        Globals.setGameSettingsFrame(null);
         
         int index = indexOfTab(Globals.getRoomPanel().channel);
         if(index != -1){
@@ -619,8 +618,7 @@ public class ClientFrame extends javax.swing.JFrame {
     }
 
     private void mi_clientSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_clientSettingsActionPerformed
-        SettingsFrame frame = new SettingsFrame();
-        frame.setVisible(true);
+        Globals.openSettingsFrame();
 }//GEN-LAST:event_mi_clientSettingsActionPerformed
 
     private void mi_aboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_aboutActionPerformed
@@ -656,18 +654,10 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_connect.setEnabled(true);
         mi_channelList.setEnabled(false);
 
-        if (Globals.getChannelListFrame() != null) {
-            Globals.getChannelListFrame().dispose();
-        }
-        if (Globals.getChangePasswordFrame() != null) {
-            Globals.getChangePasswordFrame().dispose();
-        }
-        if (Globals.getProfileFrame() != null) {
-            Globals.getProfileFrame().dispose();
-        }
-        if (Globals.getRoomCreationFrame() != null) {
-            Globals.getRoomCreationFrame().dispose();
-        }
+        Globals.closeChannelListFrame();
+        Globals.closeChangePasswordFrame();
+        Globals.closeShowProfileFrame();
+        Globals.closeEditProfileFrame();
     }
 
     private void clearFavourites() {
@@ -746,8 +736,7 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_connectActionPerformed
 
     private void mi_channelListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_channelListActionPerformed
-        Globals.setChannelListFrame(new ChannelListFrame());
-        Globals.getChannelListFrame().setVisible(true);
+        Globals.openChannelListFrame();
 }//GEN-LAST:event_mi_channelListActionPerformed
 
     private void tabpn_tabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabpn_tabsStateChanged
@@ -772,7 +761,7 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_SoundsActionPerformed
 
     private void mi_manageFavsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_manageFavsActionPerformed
-        new FavouritesFrame().setVisible(true);
+        Globals.openFavouritesFrame();
 }//GEN-LAST:event_mi_manageFavsActionPerformed
 
     private void mi_addCurrentToFavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_addCurrentToFavActionPerformed
@@ -785,7 +774,7 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_addCurrentToFavActionPerformed
 
     private void mi_manageGamesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_manageGamesActionPerformed
-        new ManageGamesFrame().setVisible(true);
+        Globals.openManageGamesFrame();
 }//GEN-LAST:event_mi_manageGamesActionPerformed
 
     private void mi_guideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_guideActionPerformed
@@ -820,7 +809,7 @@ private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 }//GEN-LAST:event_mi_updateActionPerformed
 
 private void mi_bugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_bugReportActionPerformed
-    new BugReport();
+    Globals.openBugReportFrame();
 }//GEN-LAST:event_mi_bugReportActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu m_channels;

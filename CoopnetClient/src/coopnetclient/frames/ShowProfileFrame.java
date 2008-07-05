@@ -22,12 +22,12 @@ package coopnetclient.frames;
 public class ShowProfileFrame extends javax.swing.JFrame {
     
     /** Creates new form ShowProfile */
-    public ShowProfileFrame(String _name,String _email,String _country,String _webpage) {
+    public ShowProfileFrame(String name, String email, String country, String webpage) {
         initComponents();
-        tf_name.setText(_name);
-        tf_email.setText(_email);
-        tf_country.setText(_country) ;
-        tf_website.setText(_webpage);
+        tf_name.setText(name);
+        tf_email.setText(email);
+        tf_country.setText(country) ;
+        tf_website.setText(webpage);
         
         coopnetclient.modules.Colorizer.colorize(this);
         setLocationRelativeTo(null);

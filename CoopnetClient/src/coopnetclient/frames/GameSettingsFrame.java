@@ -39,12 +39,11 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     public GameSettingsFrame(String gamename,String modname) {
         initComponents();
         coopnetclient.modules.Colorizer.colorize(this);
-        Globals.setGameSettingsFrame(this);
         this.gamename = gamename;
-        this.modname=modname;
+        this.modname = modname;
         setLocationRelativeTo(null);
         hideAll();
-        customise();
+        customize();
         pack();
     }
 
@@ -73,7 +72,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         spn_scoreLimit.setVisible(false);
     }
 
-    private void customise() {
+    private void customize() {
         String tmp = GameDatabase.getGameSettings(gamename,modname);
         if (tmp == null) {
             return;

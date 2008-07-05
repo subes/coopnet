@@ -20,10 +20,7 @@
 package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
-import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
-import coopnetclient.frames.CreateRoomFrame;
-import coopnetclient.frames.RoomJoinPasswordFrame;
 import coopnetclient.modules.listeners.ChatInputKeyListener;
 import coopnetclient.modules.renderers.RoomPasswordPicTableCellRenderer;
 import coopnetclient.modules.renderers.UsersInRoomTableCellRenderer;
@@ -424,25 +421,17 @@ public class ChannelPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     private void create(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_create
-        if (Globals.getRoomCreationFrame() != null) {
-            Globals.getRoomCreationFrame().dispose();
-        }
-        Globals.setRoomCreationFrame(new CreateRoomFrame(this.name));
-        Globals.getRoomCreationFrame().setVisible(true);
+        Globals.openCreateRoomFrame(this.name);
     }//GEN-LAST:event_create
 
     private void join(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_join
         try {
-            if (rooms.selectedispassworded()) {
-                if (Globals.getRoomCreationFrame() != null) {
-                    Globals.getRoomCreationFrame().dispose();
-                }
-                Globals.setRoomCreationFrame(new RoomJoinPasswordFrame(rooms.getselectedhost(), this.name));
-                Globals.getRoomCreationFrame().setVisible(true);
+            if (rooms.selectedRoomIsPassworded()) {
+                Globals.openJoinRoomPasswordFrame(this.name, rooms.getSelectedHost());
                 return;
             }
             String tmp = null;
-            tmp = rooms.getselectedhost();
+            tmp = rooms.getSelectedHost();
             if (tmp != null) {
                 Client.send(Protocol.joinRoom(tmp, ""), this.name);
             }

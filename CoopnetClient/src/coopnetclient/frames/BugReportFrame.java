@@ -34,13 +34,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
-public class BugReport extends javax.swing.JFrame {
+public class BugReportFrame extends javax.swing.JFrame {
     
     private Exception exc;
     private String trafficLog;
     
     /** Creates new form BugReport */
-    public BugReport(Exception e, String trafficLog) {
+    public BugReportFrame(Exception e, String trafficLog) {
         //Exception mode
         initComponents();
         this.exc=e;
@@ -50,7 +50,7 @@ public class BugReport extends javax.swing.JFrame {
         setVisible(true);
     }
     
-    public BugReport() {
+    public BugReportFrame() {
         //Message mode
         initComponents();
         Colorizer.colorize(this);
@@ -227,13 +227,13 @@ public class BugReport extends javax.swing.JFrame {
                         .addComponent(lbl_emailOptional))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lbl_longDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE))
+                        .addComponent(lbl_longDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lbl_shortDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE))
+                        .addComponent(lbl_shortDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lbl_email, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE))
+                        .addComponent(lbl_email, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addGap(12, 12, 12)
@@ -259,7 +259,7 @@ public class BugReport extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
                                 .addComponent(lbl_note))
-                            .addComponent(lbl_info, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE))))
+                            .addComponent(lbl_info, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -302,7 +302,7 @@ public class BugReport extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void btn_reviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reviewActionPerformed
-        new TextPreviewFrame("Review bugreport", compileReport());
+        Globals.openTextPreviewFrame("Review bugreport", compileReport());
 }//GEN-LAST:event_btn_reviewActionPerformed
 
     private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sendActionPerformed

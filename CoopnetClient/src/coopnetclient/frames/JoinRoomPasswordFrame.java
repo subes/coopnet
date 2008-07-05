@@ -23,13 +23,13 @@ import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
 
-public class RoomJoinPasswordFrame extends javax.swing.JFrame {
+public class JoinRoomPasswordFrame extends javax.swing.JFrame {
 
     private String host_name = "";
     private String channel;
     
     /** Creates new form RoomJoinPasswordFrame */
-    public RoomJoinPasswordFrame(String host_name,String channel) {
+    public JoinRoomPasswordFrame(String host_name,String channel) {
         initComponents();
         
         this.host_name = host_name;

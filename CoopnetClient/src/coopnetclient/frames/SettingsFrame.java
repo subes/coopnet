@@ -848,13 +848,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
                 public void run() {
                     try{
                         Colorizer.initColors();
-                        coopnetclient.modules.Colorizer.colorize(Globals.getClientFrame());
-                        //colorise other open windows too
-                        coopnetclient.modules.Colorizer.colorize(Globals.getChannelListFrame());
-                        coopnetclient.modules.Colorizer.colorize(Globals.getChangePasswordFrame());
-                        coopnetclient.modules.Colorizer.colorize(Globals.getProfileFrame());
-                        coopnetclient.modules.Colorizer.colorize(Globals.getGameSettingsFrame());
-                        //dont color settingsframe cuz it fucks it up
+                        Globals.recolorFrames();
                     }catch(Exception e){
                         ErrorHandler.handleException(e);
                     }

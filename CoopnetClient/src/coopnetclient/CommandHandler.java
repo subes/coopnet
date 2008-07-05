@@ -23,9 +23,6 @@ import coopnetclient.modules.Verification;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.SoundPlayer;
 import coopnetclient.modules.FrameIconFlasher;
-import coopnetclient.frames.EditProfileFrame;
-import coopnetclient.frames.ShowProfileFrame;
-import coopnetclient.modules.renderers.RoomStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.FileDownloader;
 import javax.swing.JOptionPane;
@@ -188,7 +185,7 @@ public class CommandHandler {
             //the server accepted the join request, must create a new room tab now in client mode
             if (input.startsWith("join ")) {
                 String[] tmp = input.substring(5).split(Protocol.INFORMATION_DELIMITER); // join, ip,compatibility,hamachiip, maxplayers, modindex
-                Globals.createRoomPanel(false, currentchannel, tmp[5], tmp[1], tmp[2].equals("true"), tmp[3], new Integer(tmp[4]));
+                Globals.openRoomPanel(false, currentchannel, tmp[5], tmp[1], tmp[2].equals("true"), tmp[3], new Integer(tmp[4]));
             } else 
             //the server accepted the room creation request, must create a new room tab in server mode
             if (input.startsWith("create ")) {
@@ -196,11 +193,11 @@ public class CommandHandler {
                 boolean compatible = Boolean.valueOf(tmp[1]);
                 int maxplayers = Integer.valueOf(tmp[2]);
                 String modindex = tmp[3];
-                Globals.createRoomPanel(true, currentchannel, modindex, "", compatible, "", maxplayers);
+                Globals.openRoomPanel(true, currentchannel, modindex, "", compatible, "", maxplayers);
             } else 
             //server accepted leave request, must delete room tab
             if (input.startsWith("leave")) {
-                Globals.removeRoomPanel();
+                Globals.closeRoomPanel();
             } else 
             //the owner of the room closed it, must remove from room list
             if (input.startsWith("removeroom")) {
@@ -208,13 +205,13 @@ public class CommandHandler {
             } else             
             //the currently joined room was closed, must delete room tab
             if (input.startsWith("close")) {
-                Globals.removeRoomPanel();
+                Globals.closeRoomPanel();
                 Globals.getClientFrame().mainChat(currentchannel, "SYSTEM", "The Room has been closed!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
 
             } else 
             //been kicked of the current room, must delete room tab
             if (input.startsWith("kicked")) {
-                Globals.removeRoomPanel();
+                Globals.closeRoomPanel();
                 Globals.getClientFrame().mainChat(currentchannel, "SYSTEM", "You have been kicked by the host!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             } else 
             //add a player to the rooms player list
@@ -275,35 +272,31 @@ public class CommandHandler {
             } else 
             //confirmation message from the server. the password was changed succesfully
             if (input.startsWith("passwordchanged")) {
-                Globals.getChangePasswordFrame().setVisible(false);
+                Globals.closeChangePasswordFrame();
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Password changed!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             } else 
             //confirmation message from the server. the name was changed successfully(if changed)
             if (input.startsWith("profilesaved")) {
-                Globals.getProfileFrame().setVisible(false);
+                Globals.closeEditProfileFrame();
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Profile saved!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             } else 
             //show the profile-editing window with the data in parameters
             if (input.startsWith("editprofile")) {
                 String[] tmp = input.split(Protocol.INFORMATION_DELIMITER); //0 showprofile 1 name 2 ingamename 3 email 4 ispublic 5 country 6 webpage
-                Globals.setProfileFrame(new EditProfileFrame(
-                        tmp[1].substring(6),
+                Globals.openEditProfileFrame(tmp[1].substring(6),
                         tmp[2].substring(10),
                         tmp[3].substring(7),
                         tmp[4].substring(8),
                         tmp[5].substring(9),
-                        tmp[6].substring(9)));
-                Globals.getProfileFrame().setVisible(true);
+                        tmp[6].substring(9));
             } else 
             //show the profile view window with the data in parameters
             if (input.startsWith("showprofile")) {
                 String[] tmp = input.split(Protocol.INFORMATION_DELIMITER); //0 showprofile 1 name 2 email 3 country 4 webpage
-                Globals.setProfileFrame(new ShowProfileFrame(
-                        tmp[1].substring(6),
+                Globals.openShowProfileFrame(tmp[1].substring(6),
                         tmp[2].substring(7),
                         tmp[3].substring(9),
-                        tmp[4].substring(9)));
-                Globals.getProfileFrame().setVisible(true);
+                        tmp[4].substring(9));
             } else 
             //add the player in parameter to the player-list of the room in parameter (shows as tooltiptext)
             if (input.startsWith("joined ")) {

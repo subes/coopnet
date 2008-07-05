@@ -106,7 +106,7 @@ public class Client {
             public void run() {
                 try{
                     Colorizer.initLAF();
-                    Globals.createClientFrame();
+                    Globals.openClientFrame();
                     startConnection();
 
                     try {
@@ -133,7 +133,7 @@ public class Client {
 
     public static void stopConnection() {
         Globals.setLoggedInStatus(false);
-        Globals.removeRoomPanel();
+        Globals.closeRoomPanel();
         if (handlerThread != null) {
             handlerThread.stopThread();
         }
