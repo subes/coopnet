@@ -69,7 +69,6 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         btn_create = new javax.swing.JButton();
         btn_cancel = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Create room");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -217,7 +216,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
                 .addContainerGap(347, Short.MAX_VALUE))
-            .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+            .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

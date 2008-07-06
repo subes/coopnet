@@ -45,7 +45,6 @@ public class TextPreviewFrame extends javax.swing.JFrame {
         ta_text = new javax.swing.JTextArea();
         btn_close = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Text preview");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {

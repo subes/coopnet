@@ -2,7 +2,6 @@
 
 <Form version="1.5" maxVersion="1.5" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="Game settings"/>
   </Properties>
   <SyntheticProperties>
@@ -75,8 +74,8 @@
                           </Group>
                           <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="cb_map" pref="276" max="32767" attributes="1"/>
-                              <Component id="cb_mode" alignment="1" pref="276" max="32767" attributes="1"/>
+                              <Component id="cb_map" pref="291" max="32767" attributes="1"/>
+                              <Component id="cb_mode" alignment="1" pref="291" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>

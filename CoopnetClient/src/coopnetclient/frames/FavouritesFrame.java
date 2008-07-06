@@ -65,7 +65,6 @@ public class FavouritesFrame extends javax.swing.JFrame {
         scrl_favourites = new javax.swing.JScrollPane();
         lst_favourites = new javax.swing.JList();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manage favourites");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -117,10 +116,10 @@ public class FavouritesFrame extends javax.swing.JFrame {
             .addGroup(pnl_channelsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_channelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrl_channels, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                    .addComponent(scrl_channels, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
                     .addGroup(pnl_channelsLayout.createSequentialGroup()
                         .addComponent(lbl_channels)
-                        .addContainerGap(141, Short.MAX_VALUE))))
+                        .addContainerGap(151, Short.MAX_VALUE))))
         );
         pnl_channelsLayout.setVerticalGroup(
             pnl_channelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,7 +127,7 @@ public class FavouritesFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lbl_channels)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrl_channels, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE))
+                .addComponent(scrl_channels, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
         );
 
         sp_lists.setLeftComponent(pnl_channels);
@@ -145,7 +144,7 @@ public class FavouritesFrame extends javax.swing.JFrame {
             .addGroup(pnl_favouritesLayout.createSequentialGroup()
                 .addGroup(pnl_favouritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbl_favourites)
-                    .addComponent(scrl_favourites, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
+                    .addComponent(scrl_favourites, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnl_favouritesLayout.setVerticalGroup(
@@ -154,7 +153,7 @@ public class FavouritesFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lbl_favourites)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrl_favourites, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE))
+                .addComponent(scrl_favourites, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
         );
 
         sp_lists.setRightComponent(pnl_favourites);
@@ -169,16 +168,16 @@ public class FavouritesFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE))
+                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_close)))
                 .addContainerGap())
-            .addComponent(sp_lists, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+            .addComponent(sp_lists, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_add)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
                 .addComponent(btn_remove)
                 .addContainerGap())
         );

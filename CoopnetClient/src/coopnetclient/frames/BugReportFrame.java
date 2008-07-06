@@ -168,7 +168,6 @@ public class BugReportFrame extends javax.swing.JFrame {
         btn_review = new javax.swing.JButton();
         lbl_note = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Bug report");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {

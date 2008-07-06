@@ -179,7 +179,6 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         tf_port = new javax.swing.JTextField();
         lbl_port = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Game settings");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -229,8 +228,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                             .addComponent(lbl_map))
                         .addGap(39, 39, 39)
                         .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cb_map, 0, 276, Short.MAX_VALUE)
-                            .addComponent(cb_mode, 0, 276, Short.MAX_VALUE))
+                            .addComponent(cb_map, 0, 291, Short.MAX_VALUE)
+                            .addComponent(cb_mode, 0, 291, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_settingsLayout.createSequentialGroup()

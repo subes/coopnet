@@ -405,8 +405,8 @@ public class Globals {
     
     public static void closeManageGamesFrame(){
         if(manageGamesFrame != null){
-            settingsFrame.dispose();
-            settingsFrame = null;
+            manageGamesFrame.dispose();
+            manageGamesFrame = null;
         }
     }
     
