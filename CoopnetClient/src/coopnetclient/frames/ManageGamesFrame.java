@@ -23,7 +23,6 @@ import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.launchers.WindowsLauncher;
-import coopnetclient.modules.Colorizer;
 import coopnetclient.modules.models.SortedListModel;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.io.File;
@@ -76,6 +75,11 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manage games");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         lbl_games.setText("Games:");
 
@@ -141,9 +145,9 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE))
+                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE))
                     .addComponent(lbl_games)
-                    .addComponent(scrl_games, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+                    .addComponent(scrl_games, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_installPath)
@@ -151,11 +155,11 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(tf_path, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                                .addComponent(tf_path, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_browsePath))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(tf_installPath, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                                .addComponent(tf_installPath, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_browseInstallPath))
                             .addGroup(layout.createSequentialGroup()
@@ -258,8 +262,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_saveActionPerformed
 
     private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
-        this.setVisible(false);
-        dispose();
+        Globals.closeManageGamesFrame();
 }//GEN-LAST:event_btn_closeActionPerformed
 
     private void btn_browseInstallPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browseInstallPathActionPerformed
@@ -295,6 +298,11 @@ private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     }
     this.repaint();
 }//GEN-LAST:event_tf_filterActionPerformed
+
+private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    Globals.closeManageGamesFrame();
+}//GEN-LAST:event_formWindowClosing
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_browseInstallPath;
     private javax.swing.JButton btn_browsePath;

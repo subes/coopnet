@@ -54,6 +54,11 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Change password");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Change password"));
 
@@ -126,7 +131,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                 .addComponent(btn_save)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addContainerGap(248, Short.MAX_VALUE))
+                .addContainerGap(303, Short.MAX_VALUE))
             .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -137,7 +142,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_save)
                     .addComponent(btn_cancel))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -161,6 +166,10 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel
         Globals.closeChangePasswordFrame();
     }//GEN-LAST:event_cancel
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Globals.closeChangePasswordFrame();
+    }//GEN-LAST:event_formWindowClosing
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;

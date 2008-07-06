@@ -220,12 +220,12 @@ public class FavouritesFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_removeActionPerformed
 
     private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
-        this.setVisible(false);
-        dispose();
+        Globals.closeFavouritesFrame();
 }//GEN-LAST:event_btn_closeActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Globals.getClientFrame().refreshFavourites();
+        Globals.closeFavouritesFrame();
     }//GEN-LAST:event_formWindowClosing
 
     private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_filterActionPerformed

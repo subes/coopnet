@@ -69,7 +69,6 @@ public class Globals {
             operatingSystem = OS_WINDOWS;
             lastOpenedDir = System.getenv("USERPROFILE");
         } else {
-            
             operatingSystem = OS_LINUX;
             lastOpenedDir = System.getenv("HOME");
         }
@@ -119,7 +118,6 @@ public class Globals {
     
     public static void setThisPlayer_loginName(String value){
         thisPlayer_loginName = value;
-        //System.out.println("newLoginName: "+value);
     }
     
     public static String getThisPlayer_loginName(){
@@ -128,7 +126,6 @@ public class Globals {
     
     public static void setThisPlayer_inGameName(String value){
         thisPlayer_inGameName = value;
-        //System.out.println("newIngameName: "+value);
     }
     
     public static String getThisPlayer_inGameName(){
@@ -186,6 +183,7 @@ public class Globals {
     public static void closeClientFrame(){
         if(clientFrame != null){
             clientFrame.dispose();
+            clientFrame = null;
         }
     }
     
@@ -206,7 +204,13 @@ public class Globals {
     
     public static void closeRoomPanel(){
         if(roomPanel != null){
-            getLauncher().stop();
+            if(launcher != null){
+                launcher.stop();
+            }else{
+                if(debug){
+                    System.out.println("[WARNING]\tLauncher should not be set to null!");
+                }
+            }
             closeGameSettingsFrame();
             clientFrame.removeRoomPanelTab();
             roomPanel = null;
@@ -221,6 +225,7 @@ public class Globals {
         if(showProfileFrame != null){
             Point prevLocation = showProfileFrame.getLocation();
             showProfileFrame.dispose();
+            showProfileFrame = null;
             showProfileFrame = new ShowProfileFrame(name, email, country, webpage);
             setupFrame(showProfileFrame, prevLocation);
         }else{
@@ -232,6 +237,7 @@ public class Globals {
     public static void closeShowProfileFrame(){
         if(showProfileFrame != null){
             showProfileFrame.dispose();
+            showProfileFrame = null;
         }
     }
     
@@ -240,6 +246,7 @@ public class Globals {
             Point prevLocation = editProfileFrame.getLocation();
             closeChangePasswordFrame();
             editProfileFrame.dispose();
+            editProfileFrame = null;
             editProfileFrame = new EditProfileFrame(name, ingamename, email, emailpublicity, country, webpage);
             setupFrame(editProfileFrame, prevLocation);
         }else{
@@ -252,6 +259,7 @@ public class Globals {
         if(editProfileFrame != null){
             closeChangePasswordFrame();
             editProfileFrame.dispose();
+            editProfileFrame = null;
         }
     }
     
@@ -267,6 +275,7 @@ public class Globals {
     public static void closeChangePasswordFrame(){
         if(changePasswordFrame != null){
             changePasswordFrame.dispose();
+            changePasswordFrame = null;
         }
     }
     
@@ -282,6 +291,7 @@ public class Globals {
     public static void closeChannelListFrame(){
         if(channelListFrame != null){
             channelListFrame.dispose();
+            channelListFrame = null;
         }
     }
     
@@ -297,18 +307,21 @@ public class Globals {
     public static void closeGameSettingsFrame(){
         if(gameSettingsFrame != null){
             gameSettingsFrame.dispose();
+            gameSettingsFrame = null;
         }
     }
     
     public static void openJoinRoomPasswordFrame(String channel, String roomHost){
         if(createRoomFrame != null){
             createRoomFrame.dispose();
+            createRoomFrame = null;
             if(getDebug()){
                 System.out.println("[WARNING]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
             }
         }
         if(roomJoinPasswordFrame != null){
             roomJoinPasswordFrame.dispose();
+            roomJoinPasswordFrame = null;
             if(getDebug()){
                 System.out.println("[WARNING]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
             }
@@ -321,12 +334,14 @@ public class Globals {
     public static void openCreateRoomFrame(String channel){
         if(createRoomFrame != null){
             createRoomFrame.dispose();
+            createRoomFrame = null;
             if(getDebug()){
                 System.out.println("[WARNING]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
             }
         }
         if(roomJoinPasswordFrame != null){
             roomJoinPasswordFrame.dispose();
+            roomJoinPasswordFrame = null;
             if(getDebug()){
                 System.out.println("[WARNING]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
             }
@@ -339,9 +354,11 @@ public class Globals {
     public static void closeRoomCreationFrame(){
         if(createRoomFrame != null){
             createRoomFrame.dispose();
+            createRoomFrame = null;
         }
         if(roomJoinPasswordFrame != null){
             roomJoinPasswordFrame.dispose();
+            roomJoinPasswordFrame = null;
         }
     }
     
@@ -357,6 +374,7 @@ public class Globals {
     public static void closeFavouritesFrame(){
         if(favouritesFrame != null){
             favouritesFrame.dispose();
+            favouritesFrame = null;
         }
     }
     
@@ -372,6 +390,7 @@ public class Globals {
     public static void closeSettingsFrame(){
         if(settingsFrame != null){
             settingsFrame.dispose();
+            settingsFrame = null;
         }
     }
     
@@ -387,6 +406,7 @@ public class Globals {
     public static void closeManageGamesFrame(){
         if(manageGamesFrame != null){
             settingsFrame.dispose();
+            settingsFrame = null;
         }
     }
     
@@ -412,6 +432,7 @@ public class Globals {
         if(bugReportFrame != null){
             closeTextPreviewFrame();
             bugReportFrame.dispose();
+            bugReportFrame = null;
         }
     }
     
@@ -419,6 +440,7 @@ public class Globals {
         if(textPreviewFrame != null){
             Point prevPosition = textPreviewFrame.getLocation();
             textPreviewFrame.dispose();
+            textPreviewFrame = null;
             textPreviewFrame = new TextPreviewFrame(title, text);
             setupFrame(textPreviewFrame, prevPosition);
         }else{
@@ -431,6 +453,7 @@ public class Globals {
     public static void closeTextPreviewFrame(){
         if(textPreviewFrame != null){
             textPreviewFrame.dispose();
+            textPreviewFrame = null;
         }
     }
     

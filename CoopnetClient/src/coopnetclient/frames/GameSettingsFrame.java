@@ -181,6 +181,11 @@ public class GameSettingsFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Game settings");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         btn_save.setText("Save");
         btn_save.addActionListener(new java.awt.event.ActionListener() {
@@ -224,8 +229,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                             .addComponent(lbl_map))
                         .addGap(39, 39, 39)
                         .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cb_map, 0, 268, Short.MAX_VALUE)
-                            .addComponent(cb_mode, 0, 268, Short.MAX_VALUE))
+                            .addComponent(cb_map, 0, 276, Short.MAX_VALUE)
+                            .addComponent(cb_mode, 0, 276, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_settingsLayout.createSequentialGroup()
@@ -281,7 +286,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_save)
-                .addContainerGap(298, Short.MAX_VALUE))
+                .addContainerGap(321, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,7 +294,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                 .addComponent(pnl_settings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_save)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -319,12 +324,16 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
         Globals.getRoomPanel().enableButtons();
         Client.send(Protocol.SendPort(new Integer(tf_port.getText())), null);
-        this.setVisible(false);
-        dispose();        
+        
+        Globals.closeGameSettingsFrame();
     } catch (Exception e) {
     }
 
 }//GEN-LAST:event_btn_saveActionPerformed
+
+private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    Globals.closeGameSettingsFrame();
+}//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_save;

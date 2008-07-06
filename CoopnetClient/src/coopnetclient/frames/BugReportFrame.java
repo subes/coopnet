@@ -171,6 +171,11 @@ public class BugReportFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Bug report");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         lbl_header.setText("<HTML><h2>Report a bug:</h2>");
 
@@ -294,8 +299,7 @@ public class BugReportFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
-        this.setVisible(false);
-        this.dispose();
+        Globals.closeBugReportFrame();
 }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void btn_reviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reviewActionPerformed
@@ -334,11 +338,14 @@ public class BugReportFrame extends javax.swing.JFrame {
                         "Success", JOptionPane.PLAIN_MESSAGE);
                 
                 Globals.getClientFrame().removeAllTabs();
-                this.setVisible(false);
-                this.dispose();
+                Globals.closeBugReportFrame();
             }
         }
 }//GEN-LAST:event_btn_sendActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Globals.closeBugReportFrame();
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;

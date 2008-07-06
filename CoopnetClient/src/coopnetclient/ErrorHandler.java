@@ -28,7 +28,7 @@ public class ErrorHandler {
             return;
         }
         
-        exc.printStackTrace();
+        //exc.printStackTrace();
         
         if(exc instanceof java.nio.channels.AsynchronousCloseException){
             return;

@@ -20,6 +20,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import javax.swing.DefaultComboBoxModel;
@@ -71,6 +72,11 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Create room");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Create room"));
         pnl_input.setLayout(new java.awt.GridBagLayout());
@@ -210,14 +216,14 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 .addComponent(btn_create)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addContainerGap(315, Short.MAX_VALUE))
-            .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+                .addContainerGap(347, Short.MAX_VALUE))
+            .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(pnl_input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_create, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_cancel))
@@ -233,12 +239,11 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             modindex = -1;
         }
         Client.send(Protocol.createRoom(tf_name.getText(), "" + modindex, passw, spn_maxPlayers.getValue() + "", cb_compatibility.isSelected()), channel);
-        this.setVisible(false);
+        Globals.closeRoomCreationFrame();
     }//GEN-LAST:event_create
 
     private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel
-        this.setVisible(false);
-        this.dispose();
+        Globals.closeRoomCreationFrame();
     }//GEN-LAST:event_cancel
 
     private void tf_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_nameActionPerformed
@@ -248,6 +253,10 @@ public class CreateRoomFrame extends javax.swing.JFrame {
     private void pf_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pf_passwordActionPerformed
         btn_create.doClick();
 }//GEN-LAST:event_pf_passwordActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Globals.closeRoomCreationFrame();
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;

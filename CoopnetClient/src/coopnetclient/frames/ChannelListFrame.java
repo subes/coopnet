@@ -59,6 +59,11 @@ public class ChannelListFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Join channel");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         lbl_filter.setText("Filter:");
 
@@ -99,7 +104,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(scrl_channelList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                    .addComponent(scrl_channelList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -134,8 +139,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
 
     private void jb_joinChannelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_joinChannelButtonActionPerformed
         Client.send(Protocol.JoinChannel((String) lst_channelList.getSelectedValue()), null);
-        this.setVisible(false);
-        this.dispose();
+        Globals.closeChannelListFrame();
 }//GEN-LAST:event_jb_joinChannelButtonActionPerformed
 
     private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_filterActionPerformed
@@ -151,8 +155,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_tf_filterActionPerformed
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
-        this.setVisible(false);
-        this.dispose();
+        Globals.closeChannelListFrame();
 }//GEN-LAST:event_btn_cancelActionPerformed
 
 private void lst_channelListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_channelListMouseClicked
@@ -160,6 +163,11 @@ private void lst_channelListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-F
         jb_joinChannelButton.doClick();
     }
 }//GEN-LAST:event_lst_channelListMouseClicked
+
+private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    Globals.closeChannelListFrame();
+}//GEN-LAST:event_formWindowClosing
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton jb_joinChannelButton;

@@ -19,6 +19,8 @@
 
 package coopnetclient.frames;
 
+import coopnetclient.Globals;
+
 public class TextPreviewFrame extends javax.swing.JFrame {
     
     /** Creates new form TextPreviewFrame */
@@ -45,6 +47,11 @@ public class TextPreviewFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Text preview");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         ta_text.setColumns(20);
         ta_text.setEditable(false);
@@ -83,9 +90,12 @@ public class TextPreviewFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
-        setVisible(false);
-        dispose();
+        Globals.closeTextPreviewFrame();
 }//GEN-LAST:event_btn_closeActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Globals.closeTextPreviewFrame();
+    }//GEN-LAST:event_formWindowClosing
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

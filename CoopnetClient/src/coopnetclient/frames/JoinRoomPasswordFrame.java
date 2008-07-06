@@ -53,6 +53,11 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Enter password");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         btn_join.setText("Join");
         btn_join.addActionListener(new java.awt.event.ActionListener() {
@@ -107,7 +112,7 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addContainerGap(202, Short.MAX_VALUE))
+                .addContainerGap(232, Short.MAX_VALUE))
             .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -118,7 +123,7 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_join)
                     .addComponent(btn_cancel))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -133,13 +138,16 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_join
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
-        this.setVisible(false);
-        this.dispose();
+        Globals.closeRoomCreationFrame();
 }//GEN-LAST:event_btn_cancelActionPerformed
 
 private void pf_roomPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pf_roomPasswordActionPerformed
     btn_join.doClick();
 }//GEN-LAST:event_pf_roomPasswordActionPerformed
+
+private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    Globals.closeRoomCreationFrame();
+}//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;

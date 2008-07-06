@@ -19,6 +19,8 @@
 
 package coopnetclient.frames;
 
+import coopnetclient.Globals;
+
 public class ShowProfileFrame extends javax.swing.JFrame {
     
     /** Creates new form ShowProfile */
@@ -52,6 +54,11 @@ public class ShowProfileFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Player profile");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         pnl_profile.setBorder(javax.swing.BorderFactory.createTitledBorder("Player profile"));
 
@@ -84,10 +91,10 @@ public class ShowProfileFrame extends javax.swing.JFrame {
                     .addComponent(lbl_website))
                 .addGap(15, 15, 15)
                 .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tf_website, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                    .addComponent(tf_country, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                    .addComponent(tf_email, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                    .addComponent(tf_name, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
+                    .addComponent(tf_website, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                    .addComponent(tf_country, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                    .addComponent(tf_email, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                    .addComponent(tf_name, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnl_profileLayout.setVerticalGroup(
@@ -125,7 +132,7 @@ public class ShowProfileFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_close)
-                .addContainerGap(247, Short.MAX_VALUE))
+                .addContainerGap(279, Short.MAX_VALUE))
             .addComponent(pnl_profile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -134,7 +141,7 @@ public class ShowProfileFrame extends javax.swing.JFrame {
                 .addComponent(pnl_profile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_close)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -142,9 +149,13 @@ public class ShowProfileFrame extends javax.swing.JFrame {
 
     private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
         // close window
-        this.setVisible(false);
-        this.dispose();
+        Globals.closeShowProfileFrame();
 }//GEN-LAST:event_btn_closeActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Globals.closeShowProfileFrame();
+    }//GEN-LAST:event_formWindowClosing
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_close;
     private javax.swing.JLabel lbl_country;
