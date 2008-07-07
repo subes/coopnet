@@ -28,19 +28,26 @@ public class RoomPasswordPicTableCellRenderer extends DefaultTableCellRenderer{
      * this renders the picture in the room list showing if its public or password protected
      */
     
+    private static ImageIcon normalOpenRoomIcon = new ImageIcon("data/icons/door.gif");
+    private static ImageIcon normalPasswordedRoomIcon = new ImageIcon("data/icons/cl_door.gif");
+    
     /** Creates a new instance of MyPasswordrenderer */
     public RoomPasswordPicTableCellRenderer() {
     }
     
     @Override
      public void setValue(Object value) {
-        if(!(Boolean)value){
-            setIcon(new ImageIcon("data/icons/door.gif"));
-            setToolTipText("Room is not password protected");   
+        int intvalue = (Integer)value;
+        
+        switch(intvalue){
+           case coopnetclient.modules.models.RoomTableModel.NORMAL_UNPASSWORDED_ROOM:
+                setIcon(normalOpenRoomIcon);
+                setToolTipText("Room is not password protected");  
+                break;
+           case coopnetclient.modules.models.RoomTableModel.NORMAL_PASSWORDED_ROOM:
+                setIcon(normalPasswordedRoomIcon);
+                setToolTipText("Room is not password protected");  
+                break;
         }
-        else{
-            setIcon(new ImageIcon("data/icons/cl_door.gif"));
-            setToolTipText("Room is password protected");      
-        }  
     }
 }

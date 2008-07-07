@@ -19,7 +19,6 @@
 
 package coopnetclient.frames.clientframe;
 
-import coopnetclient.frames.*;
 import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
@@ -30,7 +29,6 @@ import coopnetclient.frames.clientframe.RoomPanel;
 import coopnetclient.Protocol;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.ColoredChatHandler;
-import coopnetclient.modules.renderers.RoomStatusListCellRenderer;
 import coopnetclient.modules.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.components.FavMenuItem;
@@ -250,9 +248,9 @@ public class ClientFrame extends javax.swing.JFrame {
         return channels.get(0).isVisible();
     }
 
-    public void addNewRoomToList(String channel, String roomname, String hostname, String limitstr, boolean passworded) {
+    public void addNewRoomToList(String channel, String roomname, String hostname, int maxplayers, int type) {
         getChannel(channel).addnewroom(roomname,
-                hostname, limitstr, passworded);
+                hostname, maxplayers, type);
     }
 
     public void addUser(String channel, String name) {
@@ -266,12 +264,13 @@ public class ClientFrame extends javax.swing.JFrame {
     //Only used by Globals as callback!
     public void removeRoomPanelTab(){
         tabpn_tabs.remove(Globals.getRoomPanel());
-        
-        int index = indexOfTab(Globals.getRoomPanel().channel);
-        if(index != -1){
-            tabpn_tabs.setSelectedIndex(index);
+        RoomPanel room = Globals.getRoomPanel();
+        if(room!=null){
+            int index = indexOfTab(room.channel);
+            if(index != -1){
+                tabpn_tabs.setSelectedIndex(index);
+            }
         }
-        
         for (ChannelPanel cp : channels) {
             cp.enablebuttons();
         }

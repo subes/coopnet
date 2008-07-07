@@ -45,7 +45,7 @@ public class UsersInRoomTableCellRenderer extends DefaultTableCellRenderer {
 
         // Set tool tip if desired
         setToolTipText("<html>" +
-                model.getuserslist(rowIndex) +
+                model.getUserList(rowIndex) +
                 "</html>");
 
         // Since the renderer is a component, return itself

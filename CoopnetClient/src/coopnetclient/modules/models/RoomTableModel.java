@@ -1,81 +1,123 @@
 /*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
-                    Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
 
-    This file is part of Coopnet.
+This file is part of Coopnet.
 
-    Coopnet is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+Coopnet is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    Coopnet is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Coopnet is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+You should have received a copy of the GNU General Public License
+along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package coopnetclient.modules.models;
 
-import coopnetclient.exceptions.NoRoomsException;
 import java.util.ArrayList;
-import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 public class RoomTableModel extends DefaultTableModel {
 
-    private class Room{
-        
-        int type;
-        String name;
-        String hostName;
-        int maxplayers;
-        ArrayList<String> playersInRoom = new ArrayList<String>();
-        
-        public Room(int type, String name,String hostName,int maxplayers){
-            this.type= type;
-            this.name=name;
-            this.hostName=hostName;
-            this.maxplayers=maxplayers;
+    public static final int NORMAL_UNPASSWORDED_ROOM = 0;
+    public static final int NORMAL_PASSWORDED_ROOM = 1;
+    public static final int INSTANT_UNPASSWORDED_ROOM = 2;
+    public static final int INSTANT_PASSWORDED_ROOM = 3;
+
+    private class Room {
+
+        private int type;
+        private String name;
+        private String hostName;
+        private int maxplayers;
+        private ArrayList<String> playersInRoom = new ArrayList<String>();
+
+        public Room(int type, String name, String hostName, int maxplayers) {
+            this.type = type;
+            this.name = name;
+            this.hostName = hostName;
+            this.maxplayers = maxplayers;
+            playersInRoom.add(hostName);
         }
-        
+
+        public String getName() {
+            return name;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public String getHostName() {
+            return hostName;
+        }
+
+        public String getLimitString() {
+            return playersInRoom.size() + "/" + maxplayers;
+        }
+
+        public String getUserlist() {
+            String userlist = "";
+            for (String username : playersInRoom) {
+                userlist += username + "<br>";
+            }
+            return userlist;
+        }
+
+        public void updatename(String oldname, String newname) {
+            if (playersInRoom.remove(oldname)) {
+                playersInRoom.add(newname);
+            }
+        }
+
+        public void addPlayer(String name) {
+            playersInRoom.add(name);
+        }
+
+        public boolean removePlayer(String name) {
+            return playersInRoom.remove(name);
+        }
     }
+    //end of inner class
+    private String[] columnNames = {"Type", "Name", "Host", "Players"};
+    private ArrayList<Room> rooms;
+    private javax.swing.JTable parent;
     
+
+    {
+        rooms = new ArrayList<Room>();
+    }
+
     /** Creates a new instance of MyTableModel */
     public RoomTableModel(javax.swing.JTable parent) {
         super();
         this.parent = parent;
-        password = new Vector<Boolean>();
-        name = new Vector<String>();
-        host = new Vector<String>();
-        players = new Vector<String>();
-        playersinroom = new Vector<Vector<String>>();
     }
-    private String[] columnNames = {"Password", "Name", "Host", "Players"};
-    private Vector<Boolean> password;
-    private Vector<String> name;
-    private Vector<String> host;
-    private Vector<String> players;
-    private Vector<Vector<String>> playersinroom;
-    private javax.swing.JTable parent;
 
-    public int indexOf(String hostname) {
-        return host.indexOf(hostname);
+    public int indexOf(String hostName) {
+        for (int i = 0; i < rooms.size(); i++) {
+            if (rooms.get(i).getHostName().equals(hostName)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return columnNames.length;
     }
 
     @Override
     public int getRowCount() {
-        if (name == null) {
-            return 0;
+        if (rooms != null) {
+            return rooms.size();
         } else {
-            return name.size();
+            return 0;
         }
     }
 
@@ -86,56 +128,44 @@ public class RoomTableModel extends DefaultTableModel {
 
     @Override
     public Object getValueAt(int row, int col) {
-        if (name.size() == 0) {
-            return "";
-        }
-        if (col == 0) {
-            return password.get(row);
-        }
-        if (col == 1) {
-            return name.get(row);
-        }
-        if (col == 2) {
-            return host.get(row);
-        }
-        if (col == 3) {
-            return players.get(row);
+        switch (col) {
+            case 0:
+                return rooms.get(row).getType();
+            case 1:
+                return rooms.get(row).getHostName();
+            case 2:
+                return rooms.get(row).getName();
+            case 3:
+                return rooms.get(row).getLimitString();
         }
         return null;
     }
 
     @Override
-    public Class getColumnClass(int c) {
-        return getValueAt(0, c).getClass();
+    public Class getColumnClass(int col) {
+        switch (col) {
+            case 0:
+                return Integer.class;
+            case 1:
+                return String.class;
+            case 2:
+                return String.class;
+            case 3:
+                return String.class;
+        }
+        return String.class;
     }
 
     @Override
     public void setValueAt(Object value, int row, int col) {
-        if (col == 0) {
-            password.set(row, (Boolean) value);
-        }
-        if (col == 1) {
-            name.set(row, value.toString());
-        }
-        if (col == 2) {
-            host.set(row, value.toString());
-        }
-        if (col == 3) {
-            players.set(row, value.toString());
-        }
+        //table is not editable !
         fireTableCellUpdated(row, col);
     }
 
-    public void removeElement(String hostname) {
-        for (int i = 0; i < name.size(); i++) {
-            if (host.get(i).equals(hostname)) {
-                name.remove(i);
-                password.remove(i);
-                host.remove(i);
-                players.remove(i);
-                playersinroom.remove(i);
-                fireTableDataChanged();
-            }
+    public void removeElement(String hostName) {
+        int index = indexOf(hostName);
+        if (index >= 0) {
+            rooms.remove(index);
         }
     }
 
@@ -145,106 +175,72 @@ public class RoomTableModel extends DefaultTableModel {
     }
 
     public void clear() {
-        name.clear();
-        password.clear();
-        host.clear();
-        players.clear();
-        playersinroom.clear();
+        rooms.clear();
         fireTableDataChanged();
     }
 
-    public String getSelectedHost() throws NoRoomsException {
+    public String getSelectedHostName(){
         int i = parent.getSelectedRow();
         if (i == -1) {
-            throw new NoRoomsException();
+            return null;
         }
-        return host.get(i);
+        return rooms.get(i).getHostName();
     }
 
-    public String getselectedroomname() throws NoRoomsException {
+    public String getSelectedRoomName() {
         int i = parent.getSelectedRow();
         if (i == -1) {
-            throw new NoRoomsException();
+            return null;
         }
-        return name.get(i);
+        return rooms.get(i).getName();
     }
 
-    public String getroomname(String host) {
-        return name.get(indexOf(host));
+    public String getroomname(String hostName) {
+        int index = indexOf(hostName);
+        if (index >= 0) {
+            rooms.remove(index);
+        }
+        return null;
     }
 
-    public boolean selectedRoomIsPassworded() throws NoRoomsException {
+    public boolean selectedRoomIsPassworded() {
         int i = parent.getSelectedRow();
-        if (i == -1) {
-            throw new NoRoomsException();
+        if (i != -1) {
+            return (rooms.get(i).getType() == NORMAL_PASSWORDED_ROOM) || (rooms.get(i).getType() == INSTANT_PASSWORDED_ROOM);
         }
-        return password.get(i);
+        return false;
     }
 
-    public void addnewroom(String _name, String _host, String _playerlimitstr, boolean _passw) {
-        name.add(_name);
-        host.add(_host);
-        players.add(_playerlimitstr);
-        password.add(_passw);
-        Vector<String> v = new Vector<String>();
-        v.add(_host);
-        playersinroom.add(v);
+    public void addnewroom(String name, String hostName, int maxPlayers, int type) {
+        rooms.add(new Room(type, name, hostName, maxPlayers));
         fireTableDataChanged();
     }
 
     //user joined the room, add him to the list
-    public void joinedroom(String host_name, String user) {
-        int i = host.indexOf(host_name);
-        String[] tmp = players.get(i).split("/");
-        int j = new Integer(tmp[0]);
-
-        if (!playersinroom.get(i).contains(user)) {
-            playersinroom.get(i).add(user);
-            j++;
+    public void addPlayerToRoom(String hostName, String playerName) {
+        int index = indexOf(hostName);
+        if (index >= 0) {
+            rooms.get(index).addPlayer(playerName);
         }
-        players.set(i, j + "/" + tmp[1]); 
-        // players shows the current/max numbers of players, like 1/32
         fireTableDataChanged();
     }
 
-    public void leftroom(String host_name, String user) {
-        int i = host.indexOf(host_name);
-        String[] tmp = players.get(i).split("/");
-        int j = new Integer(tmp[0]);
-        j--;
-        players.set(i, j + "/" + tmp[1]);
-        playersinroom.get(i).remove(user);
+    public void removePlayerFromRoom(String hostName, String playerName) {
+        int index = indexOf(hostName);
+        if (index >= 0) {
+            rooms.get(index).removePlayer(playerName);
+            fireTableDataChanged();
+        }
+    }
+
+    public void updateName(String oldName, String newName) {
+        for (Room room : rooms) {
+            room.updatename(oldName, newName);
+        }
         fireTableDataChanged();
     }
 
-    public void updatename(String oldname, String newname) {
-        int i = host.indexOf(oldname);
-        if (i == -1) {
-            return;
-        }
-        host.set(i, newname);
-
-        for (Vector<String> vc : playersinroom) {
-            for (String s : vc) {
-                if (s.equals(oldname)) {
-                    vc.remove(s);
-                    vc.add(newname);
-                    break;
-                }
-            }
-        }
-
-        fireTableDataChanged();
-    }
-
-    public String getuserslist(int row) {
-        String tmp = "";
-        Vector<String> v = playersinroom.get(row);
-        if (v != null) {
-            for (String s : v) {
-                tmp += s + "<br>";
-            }
-        }
-        return tmp;
+    public String getUserList(int row) {
+        return rooms.get(row).getUserlist();
     }
 }

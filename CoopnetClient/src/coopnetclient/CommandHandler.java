@@ -226,8 +226,8 @@ public class CommandHandler {
             } else 
             //add a new room to the room list
             if (input.startsWith("addroom")) {
-                String[] tmp = input.split(Protocol.INFORMATION_DELIMITER);//0adroom  1roomname 2hostname 3limit 4passworded
-                Globals.getClientFrame().addNewRoomToList(currentchannel, tmp[1], tmp[2], tmp[3], tmp.length == 5 ? true : false);
+                String[] tmp = input.split(Protocol.INFORMATION_DELIMITER);//0adroom  1roomname 2hostname 3maxplayers 4type
+                Globals.getClientFrame().addNewRoomToList(currentchannel, tmp[1], tmp[2], new Integer(tmp[3]), new Integer(tmp[4]));
                 if (Globals.getSleepModeStatus()) {
                     Globals.setSleepModeStatus(false);
                 }

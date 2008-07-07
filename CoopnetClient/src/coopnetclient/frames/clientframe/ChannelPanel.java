@@ -71,7 +71,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         
         RoomPasswordPicTableCellRenderer picrend = new RoomPasswordPicTableCellRenderer();
         picrend.setHorizontalAlignment(SwingConstants.CENTER);
-        tbl_roomList.setDefaultRenderer(Boolean.class, picrend);
+        tbl_roomList.setDefaultRenderer(Integer.class, picrend);
         
         DefaultTableCellRenderer rend = new DefaultTableCellRenderer();
         rend.setHorizontalAlignment(SwingConstants.CENTER);
@@ -137,12 +137,12 @@ public class ChannelPanel extends javax.swing.JPanel {
     }
 
     public void addmembertoroom(String hostname, String playername) {
-        rooms.joinedroom(hostname, playername);
+        rooms.addPlayerToRoom(hostname, playername);
         users.playerEnteredRoom(playername);
     }
 
-    public void addnewroom(String roomname, String hostname, String limitstr, boolean passworded) {
-        rooms.addnewroom(roomname, hostname, limitstr, passworded);
+    public void addnewroom(String roomname, String hostname, int maxplayers, int type) {
+        rooms.addnewroom(roomname, hostname, maxplayers, type);
         users.playerEnteredRoom(hostname);
     }
 
@@ -177,7 +177,7 @@ public class ChannelPanel extends javax.swing.JPanel {
     }
 
     public void removeplayerfromroomonlist(String hostname, String playername) {
-        rooms.leftroom(hostname, playername);
+        rooms.removePlayerFromRoom(hostname, playername);
         users.playerLeftRoom(playername);
     }
 
@@ -191,7 +191,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         if (idx == -1) {
             return;
         }
-        String _users = rooms.getuserslist(idx);
+        String _users = rooms.getUserList(idx);
         String tmp[] = _users.split("<br>");
         for (String s : tmp) {
             users.playerLeftRoom(s);
@@ -199,7 +199,7 @@ public class ChannelPanel extends javax.swing.JPanel {
     }
 
     public void updatename(String oldname, String newname) {
-        rooms.updatename(oldname, newname);
+        rooms.updateName(oldname, newname);
         users.updatename(oldname, newname);
         if (Globals.getRoomPanel() != null) {
             Globals.getRoomPanel().updateName(oldname, newname);
@@ -427,11 +427,11 @@ public class ChannelPanel extends javax.swing.JPanel {
     private void join(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_join
         try {
             if (rooms.selectedRoomIsPassworded()) {
-                Globals.openJoinRoomPasswordFrame(this.name, rooms.getSelectedHost());
+                Globals.openJoinRoomPasswordFrame(this.name, rooms.getSelectedHostName());
                 return;
             }
             String tmp = null;
-            tmp = rooms.getSelectedHost();
+            tmp = rooms.getSelectedHostName();
             if (tmp != null) {
                 Client.send(Protocol.joinRoom(tmp, ""), this.name);
             }
@@ -470,10 +470,10 @@ public class ChannelPanel extends javax.swing.JPanel {
             lst_userList.getComponentPopupMenu().show(lst_userList, evt.getX(), evt.getY());
         }else
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
-            String name = (String) lst_userList.getSelectedValue();
-            if(name != null && !name.equals("") && !name.equals(Globals.getThisPlayer_loginName())){
-                Globals.getClientFrame().newPrivateChat(name);
-                Globals.getClientFrame().showPMTab(name);
+            String selectedname = (String) lst_userList.getSelectedValue();
+            if(selectedname != null && !selectedname.equals("") && !selectedname.equals(Globals.getThisPlayer_loginName())){
+                Globals.getClientFrame().newPrivateChat(selectedname);
+                Globals.getClientFrame().showPMTab(selectedname);
             }
         }
 }//GEN-LAST:event_lst_userListMouseClicked
