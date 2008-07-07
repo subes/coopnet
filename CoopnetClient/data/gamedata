@@ -30,7 +30,7 @@ NAME=Unreal Tournament 2004
 beta
 ID=UT4
 LAUNCHMETHOD=3
-LAUNCHPATTERN= server {MAP}?Name={NAME}?port={PORT}?game={GAMEMODE}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?NumBots={BOTS}?GoalScore={GOALSCORE}
+LAUNCHPATTERN= server {MAP}?Listen?Name={NAME}?game={GAMEMODE}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?NumBots={BOTS}?GoalScore={GOALSCORE} -port={PORT}
 JOINPATTERN={HOSTIP}:{PORT}/?Name={NAME}
 REGENTRY=HKEY_LOCAL_MACHINE\SOFTWARE\Unreal Technology\Installed Apps\UT2004\Folder
 EXE=\System\UT2004.exe
@@ -42,7 +42,7 @@ MODSTR=-mod=
 DEFPORT=7777
 [
 NAME=Alien Swarm
-LAUNCHPATTERN= server {MAP}?Name={NAME}?port={PORT} -Mod=AlienSwarm
+LAUNCHPATTERN= server {MAP}?Listen?Name={NAME} -port={PORT} -Mod=AlienSwarm
 JOINPATTERN={HOSTIP}:{PORT}/?Name={NAME} -Mod=AlienSwarm
 MAPPATH=\AlienSwarm\Maps\
 ]

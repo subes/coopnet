@@ -29,8 +29,6 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -44,9 +42,7 @@ public class HandlerThread extends Thread {
     public static final int READBUFFER_SIZE = 400;
     private static ByteBuffer readBuffer = ByteBuffer.allocate(READBUFFER_SIZE);
     private CharsetDecoder decoder = charset.newDecoder();
-    private CharsetEncoder encoder = charset.newEncoder();    
-    private ByteBuffer byteBufferOut = ByteBuffer.allocate(WRITEBUFFER_SIZE);
-    private CharBuffer charBufferOut = CharBuffer.allocate(WRITEBUFFER_SIZE);
+    private CharsetEncoder encoder = charset.newEncoder();
     private ByteBuffer attachment = null;
     private Thread sender;
     private Vector<String> outQueue = new Vector<String>();
@@ -191,9 +187,8 @@ public class HandlerThread extends Thread {
     private static ByteBuffer arrayCut(ByteBuffer buffer, int start, int end) {
         ByteBuffer temp = ByteBuffer.allocate(buffer.limit());
         //copy data 
-        for (int i = start; i < end; i++) {
-            temp.put(buffer.get(i));
-        }
+        System.arraycopy(buffer.array(), start  , temp.array(), 0, end-start);
+        temp.position(end-start);
         temp.flip();
         return temp;
     }
