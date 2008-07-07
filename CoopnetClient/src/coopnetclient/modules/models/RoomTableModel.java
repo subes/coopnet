@@ -28,7 +28,7 @@ public class RoomTableModel extends DefaultTableModel {
     public static final int INSTANT_UNPASSWORDED_ROOM = 2;
     public static final int INSTANT_PASSWORDED_ROOM = 3;
 
-    private class Room {
+    private static class  Room {
 
         private int type;
         private String name;
