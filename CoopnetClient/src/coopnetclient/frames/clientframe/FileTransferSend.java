@@ -145,10 +145,11 @@ public class FileTransferSend extends javax.swing.JPanel {
                             //dont forge to sent the new byte aswell :S
                             temp.put((byte) readedbyte);
                             sent++;
-                            pgb_progress.setValue((int) (((sent * 1.0) / totalbytes) * 100));
+                            
                         }
                         j++;
                         if (j % 20000 == 0) {
+                            pgb_progress.setValue((int) (((sent * 1.0) / totalbytes) * 100));
                             currenttime = System.currentTimeMillis();
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
@@ -207,21 +208,22 @@ public class FileTransferSend extends javax.swing.JPanel {
                             sent++;
                         } else {
                             temp.flip();
-                            bo.write(temp.array(),0,temp.limit());
-                            bo.flush();
+                            bo.write(temp.array(),0,temp.limit());                            
                             temp.rewind();
                             temp.put((byte) readedbyte);
-                            sent++;
-                            pgb_progress.setValue((int) (((sent * 1.0) / totalbytes) * 100));
+                            sent++;                            
                         }
                         j++;
                         if (j % 20000 == 0) {
+                            bo.flush();
+                            pgb_progress.setValue((int) (((sent * 1.0) / totalbytes) * 100));
                             currenttime = System.currentTimeMillis();
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
                             setTimeLeft((long) ((totalbytes - sent) / (sent * 1.0) * timeelapsed));
                         }
                     }
+                    bo.flush();
                     //send last chunk
                     if (temp.position() != 0) {
                         temp.flip();

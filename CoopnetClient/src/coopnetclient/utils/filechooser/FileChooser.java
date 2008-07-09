@@ -72,10 +72,9 @@ public class FileChooser extends javax.swing.JFrame {
         } catch (Exception e) {
             return CANCEL_ACTION;
         }
-       
-        openDirectory(currentdir);
         
         fillPlacesComboBox();
+        openDirectory(currentdir);
         
         this.setVisible(true);
         tbl_display.requestFocus();
@@ -451,8 +450,8 @@ private void tbl_displayKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
         }
     }else
     if (evt.getKeyCode() == KeyEvent.VK_HOME) {
-        tbl_display.getSelectionModel().setSelectionInterval(0, 0);
-        Rectangle rect = tbl_display.getCellRect(0, 0, true);
+        tbl_display.getSelectionModel().setSelectionInterval(1, 1);
+        Rectangle rect = tbl_display.getCellRect(1, 1, true);
         tbl_display.scrollRectToVisible(rect);
     }else
     if (evt.getKeyCode() == KeyEvent.VK_END) {

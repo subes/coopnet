@@ -29,11 +29,11 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="cmb_places" pref="329" max="32767" attributes="0"/>
+                      <Component id="cmb_places" pref="333" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btn_up" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="scrl_display" alignment="0" pref="380" max="32767" attributes="0"/>
+                  <Component id="scrl_display" alignment="0" pref="386" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btn_select" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -41,7 +41,7 @@
                       <EmptySpace pref="161" max="32767" attributes="0"/>
                       <Component id="cb_showHidden" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="tf_currentDir" alignment="0" pref="380" max="32767" attributes="0"/>
+                  <Component id="tf_currentDir" alignment="0" pref="386" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>

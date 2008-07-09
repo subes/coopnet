@@ -277,14 +277,14 @@ public class FileTransferRecieve extends javax.swing.JPanel {
                     buffer.rewind();
                     while (running && ((socket.read(buffer)) != -1)) {
                         buffer.flip();
-                        bo.write(buffer.array(),0,buffer.limit());
-                        bo.flush();
+                        bo.write(buffer.array(),0,buffer.limit());                        
                         recievedbytes+=buffer.limit();
-                        buffer.rewind();                        
-                        
-                        pgb_progress.setValue((int) (((recievedbytes * 1.0) / totalsize) * 100));
-                        
-                        if (recievedbytes % 20000 == 0) {
+                        buffer.rewind();   
+                        if (recievedbytes % 1000 == 0) {
+                            bo.flush();
+                            pgb_progress.setValue((int) (((recievedbytes * 1.0) / totalsize) * 100));
+                        }
+                        if (recievedbytes % 20000 == 0) {                            
                             currenttime = System.currentTimeMillis();
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
@@ -312,7 +312,6 @@ public class FileTransferRecieve extends javax.swing.JPanel {
                 }
             }
         }.start();
-
     }
 
     /** This method is called from within the constructor to
