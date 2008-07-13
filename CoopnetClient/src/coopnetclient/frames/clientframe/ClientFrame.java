@@ -22,20 +22,20 @@ package coopnetclient.frames.clientframe;
 import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
-import coopnetclient.frames.clientframe.ChannelPanel;
-import coopnetclient.frames.clientframe.LoginPanel;
-import coopnetclient.frames.clientframe.PrivateChatPanel;
-import coopnetclient.frames.clientframe.RoomPanel;
+import coopnetclient.frames.clientframe.panels.ChannelPanel;
+import coopnetclient.frames.clientframe.panels.LoginPanel;
+import coopnetclient.frames.clientframe.panels.PrivateChatPanel;
+import coopnetclient.frames.clientframe.panels.RoomPanel;
 import coopnetclient.Protocol;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.modules.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.components.FavMenuItem;
-import coopnetclient.frames.clientframe.BrowserPanel;
-import coopnetclient.frames.clientframe.ErrorPanel;
-import coopnetclient.frames.clientframe.FileTransferRecieve;
-import coopnetclient.frames.clientframe.FileTransferSend;
+import coopnetclient.frames.clientframe.panels.BrowserPanel;
+import coopnetclient.frames.clientframe.panels.ErrorPanel;
+import coopnetclient.frames.clientframe.panels.FileTransferRecievePanel;
+import coopnetclient.frames.clientframe.panels.FileTransferSendPanel;
 import java.awt.Component;
 import java.io.File;
 import java.util.Vector;
@@ -79,55 +79,55 @@ public class ClientFrame extends javax.swing.JFrame {
 
     public void turnAroundTransfer(String peer, String filename) {
         for (Component c : tabpn_tabs.getComponents()) {
-            if (c instanceof FileTransferSend && ((FileTransferSend) c).getFilename().equals(filename) && ((FileTransferSend) c).getReciever().equals(peer)) {
-                ((FileTransferSend) c).TurnAround();
+            if (c instanceof FileTransferSendPanel && ((FileTransferSendPanel) c).getFilename().equals(filename) && ((FileTransferSendPanel) c).getReciever().equals(peer)) {
+                ((FileTransferSendPanel) c).TurnAround();
             }
         }
         for (Component c : tabpn_tabs.getComponents()) {
-            if (c instanceof FileTransferRecieve && ((FileTransferRecieve) c).getFilename().equals(filename) && ((FileTransferRecieve) c).getSender().equals(peer)) {
-                ((FileTransferRecieve) c).TurnAround();
+            if (c instanceof FileTransferRecievePanel && ((FileTransferRecievePanel) c).getFilename().equals(filename) && ((FileTransferRecievePanel) c).getSender().equals(peer)) {
+                ((FileTransferRecievePanel) c).TurnAround();
             }
         }
     }
 
     public void addTransferTab_Send(String reciever, File file) {
-        tabpn_tabs.add("Send file to " + reciever, new FileTransferSend(reciever, file));
+        tabpn_tabs.add("Send file to " + reciever, new FileTransferSendPanel(reciever, file));
     }
 
     public void addTransferTab_Recieve(String sender, String size, String filename,String ip,String port) {
-        tabpn_tabs.add("Recieve file from " + sender, new FileTransferRecieve(sender, new Long(size), filename,ip,port));
+        tabpn_tabs.add("Recieve file from " + sender, new FileTransferRecievePanel(sender, new Long(size), filename,ip,port));
     }
 
     public void startSending(String ip, String reciever, String filename, String port) {
         for (Component c : tabpn_tabs.getComponents()) {
-            if (c instanceof FileTransferSend && ((FileTransferSend) c).getFilename().equals(filename) && ((FileTransferSend) c).getReciever().equals(reciever)) {
-                ((FileTransferSend) c).startSending(ip, port);
+            if (c instanceof FileTransferSendPanel && ((FileTransferSendPanel) c).getFilename().equals(filename) && ((FileTransferSendPanel) c).getReciever().equals(reciever)) {
+                ((FileTransferSendPanel) c).startSending(ip, port);
             }
         }
     }
 
     public void refusedTransfer(String reciever, String filename) {
         for (Component c : tabpn_tabs.getComponents()) {
-            if (c instanceof FileTransferSend && ((FileTransferSend) c).getFilename().equals(filename) && ((FileTransferSend) c).getReciever().equals(reciever)) {
-                ((FileTransferSend) c).Refused();
+            if (c instanceof FileTransferSendPanel && ((FileTransferSendPanel) c).getFilename().equals(filename) && ((FileTransferSendPanel) c).getReciever().equals(reciever)) {
+                ((FileTransferSendPanel) c).Refused();
             }
         }
     }
 
     public void cancelledTransfer(String sender, String filename) {
         for (Component c : tabpn_tabs.getComponents()) {
-            if (c instanceof FileTransferRecieve && ((FileTransferRecieve) c).getFilename().equals(filename) && ((FileTransferRecieve) c).getSender().equals(sender)) {
-                ((FileTransferRecieve) c).Cancelled();
+            if (c instanceof FileTransferRecievePanel && ((FileTransferRecievePanel) c).getFilename().equals(filename) && ((FileTransferRecievePanel) c).getSender().equals(sender)) {
+                ((FileTransferRecievePanel) c).Cancelled();
             }
         }
     }
 
     public void removeTransferTab(String user, String filename) {
         for (Component c : tabpn_tabs.getComponents()) {
-            if (c instanceof FileTransferRecieve && ((FileTransferRecieve) c).getFilename().equals(filename) && ((FileTransferRecieve) c).getSender().equals(user)) {
+            if (c instanceof FileTransferRecievePanel && ((FileTransferRecievePanel) c).getFilename().equals(filename) && ((FileTransferRecievePanel) c).getSender().equals(user)) {
                 tabpn_tabs.remove(c);
             }
-            if (c instanceof FileTransferSend && ((FileTransferSend) c).getFilename().equals(filename) && ((FileTransferSend) c).getReciever().equals(user)) {
+            if (c instanceof FileTransferSendPanel && ((FileTransferSendPanel) c).getFilename().equals(filename) && ((FileTransferSendPanel) c).getReciever().equals(user)) {
                 tabpn_tabs.remove(c);
             }
         }
