@@ -521,9 +521,9 @@ public class ClientFrame extends javax.swing.JFrame {
 
     private void mi_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_connectActionPerformed
         TabOrganizer.closeAllTabs();
-        Client.startConnection();
         mi_disconnect.setEnabled(true);
         mi_connect.setEnabled(false);
+        Client.startConnection();
 }//GEN-LAST:event_mi_connectActionPerformed
 
     private void mi_channelListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_channelListActionPerformed
