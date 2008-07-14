@@ -1,22 +1,21 @@
 /*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
-                    Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
 
-    This file is part of Coopnet.
+This file is part of Coopnet.
 
-    Coopnet is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+Coopnet is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    Coopnet is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Coopnet is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+You should have received a copy of the GNU General Public License
+along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package coopnetclient.modules.listeners;
 
 import coopnetclient.ErrorHandler;
@@ -26,6 +25,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.net.URISyntaxException;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.DefaultStyledDocument;
@@ -70,21 +70,22 @@ public class HyperlinkMouseListener extends MouseAdapter {
 
     public static void openURL(String address) {
         try {
-        Desktop desktop= null;
-        if (Desktop.isDesktopSupported()) {
-            desktop = Desktop.getDesktop();
-        }
-        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-            URI uri = null;
-        
-            uri = new URI(address);
-            desktop.browse(uri);        
-        }
-        } catch(Exception e){
+            Desktop desktop = null;
+            if (Desktop.isDesktopSupported()) {
+                desktop = Desktop.getDesktop();
+            }
+            if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+                URI uri = null;
+
+                uri = new URI(address);
+                desktop.browse(uri);
+            }
+        } catch (URISyntaxException use) {
+            //do nothing
+        } catch (Exception e) {
             ErrorHandler.handleException(e);
         }
     }
-    
     //  Bare Bones Browser Launch 
     public static void openURL2(final String url) {
         new Thread() {
