@@ -337,7 +337,7 @@ public class BugReportFrame extends javax.swing.JFrame {
                         "Your bugreport was sent successfully,\nthank you for your help!",
                         "Success", JOptionPane.PLAIN_MESSAGE);
                 
-                TabOrganizer.closeAll();
+                TabOrganizer.closeAllTabs();
                 Globals.closeBugReportFrame();
             }
         }

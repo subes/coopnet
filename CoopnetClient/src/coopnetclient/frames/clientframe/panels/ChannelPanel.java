@@ -474,7 +474,7 @@ public class ChannelPanel extends javax.swing.JPanel {
             String selectedname = (String) lst_userList.getSelectedValue();
             if(selectedname != null && !selectedname.equals("") && !selectedname.equals(Globals.getThisPlayer_loginName())){
                 TabOrganizer.openPrivateChatPanel(selectedname, true);
-                TabOrganizer.putFocusOnPanel(selectedname);
+                TabOrganizer.putFocusOnTab(selectedname);
             }
         }
 }//GEN-LAST:event_lst_userListMouseClicked

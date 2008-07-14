@@ -27,16 +27,13 @@ import coopnetclient.frames.clientframe.panels.PrivateChatPanel;
 import coopnetclient.frames.clientframe.panels.RoomPanel;
 import coopnetclient.Protocol;
 import coopnetclient.modules.Settings;
-import coopnetclient.modules.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.modules.components.FavMenuItem;
 import coopnetclient.frames.clientframe.panels.FileTransferRecievePanel;
 import coopnetclient.frames.clientframe.panels.FileTransferSendPanel;
 import java.awt.Component;
-import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeListener;
 
 public class ClientFrame extends javax.swing.JFrame {
     
@@ -75,39 +72,38 @@ public class ClientFrame extends javax.swing.JFrame {
     }
 
     public void turnAroundTransfer(String peer, String filename) {
-        for (Component c : tabpn_tabs.getComponents()) {
-            if (c instanceof FileTransferSendPanel && ((FileTransferSendPanel) c).getFilename().equals(filename) && ((FileTransferSendPanel) c).getReciever().equals(peer)) {
-                ((FileTransferSendPanel) c).turnAround();
-            }
+        FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(peer, filename);
+        FileTransferRecievePanel recvPanel = TabOrganizer.getFileTransferReceivePanel(peer, filename);
+        
+        if(sendPanel != null){
+            sendPanel.turnAround();
         }
-        for (Component c : tabpn_tabs.getComponents()) {
-            if (c instanceof FileTransferRecievePanel && ((FileTransferRecievePanel) c).getFilename().equals(filename) && ((FileTransferRecievePanel) c).getSender().equals(peer)) {
-                ((FileTransferRecievePanel) c).turnAround();
-            }
+        if(recvPanel != null){
+            recvPanel.turnAround();
         }
     }
 
     public void startSending(String ip, String reciever, String filename, String port) {
-        for (Component c : tabpn_tabs.getComponents()) {
-            if (c instanceof FileTransferSendPanel && ((FileTransferSendPanel) c).getFilename().equals(filename) && ((FileTransferSendPanel) c).getReciever().equals(reciever)) {
-                ((FileTransferSendPanel) c).startSending(ip, port);
-            }
+        FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(reciever, filename);
+        
+        if(sendPanel != null){
+            sendPanel.startSending(ip, port);
         }
     }
 
     public void refusedTransfer(String reciever, String filename) {
-        for (Component c : tabpn_tabs.getComponents()) {
-            if (c instanceof FileTransferSendPanel && ((FileTransferSendPanel) c).getFilename().equals(filename) && ((FileTransferSendPanel) c).getReciever().equals(reciever)) {
-                ((FileTransferSendPanel) c).refused();
-            }
+        FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(reciever, filename);
+        
+        if(sendPanel != null){
+            sendPanel.refused();
         }
     }
 
     public void cancelledTransfer(String sender, String filename) {
-        for (Component c : tabpn_tabs.getComponents()) {
-            if (c instanceof FileTransferRecievePanel && ((FileTransferRecievePanel) c).getFilename().equals(filename) && ((FileTransferRecievePanel) c).getSender().equals(sender)) {
-                ((FileTransferRecievePanel) c).cancelled();
-            }
+        FileTransferRecievePanel recvPanel = TabOrganizer.getFileTransferReceivePanel(sender, filename);
+        
+        if(recvPanel != null){
+            recvPanel.cancelled();
         }
     }
 
@@ -161,14 +157,11 @@ public class ClientFrame extends javax.swing.JFrame {
 
     public void printPrivateChatMessage(String sender, String message) {
 
-        PrivateChatPanel privatechat = null;
-        int index = tabpn_tabs.indexOfTab(sender);
-        if (index == -1) {//tab doesnt exist, must add it
+        PrivateChatPanel privatechat = TabOrganizer.getPrivateChatPanel(sender);
+        if (privatechat == null) {//tab doesnt exist, must add it
             TabOrganizer.openPrivateChatPanel(sender, false);
-            index = tabpn_tabs.indexOfTab(sender);
+            privatechat = TabOrganizer.getPrivateChatPanel(sender);
         }
-        
-        privatechat = (PrivateChatPanel) tabpn_tabs.getComponentAt(index);
         
         privatechat.append(sender, message);
         
@@ -189,10 +182,7 @@ public class ClientFrame extends javax.swing.JFrame {
             TabOrganizer.getRoomPanel().updatePlayerName(oldname, newname);
         }
         //update the pm tab title too
-        int index = tabpn_tabs.indexOfTab(oldname);
-        if (index != -1) {
-            tabpn_tabs.setTitleAt(index, newname);
-        }
+        TabOrganizer.updateTitleOnTab(oldname, newname);
     }
 
     /** This method is called from within the constructor to
@@ -456,7 +446,7 @@ public class ClientFrame extends javax.swing.JFrame {
     public void disconnect() {
         Client.send(Protocol.quit(), null);
         Client.stopConnection();
-        TabOrganizer.closeAll();
+        TabOrganizer.closeAllTabs();
         
         mi_disconnect.setEnabled(false);
         mi_profile.setEnabled(false);
@@ -519,13 +509,6 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         }
     }
-    
-        private void relocateFocus() {
-        Component comp = tabpn_tabs.getSelectedComponent();
-        if (comp != null) {
-            comp.requestFocus();
-        }
-    }
 
     public void updateMenu() {
         mi_Sounds.setSelected(Settings.getSoundEnabled());
@@ -537,7 +520,7 @@ public class ClientFrame extends javax.swing.JFrame {
     }
 
     private void mi_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_connectActionPerformed
-        TabOrganizer.closeAll();
+        TabOrganizer.closeAllTabs();
         Client.startConnection();
         mi_disconnect.setEnabled(true);
         mi_connect.setEnabled(false);
@@ -548,15 +531,15 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_channelListActionPerformed
 
     private void tabpn_tabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabpn_tabsStateChanged
-        relocateFocus();
+        TabOrganizer.putFocusOnTab(null);
 }//GEN-LAST:event_tabpn_tabsStateChanged
 
     private void tabpn_tabsComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tabpn_tabsComponentAdded
-        relocateFocus();
+        TabOrganizer.putFocusOnTab(null);
 }//GEN-LAST:event_tabpn_tabsComponentAdded
 
     private void tabpn_tabsComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tabpn_tabsComponentRemoved
-        relocateFocus();
+        TabOrganizer.putFocusOnTab(null);
 }//GEN-LAST:event_tabpn_tabsComponentRemoved
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -564,8 +547,7 @@ public class ClientFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void mi_SoundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_SoundsActionPerformed
-        boolean enabled = mi_Sounds.isSelected();
-        coopnetclient.modules.Settings.setSoundEnabled(enabled);
+        coopnetclient.modules.Settings.setSoundEnabled(mi_Sounds.isSelected());
 }//GEN-LAST:event_mi_SoundsActionPerformed
 
     private void mi_manageFavsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_manageFavsActionPerformed
@@ -596,7 +578,7 @@ private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         public void run() {
             try{
                 int n = JOptionPane.showConfirmDialog(null, 
-                        "<html>Would you like to update your Coopnet-client now?<br>" +
+                        "<html>Would you like to update your CoopnetClient now?<br>" +
                         "(The client will close and update itself)", "Client outdated",
                         JOptionPane.YES_NO_OPTION);
                 if (n == JOptionPane.YES_OPTION) {

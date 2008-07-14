@@ -33,7 +33,6 @@ import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import java.awt.Component;
 import java.io.File;
 import java.util.Vector;
 import javax.swing.JPanel;
@@ -243,15 +242,15 @@ public class TabOrganizer {
     }
     
     public static void openErrorPanel(int mode, Exception e) {
-        if(errorPanel == null){
+        if(errorPanel == null || errorPanel.hasException() == false && e != null){
             errorPanel = new ErrorPanel(mode, e);
             tabHolder.addTab("Error", errorPanel);
             tabHolder.setSelectedComponent(errorPanel);
         }else{
             if(Globals.getDebug()){
                 System.out.println("[WARNING]\tWe don't need another error tab, this error may be caused by the first one!");
-                tabHolder.setSelectedComponent(errorPanel);
             }
+            tabHolder.setSelectedComponent(errorPanel);
         }
         
         Globals.getClientFrame().repaint();
@@ -296,6 +295,15 @@ public class TabOrganizer {
         fileTransferSendPanels.remove(which);
         tabHolder.remove(which);
     }
+    
+    public static FileTransferSendPanel getFileTransferSendPanel(String receiver, String fileName){
+        for(int i = 0; i < fileTransferSendPanels.size(); i++){
+            if(fileTransferSendPanels.get(i).getFilename().equals(fileName) && fileTransferSendPanels.get(i).getReciever().equals(receiver)){
+                return fileTransferSendPanels.get(i);
+            }
+        }
+        return null;
+    }
 
     public static void openFileTransferReceivePanel(String sender, String size, String filename,String ip,String port) {
         FileTransferRecievePanel panel = new FileTransferRecievePanel(sender, new Long(size), filename,ip,port);
@@ -308,13 +316,35 @@ public class TabOrganizer {
         tabHolder.remove(which);
     }
     
+    public static FileTransferRecievePanel getFileTransferReceivePanel(String sender, String fileName){
+        for(int i = 0; i < fileTransferReceivePanels.size(); i++){
+            if(fileTransferReceivePanels.get(i).getFilename().equals(fileName) && fileTransferReceivePanels.get(i).getSender().equals(sender)){
+                return fileTransferReceivePanels.get(i);
+            }
+        }
+        return null;
+    }
+    
     /*******************************************************************/
 
-    public static void putFocusOnPanel(String title) {
-        int index = tabHolder.indexOfTab(title);
-        if (index != -1) {
-            tabHolder.setSelectedIndex(index);
-            tabHolder.getSelectedComponent().requestFocus();
+    public static void updateTitleOnTab(String oldTitle, String newTitle){
+        int index = -1;
+        while((index = tabHolder.indexOfTab(oldTitle)) != -1){
+            tabHolder.setTitleAt(index, newTitle);
+        }
+    }
+    
+    public static void putFocusOnTab(String title) {
+        if(title != null){
+            int index = tabHolder.indexOfTab(title);
+            if (index != -1) {
+                tabHolder.setSelectedIndex(index);
+                tabHolder.getSelectedComponent().requestFocus();
+            }
+        }else{
+            if(tabHolder.getSelectedComponent() != null){
+                tabHolder.getSelectedComponent().requestFocus();
+            }
         }
     }
     
@@ -324,11 +354,17 @@ public class TabOrganizer {
         }
     }
     
-    public static void closeAll() {
+    public static void closeAllTabs() {
         tabHolder.removeAll();
+        
         channelPanels.clear();
         roomPanel = null;
         privateChatPanels.clear();
+        errorPanel = null;
+        browserPanel = null;
+        loginPanel = null;
+        fileTransferSendPanels.clear();
+        fileTransferReceivePanels.clear();
     }
     
 }

@@ -57,9 +57,11 @@ public class HandlerThread extends Thread {
         running = false;
         try {
             socketChannel.socket().close();
-            sender.join();
+            if(sender != null){
+                sender.join();
+            }
         } catch (Exception e) {
-            System.out.println("Could not close socket");
+            e.printStackTrace();
         }
     }
 
@@ -140,7 +142,10 @@ public class HandlerThread extends Thread {
             //handle excptions
             ErrorHandler.handleException(e);
         }
-        System.out.println("connection closed");
+        if(Globals.getDebug()){
+            System.out.println("[L]\tHandlerThreads main loop ended");
+        }
+        
     }
 
     private String process(ByteBuffer packet) {

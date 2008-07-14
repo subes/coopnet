@@ -28,7 +28,7 @@ public class ErrorPanel extends javax.swing.JPanel {
     public static final int CONNECTION_RESET_MODE = 2;
     public static final int UNKNOWN_IO_MODE = 3;
     
-    private Exception exc;
+    private Exception exception;
     private String trafficLog;
 
     //Message constants
@@ -42,31 +42,41 @@ public class ErrorPanel extends javax.swing.JPanel {
     
     public ErrorPanel(int mode, Exception e) {
         initComponents();
-        this.exc = e;
-        this.trafficLog = coopnetclient.TrafficLogger.getEndOfLog();
         
         coopnetclient.modules.Colorizer.colorize(this);
         switch (mode) {
-            case 0: {
+            case UNKNOWN_MODE: {
                 lbl_errortext.setText(unknownerror);
                 break;
             }
-            case 1: {
+            case CONNECTION_REFUSED_MODE: {
                 lbl_errortext.setText(connectionrefused);
                 btn_report.setVisible(false);
                 break;
             }
-            case 2: {
+            case CONNECTION_RESET_MODE: {
                 lbl_errortext.setText(connectionreset);
                 btn_report.setVisible(false);
                 break;
             }
-            case 3: {
-                lbl_errortext.setText(unknownIO + exc.getMessage());
+            case UNKNOWN_IO_MODE: {
+                lbl_errortext.setText(unknownIO + exception.getMessage());
                 btn_report.setVisible(false);
                 break;
             }
-
+        }
+        
+        if(btn_report.isVisible()){
+            this.exception = e;
+            this.trafficLog = coopnetclient.TrafficLogger.getEndOfLog();
+        }
+    }
+    
+    public boolean hasException(){
+        if(exception != null){
+            return true;
+        }else{
+            return false;
         }
     }
 
@@ -123,7 +133,7 @@ public class ErrorPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_reportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reportActionPerformed
-        Globals.openBugReportFrame(exc, trafficLog);
+        Globals.openBugReportFrame(exception, trafficLog);
 }//GEN-LAST:event_btn_reportActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_report;
