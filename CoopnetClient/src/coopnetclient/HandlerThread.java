@@ -73,7 +73,6 @@ public class HandlerThread extends Thread {
             socketChannel = null;
             socketChannel = SocketChannel.open();
             socketChannel.connect(new InetSocketAddress(coopnetclient.modules.Settings.getServerIp(), coopnetclient.modules.Settings.getServerPort()));
-            socketChannel.socket().setSendBufferSize(WRITEBUFFER_SIZE);
             //start sender thread
             sender = new Thread() {
 
