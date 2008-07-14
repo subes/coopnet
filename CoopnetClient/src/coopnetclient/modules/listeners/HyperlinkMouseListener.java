@@ -20,10 +20,12 @@
 package coopnetclient.modules.listeners;
 
 import coopnetclient.ErrorHandler;
+import java.awt.Desktop;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Method;
+import java.net.URI;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.DefaultStyledDocument;
@@ -66,8 +68,25 @@ public class HyperlinkMouseListener extends MouseAdapter {
         }
     }
 
+    public static void openURL(String address) {
+        try {
+        Desktop desktop= null;
+        if (Desktop.isDesktopSupported()) {
+            desktop = Desktop.getDesktop();
+        }
+        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+            URI uri = null;
+        
+            uri = new URI(address);
+            desktop.browse(uri);        
+        }
+        } catch(Exception e){
+            ErrorHandler.handleException(e);
+        }
+    }
+    
     //  Bare Bones Browser Launch 
-    public static void openURL(final String url) {
+    public static void openURL2(final String url) {
         new Thread() {
 
             @Override
