@@ -23,6 +23,7 @@ import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -55,7 +56,8 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         
         this.add(new JSeparator());
         
-        this.add(makeMenuItem("Send nudge"));
+        this.add(makeMenuItem("Nudge"));
+        this.add(makeMenuItem("Whisper..."));
         this.add(makeMenuItem("Send file..."));
         this.add(new JSeparator());
         if (mode == HOST_MODE) {
@@ -65,11 +67,10 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(makeMenuItem("UnBan"));
         this.add(makeMenuItem("Mute"));
         this.add(makeMenuItem("UnMute"));
-        this.add(makeMenuItem("Whisper"));
         
         this.add(new JSeparator());
         
-        this.add(makeMenuItem("Show players profile..."));
+        this.add(makeMenuItem("Show profile..."));
     }
 
     private JMenuItem makeMenuItem(String label) {
@@ -104,12 +105,11 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             Client.send(Protocol.mute(subject), null);
         } else if (command.equals("UnMute")) {
             Client.send(Protocol.unmute(subject), null);
-        } else if (command.equals("Whisper")) {
-            Globals.getClientFrame().newPrivateChat(subject);
-            Globals.getClientFrame().showPMTab(subject);
-        } else if (command.equals("Show players profile...")) {
+        } else if (command.equals("Whisper...")) {
+            TabOrganizer.openPrivateChatPanel(subject, true);
+        } else if (command.equals("Show profile...")) {
             Client.send(Protocol.requestProfile(subject), null);
-        } else if (command.equals("Send nudge")) {
+        } else if (command.equals("Nudge")) {
             Client.send(Protocol.nudge(subject), null);
         } else if (command.equals("Send file...")) {
 
@@ -127,7 +127,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
                             inputfile = mfc.getSelectedFile();
                             if (inputfile != null) {
                                 Client.send(Protocol.Sendfile(subject, inputfile.getName(), inputfile.length() + "" , coopnetclient.modules.Settings.getFiletTansferPort()+""), null);
-                                Globals.getClientFrame().addTransferTab_Send(subject, inputfile);
+                                TabOrganizer.openFileTransferSendPanel(subject, inputfile);
                                 Globals.setLastOpenedDir(inputfile.getParent());
                             }
                         }

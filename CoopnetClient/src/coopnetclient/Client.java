@@ -19,6 +19,7 @@
 
 package coopnetclient;
 
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.launchers.LinuxLauncher;
@@ -118,7 +119,7 @@ public class Client {
                     }
 
                     if (Settings.getFirstRun()) {
-                        Globals.getClientFrame().addGuideTab();
+                        TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
                         Settings.setFirstRun(false);
                     }
                 }catch(Exception e){
@@ -136,7 +137,7 @@ public class Client {
 
     public static void stopConnection() {
         Globals.setLoggedInStatus(false);
-        Globals.closeRoomPanel();
+        
         if (handlerThread != null) {
             handlerThread.stopThread();
         }

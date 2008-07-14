@@ -62,7 +62,7 @@ public class Protocol {
                 + filename;
     }
 
-    public static String CancelTransfer(String sender, String filename) {
+    public static String cancelTransfer(String sender, String filename) {
         return "CancelFile" + INFORMATION_DELIMITER
                 + sender + INFORMATION_DELIMITER
                 + filename;

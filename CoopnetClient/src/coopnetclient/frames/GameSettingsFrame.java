@@ -22,6 +22,7 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.io.File;
 import java.util.HashMap;
@@ -321,7 +322,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         if (spn_scoreLimit.isVisible()) {
             Globals.getLauncher().setGoalScore((Integer)spn_scoreLimit.getValue());
         }
-        Globals.getRoomPanel().enableButtons();
+        TabOrganizer.getRoomPanel().enableButtons();
         Client.send(Protocol.SendPort(new Integer(tf_port.getText())), null);
         
         Globals.closeGameSettingsFrame();

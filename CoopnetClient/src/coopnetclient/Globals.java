@@ -33,6 +33,7 @@ import coopnetclient.frames.ShowProfileFrame;
 import coopnetclient.frames.TextPreviewFrame;
 import coopnetclient.modules.Settings;
 import coopnetclient.frames.clientframe.ClientFrame;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.clientframe.panels.RoomPanel;
 import coopnetclient.launchers.Launcher;
 import coopnetclient.modules.Colorizer;
@@ -64,7 +65,6 @@ public class Globals {
     private static Launcher launcher;
     
     private static ClientFrame clientFrame;
-    private static RoomPanel roomPanel; //TODO: move handling of that to ClientFrame
     
     private static ChangePasswordFrame changePasswordFrame;
     private static ChannelListFrame channelListFrame;
@@ -82,6 +82,8 @@ public class Globals {
     private static BugReportFrame  bugReportFrame;
     private static TextPreviewFrame textPreviewFrame;
     
+    /*******************************************************************/
+    
     static {
         //Detect OS
         if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
@@ -97,7 +99,6 @@ public class Globals {
     
     public static void recolorFrames(){
         Colorizer.colorize(clientFrame);
-        Colorizer.colorize(roomPanel);
         Colorizer.colorize(changePasswordFrame);
         Colorizer.colorize(channelListFrame);
         Colorizer.colorize(favouritesFrame);
@@ -129,6 +130,7 @@ public class Globals {
     
     public static void setLoggedInStatus(boolean value){
         loggedInStatus = value;
+        getClientFrame().updateLoggedInStatus();
     }
     
     public static boolean getLoggedInStatus(){
@@ -157,7 +159,7 @@ public class Globals {
     
     public static void setSleepModeStatus(boolean value){
         sleepModeStatus = value;
-        Globals.getClientFrame().updateSleepMode();
+        TabOrganizer.updateSleepMode();
     }
     
     public static boolean getSleepModeStatus(){
@@ -208,36 +210,6 @@ public class Globals {
     
     public static ClientFrame getClientFrame(){
         return clientFrame;
-    }
-    
-    public static void openRoomPanel(boolean isHost, String channel, String modindex, String ip, boolean compatible, String hamachiIp, int maxPlayers){
-        if(roomPanel == null){
-            roomPanel = new RoomPanel(isHost, channel, modindex, ip, compatible, hamachiIp, maxPlayers);
-            clientFrame.addRoomPanelTab();
-        }else{
-            if(getDebug()){
-                System.out.println("[WARNING]\tClose the current RoomPanel before opening a new one!");
-            }
-        }
-    }
-    
-    public static void closeRoomPanel(){
-        if(roomPanel != null){
-            if(launcher != null){
-                launcher.stop();
-            }else{
-                if(debug){
-                    System.out.println("[WARNING]\tLauncher should not be set to null!");
-                }
-            }
-            closeGameSettingsFrame();
-            clientFrame.removeRoomPanelTab();
-            roomPanel = null;
-        }
-    }
-    
-    public static RoomPanel getRoomPanel(){
-        return roomPanel;
     }
     
     public static void openShowProfileFrame(String name, String email, String country, String webpage){

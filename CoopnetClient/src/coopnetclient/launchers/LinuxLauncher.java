@@ -22,6 +22,7 @@ package coopnetclient.launchers;
 import coopnetclient.launchers.handlers.DPlayExeHandler;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.*;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import java.io.IOException;
 
 public class LinuxLauncher implements Launcher {
@@ -66,14 +67,14 @@ public class LinuxLauncher implements Launcher {
             case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING:
                 isInitialized = true;
                 if (!isHost) {
-                    if(Globals.getRoomPanel() != null){
-                        Globals.getRoomPanel().enableButtons();
+                    if(TabOrganizer.getRoomPanel() != null){
+                        TabOrganizer.getRoomPanel().enableButtons();
                     }
                 }
         }
         //call it here to NOT remember settings
-        if(Globals.getRoomPanel() != null){
-            Globals.getRoomPanel().showSettings();
+        if(TabOrganizer.getRoomPanel() != null){
+            TabOrganizer.getRoomPanel().showSettings();
         }
     }
 
@@ -86,8 +87,8 @@ public class LinuxLauncher implements Launcher {
 
         if (dplay.isInitialized) {
             isInitialized = true;
-            if (Globals.getRoomPanel() != null) { //May be null if user closes room too fast
-                Globals.getRoomPanel().enableButtons();
+            if (TabOrganizer.getRoomPanel() != null) { //May be null if user closes room too fast
+                TabOrganizer.getRoomPanel().enableButtons();
             }
         } else {
             stopDPlay();

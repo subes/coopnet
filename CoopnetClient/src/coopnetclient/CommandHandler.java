@@ -19,6 +19,7 @@
 
 package coopnetclient;
 
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Verification;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.SoundPlayer;
@@ -87,7 +88,7 @@ public class CommandHandler {
             if (input.startsWith("OK_LOGIN")) {
                 //logged in, start the client
                 Globals.setLoggedInStatus(true);
-                Globals.getClientFrame().removeLoginTab();
+                TabOrganizer.closeLoginPanel();
             } else if (input.startsWith("no such user")) {
                 JOptionPane.showMessageDialog(null, "No such user!", "Alert", JOptionPane.ERROR_MESSAGE);
             } else if (input.startsWith("incorrect passsword!try again")) {
@@ -114,18 +115,18 @@ public class CommandHandler {
 
             if (input.startsWith("setport ")) {
                 int port = new Integer(input.substring(8));
-                if (Globals.getRoomPanel() != null) {
+                if (TabOrganizer.getRoomPanel() != null) {
                     Globals.getLauncher().setPort(port);
                 }
             } else if (input.startsWith("setmod ")) {
                 String mod = input.substring(7);
-                if (Globals.getRoomPanel() != null) {
+                if (TabOrganizer.getRoomPanel() != null) {
                     Globals.getLauncher().setMod(mod);
                 }
             } else if (input.startsWith("joinchannel ")) {
                 String tmp = input.substring(12);
                 GameDatabase.load(tmp);
-                Globals.getClientFrame().addChannel(tmp);
+                TabOrganizer.openChannelPanel(tmp);
             } else if (input.startsWith("nudge ")) {
                 String tmp = input.substring(6);
                 new FrameIconFlasher(Globals.getClientFrame(), "data/icons/nudge.gif", tmp + " sent you a nudge!");
@@ -168,25 +169,25 @@ public class CommandHandler {
                 if (tmp.length == 1) {
                     return;
                 }
-                Globals.getClientFrame().mainChat(currentchannel, tmp[0], tmp[1], coopnetclient.modules.ColoredChatHandler.USER_STYLE);
+                Globals.getClientFrame().printMainChatMessage(currentchannel, tmp[0], tmp[1], coopnetclient.modules.ColoredChatHandler.USER_STYLE);
                 if (Globals.getSleepModeStatus()) {
                     Globals.setSleepModeStatus(false);
                 }
             } else 
             //adds a palyer to the playerlist in main window
             if (input.startsWith("addtoplayers")) {
-                Globals.getClientFrame().addUser(currentchannel, input.substring(13));
+                Globals.getClientFrame().addPlayerToChannel(currentchannel, input.substring(13));
             } else 
             //prints message to the room-chat
             if (input.startsWith("room ")) {
                 String[] tmp = input.substring(5).split(Protocol.INFORMATION_DELIMITER);
-                Globals.getRoomPanel().chat(tmp[0], tmp[1], coopnetclient.modules.ColoredChatHandler.USER_STYLE);
+                TabOrganizer.getRoomPanel().chat(tmp[0], tmp[1], coopnetclient.modules.ColoredChatHandler.USER_STYLE);
             } else 
             //the server accepted the join request, must create a new room tab now in client mode
             if (input.startsWith("join ")) {
                 String[] tmp = input.substring(5).split(Protocol.INFORMATION_DELIMITER); // join, ip,compatibility,hamachiip, maxplayers, modindex
                 System.out.println("JOIN!");
-                Globals.openRoomPanel(false, currentchannel, tmp[5], tmp[1], tmp[2].equals("true"), tmp[3], new Integer(tmp[4]));
+                TabOrganizer.openRoomPanel(false, currentchannel, tmp[5], tmp[1], tmp[2].equals("true"), tmp[3], new Integer(tmp[4]));
             } else 
             //the server accepted the room creation request, must create a new room tab in server mode
             if (input.startsWith("create ")) {
@@ -195,51 +196,51 @@ public class CommandHandler {
                 boolean compatible = Boolean.valueOf(tmp[1]);
                 int maxplayers = Integer.valueOf(tmp[2]);
                 String modindex = tmp[3];
-                Globals.openRoomPanel(true, currentchannel, modindex, "", compatible, "", maxplayers);
+                TabOrganizer.openRoomPanel(true, currentchannel, modindex, "", compatible, "", maxplayers);
             } else 
             //server accepted leave request, must delete room tab
             if (input.startsWith("leave")) {
-                Globals.closeRoomPanel();
+                TabOrganizer.closeRoomPanel();
             } else 
             //the owner of the room closed it, must remove from room list
             if (input.startsWith("removeroom")) {
-                Globals.getClientFrame().removeRoomFromList(currentchannel, input.substring(11));
+                Globals.getClientFrame().removeRoomFromTable(currentchannel, input.substring(11));
             } else             
             //the currently joined room was closed, must delete room tab
             if (input.startsWith("close")) {
-                Globals.closeRoomPanel();
-                Globals.getClientFrame().mainChat(currentchannel, "SYSTEM", "The Room has been closed!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                TabOrganizer.closeRoomPanel();
+                Globals.getClientFrame().printMainChatMessage(currentchannel, "SYSTEM", "The Room has been closed!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
 
             } else 
             //been kicked of the current room, must delete room tab
             if (input.startsWith("kicked")) {
-                Globals.closeRoomPanel();
-                Globals.getClientFrame().mainChat(currentchannel, "SYSTEM", "You have been kicked by the host!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                TabOrganizer.closeRoomPanel();
+                Globals.getClientFrame().printMainChatMessage(currentchannel, "SYSTEM", "You have been kicked by the host!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             } else 
             //add a player to the rooms player list
             if (input.startsWith("addmember ")) {
-                Globals.getRoomPanel().addmember(input.substring(10));
+                TabOrganizer.getRoomPanel().addmember(input.substring(10));
             } else 
             // remove a player from the rooms player list
             if (input.startsWith("removemember")) {
-                Globals.getRoomPanel().removeMember(input.substring(13));
+                TabOrganizer.getRoomPanel().removeMember(input.substring(13));
             } else 
             //add a new room to the room list
             if (input.startsWith("addroom")) {
                 String[] tmp = input.split(Protocol.INFORMATION_DELIMITER);//0adroom  1roomname 2hostname 3maxplayers 4type
-                Globals.getClientFrame().addNewRoomToList(currentchannel, tmp[1], tmp[2], new Integer(tmp[3]), new Integer(tmp[4]));
+                Globals.getClientFrame().addRoomToTable(currentchannel, tmp[1], tmp[2], new Integer(tmp[3]), new Integer(tmp[4]));
                 if (Globals.getSleepModeStatus()) {
                     Globals.setSleepModeStatus(false);
                 }
             } else 
             //remove a user from the player list in main window
             if (input.startsWith("logoff")) {
-                Globals.getClientFrame().removeUser(currentchannel, input.substring(7));
+                Globals.getClientFrame().removePlayerFromChannel(currentchannel, input.substring(7));
             } else 
             //show a private message
             if (input.startsWith("private ")) {
                 String[] tmp = input.substring(8).split(Protocol.INFORMATION_DELIMITER);//0. sender 1.message
-                Globals.getClientFrame().privateChat(tmp[0], tmp[1]);
+                Globals.getClientFrame().printPrivateChatMessage(tmp[0], tmp[1]);
             } else 
             //print a message from the server
             if (input.startsWith("echo ")) {
@@ -247,27 +248,27 @@ public class CommandHandler {
             } else 
             //set players(name in parameter) ready status to not ready
             if (input.startsWith("unready ")) {
-                Globals.getRoomPanel().unReadyPlayer(input.substring(8));
+                TabOrganizer.getRoomPanel().unReadyPlayer(input.substring(8));
             } else 
             //set players(name in parameter) ready status to ready
             if (input.startsWith("ready ")) {
-                Globals.getRoomPanel().readyPlayer(input.substring(6));
+                TabOrganizer.getRoomPanel().readyPlayer(input.substring(6));
             } else 
             //set players(name in parameter) status to playing
             if (input.startsWith("playing ")) {
-                Globals.getRoomPanel().setPlaying(input.substring(8));
+                TabOrganizer.getRoomPanel().setPlaying(input.substring(8));
             } else 
             //set the players(name in parameter) status to not playing
             if (input.startsWith("gameclosed ")) {
-                if (Globals.getRoomPanel() != null) {
-                    Globals.getRoomPanel().gameClosed(input.substring(11));
+                if (TabOrganizer.getRoomPanel() != null) {
+                    TabOrganizer.getRoomPanel().gameClosed(input.substring(11));
                 }
                 Globals.getClientFrame().gameClosed(currentchannel, input.substring(11));
                 Globals.getClientFrame().repaint();
             } else 
             //launch the game if not running already
             if (input.startsWith("launch")) {
-                Globals.getRoomPanel().launch();
+                TabOrganizer.getRoomPanel().launch();
             } else if (input.startsWith("setplayingstatus ")) {
                 String host = input.substring(17);
                 Globals.getClientFrame().setPlayingStatus(currentchannel, host);
@@ -303,30 +304,30 @@ public class CommandHandler {
             //add the player in parameter to the player-list of the room in parameter (shows as tooltiptext)
             if (input.startsWith("joined ")) {
                 String[] tmp = input.substring(7).split(Protocol.INFORMATION_DELIMITER); //0 rooms hosts name 1 playername
-                Globals.getClientFrame().addMemberToRoom(currentchannel, tmp[0], tmp[1]);
+                Globals.getClientFrame().addPlayerToRoom(currentchannel, tmp[0], tmp[1]);
             } else 
             //remove player in parameter from the player-list of the room in parameter (shows as tooltiptext)
             if (input.startsWith("leftroom ")) {
                 String[] tmp = input.substring(9).split(Protocol.INFORMATION_DELIMITER); //0 rooms hosts name 1 playername
-                Globals.getClientFrame().leftRoom(currentchannel, tmp[0], tmp[1]);
+                Globals.getClientFrame().removePlayerFromRoom(currentchannel, tmp[0], tmp[1]);
             } else 
             //set the players in-game name
             if (input.startsWith("gamename ")) {
                 Globals.setThisPlayer_inGameName(input.substring(9));
-                if (Globals.getRoomPanel() != null) {
-                    Globals.getRoomPanel().setGameName(input.substring(9));
+                if (TabOrganizer.getRoomPanel() != null) {
+                    TabOrganizer.getRoomPanel().setGameName(input.substring(9));
                 }
             } else 
             //a player changed its name, msut update in player list and room list
             if (input.startsWith("updatename ")) {
                 String[] tmp = input.substring(11).split(Protocol.INFORMATION_DELIMITER);      // 0 oldname 1 new name
-                Globals.getClientFrame().mainChat(currentchannel, "SYSTEM", tmp[0] + " is now known as " + tmp[1], coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
-                Globals.getClientFrame().updateName(currentchannel, tmp[0], tmp[1]);
+                Globals.getClientFrame().printMainChatMessage(currentchannel, "SYSTEM", tmp[0] + " is now known as " + tmp[1], coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                Globals.getClientFrame().updatePlayerName(currentchannel, tmp[0], tmp[1]);
 
                 Globals.getClientFrame().repaint();
             } else if (input.startsWith("SendingFile")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1sender  2file 3size 4 ip 5 port
-                Globals.getClientFrame().addTransferTab_Recieve(tmp[1], tmp[3], tmp[2],tmp[4],tmp[5]);
+                TabOrganizer.openFileTransferReceivePanel(tmp[1], tmp[3], tmp[2],tmp[4],tmp[5]);
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp[1] + " wants to send you a file!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             } else if (input.startsWith("AcceptedFile")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//0command 1reciever  2filename 3 ip 4 port

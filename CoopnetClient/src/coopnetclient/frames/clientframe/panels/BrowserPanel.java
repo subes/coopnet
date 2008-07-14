@@ -19,18 +19,20 @@
 
 package coopnetclient.frames.clientframe.panels;
 
-import coopnetclient.Globals;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Colorizer;
 import java.io.IOException;
 
 public class BrowserPanel extends javax.swing.JPanel {
-
-    public static String url = "http://coopnet.sourceforge.net/guide.html";
-
+    
     /** Creates new form browser */
-    public BrowserPanel() {
+    public BrowserPanel(String url) {
         initComponents();
         Colorizer.colorize(this);
+        openUrl(url);
+    }
+    
+    public void openUrl(String url){
         try {
             tp_browser.setPage(url);
         } catch (IOException ex) {
@@ -80,7 +82,7 @@ public class BrowserPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void btn_closeclose(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeclose
-    Globals.getClientFrame().removeGuideTab();
+    TabOrganizer.closeBrowserPanel();
 }//GEN-LAST:event_btn_closeclose
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_close;

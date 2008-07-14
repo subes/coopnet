@@ -26,6 +26,7 @@ import coopnetclient.modules.listeners.ChatInputKeyListener;
 import coopnetclient.modules.components.PlayerListPopupMenu;
 import coopnetclient.modules.models.SortedListModel;
 import coopnetclient.Protocol;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.SoundPlayer;
 import coopnetclient.modules.ColoredChatHandler;
@@ -169,7 +170,7 @@ public class RoomPanel extends javax.swing.JPanel {
                 modeStyle, doc, scrl_chatOutput, tp_chatOutput);
     }
 
-    public void updateName(String oldname, String newname) {
+    public void updatePlayerName(String oldname, String newname) {
         roomStatusListCR.updateName(oldname, newname);
         users.removeElement(oldname);
         users.add(newname);
@@ -433,8 +434,7 @@ public class RoomPanel extends javax.swing.JPanel {
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
             String name = (String) lst_userList.getSelectedValue();
             if(name != null && !name.equals("") && !name.equals(Globals.getThisPlayer_loginName())){
-                Globals.getClientFrame().newPrivateChat(name);
-                Globals.getClientFrame().showPMTab(name);
+                TabOrganizer.openPrivateChatPanel(name, true);
             }
         }
 }//GEN-LAST:event_lst_userListMouseClicked

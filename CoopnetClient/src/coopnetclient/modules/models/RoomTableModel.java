@@ -212,7 +212,7 @@ public class RoomTableModel extends DefaultTableModel {
         return false;
     }
 
-    public void addnewroom(String name, String hostName, int maxPlayers, int type) {
+    public void addRoomToTable(String name, String hostName, int maxPlayers, int type) {
         rooms.add(new Room(type, name, hostName, maxPlayers));
         fireTableDataChanged();
     }

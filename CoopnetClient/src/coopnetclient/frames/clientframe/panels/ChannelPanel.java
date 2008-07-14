@@ -27,6 +27,7 @@ import coopnetclient.modules.renderers.UsersInRoomTableCellRenderer;
 import coopnetclient.modules.models.RoomTableModel;
 import coopnetclient.modules.components.PlayerListPopupMenu;
 import coopnetclient.Protocol;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.models.ChannelStatusListModel;
@@ -95,7 +96,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         users.playerClosedGame(playername);
     }
 
-    public void SetPlayingStatus(String player) {
+    public void setPlayingStatus(String player) {
         users.playerLaunchedGame(player);
     }
 
@@ -136,17 +137,17 @@ public class ChannelPanel extends javax.swing.JPanel {
         enablebuttons();
     }
 
-    public void addmembertoroom(String hostname, String playername) {
+    public void addPlayerToRoom(String hostname, String playername) {
         rooms.addPlayerToRoom(hostname, playername);
         users.playerEnteredRoom(playername);
     }
 
-    public void addnewroom(String roomname, String hostname, int maxplayers, int type) {
-        rooms.addnewroom(roomname, hostname, maxplayers, type);
+    public void addRoomToTable(String roomname, String hostname, int maxplayers, int type) {
+        rooms.addRoomToTable(roomname, hostname, maxplayers, type);
         users.playerEnteredRoom(hostname);
     }
 
-    public void adduser(String name) {
+    public void addPlayerToChannel(String name) {
         users.playerEnteredChannel(name);
     }
 
@@ -166,22 +167,22 @@ public class ChannelPanel extends javax.swing.JPanel {
         return tbl_roomList.getSelectedRow();
     }
 
-    public void mainchat(String name, String message, int modeStyle) {
+    public void printMainChatMessage(String name, String message, int modeStyle) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
 
         coopnetclient.modules.ColoredChatHandler.addColoredText(name, message, modeStyle, doc, scrl_chatOutput, tp_chatOutput);
     }
 
-    public void removeplayerfromplayerlist(String playername) {
+    public void removePlayerFromChannel(String playername) {
         users.playerLeftChannel(playername);
     }
 
-    public void removeplayerfromroomonlist(String hostname, String playername) {
+    public void removePlayerFromRoom(String hostname, String playername) {
         rooms.removePlayerFromRoom(hostname, playername);
         users.playerLeftRoom(playername);
     }
 
-    public void removeroomfromlist(String hostname) {
+    public void removeRoomFromTable(String hostname) {
         statusSetOnRoomClose(hostname);
         rooms.removeElement(hostname);
     }
@@ -198,11 +199,11 @@ public class ChannelPanel extends javax.swing.JPanel {
         }
     }
 
-    public void updatename(String oldname, String newname) {
+    public void updatePlayerName(String oldname, String newname) {
         rooms.updateName(oldname, newname);
         users.updatename(oldname, newname);
-        if (Globals.getRoomPanel() != null) {
-            Globals.getRoomPanel().updateName(oldname, newname);
+        if (TabOrganizer.getRoomPanel() != null) {
+            TabOrganizer.getRoomPanel().updatePlayerName(oldname, newname);
         }
     }
 
@@ -472,8 +473,8 @@ public class ChannelPanel extends javax.swing.JPanel {
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
             String selectedname = (String) lst_userList.getSelectedValue();
             if(selectedname != null && !selectedname.equals("") && !selectedname.equals(Globals.getThisPlayer_loginName())){
-                Globals.getClientFrame().newPrivateChat(selectedname);
-                Globals.getClientFrame().showPMTab(selectedname);
+                TabOrganizer.openPrivateChatPanel(selectedname, true);
+                TabOrganizer.putFocusOnPanel(selectedname);
             }
         }
 }//GEN-LAST:event_lst_userListMouseClicked
@@ -492,7 +493,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 
     private void btn_leaveChannelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveChannelActionPerformed
         Client.send(Protocol.leaveChannel(), this.name);
-        Globals.getClientFrame().removeChannel(this.name);
+        TabOrganizer.closeChannelPanel(this);
 }//GEN-LAST:event_btn_leaveChannelActionPerformed
 
 private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tp_chatOutputKeyTyped

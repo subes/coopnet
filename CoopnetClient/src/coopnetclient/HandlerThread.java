@@ -19,6 +19,7 @@
 
 package coopnetclient;
 
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.SwingWorker;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -115,12 +116,12 @@ public class HandlerThread extends Thread {
                 } else if (input.equals("OK_LOGIN")) {
                     Globals.setThisPlayer_loginName(name);
                     Globals.setLoggedInStatus(true);
-                    Globals.getClientFrame().removeLoginTab();
+                    TabOrganizer.closeLoginPanel();
                 } else {
-                    Globals.getClientFrame().addLoginTab();
+                    TabOrganizer.openLoginPanel();
                 }
             } else {
-                Globals.getClientFrame().addLoginTab();
+                TabOrganizer.openLoginPanel();
             }
             //READING DATA
             String input = "";

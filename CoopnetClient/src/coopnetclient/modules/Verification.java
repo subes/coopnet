@@ -52,7 +52,7 @@ public class Verification {
 
         boolean valid = true;
 
-        if (username.length() < 3 || username.length() > 30) {
+        if (username.length() < 5 || username.length() > 30) {
             valid = false;
         }
 
@@ -72,7 +72,7 @@ public class Verification {
         }
 
         if (valid == false) {
-            JOptionPane.showMessageDialog(null, "Your login name must have 3 to 30 characters.\n" +
+            JOptionPane.showMessageDialog(null, "Your login name must have 5 to 30 characters.\n" +
                     "The following characters are allowed:\n" +
                     "  A-Z a-z 0-9 " +
                     "@ ~ - _ = | " +

@@ -20,6 +20,7 @@
 package coopnetclient.launchers;
 
 import coopnetclient.*;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.clientframe.panels.RoomPanel;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.io.IOException;
@@ -84,7 +85,7 @@ public class WindowsLauncher implements Launcher {
                 this.port = GameDatabase.getDefPort(gameIdentifier, modname);
                 //isInitialized = true;
                 if (!isHost) {
-                    RoomPanel currentroom = Globals.getRoomPanel();
+                    RoomPanel currentroom = TabOrganizer.getRoomPanel();
                     if (currentroom != null) {
                         currentroom.enableButtons();
                     }
@@ -92,7 +93,7 @@ public class WindowsLauncher implements Launcher {
             }
         }
         //call it here to NOT remember settings
-        RoomPanel currentroom = Globals.getRoomPanel();
+        RoomPanel currentroom = TabOrganizer.getRoomPanel();
         if (currentroom != null) {
             currentroom.showSettings();
         }
@@ -109,7 +110,7 @@ public class WindowsLauncher implements Launcher {
             if (jDPlay.isInitializedProperly()) {
                 isInitialized = true;
                 jDPlay.setMaxSearchRetries(MAX_RETRIES);
-                RoomPanel currentroom = Globals.getRoomPanel();
+                RoomPanel currentroom = TabOrganizer.getRoomPanel();
                 if (currentroom != null) {
                     currentroom.enableButtons();
                 }

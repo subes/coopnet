@@ -23,6 +23,7 @@ import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Settings;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Desktop;
@@ -127,7 +128,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
         return lbl_fileValue.getText();
     }
 
-    public void Cancelled() {
+    public void cancelled() {
         lbl_statusValue.setText("Peer cancelled!");
         btn_refuse.setText("Close");
         btn_accept.setVisible(false);
@@ -226,7 +227,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
 
     }
     
-    public void TurnAround(){
+    public void turnAround(){
         try{
             serverSocket.close();
             startDownloadingRetry();
@@ -496,12 +497,12 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
 private void btn_refuseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refuseActionPerformed
     if (btn_refuse.getText().equals("Refuse")) {
         Client.send(Protocol.RefuseTransfer(sender, filename), null);
-        Globals.getClientFrame().removeTransferTab(sender, filename);
+        TabOrganizer.closeFileTransferReceivePanel(this);
     } else if (btn_refuse.getText().equals("Cancel")) {
         running = false;
-        Globals.getClientFrame().removeTransferTab(sender, filename);
+        TabOrganizer.closeFileTransferReceivePanel(this);
     } else {
-        Globals.getClientFrame().removeTransferTab(sender, filename);
+        TabOrganizer.closeFileTransferReceivePanel(this);
     }
 }//GEN-LAST:event_btn_refuseActionPerformed
 

@@ -20,6 +20,7 @@
 package coopnetclient.launchers;
 
 import coopnetclient.*;
+import coopnetclient.frames.clientframe.TabOrganizer;
 
 public class DummyLauncher implements Launcher {
 
@@ -27,8 +28,8 @@ public class DummyLauncher implements Launcher {
 
     @Override
     public void initialize(String gameIdentifier, String modname, boolean isHost, String ip, boolean compatible, int maxPlayers) {
-        if(Globals.getRoomPanel() != null){
-            Globals.getRoomPanel().enableButtons();
+        if(TabOrganizer.getRoomPanel() != null){
+            TabOrganizer.getRoomPanel().enableButtons();
         }
         this.gamename = gameIdentifier;
     }

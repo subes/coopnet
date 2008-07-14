@@ -22,6 +22,7 @@ package coopnetclient.frames.clientframe.panels;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Settings;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -81,7 +82,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
         return lbl_fileValue.getText();
     }
 
-    public void Refused() {
+    public void refused() {
         lbl_statusValue.setText("Peer refused transfer!");
         btn_cancel.setText("Close");
     }
@@ -99,7 +100,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
         lbl_timeLeftValue.setText(hours + ":" + minutes + ":" + seconds);
     }
     
-    public void TurnAround(){
+    public void turnAround(){
         
     }
 
@@ -376,10 +377,10 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         if (btn_cancel.getText().equals("Cancel")) {
             sending = false;
-            Client.send(Protocol.CancelTransfer(lbl_recieverValue.getText(), lbl_fileValue.getText()), null);
-            Globals.getClientFrame().removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
+            Client.send(Protocol.cancelTransfer(lbl_recieverValue.getText(), lbl_fileValue.getText()), null);
+            TabOrganizer.closeFileTransferSendPanel(this);
         } else {
-            Globals.getClientFrame().removeTransferTab(lbl_recieverValue.getText(), lbl_fileValue.getText());
+            TabOrganizer.closeFileTransferSendPanel(this);
         }
 
 }//GEN-LAST:event_btn_cancelActionPerformed

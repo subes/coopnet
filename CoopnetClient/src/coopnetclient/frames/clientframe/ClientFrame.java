@@ -23,29 +23,22 @@ import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.panels.ChannelPanel;
-import coopnetclient.frames.clientframe.panels.LoginPanel;
 import coopnetclient.frames.clientframe.panels.PrivateChatPanel;
 import coopnetclient.frames.clientframe.panels.RoomPanel;
 import coopnetclient.Protocol;
 import coopnetclient.modules.Settings;
-import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.modules.listeners.TabbedPaneColorChangeListener;
-import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.components.FavMenuItem;
-import coopnetclient.frames.clientframe.panels.BrowserPanel;
-import coopnetclient.frames.clientframe.panels.ErrorPanel;
 import coopnetclient.frames.clientframe.panels.FileTransferRecievePanel;
 import coopnetclient.frames.clientframe.panels.FileTransferSendPanel;
 import java.awt.Component;
 import java.io.File;
-import java.util.Vector;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeListener;
 
 public class ClientFrame extends javax.swing.JFrame {
-
-    private Vector<ChannelPanel> channels = new Vector<ChannelPanel>();
     
     /** Creates new form ClientFrame */
     public ClientFrame() {
@@ -58,44 +51,40 @@ public class ClientFrame extends javax.swing.JFrame {
 
         refreshFavourites();
 
-        coopnetclient.modules.Colorizer.colorize(this);
-
         //load the size from options
-        int width = coopnetclient.modules.Settings.getMainFrameWidth();
-        int height = coopnetclient.modules.Settings.getMainFrameHeight();
+        int width = Settings.getMainFrameWidth();
+        int height = Settings.getMainFrameHeight();
         this.setSize(width, height);
         //maximise if needed
-        int status = coopnetclient.modules.Settings.getMainFrameMaximised();
-        if(status ==  javax.swing.JFrame.MAXIMIZED_BOTH ){
+        int status = Settings.getMainFrameMaximised();
+        if(status == JFrame.MAXIMIZED_BOTH ){
             this.setExtendedState(status);
         }
 
-        setLocationRelativeTo(null);
-        //sound options init
         updateMenu();
-        
-        setVisible(true);
+    }
+    
+    //Callback for Globals
+    public void updateLoggedInStatus(){
+        if(Globals.getLoggedInStatus()){
+            mi_profile.setEnabled(true);
+            mi_channelList.setEnabled(true);
+        }else{
+            mi_profile.setEnabled(false);
+        }
     }
 
     public void turnAroundTransfer(String peer, String filename) {
         for (Component c : tabpn_tabs.getComponents()) {
             if (c instanceof FileTransferSendPanel && ((FileTransferSendPanel) c).getFilename().equals(filename) && ((FileTransferSendPanel) c).getReciever().equals(peer)) {
-                ((FileTransferSendPanel) c).TurnAround();
+                ((FileTransferSendPanel) c).turnAround();
             }
         }
         for (Component c : tabpn_tabs.getComponents()) {
             if (c instanceof FileTransferRecievePanel && ((FileTransferRecievePanel) c).getFilename().equals(filename) && ((FileTransferRecievePanel) c).getSender().equals(peer)) {
-                ((FileTransferRecievePanel) c).TurnAround();
+                ((FileTransferRecievePanel) c).turnAround();
             }
         }
-    }
-
-    public void addTransferTab_Send(String reciever, File file) {
-        tabpn_tabs.add("Send file to " + reciever, new FileTransferSendPanel(reciever, file));
-    }
-
-    public void addTransferTab_Recieve(String sender, String size, String filename,String ip,String port) {
-        tabpn_tabs.add("Recieve file from " + sender, new FileTransferRecievePanel(sender, new Long(size), filename,ip,port));
     }
 
     public void startSending(String ip, String reciever, String filename, String port) {
@@ -109,7 +98,7 @@ public class ClientFrame extends javax.swing.JFrame {
     public void refusedTransfer(String reciever, String filename) {
         for (Component c : tabpn_tabs.getComponents()) {
             if (c instanceof FileTransferSendPanel && ((FileTransferSendPanel) c).getFilename().equals(filename) && ((FileTransferSendPanel) c).getReciever().equals(reciever)) {
-                ((FileTransferSendPanel) c).Refused();
+                ((FileTransferSendPanel) c).refused();
             }
         }
     }
@@ -117,273 +106,93 @@ public class ClientFrame extends javax.swing.JFrame {
     public void cancelledTransfer(String sender, String filename) {
         for (Component c : tabpn_tabs.getComponents()) {
             if (c instanceof FileTransferRecievePanel && ((FileTransferRecievePanel) c).getFilename().equals(filename) && ((FileTransferRecievePanel) c).getSender().equals(sender)) {
-                ((FileTransferRecievePanel) c).Cancelled();
-            }
-        }
-    }
-
-    public void removeTransferTab(String user, String filename) {
-        for (Component c : tabpn_tabs.getComponents()) {
-            if (c instanceof FileTransferRecievePanel && ((FileTransferRecievePanel) c).getFilename().equals(filename) && ((FileTransferRecievePanel) c).getSender().equals(user)) {
-                tabpn_tabs.remove(c);
-            }
-            if (c instanceof FileTransferSendPanel && ((FileTransferSendPanel) c).getFilename().equals(filename) && ((FileTransferSendPanel) c).getReciever().equals(user)) {
-                tabpn_tabs.remove(c);
+                ((FileTransferRecievePanel) c).cancelled();
             }
         }
     }
 
     public void gameClosed(String channel, String playername) {
-        getChannel(channel).gameClosed(playername);
+        TabOrganizer.getChannelPanel(channel).gameClosed(playername);
     }
 
     public void setPlayingStatus(String channel, String player) {
-        ChannelPanel cp = getChannel(channel);
-        cp.SetPlayingStatus(player);
-    }
-
-    public void addGuideTab() {
-        if (indexOfTab("Beginner's Guide") == -1) {
-            tabpn_tabs.addTab("Beginner's Guide", new BrowserPanel());
-        }
-        this.repaint();
-    }
-
-    public void removeGuideTab() {
-        tabpn_tabs.remove(indexOfTab("Beginner's Guide"));
-    }
-
-    public void addErrorTab(int mode, Exception e) {
-        ErrorPanel err = new ErrorPanel(mode, e);
-        tabpn_tabs.addTab("Error", err);
-        tabpn_tabs.setSelectedComponent(err);
-        this.repaint();
-    }
-
-    public ChannelPanel getChannel(String channelname) {
-        int index = -1;
-        index = indexOfTab(channelname);
-        if (index != -1) {
-            return (ChannelPanel) tabpn_tabs.getComponentAt(index);
-        } else {
-            if (tabpn_tabs.getComponentCount() != 0) {
-                if (tabpn_tabs.getComponentAt(0) instanceof ChannelPanel) {
-                    return (ChannelPanel) tabpn_tabs.getComponentAt(0);
-                } else {
-                    return null;
-                }
-            } else {
-                return null;
-            }
-        }
-    }
-
-    public void addLoginTab() {
-        SwingUtilities.invokeLater(new Thread() {
-
-            @Override
-            public void run() {
-                try{
-                    tabpn_tabs.addTab("Login", new LoginPanel());
-                    mi_profile.setEnabled(false);
-                }catch(Exception e){
-                    ErrorHandler.handleException(e);
-                }
-            }
-        });
-    }
-
-    public void removeLoginTab() {
-        int index = -1;
-        index = indexOfTab("Login");
-        if (index != -1) {
-            tabpn_tabs.remove(index);
-        }
-        mi_profile.setEnabled(true);
-        mi_channelList.setEnabled(true);
-    }
-
-    public void addChannel(String channelname) {
-        int index = -1;
-        index = indexOfTab(channelname);
-        if (index != -1) {
-            return;
-        }
-        ChannelPanel currentchannel = new ChannelPanel(channelname);
-        tabpn_tabs.add(currentchannel, 0);
-        tabpn_tabs.setTitleAt(0, channelname);
-        channels.add(currentchannel);
-        this.repaint();
-        //check if the game is installed
-        if (!Globals.getLauncher().isLaunchable(channelname)) {
-            currentchannel.disablebuttons();
-            currentchannel.mainchat("SYSTEM",
-                    "The game couldn't be detected, please set the path manually at " +
-                    "options/manage games to enable playing this game!",
-                    ColoredChatHandler.SYSTEM_STYLE);
-        } else {
-            currentchannel.setLaunchable(true);
-        }
-        if (GameDatabase.isBeta(channelname)) {
-            currentchannel.mainchat("SYSTEM", "Support for this game is experimental," +
-                    " email coopnetbugs@gmail.com if you have problems!",
-                    ColoredChatHandler.SYSTEM_STYLE);
-        }
-        tabpn_tabs.setSelectedIndex(0);
+        ChannelPanel cp = TabOrganizer.getChannelPanel(channel);
+        cp.setPlayingStatus(player);
     }
 
     public void setLaunchable(String channelname, boolean value) {
-        ChannelPanel channel = getChannel(channelname);
+        ChannelPanel channel = TabOrganizer.getChannelPanel(channelname);
         if (channel != null) {
             channel.setLaunchable(value);
         }
     }
 
-    public void removeChannel(String channelname) {
-        channels.remove(getChannel(channelname));
-        tabpn_tabs.remove(getChannel(channelname));
-    }
-
-    public boolean mainTabIsVisible() {
-        return channels.get(0).isVisible();
-    }
-
-    public void addNewRoomToList(String channel, String roomname, String hostname, int maxplayers, int type) {
-        getChannel(channel).addnewroom(roomname,
+    public void addRoomToTable(String channel, String roomname, String hostname, int maxplayers, int type) {
+        TabOrganizer.getChannelPanel(channel).addRoomToTable(roomname,
                 hostname, maxplayers, type);
     }
+    
+    public void removeRoomFromTable(String channel, String hostname) {
+        TabOrganizer.getChannelPanel(channel).removeRoomFromTable(hostname);
+    }
 
-    public void addUser(String channel, String name) {
-        getChannel(channel).adduser(name);
+    public void addPlayerToChannel(String channel, String name) {
+        TabOrganizer.getChannelPanel(channel).addPlayerToChannel(name);
     }
 
     public int getSelectedRoomListRowIndex(String channel) {
-        return getChannel(channel).getSelectedRoomListRowIndex();
-    }
-    
-    //Only used by Globals as callback!
-    public void removeRoomPanelTab(){
-        tabpn_tabs.remove(Globals.getRoomPanel());
-        RoomPanel room = Globals.getRoomPanel();
-        if(room!=null){
-            int index = indexOfTab(room.channel);
-            if(index != -1){
-                tabpn_tabs.setSelectedIndex(index);
-            }
-        }
-        for (ChannelPanel cp : channels) {
-            cp.enablebuttons();
-        }
-    }
-    
-    //Only used by Globals as callback!
-    public void addRoomPanelTab(){
-        tabpn_tabs.insertTab("Room", null, Globals.getRoomPanel(), null, channels.size());
-        
-        tabpn_tabs.setSelectedComponent(Globals.getRoomPanel());
-        
-        for (ChannelPanel cp : channels) {
-            cp.disablebuttons();
-        }
+        return TabOrganizer.getChannelPanel(channel).getSelectedRoomListRowIndex();
     }
 
-    public void addMemberToRoom(String channel, String hostname, String playername) {
-        getChannel(channel).addmembertoroom(hostname, playername);
+    public void addPlayerToRoom(String channel, String hostname, String playername) {
+        TabOrganizer.getChannelPanel(channel).addPlayerToRoom(hostname, playername);
     }
 
-    public void leftRoom(String channel, String hostname, String playername) {
-        getChannel(channel).removeplayerfromroomonlist(hostname, playername);
+    public void removePlayerFromRoom(String channel, String hostname, String playername) {
+        TabOrganizer.getChannelPanel(channel).removePlayerFromRoom(hostname, playername);
     }
 
-    public void mainChat(String channel, String name, String message, int modeStyle) {
-        ChannelPanel cp = getChannel(channel);
+    public void printMainChatMessage(String channel, String name, String message, int modeStyle) {
+        ChannelPanel cp = TabOrganizer.getChannelPanel(channel);
         if (cp != null) {
-            cp.mainchat(name, message, modeStyle);
+            cp.printMainChatMessage(name, message, modeStyle);
         }
     }
 
-    public void newPrivateChat(String title) {
-        int idx = indexOfTab(title);
-        if (idx == -1) {
-            PrivateChatPanel pc = new PrivateChatPanel(title);
-            tabpn_tabs.add(title, pc);
-            pc.requestFocus();
-        }
-    }
-
-    public void privateChat(String sender, String message) {
+    public void printPrivateChatMessage(String sender, String message) {
 
         PrivateChatPanel privatechat = null;
         int index = tabpn_tabs.indexOfTab(sender);
         if (index == -1) {//tab doesnt exist, must add it
-
-            privatechat = new PrivateChatPanel(sender);
-            tabpn_tabs.add(sender, privatechat);
-
-            //Workaround for wrong color @ new tab that doesnt get focus
-            if (Settings.getColorizeBody()) {
-                ChangeListener[] listeners = tabpn_tabs.getChangeListeners();
-                for (int i = 0; i < listeners.length; i++) {
-                    if (listeners[i] instanceof TabbedPaneColorChangeListener) {
-                        TabbedPaneColorChangeListener cl = (TabbedPaneColorChangeListener) listeners[i];
-                        cl.updateBG();
-                        break;
-                    }
-                }
-            }
-        } else {
-            privatechat = (PrivateChatPanel) tabpn_tabs.getComponentAt(index);
+            TabOrganizer.openPrivateChatPanel(sender, false);
+            index = tabpn_tabs.indexOfTab(sender);
         }
+        
+        privatechat = (PrivateChatPanel) tabpn_tabs.getComponentAt(index);
+        
         privatechat.append(sender, message);
+        
         if (!privatechat.isVisible()) {
             printToVisibleChatbox(sender, message, coopnetclient.modules.ColoredChatHandler.PRIVATE_NOTIFICATION_STYLE);
         }
     }
 
-    public void showPMTab(String name) {
-        int index = tabpn_tabs.indexOfTab(name);
-        if (index != -1) {
-            tabpn_tabs.setSelectedIndex(index);
-            ((PrivateChatPanel) tabpn_tabs.getSelectedComponent()).requestFocus();
-        }
+    public void removePlayerFromChannel(String channel, String playername) {
+        TabOrganizer.getChannelPanel(channel).removePlayerFromChannel(playername);
     }
 
-    public void removePMTab(PrivateChatPanel pmtab) {
-        tabpn_tabs.remove(pmtab);
-    }
-
-    public void removeRoomFromList(String channel, String hostname) {
-        getChannel(channel).removeroomfromlist(hostname);
-    }
-
-    public void removeUser(String channel, String playername) {
-        getChannel(channel).removeplayerfromplayerlist(playername);
-    }
-
-    public void updateName(String channel, String oldname, String newname) {
+    public void updatePlayerName(String channel, String oldname, String newname) {
         //update name in the main tab
-        getChannel(channel).updatename(oldname, newname);
+        TabOrganizer.getChannelPanel(channel).updatePlayerName(oldname, newname);
         //update name in the room tab
-        if (Globals.getRoomPanel() != null && Globals.getRoomPanel().channel.equals(channel)) {
-            Globals.getRoomPanel().updateName(oldname, newname);
+        if (TabOrganizer.getRoomPanel() != null && TabOrganizer.getRoomPanel().channel.equals(channel)) {
+            TabOrganizer.getRoomPanel().updatePlayerName(oldname, newname);
         }
         //update the pm tab title too
         int index = tabpn_tabs.indexOfTab(oldname);
         if (index != -1) {
             tabpn_tabs.setTitleAt(index, newname);
         }
-    }
-
-    public Component getTabComponentAt(int index) {
-        return tabpn_tabs.getComponentAt(index);
-    }
-
-    public int indexOfTab(String title) {
-        return tabpn_tabs.indexOfTab(title);
-    }
-
-    public void removeAllTabs() {
-        tabpn_tabs.removeAll();
     }
 
     /** This method is called from within the constructor to
@@ -647,7 +456,8 @@ public class ClientFrame extends javax.swing.JFrame {
     public void disconnect() {
         Client.send(Protocol.quit(), null);
         Client.stopConnection();
-        removeAllTabs();
+        TabOrganizer.closeAll();
+        
         mi_disconnect.setEnabled(false);
         mi_profile.setEnabled(false);
         mi_connect.setEnabled(true);
@@ -669,12 +479,6 @@ public class ClientFrame extends javax.swing.JFrame {
 
     private void addFavourite(String channelname) {
         m_channels.add(new FavMenuItem(channelname));
-    }
-
-    public void updateSleepMode() {
-        for (ChannelPanel cp : channels) {
-            cp.updateSleepMode();
-        }
     }
 
     public void refreshFavourites() {
@@ -704,14 +508,14 @@ public class ClientFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, message, "Message", JOptionPane.INFORMATION_MESSAGE);
         } else if (tc instanceof ChannelPanel) {
             ChannelPanel cp = (ChannelPanel) tc;
-            cp.mainchat(name, message, modeStyle);
+            cp.printMainChatMessage(name, message, modeStyle);
         } else if (tc instanceof RoomPanel) {
             RoomPanel rp = (RoomPanel) tc;
             rp.chat(name, message, modeStyle);
         } else {
-            ChannelPanel cp = channels.get(0);
+            ChannelPanel cp = TabOrganizer.getChannelPanel(0);
             if (cp != null) {
-                cp.mainchat(name, message, modeStyle);
+                cp.printMainChatMessage(name, message, modeStyle);
             }
         }
     }
@@ -726,9 +530,14 @@ public class ClientFrame extends javax.swing.JFrame {
     public void updateMenu() {
         mi_Sounds.setSelected(Settings.getSoundEnabled());
     }
+    
+    //Only used by ClientFramePanelHandler!
+    protected JTabbedPane getTabHolder(){
+        return tabpn_tabs;
+    }
 
     private void mi_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_connectActionPerformed
-        removeAllTabs();
+        TabOrganizer.closeAll();
         Client.startConnection();
         mi_disconnect.setEnabled(true);
         mi_connect.setEnabled(false);
@@ -777,8 +586,7 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_manageGamesActionPerformed
 
     private void mi_guideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_guideActionPerformed
-        addGuideTab();
-        tabpn_tabs.setSelectedIndex(indexOfTab("Beginner's Guide"));
+        TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
 }//GEN-LAST:event_mi_guideActionPerformed
 
 private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_updateActionPerformed
