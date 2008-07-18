@@ -30,6 +30,7 @@ import coopnetclient.modules.Settings;
 import coopnetclient.modules.components.FavMenuItem;
 import coopnetclient.frames.clientframe.panels.FileTransferRecievePanel;
 import coopnetclient.frames.clientframe.panels.FileTransferSendPanel;
+import coopnetclient.modules.FileDownloader;
 import java.awt.Component;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -583,6 +584,7 @@ private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                         JOptionPane.YES_NO_OPTION);
                 if (n == JOptionPane.YES_OPTION) {
                     try {
+                        FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", "./CoopnetUpdater.jar");
                         Runtime rt = Runtime.getRuntime();
                         rt.exec("java -jar CoopnetUpdater.jar");
                         Globals.getClientFrame().quit();

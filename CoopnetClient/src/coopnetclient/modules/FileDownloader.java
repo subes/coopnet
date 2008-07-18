@@ -59,6 +59,7 @@ public class FileDownloader {
             while ((readedbyte = bi.read()) != -1) {
                 bo.write(readedbyte);
             }
+            bo.flush();
 
         } catch (IOException ex) {
             return false;
