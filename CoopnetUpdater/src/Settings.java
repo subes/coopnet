@@ -79,7 +79,7 @@ public class Settings {
     //Default values for settings
     private final static String def_serverIp = "subes.dyndns.org";
     private final static int def_serverPort = 6667;
-     private final static String def_updateURL = "http://coopnet.sourceforge.net/latest.php";
+     private final static String def_updateURL = "http://coopnet.sourceforge.net/latestClient.php";
     private final static boolean def_firstrun=true;
     private final static boolean def_autoLogin = false;
     private final static boolean def_debugMode = false; // new Color(new Integer(""));
