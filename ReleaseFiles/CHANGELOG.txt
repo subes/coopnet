@@ -1,8 +1,7 @@
 2008/07/02: CoopnetClient 0.96.1
-  - Bugfixes with coloring
-  - Improved loading time for SettingsFrame
-  - Some minor improvements to the FileChooser
-  - Protocol improvements, now the delimiters are moved to unused unicode characters
+  - Many Bugfixes and minor improvements
+  - Communication changes between Server and Client
+  - Better handling of Frames, e.g. SettingsFrame can't be opened more than once
 
 2008/06/23: CoopnetClient 0.96.0
   - We added a new versioning system
