@@ -109,7 +109,7 @@ public class ClientFrame extends javax.swing.JFrame {
     }
 
     public void gameClosed(String channel, String playername) {
-        TabOrganizer.getChannelPanel(channel).gameClosed(playername);
+        TabOrganizer.getChannelPanel(channel).gameClosed(playername);        
     }
 
     public void setPlayingStatus(String channel, String player) {

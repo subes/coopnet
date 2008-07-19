@@ -269,7 +269,8 @@ public class CommandHandler {
             //launch the game if not running already
             if (input.startsWith("launch")) {
                 TabOrganizer.getRoomPanel().launch();
-            } else if (input.startsWith("setplayingstatus ")) {
+            } else 
+            if (input.startsWith("setplayingstatus ")) {
                 String host = input.substring(17);
                 Globals.getClientFrame().setPlayingStatus(currentchannel, host);
             } else 

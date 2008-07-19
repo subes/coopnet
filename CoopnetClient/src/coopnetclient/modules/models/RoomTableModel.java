@@ -23,11 +23,20 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 public class RoomTableModel extends DefaultTableModel {
-
+    
+    /*
+     * launcehd status is indicated by +10 intvalue
+     * rooms that can have launched status msut be 
+     * lower than instant-unpassworded room value
+     * (it is ok to increase the value of previous to add new types)
+     */
     public static final int NORMAL_UNPASSWORDED_ROOM = 0;
+    public static final int NORMAL_UNPASSWORDED_ROOM_LAUNCHED = 10;
     public static final int NORMAL_PASSWORDED_ROOM = 1;
+    public static final int NORMAL_PASSWORDED_ROOM_LAUNCHED = 11;
     public static final int INSTANT_UNPASSWORDED_ROOM = 2;
     public static final int INSTANT_PASSWORDED_ROOM = 3;
+    
 
     private static class  Room {
 
@@ -35,6 +44,7 @@ public class RoomTableModel extends DefaultTableModel {
         private String name;
         private String hostName;
         private int maxplayers;
+        private boolean launched;
         private ArrayList<String> playersInRoom = new ArrayList<String>();
 
         public Room(int type, String name, String hostName, int maxplayers) {
@@ -42,9 +52,18 @@ public class RoomTableModel extends DefaultTableModel {
             this.name = name;
             this.hostName = hostName;
             this.maxplayers = maxplayers;
+            this.launched= false;
             playersInRoom.add(hostName);
         }
 
+        public boolean isLaunched(){
+            return launched;
+        }
+        
+        public void setLaunched(boolean state){
+            launched=state;
+        }
+        
         public String getName() {
             return name;
         }
@@ -131,6 +150,10 @@ public class RoomTableModel extends DefaultTableModel {
     public Object getValueAt(int row, int col) {
         switch (col) {
             case 0:
+                if(rooms.get(row).isLaunched() && rooms.get(row).getType()< INSTANT_UNPASSWORDED_ROOM ){
+                    return rooms.get(row).getType()+10;
+                }
+                else
                 return rooms.get(row).getType();
             case 1:
                 return rooms.get(row).getHostName();
@@ -168,6 +191,7 @@ public class RoomTableModel extends DefaultTableModel {
         if (index >= 0) {
             rooms.remove(index);
         }
+        fireTableDataChanged();
     }
 
     @Override
@@ -204,7 +228,7 @@ public class RoomTableModel extends DefaultTableModel {
         return null;
     }
 
-    public boolean selectedRoomIsPassworded() {
+    public boolean isSelectedRoomPassworded() {
         int i = parent.getSelectedRow();
         if (i != -1) {
             return (rooms.get(i).getType() == NORMAL_PASSWORDED_ROOM) || (rooms.get(i).getType() == INSTANT_PASSWORDED_ROOM);
@@ -243,5 +267,13 @@ public class RoomTableModel extends DefaultTableModel {
 
     public String getUserList(int row) {
         return rooms.get(row).getUserlist();
+    }
+    
+    public void setLaunchedStatus(String possibleHost, boolean newLaunchedState){
+        int index = indexOf(possibleHost);
+        if (index >= 0) {
+            rooms.get(index).setLaunched(newLaunchedState);
+        }
+        fireTableDataChanged();
     }
 }

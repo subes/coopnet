@@ -94,10 +94,12 @@ public class ChannelPanel extends javax.swing.JPanel {
 
     public void gameClosed(String playername) {
         users.playerClosedGame(playername);
+        rooms.setLaunchedStatus(playername, false);
     }
 
     public void setPlayingStatus(String player) {
         users.playerLaunchedGame(player);
+        rooms.setLaunchedStatus(player, true);
     }
 
     public void updateSleepMode() {
@@ -427,7 +429,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 
     private void join(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_join
         try {
-            if (rooms.selectedRoomIsPassworded()) {
+            if (rooms.isSelectedRoomPassworded()) {
                 Globals.openJoinRoomPasswordFrame(this.name, rooms.getSelectedHostName());
                 return;
             }
