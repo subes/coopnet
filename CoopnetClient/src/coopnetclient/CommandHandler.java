@@ -129,7 +129,7 @@ public class CommandHandler {
                 TabOrganizer.openChannelPanel(tmp);
             } else if (input.startsWith("nudge ")) {
                 String tmp = input.substring(6);
-                new FrameIconFlasher(Globals.getClientFrame(), "data/icons/nudge.gif", tmp + " sent you a nudge!");
+                new FrameIconFlasher(Globals.getClientFrame(), "data/icons/nudge.png", tmp + " sent you a nudge!");
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp + " sent you a nudge!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
                 SoundPlayer.playNudgeSound();
             } else if (input.startsWith("error")) {

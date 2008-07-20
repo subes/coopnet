@@ -54,7 +54,7 @@ public class Colorizer {
     private final static int BTN_DIFF = 20;
     private final static int TF_DIFF = 10;
     private final static int DISABLED_DIFF = 75;
-    private static Image baseiconimage = Toolkit.getDefaultToolkit().getImage("data/icons/icon.gif");
+    private static Image frameIcon = Toolkit.getDefaultToolkit().getImage("data/icons/coopnet.png");
     
 
     static {
@@ -98,7 +98,7 @@ public class Colorizer {
 
         if (root instanceof JFrame) {
             JFrame frame = (JFrame) root;
-            frame.setIconImage(baseiconimage);
+            frame.setIconImage(frameIcon);
         }
 
         //Dont colorize if following is the case

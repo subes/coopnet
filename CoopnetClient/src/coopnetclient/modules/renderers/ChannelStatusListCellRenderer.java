@@ -23,6 +23,8 @@ import coopnetclient.modules.Settings;
 import coopnetclient.modules.models.ChannelStatusListModel;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -34,9 +36,9 @@ import javax.swing.UIManager;
  */
 public class ChannelStatusListCellRenderer extends JLabel implements ListCellRenderer {
 
-    public static ImageIcon chaticon = new ImageIcon("data/icons/chaticon.gif");
-    public static ImageIcon roomicon = new ImageIcon("data/icons/roomicon.gif");
-    public static ImageIcon gameicon = new ImageIcon("data/icons/gameicon.gif");
+    public static ImageIcon chatIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/inchat.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon lobbyIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/inlobby.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon gameIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/ingame.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     private ChannelStatusListModel model;
 
     public ChannelStatusListCellRenderer(ChannelStatusListModel model) {
@@ -68,11 +70,11 @@ public class ChannelStatusListCellRenderer extends JLabel implements ListCellRen
         }
 
         if (model.isPlaying(value)) {
-            setIcon(gameicon);
+            setIcon(gameIcon);
         } else if (model.isInRoom(value)) {
-            setIcon(roomicon);
+            setIcon(lobbyIcon);
         } else {
-            setIcon(chaticon);
+            setIcon(chatIcon);
         }
 
         return this;
