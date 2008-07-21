@@ -84,11 +84,11 @@ public class ClientFrame extends javax.swing.JFrame {
         }
     }
 
-    public void startSending(String ip, String reciever, String filename, String port) {
+    public void startSending(String ip, String reciever, String filename, String port, long firstByte) {
         FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(reciever, filename);
         
         if(sendPanel != null){
-            sendPanel.startSending(ip, port);
+            sendPanel.startSending(ip, port,firstByte);
         }
     }
 

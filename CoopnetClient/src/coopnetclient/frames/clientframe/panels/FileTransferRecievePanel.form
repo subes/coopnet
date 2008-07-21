@@ -25,26 +25,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lbl_note" alignment="0" pref="492" max="32767" attributes="0"/>
-                  <Component id="pgb_progress" alignment="0" pref="492" max="32767" attributes="1"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="lbl_progress" min="-2" max="-2" attributes="1"/>
-                      <EmptySpace pref="332" max="32767" attributes="0"/>
-                      <Component id="lbl_timeLeftValue" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lbl_timeLeft" min="-2" pref="63" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="btn_accept" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="356" max="32767" attributes="0"/>
-                      <Component id="btn_refuse" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="lbl_status" alignment="0" max="32767" attributes="1"/>
                           <Component id="lbl_savePath" alignment="0" max="32767" attributes="1"/>
                           <Component id="lbl_file" alignment="0" max="32767" attributes="1"/>
                           <Component id="lbl_sender" alignment="0" pref="58" max="32767" attributes="1"/>
@@ -60,8 +45,27 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btn_browseSavePath" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="lbl_statusValue" pref="428" max="32767" attributes="1"/>
+                          <Component id="cb_Resume" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
+                  </Group>
+                  <Component id="lbl_note" alignment="0" pref="492" max="32767" attributes="0"/>
+                  <Component id="pgb_progress" alignment="0" pref="492" max="32767" attributes="1"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="lbl_progress" min="-2" max="-2" attributes="1"/>
+                      <EmptySpace pref="332" max="32767" attributes="0"/>
+                      <Component id="lbl_timeLeftValue" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lbl_timeLeft" min="-2" pref="63" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="btn_accept" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="356" max="32767" attributes="0"/>
+                      <Component id="btn_refuse" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="lbl_status" pref="47" max="32767" attributes="1"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lbl_statusValue" pref="439" max="32767" attributes="1"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -91,6 +95,8 @@
                   <Component id="btn_browseSavePath" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tf_savePath" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="cb_Resume" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lbl_statusValue" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -214,6 +220,15 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Time left:"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="cb_Resume">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Resume file"/>
+        <Property name="toolTipText" type="java.lang.String" value="Note: Only the file with the same filename can be resumed !"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cb_ResumeActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

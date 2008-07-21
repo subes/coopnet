@@ -30,11 +30,14 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class FileTransferRecievePanel extends javax.swing.JPanel {
@@ -45,7 +48,9 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
     private String port;
     private File destfile = null;
     private long totalsize = 0;
+    private long firstByteToSend = 0;
     private boolean running = false;
+    private boolean resuming = false;
     private ServerSocket serverSocket = null;
     SocketChannel socket = null;
     private static int progress = 0;
@@ -73,7 +78,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
             lbl_sizeValue.setText(lbl_sizeValue.getText() + " B");
         }
         if (i == 1) {
-            lbl_sizeValue.setText(lbl_sizeValue.getText() + " KB");
+            lbl_sizeValue.setText(lbl_sizeValue.getText() + " kB");
         }
         if (i == 2) {
             lbl_sizeValue.setText(lbl_sizeValue.getText() + " MB");
@@ -106,6 +111,43 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
             e.printStackTrace();
             return file;
         }
+    }
+
+    /**
+     * Returns if the file can be resumed (size is less than totalsize)
+     * and sets the firstByteTosend variable
+     */
+    private boolean checkResumability() {
+        try {
+            File checkthis = getDestFile();
+            long currentsize = checkthis.length();
+            if (totalsize <= currentsize) {
+                firstByteToSend = 0;
+                JOptionPane.showMessageDialog(Globals.getClientFrame(),
+                        "<html>The existing file is larger or equal to the file sent!<br>Probably not the same file!",
+                        "Cannot resume file!", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            firstByteToSend = currentsize + 1;
+            return true;
+        } catch (Exception e) {
+            firstByteToSend = 0;
+            return false;
+        }
+    }
+
+    private File getDestFile() throws IOException {
+        File dest;
+        String fullpath = tf_savePath.getText();
+        if (!(new File(fullpath).exists())) {
+            new File(fullpath).mkdirs();
+        }
+        if (!fullpath.endsWith("/") || !fullpath.endsWith("\\")) {
+            fullpath = fullpath + "/";
+        }
+        fullpath += filename;
+        dest = new File(fullpath).getCanonicalFile();
+        return dest;
     }
 
     public void setTimeLeft(long time) {
@@ -163,6 +205,9 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
 
             @Override
             public void run() {
+                Socket socket = null;
+                BufferedInputStream bi = null;
+                BufferedOutputStream bo = null;
                 try {
                     try {
                         running = true;
@@ -170,36 +215,37 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                         serverSocket = new ServerSocket(Settings.getFiletTansferPort());
                     } catch (Exception e) {
                         if (e instanceof java.net.BindException) {
+                            serverSocket.close();
                             Client.send(Protocol.turnTransferAround(sender, filename), null);
                             Thread.sleep(500);
                             startDownloadingRetry();
                             return;
                         }
                     }
-                    Socket socket = serverSocket.accept();
-                    starttime = System.currentTimeMillis();
+                    socket = serverSocket.accept();
 
-                    BufferedInputStream bi = new BufferedInputStream(socket.getInputStream());
+                    bi = new BufferedInputStream(socket.getInputStream());
 
-                    String fullpath = tf_savePath.getText();
-                    if (!(new File(fullpath).exists())) {
-                        new File(fullpath).mkdirs();
-                    }
-                    if (!fullpath.endsWith("/") || !fullpath.endsWith("\\")) {
-                        fullpath = fullpath + "/";
-                    }
-                    fullpath += filename;
-
-                    destfile = new File(fullpath).getCanonicalFile();
-                    int n = 1;
-                    while (!destfile.createNewFile()) {
-                        destfile = Checkfile(destfile, n);
-                        n++;
+                    destfile = getDestFile();
+                    //if not resuming, rename file if it already exists
+                    if (!resuming) {
+                        int n = 1;
+                        while (!destfile.createNewFile()) {
+                            destfile = Checkfile(destfile, n);
+                            n++;
+                        }
+                    } else {
+                        //make sure it exists
+                        if (!destfile.exists()) {
+                            destfile.createNewFile();
+                        }
                     }
 
-                    BufferedOutputStream bo = new BufferedOutputStream(new FileOutputStream(destfile));
+                    bo = new BufferedOutputStream(new FileOutputStream(destfile,resuming));
 
                     updateStatusLabel("Transferring...");
+                    starttime = System.currentTimeMillis();
+
                     int readedbyte;
                     long recievedBytes = 0;
                     long currenttime;
@@ -209,7 +255,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                         recievedBytes++;
                         if (recievedBytes % 1000 == 0) {
                             bo.flush();
-                            progress = (int) (((recievedBytes * 1.0) / totalsize) * 100);
+                            progress = (int) ((((recievedBytes + firstByteToSend) * 1.0) / (totalsize)) * 100);
                             SwingUtilities.invokeLater(
                                     new Runnable() {
 
@@ -222,11 +268,11 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                             currenttime = System.currentTimeMillis();
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
-                            setTimeLeft((long) ((totalsize - recievedBytes) / (recievedBytes * 1.0) * timeelapsed));
+                            setTimeLeft((long) (((totalsize - firstByteToSend) - recievedBytes) / (recievedBytes * 1.0) * timeelapsed));
                         }
                     }
                     bo.flush();
-                    if (recievedBytes == totalsize) {
+                    if ((recievedBytes + firstByteToSend-1) == totalsize) {
                         SwingUtilities.invokeLater(
                                 new Runnable() {
 
@@ -250,12 +296,26 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                     running = false;
                     bi.close();
                     bo.close();
-                    socket.close();
-                    serverSocket.close();
-
                 } catch (Exception e) {
                     e.printStackTrace();
                     updateStatusLabel("Error: " + e.getLocalizedMessage());
+                } finally {
+                    try {
+                        if (bi != null) {
+                            bi.close();
+                        }
+                        if (bo != null) {
+                            bo.close();
+                        }
+                        if (socket != null) {
+                            socket.close();
+                            socket = null;
+                        }
+                        if (serverSocket != null) {
+                            serverSocket.close();
+                        }
+                    } catch (Exception e) {
+                    }
                 }
             }
         }.start();
@@ -264,7 +324,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
     public void turnAround() {
         try {
             serverSocket.close();
-            serverSocket=null;            
+            serverSocket = null;
         } catch (Exception e) {
         }
         startDownloadingRetry();
@@ -283,37 +343,38 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
         new Thread() {
 
             long starttime;
+            BufferedOutputStream bo = null;
 
             @Override
             public void run() {
                 try {
                     running = true;
                     updateStatusLabel("Retrying...");
+                    Thread.sleep(1000);
+                    System.out.println("second method starting");
                     socket = SocketChannel.open();
                     socket.connect(new InetSocketAddress(ip, new Integer(port)));
-                    starttime = System.currentTimeMillis();
 
-                    String fullpath = tf_savePath.getText();
-                    if (!(new File(fullpath).exists())) {
-                        new File(fullpath).mkdirs();
-                    }
-                    if (!fullpath.endsWith("/") || !fullpath.endsWith("\\")) {
-                        fullpath = fullpath + "/";
-                    }
-                    fullpath += filename;
+                    destfile = getDestFile();
 
-                    destfile = new File(fullpath).getCanonicalFile();
-                    int n = 1;
-                    while (!destfile.createNewFile()) {
-                        destfile = Checkfile(destfile, n);
-                        n++;
+                    if (!resuming) {
+                        int n = 1;
+                        while (!destfile.createNewFile()) {
+                            destfile = Checkfile(destfile, n);
+                            n++;
+                        }
+                    } else {
+                        if (!destfile.exists()) {
+                            destfile.createNewFile();
+                        }
+                        //destfile = new RandomAccessFile(destfile,"rw");
                     }
-
-                    BufferedOutputStream bo = new BufferedOutputStream(new FileOutputStream(destfile));
+                    bo = new BufferedOutputStream(new FileOutputStream(destfile,resuming));
 
                     updateStatusLabel("Transferring...");
+                    starttime = System.currentTimeMillis();
 
-                    long recievedbytes = 0;
+                    long recievedBytes = 0;
                     long currenttime = 0;
                     long timeelapsed = 0;
                     ByteBuffer buffer = ByteBuffer.allocate(1000);
@@ -321,11 +382,11 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                     while (running && ((socket.read(buffer)) != -1)) {
                         buffer.flip();
                         bo.write(buffer.array(), 0, buffer.limit());
-                        recievedbytes += buffer.limit();
+                        recievedBytes += buffer.limit();
                         buffer.rewind();
-                        if (recievedbytes % 1000 == 0) {
+                        if (recievedBytes % 1000 == 0) {
                             bo.flush();
-                            progress = (int) (((recievedbytes * 1.0) / totalsize) * 100);
+                            progress = (int) ((((recievedBytes + firstByteToSend) * 1.0) / (totalsize)) * 100);
                             SwingUtilities.invokeLater(
                                     new Runnable() {
 
@@ -334,15 +395,15 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                                         }
                                     });
                         }
-                        if (recievedbytes % 20000 == 0) {
+                        if (recievedBytes % 20000 == 0) {
                             currenttime = System.currentTimeMillis();
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
-                            setTimeLeft((long) ((totalsize - recievedbytes) / (recievedbytes * 1.0) * timeelapsed));
+                            setTimeLeft((long) (((totalsize - firstByteToSend) - recievedBytes) / (recievedBytes * 1.0) * timeelapsed));
                         }
                     }
                     bo.flush();
-                    if (recievedbytes == totalsize) {
+                    if ((recievedBytes + firstByteToSend-1) == totalsize) {
                         SwingUtilities.invokeLater(
                                 new Runnable() {
 
@@ -366,11 +427,25 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                     running = false;
                     bo.close();
                     socket.close();
-                    socket=null;                    
+                    socket = null;
 
                 } catch (Exception e) {
                     e.printStackTrace();
                     updateStatusLabel("Error: " + e.getLocalizedMessage());
+                } finally {
+                    try {
+                        if (bo != null) {
+                            bo.close();
+                        }
+                        if (socket != null) {
+                            socket.close();
+                            socket = null;
+                        }
+                        if (serverSocket != null) {
+                            serverSocket.close();
+                        }
+                    } catch (Exception e) {
+                    }
                 }
             }
         }.start();
@@ -403,6 +478,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
         lbl_note = new javax.swing.JLabel();
         lbl_timeLeft = new javax.swing.JLabel();
         lbl_timeLeftValue = new javax.swing.JLabel();
+        cb_Resume = new javax.swing.JCheckBox();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder("Recieve File"));
         setMaximumSize(null);
@@ -456,6 +532,14 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
 
         lbl_timeLeftValue.setText("Time left:");
 
+        cb_Resume.setText("Resume file");
+        cb_Resume.setToolTipText("Note: Only the file with the same filename can be resumed !");
+        cb_Resume.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_ResumeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -463,21 +547,8 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_note, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
-                    .addComponent(pgb_progress, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl_progress)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE)
-                        .addComponent(lbl_timeLeftValue)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl_timeLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btn_accept)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 356, Short.MAX_VALUE)
-                        .addComponent(btn_refuse))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lbl_status, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lbl_savePath, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lbl_file, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lbl_sender, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
@@ -491,7 +562,23 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                                 .addComponent(tf_savePath, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btn_browseSavePath))
-                            .addComponent(lbl_statusValue, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE))))
+                            .addComponent(cb_Resume)))
+                    .addComponent(lbl_note, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+                    .addComponent(pgb_progress, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbl_progress)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE)
+                        .addComponent(lbl_timeLeftValue)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbl_timeLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btn_accept)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 356, Short.MAX_VALUE)
+                        .addComponent(btn_refuse))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbl_status, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbl_statusValue, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -513,6 +600,8 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                     .addComponent(lbl_savePath)
                     .addComponent(btn_browseSavePath)
                     .addComponent(tf_savePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cb_Resume)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_statusValue)
@@ -537,7 +626,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
     private void btn_acceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_acceptActionPerformed
         if (btn_accept.getText().equals("Accept")) {
             startDownloading();
-            Client.send(Protocol.AcceptTransfer(sender, filename), null);
+            Client.send(Protocol.AcceptTransfer(sender, filename, firstByteToSend), null);
             btn_accept.setText("Open file");
             btn_accept.setEnabled(false);
             btn_refuse.setText("Cancel");
@@ -589,10 +678,22 @@ private void btn_browseSavePathActionPerformed(java.awt.event.ActionEvent evt) {
         }
     }.start();
 }//GEN-LAST:event_btn_browseSavePathActionPerformed
+
+private void cb_ResumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_ResumeActionPerformed
+    if (!resuming) {//user tryes to enble it
+        //decide if it can be enabled
+        resuming = checkResumability();
+    } else {//user is disabling it
+        resuming = false;
+        firstByteToSend = 0;
+    }
+    cb_Resume.setSelected(resuming);//set new status
+}//GEN-LAST:event_cb_ResumeActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_accept;
     private javax.swing.JButton btn_browseSavePath;
     private javax.swing.JButton btn_refuse;
+    private javax.swing.JCheckBox cb_Resume;
     private javax.swing.JLabel lbl_file;
     private javax.swing.JLabel lbl_fileValue;
     private javax.swing.JLabel lbl_note;

@@ -1,22 +1,21 @@
 /*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
-                    Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
 
-    This file is part of Coopnet.
+This file is part of Coopnet.
 
-    Coopnet is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+Coopnet is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    Coopnet is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Coopnet is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+You should have received a copy of the GNU General Public License
+along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package coopnetclient.frames.clientframe.panels;
 
 import coopnetclient.Client;
@@ -39,6 +38,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
     private File data;
     private boolean sending = true;
     private long totalbytes = 0;
+    private long firstByteToSend = 0;
     private ServerSocket serverSocket = null;
     private String reciever;
     private String filename;
@@ -47,8 +47,8 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
     /** Creates new form FileTransfer */
     public FileTransferSendPanel(String reciever, File sentfile) {
         initComponents();
-        this.reciever= reciever;
-        this.filename=sentfile.getName();
+        this.reciever = reciever;
+        this.filename = sentfile.getName();
         data = sentfile;
         totalbytes = data.length();
         lbl_fileValue.setText(sentfile.getName());
@@ -64,7 +64,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
             lbl_sizeValue.setText(lbl_sizeValue.getText() + " B");
         }
         if (i == 1) {
-            lbl_sizeValue.setText(lbl_sizeValue.getText() + " KB");
+            lbl_sizeValue.setText(lbl_sizeValue.getText() + " kB");
         }
         if (i == 2) {
             lbl_sizeValue.setText(lbl_sizeValue.getText() + " MB");
@@ -111,13 +111,11 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                         lbl_timeLeftValue.setText(hours + ":" + minutes + ":" + seconds);
                     }
                 });
+    }
 
+    public void turnAround() {
     }
-    
-    public void turnAround(){
-        
-    }
-    
+
     private void updateStatusLabel(final String status) {
         SwingUtilities.invokeLater(
                 new Runnable() {
@@ -128,7 +126,8 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                 });
     }
 
-    public void startSending(final String ip, final String port) {
+    public void startSending(final String ip, final String port, long firstByte) {
+        firstByteToSend = firstByte;
         new Thread() {
 
             long starttime;
@@ -138,25 +137,35 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                 long sentBytes = 0;
                 sending = true;
                 updateStatusLabel("Connecting...");
+                SocketChannel socket = null;
                 try {
-                    SocketChannel socket=null;
-                    try{
+                    try {
                         socket = SocketChannel.open();
                         socket.connect(new InetSocketAddress(ip, new Integer(port)));
-                    }
-                    catch(Exception e){
-                        Client.send(Protocol.turnTransferAround(reciever,filename), null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        socket.close();
+                        Client.send(Protocol.turnTransferAround(reciever, filename), null);
+                        Thread.sleep(500);
                         startSendingRetry();
                         return;
                     }
-                    updateStatusLabel("Transferring...");
-                    starttime = System.currentTimeMillis();
 
                     ByteBuffer temp = ByteBuffer.allocate(1000);
                     BufferedInputStream bi = new BufferedInputStream(new FileInputStream(data));
                     int readedbyte;
                     long currenttime;
                     long timeelapsed;
+
+                    //discard data that is not needed
+                    long i = 1;
+                    while ((i < firstByteToSend) && sending) {
+                        bi.read();
+                        i++;
+                    }
+
+                    updateStatusLabel("Transferring...");
+                    starttime = System.currentTimeMillis();
 
                     while ((readedbyte = bi.read()) != -1 && sending) {
                         if (temp.position() < temp.capacity()) {
@@ -169,10 +178,10 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                             //dont forge to sent the new byte aswell :S
                             temp.put((byte) readedbyte);
                             sentBytes++;
-                            
+
                         }
                         if (sentBytes % 20000 == 0) {
-                            progress = (int) (((sentBytes * 1.0) / totalbytes) * 100);
+                            progress = (int) ((((sentBytes + firstByteToSend) * 1.0) / totalbytes) * 100);
                             SwingUtilities.invokeLater(
                                     new Runnable() {
 
@@ -183,7 +192,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                             currenttime = System.currentTimeMillis();
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
-                            setTimeLeft((long) ((totalbytes - sentBytes) / (sentBytes * 1.0) * timeelapsed));
+                            setTimeLeft((long) (((totalbytes - firstByteToSend) - sentBytes) / (sentBytes * 1.0) * timeelapsed));
                         }
                     }
                     //send last chunk
@@ -192,28 +201,34 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                         socket.write(temp);
                         temp.rewind();
                     }
-                    socket.close();
-                    
                     SwingUtilities.invokeLater(
-                                    new Runnable() {
+                            new Runnable() {
 
-                                        public void run() {
-                                            lbl_statusValue.setText("Transfer complete!");
-                                            pgb_progress.setValue(100);
-                                            btn_cancel.setText("Close");
-                                        }
-                                    });
+                                public void run() {
+                                    lbl_statusValue.setText("Transfer complete!");
+                                    pgb_progress.setValue(100);
+                                    btn_cancel.setText("Close");
+                                }
+                            });
                     sending = false;
 
                 } catch (Exception e) {
                     //set error messag
                     e.printStackTrace();
                     updateStatusLabel("Error: " + e.getLocalizedMessage());
+                } finally {
+                    try {
+                        if (socket != null) {
+                            socket.close();
+                            socket = null;
+                        }
+                    } catch (Exception e) {
+                    }
                 }
             }
         }.start();
     }
-    
+    ;
     //turns around the connection, connect to the reciever
     public void startSendingRetry() {
         new Thread() {
@@ -225,12 +240,11 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                 long sentBytes = 0;
                 sending = true;
                 updateStatusLabel("Retrying...");
+                Socket socket = null;
                 try {
                     serverSocket = new ServerSocket(Settings.getFiletTansferPort());
-                    Socket socket = serverSocket.accept();
+                    socket = serverSocket.accept();
                     BufferedOutputStream bo = new BufferedOutputStream(socket.getOutputStream());
-                    updateStatusLabel("Transferring...");
-                    starttime = System.currentTimeMillis();
 
                     ByteBuffer temp = ByteBuffer.allocate(1000);
                     BufferedInputStream bi = new BufferedInputStream(new FileInputStream(data));
@@ -238,20 +252,30 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                     long currenttime;
                     long timeelapsed;
 
+                    //discard data that is not needed
+                    long i = 0;
+                    while (i < firstByteToSend) {
+                        bi.read();
+                        i++;
+                    }
+
+                    updateStatusLabel("Transferring...");
+                    starttime = System.currentTimeMillis();
+
                     while ((readedbyte = bi.read()) != -1 && sending) {
                         if (temp.position() < temp.capacity()) {
                             temp.put((byte) readedbyte);
                             sentBytes++;
                         } else {
                             temp.flip();
-                            bo.write(temp.array(),0,temp.limit());                            
+                            bo.write(temp.array(), 0, temp.limit());
                             temp.rewind();
                             temp.put((byte) readedbyte);
-                            sentBytes++;                            
+                            sentBytes++;
                         }
                         if (sentBytes % 20000 == 0) {
                             bo.flush();
-                            progress = (int) (((sentBytes * 1.0) / totalbytes) * 100);
+                            progress = (int) ((((sentBytes + firstByteToSend) * 1.0) / totalbytes) * 100);
                             SwingUtilities.invokeLater(
                                     new Runnable() {
 
@@ -262,30 +286,30 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                             currenttime = System.currentTimeMillis();
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
-                            setTimeLeft((long) ((totalbytes - sentBytes) / (sentBytes * 1.0) * timeelapsed));
+                            setTimeLeft((long) (((totalbytes - firstByteToSend) - sentBytes) / (sentBytes * 1.0) * timeelapsed));
                         }
                     }
                     bo.flush();
                     //send last chunk
                     if (temp.position() != 0) {
                         temp.flip();
-                        bo.write(temp.array(),0,temp.limit());
+                        bo.write(temp.array(), 0, temp.limit());
                         temp.rewind();
                         bo.flush();
                     }
                     bo.close();
                     serverSocket.close();
-                    
-                    SwingUtilities.invokeLater(
-                                    new Runnable() {
 
-                                        public void run() {
-                                            lbl_statusValue.setText("Transfer complete!");
-                                            pgb_progress.setValue(100);
-                                            btn_cancel.setText("Close");
-                                        }
-                                    });
-                    
+                    SwingUtilities.invokeLater(
+                            new Runnable() {
+
+                                public void run() {
+                                    lbl_statusValue.setText("Transfer complete!");
+                                    pgb_progress.setValue(100);
+                                    btn_cancel.setText("Close");
+                                }
+                            });
+
                     sending = false;
 
                 } catch (Exception e) {
@@ -293,9 +317,22 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                     e.printStackTrace();
                     sending = false;
                     updateStatusLabel("Error: " + e.getLocalizedMessage());
-                    try{
+                    try {
                         serverSocket.close();
-                    }catch(Exception ex){   }
+                    } catch (Exception ex) {
+                    }
+                } finally {
+                    try {
+                        if (socket != null) {
+                            socket.close();
+                            socket = null;
+                        }
+                        if (serverSocket != null) {
+                            serverSocket.close();
+                        }
+
+                    } catch (Exception e) {
+                    }
                 }
             }
         }.start();

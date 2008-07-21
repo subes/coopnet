@@ -49,11 +49,12 @@ public class Protocol {
         }
     }
     
-    public static String AcceptTransfer(String sender, String filename) {
+    public static String AcceptTransfer(String sender, String filename, long firstByteToSend) {
         return "AcceptFile" + INFORMATION_DELIMITER 
                 + sender + INFORMATION_DELIMITER 
                 + filename + INFORMATION_DELIMITER 
-                + Settings.getFiletTansferPort();
+                + Settings.getFiletTansferPort() + INFORMATION_DELIMITER 
+                + firstByteToSend;
     }
 
     public static String RefuseTransfer(String sender, String filename) {

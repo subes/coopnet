@@ -331,8 +331,8 @@ public class CommandHandler {
                 TabOrganizer.openFileTransferReceivePanel(tmp[1], tmp[3], tmp[2],tmp[4],tmp[5]);
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp[1] + " wants to send you a file!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
             } else if (input.startsWith("AcceptedFile")) {
-                String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//0command 1reciever  2filename 3 ip 4 port
-                Globals.getClientFrame().startSending(tmp[3], tmp[1], tmp[2], tmp[4]);
+                String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//0command 1reciever  2filename 3 ip 4 port 5 firstbyte
+                Globals.getClientFrame().startSending(tmp[3], tmp[1], tmp[2], tmp[4], new Long(tmp[5]));
             } else if (input.startsWith("RefusedFile")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1reciever  2filename
                 Globals.getClientFrame().refusedTransfer(tmp[1], tmp[2]);
