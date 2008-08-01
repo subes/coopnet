@@ -1,22 +1,21 @@
 /*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
-                    Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
 
-    This file is part of Coopnet.
+This file is part of Coopnet.
 
-    Coopnet is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+Coopnet is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    Coopnet is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Coopnet is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+You should have received a copy of the GNU General Public License
+along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package coopnetclient.frames;
 
 import coopnetclient.Client;
@@ -35,16 +34,35 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     private String gamename;
     private String modname;
     private HashMap<String, String> gamemodes = new HashMap<String, String>();
-    
+    private String roomname , password;
+    private int modindex, maxPlayers;
+    private boolean compatible,isInstant;
+
     /** Creates new form GameSettingsPanel */
-    public GameSettingsFrame(String gamename,String modname) {
+    public GameSettingsFrame(String gamename, String modname) {
         initComponents();
         this.gamename = gamename;
         this.modname = modname;
         hideAll();
+        customize();        
+    }
+ 
+    /** Creates new form GameSettingsPanel */
+    public GameSettingsFrame(String gamename, String modname , String name , String password, int modindex, int maxPlayers, boolean compatible) {
+        initComponents();
+        isInstant = true;
+        this.gamename = gamename;
+        this.modname = modname;
+        this.roomname = name ;
+        this.password = password;
+        this.modindex = modindex;
+        this.maxPlayers = maxPlayers;
+        this.compatible = compatible;
+        btn_save.setText("Launch");
+        hideAll();
         customize();
     }
-
+    
     private String KeyOfValue(String value) {
         for (String s : gamemodes.keySet()) {
             String val = gamemodes.get(s);
@@ -63,7 +81,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         lbl_map.setVisible(false);
         lbl_mode.setVisible(false);
         cb_mode.setVisible(false);
-        cb_map.setVisible(false);        
+        cb_map.setVisible(false);
         lbl_bots.setVisible(false);
         spn_bots.setVisible(false);
         lbl_scoreLimit.setVisible(false);
@@ -71,7 +89,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }
 
     private void customize() {
-        String tmp = GameDatabase.getGameSettings(gamename,modname);
+        String tmp = GameDatabase.getGameSettings(gamename, modname);
         if (tmp == null) {
             return;
         }
@@ -117,13 +135,15 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                 fieldcount++;
             }
         //end of field enabling loop
-        }       
+        }
     }
 
     private String[] getGameModes() {
         Vector<String> modenames = new Vector<String>();
-        String tmp = GameDatabase.getGameModes(gamename,modname);
-        if(tmp==null) return null;
+        String tmp = GameDatabase.getGameModes(gamename, modname);
+        if (tmp == null) {
+            return null;
+        }
         String tmp2[] = tmp.split(";");
         for (String s : tmp2) {
             String tmp3[] = s.split("#");
@@ -136,9 +156,9 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }
 
     private String[] loadMaps() {
-        String extension = GameDatabase.getMapExtension(gamename,modname);
+        String extension = GameDatabase.getMapExtension(gamename, modname);
         String path = Globals.getLauncher().getFullMapPath(gamename);
-        System.out.println("loading maps from: "+path);
+        System.out.println("loading maps from: " + path);
         if (path.endsWith("\\") || path.endsWith("/")) {
             path = path.substring(0, path.length() - 1);
         }
@@ -229,8 +249,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                             .addComponent(lbl_map))
                         .addGap(39, 39, 39)
                         .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cb_map, 0, 291, Short.MAX_VALUE)
-                            .addComponent(cb_mode, 0, 291, Short.MAX_VALUE))
+                            .addComponent(cb_map, 0, 299, Short.MAX_VALUE)
+                            .addComponent(cb_mode, 0, 299, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_settingsLayout.createSequentialGroup()
@@ -294,7 +314,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                 .addComponent(pnl_settings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_save)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -309,24 +329,33 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
         if (cb_map.isVisible()) {
             Globals.getLauncher().setMap(cb_map.getSelectedItem().toString());
+            System.out.println("map was set:"+cb_map.getSelectedItem().toString());
         }
         if (tf_port.isVisible()) {
             Globals.getLauncher().setPort(new Integer(tf_port.getText()));
         }
         if (spn_timeLimit.isVisible()) {
-            Globals.getLauncher().setTimelimit((Integer)spn_timeLimit.getValue());
-        }        
+            Globals.getLauncher().setTimelimit((Integer) spn_timeLimit.getValue());
+        }
         if (spn_bots.isVisible()) {
-            Globals.getLauncher().setBots((Integer)spn_bots.getValue());
+            Globals.getLauncher().setBots((Integer) spn_bots.getValue());
         }
         if (spn_scoreLimit.isVisible()) {
-            Globals.getLauncher().setGoalScore((Integer)spn_scoreLimit.getValue());
+            Globals.getLauncher().setGoalScore((Integer) spn_scoreLimit.getValue());
         }
-        TabOrganizer.getRoomPanel().enableButtons();
+        if(!isInstant){
+            TabOrganizer.getRoomPanel().enableButtons();
+        }
         Client.send(Protocol.SendPort(new Integer(tf_port.getText())), null);
-        
+        Globals.getLauncher().setPort(new Integer(tf_port.getText()));
         Globals.closeGameSettingsFrame();
     } catch (Exception e) {
+        e.printStackTrace();
+    }
+    if (btn_save.getText().equals("Launch")) {
+        Client.send(Protocol.createRoom(roomname, modindex + "", password, maxPlayers + "", compatible, true ), gamename);
+                    Globals.closeRoomCreationFrame();
+        Client.instantLaunch(gamename, modindex, maxPlayers, compatible);
     }
 
 }//GEN-LAST:event_btn_saveActionPerformed
@@ -334,7 +363,6 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
     Globals.closeGameSettingsFrame();
 }//GEN-LAST:event_formWindowClosing
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_save;
     private javax.swing.JComboBox cb_map;
@@ -351,5 +379,4 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     private javax.swing.JSpinner spn_timeLimit;
     private javax.swing.JTextField tf_port;
     // End of variables declaration//GEN-END:variables
-
 }

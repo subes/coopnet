@@ -111,6 +111,22 @@ public class Game {
         this.name = name;
     }
 
+    public boolean isInstantLaunchable(String modname) {
+        String val = getValue("InstantLaunchable", modname);
+        if(val != null){
+            return true; 
+        }
+        return false;
+    }
+    
+    public void setInstantLauncable(boolean value){
+        if(value){
+            fields.put("InstantLaunchable", "");
+        }else{
+            fields.remove("InstantLaunchable");
+        }
+    }
+    
     public int getDefPort(String modname) {
         try{
             return new Integer(getValue("DEFPORT", modname));

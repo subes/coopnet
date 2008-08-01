@@ -89,6 +89,7 @@ public class CommandHandler {
                 //logged in, start the client
                 Globals.setLoggedInStatus(true);
                 TabOrganizer.closeLoginPanel();
+                Client.send(Protocol.SetSleep(Settings.getSleepEnabled()), null);
             } else if (input.startsWith("no such user")) {
                 JOptionPane.showMessageDialog(null, "No such user!", "Alert", JOptionPane.ERROR_MESSAGE);
             } else if (input.startsWith("incorrect passsword!try again")) {
@@ -105,7 +106,7 @@ public class CommandHandler {
                 JOptionPane.showMessageDialog(null, "Name is already used!", "Alert", JOptionPane.ERROR_MESSAGE);
             }
 
-        } else {
+        } else {//logged-in commands
 
             if (input.startsWith("on ")) {
                 currentchannel = input.substring(3, 6);
@@ -344,7 +345,16 @@ public class CommandHandler {
                 if (input.startsWith("TurnAround")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1sender  2filename
                 Globals.getClientFrame().turnAroundTransfer(tmp[1], tmp[2]);
-            }
+            } else 
+                if(input.startsWith("ILaunch")){
+                    final String tmp[] = input.substring(7).split(Protocol.INFORMATION_DELIMITER);
+                    new Thread(){
+                        public void run(){
+                            Client.initInstantLaunch(tmp[0], new Integer(tmp[1]), new Integer(tmp[2]), tmp[3].equals("true"));
+                            Client.instantLaunch(tmp[0], new Integer(tmp[1]), new Integer(tmp[2]), tmp[3].equals("true"));
+                        }
+                    }.start();                    
+                }
             
         //else if(input.startsWith("")){	NEW COMMANDS	}
         }

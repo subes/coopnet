@@ -29,7 +29,8 @@ import jdplay.JDPlay;
 public class WindowsLauncher implements Launcher {
 
     private JDPlay jDPlay = null;
-    private boolean isInitialized = false;
+    private boolean dplayIsInitialized = false;
+    private boolean launcherInitialised = false ;
     private boolean isHost;
     private int launchMethod;
     private String ip;
@@ -50,6 +51,7 @@ public class WindowsLauncher implements Launcher {
 
     @Override
     public void initialize(String gameIdentifier, String modname, boolean isHost, String ip, boolean compatible, int maxPlayers) {
+        launcherInitialised= false;
         if (ip != null && ip.startsWith("/")) {
             ip = ip.substring(1);
         }
@@ -92,6 +94,7 @@ public class WindowsLauncher implements Launcher {
                 }
             }
         }
+        launcherInitialised= true;
         //call it here to NOT remember settings
         RoomPanel currentroom = TabOrganizer.getRoomPanel();
         if (currentroom != null) {
@@ -101,14 +104,14 @@ public class WindowsLauncher implements Launcher {
 
     private void initDPlay() {
         try {
-            if (isInitialized) {
+            if (dplayIsInitialized) {
                 stopDPlay();
             }
 
             jDPlay = new JDPlay(Globals.getThisPlayer_inGameName(), gameIdentifier, ip, isHost, coopnetclient.modules.Settings.getDebugMode());
 
             if (jDPlay.isInitializedProperly()) {
-                isInitialized = true;
+                dplayIsInitialized = true;
                 jDPlay.setMaxSearchRetries(MAX_RETRIES);
                 RoomPanel currentroom = TabOrganizer.getRoomPanel();
                 if (currentroom != null) {
@@ -184,7 +187,7 @@ public class WindowsLauncher implements Launcher {
     public void stopDPlay() {
         if (jDPlay != null) {
             jDPlay.delete();
-            isInitialized = false;
+            dplayIsInitialized = false;
         }
     }
 
@@ -199,7 +202,7 @@ public class WindowsLauncher implements Launcher {
         switch (launchMethod) {
             case GameDatabase.LAUNCHMETHOD_DIRECTPLAY:
             case GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY:
-                if (isInitialized) {
+                if (dplayIsInitialized) {
                     return launchDPlay();
                 }
                 break;
@@ -211,7 +214,7 @@ public class WindowsLauncher implements Launcher {
 
     @Override
     public void stop() {
-        if (isInitialized) {
+        if (dplayIsInitialized) {
             stopDPlay();
         }
     }
@@ -350,5 +353,9 @@ public class WindowsLauncher implements Launcher {
     @Override
     public void setGoalScore(int score) {
         goalScore = score;
+    }
+
+    public boolean isInitialised() {
+        return launcherInitialised;
     }
 }

@@ -20,6 +20,7 @@
 package coopnetclient;
 
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.modules.Settings;
 import coopnetclient.modules.SwingWorker;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -118,6 +119,7 @@ public class HandlerThread extends Thread {
                     Globals.setThisPlayer_loginName(name);
                     Globals.setLoggedInStatus(true);
                     TabOrganizer.closeLoginPanel();
+                    Client.send(Protocol.SetSleep(Settings.getSleepEnabled()), null);
                 } else {
                     TabOrganizer.openLoginPanel();
                 }

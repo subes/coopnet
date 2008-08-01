@@ -295,6 +295,15 @@ public class Globals {
         }
     }
     
+    public static void openGameSettingsFrame(String gameName, String modName, String roomName , String password, int modIndex, int maxPlayers, boolean compatible){
+        if(gameSettingsFrame != null){
+            gameSettingsFrame.setVisible(true);
+        }else{
+            gameSettingsFrame = new GameSettingsFrame(gameName, modName, roomName, password, modIndex, maxPlayers, compatible);
+            setupFrame(gameSettingsFrame);
+        }
+    }
+    
     public static void closeGameSettingsFrame(){
         if(gameSettingsFrame != null){
             gameSettingsFrame.dispose();

@@ -75,6 +75,10 @@ public class GameDatabase {
         return isexperimental.contains(channelname);
     }
 
+    public static boolean isInstantLaunchable(String gamename) {
+        return gameData.get(indexOfGame(gamename)).isInstantLaunchable(lpfilepath);
+    }
+
     public static void reset() {
         version = 0;
         localexecutablepath = new HashMap<String, String>();
@@ -165,7 +169,11 @@ public class GameDatabase {
     }
 
     public static String getRelativeExePath(String gamename, String modname) {
-        return gameData.get(indexOfGame(gamename)).getRelativeExePath(modname);
+        int idx = indexOfGame(gamename);
+        if(idx == -1){
+            return null;
+        }
+        return gameData.get(idx).getRelativeExePath(modname);
     }
 
     public static String getLocalExecutablePath(String gamename) {
@@ -221,7 +229,11 @@ public class GameDatabase {
     }
 
     public static String getRegEntry(String gamename, String modname) {
-        return gameData.get(indexOfGame(gamename)).getRegEntry(modname);
+        int idx = indexOfGame(gamename);
+        if(idx == -1){
+            return null;
+        }
+        return gameData.get(idx).getRegEntry(modname);
     }
 
     public static void setLaunchMethod(String gamename, int launchmethod) {
@@ -470,6 +482,8 @@ public class GameDatabase {
             currentdata.setGameSettings(input.substring(9));
         } else if (input.startsWith("DEFPORT=")) {
             currentdata.setDefPort(input.substring(8));
+        }else if (input.startsWith("InstantLaunchable")) {
+            currentdata.setInstantLauncable(true);
         }
         return currentdata;
     }

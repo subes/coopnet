@@ -27,7 +27,8 @@ import java.io.IOException;
 
 public class LinuxLauncher implements Launcher {
 
-    private boolean isInitialized = false;
+    private boolean dPlayIsInitialized = false;
+    private boolean launcherIsInitialised = false ;
     private boolean isHost;
     private int launchMethod;
     private String ip;
@@ -45,6 +46,7 @@ public class LinuxLauncher implements Launcher {
 
     @Override
     public void initialize(String gameIdentifier, String modname, boolean isHost, String ip, boolean compatible, int maxPlayers) {
+        launcherIsInitialised = false;
         if (ip != null && ip.startsWith("/")) {
             ip = ip.substring(1);
         }
@@ -65,13 +67,14 @@ public class LinuxLauncher implements Launcher {
                 initDPlay();
                 break;
             case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING:
-                isInitialized = true;
+                dPlayIsInitialized = true;
                 if (!isHost) {
                     if(TabOrganizer.getRoomPanel() != null){
                         TabOrganizer.getRoomPanel().enableButtons();
                     }
                 }
         }
+        launcherIsInitialised = true;
         //call it here to NOT remember settings
         if(TabOrganizer.getRoomPanel() != null){
             TabOrganizer.getRoomPanel().showSettings();
@@ -79,14 +82,14 @@ public class LinuxLauncher implements Launcher {
     }
 
     private void initDPlay() {
-        if (isInitialized) {
+        if (dPlayIsInitialized) {
             stopDPlay();
         }
 
         dplay = new DPlayExeHandler(gameIdentifier, modName, isHost, ip, compatible);
 
         if (dplay.isInitialized) {
-            isInitialized = true;
+            dPlayIsInitialized = true;
             if (TabOrganizer.getRoomPanel() != null) { //May be null if user closes room too fast
                 TabOrganizer.getRoomPanel().enableButtons();
             }
@@ -151,7 +154,7 @@ public class LinuxLauncher implements Launcher {
     public void stopDPlay() {
         if (dplay != null) {
             dplay.stopDPlay();
-            isInitialized = false;
+            dPlayIsInitialized = false;
         }
     }
 
@@ -165,7 +168,7 @@ public class LinuxLauncher implements Launcher {
         switch (launchMethod) {
             case GameDatabase.LAUNCHMETHOD_DIRECTPLAY:
             case GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY:
-                if(isInitialized){
+                if(dPlayIsInitialized){
                     return launchDPlay();
                 }
                 break;
@@ -177,7 +180,7 @@ public class LinuxLauncher implements Launcher {
 
     @Override
     public void stop() {
-        if(isInitialized){
+        if(dPlayIsInitialized){
             stopDPlay();
         }
     }
@@ -296,5 +299,9 @@ public class LinuxLauncher implements Launcher {
     @Override
     public void setGoalScore(int score) {
         goalScore = score;
+    }
+
+    public boolean isInitialised() {
+        return  launcherIsInitialised;
     }
 }

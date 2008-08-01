@@ -73,17 +73,15 @@ public class Protocol {
         return "setmod " + mod;
     }
 
-    public static String createRoom(String name, String modIndex, String password, String limit, boolean compatible) {
+    public static String createRoom(String name, String modIndex, String password, String limit, boolean compatible, boolean instantLaunch) {
         return "create" + INFORMATION_DELIMITER 
-                + "NAME" + INFORMATION_DELIMITER + name + INFORMATION_DELIMITER 
-                + "PASSWORD" + INFORMATION_DELIMITER + password + INFORMATION_DELIMITER 
-                + "LIMIT" + INFORMATION_DELIMITER + limit + INFORMATION_DELIMITER 
-                + "COMPATIBLE" + INFORMATION_DELIMITER 
-                + (compatible ? "true" : "false") + INFORMATION_DELIMITER 
-                + "HAMACHI" + INFORMATION_DELIMITER + Client.getHamachiAddress() 
-                + INFORMATION_DELIMITER 
-                + "MOD" + INFORMATION_DELIMITER + modIndex 
-                + INFORMATION_DELIMITER + "END";
+                + name + INFORMATION_DELIMITER 
+                + password + INFORMATION_DELIMITER 
+                + limit + INFORMATION_DELIMITER 
+                + (compatible ? "1" : "0") + INFORMATION_DELIMITER 
+                + (instantLaunch ? "1" : "0") + INFORMATION_DELIMITER 
+                + Client.getHamachiAddress() + INFORMATION_DELIMITER 
+                + modIndex ;
     }
 
     public static String SendPort(int port) {

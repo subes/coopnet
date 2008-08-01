@@ -59,6 +59,7 @@ public class RoomPanel extends javax.swing.JPanel {
         this.ip = ip;
         this.hamachiIp = hamachiIp;
         this.users = new SortedListModel();
+        users.add(Globals.getThisPlayer_loginName());
         this.compatible = compatible;
         
         if (Integer.valueOf(modindex) == -1) {

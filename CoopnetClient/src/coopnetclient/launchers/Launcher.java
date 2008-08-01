@@ -25,6 +25,8 @@ public interface Launcher {
 
     public void initialize(String gameIdentifier,String modname, final boolean isHost, String ip, boolean compatible, int maxplayers);
     
+    public boolean isInitialised();
+    
     public boolean launch();
     
     public void stop();

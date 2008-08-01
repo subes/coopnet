@@ -19,7 +19,6 @@
 
 package coopnetclient.launchers;
 
-import coopnetclient.*;
 import coopnetclient.frames.clientframe.TabOrganizer;
 
 public class DummyLauncher implements Launcher {
@@ -137,5 +136,9 @@ public class DummyLauncher implements Launcher {
 
     @Override
     public void stop() {
+    }
+
+    public boolean isInitialised() {
+        return true;
     }
 }
