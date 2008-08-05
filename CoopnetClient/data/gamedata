@@ -13,6 +13,7 @@ GUID={BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}
 }
 {
 NAME=Unreal Tournament
+InstantLaunchable
 ID=UT1
 LAUNCHMETHOD=3
 LAUNCHPATTERN= Unreal://{MAP}?Name={NAME}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?Listen?port={PORT}
@@ -28,6 +29,7 @@ DEFPORT=7777
 {
 NAME=Unreal Tournament 2004
 beta
+InstantLaunchable
 ID=UT4
 LAUNCHMETHOD=3
 LAUNCHPATTERN= server {MAP}?Listen?Name={NAME}?game={GAMEMODE}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?NumBots={BOTS}?GoalScore={GOALSCORE} -port={PORT}
