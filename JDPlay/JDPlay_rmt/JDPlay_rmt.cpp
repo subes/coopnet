@@ -35,19 +35,16 @@
 using namespace std;
 
 // *** Variable declarations ***
-char* playername;
-char* gameGUID;
-char* hostIP;
-bool iamhost;
-bool enableDebug;
-bool doSearch;
+char* playerName;
 int maxSearchRetries;
+bool debug;
 
 JDPlay* jdplay;
 
 // *** Method declarations ***
 void waitForCommand();
-void launch();
+void initialize(char* gameGUID, char* hostIP, bool isHost);
+void launch(bool doSearch);
 void readArgs(int argc, char* argv[]);
 void printHelp();
 
@@ -57,26 +54,17 @@ int main(int argc, char* argv[]){
 	readArgs(argc, argv);
 
 	//Init JDPlay
-	jdplay = new JDPlay(playername, gameGUID, hostIP, iamhost, enableDebug);
+	jdplay = new JDPlay(playerName, maxSearchRetries, debug);
 
-	//Check init
-	if(jdplay->isInitializedProperly()){
-		if(doSearch){
-			//Set maxSearchRetries
-			jdplay->setMaxSearchRetries(maxSearchRetries);
-		}
-		
+	while(true){
 		waitForCommand();
-	}else{
-		cout << "ERR init"<< endl;
-		fflush(stdout);
 	}
 }
 
 void waitForCommand(){
 	//Flush stdin
-	while(kbhit()){
-		_getch();
+	while(_kbhit()){
+		_getch_nolock();
 	}
 	
 	//Now ready for command
@@ -89,115 +77,148 @@ void waitForCommand(){
 
 	string input(in);
 
-	if(!input.compare("LAUNCH")){
-		//Launch game
+	if(!input.substr(0,11).compare("INITIALIZE ") && input.find(" gameGUID:") != string::npos && input.find(" hostIP:") != string::npos && input.find(" isHost:") != string::npos){
+		//Initialize
+		
+		//INITIALIZE gameGUID:<e.g. {BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}> hostIP:<e.g. 192.168.0.3> isHost:<true or false> 
+		string s_gameGUID = input.substr(input.find(" gameGUID:")+10, input.find(" hostIP:")-input.find(" gameGUID:")-10);
+		string s_hostIP = input.substr(input.find(" hostIP:")+8, input.find(" isHost:")-input.find(" hostIP:")-8);
+		string s_isHost = input.substr(input.find(" isHost:")+8);
+
+		if(s_gameGUID.length() != 38){
+			cout << "ERR gameGUID: got \"" << s_gameGUID << "\", but expected something like \"{BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}\"" << endl;
+			fflush(stdout);
+			return;
+		}
+
+		if(s_hostIP.length() > 256){
+			cout << "ERR hostIP: value has " << s_gameGUID.length() << " chars length, but 255 chars are maximum" << endl;
+			fflush(stdout);
+			return;
+		}
+
+		bool isHost;
+		if(!s_isHost.compare("true")){
+			isHost = true;
+		}else
+		if(!s_isHost.compare("false")){
+			isHost = false;
+		}else{
+			cout << "ERR isHost: got \"" << s_isHost << "\", but expected \"true\" or \"false\"" << endl;
+			fflush(stdout);
+			return;
+		}
+
 		cout << "ACK" << endl;
 		fflush(stdout);
-		launch();
+		
+		cout << s_gameGUID.c_str() << "|" << s_hostIP.c_str() << "|" << s_isHost.c_str() << endl;
+
+		char gameGUID[39];
+		char hostIP[256]; //could also be a dns name
+		strcpy(gameGUID, s_gameGUID.c_str());
+		strcpy(hostIP, s_hostIP.c_str());
+
+		cout << gameGUID << "|" << hostIP << "|" << isHost << endl;
+		initialize(gameGUID, hostIP, isHost);
 	}else
-	if(!input.substr(0,11).compare("PLAYERNAME ")){
-		//Set new playername
+	if(!input.substr(0,7).compare("LAUNCH ") && input.find(" doSearch:") != string::npos){
+		//Launch game
+		string s_doSearch = input.substr(input.find(" doSearch:")+10);
+
+		bool doSearch;
+		if(!s_doSearch.compare("true")){
+			doSearch = true;
+		}else
+		if(!s_doSearch.compare("false")){
+			doSearch = false;
+		}else{
+			cout << "ERR found \"" << s_doSearch << "\", but expected \"true\" or \"false\"" << endl;
+			fflush(stdout);
+			return;
+		}
+
 		cout << "ACK" << endl;
 		fflush(stdout);
-		string newname = input.substr(11, input.length());
-		strcpy(playername, newname.c_str());
+		launch(doSearch);
+	}else
+	if(!input.substr(0,17).compare("UPDATEPLAYERNAME ")){
+		//Set new playername (gets passed automatically, because it's a pointer)
+		cout << "ACK" << endl;
+		fflush(stdout);
+		string newname = input.substr(17);
+		strcpy(playerName, newname.c_str());	
 	}else{
 		//Unknown command
 		cout << "NAK" << endl;
 		fflush(stdout);
 	}
-
-	waitForCommand();
 }
 
-void launch(){
+void initialize(char* gameGUID, char* hostIP, bool isHost){
+	bool ret = jdplay->initialize(gameGUID, hostIP, isHost);
+	if(!ret){
+		cout << "ERR initialize" << endl;
+		fflush(stdout);
+	}
+}
+
+void launch(bool doSearch){
 	bool ret = jdplay->launch(doSearch);
 	if(!ret){
 		cout << "ERR launch" << endl;
 		fflush(stdout);
-	}else{
-		cout << "FIN" << endl;
-		fflush(stdout);
 	}
-
-	waitForCommand();
 }
 
 void readArgs(int argc, char* argv[]){
 	//Set default settings
-	hostIP = "127.0.0.1";
-	iamhost = true;
-	enableDebug = false;
-	doSearch = false;
-	maxSearchRetries = 5;
+	debug = false;
 
 	//Go through arguments
 	bool playerfound = false;
-	bool gamefound = false;
+	bool retriesfound = false;
 
 	for(int i = 0; i < argc; i++){
-		if(!strcmp(argv[i], "--player")){
+		if(!strcmp(argv[i], "--playerName")){
 			if(!playerfound){
 				playerfound = true;
 				if(argc > i+1){
-					playername = argv[i+1];
+					playerName = argv[i+1];
 					i++;
 				}else{
-					cout << "ERROR: --player was used without a <VALUE>" << endl;
+					cout << "ERROR: --playerName was used without a <VALUE>" << endl;
 					fflush(stdout);
 					printHelp();
 					exit(1);
 				}
 			}else{
-				cout << "ERROR: --player was given more than once" << endl;
+				cout << "ERROR: --playerName was given more than once" << endl;
 				fflush(stdout);
 				printHelp();
 				exit(1);
 			}
 		}else
-		if(!strcmp(argv[i], "--game")){
-			if(!gamefound){
-				gamefound = true;
+		if(!strcmp(argv[i], "--maxSearchRetries")){
+			if(!retriesfound){
 				if(argc > i+1){
-					gameGUID = argv[i+1];
+					retriesfound = true;
+					//Convert char* to int
+					istringstream istr(argv[i+1]);
+					if(!(istr >> maxSearchRetries)){
+						cout << "ERROR: the <VALUE> of --maxSearchRetries is not a number" << endl;
+						fflush(stdout);
+					}
 					i++;
 				}else{
-					cout << "ERROR: --game was used without a <VALUE>" << endl;
+					cout << "ERROR: --maxSearchRetries was used without a <VALUE>" << endl;
 					fflush(stdout);
 					printHelp();
 					exit(1);
 				}
-			}else{
-				cout << "ERROR: --game was given more than once" << endl;
-				fflush(stdout);
-				printHelp();
-				exit(1);
 			}
-		}else
-		if(!strcmp(argv[i], "--host")){
-			if(argc > i+1){
-				iamhost = false;
-				hostIP = argv[i+1];
-				i++;
-			}else{
-				cout << "ERROR: --host was used without a <VALUE>" << endl;
-				fflush(stdout);
-				printHelp();
-				exit(1);
-			}
-		}else
-		if(!strcmp(argv[i], "--search")){
-			if(argc > i+1){
-				doSearch = true;
-				//Convert char* to int
-				istringstream istr(argv[i+1]);
-				if(!(istr >> maxSearchRetries)){
-					cout << "ERROR: the <VALUE> of --search is not a number" << endl;
-					fflush(stdout);
-				}
-				i++;
-			}else{
-				cout << "ERROR: --search was used without a <VALUE>" << endl;
+			else{
+				cout << "ERROR: --maxSearchRetries was given more than once" << endl;
 				fflush(stdout);
 				printHelp();
 				exit(1);
@@ -208,19 +229,19 @@ void readArgs(int argc, char* argv[]){
 			exit(0);
 		}else
 		if(!strcmp(argv[i], "--debug")){
-			enableDebug = true;
+			debug = true;
 		}
 	}
 
 	//Check for missing arguments
 	if(!playerfound){
-		cout << "ERROR: --player was not given" << endl;
+		cout << "ERROR: --playerName was not given" << endl;
 		fflush(stdout);
 		printHelp();
 		exit(1);
 	}
-	if(!gamefound){
-		cout << "ERROR: --game was not given" << endl;
+	if(!retriesfound){
+		cout << "ERROR: --maxSearchRetries was not given" << endl;
 		fflush(stdout);
 		printHelp();
 		exit(1);
@@ -229,42 +250,43 @@ void readArgs(int argc, char* argv[]){
 
 void printHelp(){
 	cout << endl << "JDPlay_rmt usage:" << endl
-	     << "    JDPlay_rmt.exe --player <NAME> --game <GUID> [--host <IP>]" << endl 
-		 << "                   [--search <MAXRETRIES>] [--debug]" << endl
+	     << "    JDPlay_rmt.exe --playerName <NAME> --maxSearchRetries <NUMBER> [--debug]" << endl
 		 << endl
 		 << "    --help          print this help and exit" << endl
-		 << "    --player        the name of the player" << endl
-		 << "    --game          the GUID of the game to launch" << endl
-		 << "    --host          the IP of the Host" << endl
-		 << "    --search        search for a sesson to join before launching" << endl
-		 << "                        default for <MAXRETRIES> is 5" << endl
+		 << "    --playerName        the name of the player" << endl
+		 << "    --maxSearchRetries  how often to retry when " << endl
+		 << "                            searching for a session" << endl
 		 << "    --debug         print debug messages" << endl
 		 << endl
 		 << "This is a remote controlled program for launching DirectPlay games via RippleLaunch. "
-		 << "It is supposed to give the functionality of the JDPLay_jni.dll with an environment like wine or cedega." << endl
-		 << endl
-		 << "Example for hosting:" << endl
-		 << "  JDPlay_rmt.exe --player <NAME> --game <GUID>" << endl
-		 << "Example for joining with instant launch:" << endl
-		 << "  JDPlay_rmt.exe --player <NAME> --game <GUID> --host <IP>" << endl
-		 << "Example for joining with lobby search:" << endl
-		 << "  JDPlay_rmt.exe --player <NAME> --game <GUID> --host <IP> --search <MAXRETRIES>" << endl
+		 << "It is supposed to give the functionality of the JDPLay_jni.dll in an environment like wine or cedega." << endl
 		 << endl
 		 << "Explanation of remote control:" << endl
-		 << "  # JDPlay was started and is initialized properly" << endl
+		 << "  # JDPlay is started and waits for the first command" << endl
 		 << "    OUT: RDY" << endl
-		 << "  # remote app wants to launch the game" << endl
-		 << "    IN:  LAUNCH" << endl
+		 << "  # remote app wants to initialize a game" << endl
+		 << "    IN:  INITIALIZE gameGUID:{BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF} hostIP:192.168.0.3 isHost:false" << endl
+		 << "  # JDPlay understood the command and launches" << endl
+		 << "    OUT: ACK" << endl
+		 << "  # the initalization process takes some seconds" << endl
+		 << "    OUT: FIN initialize" << endl
+		 << "    OUT: RDY" << endl
+		 << "  # now, any other command can follow, you can even initialize again for a different game" << endl
+		 << endl
+		 << "  # a game is initialized properly, so lets launch it" << endl
+		 << "    OUT: RDY" << endl
+		 << "  # remote app wants to launch the game with searching for a session" << endl
+		 << "    IN:  LAUNCH doSearch:true" << endl
 		 << "  # JDPlay understood the command and launches" << endl
 		 << "    OUT: ACK" << endl
 		 << "  # game has been closed" << endl
-		 << "    OUT: FIN" << endl
+		 << "    OUT: FIN launch" << endl
 		 << "    OUT: RDY" << endl
 		 << "  # now, the game could be relaunched by sending LAUNCH again" << endl
 		 << endl
 		 << "  # there's also the possibility to change the playername after a RDY" << endl
 		 << "    OUT: RDY" << endl
-		 << "    IN:  PLAYERNAME <NAME>" << endl
+		 << "    IN:  UPDATEPLAYERNAME <NAME>" << endl
 		 << "    OUT: ACK" << endl
 		 << "    OUT: RDY" << endl
 		 << endl
@@ -276,6 +298,13 @@ void printHelp(){
 		 << endl
 		 << "  # errors are printed like this" << endl
 		 << "    OUT: ERR <MESSAGE>" << endl
+		 << endl
+		 << "Parameters are always mandatory, though when a game is initialized as host, the doSearch parameters value to LAUNCH gets ignored."
+		 << "Whitespace between parameters and the order of the parameters has to be correct. Here is a detailed list of available commands:" << endl
+		 << endl
+		 << "  INITIALIZE gameGUID:<e.g. {BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}> hostIP:<e.g. 192.168.0.3> isHost:<true or false>" << endl
+		 << "  LAUNCH doSearch:<true or false>" << endl
+		 << "  UPDATEPLAYERNAME <NAME>" << endl
 		 << endl
 		 << "Every command ends with and is recognized after an endline (\\n). Commands have to be written in UPPERCASE. "
 		 << "Before a RDY is written, stdin gets flushed, so theres no possibility that old text is read. JDPlay may print stuff that can be ignored while remote controlling."

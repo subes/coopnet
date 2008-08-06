@@ -29,27 +29,75 @@
 
 #include "JDPlay.h"
 
-DPSESSIONDESC2 JDPlay::dpsDesc;
+DPSESSIONDESC2 JDPlay::dpSessionDesc;
 DPLCONNECTION JDPlay::dpConn;
 bool JDPlay::foundLobby;
 
-JDPlay::JDPlay(char* playerName, char* gameGUID, char* hostIP, bool iamhost, bool enableDebug){
+BOOL FAR PASCAL EnumSessionsCallback(LPCDPSESSIONDESC2 lpThisSD, LPDWORD lpdwTimeOut, DWORD dwFlags, LPVOID lpContext){
+	if(lpThisSD){
+		//so that dplay also joins sessions created ingame
+		JDPlay::dpSessionDesc.dwSize = lpThisSD->dwSize;
+		JDPlay::dpSessionDesc.dwFlags = lpThisSD->dwFlags;
+		JDPlay::dpSessionDesc.guidInstance = lpThisSD->guidInstance;
+		JDPlay::dpSessionDesc.guidApplication = lpThisSD->guidApplication;
+		JDPlay::dpSessionDesc.dwMaxPlayers = lpThisSD->dwMaxPlayers;
+		JDPlay::dpSessionDesc.dwCurrentPlayers = lpThisSD->dwCurrentPlayers;
+		JDPlay::dpSessionDesc.dwReserved1 = lpThisSD->dwReserved1;
+		JDPlay::dpSessionDesc.dwReserved2 = lpThisSD->dwReserved2;
+		JDPlay::dpSessionDesc.dwUser1 = lpThisSD->dwUser1;
+		JDPlay::dpSessionDesc.dwUser2 = lpThisSD->dwUser2;
+		JDPlay::dpSessionDesc.dwUser3 = lpThisSD->dwUser3;
+		JDPlay::dpSessionDesc.dwUser4 = lpThisSD->dwUser4;
+		JDPlay::dpSessionDesc.lpszSessionName = lpThisSD->lpszSessionName;
+		JDPlay::dpSessionDesc.lpszSessionNameA = lpThisSD->lpszSessionNameA;
+		JDPlay::dpSessionDesc.lpszPassword = lpThisSD->lpszPassword;
+		JDPlay::dpSessionDesc.lpszPasswordA = lpThisSD->lpszPasswordA;
 
-	debug = enableDebug;
+		JDPlay::foundLobby = true;
+	}
+	return 0;
+}
+
+JDPlay::JDPlay(char* playerName, int maxSearchRetries, bool debug){
+	this->maxSearchRetries = maxSearchRetries;
+	this->debug = debug;
+	
+	lpDPIsOpen = false;
+	isInitialized = false;
+
+	// clear out memory for info objects
+	ZeroMemory(&dpName,sizeof(DPNAME));
+	ZeroMemory(&dpSessionDesc, sizeof(DPSESSIONDESC2));
+	ZeroMemory(&dpConn, sizeof(DPLCONNECTION));
+
+	// populate player info
+	dpName.dwSize = sizeof(DPNAME);
+	dpName.dwFlags = 0;						// Not used. Must be zero.
+	dpName.lpszShortNameA = playerName;		// Nickname of the user
+	dpName.lpszLongNameA = playerName;
+
+	if(debug){
+		clock_t tClock = clock();
+		cout << "[DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] ++ constructed ++" << endl;
+		fflush(stdout);
+	}
+}
+
+
+bool JDPlay::initialize(char* gameGUID, char* hostIP, bool isHost){
+
+	if(isInitialized){
+		deInitialize();
+	}
 
 	time_t tStart = NULL;
 
 	if(debug){
 		tStart = time(NULL);
 		clock_t tClock = clock();
-		cout << "JDPlay: [DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] ++ started init ++" << endl;
+		cout << "[DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] ++ started initialization ++" << endl;
 		fflush(stdout);
-		ost.open("jdplay_last.log");
-		ost << "JDPlay: [DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] ++ started init ++" << endl;
-		ost.flush();
 	}
-
-	isInitialized = false;
 
 	HRESULT hr;
 	
@@ -62,24 +110,20 @@ JDPlay::JDPlay(char* playerName, char* gameGUID, char* hostIP, bool iamhost, boo
 
 	if(hr != S_OK){
 		if(debug){
-			cout << "JDPlay: [ERROR] invalid GUID" << endl;
+			cout << "[ERROR] invalid GUID" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [ERROR] invalid GUID" << endl;
-			ost.flush();
 		}
-		return;
+		return false;
 	}
 
 	if(debug){
 		time_t tNow = time(NULL);
-		cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] initialized GUID" << endl;
+		cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] initialized GUID" << endl;
 		fflush(stdout);
-		ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] initialized GUID" << endl;
-		ost.flush();
 	}
 	
 	// create TCP connection ***********************************************************************
-	LPDIRECTPLAYLOBBYA old_lpdplobbyA = NULL;    // old lobby pointer
+	LPDIRECTPLAYLOBBYA old_lpDPLobbyA = NULL;    // old lobby pointer
 	DPCOMPOUNDADDRESSELEMENT  address[2];        // to create compound addr
 	DWORD     addressSize = 0;					// size of compound address
 	LPVOID    lpConnection = NULL;				// pointer to make connection
@@ -89,90 +133,74 @@ JDPlay::JDPlay(char* playerName, char* gameGUID, char* hostIP, bool iamhost, boo
 	
 	if(hr != S_OK){
 		if(debug){
-			cout << "JDPlay: [ERROR] failed to initialize COM" << endl;
+			cout << "[ERROR] failed to initialize COM" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [ERROR] failed to initialize COM" << endl;
-			ost.flush();
 		}
-		return;
+		return false;
 	}
 
 	if(debug){
 		time_t tNow = time(NULL);
-		cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] initialized COM" << endl;
+		cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] initialized COM" << endl;
 		fflush(stdout);
-		ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] initialized COM" << endl;
-		ost.flush();
 	}
 
 	// creating directplay object
-	hr = CoCreateInstance(CLSID_DirectPlay, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlay3A,(LPVOID*)&lpdp );
+	hr = CoCreateInstance(CLSID_DirectPlay, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlay3A,(LPVOID*)&lpDP );
 	
 	if(hr != S_OK){
 		if(debug){
-			cout << "JDPlay: [ERROR] failed to initialize DirectPlay" << endl;
+			cout << "[ERROR] failed to initialize DirectPlay" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [ERROR] failed to initialize DirectPlay" << endl;
-			ost.flush();
 		}
-		return;
+		return false;
 	}
 
 	CoUninitialize();  // unregister the COM
 
 	if(debug){
 		time_t tNow = time(NULL);
-		cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] initialized DirectPlay and deinitialized COM" << endl;
+		cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] initialized DirectPlay and deinitialized COM" << endl;
 		fflush(stdout);
-		ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] initialized DirectPlay and deinitialized COM" << endl;
-		ost.flush();
 	}
 
 	// creating lobby object
-	hr = DirectPlayLobbyCreate(NULL, &old_lpdplobbyA, NULL, NULL, 0);
+	hr = DirectPlayLobbyCreate(NULL, &old_lpDPLobbyA, NULL, NULL, 0);
 
 	if(hr != S_OK){
 		if(debug){
-			cout << "JDPlay: [" << getDPERR(hr) <<"] failed to create lobby object" << endl;
+			cout << "[" << getDPERR(hr) <<"] failed to create lobby object" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [" << getDPERR(hr) <<"] failed to create lobby object" << endl;
-			ost.flush();
 		}
-		return;
+		return false;
 	}
 
 	// get new interface of lobby
-	hr = old_lpdplobbyA->QueryInterface(IID_IDirectPlayLobby3A, (LPVOID *)&lpdplobby);
+	hr = old_lpDPLobbyA->QueryInterface(IID_IDirectPlayLobby3A, (LPVOID *)&lpDPLobby);
 	
 	if(hr != S_OK){
 		if(debug){
-			cout << "JDPlay: [" << getDPERR(hr) << "] failed to get new lobby interface" << endl;
+			cout << "[" << getDPERR(hr) << "] failed to get new lobby interface" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [" << getDPERR(hr) << "] failed to get new lobby interface" << endl;
-			ost.flush();
 		}
-		return;
+		return false;
 	}
 
 	// release old interface since we have new one
-	hr = old_lpdplobbyA->Release();
+	hr = old_lpDPLobbyA->Release();
 
 	if(hr != S_OK){
 		if(debug){
-			cout << "JDPlay: [" << getDPERR(hr) << "] failed to release old lobby interface" << endl;
+			cout << "[" << getDPERR(hr) << "] failed to release old lobby interface" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [" << getDPERR(hr) << "] failed to release old lobby interface" << endl;
-			ost.flush();
 		}
-		return;
+		return false;
 	}
 
 	if(debug){
 		time_t tNow = time(NULL);
-		cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] initialized lobby" << endl;
+		cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] initialized lobby" << endl;
 		fflush(stdout);
-		ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] initialized lobby" << endl;
-		ost.flush();
 	}
 
 	// fill in data for address
@@ -185,89 +213,72 @@ JDPlay::JDPlay(char* playerName, char* gameGUID, char* hostIP, bool iamhost, boo
 	address[1].lpData       = hostIP;
 
 	// get size to create address
-	// this method will return DPERR_BUFFERTOOSMALL not an error
-	hr = lpdplobby->CreateCompoundAddress(address, 2, NULL, &addressSize);
+	// this method will return DPERR_BUFFERTOOSMALL, that is not an error
+	hr = lpDPLobby->CreateCompoundAddress(address, 2, NULL, &addressSize);
 
 	if(hr != S_OK && hr != DPERR_BUFFERTOOSMALL){
 		if(debug){
-			cout << "JDPlay: [" << getDPERR(hr) << "] failed to get size for CompoundAddress" << endl;
+			cout << "[" << getDPERR(hr) << "] failed to get size for CompoundAddress" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [" << getDPERR(hr) << "] failed to get size for CompoundAddress" << endl;
-			ost.flush();
 		}
-		return;
+		return false;
 	}
 
 	lpConnection = GlobalAllocPtr(GHND, addressSize);  // allocating mem
 
 	// now creating the address
-	hr = lpdplobby->CreateCompoundAddress(address, 2, lpConnection, &addressSize);
+	hr = lpDPLobby->CreateCompoundAddress(address, 2, lpConnection, &addressSize);
 
 	if(hr != S_OK){
 		if(debug){
-			cout << "JDPlay: [" << getDPERR(hr) << "] failed to create CompoundAddress" << endl;
+			cout << "[" << getDPERR(hr) << "] failed to create CompoundAddress" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [" << getDPERR(hr) << "] failed to create CompoundAddress" << endl;
-			ost.flush();
 		}
-		return;
+		return false;
 	}
 
 	// initialize the tcp connection
-	hr = lpdp->InitializeConnection(lpConnection, 0);
+	hr = lpDP->InitializeConnection(lpConnection, 0);
 
 	if(hr != S_OK){
 		if(debug){
-			cout << "JDPlay: [" << getDPERR(hr) << "] failed to initialize TCP connection" << endl;
+			cout << "[" << getDPERR(hr) << "] failed to initialize TCP connection" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [" << getDPERR(hr) << "] failed to initialize TCP connection" << endl;
-			ost.flush();
 		}
-		return;
+		return false;
 	}
 
 	if(debug){
 		time_t tNow = time(NULL);
-		cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] initialized TCP connection" << endl;
+		cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] initialized TCP connection" << endl;
 		fflush(stdout);
-		ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] initialized TCP connection" << endl;
-		ost.flush();
 	}
 
-	// create session description ****************************************************************** 
-	ZeroMemory(&dpsDesc, sizeof(DPSESSIONDESC2));
-	dpsDesc.dwSize = sizeof(DPSESSIONDESC2);
-	dpsDesc.dwFlags = 0;									// optional: DPSESSION_MIGRATEHOST
-	dpsDesc.guidApplication = gameID;						// Game GUID
-	dpsDesc.guidInstance = gameID;							// ID for the session instance
-	dpsDesc.lpszSessionName = NULL;			// ANSI name of the session
-	dpsDesc.lpszSessionNameA = NULL;			// ANSI name of the session
-	dpsDesc.dwMaxPlayers = 0;								// Maximum # players allowed in session
-	dpsDesc.dwCurrentPlayers = 0;							// Current # players in session (read only)
-	dpsDesc.lpszPasswordA = NULL;							// ANSI password of the session (optional)
-	dpsDesc.dwReserved1 = 0;								// Reserved for future M$ use.
-	dpsDesc.dwReserved2 = 0;
-	dpsDesc.dwUser1 = 0;									// For use by the application
-	dpsDesc.dwUser2 = 0;
-	dpsDesc.dwUser3 = 0;
-	dpsDesc.dwUser4 = 0;
+	// populate session description ****************************************************************** 
+	dpSessionDesc.dwSize = sizeof(DPSESSIONDESC2);
+	dpSessionDesc.dwFlags = 0;									// optional: DPSESSION_MIGRATEHOST
+	dpSessionDesc.guidApplication = gameID;						// Game GUID
+	dpSessionDesc.guidInstance = gameID;							// ID for the session instance
+	dpSessionDesc.lpszSessionName = NULL;			// ANSI name of the session
+	dpSessionDesc.lpszSessionNameA = NULL;			// ANSI name of the session
+	dpSessionDesc.dwMaxPlayers = 0;								// Maximum # players allowed in session
+	dpSessionDesc.dwCurrentPlayers = 0;							// Current # players in session (read only)
+	dpSessionDesc.lpszPasswordA = NULL;							// ANSI password of the session (optional)
+	dpSessionDesc.dwReserved1 = 0;								// Reserved for future M$ use.
+	dpSessionDesc.dwReserved2 = 0;
+	dpSessionDesc.dwUser1 = 0;									// For use by the application
+	dpSessionDesc.dwUser2 = 0;
+	dpSessionDesc.dwUser3 = 0;
+	dpSessionDesc.dwUser4 = 0;
 
-	// create player object ************************************************************************
-	ZeroMemory(&dpname,sizeof(DPNAME));		// clear out structure
-	dpname.dwSize = sizeof(DPNAME);
-	dpname.dwFlags = 0;						// Not used. Must be zero.
-	dpname.lpszShortNameA = playerName;		// nickname of the user
-	dpname.lpszLongNameA = playerName;
-
-	// create connection info **********************************************************************
-	ZeroMemory( &dpConn, sizeof(DPLCONNECTION) );
+	// populate connection info **********************************************************************
 	dpConn.dwSize = sizeof(DPLCONNECTION);
-	dpConn.lpSessionDesc = &dpsDesc;		// Pointer to session desc to use on connect
-	dpConn.lpPlayerName = &dpname;			// Pointer to Player name structure
+	dpConn.lpSessionDesc = &dpSessionDesc;		// Pointer to session desc to use on connect
+	dpConn.lpPlayerName = &dpName;			// Pointer to Player name structure
 	dpConn.guidSP = DPSPGUID_TCPIP;			// GUID of the DPlay SP to use
 	dpConn.lpAddress = lpConnection;		// Address for service provider
 	dpConn.dwAddressSize = addressSize;		// Size of address data
-	if(iamhost){
+	if(isHost){
 		dpConn.dwFlags = DPLCONNECTION_CREATESESSION;
 	}else{
 		dpConn.dwFlags = DPLCONNECTION_JOINSESSION;
@@ -275,14 +286,12 @@ JDPlay::JDPlay(char* playerName, char* gameGUID, char* hostIP, bool iamhost, boo
 
 	if(debug){
 		time_t tNow = time(NULL);
-		cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] initialized session info" << endl;
+		cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] configured session info" << endl;
 		fflush(stdout);
-		ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] initialized session info" << endl;
-		ost.flush();
 	}
 
 	// set other vars
-	if(iamhost){
+	if(isHost){
 		sessionFlags = DPOPEN_CREATE;
 		playerFlags = DPPLAYER_SERVERPLAYER;
 	}else{
@@ -290,106 +299,68 @@ JDPlay::JDPlay(char* playerName, char* gameGUID, char* hostIP, bool iamhost, boo
 		playerFlags = 0;
 	}
 
-	maxRetries = 5;
-	lpdpIsOpen = false;
-	isInitialized = true;
-
 	if(debug){
 		clock_t tClock = clock();
-		cout << "JDPlay: [DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] -- finished init --" << endl;
+		cout << "[DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] -- finished initialization --" << endl;
 		fflush(stdout);
-		ost << "JDPlay: [DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] -- finished init --" << endl;
-		ost.flush();
 	}
 
+	isInitialized = true;
+
+	return true;
 }
 
-bool JDPlay::isInitializedProperly(){
-	return isInitialized;
-}
-
-void JDPlay::setMaxSearchRetries(int maxRetries){
-
-	this->maxRetries = maxRetries;
-}
-
-void JDPlay::setPlayerName(char* playerName){
-
-	dpname.lpszShortNameA = playerName;
-	dpname.lpszLongNameA = playerName;
-}
-
-BOOL FAR PASCAL EnumSessionsCallback(LPCDPSESSIONDESC2 lpThisSD, LPDWORD lpdwTimeOut, DWORD dwFlags, LPVOID lpContext){
-
-	if(lpThisSD){
-		//so that dplay also joins sessions created ingame
-		JDPlay::dpsDesc.dwSize = lpThisSD->dwSize;
-		JDPlay::dpsDesc.dwFlags = lpThisSD->dwFlags;
-		JDPlay::dpsDesc.guidInstance = lpThisSD->guidInstance;
-		JDPlay::dpsDesc.guidApplication = lpThisSD->guidApplication;
-		JDPlay::dpsDesc.dwMaxPlayers = lpThisSD->dwMaxPlayers;
-		JDPlay::dpsDesc.dwCurrentPlayers = lpThisSD->dwCurrentPlayers;
-		JDPlay::dpsDesc.dwReserved1 = lpThisSD->dwReserved1;
-		JDPlay::dpsDesc.dwReserved2 = lpThisSD->dwReserved2;
-		JDPlay::dpsDesc.dwUser1 = lpThisSD->dwUser1;
-		JDPlay::dpsDesc.dwUser2 = lpThisSD->dwUser2;
-		JDPlay::dpsDesc.dwUser3 = lpThisSD->dwUser3;
-		JDPlay::dpsDesc.dwUser4 = lpThisSD->dwUser4;
-		JDPlay::dpsDesc.lpszSessionName = lpThisSD->lpszSessionName;
-		JDPlay::dpsDesc.lpszSessionNameA = lpThisSD->lpszSessionNameA;
-		JDPlay::dpsDesc.lpszPassword = lpThisSD->lpszPassword;
-		JDPlay::dpsDesc.lpszPasswordA = lpThisSD->lpszPasswordA;
-		
-		JDPlay::dpConn.lpSessionDesc = &JDPlay::dpsDesc;
-
-		JDPlay::foundLobby = true;
+void JDPlay::updatePlayerName(char* playerName){
+	dpName.lpszShortNameA = playerName;
+	dpName.lpszLongNameA = playerName;
+	
+	if(debug){
+		cout << "[DEBUG] updated playername to \"" << playerName << "\"" << endl;
 	}
-
-  return 0;
 }
 
 bool JDPlay::launch(bool searchForSession){
+
+	if(!isInitialized){
+		if(debug){
+			cout << "[WARNING] JDPlay has to be initialized before launching!" << endl;
+			fflush(stdout);
+		}
+		return false;
+	}
 
 	time_t tStart = NULL;
 
 	if(debug){
 		tStart = time(NULL);
 		clock_t tClock = clock();
-		cout << "JDPlay: [DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] ++ started launch ++" << endl;
+		cout << "[DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] ++ started launch ++" << endl;
 		fflush(stdout);
-		ost << "JDPlay: [DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] ++ started launch ++" << endl;
-		ost.flush();
 	}
 
 	HRESULT hr;
 
-	if(searchForSession){
+	if(searchForSession && sessionFlags == DPOPEN_JOIN ){
 		// join/host session ***************************************************************************
-		if(lpdp && sessionFlags == DPOPEN_JOIN){
+		if(lpDP && sessionFlags == DPOPEN_JOIN){
 			if(debug){
 				time_t tNow = time(NULL);
-				cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] searching for a session .";
+				cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] searching for a session .";
 				fflush(stdout);
-				ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] searching for a session .";
-				ost.flush();
 			}
 			
-			for(retry = 1; retry < maxRetries; retry++){
+			for(curRetry = 1; curRetry < maxSearchRetries; curRetry++){
 		
 				if(debug){
 					cout << ".";
 					fflush(stdout);
-					ost << ".";
-					ost.flush();
 				}
 
-				hr = lpdp->EnumSessions(&dpsDesc, 0, EnumSessionsCallback, NULL, 0);
+				hr = lpDP->EnumSessions(&dpSessionDesc, 0, EnumSessionsCallback, NULL, 0);
 				if(hr != S_OK){
 					if(debug){
-						cout << endl << "JDPlay: [" << getDPERR(hr) << "] failed to enumerate sessions" << endl;
+						cout << endl << "[" << getDPERR(hr) << "] failed to enumerate sessions" << endl;
 						fflush(stdout);
-						ost << endl << "JDPlay: [" << getDPERR(hr) << "] failed to enumerate sessions" << endl;
-						ost.flush();
 					}
 					return false;
 				}
@@ -401,30 +372,22 @@ bool JDPlay::launch(bool searchForSession){
 
 			if(debug){
 				if(!foundLobby){
-					cout << " FAILURE after " << retry << ". try!" << endl;
+					cout << " FAILURE after " << curRetry << ". try!" << endl;
 					fflush(stdout);
-					ost << " FAILURE after " << retry << ". try!" << endl;
-					ost.flush();
 				}else{
-					cout << " SUCCESS at " << retry << ". try!" << endl;
+					cout << " SUCCESS at " << curRetry << ". try!" << endl;
 					fflush(stdout);
-					ost << " SUCCESS at " << retry << ". try!" << endl;
-					ost.flush();
 				}
 			}
 
 			if(debug){
 				time_t tNow = time(NULL);
 				if(foundLobby){
-					cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] session found" << endl;
+					cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] session found" << endl;
 					fflush(stdout);
-					ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] session found" << endl;
-					ost.flush();
 				}else{
-					cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] search failed" << endl;
+					cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] search failed" << endl;
 					fflush(stdout);
-					ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] search failed" << endl;
-					ost.flush();
 				}
 			}
 
@@ -434,119 +397,99 @@ bool JDPlay::launch(bool searchForSession){
 
 		}
 
-		if(lpdp){
+		if(lpDP){
 
-			hr = lpdp->Open(&dpsDesc, sessionFlags | DPOPEN_RETURNSTATUS);
+			hr = lpDP->Open(&dpSessionDesc, sessionFlags | DPOPEN_RETURNSTATUS);
 			if(hr != S_OK){
 				if(debug){
-					cout << "JDPlay: [" << getDPERR(hr) << "] failed to open DirectPlay session" << endl;
+					cout << "[" << getDPERR(hr) << "] failed to open DirectPlay session" << endl;
 					fflush(stdout);
-					ost << "JDPlay: [" << getDPERR(hr) << "] failed to open DirectPlay session" << endl;
-					ost.flush();
 				}
 				return false;
 			}
 
-			lpdpIsOpen = true;
+			lpDPIsOpen = true;
 
 			// create player *******************************************************************************
-			hr = lpdp->CreatePlayer(&dpid, &dpname, NULL, NULL, 0, playerFlags);
+			hr = lpDP->CreatePlayer(&dPid, &dpName, NULL, NULL, 0, playerFlags);
 
 			if(hr != S_OK){
 				if(debug){
-					cout << "JDPlay: [" << getDPERR(hr) << "] failed to create local player" << endl;
+					cout << "[" << getDPERR(hr) << "] failed to create local player" << endl;
 					fflush(stdout);
-					ost << "JDPlay: [" << getDPERR(hr) << "] failed to create local player" << endl;
-					ost.flush();
 				}
 				return false;
 			}
 
 			if(debug){
 				time_t tNow = time(NULL);
-				cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] opened session and initialized player" << endl;
+				cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] opened session and initialized player" << endl;
 				fflush(stdout);
-				ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] opened session and initialized player" << endl;
-				ost.flush();
 			}
 		}
 	}else{
 		if(debug){
 			time_t tNow = time(NULL);
-			cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] skipping session search" << endl;
+			cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] skipping session search" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] skipping session search" << endl;
-			ost.flush();
 		}
 	}
 
 	// release temporary directplay interface ***************************************************************
-	if(lpdp){
+	if(lpDP){
 
-		if(lpdpIsOpen){
-			hr = lpdp->Close();		//close dplay interface
+		if(lpDPIsOpen){
+			hr = lpDP->Close();		//close dplay interface
 			if(hr != S_OK){
 				if(debug){
-					cout << "JDPlay: [" << getDPERR(hr) << "] failed to close DirectPlay interface" << endl;
+					cout << "[" << getDPERR(hr) << "] failed to close DirectPlay interface" << endl;
 					fflush(stdout);
-					ost << "JDPlay: [" << getDPERR(hr) << "] failed to close DirectPlay interface" << endl;
-					ost.flush();
 				}
 				return false;
 			}
 		}
 		
-		hr = lpdp->Release();	//release dplay interface
+		hr = lpDP->Release();	//release dplay interface
 		if(hr != S_OK){
 			if(debug){
-				cout << "JDPlay: [" << getDPERR(hr) << "] failed to release DirectPlay interface" << endl;
+				cout << "[" << getDPERR(hr) << "] failed to release DirectPlay interface" << endl;
 				fflush(stdout);
-				ost << "JDPlay: [" << getDPERR(hr) << "] failed to release DirectPlay interface" << endl;
-				ost.flush();
 			}
 			return false;
 		}
 		
-		lpdp = NULL;  // set to NULL, safe practice here
+		lpDP = NULL;  // set to NULL, safe practice here
 
 		if(debug){
 			time_t tNow = time(NULL);
-			cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] deinitialized DirectPlay" << endl;
+			cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] deinitialized DirectPlay" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] deinitialized DirectPlay" << endl;
-			ost.flush();
 		}
 	}
 
 	// launch game *********************************************************************************
-	hr = lpdplobby->RunApplication( 0, &appID, &dpConn, 0);
+	hr = lpDPLobby->RunApplication( 0, &appID, &dpConn, 0);
 	
 	if(hr != S_OK){
 		if(debug){
-			cout << "JDPlay: [" << getDPERR(hr) << "] failed to launch the game, maybe it's not installed properly" << endl;
+			cout << "[" << getDPERR(hr) << "] failed to launch the game, maybe it's not installed properly" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [" << getDPERR(hr) << "] failed to launch the game, maybe it's not installed properly" << endl;
-			ost.flush();
 		}
 		return false;
 	}
 
 	if(debug){
 		time_t tNow = time(NULL);
-		cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] started game, ProcessID = " << appID << endl;
+		cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] started game, ProcessID = " << appID << endl;
 		fflush(stdout);
-		ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] started game, ProcessID = " << appID << endl;
-		ost.flush();
 	}
 
 	// wait until game exits ***********************************************************************
 	HANDLE appHandle = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, appID);
 	if(appHandle == NULL){
 		if(debug){
-			cout << "JDPlay: [ERROR] failed to open game process" << endl;
+			cout << "[ERROR] failed to open game process" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [ERROR] failed to open game process" << endl;
-			ost.flush();
 		}
 		return false;
 	}
@@ -561,96 +504,93 @@ bool JDPlay::launch(bool searchForSession){
 
 	if(debug){
 		clock_t tClock = clock();
-		cout << "JDPlay: [DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] -- game closed, finished launch --" << endl;
+		cout << "[DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] -- game closed, finished launch --" << endl;
 		fflush(stdout);
-		ost << "JDPlay: [DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] -- game closed, finished launch --" << endl;
-		ost.flush();
 	}
 
 	return true;
 }
 
-JDPlay::~JDPlay(){
-
+void JDPlay::deInitialize(){
 	time_t tStart = NULL;
 
 	if(debug){
 		tStart = time(NULL);
 		clock_t tClock = clock();
-		cout << "JDPlay: [DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] ++ started cleanup ++" << endl;
+		cout << "[DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] ++ started deinitialization ++" << endl;
 		fflush(stdout);
-		ost << "JDPlay: [DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] ++ started cleanup ++" << endl;
-		ost.flush();
 	}
 
 	HRESULT hr;
 
-	if(lpdp){
+	if(lpDP){
 
-		if(lpdpIsOpen){
-			hr = lpdp->Close();		//close dplay interface
+		if(lpDPIsOpen){
+			hr = lpDP->Close();		//close dplay interface
 			if(hr != S_OK){
 				if(debug){
-					cout << "JDPlay: [" << getDPERR(hr) << "] failed to close DirectPlay interface" << endl;
+					cout << "[" << getDPERR(hr) << "] failed to close DirectPlay interface" << endl;
 					fflush(stdout);
-					ost << "JDPlay: [" << getDPERR(hr) << "] failed to close DirectPlay interface" << endl;
-					ost.flush();
 				}
 			}
 		}
 		
-		hr = lpdp->Release();	//release dplay interface
+		hr = lpDP->Release();	//release dplay interface
 		if(hr != S_OK){
 			if(debug){
-				cout << "JDPlay: [" << getDPERR(hr) << "] failed to release DirectPlay interface" << endl;
+				cout << "[" << getDPERR(hr) << "] failed to release DirectPlay interface" << endl;
 				fflush(stdout);
-				ost << "JDPlay: [" << getDPERR(hr) << "] failed to release DirectPlay interface" << endl;
-				ost.flush();
 			}
 		}
 		
-		lpdp = NULL;  // set to NULL, safe practice here
+		lpDP = NULL;  // set to NULL, safe practice here
 
 		if(debug){
 			time_t tNow = time(NULL);
-			cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] deinitialized DirectPlay" << endl;
+			cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] deinitialized DirectPlay" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] deinitialized DirectPlay" << endl;
-			ost.flush();
 		}
 		
 	}
 
-	if(lpdplobby){
+	if(lpDPLobby){
 		
-		hr = lpdplobby->Release(); //release lobby
+		hr = lpDPLobby->Release(); //release lobby
 		if(hr != S_OK){
 			if(debug){
-				cout << "JDPlay: [" << getDPERR(hr) << "] failed to release lobby interface" << endl;
+				cout << "[" << getDPERR(hr) << "] failed to release lobby interface" << endl;
 				fflush(stdout);
-				ost << "JDPlay: [" << getDPERR(hr) << "] failed to release lobby interface" << endl;
-				ost.flush();
 			}
 		}
-		lpdplobby = NULL;
+		lpDPLobby = NULL;
 
 		if(debug){
 			time_t tNow = time(NULL);
-			cout << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] deinitialized lobby" << endl;
+			cout << "[DEBUG@func@sec:" << (tNow-tStart) << "] deinitialized lobby" << endl;
 			fflush(stdout);
-			ost << "JDPlay: [DEBUG@func@sec:" << (tNow-tStart) << "] deinitialized lobby" << endl;
-			ost.flush();
 		}
 	}
+
+	lpDPIsOpen = false;
 
 	if(debug){
 		clock_t tClock = clock();
-		cout << "JDPlay: [DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] -- finished cleanup --" << endl;
+		cout << "[DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] -- finished deinitialization --" << endl;
 		fflush(stdout);
-		ost << "JDPlay: [DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] -- finished cleanup --" << endl;
-		ost.close();
 	}
 
+	isInitialized = false;
+}
+
+JDPlay::~JDPlay(){
+
+	deInitialize();
+
+	if(debug){
+		clock_t tClock = clock();
+		cout << "[DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] -- destructed --" << endl;
+		fflush(stdout);
+	}
 }
 
 char* JDPlay::getDPERR(HRESULT hr){

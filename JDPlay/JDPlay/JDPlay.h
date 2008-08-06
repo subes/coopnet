@@ -46,33 +46,32 @@ BOOL FAR PASCAL EnumSessionsCallback(LPCDPSESSIONDESC2 lpThisSD, LPDWORD lpdwTim
 
 class JDPlay{
 	public:
-		static DPSESSIONDESC2			dpsDesc;			// session description
-		static DPLCONNECTION			dpConn;				// connection description
-		static bool foundLobby;
+		static DPSESSIONDESC2	dpSessionDesc;		// session description
+		static DPLCONNECTION	dpConn;				// connection description
+		static bool				foundLobby;
 	private:
-		bool debug;
-		bool isInitialized;
-		int retry;
-		int maxRetries;
-		bool lpdpIsOpen;
-		LPDIRECTPLAY3A			lpdp;        // directplay interface pointer
-		LPDIRECTPLAYLOBBY3A		lpdplobby;   // lobby interface pointer
+		bool					debug;
+		int						curRetry;
+		int						maxSearchRetries;
+		bool					isInitialized;
+		bool					lpDPIsOpen;
+		LPDIRECTPLAY3A			lpDP;        // directplay interface pointer
+		LPDIRECTPLAYLOBBY3A		lpDPLobby;   // lobby interface pointer
 		
-		DPNAME					dpname;				// player description
-		DPID					dpid;				// player ID (currently unused)
+		DPNAME					dpName;				// player description
+		
+		DPID					dPid;				// player ID (currently unused)
 		DWORD					appID;				// game process ID
 		DWORD					sessionFlags;	//either Host or Join Session
 		DWORD					playerFlags;	//either Host or not
 
-		ofstream				ost;
-
 	public:
-		JDPlay(char* playerName, char* gameGUID, char* hostIP, bool iamhost, bool enableDebug);
-		bool isInitializedProperly();
-		void setMaxSearchRetries(int maxRetries);
-		void setPlayerName(char* playerName);
+		JDPlay(char* playerName, int maxSearchRetries, bool debug);
+		bool initialize(char* gameGUID, char* hostIP, bool isHost);
+		void updatePlayerName(char* playerName);
 		bool launch(bool searchForSession);
 		~JDPlay();
 	private:
+		void deInitialize();
 		char* getDPERR(HRESULT hr);
 };
