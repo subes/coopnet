@@ -35,145 +35,20 @@
 using namespace std;
 
 // *** Variable declarations ***
-char* playerName;
-int maxSearchRetries;
-bool debug;
-
 JDPlay* jdplay;
 
 // *** Method declarations ***
 void waitForCommand();
 void initialize(char* gameGUID, char* hostIP, bool isHost);
 void launch(bool doSearch);
-void readArgs(int argc, char* argv[]);
 void printHelp();
 
 // *** Method implementations ***
 int main(int argc, char* argv[]){
-	//Read args
-	readArgs(argc, argv);
-
-	//Init JDPlay
-	jdplay = new JDPlay(playerName, maxSearchRetries, debug);
-
-	while(true){
-		waitForCommand();
-	}
-}
-
-void waitForCommand(){
-	//Flush stdin
-	while(_kbhit()){
-		_getch_nolock();
-	}
-	
-	//Now ready for command
-	cout << "RDY" << endl;
-	fflush(stdout);
-
-	//Read the command
-	char in[256]; //Dunno why 256 here, but it should be enough
-	gets(in);
-
-	string input(in);
-
-	if(!input.substr(0,11).compare("INITIALIZE ") && input.find(" gameGUID:") != string::npos && input.find(" hostIP:") != string::npos && input.find(" isHost:") != string::npos){
-		//Initialize
-		
-		//INITIALIZE gameGUID:<e.g. {BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}> hostIP:<e.g. 192.168.0.3> isHost:<true or false> 
-		string s_gameGUID = input.substr(input.find(" gameGUID:")+10, input.find(" hostIP:")-input.find(" gameGUID:")-10);
-		string s_hostIP = input.substr(input.find(" hostIP:")+8, input.find(" isHost:")-input.find(" hostIP:")-8);
-		string s_isHost = input.substr(input.find(" isHost:")+8);
-
-		if(s_gameGUID.length() != 38){
-			cout << "ERR gameGUID: got \"" << s_gameGUID << "\", but expected something like \"{BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}\"" << endl;
-			fflush(stdout);
-			return;
-		}
-
-		if(s_hostIP.length() > 256){
-			cout << "ERR hostIP: value has " << s_gameGUID.length() << " chars length, but 255 chars are maximum" << endl;
-			fflush(stdout);
-			return;
-		}
-
-		bool isHost;
-		if(!s_isHost.compare("true")){
-			isHost = true;
-		}else
-		if(!s_isHost.compare("false")){
-			isHost = false;
-		}else{
-			cout << "ERR isHost: got \"" << s_isHost << "\", but expected \"true\" or \"false\"" << endl;
-			fflush(stdout);
-			return;
-		}
-
-		cout << "ACK" << endl;
-		fflush(stdout);
-		
-		cout << s_gameGUID.c_str() << "|" << s_hostIP.c_str() << "|" << s_isHost.c_str() << endl;
-
-		char gameGUID[39];
-		char hostIP[256]; //could also be a dns name
-		strcpy(gameGUID, s_gameGUID.c_str());
-		strcpy(hostIP, s_hostIP.c_str());
-
-		cout << gameGUID << "|" << hostIP << "|" << isHost << endl;
-		initialize(gameGUID, hostIP, isHost);
-	}else
-	if(!input.substr(0,7).compare("LAUNCH ") && input.find(" doSearch:") != string::npos){
-		//Launch game
-		string s_doSearch = input.substr(input.find(" doSearch:")+10);
-
-		bool doSearch;
-		if(!s_doSearch.compare("true")){
-			doSearch = true;
-		}else
-		if(!s_doSearch.compare("false")){
-			doSearch = false;
-		}else{
-			cout << "ERR found \"" << s_doSearch << "\", but expected \"true\" or \"false\"" << endl;
-			fflush(stdout);
-			return;
-		}
-
-		cout << "ACK" << endl;
-		fflush(stdout);
-		launch(doSearch);
-	}else
-	if(!input.substr(0,17).compare("UPDATEPLAYERNAME ")){
-		//Set new playername (gets passed automatically, because it's a pointer)
-		cout << "ACK" << endl;
-		fflush(stdout);
-		string newname = input.substr(17);
-		strcpy(playerName, newname.c_str());	
-	}else{
-		//Unknown command
-		cout << "NAK" << endl;
-		fflush(stdout);
-	}
-}
-
-void initialize(char* gameGUID, char* hostIP, bool isHost){
-	bool ret = jdplay->initialize(gameGUID, hostIP, isHost);
-	if(!ret){
-		cout << "ERR initialize" << endl;
-		fflush(stdout);
-	}
-}
-
-void launch(bool doSearch){
-	bool ret = jdplay->launch(doSearch);
-	if(!ret){
-		cout << "ERR launch" << endl;
-		fflush(stdout);
-	}
-}
-
-void readArgs(int argc, char* argv[]){
-	//Set default settings
-	debug = false;
+	//Read args ************************************************
+	bool debug = false;
+	char* playerName;
+	int maxSearchRetries;
 
 	//Go through arguments
 	bool playerfound = false;
@@ -245,6 +120,134 @@ void readArgs(int argc, char* argv[]){
 		fflush(stdout);
 		printHelp();
 		exit(1);
+	}
+
+	//Init JDPlay *********************************************************
+	jdplay = new JDPlay(playerName, maxSearchRetries, debug);
+
+	while(true){
+		waitForCommand();
+	}
+}
+
+void waitForCommand(){
+	//Flush stdin
+	while(_kbhit()){
+		_getch_nolock();
+	}
+	
+	//Now ready for command
+	cout << "RDY" << endl;
+	fflush(stdout);
+
+	//Read the command
+	char in[256]; //should be enough
+	gets(in);
+
+	string input(in);
+
+	if(!input.substr(0,11).compare("INITIALIZE ") && input.find(" gameGUID:") != string::npos && input.find(" hostIP:") != string::npos && input.find(" isHost:") != string::npos){
+		//Initialize
+		
+		//INITIALIZE gameGUID:<e.g. {BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}> hostIP:<e.g. 192.168.0.3> isHost:<true or false> 
+		string s_gameGUID = input.substr(input.find(" gameGUID:")+10, input.find(" hostIP:")-input.find(" gameGUID:")-10);
+		string s_hostIP = input.substr(input.find(" hostIP:")+8, input.find(" isHost:")-input.find(" hostIP:")-8);
+		string s_isHost = input.substr(input.find(" isHost:")+8);
+
+		if(s_gameGUID.length() != 38){
+			cout << "ERR gameGUID: got \"" << s_gameGUID << "\", but expected something like \"{BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}\"" << endl;
+			fflush(stdout);
+			return;
+		}
+
+		if(s_hostIP.length() > 256){
+			cout << "ERR hostIP: value has " << s_gameGUID.length() << " chars length, but 255 chars are maximum" << endl;
+			fflush(stdout);
+			return;
+		}
+
+		bool isHost;
+		if(!s_isHost.compare("true")){
+			isHost = true;
+		}else
+		if(!s_isHost.compare("false")){
+			isHost = false;
+		}else{
+			cout << "ERR isHost: got \"" << s_isHost << "\", but expected \"true\" or \"false\"" << endl;
+			fflush(stdout);
+			return;
+		}
+
+		cout << "ACK" << endl;
+		fflush(stdout);
+		
+		cout << s_gameGUID.c_str() << "|" << s_hostIP.c_str() << "|" << s_isHost.c_str() << endl;
+
+		char gameGUID[39];
+		char hostIP[256]; //could also be a dns name
+		strcpy(gameGUID, s_gameGUID.c_str());
+		strcpy(hostIP, s_hostIP.c_str());
+
+		cout << gameGUID << "|" << hostIP << "|" << isHost << endl;
+		initialize(gameGUID, hostIP, isHost);
+	}else
+	if(!input.substr(0,7).compare("LAUNCH ") && input.find(" doSearch:") != string::npos){
+		//Launch game
+		string s_doSearch = input.substr(input.find(" doSearch:")+10);
+
+		bool doSearch;
+		if(!s_doSearch.compare("true")){
+			doSearch = true;
+		}else
+		if(!s_doSearch.compare("false")){
+			doSearch = false;
+		}else{
+			cout << "ERR found \"" << s_doSearch << "\", but expected \"true\" or \"false\"" << endl;
+			fflush(stdout);
+			return;
+		}
+
+		cout << "ACK" << endl;
+		fflush(stdout);
+		launch(doSearch);
+	}else
+	if(!input.substr(0,17).compare("UPDATEPLAYERNAME ")){
+		//Set new playername
+		cout << "ACK" << endl;
+		fflush(stdout);
+
+		string s_playerName = input.substr(17);
+		char playerName[256];
+
+		if(s_playerName.length() > 255){
+			cout << "ERR playername is " << s_playerName.length() << " chars long, but 255 chars are maximum" << endl;
+			fflush(stdout);
+			return;
+		}
+
+		strcpy(playerName, s_playerName.c_str());	
+
+		jdplay->updatePlayerName(playerName);
+	}else{
+		//Unknown command
+		cout << "NAK" << endl;
+		fflush(stdout);
+	}
+}
+
+void initialize(char* gameGUID, char* hostIP, bool isHost){
+	bool ret = jdplay->initialize(gameGUID, hostIP, isHost);
+	if(!ret){
+		cout << "ERR initialize" << endl;
+		fflush(stdout);
+	}
+}
+
+void launch(bool doSearch){
+	bool ret = jdplay->launch(doSearch);
+	if(!ret){
+		cout << "ERR launch" << endl;
+		fflush(stdout);
 	}
 }
 

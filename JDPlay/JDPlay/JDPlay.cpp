@@ -29,41 +29,22 @@
 
 #include "JDPlay.h"
 
-DPSESSIONDESC2 JDPlay::dpSessionDesc;
-DPLCONNECTION JDPlay::dpConn;
-bool JDPlay::foundLobby;
+JDPlay* JDPlay::instance;
 
 BOOL FAR PASCAL EnumSessionsCallback(LPCDPSESSIONDESC2 lpThisSD, LPDWORD lpdwTimeOut, DWORD dwFlags, LPVOID lpContext){
 	if(lpThisSD){
-		//so that dplay also joins sessions created ingame
-		JDPlay::dpSessionDesc.dwSize = lpThisSD->dwSize;
-		JDPlay::dpSessionDesc.dwFlags = lpThisSD->dwFlags;
-		JDPlay::dpSessionDesc.guidInstance = lpThisSD->guidInstance;
-		JDPlay::dpSessionDesc.guidApplication = lpThisSD->guidApplication;
-		JDPlay::dpSessionDesc.dwMaxPlayers = lpThisSD->dwMaxPlayers;
-		JDPlay::dpSessionDesc.dwCurrentPlayers = lpThisSD->dwCurrentPlayers;
-		JDPlay::dpSessionDesc.dwReserved1 = lpThisSD->dwReserved1;
-		JDPlay::dpSessionDesc.dwReserved2 = lpThisSD->dwReserved2;
-		JDPlay::dpSessionDesc.dwUser1 = lpThisSD->dwUser1;
-		JDPlay::dpSessionDesc.dwUser2 = lpThisSD->dwUser2;
-		JDPlay::dpSessionDesc.dwUser3 = lpThisSD->dwUser3;
-		JDPlay::dpSessionDesc.dwUser4 = lpThisSD->dwUser4;
-		JDPlay::dpSessionDesc.lpszSessionName = lpThisSD->lpszSessionName;
-		JDPlay::dpSessionDesc.lpszSessionNameA = lpThisSD->lpszSessionNameA;
-		JDPlay::dpSessionDesc.lpszPassword = lpThisSD->lpszPassword;
-		JDPlay::dpSessionDesc.lpszPasswordA = lpThisSD->lpszPasswordA;
-
-		JDPlay::foundLobby = true;
+		JDPlay::getInstance()->updateFoundSessionDescription(lpThisSD);
 	}
 	return 0;
 }
 
 JDPlay::JDPlay(char* playerName, int maxSearchRetries, bool debug){
+
+	this->instance = this;
 	this->maxSearchRetries = maxSearchRetries;
-	this->debug = debug;
-	
 	lpDPIsOpen = false;
 	isInitialized = false;
+	this->debug = debug;
 
 	// clear out memory for info objects
 	ZeroMemory(&dpName,sizeof(DPNAME));
@@ -72,9 +53,10 @@ JDPlay::JDPlay(char* playerName, int maxSearchRetries, bool debug){
 
 	// populate player info
 	dpName.dwSize = sizeof(DPNAME);
-	dpName.dwFlags = 0;						// Not used. Must be zero.
-	dpName.lpszShortNameA = playerName;		// Nickname of the user
-	dpName.lpszLongNameA = playerName;
+	dpName.dwFlags = 0; // not used, must be zero
+	dpName.lpszLongNameA = (char*)malloc(256);
+	dpName.lpszShortNameA = (char*)malloc(256);
+	updatePlayerName(playerName); //don't set debug to true before this
 
 	if(debug){
 		clock_t tClock = clock();
@@ -83,6 +65,16 @@ JDPlay::JDPlay(char* playerName, int maxSearchRetries, bool debug){
 	}
 }
 
+JDPlay::~JDPlay(){
+
+	deInitialize();
+
+	if(debug){
+		clock_t tClock = clock();
+		cout << "[DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] -- destructed --" << endl;
+		fflush(stdout);
+	}
+}
 
 bool JDPlay::initialize(char* gameGUID, char* hostIP, bool isHost){
 
@@ -311,11 +303,18 @@ bool JDPlay::initialize(char* gameGUID, char* hostIP, bool isHost){
 }
 
 void JDPlay::updatePlayerName(char* playerName){
-	dpName.lpszShortNameA = playerName;
-	dpName.lpszLongNameA = playerName;
+	if(strlen(playerName) > 256){
+		if(debug){
+			cout << "[WARNING] playername is too long, cutting at 255 chars" << endl;
+		}
+		playerName[256] = '\0';
+	}
+
+	strcpy(dpName.lpszShortNameA, playerName);
+	strcpy(dpName.lpszLongNameA, playerName);
 	
 	if(debug){
-		cout << "[DEBUG] updated playername to \"" << playerName << "\"" << endl;
+		cout << "[DEBUG] set playername to \"" << playerName << "\"" << endl;
 	}
 }
 
@@ -511,6 +510,32 @@ bool JDPlay::launch(bool searchForSession){
 	return true;
 }
 
+void JDPlay::updateFoundSessionDescription(LPCDPSESSIONDESC2 lpFoundSD){
+	//so that dplay also joins sessions created ingame
+	dpSessionDesc.dwSize = lpFoundSD->dwSize;
+	dpSessionDesc.dwFlags = lpFoundSD->dwFlags;
+	dpSessionDesc.guidInstance = lpFoundSD->guidInstance;
+	dpSessionDesc.guidApplication = lpFoundSD->guidApplication;
+	dpSessionDesc.dwMaxPlayers = lpFoundSD->dwMaxPlayers;
+	dpSessionDesc.dwCurrentPlayers = lpFoundSD->dwCurrentPlayers;
+	dpSessionDesc.dwReserved1 = lpFoundSD->dwReserved1;
+	dpSessionDesc.dwReserved2 = lpFoundSD->dwReserved2;
+	dpSessionDesc.dwUser1 = lpFoundSD->dwUser1;
+	dpSessionDesc.dwUser2 = lpFoundSD->dwUser2;
+	dpSessionDesc.dwUser3 = lpFoundSD->dwUser3;
+	dpSessionDesc.dwUser4 = lpFoundSD->dwUser4;
+	dpSessionDesc.lpszSessionName = lpFoundSD->lpszSessionName;
+	dpSessionDesc.lpszSessionNameA = lpFoundSD->lpszSessionNameA;
+	dpSessionDesc.lpszPassword = lpFoundSD->lpszPassword;
+	dpSessionDesc.lpszPasswordA = lpFoundSD->lpszPasswordA;
+
+	foundLobby = true;
+}
+
+JDPlay* JDPlay::getInstance(){
+	return instance;
+}
+
 void JDPlay::deInitialize(){
 	time_t tStart = NULL;
 
@@ -580,17 +605,6 @@ void JDPlay::deInitialize(){
 	}
 
 	isInitialized = false;
-}
-
-JDPlay::~JDPlay(){
-
-	deInitialize();
-
-	if(debug){
-		clock_t tClock = clock();
-		cout << "[DEBUG@obj@sec:" << (tClock/CLOCKS_PER_SEC) << "] -- destructed --" << endl;
-		fflush(stdout);
-	}
 }
 
 char* JDPlay::getDPERR(HRESULT hr){

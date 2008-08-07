@@ -41,7 +41,7 @@ JNIEXPORT jlong JNICALL Java_jdplay_JDPlay__1_1c0(JNIEnv* __env, jobject __jobj,
 	const char* __TgameGUID = gameGUID == 0 ? NULL : __env->GetStringUTFChars(gameGUID, NULL);
 	const char* __ThostIP = hostIP == 0 ? NULL : __env->GetStringUTFChars(hostIP, NULL);
 	JDPlay* __obj = new JDPlay((char*)__TplayerName, (char*)__TgameGUID, (char*)__ThostIP, (bool)iamhost, (bool)enableDebug);
-	//if (playerName != 0) __env->ReleaseStringUTFChars(playerName, __TplayerName); //Don't uncomment, playername will be missing ingame!
+	if (playerName != 0) __env->ReleaseStringUTFChars(playerName, __TplayerName); //Don't uncomment, playername will be missing ingame!
 	if (gameGUID != 0) __env->ReleaseStringUTFChars(gameGUID, __TgameGUID);
 	if (hostIP != 0) __env->ReleaseStringUTFChars(hostIP, __ThostIP);
 	return (jlong) __obj;

@@ -41,36 +41,41 @@
 
 using namespace std;
 
-//Don't know how to make it a member function of JDPlay
 BOOL FAR PASCAL EnumSessionsCallback(LPCDPSESSIONDESC2 lpThisSD, LPDWORD lpdwTimeOut, DWORD dwFlags, LPVOID lpContext);
 
 class JDPlay{
-	public:
-		static DPSESSIONDESC2	dpSessionDesc;		// session description
-		static DPLCONNECTION	dpConn;				// connection description
-		static bool				foundLobby;
 	private:
+		static JDPlay*			instance;		// needed for callback function to access a method
+
 		bool					debug;
 		int						curRetry;
 		int						maxSearchRetries;
+		bool					foundLobby;
 		bool					isInitialized;
 		bool					lpDPIsOpen;
-		LPDIRECTPLAY3A			lpDP;        // directplay interface pointer
-		LPDIRECTPLAYLOBBY3A		lpDPLobby;   // lobby interface pointer
+
+		LPDIRECTPLAY3A			lpDP;			// directplay interface pointer
+		LPDIRECTPLAYLOBBY3A		lpDPLobby;		// lobby interface pointer
 		
-		DPNAME					dpName;				// player description
-		
-		DPID					dPid;				// player ID (currently unused)
-		DWORD					appID;				// game process ID
-		DWORD					sessionFlags;	//either Host or Join Session
-		DWORD					playerFlags;	//either Host or not
+		DPNAME					dpName;			// player description
+		DPSESSIONDESC2			dpSessionDesc;	// session description
+		DPLCONNECTION			dpConn;			// connection description
+
+		DPID					dPid;			// player ID (currently unused)
+		DWORD					appID;			// game process ID
+		DWORD					sessionFlags;	// either Host or Join Session
+		DWORD					playerFlags;	// either Host or not
 
 	public:
 		JDPlay(char* playerName, int maxSearchRetries, bool debug);
-		bool initialize(char* gameGUID, char* hostIP, bool isHost);
-		void updatePlayerName(char* playerName);
-		bool launch(bool searchForSession);
 		~JDPlay();
+
+		void updatePlayerName(char* playerName);
+		bool initialize(char* gameGUID, char* hostIP, bool isHost);
+		bool launch(bool searchForSession);
+		
+		void updateFoundSessionDescription(LPCDPSESSIONDESC2 lpFoundSD); //has to be public for the callback function
+		static JDPlay* getInstance(); //makes the object available to the callback function
 	private:
 		void deInitialize();
 		char* getDPERR(HRESULT hr);
