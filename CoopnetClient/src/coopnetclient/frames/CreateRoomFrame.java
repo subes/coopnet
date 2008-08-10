@@ -22,6 +22,8 @@ import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.utils.gamedatabase.GameSetting;
+import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 
 public class CreateRoomFrame extends javax.swing.JFrame {
@@ -57,8 +59,8 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         if (modnames.length > 0 && modindex > 0) {
             modname = modnames[modindex].toString();
         }
-        String settings = GameDatabase.getGameSettings(channel, modname);
-        if (settings == null || settings.length() == 0) {
+        ArrayList<GameSetting> settings = GameDatabase.getGameSettings(channel, modname);
+        if (settings == null || settings.size() == 0) {
             btn_create.setText("Launch");
         } else {
             btn_create.setText("Setup & Launch");

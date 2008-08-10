@@ -33,7 +33,9 @@ import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.modules.renderers.RoomStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.listeners.HyperlinkMouseListener;
+import coopnetclient.utils.gamedatabase.GameSetting;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.SwingUtilities;
 import javax.swing.text.StyledDocument;
@@ -91,8 +93,8 @@ public class RoomPanel extends javax.swing.JPanel {
 
         initLauncher();
 
-        String settings = GameDatabase.getGameSettings(channel, modname);
-        if (settings == null || settings.length() == 0) {
+        ArrayList<GameSetting> settings = GameDatabase.getGameSettings(channel, modname);
+        if (settings == null || settings.size() == 0) {
             btn_gameSettings.setVisible(false);
         }
     }

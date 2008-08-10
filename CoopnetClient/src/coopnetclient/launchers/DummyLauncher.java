@@ -52,40 +52,14 @@ public class DummyLauncher implements Launcher {
     }
 
     @Override
-    public void setGameMode(String mode) {
-    }
-
-    @Override
     public void setMap(String map) {
     }
-
-    @Override
-    public void setTimelimit(int limit) {
-    }
-
-    @Override
-    public void setPort(int port) {
-    }
-
-    @Override
-    public String getGameMode() {
-        return "";
-    }
-
+   
     @Override
     public String getMap() {
         return "";
     }
 
-    @Override
-    public int getTimelimit() {
-        return 0;
-    }
-
-    @Override
-    public int getPort() {
-        return 0;
-    }
 
     @Override
     public boolean isLaunchable(String gamename) {
@@ -116,24 +90,7 @@ public class DummyLauncher implements Launcher {
     public void setMod(String mod) {
     }
 
-    @Override
-    public int getBots() {
-        return 0;
-    }
-
-    @Override
-    public void setBots(int bots) {
-    }
-
-    @Override
-    public int getGoalScore() {
-        return 0;
-    }
-
-    @Override
-    public void setGoalScore(int score) {
-    }
-
+   
     @Override
     public void stop() {
     }
@@ -141,4 +98,8 @@ public class DummyLauncher implements Launcher {
     public boolean isInitialised() {
         return true;
     }
+     @Override
+    public void setSetting(String settingname, String value){
+     
+     }
 }

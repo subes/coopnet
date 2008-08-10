@@ -120,10 +120,6 @@ public class GameDatabase {
         return null;
     }
 
-    public static int getDefPort(String gamename, String modname) {
-        return gameData.get(indexOfGame(gamename)).getDefPort(modname);
-    }
-
     public static String readRegistry(String fullpath) {
         if (registryOK) {
             try {
@@ -140,11 +136,11 @@ public class GameDatabase {
         return "";
     }
 
-    public static void setGameSettings(String gamename, String settings) {
-        gameData.get(indexOfGame(gamename)).setGameSettings(settings);
+    public static void setGameSettings(String gamename, String modname, ArrayList<GameSetting> settings) {
+        gameData.get(indexOfGame(gamename)).setGameSettings(modname,settings);
     }
 
-    public static String getGameSettings(String gamename, String modname) {
+    public static ArrayList<GameSetting> getGameSettings(String gamename, String modname) {
         return gameData.get(indexOfGame(gamename)).getGameSettings(modname);
     }
 
@@ -191,15 +187,7 @@ public class GameDatabase {
     public static void setLocalInstallPath(String gamename, String path) {
         localinstallpath.put(gamename, path);
     }
-
-    public static void setGameModes(String gamename, String allgamemodes) {
-        gameData.get(indexOfGame(gamename)).setGameModes(allgamemodes);
-    }
-
-    public static String getGameModes(String gamename, String modname) {
-        return gameData.get(indexOfGame(gamename)).getGameModes(modname);
-    }
-
+    
     public static Object[] gameNames() {
         return IDtoGameName.values().toArray(new String[0]);
     }
@@ -253,91 +241,6 @@ public class GameDatabase {
         return gameData.get(indexOfGame(gamename)).getGuid(modname);
     }
 
-    public static void save() {
-        PrintWriter pw = null;
-        try {
-            pw = new PrintWriter(new FileWriter(datafilepath));
-        } catch (Exception ex) {
-            System.out.println("Could not save gamedatabase");
-        }
-        //save version
-        pw.println((version) + "");
-
-        for (Game eachgame : gameData) {
-            //start symbol
-            pw.println("{");
-            String tmp;
-            //save data
-            pw.println("NAME=" + eachgame.getGameName());
-            pw.flush();
-            if (isBeta(eachgame.getGameName())) {
-                pw.println("beta");
-                pw.flush();
-            }
-
-            pw.println("ID=" + IDofGame(eachgame.getGameName()));
-            pw.flush();
-
-            pw.println("LAUNCHMETHOD=" + eachgame.getLaunchMethod(null));
-            pw.flush();
-            tmp = eachgame.getGuid(null);
-            if (tmp != null && tmp.length() > 0) {
-                pw.println("GUID=" + tmp);
-                pw.flush();
-            }
-            tmp = eachgame.getHostPattern(null);
-            if (tmp != null && tmp.length() > 0) {
-                pw.println("LAUNCHPATTERN=" + tmp);
-                pw.flush();
-            }
-            tmp = eachgame.getJoinPattern(null);
-            if (tmp != null && tmp.length() > 0) {
-                pw.println("JOINPATTERN=" + tmp);
-                pw.flush();
-            }
-            tmp = eachgame.getRegEntry(null);
-            if (tmp != null && tmp.length() > 0) {
-                pw.println("REGENTRY=" + tmp);
-                pw.flush();
-            }
-            tmp = eachgame.getRelativeExePath(null);
-            if (tmp != null && tmp.length() > 0) {
-                pw.println("EXE=" + tmp);
-                pw.flush();
-            }
-            tmp = eachgame.getGameModes(null);
-            if (tmp != null && tmp.length() > 0) {
-                pw.println("GAMEMODES=" + tmp);
-                pw.flush();
-            }
-            tmp = eachgame.getMapPath(null);
-            if (tmp != null && tmp.length() > 0) {
-                pw.println("MAPPATH=" + tmp);
-                pw.flush();
-            }
-            tmp = eachgame.getMapExtension(null);
-            if (tmp != null && tmp.length() > 0) {
-                pw.println("MAPEXT=" + tmp);
-                pw.flush();
-            }
-            tmp = eachgame.getGameSettings(null);
-            if (tmp != null && tmp.length() > 0) {
-                pw.println("SETTINGS=" + tmp);
-                pw.flush();
-            }
-            Integer tmp1 = eachgame.getDefPort(null);
-            if (tmp1 != null) {
-                pw.println("DEFPORT=" + tmp1);
-                pw.flush();
-            }
-            //end symbol
-            pw.println("}");
-            pw.flush();
-        }
-        pw.close();
-        System.out.println("game database saved");
-    }
-
     public static void loadVersion() {
         BufferedReader br = null;
         try {
@@ -357,7 +260,6 @@ public class GameDatabase {
 
     public static void load(String gamename) {
         if (indexOfGame(gamename) != -1) { //dont load if already loaded
-
             return;
         }
         Game currentgame = new Game();
@@ -413,11 +315,16 @@ public class GameDatabase {
 
                 case 1: {//reading data
 
-                    if (input.equals("[")) {
+                    if (input.equals("MODS:[")) {
                         state = 2;
                         currentmod = new Game();
                         continue;
-                    } else if (input.startsWith("beta")) {
+                    }else
+                    if (input.equals("SETTINGS:(")) {
+                        state = 3;
+                        continue;
+                    }
+                    else if (input.startsWith("beta")) {
                         beta = true;
                     } else if (input.startsWith("ID=")) {
                         _ID = input.substring(3);
@@ -437,14 +344,36 @@ public class GameDatabase {
                     }
                     break;
                 }
-                case 2: {
+                case 2: {//read mods
                     if (input.equals("]")) {
                         currentgame.addMod(currentmod);
                         currentmod = null;
                         state = 1;
                         continue;
-                    } else {
+                    }else
+                    if (input.equals("SETTINGS:(")) {
+                        state = 4;
+                        continue;
+                    }else {
                         BuildGameData(currentmod, input);
+                    }
+                    break;
+                }
+                case 3:{//read settings
+                    if (input.equals(")")) {
+                        state = 1;
+                        continue;
+                    } else {
+                        buildSettingData(currentgame, input);
+                    }
+                    break;
+                }
+                case 4:{//read settings for mods
+                    if (input.equals(")")) {
+                        state = 2;
+                        continue;
+                    } else {
+                        buildSettingData(currentmod, input);
                     }
                     break;
                 }
@@ -457,6 +386,44 @@ public class GameDatabase {
         System.out.println("game database loaded");
     }
 
+    private static void buildSettingData(Game currentdata, String input){
+        String[] parts = input.split("\\^");
+        String name;
+        boolean shared = false;
+        if(parts[0].startsWith("shared:")){
+            name = parts[0].substring(7);
+            shared = true;
+        }else{
+            name = parts[0];
+        }
+        
+        GameSetting setting = new GameSetting(shared,name,Integer.valueOf(parts[1]),parts[2],parts.length>3?parts[3]:"");
+        switch(Integer.valueOf(parts[1])){
+            case GameSetting.COMBOBOX_TYPE:{
+                ArrayList<String> names = new ArrayList<String>();
+                ArrayList<String> values = new ArrayList<String>();
+                for(int i = 4;i < parts.length; i++ ){
+                    String key = parts[i].substring(0,parts[i].indexOf("="));
+                    String value = parts[i].substring(parts[i].indexOf("=")+1);
+                    names.add(key);
+                    values.add(value);                    
+                }
+                setting.setComboboxSelectNames(names);
+                setting.setComboboxValues(values);
+                break;
+            }
+            case GameSetting.SPINNER_TYPE:{
+                if(parts.length>5){
+                    setting.setMinValue(Integer.valueOf(parts[4]));
+                    setting.setMaxValue(Integer.valueOf(parts[5]));
+                }
+                break;
+            }
+        }
+        
+        currentdata.addSetting(setting);
+    }
+    
     private static Game BuildGameData(Game currentdata, String input) {
         if (input.startsWith("NAME=")) {
             currentdata.setGameName(input.substring(5));
@@ -472,17 +439,11 @@ public class GameDatabase {
             currentdata.setRegEntry(input.substring(9));
         } else if (input.startsWith("EXE=")) {
             currentdata.setRelativeExePath(input.substring(4));
-        } else if (input.startsWith("GAMEMODES=")) {
-            currentdata.setGameModes(input.substring(10));
         } else if (input.startsWith("MAPPATH=")) {
             currentdata.setMapPath(input.substring(8));
         } else if (input.startsWith("MAPEXT=")) {
             currentdata.setMapExtension(input.substring(7));
-        } else if (input.startsWith("SETTINGS=")) {
-            currentdata.setGameSettings(input.substring(9));
-        } else if (input.startsWith("DEFPORT=")) {
-            currentdata.setDefPort(input.substring(8));
-        }else if (input.startsWith("InstantLaunchable")) {
+        } else if (input.startsWith("InstantLaunchable")) {
             currentdata.setInstantLauncable(true);
         }
         return currentdata;

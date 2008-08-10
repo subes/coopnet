@@ -23,7 +23,9 @@ import coopnetclient.*;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.clientframe.panels.RoomPanel;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.utils.gamedatabase.GameSetting;
 import java.io.IOException;
+import java.util.ArrayList;
 import jdplay.JDPlay;
 
 public class WindowsLauncher implements Launcher {
@@ -37,14 +39,10 @@ public class WindowsLauncher implements Launcher {
     private String gameIdentifier;
     private boolean compatible;
     private boolean compatibleForced;
-    private int maxPlayers;
-    private String gameMode;
     private String map;
+    private ArrayList<GameSetting> settings;
     private String modName;
-    private int timeLimit = 0;
-    private int port;
-    private int bots = 0;
-    private int goalScore = 0;
+    
 
     public WindowsLauncher() {
     }
@@ -57,18 +55,17 @@ public class WindowsLauncher implements Launcher {
         }
         this.ip = ip;
 
-        this.maxPlayers = maxPlayers == 0 ? 99 : maxPlayers;
+        settings = GameDatabase.getGameSettings(gameIdentifier, modname);
+        //reset settings
+        for(GameSetting setting :settings){
+            setting.reset();
+        }
+        this.modName = modname;
         this.compatible = compatible;
         this.launchMethod = GameDatabase.getLaunchMethod(gameIdentifier, modname);
         this.isHost = isHost;
-        this.modName = modname;
-        //reset fields
         map=null;
-        gameMode=null;
-        port= GameDatabase.getDefPort(gameIdentifier, modname);
-        bots=0;
-        goalScore = 0;
-
+        
         switch (launchMethod) {
             case GameDatabase.LAUNCHMETHOD_DIRECTPLAY: {
                 compatibleForced = false;
@@ -84,7 +81,6 @@ public class WindowsLauncher implements Launcher {
             }
             case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING: {
                 this.gameIdentifier = gameIdentifier;
-                this.port = GameDatabase.getDefPort(gameIdentifier, modname);
                 //isInitialized = true;
                 if (!isHost) {
                     RoomPanel currentroom = TabOrganizer.getRoomPanel();
@@ -150,22 +146,13 @@ public class WindowsLauncher implements Launcher {
         //insert data into pattern
         callerstring = callerstring.replace("{HOSTIP}", ip);
         callerstring = callerstring.replace("{NAME}", Globals.getThisPlayer_inGameName());
-
-        callerstring = callerstring.replace("{MAXPLAYERS}", maxPlayers + "");
         if (map != null) {
             callerstring = callerstring.replace("{MAP}", map);
         }
-        if (gameMode != null) {
-            callerstring = callerstring.replace("{GAMEMODE}", gameMode);
+        //replace settings text with actual values
+        for(GameSetting gs:settings){
+            callerstring = callerstring.replace(gs.getKeyWord(),gs.getValue());
         }
-        callerstring = callerstring.replace("{PORT}", port + "");
-
-        callerstring = callerstring.replace("{BOTS}", bots + "");
-
-        callerstring = callerstring.replace("{GOALSCORE}", goalScore + "");
-
-        callerstring = callerstring.replace("{TIMELIMIT}", timeLimit + "");
-        //other fields to parse?
 
         System.out.println(callerstring);
 
@@ -220,43 +207,13 @@ public class WindowsLauncher implements Launcher {
     }
 
     @Override
-    public void setGameMode(String mode) {
-        gameMode = mode;
-    }
-
-    @Override
     public void setMap(String map) {
         this.map = map;
     }
 
     @Override
-    public void setTimelimit(int limit) {
-        timeLimit = limit;
-    }
-
-    @Override
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    @Override
-    public String getGameMode() {
-        return gameMode;
-    }
-
-    @Override
     public String getMap() {
         return this.map;
-    }
-
-    @Override
-    public int getTimelimit() {
-        return timeLimit;
-    }
-
-    @Override
-    public int getPort() {
-        return this.port;
     }
 
     @Override
@@ -335,27 +292,17 @@ public class WindowsLauncher implements Launcher {
         modName = newmod;
     }
 
-    @Override
-    public int getBots() {
-        return bots;
-    }
-
-    @Override
-    public void setBots(int bots) {
-        this.bots = bots;
-    }
-
-    @Override
-    public int getGoalScore() {
-        return goalScore;
-    }
-
-    @Override
-    public void setGoalScore(int score) {
-        goalScore = score;
-    }
-
     public boolean isInitialised() {
         return launcherInitialised;
+    }
+    
+    @Override
+    public void setSetting(String settingname, String value){
+        for(GameSetting setting :settings){
+            if(setting.getName().equals(settingname)){
+                setting.setValue(value);
+                return;
+            }
+        }
     }
 }

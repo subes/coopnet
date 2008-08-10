@@ -23,7 +23,9 @@ import coopnetclient.launchers.handlers.DPlayExeHandler;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.*;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.utils.gamedatabase.GameSetting;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class LinuxLauncher implements Launcher {
 
@@ -35,15 +37,10 @@ public class LinuxLauncher implements Launcher {
     private String gameIdentifier;
     private String modName;
     private boolean compatible;
-    private int maxPlayers;
-    private String gameMode;
     private String map;
-    private int timeLimit = 0;
-    private int port;
-    private int bots = 0;
-    private int goalScore = 0;
     private DPlayExeHandler dplay;
-
+    private ArrayList<GameSetting> settings;
+    
     @Override
     public void initialize(String gameIdentifier, String modname, boolean isHost, String ip, boolean compatible, int maxPlayers) {
         launcherIsInitialised = false;
@@ -51,10 +48,8 @@ public class LinuxLauncher implements Launcher {
             ip = ip.substring(1);
         }
         this.modName = modname;
-
+        settings = GameDatabase.getGameSettings(gameIdentifier, modname);
         this.ip = ip;
-        this.port = GameDatabase.getDefPort(gameIdentifier, modname);
-        this.maxPlayers = maxPlayers == 0 ? 99 : maxPlayers;
         this.compatible = compatible;
         this.launchMethod = GameDatabase.getLaunchMethod(gameIdentifier, modname);
         this.isHost = isHost;
@@ -121,19 +116,13 @@ public class LinuxLauncher implements Launcher {
         //insert data into pattern
         callerstring = callerstring.replace("{HOSTIP}", ip);
         callerstring = callerstring.replace("{NAME}", Globals.getThisPlayer_inGameName());
-        callerstring = callerstring.replace("{MAXPLAYERS}", maxPlayers + "");
         if (map != null) {
             callerstring = callerstring.replace("{MAP}", map);
         }
-        if (gameMode != null) {
-            callerstring = callerstring.replace("{GAMEMODE}", gameMode);
+        //replace settings text with actual values
+        for(GameSetting gs:settings){
+            callerstring = callerstring.replace(gs.getKeyWord(),gs.getValue());
         }
-        callerstring = callerstring.replace("{PORT}", port + "");
-        callerstring = callerstring.replace("{BOTS}", bots + "");
-        callerstring = callerstring.replace("{GOALSCORE}", goalScore + "");
-        callerstring = callerstring.replace("{TIMELIMIT}", timeLimit + "");
-        //other fields to parse?        
-
         System.out.println(callerstring);
 
         //run
@@ -186,43 +175,13 @@ public class LinuxLauncher implements Launcher {
     }
 
     @Override
-    public void setGameMode(String mode) {
-        gameMode = mode;
-    }
-
-    @Override
     public void setMap(String map) {
         this.map = map;
     }
 
     @Override
-    public void setTimelimit(int limit) {
-        timeLimit = limit;
-    }
-
-    @Override
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    @Override
-    public String getGameMode() {
-        return gameMode;
-    }
-
-    @Override
     public String getMap() {
         return this.map;
-    }
-
-    @Override
-    public int getTimelimit() {
-        return timeLimit;
-    }
-
-    @Override
-    public int getPort() {
-        return this.port;
     }
 
     @Override
@@ -280,28 +239,19 @@ public class LinuxLauncher implements Launcher {
       public void setMod(String newmod) {
         modName = newmod;
     }
-
+    
     @Override
-  public int getBots() {
-        return bots;
-    }
-
-    @Override
-    public void setBots(int bots) {
-        this.bots = bots;
-    }
-
-    @Override
-    public int getGoalScore() {
-        return goalScore;
-    }
-
-    @Override
-    public void setGoalScore(int score) {
-        goalScore = score;
-    }
-
     public boolean isInitialised() {
         return  launcherIsInitialised;
+    }
+    
+    @Override
+    public void setSetting(String settingname, String value){
+        for(GameSetting setting :settings){
+            if(setting.getName().equals(settingname)){
+                setting.setValue(value);
+                return;
+            }
+        }
     }
 }

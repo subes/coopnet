@@ -32,34 +32,14 @@ public interface Launcher {
     public void stop();
     
     public void setIngameName(String name);
-    
-    public void setGameMode(String mode);
-    
+       
     public void setMap(String map);
-    
-    public void setTimelimit(int limit);    
-    
-    public String getGameMode();
-    
+        
     public String getMap();
     
     public String getMod();
     
     public void setMod(String mod);
-    
-    public int getTimelimit();
-    
-    public int getPort();
-    
-    public void setPort(int port);
-    
-    public int getBots();
-    
-    public void setBots(int bots);
-    
-    public int getGoalScore();
-    
-    public void setGoalScore(int score);
     
     public boolean isLaunchable(String gamename);
     
@@ -68,4 +48,6 @@ public interface Launcher {
     public String getInstallPath(String gamename);
     
     public String getFullMapPath(String gamename);
+    
+    public void setSetting(String settingname, String value);
 }

@@ -114,10 +114,10 @@ public class CommandHandler {
                 input = input.substring(7);
             }
 
-            if (input.startsWith("setport ")) {
-                int port = new Integer(input.substring(8));
-                if (TabOrganizer.getRoomPanel() != null) {
-                    Globals.getLauncher().setPort(port);
+            if (input.startsWith("gamesetting")) {
+                String[] setting = input.substring(11).split("=");
+                if(Globals.getLauncher()!=null){
+                    Globals.getLauncher().setSetting(setting[0],setting[1]);                
                 }
             } else if (input.startsWith("setmod ")) {
                 String mod = input.substring(7);

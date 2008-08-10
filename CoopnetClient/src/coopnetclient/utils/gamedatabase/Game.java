@@ -27,11 +27,13 @@ public class Game {
     private String name;
     private HashMap<String, String> fields;
     private ArrayList<Game> mods;
+    private ArrayList<GameSetting> settings;
 
     public Game() {
         name = "";
         fields = new HashMap<String, String>();
         mods = new ArrayList<Game>();
+        settings = new ArrayList<GameSetting>();
     }
 
     @Override
@@ -61,6 +63,10 @@ public class Game {
         return -1;
     }
 
+    public void addSetting(GameSetting setting){
+        settings.add(setting);
+    }
+    
     public void addMod(Game mod) {
         mods.add(mod);
     }
@@ -126,25 +132,23 @@ public class Game {
             fields.remove("InstantLaunchable");
         }
     }
-    
-    public int getDefPort(String modname) {
-        try{
-            return new Integer(getValue("DEFPORT", modname));
-        }catch(NumberFormatException ex){
-            return -1;
+
+    public ArrayList<GameSetting> getGameSettings(String modname) {
+        if(modname == null || modname.length()==0){
+            return   settings;
         }
+        else{
+            return mods.get(indexOfMod(modname)).settings;
+        }        
     }
-
-    public void setDefPort(String value) {
-        fields.put("DEFPORT", value);
-    }
-
-    public String getGameSettings(String modname) {
-        return getValue("SETTINGS", modname);
-    }
-
-    public void setGameSettings(String value) {
-        fields.put("SETTINGS", value);
+    
+    public void setGameSettings(String modname ,ArrayList<GameSetting> settings) {
+        if(modname == null || modname.length()==0){
+            this.settings = settings;  
+        }
+        else{
+            mods.get(indexOfMod(modname)).settings = settings;
+        }        
     }
 
     public String getMapPath(String modname) {
@@ -169,14 +173,6 @@ public class Game {
 
     public void setRelativeExePath(String value) {
         fields.put("EXE", value);
-    }
-
-    public String getGameModes(String modname) {
-        return getValue("GAMEMODES", modname);
-    }
-
-    public void setGameModes(String value) {
-        fields.put("GAMEMODES", value);
     }
 
     public String getHostPattern(String modname) {

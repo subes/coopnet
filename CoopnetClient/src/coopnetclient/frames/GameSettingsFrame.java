@@ -26,7 +26,6 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Vector;
-import javax.swing.DefaultComboBoxModel;
 
 public class GameSettingsFrame extends javax.swing.JFrame {
 
@@ -89,69 +88,12 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }
 
     private void customize() {
-        String tmp = GameDatabase.getGameSettings(gamename, modname);
-        if (tmp == null) {
-            return;
-        }
-        String fields[] = tmp.split(";");
-        for (String field : fields) {
-            //enabling required fields:
-            if (field.equals("bots")) {
-                lbl_bots.setVisible(true);
-                spn_bots.setVisible(true);
-                spn_bots.setValue(Globals.getLauncher().getBots());
-                fieldcount++;
-            }
-            if (field.equals("goalscore")) {
-                lbl_scoreLimit.setVisible(true);
-                spn_scoreLimit.setVisible(true);
-                spn_scoreLimit.setValue(Globals.getLauncher().getGoalScore());
-                fieldcount++;
-            }
-            if (field.equals("map")) {
-                cb_map.setModel(new DefaultComboBoxModel(loadMaps()));
-                lbl_map.setVisible(true);
-                cb_map.setVisible(true);
-                cb_map.setSelectedItem(Globals.getLauncher().getMap());
-                fieldcount++;
-            }
-            if (field.equals("port")) {
-                lbl_port.setVisible(true);
-                tf_port.setVisible(true);
-                tf_port.setText(Globals.getLauncher().getPort() + "");
-                fieldcount++;
-            }
-            if (field.equals("timelimit")) {
-                lbl_timeLimit.setVisible(true);
-                spn_timeLimit.setVisible(true);
-                spn_timeLimit.setValue(Globals.getLauncher().getTimelimit());
-                fieldcount++;
-            }
-            if (field.equals("gamemode")) {
-                cb_mode.setModel(new DefaultComboBoxModel(getGameModes()));
-                lbl_mode.setVisible(true);
-                cb_mode.setVisible(true);
-                cb_mode.setSelectedItem(KeyOfValue(Globals.getLauncher().getGameMode()));
-                fieldcount++;
-            }
-        //end of field enabling loop
-        }
+        //add setting components to frame and internal lists
     }
 
     private String[] getGameModes() {
         Vector<String> modenames = new Vector<String>();
-        String tmp = GameDatabase.getGameModes(gamename, modname);
-        if (tmp == null) {
-            return null;
-        }
-        String tmp2[] = tmp.split(";");
-        for (String s : tmp2) {
-            String tmp3[] = s.split("#");
-            String code = tmp3[0];
-            String name = tmp3[1];
-            modenames.add(name);
-            gamemodes.put(name, code);
-        }
+        //...
         return modenames.toArray(new String[0]);
     }
 
@@ -184,6 +126,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         btn_save = new javax.swing.JButton();
         pnl_settings = new javax.swing.JPanel();
@@ -215,98 +158,117 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         });
 
         pnl_settings.setBorder(javax.swing.BorderFactory.createTitledBorder("Game settings"));
+        pnl_settings.setLayout(new java.awt.GridBagLayout());
 
+        lbl_mode.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_mode.setText("Mode:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.ipadx = 40;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnl_settings.add(lbl_mode, gridBagConstraints);
 
         cb_mode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        pnl_settings.add(cb_mode, gridBagConstraints);
 
+        lbl_map.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_map.setText("Map:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 40;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnl_settings.add(lbl_map, gridBagConstraints);
 
         cb_map.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        pnl_settings.add(cb_map, gridBagConstraints);
 
+        lbl_timeLimit.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_timeLimit.setText("Time limit:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 40;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnl_settings.add(lbl_timeLimit, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        pnl_settings.add(spn_timeLimit, gridBagConstraints);
 
+        lbl_scoreLimit.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_scoreLimit.setText("Score limit:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.ipadx = 40;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnl_settings.add(lbl_scoreLimit, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        pnl_settings.add(spn_scoreLimit, gridBagConstraints);
 
+        lbl_bots.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_bots.setText("Bots:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.ipadx = 40;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnl_settings.add(lbl_bots, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        pnl_settings.add(spn_bots, gridBagConstraints);
 
         tf_port.setMaximumSize(new java.awt.Dimension(30, 20));
         tf_port.setMinimumSize(new java.awt.Dimension(30, 20));
         tf_port.setPreferredSize(new java.awt.Dimension(30, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        pnl_settings.add(tf_port, gridBagConstraints);
 
+        lbl_port.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_port.setText("Port:");
-
-        javax.swing.GroupLayout pnl_settingsLayout = new javax.swing.GroupLayout(pnl_settings);
-        pnl_settings.setLayout(pnl_settingsLayout);
-        pnl_settingsLayout.setHorizontalGroup(
-            pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_settingsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_settingsLayout.createSequentialGroup()
-                        .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_mode)
-                            .addComponent(lbl_map))
-                        .addGap(39, 39, 39)
-                        .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cb_map, 0, 299, Short.MAX_VALUE)
-                            .addComponent(cb_mode, 0, 299, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_settingsLayout.createSequentialGroup()
-                            .addComponent(lbl_timeLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(spn_timeLimit))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_settingsLayout.createSequentialGroup()
-                            .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lbl_port, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lbl_bots)
-                                .addComponent(lbl_scoreLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(spn_scoreLimit)
-                                .addComponent(spn_bots)
-                                .addComponent(tf_port, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)))))
-                .addContainerGap())
-        );
-        pnl_settingsLayout.setVerticalGroup(
-            pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_settingsLayout.createSequentialGroup()
-                .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_mode)
-                    .addComponent(cb_mode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_map)
-                    .addComponent(cb_map, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_timeLimit)
-                    .addComponent(spn_timeLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_scoreLimit)
-                    .addComponent(spn_scoreLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_bots)
-                    .addComponent(spn_bots, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_settingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_port)
-                    .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.ipadx = 40;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        pnl_settings.add(lbl_port, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnl_settings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnl_settings, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_save)
-                .addContainerGap(321, Short.MAX_VALUE))
+                .addContainerGap(359, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,31 +285,20 @@ public class GameSettingsFrame extends javax.swing.JFrame {
 private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
     //update the launcher
     try {
-        //if somethings unselected an exception is thrown
-        if (cb_mode.isVisible()) {
-            Globals.getLauncher().setGameMode(gamemodes.get(cb_mode.getSelectedItem().toString()));
-        }
+        //if somethings unselected an exception is thrown        
         if (cb_map.isVisible()) {
             Globals.getLauncher().setMap(cb_map.getSelectedItem().toString());
             System.out.println("map was set:"+cb_map.getSelectedItem().toString());
         }
-        if (tf_port.isVisible()) {
-            Globals.getLauncher().setPort(new Integer(tf_port.getText()));
-        }
-        if (spn_timeLimit.isVisible()) {
-            Globals.getLauncher().setTimelimit((Integer) spn_timeLimit.getValue());
-        }
-        if (spn_bots.isVisible()) {
-            Globals.getLauncher().setBots((Integer) spn_bots.getValue());
-        }
-        if (spn_scoreLimit.isVisible()) {
-            Globals.getLauncher().setGoalScore((Integer) spn_scoreLimit.getValue());
-        }
+        //save settings
+        //for(...)
+        
         if(!isInstant){
             TabOrganizer.getRoomPanel().enableButtons();
         }
+        //send all shared setting
         Client.send(Protocol.SendPort(new Integer(tf_port.getText())), null);
-        Globals.getLauncher().setPort(new Integer(tf_port.getText()));
+
         Globals.closeGameSettingsFrame();
     } catch (Exception e) {
         e.printStackTrace();
