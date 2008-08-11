@@ -69,10 +69,6 @@ public class Protocol {
                 + filename;
     }
 
-    public static String SendMod(String mod) {
-        return "setmod " + mod;
-    }
-
     public static String createRoom(String name, String modIndex, String password, String limit, boolean compatible, boolean instantLaunch) {
         return "create" + INFORMATION_DELIMITER 
                 + name + INFORMATION_DELIMITER 
@@ -84,8 +80,8 @@ public class Protocol {
                 + modIndex ;
     }
 
-    public static String SendPort(int port) {
-        return "setport " + port;
+    public static String SendSetting(String name,String value) {
+        return "setgamesetting" + name + INFORMATION_DELIMITER + value;
     }
 
     public static String SetSleep(boolean enabled) {

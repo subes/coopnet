@@ -35,6 +35,8 @@ public interface Launcher {
        
     public void setMap(String map);
         
+    public String getGameName();
+    
     public String getMap();
     
     public String getMod();

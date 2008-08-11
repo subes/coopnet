@@ -23,78 +23,130 @@ import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.utils.gamedatabase.GameSetting;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.io.File;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 public class GameSettingsFrame extends javax.swing.JFrame {
 
-    private int fieldcount = 0;
+    private ArrayList<JLabel> labels = new ArrayList<JLabel>();
+    private ArrayList<Component> inputfields = new ArrayList<Component>();
     private String gamename;
     private String modname;
-    private HashMap<String, String> gamemodes = new HashMap<String, String>();
-    private String roomname , password;
-    private int modindex, maxPlayers;
-    private boolean compatible,isInstant;
+    private String roomname,  password;
+    private int modindex,  maxPlayers;
+    private boolean compatible,  isInstant;
 
     /** Creates new form GameSettingsPanel */
     public GameSettingsFrame(String gamename, String modname) {
         initComponents();
         this.gamename = gamename;
         this.modname = modname;
-        hideAll();
-        customize();        
+        lbl_map.setVisible(false);
+        cb_map.setVisible(false);
+        customize();
     }
- 
+
     /** Creates new form GameSettingsPanel */
-    public GameSettingsFrame(String gamename, String modname , String name , String password, int modindex, int maxPlayers, boolean compatible) {
+    public GameSettingsFrame(String gamename, String modname, String name, String password, int modindex, int maxPlayers, boolean compatible) {
         initComponents();
         isInstant = true;
         this.gamename = gamename;
         this.modname = modname;
-        this.roomname = name ;
+        this.roomname = name;
         this.password = password;
         this.modindex = modindex;
         this.maxPlayers = maxPlayers;
         this.compatible = compatible;
         btn_save.setText("Launch");
-        hideAll();
         customize();
-    }
-    
-    private String KeyOfValue(String value) {
-        for (String s : gamemodes.keySet()) {
-            String val = gamemodes.get(s);
-            if (val.equals(value)) {
-                return s;
-            }
-        }
-        return null;
-    }
-
-    private void hideAll() {
-        tf_port.setVisible(false);
-        spn_timeLimit.setVisible(false);
-        lbl_timeLimit.setVisible(false);
-        lbl_port.setVisible(false);
-        lbl_map.setVisible(false);
-        lbl_mode.setVisible(false);
-        cb_mode.setVisible(false);
-        cb_map.setVisible(false);
-        lbl_bots.setVisible(false);
-        spn_bots.setVisible(false);
-        lbl_scoreLimit.setVisible(false);
-        spn_scoreLimit.setVisible(false);
+        pack();
     }
 
     private void customize() {
+        //setup map if needed
+        if (GameDatabase.getMapExtension(gamename, modname) != null) {
+            lbl_map.setVisible(true);
+            cb_map.setVisible(true);
+            cb_map.setModel(new DefaultComboBoxModel(loadMaps()));
+        }
         //add setting components to frame and internal lists
-    }
+        GridBagConstraints firstcolumn = new GridBagConstraints();
+        GridBagConstraints secondcolumn = new GridBagConstraints();
+        int rowindex = 1;
+        ArrayList<GameSetting> settings = GameDatabase.getGameSettings(gamename, modname);
+        //setup constraints
+        firstcolumn.gridwidth = 1;
+        firstcolumn.gridheight = 1;
+        firstcolumn.fill = GridBagConstraints.NONE;
+        firstcolumn.ipadx = 40;
+        firstcolumn.anchor = GridBagConstraints.EAST;
+        firstcolumn.weightx = 0;
+        firstcolumn.weighty = 0;
+        firstcolumn.insets = new Insets(5, 5, 5, 5);
+        firstcolumn.gridx = 0;
+        secondcolumn.gridwidth = 1;
+        secondcolumn.gridheight = 1;
+        secondcolumn.fill = GridBagConstraints.HORIZONTAL;
+        secondcolumn.ipadx = 0;
+        secondcolumn.anchor = GridBagConstraints.CENTER;
+        secondcolumn.weightx = 1.0;
+        secondcolumn.weighty = 0;
+        secondcolumn.insets = new Insets(5, 5, 5, 5);
+        secondcolumn.gridx = 1;
 
-    private String[] getGameModes() {
-        Vector<String> modenames = new Vector<String>();
-        //...
-        return modenames.toArray(new String[0]);
+        //add each setting
+        for (GameSetting gs : settings) {
+            firstcolumn.gridy = rowindex;
+            secondcolumn.gridy = rowindex;
+
+            JLabel label = new JLabel(gs.getName());
+            label.setHorizontalAlignment(JLabel.RIGHT);
+            Component input = null;
+            switch (gs.getType()) {
+                case GameSetting.TEXTFIELD_TYPE: {
+                    input = new JTextField(gs.getDefaultValue());
+                    break;
+                }
+                case GameSetting.SPINNER_TYPE: {
+                    int def = 0;
+                    def= Integer.valueOf(gs.getDefaultValue()==null?"0":gs.getDefaultValue());
+                    int min = Integer.valueOf(gs.getMinValue());
+                    int max = Integer.valueOf(gs.getMaxValue());
+                    input = new JSpinner(new SpinnerNumberModel(def, min, max, 1));
+                    break;
+                }
+                case GameSetting.COMBOBOX_TYPE: {
+                    input = new JComboBox(gs.getComboboxSelectNames().toArray());
+                    if (gs.getDefaultValue() != null && gs.getDefaultValue().length() > 0) {
+                        int idx = -1;
+                        idx = gs.getComboboxSelectNames().indexOf(gs.getDefaultValue());
+                        if (idx > -1) {
+                            ((JComboBox) input).setSelectedIndex(idx);
+                        }
+                    }
+                    break;
+                }
+
+            }
+            //add items to internal array
+            labels.add(label);
+            inputfields.add(input);
+            //add to panel
+            pnl_settings.add(label, firstcolumn);
+            pnl_settings.add(input, secondcolumn);
+            rowindex++;
+        }
     }
 
     private String[] loadMaps() {
@@ -130,18 +182,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
 
         btn_save = new javax.swing.JButton();
         pnl_settings = new javax.swing.JPanel();
-        lbl_mode = new javax.swing.JLabel();
-        cb_mode = new javax.swing.JComboBox();
         lbl_map = new javax.swing.JLabel();
         cb_map = new javax.swing.JComboBox();
-        lbl_timeLimit = new javax.swing.JLabel();
-        spn_timeLimit = new javax.swing.JSpinner();
-        lbl_scoreLimit = new javax.swing.JLabel();
-        spn_scoreLimit = new javax.swing.JSpinner();
-        lbl_bots = new javax.swing.JLabel();
-        spn_bots = new javax.swing.JSpinner();
-        tf_port = new javax.swing.JTextField();
-        lbl_port = new javax.swing.JLabel();
 
         setTitle("Game settings");
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -160,105 +202,24 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         pnl_settings.setBorder(javax.swing.BorderFactory.createTitledBorder("Game settings"));
         pnl_settings.setLayout(new java.awt.GridBagLayout());
 
-        lbl_mode.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbl_mode.setText("Mode:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.ipadx = 40;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-        pnl_settings.add(lbl_mode, gridBagConstraints);
-
-        cb_mode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        pnl_settings.add(cb_mode, gridBagConstraints);
-
         lbl_map.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_map.setText("Map:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.ipadx = 40;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnl_settings.add(lbl_map, gridBagConstraints);
 
         cb_map.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnl_settings.add(cb_map, gridBagConstraints);
-
-        lbl_timeLimit.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbl_timeLimit.setText("Time limit:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 40;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-        pnl_settings.add(lbl_timeLimit, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        pnl_settings.add(spn_timeLimit, gridBagConstraints);
-
-        lbl_scoreLimit.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbl_scoreLimit.setText("Score limit:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.ipadx = 40;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-        pnl_settings.add(lbl_scoreLimit, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        pnl_settings.add(spn_scoreLimit, gridBagConstraints);
-
-        lbl_bots.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbl_bots.setText("Bots:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipadx = 40;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-        pnl_settings.add(lbl_bots, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        pnl_settings.add(spn_bots, gridBagConstraints);
-
-        tf_port.setMaximumSize(new java.awt.Dimension(30, 20));
-        tf_port.setMinimumSize(new java.awt.Dimension(30, 20));
-        tf_port.setPreferredSize(new java.awt.Dimension(30, 20));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        pnl_settings.add(tf_port, gridBagConstraints);
-
-        lbl_port.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lbl_port.setText("Port:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.ipadx = 40;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-        pnl_settings.add(lbl_port, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -288,24 +249,35 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         //if somethings unselected an exception is thrown        
         if (cb_map.isVisible()) {
             Globals.getLauncher().setMap(cb_map.getSelectedItem().toString());
-            System.out.println("map was set:"+cb_map.getSelectedItem().toString());
+            System.out.println("map was set:" + cb_map.getSelectedItem().toString());
         }
         //save settings
-        //for(...)
-        
-        if(!isInstant){
+        String name,value = "save-error";
+        for(int i = 0;i < labels.size();i++){
+            name = labels.get(i).getText();
+            Component input = inputfields.get(i);
+            if(input instanceof JTextField){
+                value = ((JTextField)input).getText();
+            }else
+            if(input instanceof JSpinner){
+                value = ((JSpinner)input).getValue()+"";
+            }else
+            if(input instanceof JComboBox){                 
+                value =((JComboBox)input).getSelectedItem().toString();
+            }
+            Globals.getLauncher().setSetting(name, value);
+        }
+
+        if (!isInstant) {
             TabOrganizer.getRoomPanel().enableButtons();
         }
-        //send all shared setting
-        Client.send(Protocol.SendPort(new Integer(tf_port.getText())), null);
-
         Globals.closeGameSettingsFrame();
     } catch (Exception e) {
         e.printStackTrace();
     }
     if (btn_save.getText().equals("Launch")) {
-        Client.send(Protocol.createRoom(roomname, modindex + "", password, maxPlayers + "", compatible, true ), gamename);
-                    Globals.closeRoomCreationFrame();
+        Client.send(Protocol.createRoom(roomname, modindex + "", password, maxPlayers + "", compatible, true), gamename);
+        Globals.closeRoomCreationFrame();
         Client.instantLaunch(gamename, modindex, maxPlayers, compatible);
     }
 
@@ -317,17 +289,7 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_save;
     private javax.swing.JComboBox cb_map;
-    private javax.swing.JComboBox cb_mode;
-    private javax.swing.JLabel lbl_bots;
     private javax.swing.JLabel lbl_map;
-    private javax.swing.JLabel lbl_mode;
-    private javax.swing.JLabel lbl_port;
-    private javax.swing.JLabel lbl_scoreLimit;
-    private javax.swing.JLabel lbl_timeLimit;
     private javax.swing.JPanel pnl_settings;
-    private javax.swing.JSpinner spn_bots;
-    private javax.swing.JSpinner spn_scoreLimit;
-    private javax.swing.JSpinner spn_timeLimit;
-    private javax.swing.JTextField tf_port;
     // End of variables declaration//GEN-END:variables
 }

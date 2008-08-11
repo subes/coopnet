@@ -300,9 +300,13 @@ public class WindowsLauncher implements Launcher {
     public void setSetting(String settingname, String value){
         for(GameSetting setting :settings){
             if(setting.getName().equals(settingname)){
-                setting.setValue(value);
+                setting.setValue(value,isHost);
                 return;
             }
         }
+    }
+
+    public String getGameName() {
+        return gameIdentifier;
     }
 }

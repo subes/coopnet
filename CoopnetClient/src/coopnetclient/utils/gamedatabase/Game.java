@@ -142,6 +142,15 @@ public class Game {
         }        
     }
     
+    public void setGameSetting(String settingName,String settingValue,boolean broadcast){
+        for(GameSetting gs :settings){
+            if(gs.getName().equals(settingName)){
+                gs.setValue(settingValue,broadcast);
+                return;
+            }
+        }
+    }
+    
     public void setGameSettings(String modname ,ArrayList<GameSetting> settings) {
         if(modname == null || modname.length()==0){
             this.settings = settings;  

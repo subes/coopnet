@@ -102,4 +102,8 @@ public class DummyLauncher implements Launcher {
     public void setSetting(String settingname, String value){
      
      }
+
+    public String getGameName() {
+      return gamename;
+    }
 }

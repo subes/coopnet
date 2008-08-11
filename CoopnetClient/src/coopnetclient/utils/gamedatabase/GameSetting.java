@@ -1,5 +1,7 @@
 package coopnetclient.utils.gamedatabase;
 
+import coopnetclient.Client;
+import coopnetclient.Protocol;
 import java.util.ArrayList;
 
 public class GameSetting {
@@ -12,18 +14,19 @@ public class GameSetting {
     private int type;       //setting tpye
     private String keyWord; //the keyword to replace in callString
     private boolean shared; //shared settings need to be sent to other roommembers
-    private int minValue;   //spinner property
-    private int maxValue;   //spinner property
+    private int minValue = Integer.MIN_VALUE;   //spinner property
+    private int maxValue = Integer.MAX_VALUE;   //spinner property
     private String defaultValue;    //default value for all types
     private ArrayList<String> comboboxSelectNames;  //combobox property, the combobox model values
     private ArrayList<String> comboboxValues;       //combobox property, the value to be set(that replaces the keyword)
-    private String currentValue = null;     //this is the actual setting at the given time(to replace the keywork on launch)
+    private String currentValue = "unspecified";     //this is the actual setting at the given time(to replace the keywork on launch)
 
     public GameSetting(boolean shared, String name, int type, String keyWord, String defaultValue) {
         this.visibleName = name;
         this.shared = shared;
         this.keyWord = keyWord;
         this.type = type;
+        this.defaultValue = defaultValue;
     }
 
     public String getName(){
@@ -55,10 +58,10 @@ public class GameSetting {
     }
     
     public void reset(){
-        currentValue = null;
+        currentValue = "unspecified";
     }
     
-    public void setValue(String value) {
+    public void setValue(String value,boolean broadcast) {
         switch (type) {
             case TEXTFIELD_TYPE: {
                 currentValue = value;
@@ -72,6 +75,9 @@ public class GameSetting {
                 currentValue = value;
                 break;
             }            
+        }
+        if(shared && broadcast){
+            Client.send(Protocol.SendSetting(visibleName, value), null);
         }
     }
     

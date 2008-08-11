@@ -1,22 +1,21 @@
 /*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
-                    Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
 
-    This file is part of Coopnet.
+This file is part of Coopnet.
 
-    Coopnet is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+Coopnet is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    Coopnet is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Coopnet is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+You should have received a copy of the GNU General Public License
+along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package coopnetclient.launchers;
 
 import coopnetclient.launchers.handlers.DPlayExeHandler;
@@ -30,7 +29,7 @@ import java.util.ArrayList;
 public class LinuxLauncher implements Launcher {
 
     private boolean dPlayIsInitialized = false;
-    private boolean launcherIsInitialised = false ;
+    private boolean launcherIsInitialised = false;
     private boolean isHost;
     private int launchMethod;
     private String ip;
@@ -40,7 +39,7 @@ public class LinuxLauncher implements Launcher {
     private String map;
     private DPlayExeHandler dplay;
     private ArrayList<GameSetting> settings;
-    
+
     @Override
     public void initialize(String gameIdentifier, String modname, boolean isHost, String ip, boolean compatible, int maxPlayers) {
         launcherIsInitialised = false;
@@ -64,14 +63,14 @@ public class LinuxLauncher implements Launcher {
             case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING:
                 dPlayIsInitialized = true;
                 if (!isHost) {
-                    if(TabOrganizer.getRoomPanel() != null){
+                    if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().enableButtons();
                     }
                 }
         }
         launcherIsInitialised = true;
         //call it here to NOT remember settings
-        if(TabOrganizer.getRoomPanel() != null){
+        if (TabOrganizer.getRoomPanel() != null) {
             TabOrganizer.getRoomPanel().showSettings();
         }
     }
@@ -91,7 +90,7 @@ public class LinuxLauncher implements Launcher {
         } else {
             stopDPlay();
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "DirectPlay error!", 
+                    "DirectPlay error!",
                     coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
         }
     }
@@ -120,8 +119,8 @@ public class LinuxLauncher implements Launcher {
             callerstring = callerstring.replace("{MAP}", map);
         }
         //replace settings text with actual values
-        for(GameSetting gs:settings){
-            callerstring = callerstring.replace(gs.getKeyWord(),gs.getValue());
+        for (GameSetting gs : settings) {
+            callerstring = callerstring.replace(gs.getKeyWord(), gs.getValue());
         }
         System.out.println(callerstring);
 
@@ -157,7 +156,7 @@ public class LinuxLauncher implements Launcher {
         switch (launchMethod) {
             case GameDatabase.LAUNCHMETHOD_DIRECTPLAY:
             case GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY:
-                if(dPlayIsInitialized){
+                if (dPlayIsInitialized) {
                     return launchDPlay();
                 }
                 break;
@@ -169,7 +168,7 @@ public class LinuxLauncher implements Launcher {
 
     @Override
     public void stop() {
-        if(dPlayIsInitialized){
+        if (dPlayIsInitialized) {
             stopDPlay();
         }
     }
@@ -208,8 +207,7 @@ public class LinuxLauncher implements Launcher {
     @Override
     public boolean isLaunchable(String gamename) {
         String test = null;
-        if (GameDatabase.getLaunchMethod(gamename, modName) == GameDatabase.LAUNCHMETHOD_DIRECTPLAY 
-                || GameDatabase.getLaunchMethod(gamename, modName) == GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY) {
+        if (GameDatabase.getLaunchMethod(gamename, modName) == GameDatabase.LAUNCHMETHOD_DIRECTPLAY || GameDatabase.getLaunchMethod(gamename, modName) == GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY) {
             return true;
         }
         test = getLaunchPathWithExe(gamename);
@@ -236,22 +234,27 @@ public class LinuxLauncher implements Launcher {
     }
 
     @Override
-      public void setMod(String newmod) {
+    public void setMod(String newmod) {
         modName = newmod;
     }
-    
+
     @Override
     public boolean isInitialised() {
-        return  launcherIsInitialised;
+        return launcherIsInitialised;
     }
-    
+
     @Override
-    public void setSetting(String settingname, String value){
-        for(GameSetting setting :settings){
-            if(setting.getName().equals(settingname)){
-                setting.setValue(value);
+    public void setSetting(String settingname, String value) {
+        for (GameSetting setting : settings) {
+            if (setting.getName().equals(settingname)) {
+                setting.setValue(value, isHost);
                 return;
             }
         }
+    }
+
+    @Override
+    public String getGameName() {
+        return gameIdentifier;
     }
 }

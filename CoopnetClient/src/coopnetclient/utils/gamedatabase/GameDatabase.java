@@ -96,7 +96,7 @@ public class GameDatabase {
         }
         return -1;
     }
-
+    
     public static Object[] getGameModNames(String gamename) {
         return gameData.get(indexOfGame(gamename)).getAllModNames();
     }
@@ -136,6 +136,10 @@ public class GameDatabase {
         return "";
     }
 
+    public static void setGameSettingLocally(String gamename, String modname,String settingName,String settingValue){
+        gameData.get(indexOfGame(gamename)).setGameSetting(settingName, settingValue, false);
+    }
+    
     public static void setGameSettings(String gamename, String modname, ArrayList<GameSetting> settings) {
         gameData.get(indexOfGame(gamename)).setGameSettings(modname,settings);
     }
@@ -397,7 +401,7 @@ public class GameDatabase {
             name = parts[0];
         }
         
-        GameSetting setting = new GameSetting(shared,name,Integer.valueOf(parts[1]),parts[2],parts.length>3?parts[3]:"");
+        GameSetting setting = new GameSetting(shared,name,Integer.valueOf(parts[1]),parts[2],(parts.length>3?parts[3]:""));
         switch(Integer.valueOf(parts[1])){
             case GameSetting.COMBOBOX_TYPE:{
                 ArrayList<String> names = new ArrayList<String>();
@@ -406,7 +410,7 @@ public class GameDatabase {
                     String key = parts[i].substring(0,parts[i].indexOf("="));
                     String value = parts[i].substring(parts[i].indexOf("=")+1);
                     names.add(key);
-                    values.add(value);                    
+                    values.add(value);
                 }
                 setting.setComboboxSelectNames(names);
                 setting.setComboboxValues(values);
