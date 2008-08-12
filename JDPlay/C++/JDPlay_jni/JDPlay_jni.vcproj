@@ -209,18 +209,6 @@
 				>
 			</File>
 		</Filter>
-		<Filter
-			Name="Java"
-			>
-			<File
-				RelativePath=".\JDPlay.java"
-				>
-			</File>
-			<File
-				RelativePath=".\Usage.java"
-				>
-			</File>
-		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
