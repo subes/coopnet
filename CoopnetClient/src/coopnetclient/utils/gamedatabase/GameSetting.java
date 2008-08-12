@@ -108,4 +108,9 @@ public class GameSetting {
     public ArrayList<String> getComboboxValues(){
         return comboboxValues;
     }
+    
+    @Override
+    public String toString(){
+        return visibleName;
+    }
 }

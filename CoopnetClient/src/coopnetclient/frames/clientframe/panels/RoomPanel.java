@@ -300,6 +300,7 @@ public class RoomPanel extends javax.swing.JPanel {
         scrl_userList.setMinimumSize(new java.awt.Dimension(100, 50));
 
         lst_userList.setModel(users);
+        lst_userList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lst_userList.setFixedCellHeight(20);
         lst_userList.setFixedCellWidth(100);
         lst_userList.setFocusable(false);

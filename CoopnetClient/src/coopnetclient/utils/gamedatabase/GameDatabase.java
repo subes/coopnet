@@ -97,6 +97,10 @@ public class GameDatabase {
         return -1;
     }
     
+    public static Game getGameData(String gamename){
+        return gameData.get(indexOfGame(gamename));
+    }
+    
     public static Object[] getGameModNames(String gamename) {
         return gameData.get(indexOfGame(gamename)).getAllModNames();
     }

@@ -262,7 +262,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             if(input instanceof JSpinner){
                 value = ((JSpinner)input).getValue()+"";
             }else
-            if(input instanceof JComboBox){                 
+            if(input instanceof JComboBox){
                 value =((JComboBox)input).getSelectedItem().toString();
             }
             Globals.getLauncher().setSetting(name, value,true);

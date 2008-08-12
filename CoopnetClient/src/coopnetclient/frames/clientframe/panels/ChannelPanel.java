@@ -252,6 +252,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         scrl_userList.setMinimumSize(new java.awt.Dimension(100, 50));
 
         lst_userList.setModel(users);
+        lst_userList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lst_userList.setAutoscrolls(false);
         lst_userList.setCellRenderer(renderer);
         lst_userList.setFixedCellHeight(20);
@@ -394,7 +395,7 @@ public class ChannelPanel extends javax.swing.JPanel {
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_refresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
                 .addComponent(btn_leaveChannel))
             .addComponent(scrl_roomList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );

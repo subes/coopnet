@@ -82,6 +82,7 @@
                     <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="users" type="code"/>
                     </Property>
+                    <Property name="selectionMode" type="int" value="0"/>
                     <Property name="autoscrolls" type="boolean" value="false"/>
                     <Property name="cellRenderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                       <Connection code="renderer" type="code"/>
@@ -216,7 +217,7 @@
                       <Component id="btn_join" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btn_refresh" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="105" max="32767" attributes="0"/>
+                      <EmptySpace pref="210" max="32767" attributes="0"/>
                       <Component id="btn_leaveChannel" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="scrl_roomList" alignment="0" pref="0" max="32767" attributes="0"/>

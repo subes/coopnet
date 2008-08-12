@@ -85,17 +85,25 @@ public class Game {
         }
         return names.toArray();
     }
+    
+    public Object[] getAllSettingNames(String modname) {
+        ArrayList<String> names = new ArrayList<String>();
+        for (GameSetting setting : getGameSettings(modname)) {
+            names.add(setting.getName());
+        }
+        return names.toArray(new String[0]);
+    }
 
     private Game getMod(String mod) {
         int index = indexOfMod(mod);
         return index == -1 ? null : mods.get(index);
     }
 
-    private String getValue(String field, String modname) {
+    private String getFieldValue(String field, String modname) {
         if (modname != null) {
             Game mod = getMod(modname);
             if (mod != null) {
-                String value = mod.getValue(field, null);
+                String value = mod.getFieldValue(field, null);
                 return ((value == null) ? (fields.get(field)) : (value));
             } else {
                 return fields.get(field);
@@ -118,7 +126,7 @@ public class Game {
     }
 
     public boolean isInstantLaunchable(String modname) {
-        String val = getValue("InstantLaunchable", modname);
+        String val = getFieldValue("InstantLaunchable", modname);
         if(val != null){
             return true; 
         }
@@ -161,7 +169,7 @@ public class Game {
     }
 
     public String getMapPath(String modname) {
-        return getValue("MAPPATH", modname);
+        return getFieldValue("MAPPATH", modname);
     }
 
     public void setMapPath(String value) {
@@ -169,7 +177,7 @@ public class Game {
     }
 
     public String getMapExtension(String modname) {
-        return getValue("MAPEXT", modname);
+        return getFieldValue("MAPEXT", modname);
     }
 
     public void setMapExtension(String value) {
@@ -177,7 +185,7 @@ public class Game {
     }
 
     public String getRelativeExePath(String modname) {
-        return getValue("EXE", modname);
+        return getFieldValue("EXE", modname);
     }
 
     public void setRelativeExePath(String value) {
@@ -185,7 +193,7 @@ public class Game {
     }
 
     public String getHostPattern(String modname) {
-        return getValue("LAUNCHPATTERN", modname);
+        return getFieldValue("LAUNCHPATTERN", modname);
     }
 
     public void setHostPattern(String value) {
@@ -193,7 +201,7 @@ public class Game {
     }
 
     public String getJoinPattern(String modname) {
-        return getValue("JOINPATTERN", modname);
+        return getFieldValue("JOINPATTERN", modname);
     }
 
     public void setJoinPattern(String value) {
@@ -201,7 +209,7 @@ public class Game {
     }
 
     public String getRegEntry(String modname) {
-        return getValue("REGENTRY", modname);
+        return getFieldValue("REGENTRY", modname);
     }
 
     public void setRegEntry(String value) {
@@ -209,7 +217,7 @@ public class Game {
     }
 
     public String getLaunchMethod(String modname) {
-        return getValue("LAUNCHMETHOD", modname);
+        return getFieldValue("LAUNCHMETHOD", modname);
     }
 
     public void setLaunchMethod(int value) {
@@ -217,7 +225,7 @@ public class Game {
     }
 
     public String getGuid(String modname) {
-        return getValue("GUID", modname);
+        return getFieldValue("GUID", modname);
     }
 
     public void setGuid(String value) {
