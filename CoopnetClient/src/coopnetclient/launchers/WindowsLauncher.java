@@ -297,10 +297,10 @@ public class WindowsLauncher implements Launcher {
     }
     
     @Override
-    public void setSetting(String settingname, String value){
+    public void setSetting(String settingname, String value, boolean broadcast){
         for(GameSetting setting :settings){
             if(setting.getName().equals(settingname)){
-                setting.setValue(value,isHost);
+                setting.setValue(value,isHost && broadcast);
                 return;
             }
         }

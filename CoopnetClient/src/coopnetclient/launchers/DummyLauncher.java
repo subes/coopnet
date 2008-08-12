@@ -99,7 +99,7 @@ public class DummyLauncher implements Launcher {
         return true;
     }
      @Override
-    public void setSetting(String settingname, String value){
+    public void setSetting(String settingname, String value, boolean broadcast){
      
      }
 

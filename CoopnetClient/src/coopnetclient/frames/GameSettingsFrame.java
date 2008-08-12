@@ -265,7 +265,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             if(input instanceof JComboBox){                 
                 value =((JComboBox)input).getSelectedItem().toString();
             }
-            Globals.getLauncher().setSetting(name, value);
+            Globals.getLauncher().setSetting(name, value,true);
         }
 
         if (!isInstant) {

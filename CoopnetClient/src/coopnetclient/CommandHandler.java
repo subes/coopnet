@@ -117,7 +117,7 @@ public class CommandHandler {
             if (input.startsWith("setgamesetting")) {
                 String[] setting = input.substring(14).split(Protocol.INFORMATION_DELIMITER);
                 if(Globals.getLauncher()!=null){
-                    GameDatabase.setGameSettingLocally(Globals.getLauncher().getGameName(),Globals.getLauncher().getMod(),setting[0],setting[1]);                
+                    Globals.getLauncher().setSetting(setting[0],setting[1],false);                
                 }
             } else if (input.startsWith("joinchannel ")) {
                 String tmp = input.substring(12);

@@ -135,10 +135,6 @@ public class GameDatabase {
         }
         return "";
     }
-
-    public static void setGameSettingLocally(String gamename, String modname,String settingName,String settingValue){
-        gameData.get(indexOfGame(gamename)).setGameSetting(settingName, settingValue, false);
-    }
     
     public static void setGameSettings(String gamename, String modname, ArrayList<GameSetting> settings) {
         gameData.get(indexOfGame(gamename)).setGameSettings(modname,settings);
