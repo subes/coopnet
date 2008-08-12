@@ -29,54 +29,48 @@
 
 /****************************************************************************************************************/
  
-#include <jni.h>
-#include "..\JDPlay\JDPlay.h"
+#include "jni.h"
+#include "..\\JDPlay\\JDPlay.h"
 #ifdef __cplusplus
 	extern "C" {
 #endif
 
-//JDPlay(char* playerName, char* gameGUID, char* hostIP, bool iamhost, bool enableDebug);
-JNIEXPORT jlong JNICALL Java_jdplay_JDPlay__1_1c0(JNIEnv* __env, jobject __jobj, jstring playerName, jstring gameGUID, jstring hostIP, jboolean iamhost, jboolean enableDebug){
+JNIEXPORT jlong JNICALL Java_jdplay_JDPlay__1_1c16(JNIEnv* __env, jobject __jobj, jstring playerName, jint maxSearchRetries, jboolean debug)
+{
 	const char* __TplayerName = playerName == 0 ? NULL : __env->GetStringUTFChars(playerName, NULL);
-	const char* __TgameGUID = gameGUID == 0 ? NULL : __env->GetStringUTFChars(gameGUID, NULL);
-	const char* __ThostIP = hostIP == 0 ? NULL : __env->GetStringUTFChars(hostIP, NULL);
-	JDPlay* __obj = new JDPlay((char*)__TplayerName, (char*)__TgameGUID, (char*)__ThostIP, (bool)iamhost, (bool)enableDebug);
-	if (playerName != 0) __env->ReleaseStringUTFChars(playerName, __TplayerName); //Don't uncomment, playername will be missing ingame!
-	if (gameGUID != 0) __env->ReleaseStringUTFChars(gameGUID, __TgameGUID);
-	if (hostIP != 0) __env->ReleaseStringUTFChars(hostIP, __ThostIP);
+	JDPlay* __obj = new JDPlay((char*)__TplayerName, (int)maxSearchRetries, (bool)debug);
+	if (playerName != 0) __env->ReleaseStringUTFChars(playerName, __TplayerName);
 	return (jlong) __obj;
 }
 
-//bool isInitializedProperly();
-JNIEXPORT jboolean JNICALL Java_jdplay_JDPlay__1_1m0(JNIEnv* __env, jobject, jlong __imp){
+JNIEXPORT void JNICALL Java_jdplay_JDPlay__1_1m18(JNIEnv* __env, jobject, jlong __imp, jstring playerName)
+{
 	JDPlay* __obj = (JDPlay*) __imp;
-	bool __retval = __obj->isInitializedProperly();
+	const char* __TplayerName = playerName == 0 ? NULL : __env->GetStringUTFChars(playerName, NULL);
+	__obj->updatePlayerName((char*)__TplayerName);
+	if (playerName != 0) __env->ReleaseStringUTFChars(playerName, __TplayerName);
+}
+
+JNIEXPORT jboolean JNICALL Java_jdplay_JDPlay__1_1m19(JNIEnv* __env, jobject, jlong __imp, jstring gameGUID, jstring hostIP, jboolean isHost)
+{
+	JDPlay* __obj = (JDPlay*) __imp;
+	const char* __TgameGUID = gameGUID == 0 ? NULL : __env->GetStringUTFChars(gameGUID, NULL);
+	const char* __ThostIP = hostIP == 0 ? NULL : __env->GetStringUTFChars(hostIP, NULL);
+	bool __retval = __obj->initialize((char*)__TgameGUID, (char*)__ThostIP, (bool)isHost);
+	if (gameGUID != 0) __env->ReleaseStringUTFChars(gameGUID, __TgameGUID);
+	if (hostIP != 0) __env->ReleaseStringUTFChars(hostIP, __ThostIP);
 	return (jboolean) __retval;
 }
 
-//void setMaxSearchRetries(int maxRetries);
-JNIEXPORT void JNICALL Java_jdplay_JDPlay__1_1m1(JNIEnv* __env, jobject, jlong __imp, jint maxRetries){
-	JDPlay* __obj = (JDPlay*) __imp;
-	__obj->setMaxSearchRetries((int)maxRetries);
-}
-
-//void setPlayerName(char* playerName);
-JNIEXPORT void JNICALL Java_jdplay_JDPlay__1_1m2(JNIEnv* __env, jobject, jlong __imp, jstring playerName){
-	JDPlay* __obj = (JDPlay*) __imp;
-	const char* __TplayerName = playerName == 0 ? NULL : __env->GetStringUTFChars(playerName, NULL);
-	__obj->setPlayerName((char*)__TplayerName);
-	//if (playerName != 0) __env->ReleaseStringUTFChars(playerName, __TplayerName); //Don't uncomment, playername will be missing ingame!
-}
-
-//bool launch(bool searchForSession);
-JNIEXPORT jboolean JNICALL Java_jdplay_JDPlay__1_1m3(JNIEnv* __env, jobject, jlong __imp, jboolean searchForSession){
+JNIEXPORT jboolean JNICALL Java_jdplay_JDPlay__1_1m20(JNIEnv* __env, jobject, jlong __imp, jboolean searchForSession)
+{
 	JDPlay* __obj = (JDPlay*) __imp;
 	bool __retval = __obj->launch((bool)searchForSession);
 	return (jboolean) __retval;
 }
 
-//~JDPlay();
-JNIEXPORT void JNICALL Java_jdplay_JDPlay__1_1d(JNIEnv* __env, jobject, jlong __imp){
+JNIEXPORT void JNICALL Java_jdplay_JDPlay__1_1d(JNIEnv* __env, jobject, jlong __imp)
+{
 	JDPlay* __obj = (JDPlay*) __imp;
 	delete __obj;
 }

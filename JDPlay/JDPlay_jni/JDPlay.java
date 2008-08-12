@@ -33,70 +33,61 @@
 package jdplay;
 
 public class JDPlay extends Object {
-    
-    /***/
-    public JDPlay(String playerName, String gameGUID, String hostIP, boolean iamhost, boolean enableDebug) {
-        implementation = new Long(__c0(playerName, gameGUID, hostIP, iamhost, enableDebug));
-    }
-    private native long __c0(String playerName, String gameGUID, String hostIP, boolean iamhost, boolean enableDebug);
- 
-    /**
- 
-This method may <var>not</var> be extended in Java.
-     */
-    public boolean isInitializedProperly() {
-        boolean __retval = false;
-        __retval = __m0(implementation.longValue());
-        return __retval;
-    }
-    private native boolean __m0(long __imp);
 
-    /**
- 
-This method may <var>not</var> be extended in Java.
-     */
-    public void setMaxSearchRetries(int maxRetries) {
-        __m1(implementation.longValue(), maxRetries);
-    }
-    private native void __m1(long __imp, int maxRetries);
+	public JDPlay(String playerName, int maxSearchRetries, boolean debug)
+	{
+		implementation = new Long(__c16(playerName, maxSearchRetries, debug));
+	}
+	private native long __c16(String playerName, int maxSearchRetries, boolean debug);
 
-    /**
- 
-This method may <var>not</var> be extended in Java.
-     */
-    public void setPlayerName(String playerName) {
-        __m2(implementation.longValue(), playerName);
-    }
-    private native void __m2(long __imp, String playerName);
+	public void updatePlayerName(String playerName)
+	{
+		__m18(implementation.longValue(), playerName);
+	}
+	private native void __m18(long __imp, String playerName);
 
-    /**
- 
-This method may <var>not</var> be extended in Java.
-     */
-    public boolean launch(boolean searchForSession) {
-        boolean __retval = false;
-        __retval = __m3(implementation.longValue(), searchForSession);
-        return __retval;
-    }
-    private native boolean __m3(long __imp, boolean searchForSession);
+	public boolean initialize(String gameGUID, String hostIP, boolean isHost)
+	{
+		boolean __retval = false;
+		__retval = __m19(implementation.longValue(), gameGUID, hostIP, isHost);
+		return __retval;
+	}
+	private native boolean __m19(long __imp, String gameGUID, String hostIP, boolean isHost);
 
-// cxxwrap ctor, do not use
-    public JDPlay(Long __imp) { implementation = __imp; }
-    protected Long implementation = null;
-    protected boolean extensible = false;
-    public Long getCxxwrapImpl() { return implementation; }
-// override equals() from Object, compare the implementation value
-    public boolean equals(Object o) {
-        if (!(o instanceof JDPlay)) return false;
-        return implementation.equals(((JDPlay)o).implementation);
-    }
-    
-// override hashCode() from Object, return the implementation values hashCode()
-    public int hashCode() { return implementation.hashCode(); }
-    public void delete() {
-        
-        __d(implementation.longValue());
-        implementation = null;
-    }
-    private native void __d(long __imp);
-};
+	public boolean launch(boolean searchForSession)
+	{
+		boolean __retval = false;
+		__retval = __m20(implementation.longValue(), searchForSession);
+		return __retval;
+	}
+	private native boolean __m20(long __imp, boolean searchForSession);
+	
+	public void delete()
+	{
+		__d(implementation.longValue());
+		 implementation = null;
+	}
+	private native void __d(long __imp);
+	
+	/********* don't use anything beneath this *****************************************************/
+	
+	public JDPlay(Long __imp) { 
+		implementation = __imp; 
+	}
+	
+	protected Long implementation = null;
+	protected boolean extensible = false;
+	
+	public Long getCxxwrapImpl() { 
+		return implementation; 
+	}
+	
+	public boolean equals(Object o) {
+		if (!(o instanceof JDPlay)) return false;
+		return implementation.equals(((JDPlay)o).implementation);
+	}
+	
+	public int hashCode() { 
+		return implementation.hashCode(); 
+	}
+}
