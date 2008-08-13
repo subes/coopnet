@@ -19,7 +19,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 package coopnetclient.launchers;
 
-import coopnetclient.launchers.handlers.DPlayExeHandler;
+import coopnetclient.launchers.launchhandlers.DPlayExeHandler;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.*;
 import coopnetclient.enums.LaunchMethods;

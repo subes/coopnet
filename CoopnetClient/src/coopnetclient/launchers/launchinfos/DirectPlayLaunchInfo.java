@@ -18,10 +18,15 @@ You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.enums;
+package coopnetclient.launchers.launchinfos;
 
-public enum LaunchMethods {
-    DIRECTPLAY,
-    DIRECTPLAY_FORCED_COMPATIBILITY,
-    PARAMETER
+import coopnetclient.enums.LaunchMethods;
+
+public class DirectPlayLaunchInfo extends LaunchInfo {
+    String gameGUID;
+    
+    public DirectPlayLaunchInfo(LaunchMethods launchMethod, String gameGUID){
+        super(launchMethod);
+        this.gameGUID = gameGUID;
+    }
 }
