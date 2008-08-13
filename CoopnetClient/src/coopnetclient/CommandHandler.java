@@ -191,7 +191,7 @@ public class CommandHandler {
                 String[] tmp = input.substring(7).split(Protocol.INFORMATION_DELIMITER);
                 boolean compatible = Boolean.valueOf(tmp[1]);
                 int maxplayers = Integer.valueOf(tmp[2]);
-                String modindex = tmp[3];
+                String modindex = tmp.length>3?tmp[3]:"";
                 TabOrganizer.openRoomPanel(true, currentchannel, modindex, "", compatible, "", maxplayers);
             } else 
             //server accepted leave request, must delete room tab
