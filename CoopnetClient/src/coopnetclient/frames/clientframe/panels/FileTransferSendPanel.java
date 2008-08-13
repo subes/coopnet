@@ -1,4 +1,5 @@
-/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
+/*	
+Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
 Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
 
 This file is part of Coopnet.
@@ -16,6 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package coopnetclient.frames.clientframe.panels;
 
 import coopnetclient.Client;
