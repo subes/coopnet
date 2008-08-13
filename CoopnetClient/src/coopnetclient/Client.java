@@ -19,6 +19,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 package coopnetclient;
 
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.launchers.Launcher;
@@ -155,8 +156,8 @@ public class Client {
             @Override
             public void run() {
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                        "Initialising...",
-                        coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                        "Initializing...",
+                        ChatStyles.SYSTEM);
                 String modname = null;
                 if (modindex > 0) {
                     modname = GameDatabase.getGameModNames(channel)[Integer.valueOf(modindex)].toString();
@@ -182,7 +183,7 @@ public class Client {
                 }
 
                 if (!launcher.isInitialised()) {
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed to start the game!", ColoredChatHandler.SYSTEM_STYLE);
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed to start the game!", ChatStyles.SYSTEM);
                     Client.send(Protocol.closeRoom(), channel);
                     Globals.setIsPlayingStatus(false);
                     Client.send(Protocol.gameClosed(), channel);
@@ -195,7 +196,7 @@ public class Client {
                 TabOrganizer.getChannelPanel(channel).disablebuttons();
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                         "Game launching... please wait!",
-                        coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                        ChatStyles.SYSTEM);
                 //play sound
                 SoundPlayer.playLaunchSound();
 
@@ -205,7 +206,7 @@ public class Client {
 
                 boolean launched = Globals.getLauncher().launch();
                 if (!launched) {
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed to start the game!", ColoredChatHandler.SYSTEM_STYLE);
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed to start the game!", ChatStyles.SYSTEM);
                 }
                 Client.send(Protocol.closeRoom(), channel);
                 Globals.setIsPlayingStatus(false);

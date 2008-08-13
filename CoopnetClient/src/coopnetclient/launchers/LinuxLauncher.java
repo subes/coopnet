@@ -22,6 +22,7 @@ package coopnetclient.launchers;
 import coopnetclient.launchers.launchhandlers.DPlayExeHandler;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.*;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.gamedatabase.GameSetting;
@@ -93,7 +94,7 @@ public class LinuxLauncher implements Launcher {
             stopDPlay();
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "DirectPlay error!",
-                    coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                    ChatStyles.SYSTEM);
         }
     }
 

@@ -20,6 +20,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 
 package coopnetclient;
 
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Verification;
 import coopnetclient.modules.Settings;
@@ -127,7 +128,7 @@ public class CommandHandler {
             } else if (input.startsWith("nudge ")) {
                 String tmp = input.substring(6);
                 new FrameIconFlasher(Globals.getClientFrame(), "data/icons/nudge.png", tmp + " sent you a nudge!");
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp + " sent you a nudge!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp + " sent you a nudge!", ChatStyles.SYSTEM);
                 SoundPlayer.playNudgeSound();
             } else if (input.startsWith("error")) {
                 JOptionPane.showMessageDialog(null, input.substring(6), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -166,7 +167,7 @@ public class CommandHandler {
                 if (tmp.length == 1) {
                     return;
                 }
-                Globals.getClientFrame().printMainChatMessage(currentchannel, tmp[0], tmp[1], coopnetclient.modules.ColoredChatHandler.USER_STYLE);
+                Globals.getClientFrame().printMainChatMessage(currentchannel, tmp[0], tmp[1], ChatStyles.USER);
                 if (Globals.getSleepModeStatus()) {
                     Globals.setSleepModeStatus(false);
                 }
@@ -178,7 +179,7 @@ public class CommandHandler {
             //prints message to the room-chat
             if (input.startsWith("room ")) {
                 String[] tmp = input.substring(5).split(Protocol.INFORMATION_DELIMITER);
-                TabOrganizer.getRoomPanel().chat(tmp[0], tmp[1], coopnetclient.modules.ColoredChatHandler.USER_STYLE);
+                TabOrganizer.getRoomPanel().chat(tmp[0], tmp[1], ChatStyles.USER);
             } else 
             //the server accepted the join request, must create a new room tab now in client mode
             if (input.startsWith("join ")) {
@@ -206,13 +207,13 @@ public class CommandHandler {
             //the currently joined room was closed, must delete room tab
             if (input.startsWith("close")) {
                 TabOrganizer.closeRoomPanel();
-                Globals.getClientFrame().printMainChatMessage(currentchannel, "SYSTEM", "The Room has been closed!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                Globals.getClientFrame().printMainChatMessage(currentchannel, "SYSTEM", "The Room has been closed!", ChatStyles.SYSTEM);
 
             } else 
             //been kicked of the current room, must delete room tab
             if (input.startsWith("kicked")) {
                 TabOrganizer.closeRoomPanel();
-                Globals.getClientFrame().printMainChatMessage(currentchannel, "SYSTEM", "You have been kicked by the host!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                Globals.getClientFrame().printMainChatMessage(currentchannel, "SYSTEM", "You have been kicked by the host!", ChatStyles.SYSTEM);
             } else 
             //add a player to the rooms player list
             if (input.startsWith("addmember ")) {
@@ -241,7 +242,7 @@ public class CommandHandler {
             } else 
             //print a message from the server
             if (input.startsWith("echo ")) {
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(5), coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(5), ChatStyles.SYSTEM);
             } else 
             //set players(name in parameter) ready status to not ready
             if (input.startsWith("unready ")) {
@@ -274,12 +275,12 @@ public class CommandHandler {
             //confirmation message from the server. the password was changed succesfully
             if (input.startsWith("passwordchanged")) {
                 Globals.closeChangePasswordFrame();
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Password changed!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Password changed!", ChatStyles.SYSTEM);
             } else 
             //confirmation message from the server. the name was changed successfully(if changed)
             if (input.startsWith("profilesaved")) {
                 Globals.closeEditProfileFrame();
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Profile saved!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Profile saved!", ChatStyles.SYSTEM);
             } else 
             //show the profile-editing window with the data in parameters
             if (input.startsWith("editprofile")) {
@@ -319,14 +320,14 @@ public class CommandHandler {
             //a player changed its name, msut update in player list and room list
             if (input.startsWith("updatename ")) {
                 String[] tmp = input.substring(11).split(Protocol.INFORMATION_DELIMITER);      // 0 oldname 1 new name
-                Globals.getClientFrame().printMainChatMessage(currentchannel, "SYSTEM", tmp[0] + " is now known as " + tmp[1], coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                Globals.getClientFrame().printMainChatMessage(currentchannel, "SYSTEM", tmp[0] + " is now known as " + tmp[1], ChatStyles.SYSTEM);
                 Globals.getClientFrame().updatePlayerName(currentchannel, tmp[0], tmp[1]);
 
                 Globals.getClientFrame().repaint();
             } else if (input.startsWith("SendingFile")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1sender  2file 3size 4 ip 5 port
                 TabOrganizer.openFileTransferReceivePanel(tmp[1], tmp[3], tmp[2],tmp[4],tmp[5]);
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp[1] + " wants to send you a file!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp[1] + " wants to send you a file!", ChatStyles.SYSTEM);
             } else if (input.startsWith("AcceptedFile")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//0command 1reciever  2filename 3 ip 4 port 5 firstbyte
                 Globals.getClientFrame().startSending(tmp[3], tmp[1], tmp[2], tmp[4], new Long(tmp[5]));

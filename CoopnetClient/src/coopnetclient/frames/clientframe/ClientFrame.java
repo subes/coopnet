@@ -27,6 +27,7 @@ import coopnetclient.frames.clientframe.panels.ChannelPanel;
 import coopnetclient.frames.clientframe.panels.PrivateChatPanel;
 import coopnetclient.frames.clientframe.panels.RoomPanel;
 import coopnetclient.Protocol;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.components.FavMenuItem;
 import coopnetclient.frames.clientframe.panels.FileTransferRecievePanel;
@@ -150,7 +151,7 @@ public class ClientFrame extends javax.swing.JFrame {
         TabOrganizer.getChannelPanel(channel).removePlayerFromRoom(hostname, playername);
     }
 
-    public void printMainChatMessage(String channel, String name, String message, int modeStyle) {
+    public void printMainChatMessage(String channel, String name, String message, ChatStyles modeStyle) {
         ChannelPanel cp = TabOrganizer.getChannelPanel(channel);
         if (cp != null) {
             cp.printMainChatMessage(name, message, modeStyle);
@@ -168,7 +169,7 @@ public class ClientFrame extends javax.swing.JFrame {
         privatechat.append(sender, message);
         
         if (!privatechat.isVisible()) {
-            printToVisibleChatbox(sender, message, coopnetclient.modules.ColoredChatHandler.PRIVATE_NOTIFICATION_STYLE);
+            printToVisibleChatbox(sender, message, ChatStyles.WHISPER_NOTIFICATION);
         }
     }
 
@@ -489,7 +490,7 @@ public class ClientFrame extends javax.swing.JFrame {
      * <li> mode : defines the style of the printed text, can be system or chat or whisper
      * 
      */
-    public void printToVisibleChatbox(String name, String message, int modeStyle) {
+    public void printToVisibleChatbox(String name, String message, ChatStyles modeStyle) {
         if (message.equals("Server is shutting down")) {
             mi_disconnect.doClick();
         }

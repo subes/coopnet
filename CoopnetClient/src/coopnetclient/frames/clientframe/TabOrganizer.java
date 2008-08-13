@@ -22,6 +22,7 @@ package coopnetclient.frames.clientframe;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.clientframe.panels.BrowserPanel;
 import coopnetclient.frames.clientframe.panels.ChannelPanel;
 import coopnetclient.frames.clientframe.panels.ErrorPanel;
@@ -79,14 +80,14 @@ public class TabOrganizer {
             currentchannel.printMainChatMessage("SYSTEM",
                     "The game couldn't be detected, please set the path manually at " +
                     "options/manage games to enable playing this game!",
-                    ColoredChatHandler.SYSTEM_STYLE);
+                    ChatStyles.SYSTEM);
         } else {
             currentchannel.setLaunchable(true);
         }
         if (GameDatabase.isBeta(channelname)) {
             currentchannel.printMainChatMessage("SYSTEM", "Support for this game is experimental," +
                     " email coopnetbugs@gmail.com if you have problems!",
-                    ColoredChatHandler.SYSTEM_STYLE);
+                    ChatStyles.SYSTEM);
         }
         
         tabHolder.setSelectedComponent(currentchannel);

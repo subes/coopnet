@@ -27,6 +27,7 @@ import coopnetclient.modules.listeners.ChatInputKeyListener;
 import coopnetclient.modules.components.PlayerListPopupMenu;
 import coopnetclient.modules.models.SortedListModel;
 import coopnetclient.Protocol;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.SoundPlayer;
@@ -168,7 +169,7 @@ public class RoomPanel extends javax.swing.JPanel {
         lst_userList.repaint();
     }
 
-    public void chat(String name, String message, int modeStyle) {
+    public void chat(String name, String message, ChatStyles modeStyle) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
         coopnetclient.modules.ColoredChatHandler.addColoredText(name, message,
                 modeStyle, doc, scrl_chatOutput, tp_chatOutput);
@@ -210,7 +211,7 @@ public class RoomPanel extends javax.swing.JPanel {
 
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
                             "Game launching... please wait!", 
-                            coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                            ChatStyles.SYSTEM);
                     //play sound
                     SoundPlayer.playLaunchSound();
 
@@ -223,7 +224,7 @@ public class RoomPanel extends javax.swing.JPanel {
                     boolean launched = Globals.getLauncher().launch();
 
                     if (!launched) {
-                        Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed to start the game!", ColoredChatHandler.SYSTEM_STYLE);
+                        Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed to start the game!", ChatStyles.SYSTEM);
                     }
 
                     Globals.setIsPlayingStatus(false);

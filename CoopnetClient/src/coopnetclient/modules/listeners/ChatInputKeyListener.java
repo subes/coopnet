@@ -24,6 +24,7 @@ import coopnetclient.frames.clientframe.panels.PrivateChatPanel;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.ColoredChatHandler;
 import java.awt.event.*;
@@ -76,7 +77,7 @@ public class ChatInputKeyListener implements KeyListener {
                     return;
                 }
                 if(command.length() > 2500){
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Could not send message, because it is too big!", ColoredChatHandler.SYSTEM_STYLE);
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Could not send message, because it is too big!", ChatStyles.SYSTEM);
                     return;
                 }
 

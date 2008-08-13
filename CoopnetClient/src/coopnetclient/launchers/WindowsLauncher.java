@@ -21,6 +21,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 package coopnetclient.launchers;
 
 import coopnetclient.*;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.clientframe.panels.RoomPanel;
@@ -118,10 +119,10 @@ public class WindowsLauncher implements Launcher {
                 }
             } else {
                 jDPlay.delete();
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "DirectPlay error!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "DirectPlay error!", ChatStyles.SYSTEM);
             }
         } catch (UnsatisfiedLinkError e) {
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "DirectPlay error, you miss the JDPlay dll.", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "DirectPlay error, you miss the JDPlay dll.", ChatStyles.SYSTEM);
             e.printStackTrace();
         }
     }

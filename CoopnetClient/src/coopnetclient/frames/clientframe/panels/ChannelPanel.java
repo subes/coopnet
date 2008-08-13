@@ -28,6 +28,7 @@ import coopnetclient.modules.renderers.UsersInRoomTableCellRenderer;
 import coopnetclient.modules.models.RoomTableModel;
 import coopnetclient.modules.components.PlayerListPopupMenu;
 import coopnetclient.Protocol;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -166,7 +167,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         return tbl_roomList.getSelectedRow();
     }
 
-    public void printMainChatMessage(String name, String message, int modeStyle) {
+    public void printMainChatMessage(String name, String message, ChatStyles modeStyle) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
 
         coopnetclient.modules.ColoredChatHandler.addColoredText(name, message, modeStyle, doc, scrl_chatOutput, tp_chatOutput);

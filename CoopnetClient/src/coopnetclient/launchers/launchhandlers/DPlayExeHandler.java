@@ -22,6 +22,7 @@ package coopnetclient.launchers.launchhandlers;
 
 import coopnetclient.launchers.*;
 import coopnetclient.Globals;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -81,11 +82,11 @@ public class DPlayExeHandler {
                 } else if (ret == 1) { //ERR init
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                             "DirectPlay failed to initialize properly, maybe you miss some dlls?",
-                            coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                            ChatStyles.SYSTEM);
                 } else {
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                             "DirectPlay failed to initialize properly, maybe JDPlay_rmt.exe is missing?",
-                            coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+                            ChatStyles.SYSTEM);
                 }
             } catch (IOException e) {
                 printCommunicationError(e);
@@ -143,11 +144,11 @@ public class DPlayExeHandler {
         if (e == null) {
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "DirectPlay communication error.",
-                    ColoredChatHandler.SYSTEM_STYLE);
+                    ChatStyles.SYSTEM);
         } else {
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "DirectPlay communication error; " + e.getMessage(),
-                    ColoredChatHandler.SYSTEM_STYLE);
+                    ChatStyles.SYSTEM);
         }
     }
 
@@ -200,7 +201,7 @@ public class DPlayExeHandler {
                     playing = false;
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                             "Unable to start the game, maybe you miss some dlls?",
-                            ColoredChatHandler.SYSTEM_STYLE);
+                            ChatStyles.SYSTEM);
                     return;
                 }
 
