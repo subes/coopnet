@@ -22,6 +22,7 @@ package coopnetclient.frames;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
+import coopnetclient.enums.OperatingSystems;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.launchers.WindowsLauncher;
 import coopnetclient.modules.models.SortedListModel;
@@ -42,7 +43,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             }
         }
         //installpath only required on linux:
-        if (Globals.getOperatingSystem() == Globals.OS_WINDOWS) {
+        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
             tf_installPath.setVisible(false);
             lbl_installPath.setVisible(false);
             btn_browseInstallPath.setVisible(false);            

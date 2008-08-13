@@ -25,8 +25,24 @@ import coopnetclient.enums.LaunchMethods;
 public abstract class LaunchInfo {
     
     private LaunchMethods launchMethod;
+    private String hostIP;
+    private boolean isHost;
     
-    public LaunchInfo(LaunchMethods launchMethod){
+    public LaunchInfo(LaunchMethods launchMethod, String hostIP, boolean isHost){        
         this.launchMethod = launchMethod;
+        this.hostIP = hostIP;
+        this.isHost = isHost;
+    }
+    
+    public LaunchMethods getLaunchMethod(){
+        return launchMethod;
+    }
+    
+    public String getHostIP(){
+        return hostIP;
+    }
+    
+    public boolean getIsHost(){
+        return isHost;
     }
 }

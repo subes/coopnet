@@ -21,6 +21,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 package coopnetclient.modules;
 
 import coopnetclient.*;
+import coopnetclient.enums.OperatingSystems;
 import java.io.File;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -53,7 +54,7 @@ public class SoundPlayer {
         }
         
         soundFile = file;
-        if (Globals.getOperatingSystem() == Globals.OS_WINDOWS || !Globals.getIsPlayingStatus()) {
+        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS || !Globals.getIsPlayingStatus()) {
             //On windows this works parallel, even when playing
             new Thread() {
                 @Override

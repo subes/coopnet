@@ -19,6 +19,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 package coopnetclient;
 
+import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.launchers.Launcher;
 import coopnetclient.modules.Settings;
@@ -84,7 +85,7 @@ public class Client {
      * 
      */
     public static void startup() {
-        if (Globals.getOperatingSystem() == Globals.OS_WINDOWS) {
+        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
             if (Globals.getDebug()) {
                 System.out.println("[L]\tOS: windows");
             }

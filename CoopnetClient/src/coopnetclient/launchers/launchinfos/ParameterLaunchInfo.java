@@ -23,7 +23,12 @@ package coopnetclient.launchers.launchinfos;
 import coopnetclient.enums.LaunchMethods;
 
 public class ParameterLaunchInfo extends LaunchInfo {
-    public ParameterLaunchInfo(LaunchMethods launchMethod){
-        super(launchMethod);
+    
+    public ParameterLaunchInfo(LaunchMethods launchMethod, String hostIP, boolean isHost){
+        super(launchMethod, hostIP, isHost);
+        
+        if(launchMethod != LaunchMethods.PARAMETER){
+            throw new IllegalArgumentException("launchMethod \""+launchMethod+"\" is not supported here");
+        }
     }
 }

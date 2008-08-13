@@ -26,6 +26,7 @@ import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.Protocol;
+import coopnetclient.enums.OperatingSystems;
 import coopnetclient.modules.Colorizer;
 import java.awt.GraphicsEnvironment;
 import javax.swing.JOptionPane;
@@ -47,7 +48,7 @@ public class SettingsFrame extends javax.swing.JFrame {
 
         cmb_homeChannel.setSelectedItem(coopnetclient.modules.Settings.getHomeChannel());
         
-        if(Globals.getOperatingSystem() == Globals.OS_WINDOWS){
+        if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS){
             tf_dplayEnv.setVisible(false);
             lbl_dplayEnv.setVisible(false);
         }

@@ -23,10 +23,26 @@ package coopnetclient.launchers.launchinfos;
 import coopnetclient.enums.LaunchMethods;
 
 public class DirectPlayLaunchInfo extends LaunchInfo {
-    String gameGUID;
     
-    public DirectPlayLaunchInfo(LaunchMethods launchMethod, String gameGUID){
-        super(launchMethod);
+    private String gameGUID;
+    private boolean compatibility;
+    
+    public DirectPlayLaunchInfo(LaunchMethods launchMethod, String hostIP, boolean isHost, String gameGUID, boolean compatibility){
+        super(launchMethod, hostIP, isHost);
+        
+        if(!(launchMethod == LaunchMethods.DIRECTPLAY || launchMethod == LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY)){
+            throw new IllegalArgumentException("launchMethod \""+launchMethod+"\" is not supported here");
+        }
+        
         this.gameGUID = gameGUID;
+        this.compatibility = compatibility;
+    }
+    
+    public String getGameGUID(){
+        return gameGUID;
+    }
+    
+    public boolean getCompatibility(){
+        return compatibility;
     }
 }

@@ -20,6 +20,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 
 package coopnetclient;
 
+import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.BugReportFrame;
 import coopnetclient.frames.ChangePasswordFrame;
 import coopnetclient.frames.ChannelListFrame;
@@ -35,7 +36,6 @@ import coopnetclient.frames.TextPreviewFrame;
 import coopnetclient.modules.Settings;
 import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.frames.clientframe.panels.RoomPanel;
 import coopnetclient.launchers.Launcher;
 import coopnetclient.modules.Colorizer;
 import java.awt.Point;
@@ -44,11 +44,10 @@ import javax.swing.JFrame;
 public class Globals {
 
     //Constants
-    public static final int OS_WINDOWS = 0;
-    public static final int OS_LINUX = 1;
+    public static final int JDPLAY_MAXSEARCHRETRIES = 10;
     
     //Set via static{}
-    private static int operatingSystem;
+    private static OperatingSystems operatingSystem;
     private static String lastOpenedDir;
     
     //Preset value
@@ -88,10 +87,10 @@ public class Globals {
     static {
         //Detect OS
         if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
-            operatingSystem = OS_WINDOWS;
+            operatingSystem = OperatingSystems.WINDOWS;
             lastOpenedDir = System.getenv("USERPROFILE");
         } else {
-            operatingSystem = OS_LINUX;
+            operatingSystem = OperatingSystems.LINUX;
             lastOpenedDir = System.getenv("HOME");
         }
         //Set debug
@@ -154,7 +153,7 @@ public class Globals {
         return  thisPlayer_inGameName;
     }
     
-    public static int getOperatingSystem(){
+    public static OperatingSystems getOperatingSystem(){
         return operatingSystem;
     }
     
@@ -197,7 +196,7 @@ public class Globals {
             setupFrame(clientFrame);
         }else{
             if(getDebug()){
-                System.out.println("[WARNING]\tClientFrame is supposed to be created only once!");
+                System.out.println("[W]\tClientFrame is supposed to be created only once!");
             }
         }
     }
@@ -317,14 +316,14 @@ public class Globals {
             createRoomFrame.dispose();
             createRoomFrame = null;
             if(getDebug()){
-                System.out.println("[WARNING]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
             }
         }
         if(roomJoinPasswordFrame != null){
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
             if(getDebug()){
-                System.out.println("[WARNING]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
             }
         }
         
@@ -337,14 +336,14 @@ public class Globals {
             createRoomFrame.dispose();
             createRoomFrame = null;
             if(getDebug()){
-                System.out.println("[WARNING]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
             }
         }
         if(roomJoinPasswordFrame != null){
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
             if(getDebug()){
-                System.out.println("[WARNING]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
             }
         }
         

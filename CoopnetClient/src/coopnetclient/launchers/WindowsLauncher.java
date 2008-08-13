@@ -106,11 +106,12 @@ public class WindowsLauncher implements Launcher {
                 stopDPlay();
             }
 
-            jDPlay = new JDPlay(Globals.getThisPlayer_inGameName(), gameIdentifier, ip, isHost, coopnetclient.modules.Settings.getDebugMode());
+            jDPlay = new JDPlay(Globals.getThisPlayer_inGameName(), Globals.JDPLAY_MAXSEARCHRETRIES, coopnetclient.modules.Settings.getDebugMode());
 
-            if (jDPlay.isInitializedProperly()) {
+            boolean isInitialized = jDPlay.initialize(gameIdentifier, ip, isHost);
+            
+            if (isInitialized) {
                 dplayIsInitialized = true;
-                jDPlay.setMaxSearchRetries(MAX_RETRIES);
                 RoomPanel currentroom = TabOrganizer.getRoomPanel();
                 if (currentroom != null) {
                     currentroom.enableButtons();
@@ -182,7 +183,7 @@ public class WindowsLauncher implements Launcher {
 
     @Override
     public void setIngameName(String name) {
-        jDPlay.setPlayerName(name);
+        jDPlay.updatePlayerName(name);
     }
 
     @Override

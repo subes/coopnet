@@ -21,6 +21,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 package coopnetclient.utils.filechooser;
 
 import coopnetclient.Globals;
+import coopnetclient.enums.OperatingSystems;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -64,7 +65,7 @@ public class FileChooser extends javax.swing.JFrame {
             if (startDir != null) {
                 currentdir = new File(startDir);
             } else {
-                if(Globals.getOperatingSystem() == Globals.OS_LINUX){
+                if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
                     currentdir = new File(System.getenv("HOME"));
                 }else{
                     currentdir = new File(".").getCanonicalFile();
@@ -97,7 +98,7 @@ public class FileChooser extends javax.swing.JFrame {
         cmb_places.addItem("Click here to jump...");
         cmb_places.addItem("<html><b>- Places -");
         
-        if(Globals.getOperatingSystem() == Globals.OS_LINUX){
+        if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
             if(currentdir != null && !currentdir.getAbsolutePath().equals(System.getenv("HOME"))){
                 cmb_places.addItem(currentdir);
             }

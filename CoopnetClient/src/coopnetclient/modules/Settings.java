@@ -20,6 +20,7 @@
 package coopnetclient.modules;
 
 import coopnetclient.*;
+import coopnetclient.enums.OperatingSystems;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
@@ -58,7 +59,7 @@ public class Settings {
 	private static String settingsFile;
 
     static {
-        if(Globals.getOperatingSystem() == Globals.OS_WINDOWS){
+        if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS){
             optionsDir = System.getenv("APPDATA")+"/Coopnet";
         }else{
             optionsDir = System.getenv("HOME")+"/.coopnet";

@@ -51,7 +51,7 @@ public class DPlayExeHandler {
         if (!isHost) {
             execCommand += " --host " + ip;
             if (compatible) {
-                execCommand += " --search " + Launcher.MAX_RETRIES;
+                execCommand += " --search " + Globals.JDPLAY_MAXSEARCHRETRIES;
             }
         }
 

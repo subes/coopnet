@@ -141,7 +141,7 @@ public class TabOrganizer {
             
         }else{
             if(Globals.getDebug()){
-                System.out.println("[WARNING]\tClose the current RoomPanel before opening a new one!");
+                System.out.println("[W]\tClose the current RoomPanel before opening a new one!");
             }
         }
     }
@@ -152,7 +152,7 @@ public class TabOrganizer {
                 Globals.getLauncher().stop();
             }else{
                 if(Globals.getDebug()){
-                    System.out.println("[WARNING]\tLauncher should not be set to null!");
+                    System.out.println("[W]\tLauncher should not be set to null!");
                 }
             }
             Globals.closeGameSettingsFrame();
@@ -218,7 +218,7 @@ public class TabOrganizer {
                 return (PrivateChatPanel) panel;
             }else{
                 if(Globals.getDebug()){
-                    System.out.println("[WARNING]\tThe Panel \""+title+"\" is not a PrivateChatPanel!");
+                    System.out.println("[W]\tThe Panel \""+title+"\" is not a PrivateChatPanel!");
                 }
             }
         }
@@ -253,7 +253,7 @@ public class TabOrganizer {
             tabHolder.setSelectedComponent(errorPanel);
         }else{
             if(Globals.getDebug()){
-                System.out.println("[WARNING]\tWe don't need another error tab, this error may be caused by the first one!");
+                System.out.println("[W]\tWe don't need another error tab, this error may be caused by the first one!");
             }
             tabHolder.setSelectedComponent(errorPanel);
         }
@@ -279,7 +279,7 @@ public class TabOrganizer {
             });
         }else{
             if(Globals.getDebug()){
-                System.out.println("[WARNING]\tThere's an open LoginPanel already!");
+                System.out.println("[W]\tThere's an open LoginPanel already!");
                 tabHolder.setSelectedComponent(loginPanel);
             }
         }

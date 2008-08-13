@@ -24,6 +24,7 @@ import coopnetclient.*;
 import com.ice.jni.registry.Registry;
 import com.ice.jni.registry.RegistryKey;
 import coopnetclient.enums.LaunchMethods;
+import coopnetclient.enums.OperatingSystems;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -43,7 +44,7 @@ public class GameDatabase {
     
 
     static {
-        if (Globals.getOperatingSystem() == Globals.OS_WINDOWS) {
+        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
             try {
                 System.loadLibrary("lib/ICE_JNIRegistry");
                 Class.forName("com.ice.jni.registry.Registry");

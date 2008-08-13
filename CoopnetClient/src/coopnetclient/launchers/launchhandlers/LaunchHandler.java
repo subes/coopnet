@@ -20,10 +20,44 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 
 package coopnetclient.launchers.launchhandlers;
 
-public interface LaunchHandler {
+import coopnetclient.Globals;
+import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.launchers.launchinfos.LaunchInfo;
+
+public abstract class LaunchHandler {
     
-    public void initalize();
-    public void launch();
-    public void updatePlayerName(String playerName);
+    private boolean isInitialized;
     
+    public boolean isInitialized(){
+        return isInitialized;
+    }
+    
+    public void initalize(LaunchInfo launchInfo){
+        isInitialized = doInitialize(launchInfo);
+        if(isInitialized == false){
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed initializing the LaunchHandler , you won't be able to play the game!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+        }else{
+            TabOrganizer.getRoomPanel().enableButtons();
+        }
+    }
+    public abstract boolean doInitialize(LaunchInfo launchInfo);
+    
+    public void launch(){
+        if(isInitialized){
+            boolean success = doLaunch();
+            if(!success){
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed launching the game, there seems to be a problem with the setup of the game!", coopnetclient.modules.ColoredChatHandler.SYSTEM_STYLE);
+            }
+        }else{
+            throw new IllegalStateException("The game has to be initialized before launching it!");
+        }
+    }
+    public abstract boolean doLaunch();
+    
+    public abstract void updatePlayerName(String playerName);
+    
+    public void deInitialize(){
+        //this just sets the variable for now, as we don't have any LaunchHandler that supports deinitialization
+        isInitialized = false;
+    }
 }
