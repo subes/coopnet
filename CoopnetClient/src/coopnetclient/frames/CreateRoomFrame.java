@@ -23,6 +23,7 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
+import coopnetclient.enums.LaunchMethods;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             cb_mod.setVisible(false);
             lbl_mod.setVisible(false);
         }
-        if (GameDatabase.getLaunchMethod(channel, null) != GameDatabase.LAUNCHMETHOD_DIRECTPLAY) {
+        if (GameDatabase.getLaunchMethod(channel, null) != LaunchMethods.DIRECTPLAY) {
             cb_compatibility.setVisible(false);
         }
         if (!GameDatabase.isInstantLaunchable(channel)) {

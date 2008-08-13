@@ -22,6 +22,7 @@ package coopnetclient.launchers;
 import coopnetclient.launchers.handlers.DPlayExeHandler;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.*;
+import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class LinuxLauncher implements Launcher {
     private boolean dPlayIsInitialized = false;
     private boolean launcherIsInitialised = false;
     private boolean isHost;
-    private int launchMethod;
+    private LaunchMethods launchMethod;
     private String ip;
     private String gameIdentifier;
     private String modName;
@@ -56,12 +57,12 @@ public class LinuxLauncher implements Launcher {
         this.gameIdentifier = gameIdentifier;
 
         switch (launchMethod) {
-            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY:
+            case DIRECTPLAY_FORCED_COMPATIBILITY:
                 this.compatible = true;
-            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY:
+            case DIRECTPLAY:
                 initDPlay();
                 break;
-            case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING:
+            case PARAMETER:
                 dPlayIsInitialized = true;
                 if (!isHost) {
                     if (TabOrganizer.getRoomPanel() != null) {
@@ -155,13 +156,13 @@ public class LinuxLauncher implements Launcher {
     @Override
     public boolean launch() {
         switch (launchMethod) {
-            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY:
-            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY:
+            case DIRECTPLAY:
+            case DIRECTPLAY_FORCED_COMPATIBILITY:
                 if (dPlayIsInitialized) {
                     return launchDPlay();
                 }
                 break;
-            case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING:
+            case PARAMETER:
                 return launchParam(gameIdentifier);
         }
         return false;
@@ -208,7 +209,7 @@ public class LinuxLauncher implements Launcher {
     @Override
     public boolean isLaunchable(String gamename) {
         String test = null;
-        if (GameDatabase.getLaunchMethod(gamename, modName) == GameDatabase.LAUNCHMETHOD_DIRECTPLAY || GameDatabase.getLaunchMethod(gamename, modName) == GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY) {
+        if (GameDatabase.getLaunchMethod(gamename, modName) == LaunchMethods.DIRECTPLAY || GameDatabase.getLaunchMethod(gamename, modName) == LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY) {
             return true;
         }
         test = getLaunchPathWithExe(gamename);

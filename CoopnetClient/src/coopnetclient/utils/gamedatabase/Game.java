@@ -20,6 +20,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 
 package coopnetclient.utils.gamedatabase;
 
+import coopnetclient.enums.LaunchMethods;
 import java.util.HashMap;
 import java.util.ArrayList;
 
@@ -217,8 +218,8 @@ public class Game {
         fields.put("REGENTRY", value);
     }
 
-    public String getLaunchMethod(String modname) {
-        return getFieldValue("LAUNCHMETHOD", modname);
+    public LaunchMethods getLaunchMethod(String modname) {
+        return LaunchMethods.valueOf(getFieldValue("LAUNCHMETHOD", modname));
     }
 
     public void setLaunchMethod(int value) {

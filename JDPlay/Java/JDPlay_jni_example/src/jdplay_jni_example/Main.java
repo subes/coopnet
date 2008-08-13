@@ -35,7 +35,7 @@ public class Main {
 
     public static void main(String[] args) {
         //this loads the JDPlay_jni.dll which has been designed for windows
-	//on linux we have to use JDPlay_rmt.exe started via wine or cedega
+		//on linux we have to use JDPlay_rmt.exe started via wine or cedega
         System.loadLibrary("lib/JDPlay_jni");
         
         //initializing JDPlay with the parameters: playerName, maxSearchRetries, debug

@@ -21,6 +21,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 package coopnetclient.launchers;
 
 import coopnetclient.*;
+import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.clientframe.panels.RoomPanel;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -35,7 +36,7 @@ public class WindowsLauncher implements Launcher {
     private boolean dplayIsInitialized = false;
     private boolean launcherInitialised = false ;
     private boolean isHost;
-    private int launchMethod;
+    private LaunchMethods launchMethod;
     private String ip;
     private String gameIdentifier;
     private boolean compatible;
@@ -68,19 +69,19 @@ public class WindowsLauncher implements Launcher {
         map=null;
         
         switch (launchMethod) {
-            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY: {
+            case DIRECTPLAY: {
                 compatibleForced = false;
                 this.gameIdentifier = GameDatabase.getGuid(gameIdentifier, modname);
                 initDPlay();
                 break;
             }
-            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY: {
+            case DIRECTPLAY_FORCED_COMPATIBILITY: {
                 compatibleForced = true;
                 this.gameIdentifier = GameDatabase.getGuid(gameIdentifier, modname);
                 initDPlay();
                 break;
             }
-            case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING: {
+            case PARAMETER: {
                 this.gameIdentifier = gameIdentifier;
                 //isInitialized = true;
                 if (!isHost) {
@@ -188,13 +189,13 @@ public class WindowsLauncher implements Launcher {
     public boolean launch() {
 
         switch (launchMethod) {
-            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY:
-            case GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY:
+            case DIRECTPLAY:
+            case DIRECTPLAY_FORCED_COMPATIBILITY:
                 if (dplayIsInitialized) {
                     return launchDPlay();
                 }
                 break;
-            case GameDatabase.LAUNCHMETHOD_PARAMETERPASSING:
+            case PARAMETER:
                 return launchParam(gameIdentifier);
         }
         return false;
@@ -255,7 +256,7 @@ public class WindowsLauncher implements Launcher {
     public boolean isLaunchable(String gamename) {
         String test = null;
 
-        if (GameDatabase.getLaunchMethod(gamename, modName) == GameDatabase.LAUNCHMETHOD_DIRECTPLAY || GameDatabase.getLaunchMethod(gamename, modName) == GameDatabase.LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY) {
+        if (GameDatabase.getLaunchMethod(gamename, modName) == LaunchMethods.DIRECTPLAY || GameDatabase.getLaunchMethod(gamename, modName) == LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY) {
             return true;
         }
         test = getLaunchPathWithExe(gamename);

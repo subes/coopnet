@@ -23,6 +23,7 @@ package coopnetclient.utils.gamedatabase;
 import coopnetclient.*;
 import com.ice.jni.registry.Registry;
 import com.ice.jni.registry.RegistryKey;
+import coopnetclient.enums.LaunchMethods;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -64,10 +65,6 @@ public class GameDatabase {
         load(null, testdatafilepath);
         loadLocalPaths();
     }
-    //constants
-    public final static int LAUNCHMETHOD_DIRECTPLAY = 1;
-    public final static int LAUNCHMETHOD_DIRECTPLAY_FORCED_COMPATIBILITY = 2;
-    public final static int LAUNCHMETHOD_PARAMETERPASSING = 3;
     //fields
     private static HashMap<String, String> IDtoGameName;     // key is the ID    
     private static HashMap<String, String> localexecutablepath; //shud point to the exe/binary
@@ -240,9 +237,9 @@ public class GameDatabase {
         gameData.get(indexOfGame(gamename)).setLaunchMethod(launchmethod);
     }
 
-    public static int getLaunchMethod(String gamename, String modname) {
+    public static LaunchMethods getLaunchMethod(String gamename, String modname) {
         int idx = indexOfGame(gamename);
-        return new Integer(gameData.get(idx).getLaunchMethod(modname));
+        return gameData.get(idx).getLaunchMethod(modname);
     }
 
     public static void setGuid(String gamename, String guid) {
