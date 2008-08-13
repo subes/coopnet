@@ -234,8 +234,8 @@ public class GameDatabase {
         return gameData.get(idx).getRegEntry(modname);
     }
 
-    public static void setLaunchMethod(String gamename, int launchmethod) {
-        gameData.get(indexOfGame(gamename)).setLaunchMethod(launchmethod);
+    public static void setLaunchMethod(String gamename, LaunchMethods launchmethod) {
+        gameData.get(indexOfGame(gamename)).setLaunchMethod(launchmethod.toString());
     }
 
     public static LaunchMethods getLaunchMethod(String gamename, String modname) {
@@ -462,7 +462,7 @@ public class GameDatabase {
         if (input.startsWith("NAME=")) {
             currentdata.setGameName(input.substring(5));
         } else if (input.startsWith("LAUNCHMETHOD=")) {
-            currentdata.setLaunchMethod(new Integer(input.substring(13)));
+            currentdata.setLaunchMethod(input.substring(13));
         } else if (input.startsWith("GUID=")) {
             currentdata.setGuid(input.substring(5));
         } else if (input.startsWith("LAUNCHPATTERN=")) {

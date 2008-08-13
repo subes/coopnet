@@ -20,20 +20,13 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 
 package coopnetclient.frames;
 
+import bugreportmailsender.BugReportMailSender;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Colorizer;
-import java.security.Security;
 import java.util.Date;
-import java.util.Properties;
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 
 public class BugReportFrame extends javax.swing.JFrame {
@@ -105,46 +98,6 @@ public class BugReportFrame extends javax.swing.JFrame {
         }
         
         return report;
-    }
-    
-    //Sends the bugreport as mail
-    private void sendMail(String subject, String body) throws AddressException, MessagingException{	
-        //Setup things
-        String from = "coopnetbugs@gmail.com";
-        String to = "coopnetredirect@gmail.com";
-
-        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
-
-        Properties props = new Properties();
-        props.setProperty("mail.transport.protocol", "smtp");
-        props.setProperty("mail.host", "smtp.gmail.com");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.socketFactory.fallback", "false");
-        props.setProperty("mail.smtp.quitwait", "false");
-        
-        //Connect
-        Session session = Session.getDefaultInstance(props,
-                        new javax.mail.Authenticator() 
-        {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication()
-            { 
-                return new PasswordAuthentication("coopnetbugs", "sendBug_1228");	
-            }
-        });		
-
-        //Create message
-        MimeMessage message = new MimeMessage(session);
-        message.setSender(new InternetAddress(from));
-        message.setSubject(subject);
-        message.setContent(body, "text/plain");
-        message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-        //Send
-        Transport.send(message);
     }
     
     /** This method is called from within the constructor to
@@ -319,7 +272,7 @@ public class BugReportFrame extends javax.swing.JFrame {
             boolean error = false;
 
             try{
-                sendMail("BUGREPORT: "+tf_shortDescription.getText(), compileReport());
+                BugReportMailSender.sendBugReportMail("BUGREPORT: "+tf_shortDescription.getText(), compileReport());
             }catch(AddressException e){
                 error = true;
             }catch(MessagingException e){

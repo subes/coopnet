@@ -222,8 +222,8 @@ public class Game {
         return LaunchMethods.valueOf(getFieldValue("LAUNCHMETHOD", modname));
     }
 
-    public void setLaunchMethod(int value) {
-        fields.put("LAUNCHMETHOD", value + "");
+    public void setLaunchMethod(String value) {
+        fields.put("LAUNCHMETHOD", value);
     }
 
     public String getGuid(String modname) {
