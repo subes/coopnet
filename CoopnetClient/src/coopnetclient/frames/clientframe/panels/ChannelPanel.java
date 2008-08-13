@@ -63,14 +63,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         tbl_roomList.setModel(rooms);
         tbl_roomList.setAutoCreateRowSorter(true);
         tbl_roomList.setRowHeight(35);
-        
-        //Set horizontal alignment for table cells
-        /* This doesnt work, so i have to go the long way -> RommTableModel.java seems to suck, a finer approach would be nice ^^
-        for(int i = 0; i < tbl_RoomList.getColumnCount(); i++){
-            DefaultTableCellRenderer rend = (DefaultTableCellRenderer)((TableColumn)tbl_RoomList.getColumnModel().getColumn(i)).getCellRenderer();
-            rend.setHorizontalAlignment(SwingConstants.CENTER);
-        }*/
-        
+                
         RoomPasswordPicTableCellRenderer picrend = new RoomPasswordPicTableCellRenderer();
         picrend.setHorizontalAlignment(SwingConstants.CENTER);
         tbl_roomList.setDefaultRenderer(Integer.class, picrend);
@@ -91,6 +84,9 @@ public class ChannelPanel extends javax.swing.JPanel {
         
         disablebuttons();
         enablebuttons();
+        if(ID.equals("TST")){
+            TabOrganizer.openGameDataEditor();
+        }
     }
 
     public void gameClosed(String playername) {
@@ -498,6 +494,9 @@ public class ChannelPanel extends javax.swing.JPanel {
     private void btn_leaveChannelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveChannelActionPerformed
         Client.send(Protocol.leaveChannel(), this.name);
         TabOrganizer.closeChannelPanel(this);
+        if(ID.equals("TST")){
+            TabOrganizer.closeGameDataEditor();
+        }
 }//GEN-LAST:event_btn_leaveChannelActionPerformed
 
 private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tp_chatOutputKeyTyped

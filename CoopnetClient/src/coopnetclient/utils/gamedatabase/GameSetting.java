@@ -37,8 +37,8 @@ public class GameSetting {
     private int minValue = Integer.MIN_VALUE;   //spinner property
     private int maxValue = Integer.MAX_VALUE;   //spinner property
     private String defaultValue;    //default value for all types
-    private ArrayList<String> comboboxSelectNames;  //combobox property, the combobox model values
-    private ArrayList<String> comboboxValues;       //combobox property, the value to be set(that replaces the keyword)
+    private ArrayList<String> comboboxSelectNames = new ArrayList<String>();  //combobox property, the combobox model values
+    private ArrayList<String> comboboxValues = new ArrayList<String>();      //combobox property, the value to be set(that replaces the keyword)
     private String currentValue = "unspecified";     //this is the actual setting at the given time(to replace the keywork on launch)
 
     public GameSetting(boolean shared, String name, int type, String keyWord, String defaultValue) {
@@ -53,28 +53,56 @@ public class GameSetting {
         return visibleName;
     }
     
+    public void setName(String name){
+        visibleName = name;
+    }
+    
     public String getKeyWord(){
         return keyWord;
+    }
+    
+    public void setKeyWord(String keyword){
+        this.keyWord = keyword;                
     }
     
     public String getDefaultValue(){
         return defaultValue;
     }
     
+    public void setDefaultValue(String value){
+        this.defaultValue = value;
+    }
+    
     public int getType(){
         return type;
+    }
+    
+    public void setType(int type){
+        this.type = type;
     }
     
     public int getMinValue(){
         return minValue;
     }
     
+    public void setMinValue(int value){
+        this.minValue = value;
+    }
+    
     public int getMaxValue(){
         return maxValue;
     }
     
+    public void setMaxValue(int value){
+        this.minValue = value;
+    }
+    
     public boolean isShared(){
         return shared;
+    }
+    
+    public void setShared(boolean val){
+        shared = val;
     }
     
     public void reset(){
@@ -105,14 +133,6 @@ public class GameSetting {
         return currentValue;
     }
 
-    public void setMinValue(int minVal) {
-        minValue = minVal;
-    }
-
-    public void setMaxValue(int maxVal) {
-        maxValue = maxVal;
-    }
-
     public void setComboboxSelectNames(ArrayList<String> names) {
         comboboxSelectNames = new ArrayList<String>(names);
     }
@@ -132,5 +152,25 @@ public class GameSetting {
     @Override
     public String toString(){
         return visibleName;
+    }
+    
+    protected String getStorageString(){
+        String tmp = (shared?"shared":"") + visibleName + GameDatabase.SETTING_DELIMITER
+                + keyWord + GameDatabase.SETTING_DELIMITER
+                +defaultValue ;
+        switch (type) {            
+            case COMBOBOX_TYPE: {
+                for(int i= 0; i< comboboxSelectNames.size();i++){
+                    tmp += GameDatabase.SETTING_DELIMITER 
+                            + comboboxSelectNames.get(i) + "=" + comboboxValues.get(i);
+                }
+            }
+            case SPINNER_TYPE: {
+                tmp += GameDatabase.SETTING_DELIMITER + minValue 
+                      +GameDatabase.SETTING_DELIMITER +maxValue;
+                break;
+            }            
+        }
+        return tmp;
     }
 }

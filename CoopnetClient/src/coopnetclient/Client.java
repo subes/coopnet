@@ -148,7 +148,7 @@ public class Client {
         handlerThread = null;
     }
 
-    public static void initInstantLaunch(final String channel, final int modindex, final int maxPlayers, final boolean compatible) {
+    public static void initInstantLaunch(final String channel, final int modindex, final int maxPlayers, final boolean compatible,final boolean isHost) {
         new Thread() {
 
             @Override
@@ -160,7 +160,7 @@ public class Client {
                 if (modindex > 0) {
                     modname = GameDatabase.getGameModNames(channel)[Integer.valueOf(modindex)].toString();
                 }
-                Globals.getLauncher().initialize(channel, modname, true, "", compatible, maxPlayers);
+                Globals.getLauncher().initialize(channel, modname, isHost, "", compatible, maxPlayers);
             }
         }.start();
     }

@@ -279,7 +279,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             //simple instantlaunch
             Client.send(Protocol.createRoom(channel, modindex + "", passw, spn_maxPlayers.getValue().toString(), cb_compatibility.isSelected(), true), channel);
             Globals.closeRoomCreationFrame();
-            Client.initInstantLaunch(channel, modindex, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected());
+            Client.initInstantLaunch(channel, modindex, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(),true);
             Client.instantLaunch(channel, modindex, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected());
         } else if (btn_create.getText().equals("Setup & Launch")) {
             //show settings with launch button
@@ -288,7 +288,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 modname = modnames[modindex].toString();
             }
             Globals.closeRoomCreationFrame();
-            Client.initInstantLaunch(channel, modindex, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected());
+            Client.initInstantLaunch(channel, modindex, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(),true);
             Globals.openGameSettingsFrame(channel, modname, tf_name.getText(), passw, modindex, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected());
         }
     }//GEN-LAST:event_create

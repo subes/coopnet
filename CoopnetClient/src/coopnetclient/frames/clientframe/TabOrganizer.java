@@ -30,13 +30,16 @@ import coopnetclient.frames.clientframe.panels.FileTransferSendPanel;
 import coopnetclient.frames.clientframe.panels.LoginPanel;
 import coopnetclient.frames.clientframe.panels.PrivateChatPanel;
 import coopnetclient.frames.clientframe.panels.RoomPanel;
+import coopnetclient.frames.clientframe.panels.TestGameDataEditor;
 import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import java.awt.Component;
 import java.io.File;
 import java.util.Vector;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeListener;
@@ -51,6 +54,7 @@ public class TabOrganizer {
     private static BrowserPanel browserPanel;
     private static ErrorPanel errorPanel;
     private static LoginPanel loginPanel;
+    private static Component gamedataeditor;
     private static Vector<FileTransferSendPanel> fileTransferSendPanels = new Vector<FileTransferSendPanel>();
     private static Vector<FileTransferRecievePanel> fileTransferReceivePanels = new Vector<FileTransferRecievePanel>();
     
@@ -324,6 +328,23 @@ public class TabOrganizer {
             }
         }
         return null;
+    }
+    
+    public static void openGameDataEditor(){
+        GameDatabase.load(null,GameDatabase.testdatafilepath );
+        if(gamedataeditor == null){
+            gamedataeditor = new JScrollPane(new TestGameDataEditor());
+            tabHolder.add("TestGameData Editor", gamedataeditor);
+        }
+        else{
+            putFocusOnTab("TestGameData Editor");            
+        }
+    }
+    
+    public static void closeGameDataEditor(){
+        tabHolder.remove(gamedataeditor);
+        gamedataeditor = null;
+        GameDatabase.saveTestData();
     }
     
     /*******************************************************************/

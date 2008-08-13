@@ -35,11 +35,14 @@ import java.util.HashMap;
 public class GameDatabase {
 
     public static final String datafilepath = "data/gamedata";
-    private static final String lpfilepath = "data/localpaths";    
+    public static final String testdatafilepath = "data/testgamedata";
+    private static final String lpfilepath = "data/localpaths";
     private static boolean registryOK = false;
+    protected static final String SETTING_DELIMITER = "\\^";
     
+
     static {
-        if(Globals.getOperatingSystem() == Globals.OS_WINDOWS){
+        if (Globals.getOperatingSystem() == Globals.OS_WINDOWS) {
             try {
                 System.loadLibrary("lib/ICE_JNIRegistry");
                 Class.forName("com.ice.jni.registry.Registry");
@@ -51,13 +54,14 @@ public class GameDatabase {
                 e.printStackTrace();
             }
         }
-        
+
         IDtoGameName = new HashMap<String, String>();
         localexecutablepath = new HashMap<String, String>();
         localinstallpath = new HashMap<String, String>();
         isexperimental = new ArrayList<String>();
         gameData = new ArrayList<Game>();
-        load(null);
+        load("", datafilepath);
+        load(null, testdatafilepath);
         loadLocalPaths();
     }
     //constants
@@ -90,6 +94,9 @@ public class GameDatabase {
     }
 
     private static int indexOfGame(String gamename) {
+        if ( gamename == null ) {
+            return -1;
+        }
         for (int i = 0; i < gameData.size(); i++) {
             if (gameData.get(i).getGameName().equals(gamename)) {
                 return i;
@@ -97,11 +104,11 @@ public class GameDatabase {
         }
         return -1;
     }
-    
-    public static Game getGameData(String gamename){
+
+    public static Game getGameData(String gamename) {
         return gameData.get(indexOfGame(gamename));
     }
-    
+
     public static Object[] getGameModNames(String gamename) {
         return gameData.get(indexOfGame(gamename)).getAllModNames();
     }
@@ -140,9 +147,9 @@ public class GameDatabase {
         }
         return "";
     }
-    
+
     public static void setGameSettings(String gamename, String modname, ArrayList<GameSetting> settings) {
-        gameData.get(indexOfGame(gamename)).setGameSettings(modname,settings);
+        gameData.get(indexOfGame(gamename)).setGameSettings(modname, settings);
     }
 
     public static ArrayList<GameSetting> getGameSettings(String gamename, String modname) {
@@ -171,7 +178,7 @@ public class GameDatabase {
 
     public static String getRelativeExePath(String gamename, String modname) {
         int idx = indexOfGame(gamename);
-        if(idx == -1){
+        if (idx == -1) {
             return null;
         }
         return gameData.get(idx).getRelativeExePath(modname);
@@ -192,7 +199,7 @@ public class GameDatabase {
     public static void setLocalInstallPath(String gamename, String path) {
         localinstallpath.put(gamename, path);
     }
-    
+
     public static Object[] gameNames() {
         return IDtoGameName.values().toArray(new String[0]);
     }
@@ -223,7 +230,7 @@ public class GameDatabase {
 
     public static String getRegEntry(String gamename, String modname) {
         int idx = indexOfGame(gamename);
-        if(idx == -1){
+        if (idx == -1) {
             return null;
         }
         return gameData.get(idx).getRegEntry(modname);
@@ -256,16 +263,16 @@ public class GameDatabase {
         }
         //read version
         try {
-            version = new Integer(br.readLine());
+            version = new Integer(br.readLine().substring(8));
         } catch (IOException ex) {
             System.out.println("Could not load gamedatabase");
             return;
         }
     }
 
-    public static void load(String gamename) {
-        if (indexOfGame(gamename) != -1) { //dont load if already loaded
-            return;
+    public static void load(String gamename, String datafilepath) {
+        if (indexOfGame(gamename) != -1) { //remove old data
+            gameData.remove(indexOfGame(gamename));
         }
         Game currentgame = new Game();
         Game currentmod = new Game();
@@ -281,13 +288,6 @@ public class GameDatabase {
             return;
         }
 
-        //read version
-        try {
-            version = new Integer(br.readLine());
-        } catch (IOException ex) {
-            System.out.println("Could not load gamedatabase");
-            return;
-        }
         //reading data
         Boolean done = false;
         String input;
@@ -307,7 +307,9 @@ public class GameDatabase {
 
                 case 0: {//start, waiting for '{'
 
-                    if (input.equals("{")) {
+                    if (input.startsWith("VERSION ")) {
+                        version = Integer.valueOf(input.substring(8));
+                    } else if (input.equals("{")) {
                         state = 1;
                         //reset values
                         currentgame = new Game();
@@ -324,19 +326,17 @@ public class GameDatabase {
                         state = 2;
                         currentmod = new Game();
                         continue;
-                    }else
-                    if (input.equals("SETTINGS:(")) {
+                    } else if (input.equals("SETTINGS:(")) {
                         state = 3;
                         continue;
-                    }
-                    else if (input.startsWith("beta")) {
+                    } else if (input.startsWith("beta")) {
                         beta = true;
                     } else if (input.startsWith("ID=")) {
                         _ID = input.substring(3);
                     } else if (input.startsWith("}")) {
                         //store data if needed
                         IDtoGameName.put(_ID, currentgame.getGameName());
-                        if (currentgame.getGameName().equals(gamename)) {
+                        if (gamename == null || currentgame.getGameName().equals(gamename)) {
                             gameData.add(currentgame);
                             if (beta) {
                                 isexperimental.add(currentgame.getGameName());
@@ -355,16 +355,15 @@ public class GameDatabase {
                         currentmod = null;
                         state = 1;
                         continue;
-                    }else
-                    if (input.equals("SETTINGS:(")) {
+                    } else if (input.equals("SETTINGS:(")) {
                         state = 4;
                         continue;
-                    }else {
+                    } else {
                         BuildGameData(currentmod, input);
                     }
                     break;
                 }
-                case 3:{//read settings
+                case 3: {//read settings
                     if (input.equals(")")) {
                         state = 1;
                         continue;
@@ -373,7 +372,7 @@ public class GameDatabase {
                     }
                     break;
                 }
-                case 4:{//read settings for mods
+                case 4: {//read settings for mods
                     if (input.equals(")")) {
                         state = 2;
                         continue;
@@ -391,25 +390,57 @@ public class GameDatabase {
         System.out.println("game database loaded");
     }
 
-    private static void buildSettingData(Game currentdata, String input){
-        String[] parts = input.split("\\^");
+    public static void saveTestData() {
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(new FileWriter(testdatafilepath));
+        } catch (Exception ex) {
+            System.out.println("Could not save testdata");
+        }
+        for (Game game : gameData) {
+            //start
+            pw.println("NAME=GameTest channel");
+            pw.println("ID=TST");
+            pw.println("LAUNCHMETHOD=3");
+            //print fields:
+            for (String key : game.fields.keySet()) {
+                pw.println(key + "=" + game.fields.get(key));
+            }
+            //print settings
+            pw.println("SETTINGS:(");
+            for (GameSetting gs : game.settings) {
+                gs.getStorageString();
+            }
+            //settings end
+            pw.println(")");
+
+            //end
+            pw.println("{");
+        }
+        pw.flush();
+        pw.close();
+        System.out.println("tesdata saved");
+    }
+
+    private static void buildSettingData(Game currentdata, String input) {
+        String[] parts = input.split(SETTING_DELIMITER);
         String name;
         boolean shared = false;
-        if(parts[0].startsWith("shared:")){
+        if (parts[0].startsWith("shared:")) {
             name = parts[0].substring(7);
             shared = true;
-        }else{
+        } else {
             name = parts[0];
         }
-        
-        GameSetting setting = new GameSetting(shared,name,Integer.valueOf(parts[1]),parts[2],(parts.length>3?parts[3]:""));
-        switch(Integer.valueOf(parts[1])){
-            case GameSetting.COMBOBOX_TYPE:{
+
+        GameSetting setting = new GameSetting(shared, name, Integer.valueOf(parts[1]), parts[2], (parts.length > 3 ? parts[3] : ""));
+        switch (Integer.valueOf(parts[1])) {
+            case GameSetting.COMBOBOX_TYPE: {
                 ArrayList<String> names = new ArrayList<String>();
                 ArrayList<String> values = new ArrayList<String>();
-                for(int i = 4;i < parts.length; i++ ){
-                    String key = parts[i].substring(0,parts[i].indexOf("="));
-                    String value = parts[i].substring(parts[i].indexOf("=")+1);
+                for (int i = 4; i < parts.length; i++) {
+                    String key = parts[i].substring(0, parts[i].indexOf("="));
+                    String value = parts[i].substring(parts[i].indexOf("=") + 1);
                     names.add(key);
                     values.add(value);
                 }
@@ -417,18 +448,18 @@ public class GameDatabase {
                 setting.setComboboxValues(values);
                 break;
             }
-            case GameSetting.SPINNER_TYPE:{
-                if(parts.length>5){
+            case GameSetting.SPINNER_TYPE: {
+                if (parts.length > 5) {
                     setting.setMinValue(Integer.valueOf(parts[4]));
                     setting.setMaxValue(Integer.valueOf(parts[5]));
                 }
                 break;
             }
         }
-        
+
         currentdata.addSetting(setting);
     }
-    
+
     private static Game BuildGameData(Game currentdata, String input) {
         if (input.startsWith("NAME=")) {
             currentdata.setGameName(input.substring(5));

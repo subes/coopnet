@@ -26,9 +26,9 @@ import java.util.ArrayList;
 public class Game {
 
     private String name;
-    private HashMap<String, String> fields;
-    private ArrayList<Game> mods;
-    private ArrayList<GameSetting> settings;
+    protected HashMap<String, String> fields;
+    protected ArrayList<Game> mods;
+    protected ArrayList<GameSetting> settings;
 
     public Game() {
         name = "";

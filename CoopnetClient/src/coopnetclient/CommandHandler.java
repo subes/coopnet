@@ -122,7 +122,7 @@ public class CommandHandler {
                 }
             } else if (input.startsWith("joinchannel ")) {
                 String tmp = input.substring(12);
-                GameDatabase.load(tmp);
+                GameDatabase.load(tmp,GameDatabase.datafilepath);
                 TabOrganizer.openChannelPanel(tmp);
             } else if (input.startsWith("nudge ")) {
                 String tmp = input.substring(6);
@@ -151,7 +151,7 @@ public class CommandHandler {
                                     //give notice to user of failure
                                     JOptionPane.showMessageDialog(null, "You have an outdated version of the gamedata, but couldn't update it!", "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
                                 } else {//succesfull
-                                    GameDatabase.load("");
+                                    GameDatabase.loadVersion();
                                 }
                             }catch(Exception e){
                                 ErrorHandler.handleException(e);
@@ -346,7 +346,7 @@ public class CommandHandler {
                     final String tmp[] = input.substring(7).split(Protocol.INFORMATION_DELIMITER);
                     new Thread(){
                         public void run(){
-                            Client.initInstantLaunch(tmp[0], new Integer(tmp[1]), new Integer(tmp[2]), tmp[3].equals("true"));
+                            Client.initInstantLaunch(tmp[0], new Integer(tmp[1]), new Integer(tmp[2]), tmp[3].equals("true"),false);
                             Client.instantLaunch(tmp[0], new Integer(tmp[1]), new Integer(tmp[2]), tmp[3].equals("true"));
                         }
                     }.start();                    
