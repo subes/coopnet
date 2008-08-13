@@ -1,4 +1,4 @@
-6
+VERSION 7
 {
 NAME=Age of Empires 2
 ID=AE2
@@ -20,11 +20,14 @@ LAUNCHPATTERN= Unreal://{MAP}?Name={NAME}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXP
 JOINPATTERN= Unreal://{HOSTIP}/Index.unr?Name={NAME}
 REGENTRY=HKEY_LOCAL_MACHINE\SOFTWARE\Unreal Technology\Installed Apps\UnrealTournament\Folder
 EXE=System\UnrealTournament.exe
-GAMEMODES=CTFGame#Capture the Flag;DeathMatchPlus#Deathmatch;Domination#Domination;Assault#Assault;LastManStanding#LastManStanding;TDarkMatch#TDarkMatch
 MAPPATH=Maps
 MAPEXT=UNR
-SETTINGS=map;gamemode;timelimit;maxplayers;port
-DEFPORT=7777
+SETTINGS:(
+GameMode^2^GAMEMODE^^Capture the Flag=CTFGame^Deathmatch=DeathMatchPlus^Domination=Domination^Assault=Assault^LastManStanding=LastManStanding^TDarkMatch=TDarkMatch
+timelimit^3^TIMELIMIT^0^0^999
+maxplayers^3^MAXPLAYERS^0^0^999
+shared:port^3^PORT^7777
+)
 }
 {
 NAME=Unreal Tournament 2004
@@ -36,13 +39,17 @@ LAUNCHPATTERN= server {MAP}?Listen?Name={NAME}?game={GAMEMODE}?TimeLimit={TIMELI
 JOINPATTERN={HOSTIP}:{PORT}/?Name={NAME}
 REGENTRY=HKEY_LOCAL_MACHINE\SOFTWARE\Unreal Technology\Installed Apps\UT2004\Folder
 EXE=\System\UT2004.exe
-GAMEMODES=UT2k4Assault.ASGameInfo#Assault;XGame.xCTFGame#Capture the Flag;XGame.xDeathMatch#Deathmatch;XGame.xBombingRun#Bombing Run;xGame.xDoubleDom#DoubleDomination;SkaarjPack.Invasion#Invasion;BonusPack.xLastManStandingGame#LastManStanding;xMutantGame#Mutant;Onslaught.ONSOnslaughtGame#Onslaught;XGame.xTeamGame#Team Deathmatch
 MAPPATH=\Maps\
 MAPEXT=ut2
-SETTINGS=map;gamemode;timelimit;maxplayers;port;bots;goalscore
-MODSTR=-mod=
-DEFPORT=7777
-[
+SETTINGS:(
+gamemode^2^GAMEMODE^^Assault=UT2k4Assault.ASGameInfoX^Capture the Flag=XGame.xCTFGame^Deathmatch=XGame.xDeathMatch^Bombing Run=XGame.xBombingRun^DoubleDomination=xGame.xDoubleDom^Invasion=SkaarjPack.Invasion^LastManStanding=BonusPack.xLastManStandingGame^Mutant=xMutantGame^Onslaught=Onslaught.ONSOnslaughtGame^Team Deathmatch=XGame.xTeamGame
+timelimit^3^TIMELIMIT^0^0^999
+maxplayers^3^MAXPLAYERS^0^0^999
+shared:port^3^PORT^7777
+bots^3^BOTS^0^0^999
+goalscore^3^GOALSCORE^0^0^999
+)
+MODS:[
 NAME=Alien Swarm
 LAUNCHPATTERN= server {MAP}?Listen?Name={NAME} -port={PORT} -Mod=AlienSwarm
 JOINPATTERN={HOSTIP}:{PORT}/?Name={NAME} -Mod=AlienSwarm
