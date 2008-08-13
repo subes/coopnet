@@ -184,12 +184,10 @@ public class CommandHandler {
             //the server accepted the join request, must create a new room tab now in client mode
             if (input.startsWith("join ")) {
                 String[] tmp = input.substring(5).split(Protocol.INFORMATION_DELIMITER); // join, ip,compatibility,hamachiip, maxplayers, modindex
-                System.out.println("JOIN!");
                 TabOrganizer.openRoomPanel(false, currentchannel, tmp[5], tmp[1], tmp[2].equals("true"), tmp[3], new Integer(tmp[4]));
             } else 
             //the server accepted the room creation request, must create a new room tab in server mode
             if (input.startsWith("create ")) {
-                System.out.println("CREATE!");
                 String[] tmp = input.substring(7).split(Protocol.INFORMATION_DELIMITER);
                 boolean compatible = Boolean.valueOf(tmp[1]);
                 int maxplayers = Integer.valueOf(tmp[2]);
