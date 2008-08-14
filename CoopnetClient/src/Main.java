@@ -20,24 +20,12 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.launcher.launchhandlers.JDPlayRmtLaunchHandler;
-import coopnetclient.launcher.launchinfos.DirectPlayLaunchInfo;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Main {
     
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         checkArgs(args);
         Client.startup();
-    }*/
-    
-    public static void main(String[] args){
-        Globals.enableDebug();
-        DirectPlayLaunchInfo launchInfo = new DirectPlayLaunchInfo("127.0.0.1", true, "{BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}", false);
-        JDPlayRmtLaunchHandler handler = new JDPlayRmtLaunchHandler();
-        handler.initalize(launchInfo);
-        handler.launch();
     }
     
     private static void checkArgs(String[] args){

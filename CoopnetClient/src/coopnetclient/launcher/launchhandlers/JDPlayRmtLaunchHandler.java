@@ -24,6 +24,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.launcher.launchinfos.LaunchInfo;
+import coopnetclient.modules.Settings;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,14 +34,14 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
 
     private DirectPlayLaunchInfo launchInfo;
     
-    private Process jdplay;
-    private OutputStream out;
-    private BufferedReader in;
+    private static Process jdplay;
+    private static OutputStream out;
+    private static BufferedReader in;
     
     @Override
     protected boolean doInitialize(LaunchInfo launchInfo) {
         if(jdplay == null){
-            String command = /*Settings.getWineCommand() +*/ " lib/JDPlay_rmt.exe" +
+            String command = Settings.getWineCommand() + " lib/JDPlay_rmt.exe" +
                  " --playerName " + Globals.getThisPlayer_inGameName() + 
                  " --maxSearchRetries " + Globals.JDPLAY_MAXSEARCHRETRIES;
             

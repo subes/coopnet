@@ -27,29 +27,36 @@ import coopnetclient.launcher.launchinfos.LaunchInfo;
 
 public abstract class LaunchHandler {
     
-    private boolean isInitialized;
-    private boolean isPlaying;
+    //The status is static, because only one LaunchHandler may be used at a time
+    private static boolean isInitialized;
+    private static boolean isPlaying;
     
     public boolean isInitialized(){
-        return isInitialized;
+        return LaunchHandler.isInitialized;
+    }
+    
+    public boolean isPlaying(){
+        return LaunchHandler.isPlaying;
     }
     
     public void initalize(LaunchInfo launchInfo){
-        isInitialized = doInitialize(launchInfo);
-        if(isInitialized == false){
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed initializing the LaunchHandler , you won't be able to play the game!", ChatStyles.SYSTEM);
+        LaunchHandler.isInitialized = doInitialize(launchInfo);
+        if(LaunchHandler.isInitialized == false){
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed initializing the "+this.getClass().toString()+" , you won't be able to play the game!", ChatStyles.SYSTEM);
         }else{
-            //TabOrganizer.getRoomPanel().enableButtons();
+            TabOrganizer.getRoomPanel().enableButtons();
         }
     }
     protected abstract boolean doInitialize(LaunchInfo launchInfo);
     
     public void launch(){
-        if(isInitialized){
+        if(LaunchHandler.isInitialized){
+            LaunchHandler.isPlaying = true;
             boolean success = doLaunch();
             if(!success){
-                //Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed launching the game, there seems to be a problem with the setup of the game!", ChatStyles.SYSTEM);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed launching the game, there seems to be a problem with the setup of the game!", ChatStyles.SYSTEM);
             }
+            LaunchHandler.isPlaying = false;
         }else{
             throw new IllegalStateException("The game has to be initialized before launching it!");
         }
@@ -60,6 +67,6 @@ public abstract class LaunchHandler {
     
     public void deInitialize(){
         //this just sets the variable for now, as we don't have any LaunchHandler that supports deinitialization
-        isInitialized = false;
+        LaunchHandler.isInitialized = false;
     }
 }
