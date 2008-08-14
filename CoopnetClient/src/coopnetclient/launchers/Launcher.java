@@ -51,4 +51,5 @@ public interface Launcher {
     public String getFullMapPath(String gamename);
 
     public void setSetting(String settingname, String value, boolean broadcastit);
+    public String getSetting(String settingName);
 }

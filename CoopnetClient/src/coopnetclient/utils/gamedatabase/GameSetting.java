@@ -23,15 +23,11 @@ package coopnetclient.utils.gamedatabase;
 import coopnetclient.Client;
 import coopnetclient.Protocol;
 import java.util.ArrayList;
+import coopnetclient.enums.SettingTypes;
 
-public class GameSetting {
-
-    public static final int TEXTFIELD_TYPE = 1;
-    public static final int COMBOBOX_TYPE = 2;
-    public static final int SPINNER_TYPE = 3;
-    
+public class GameSetting {   
     private String visibleName; //text of the label left to setting
-    private int type;       //setting tpye
+    private SettingTypes type;       //setting tpye
     private String keyWord; //the keyword to replace in callString
     private boolean shared; //shared settings need to be sent to other roommembers
     private int minValue = Integer.MIN_VALUE;   //spinner property
@@ -39,9 +35,9 @@ public class GameSetting {
     private String defaultValue;    //default value for all types
     private ArrayList<String> comboboxSelectNames = new ArrayList<String>();  //combobox property, the combobox model values
     private ArrayList<String> comboboxValues = new ArrayList<String>();      //combobox property, the value to be set(that replaces the keyword)
-    private String currentValue = "unspecified";     //this is the actual setting at the given time(to replace the keywork on launch)
+    private String currentValue = "";     //this is the actual setting at the given time(to replace the keyword on launch)
 
-    public GameSetting(boolean shared, String name, int type, String keyWord, String defaultValue) {
+    public GameSetting(boolean shared, String name, SettingTypes type, String keyWord, String defaultValue) {
         this.visibleName = name;
         this.shared = shared;
         this.keyWord = keyWord;
@@ -73,11 +69,11 @@ public class GameSetting {
         this.defaultValue = value;
     }
     
-    public int getType(){
+    public SettingTypes getType(){
         return type;
     }
     
-    public void setType(int type){
+    public void setType(SettingTypes type){
         this.type = type;
     }
     
@@ -94,7 +90,7 @@ public class GameSetting {
     }
     
     public void setMaxValue(int value){
-        this.minValue = value;
+        this.maxValue = value;
     }
     
     public boolean isShared(){
@@ -106,20 +102,20 @@ public class GameSetting {
     }
     
     public void reset(){
-        currentValue = "unspecified";
+        currentValue = "";
     }
     
     public void setValue(String value,boolean broadcast) {
         switch (type) {
-            case TEXTFIELD_TYPE: {
+            case TEXT: {
                 currentValue = value;
                 break;
             }
-            case COMBOBOX_TYPE: {
+            case CHOISE: {
                 currentValue = comboboxValues.get(comboboxSelectNames.indexOf(value));
                 break;
             }
-            case SPINNER_TYPE: {
+            case NUMBER: {
                 currentValue = value;
                 break;
             }            
@@ -156,16 +152,18 @@ public class GameSetting {
     
     protected String getStorageString(){
         String tmp = (shared?"shared":"") + visibleName + GameDatabase.SETTING_DELIMITER
+                + type.toString() + GameDatabase.SETTING_DELIMITER
                 + keyWord + GameDatabase.SETTING_DELIMITER
                 +defaultValue ;
         switch (type) {            
-            case COMBOBOX_TYPE: {
+            case CHOISE: {
                 for(int i= 0; i< comboboxSelectNames.size();i++){
                     tmp += GameDatabase.SETTING_DELIMITER 
                             + comboboxSelectNames.get(i) + "=" + comboboxValues.get(i);
                 }
+                break;
             }
-            case SPINNER_TYPE: {
+            case NUMBER: {
                 tmp += GameDatabase.SETTING_DELIMITER + minValue 
                       +GameDatabase.SETTING_DELIMITER +maxValue;
                 break;

@@ -81,6 +81,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             lbl_map.setVisible(true);
             cb_map.setVisible(true);
             cb_map.setModel(new DefaultComboBoxModel(loadMaps()));
+            cb_map.setSelectedItem(Globals.getLauncher().getMap());
         }
         //add setting components to frame and internal lists
         GridBagConstraints firstcolumn = new GridBagConstraints();
@@ -116,19 +117,31 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             label.setHorizontalAlignment(JLabel.RIGHT);
             Component input = null;
             switch (gs.getType()) {
-                case GameSetting.TEXTFIELD_TYPE: {
+                case TEXT: {
                     input = new JTextField(gs.getDefaultValue());
+                    String currentValue = Globals.getLauncher().getSetting(gs.getName());
+                    if( currentValue != null && currentValue.length()>0 ){
+                        ((JTextField)input).setText(currentValue);
+                    }
                     break;
                 }
-                case GameSetting.SPINNER_TYPE: {
+                case NUMBER: {
                     int def = 0;
                     def= Integer.valueOf(gs.getDefaultValue()==null?"0":gs.getDefaultValue());
                     int min = Integer.valueOf(gs.getMinValue());
                     int max = Integer.valueOf(gs.getMaxValue());
-                    input = new JSpinner(new SpinnerNumberModel(def, min, max, 1));
+                    if(min <= max && min <= def && def <= max){
+                        input = new JSpinner(new SpinnerNumberModel(def, min, max, 1));
+                    }else{
+                         input = new JSpinner();
+                    }
+                    String currentValue = Globals.getLauncher().getSetting(gs.getName());
+                    if( currentValue != null && currentValue.length()>0 ){
+                        ((JSpinner)input).setValue(Integer.valueOf(currentValue));
+                    }
                     break;
                 }
-                case GameSetting.COMBOBOX_TYPE: {
+                case CHOISE: {
                     input = new JComboBox(gs.getComboboxSelectNames().toArray());
                     if (gs.getDefaultValue() != null && gs.getDefaultValue().length() > 0) {
                         int idx = -1;
@@ -136,6 +149,10 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                         if (idx > -1) {
                             ((JComboBox) input).setSelectedIndex(idx);
                         }
+                    }
+                    String currentValue = Globals.getLauncher().getSetting(gs.getName());
+                    if( currentValue != null && currentValue.length()>0 ){
+                        ((JComboBox)input).setSelectedItem(currentValue);
                     }
                     break;
                 }

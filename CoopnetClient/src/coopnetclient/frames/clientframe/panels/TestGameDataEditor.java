@@ -17,9 +17,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.clientframe.panels;
 
+import coopnetclient.enums.SettingTypes;
 import coopnetclient.utils.gamedatabase.Game;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
@@ -31,8 +31,8 @@ import javax.swing.AbstractListModel;
 public class TestGameDataEditor extends javax.swing.JPanel {
 
     private Game testdata = GameDatabase.getGameData(GameDatabase.getGameName("TST"));
-    private ArrayList<GameSetting> settings = testdata.getGameSettings(null);
-    private SettingsListModel settingsmodel = new SettingsListModel(settings);
+    private ArrayList<GameSetting> settings;
+    private SettingsListModel settingsmodel;
     private ChoiseListModel choisemodel = new ChoiseListModel();
 
     /** Creates new form TestGameDataEditor */
@@ -41,7 +41,6 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         setChoiseFieldsEnabled(false);
         setNumberFieldsEnabled(false);
         LoadGameData();
-        jl_Settings.setModel(settingsmodel);
         //add actionlisteners
         tf_HostPattern.addActionListener(saveaction);
         tf_JoinPattern.addActionListener(saveaction);
@@ -49,6 +48,9 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         tf_MapPath.addActionListener(saveaction);
         tf_RegKey.addActionListener(saveaction);
         tf_RelativeExePath.addActionListener(saveaction);
+        settings = testdata.getGameSettings(null);
+        settingsmodel = new SettingsListModel(settings);
+        jl_Settings.setModel(settingsmodel);
     }
 
     private void setNumberFieldsEnabled(boolean enabled) {
@@ -62,17 +64,28 @@ public class TestGameDataEditor extends javax.swing.JPanel {
     private void loadNumberProperties() {
         GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
         if (gs != null) {
-            tf_MaxValue.setText(gs.getMaxValue() + "");
-            tf_MinValue.setText(gs.getMinValue() + "");
+            if (gs.getMaxValue() < Integer.MAX_VALUE) {
+                tf_MaxValue.setText(gs.getMaxValue() + "");
+            } else {
+                tf_MaxValue.setText("");
+            }
+            if (gs.getMinValue() > Integer.MIN_VALUE) {
+                tf_MinValue.setText(gs.getMinValue() + "");
+            } else {
+                tf_MinValue.setText("");
+            }
         }
     }
 
     private void saveNumberProperties() {
         GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
         if (gs != null) {
-            gs.setMaxValue(Integer.valueOf(tf_MaxValue.getText()));
-            gs.setMinValue(Integer.valueOf(tf_MinValue.getText()));
-            saveGameData();
+            if (tf_MaxValue.getText().length() > 0) {
+                gs.setMaxValue(Integer.valueOf(tf_MaxValue.getText()));
+            }
+            if (tf_MinValue.getText().length() > 0) {
+                gs.setMinValue(Integer.valueOf(tf_MinValue.getText()));
+            }
         }
     }
 
@@ -82,8 +95,25 @@ public class TestGameDataEditor extends javax.swing.JPanel {
             tf_DefaultValue.setText(gs.getDefaultValue());
             tf_KeyWord.setText(gs.getKeyWord());
             tf_SettingName.setText(gs.getName());
-            cmb_SettingType.setSelectedIndex(gs.getType());
+            cmb_SettingType.setSelectedIndex(gs.getType().ordinal());
             cmb_SettingTypeActionPerformed(null);
+            if (gs.getType() == SettingTypes.CHOISE) {
+                choisemodel = new ChoiseListModel(gs);
+                jl_MultiChoises.setModel(choisemodel);
+                choisemodel.refresh();
+                jl_MultiChoises.revalidate();
+                jl_MultiChoises.repaint();
+                loadChoiseProperties();
+            } else {
+                choisemodel = new ChoiseListModel();
+                jl_MultiChoises.setModel(choisemodel);
+                choisemodel.refresh();
+                jl_MultiChoises.revalidate();
+                jl_MultiChoises.repaint();
+            }
+            if (gs.getType() == SettingTypes.CHOISE) {
+                loadNumberProperties();
+            }
         }
     }
 
@@ -102,25 +132,24 @@ public class TestGameDataEditor extends javax.swing.JPanel {
     private void loadChoiseProperties() {
         GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
         if (gs != null) {
-            jl_MultiChoises.setModel(new ChoiseListModel(gs));
-            jl_MultiChoises.repaint();
-            tf_ChoiseName.setText(gs.getComboboxSelectNames().get(jl_MultiChoises.getSelectedIndex()));
-            tf_ChoiseValue.setText(gs.getComboboxValues().get(jl_MultiChoises.getSelectedIndex()));
+            if (jl_MultiChoises.getSelectedIndex() > -1) {
+                tf_ChoiseName.setText(gs.getComboboxSelectNames().get(jl_MultiChoises.getSelectedIndex()));
+                tf_ChoiseValue.setText(gs.getComboboxValues().get(jl_MultiChoises.getSelectedIndex()));
+            }
         }
     }
 
     private void saveChoiseProperties() {
         GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
         if (gs != null) {
-            gs.getComboboxSelectNames().set(jl_MultiChoises.getSelectedIndex(), tf_ChoiseName.getText());
-            gs.getComboboxValues().set(jl_MultiChoises.getSelectedIndex(), tf_ChoiseValue.getText());
-            saveGameData();
+            gs.setComboboxSelectNames(choisemodel.names);
+            gs.setComboboxValues(choisemodel.values);
         }
     }
 
     private void updateChoiseProperties() {
         GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
-        if (gs != null) {
+        if (gs != null && jl_MultiChoises.getSelectedIndex() > -1) {
             tf_ChoiseName.setText(gs.getComboboxSelectNames().get(jl_MultiChoises.getSelectedIndex()));
             tf_ChoiseValue.setText(gs.getComboboxValues().get(jl_MultiChoises.getSelectedIndex()));
         }
@@ -136,6 +165,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
     }
     private ActionListener saveaction = new ActionListener() {
 
+        @Override
         public void actionPerformed(
                 ActionEvent e) {
             saveGameData();
@@ -143,6 +173,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
     };
 
     private void saveGameData() {
+        //testdata = GameDatabase.getGameData(GameDatabase.getGameName("TST"));
         testdata.setHostPattern(tf_HostPattern.getText());
         testdata.setJoinPattern(tf_JoinPattern.getText());
         testdata.setMapExtension(tf_MapExtension.getText());
@@ -150,6 +181,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         testdata.setRegEntry(tf_RegKey.getText());
         testdata.setRelativeExePath(tf_RelativeExePath.getText());
         testdata.setGameSettings(null, settings);
+        GameDatabase.saveTestData();
     }
 
     private static class SettingsListModel extends AbstractListModel {
@@ -160,15 +192,37 @@ public class TestGameDataEditor extends javax.swing.JPanel {
             this.data = data;
         }
 
+        @Override
         public int getSize() {
             return data.size();
         }
 
+        @Override
         public Object getElementAt(int i) {
             return data.get(i);
         }
 
         public void refresh() {
+            fireContentsChanged(this, 0, getSize());
+        }
+
+        public void addSetting(boolean shared, String name, SettingTypes type, String keyword, String defaultValue) {
+            data.add(new GameSetting(shared, name, type, keyword, defaultValue));
+            fireContentsChanged(this, 0, getSize());
+        }
+
+        public void removeSetting(int index) {
+            data.remove(index);
+            fireContentsChanged(this, 0, getSize());
+        }
+
+        public void overrideSetting(int index, boolean shared, String name, SettingTypes type, String keyword, String defaultValue) {
+            GameSetting gs = data.get(index);
+            gs.setShared(shared);
+            gs.setName(name);
+            gs.setType(type);
+            gs.setKeyWord(keyword);
+            gs.setDefaultValue(defaultValue);
             fireContentsChanged(this, 0, getSize());
         }
     }
@@ -188,10 +242,12 @@ public class TestGameDataEditor extends javax.swing.JPanel {
             this.values = data.getComboboxValues();
         }
 
+        @Override
         public int getSize() {
             return names.size();
         }
 
+        @Override
         public Object getElementAt(int i) {
             return names.get(i);
         }
@@ -211,6 +267,10 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         public void overrideChoise(String name, String value, int index) {
             names.set(index, name);
             values.set(index, value);
+            fireContentsChanged(this, 0, getSize());
+        }
+
+        public void refresh() {
             fireContentsChanged(this, 0, getSize());
         }
     }
@@ -269,9 +329,6 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         btn_SaveChoise = new javax.swing.JButton();
         cb_isShared = new javax.swing.JCheckBox();
 
-        setMaximumSize(null);
-        setMinimumSize(null);
-        setPreferredSize(null);
         setLayout(new java.awt.GridBagLayout());
 
         lbl_host.setText("Launch parameters for hosting:");
@@ -280,6 +337,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(lbl_host, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -338,7 +396,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(tf_RelativeExePath, gridBagConstraints);
 
-        lbl_mappath.setText("Relative path of Maps from Install path(e.g. /Maps/):");
+        lbl_mappath.setText("Relative path of Maps from Install path(e.g. Maps/):");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
@@ -354,7 +412,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(tf_MapPath, gridBagConstraints);
 
-        lbl_mapextension.setText("Map-file extension(e.g. .map):");
+        lbl_mapextension.setText("Map-file extension(e.g. map):");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
@@ -659,7 +717,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(tf_MaxValue, gridBagConstraints);
 
-        btn_SaveSetting.setText("Save");
+        btn_SaveSetting.setText("Update");
         btn_SaveSetting.setMaximumSize(new java.awt.Dimension(80, 25));
         btn_SaveSetting.setMinimumSize(new java.awt.Dimension(80, 25));
         btn_SaveSetting.setPreferredSize(new java.awt.Dimension(80, 25));
@@ -675,7 +733,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btn_SaveSetting, gridBagConstraints);
 
-        btn_SaveChoise.setText("Save");
+        btn_SaveChoise.setText("Update");
         btn_SaveChoise.setMaximumSize(new java.awt.Dimension(80, 25));
         btn_SaveChoise.setMinimumSize(new java.awt.Dimension(80, 25));
         btn_SaveChoise.setPreferredSize(new java.awt.Dimension(80, 25));
@@ -700,9 +758,8 @@ public class TestGameDataEditor extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void cmb_SettingTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_SettingTypeActionPerformed
-    setChoiseFieldsEnabled(cmb_SettingType.getSelectedIndex() == GameSetting.COMBOBOX_TYPE);
-    setNumberFieldsEnabled(cmb_SettingType.getSelectedIndex() == GameSetting.SPINNER_TYPE);
-    System.out.println(cmb_SettingType.getSelectedIndex() + "");
+    setChoiseFieldsEnabled(cmb_SettingType.getSelectedIndex() == SettingTypes.CHOISE.ordinal());
+    setNumberFieldsEnabled(cmb_SettingType.getSelectedIndex() == SettingTypes.NUMBER.ordinal());
 }//GEN-LAST:event_cmb_SettingTypeActionPerformed
 
 private void jl_SettingsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jl_SettingsValueChanged
@@ -714,7 +771,7 @@ private void jl_MultiChoisesValueChanged(javax.swing.event.ListSelectionEvent ev
 }//GEN-LAST:event_jl_MultiChoisesValueChanged
 
 private void btn_AddSettingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AddSettingActionPerformed
-    settings.add(new GameSetting(cb_isShared.isSelected(), tf_SettingName.getText(), cmb_SettingType.getSelectedIndex(), tf_KeyWord.getText(), tf_DefaultValue.getText()));
+    settingsmodel.addSetting(cb_isShared.isSelected(), tf_SettingName.getText(), SettingTypes.values()[cmb_SettingType.getSelectedIndex()], tf_KeyWord.getText(), tf_DefaultValue.getText());
     settingsmodel.refresh();
     jl_Settings.repaint();
     saveGameData();
@@ -722,7 +779,7 @@ private void btn_AddSettingActionPerformed(java.awt.event.ActionEvent evt) {//GE
 
 private void btn_RemoveSettingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RemoveSettingActionPerformed
     if (jl_Settings.getSelectedIndex() > -1) {
-        settings.remove(jl_Settings.getSelectedIndex());
+        settingsmodel.removeSetting(jl_Settings.getSelectedIndex());
         settingsmodel.refresh();
         jl_Settings.repaint();
         saveGameData();
@@ -732,20 +789,17 @@ private void btn_RemoveSettingActionPerformed(java.awt.event.ActionEvent evt) {/
 private void btn_AddChoiseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AddChoiseActionPerformed
     GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
     if (gs != null) {
-        gs.getComboboxSelectNames().add(tf_ChoiseName.getText());
-        gs.getComboboxValues().add(tf_ChoiseValue.getText());
-        jl_MultiChoises.repaint();
-        saveChoiseProperties();
+        choisemodel.addChoise(tf_ChoiseName.getText(), tf_ChoiseValue.getText());
+        choisemodel.refresh();
+        saveGameData();
     }
 }//GEN-LAST:event_btn_AddChoiseActionPerformed
 
 private void btn_RemoveChoiseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RemoveChoiseActionPerformed
     GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
     if (gs != null && jl_MultiChoises.getSelectedIndex() > -1) {
-        gs.getComboboxSelectNames().remove(jl_MultiChoises.getSelectedIndex());
-        gs.getComboboxValues().remove(jl_MultiChoises.getSelectedIndex());
-        jl_MultiChoises.repaint();
-        saveChoiseProperties();
+        choisemodel.removeChoise(jl_MultiChoises.getSelectedIndex());
+        saveGameData();
     }
 }//GEN-LAST:event_btn_RemoveChoiseActionPerformed
 
@@ -756,24 +810,26 @@ private void btn_SaveSettingActionPerformed(java.awt.event.ActionEvent evt) {//G
         gs.setName(tf_SettingName.getText());
         gs.setDefaultValue(tf_DefaultValue.getText());
         gs.setKeyWord(tf_KeyWord.getText());
-        gs.setType(cmb_SettingType.getSelectedIndex());
+        gs.setType(SettingTypes.values()[cmb_SettingType.getSelectedIndex()]);
         jl_MultiChoises.repaint();
-        if (cmb_SettingType.getSelectedIndex() == GameSetting.COMBOBOX_TYPE) {
+        if (cmb_SettingType.getSelectedIndex() == SettingTypes.CHOISE.ordinal()) {
             saveChoiseProperties();
         }
-        if (cmb_SettingType.getSelectedIndex() == GameSetting.SPINNER_TYPE) {
+        if (cmb_SettingType.getSelectedIndex() == SettingTypes.NUMBER.ordinal()) {
             saveNumberProperties();
         }
+        settingsmodel.refresh();
+        saveGameData();
     }
 }//GEN-LAST:event_btn_SaveSettingActionPerformed
 
 private void btn_SaveChoiseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SaveChoiseActionPerformed
     GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
-    if (gs != null) {
-        gs.getComboboxSelectNames().set(jl_MultiChoises.getSelectedIndex(), tf_ChoiseName.getText());
-        gs.getComboboxValues().set(jl_MultiChoises.getSelectedIndex(), tf_ChoiseValue.getText());
-        jl_MultiChoises.repaint();
+    if (gs != null && jl_MultiChoises.getSelectedIndex() > -1) {
+        choisemodel.overrideChoise(tf_ChoiseName.getText(), tf_ChoiseValue.getText(), jl_MultiChoises.getSelectedIndex());
+        choisemodel.refresh();
         saveChoiseProperties();
+        saveGameData();
     }
 }//GEN-LAST:event_btn_SaveChoiseActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables

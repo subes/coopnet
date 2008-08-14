@@ -17,7 +17,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.utils.gamedatabase;
 
 import coopnetclient.*;
@@ -25,6 +24,7 @@ import com.ice.jni.registry.Registry;
 import com.ice.jni.registry.RegistryKey;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.OperatingSystems;
+import coopnetclient.enums.SettingTypes;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -40,7 +40,8 @@ public class GameDatabase {
     public static final String testdatafilepath = "data/testgamedata";
     private static final String lpfilepath = "data/localpaths";
     private static boolean registryOK = false;
-    protected static final String SETTING_DELIMITER = "\\^";
+    protected static final String SETTING_DELIMITER_PATTERN = "\\^";
+    protected static final String SETTING_DELIMITER = "^";
     
 
     static {
@@ -92,7 +93,7 @@ public class GameDatabase {
     }
 
     private static int indexOfGame(String gamename) {
-        if ( gamename == null ) {
+        if (gamename == null) {
             return -1;
         }
         for (int i = 0; i < gameData.size(); i++) {
@@ -268,10 +269,7 @@ public class GameDatabase {
         }
     }
 
-    public static void load(String gamename, String datafilepath) {
-        if (indexOfGame(gamename) != -1) { //remove old data
-            gameData.remove(indexOfGame(gamename));
-        }
+    public static void load(String gamename, String datafilepath) {       
         Game currentgame = new Game();
         Game currentmod = new Game();
         boolean beta = false;
@@ -335,6 +333,9 @@ public class GameDatabase {
                         //store data if needed
                         IDtoGameName.put(_ID, currentgame.getGameName());
                         if (gamename == null || currentgame.getGameName().equals(gamename)) {
+                            if (indexOfGame(currentgame.getGameName()) > -1) { //remove old data
+                                gameData.remove(indexOfGame(currentgame.getGameName()));
+                            }
                             gameData.add(currentgame);
                             if (beta) {
                                 isexperimental.add(currentgame.getGameName());
@@ -396,24 +397,29 @@ public class GameDatabase {
             System.out.println("Could not save testdata");
         }
         for (Game game : gameData) {
-            //start
-            pw.println("NAME=GameTest channel");
-            pw.println("ID=TST");
-            pw.println("LAUNCHMETHOD=3");
-            //print fields:
-            for (String key : game.fields.keySet()) {
-                pw.println(key + "=" + game.fields.get(key));
-            }
-            //print settings
-            pw.println("SETTINGS:(");
-            for (GameSetting gs : game.settings) {
-                gs.getStorageString();
-            }
-            //settings end
-            pw.println(")");
+            if (game.getGameName().equals(GameDatabase.getGameName("TST"))) {
+                //start
+                pw.println("{");
+                pw.println("NAME=" + game.getGameName());
+                pw.println("ID=TST");
+                //print fields:
+                for (String key : game.fields.keySet()) {
+                    if (game.fields.get(key).length() > 0) {
+                        pw.println(key + "=" + game.fields.get(key));
+                    }
+                }
+                //print settings
+                pw.println("SETTINGS:(");
+                for (GameSetting gs : game.settings) {
+                    pw.println(gs.getStorageString());
+                }
+                //settings end
+                pw.println(")");
 
-            //end
-            pw.println("{");
+                //end
+                pw.println("}");
+            //break;
+            }
         }
         pw.flush();
         pw.close();
@@ -421,7 +427,7 @@ public class GameDatabase {
     }
 
     private static void buildSettingData(Game currentdata, String input) {
-        String[] parts = input.split(SETTING_DELIMITER);
+        String[] parts = input.split(SETTING_DELIMITER_PATTERN);
         String name;
         boolean shared = false;
         if (parts[0].startsWith("shared:")) {
@@ -431,9 +437,9 @@ public class GameDatabase {
             name = parts[0];
         }
 
-        GameSetting setting = new GameSetting(shared, name, Integer.valueOf(parts[1]), parts[2], (parts.length > 3 ? parts[3] : ""));
-        switch (Integer.valueOf(parts[1])) {
-            case GameSetting.COMBOBOX_TYPE: {
+        GameSetting setting = new GameSetting(shared, name, SettingTypes.valueOf(parts[1]), parts[2], (parts.length > 3 ? parts[3] : ""));
+        switch (SettingTypes.valueOf(parts[1])) {
+            case CHOISE: {
                 ArrayList<String> names = new ArrayList<String>();
                 ArrayList<String> values = new ArrayList<String>();
                 for (int i = 4; i < parts.length; i++) {
@@ -446,7 +452,7 @@ public class GameDatabase {
                 setting.setComboboxValues(values);
                 break;
             }
-            case GameSetting.SPINNER_TYPE: {
+            case NUMBER: {
                 if (parts.length > 5) {
                     setting.setMinValue(Integer.valueOf(parts[4]));
                     setting.setMaxValue(Integer.valueOf(parts[5]));
@@ -454,7 +460,6 @@ public class GameDatabase {
                 break;
             }
         }
-
         currentdata.addSetting(setting);
     }
 

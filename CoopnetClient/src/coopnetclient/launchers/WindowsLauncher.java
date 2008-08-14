@@ -155,7 +155,7 @@ public class WindowsLauncher implements Launcher {
         }
         //replace settings text with actual values
         for(GameSetting gs:settings){
-            callerstring = callerstring.replace(gs.getKeyWord(),gs.getValue());
+            callerstring = callerstring.replace("{"+gs.getKeyWord()+"}",gs.getValue());
         }
 
         System.out.println(callerstring);
@@ -296,6 +296,7 @@ public class WindowsLauncher implements Launcher {
         modName = newmod;
     }
 
+    @Override
     public boolean isInitialised() {
         return launcherInitialised;
     }
@@ -309,7 +310,18 @@ public class WindowsLauncher implements Launcher {
             }
         }
     }
+    
+    @Override
+    public String getSetting(String settingName) {
+        for(GameSetting gs : settings){
+            if(gs.getName().equals(settingName)){
+                return gs.getValue();
+            }
+        }        
+        return null;
+    }
 
+    @Override
     public String getGameName() {
         return gameIdentifier;
     }

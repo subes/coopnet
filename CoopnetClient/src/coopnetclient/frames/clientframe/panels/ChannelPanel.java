@@ -275,6 +275,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         scrl_chatOutput.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrl_chatOutput.setEnabled(false);
         scrl_chatOutput.setFocusable(false);
+        scrl_chatOutput.setMinimumSize(new java.awt.Dimension(150, 50));
         scrl_chatOutput.setPreferredSize(new java.awt.Dimension(150, 150));
         scrl_chatOutput.setRequestFocusEnabled(false);
         scrl_chatOutput.setVerifyInputWhenFocusTarget(false);
@@ -282,8 +283,9 @@ public class ChannelPanel extends javax.swing.JPanel {
         tp_chatOutput.setEditable(false);
         tp_chatOutput.setAutoscrolls(false);
         tp_chatOutput.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-        tp_chatOutput.setMinimumSize(new java.awt.Dimension(6, 24));
+        tp_chatOutput.setMinimumSize(new java.awt.Dimension(150, 50));
         tp_chatOutput.setNextFocusableComponent(tp_chatInput);
+        tp_chatOutput.setPreferredSize(new java.awt.Dimension(150, 50));
         tp_chatOutput.setVerifyInputWhenFocusTarget(false);
         tp_chatOutput.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -393,7 +395,7 @@ public class ChannelPanel extends javax.swing.JPanel {
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_refresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(btn_leaveChannel))
             .addComponent(scrl_roomList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );

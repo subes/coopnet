@@ -123,7 +123,7 @@ public class LinuxLauncher implements Launcher {
         }
         //replace settings text with actual values
         for (GameSetting gs : settings) {
-            callerstring = callerstring.replace(gs.getKeyWord(), gs.getValue());
+            callerstring = callerstring.replace("{" + gs.getKeyWord() + "}", gs.getValue());
         }
         System.out.println(callerstring);
 
@@ -247,13 +247,23 @@ public class LinuxLauncher implements Launcher {
     }
 
     @Override
-    public void setSetting(String settingname, String value ,boolean broadcast) {
+    public void setSetting(String settingname, String value, boolean broadcast) {
         for (GameSetting setting : settings) {
             if (setting.getName().equals(settingname)) {
                 setting.setValue(value, isHost && broadcast);
                 return;
             }
         }
+    }
+
+    @Override
+    public String getSetting(String settingName) {
+        for(GameSetting gs : settings){
+            if(gs.getName().equals(settingName)){
+                return gs.getValue();
+            }
+        }        
+        return null;
     }
 
     @Override
