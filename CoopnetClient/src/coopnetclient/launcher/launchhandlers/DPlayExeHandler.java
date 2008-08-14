@@ -18,13 +18,12 @@ You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.launchers.launchhandlers;
+package coopnetclient.launcher.launchhandlers;
 
-import coopnetclient.launchers.*;
+import coopnetclient.launcher.*;
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.modules.Settings;
-import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,7 +44,7 @@ public class DPlayExeHandler {
 
     public DPlayExeHandler(final String gameIdentifier, String modname, boolean isHost, String ip, boolean compatible) {
         //Compile command string
-        String execCommand = Settings.getWineCommand() + " lib/JDPlay_rmt.exe" +
+        String execCommand = Settings.getWineCommand() + " lib/JDPlay_rmt_old.exe" +
                 " --player " + Globals.getThisPlayer_inGameName() +
                 " --game " + GameDatabase.getGuid(gameIdentifier, modname);
 

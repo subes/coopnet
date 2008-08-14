@@ -17,90 +17,122 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-package coopnetclient.launchers;
 
-import coopnetclient.launchers.launchhandlers.DPlayExeHandler;
-import coopnetclient.utils.gamedatabase.GameDatabase;
+package coopnetclient.launcher;
+
 import coopnetclient.*;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframe.panels.RoomPanel;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import java.io.IOException;
 import java.util.ArrayList;
+import jdplay.JDPlay;
 
-public class LinuxLauncher implements Launcher {
+public class WindowsLauncher implements OLDLauncher {
 
-    private boolean dPlayIsInitialized = false;
-    private boolean launcherIsInitialised = false;
+    private JDPlay jDPlay = null;
+    private boolean dplayIsInitialized = false;
+    private boolean launcherInitialised = false ;
     private boolean isHost;
     private LaunchMethods launchMethod;
     private String ip;
     private String gameIdentifier;
-    private String modName;
     private boolean compatible;
+    private boolean compatibleForced;
     private String map;
-    private DPlayExeHandler dplay;
     private ArrayList<GameSetting> settings;
+    private String modName;
+    
+
+    public WindowsLauncher() {
+    }
 
     @Override
     public void initialize(String gameIdentifier, String modname, boolean isHost, String ip, boolean compatible, int maxPlayers) {
-        launcherIsInitialised = false;
+        launcherInitialised= false;
         if (ip != null && ip.startsWith("/")) {
             ip = ip.substring(1);
         }
-        this.modName = modname;
-        settings = GameDatabase.getGameSettings(gameIdentifier, modname);
         this.ip = ip;
+
+        settings = GameDatabase.getGameSettings(gameIdentifier, modname);
+        //reset settings
+        for(GameSetting setting :settings){
+            setting.reset();
+        }
+        this.modName = modname;
         this.compatible = compatible;
         this.launchMethod = GameDatabase.getLaunchMethod(gameIdentifier, modname);
         this.isHost = isHost;
-        this.gameIdentifier = gameIdentifier;
-
+        map=null;
+        
         switch (launchMethod) {
-            case DIRECTPLAY_FORCED_COMPATIBILITY:
-                this.compatible = true;
-            case DIRECTPLAY:
+            case DIRECTPLAY: {
+                compatibleForced = false;
+                this.gameIdentifier = GameDatabase.getGuid(gameIdentifier, modname);
                 initDPlay();
                 break;
-            case PARAMETER:
-                dPlayIsInitialized = true;
+            }
+            case DIRECTPLAY_FORCED_COMPATIBILITY: {
+                compatibleForced = true;
+                this.gameIdentifier = GameDatabase.getGuid(gameIdentifier, modname);
+                initDPlay();
+                break;
+            }
+            case PARAMETER: {
+                this.gameIdentifier = gameIdentifier;
+                //isInitialized = true;
                 if (!isHost) {
-                    if (TabOrganizer.getRoomPanel() != null) {
-                        TabOrganizer.getRoomPanel().enableButtons();
+                    RoomPanel currentroom = TabOrganizer.getRoomPanel();
+                    if (currentroom != null) {
+                        currentroom.enableButtons();
                     }
                 }
+            }
         }
-        launcherIsInitialised = true;
+        launcherInitialised= true;
         //call it here to NOT remember settings
-        if (TabOrganizer.getRoomPanel() != null) {
-            TabOrganizer.getRoomPanel().showSettings();
+        RoomPanel currentroom = TabOrganizer.getRoomPanel();
+        if (currentroom != null) {
+            currentroom.showSettings();
         }
     }
 
     private void initDPlay() {
-        if (dPlayIsInitialized) {
-            stopDPlay();
-        }
-
-        dplay = new DPlayExeHandler(gameIdentifier, modName, isHost, ip, compatible);
-
-        if (dplay.isInitialized) {
-            dPlayIsInitialized = true;
-            if (TabOrganizer.getRoomPanel() != null) { //May be null if user closes room too fast
-                TabOrganizer.getRoomPanel().enableButtons();
+        try {
+            if (dplayIsInitialized) {
+                stopDPlay();
             }
-        } else {
-            stopDPlay();
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "DirectPlay error!",
-                    ChatStyles.SYSTEM);
+
+            jDPlay = new JDPlay(Globals.getThisPlayer_inGameName(), Globals.JDPLAY_MAXSEARCHRETRIES, coopnetclient.modules.Settings.getDebugMode());
+
+            boolean isInitialized = jDPlay.initialize(gameIdentifier, ip, isHost);
+            
+            if (isInitialized) {
+                dplayIsInitialized = true;
+                RoomPanel currentroom = TabOrganizer.getRoomPanel();
+                if (currentroom != null) {
+                    currentroom.enableButtons();
+                }
+            } else {
+                jDPlay.delete();
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "DirectPlay error!", ChatStyles.SYSTEM);
+            }
+        } catch (UnsatisfiedLinkError e) {
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "DirectPlay error, you miss the JDPlay dll.", ChatStyles.SYSTEM);
+            e.printStackTrace();
         }
     }
 
     private boolean launchDPlay() {
-        dplay.launch();
-        return true;
+        if (compatible || compatibleForced) {
+            return jDPlay.launch(true);
+        } else {
+            return jDPlay.launch(false);
+        }
     }
 
     private boolean launchParam(String gamename) {
@@ -122,9 +154,10 @@ public class LinuxLauncher implements Launcher {
             callerstring = callerstring.replace("{MAP}", map);
         }
         //replace settings text with actual values
-        for (GameSetting gs : settings) {
-            callerstring = callerstring.replace("{" + gs.getKeyWord() + "}", gs.getValue());
+        for(GameSetting gs:settings){
+            callerstring = callerstring.replace("{"+gs.getKeyWord()+"}",gs.getValue());
         }
+
         System.out.println(callerstring);
 
         //run
@@ -143,23 +176,24 @@ public class LinuxLauncher implements Launcher {
     }
 
     public void stopDPlay() {
-        if (dplay != null) {
-            dplay.stopDPlay();
-            dPlayIsInitialized = false;
+        if (jDPlay != null) {
+            jDPlay.delete();
+            dplayIsInitialized = false;
         }
     }
 
     @Override
     public void setIngameName(String name) {
-        dplay.setPlayerName(name);
+        jDPlay.updatePlayerName(name);
     }
 
     @Override
     public boolean launch() {
+
         switch (launchMethod) {
             case DIRECTPLAY:
             case DIRECTPLAY_FORCED_COMPATIBILITY:
-                if (dPlayIsInitialized) {
+                if (dplayIsInitialized) {
                     return launchDPlay();
                 }
                 break;
@@ -171,7 +205,7 @@ public class LinuxLauncher implements Launcher {
 
     @Override
     public void stop() {
-        if (dPlayIsInitialized) {
+        if (dplayIsInitialized) {
             stopDPlay();
         }
     }
@@ -188,28 +222,42 @@ public class LinuxLauncher implements Launcher {
 
     @Override
     public String getFullMapPath(String gamename) {
-        String tmp = GameDatabase.getLocalInstallPath(gamename);
+        String tmp = getLaunchPathWithExe(gamename);
         if (tmp == null || tmp.length() == 0) {
             return null;
         }
-        String relativemappath = GameDatabase.getMapPath(gamename, modName);
-        relativemappath = relativemappath.replace('\\', '/');
-        if (!tmp.endsWith("/")) {
-            tmp += "/";
-        }
-        tmp = tmp + relativemappath;
+        String relativeexepath = GameDatabase.getRelativeExePath(gamename, modName);
+        String mappath = GameDatabase.getMapPath(gamename, modName);
+        tmp = tmp.replace(relativeexepath, mappath);
         return tmp;
     }
 
     private String getLaunchPathWithExe(String gamename) {
-        //user should be able to give the correct executable , no checking
-        String path = GameDatabase.getLocalExecutablePath(gamename);
+        String path = "";
+
+        path = GameDatabase.readRegistry(GameDatabase.getRegEntry(gamename, modName));
+
+        //if its not detected try loading from local paths(given by user)
+        if (path == null || (path != null && path.length() == 0)) {
+            String tmp = GameDatabase.getLocalExecutablePath(gamename);
+            if (tmp != null) {
+                path = tmp;
+            }
+        }
+        // make sure ret points to the exe
+        if (path != null && path.length() > 0 && !path.endsWith(".exe")) {
+            String tmp = GameDatabase.getRelativeExePath(gamename, modName);
+            if (tmp != null) {
+                path = path + tmp;
+            }
+        }
         return path;
     }
 
     @Override
     public boolean isLaunchable(String gamename) {
         String test = null;
+
         if (GameDatabase.getLaunchMethod(gamename, modName) == LaunchMethods.DIRECTPLAY || GameDatabase.getLaunchMethod(gamename, modName) == LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY) {
             return true;
         }
@@ -223,12 +271,19 @@ public class LinuxLauncher implements Launcher {
 
     @Override
     public String getExecutablePath(String gamename) {
-        return GameDatabase.getLocalExecutablePath(gamename);
+        return getLaunchPathWithExe(gamename);
     }
 
     @Override
     public String getInstallPath(String gamename) {
-        return GameDatabase.getLocalInstallPath(gamename);
+        String exepath = getLaunchPathWithExe(gamename);
+        String relativexepath = GameDatabase.getRelativeExePath(gamename, modName);
+
+        if (exepath != null && exepath.length() > 0 && relativexepath != null) {
+            return exepath.substring(0, exepath.length() - relativexepath.length());
+        } else {
+            return "";
+        }
     }
 
     @Override
@@ -243,19 +298,19 @@ public class LinuxLauncher implements Launcher {
 
     @Override
     public boolean isInitialised() {
-        return launcherIsInitialised;
+        return launcherInitialised;
     }
-
+    
     @Override
-    public void setSetting(String settingname, String value, boolean broadcast) {
-        for (GameSetting setting : settings) {
-            if (setting.getName().equals(settingname)) {
-                setting.setValue(value, isHost && broadcast);
+    public void setSetting(String settingname, String value, boolean broadcast){
+        for(GameSetting setting :settings){
+            if(setting.getName().equals(settingname)){
+                setting.setValue(value,isHost && broadcast);
                 return;
             }
         }
     }
-
+    
     @Override
     public String getSetting(String settingName) {
         for(GameSetting gs : settings){

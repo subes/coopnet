@@ -18,9 +18,9 @@ You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.launchers;
+package coopnetclient.launcher;
 
-public interface Launcher {
+public interface OLDLauncher {
 
     public void initialize(String gameIdentifier, String modname, final boolean isHost, String ip, boolean compatible, int maxplayers);
 

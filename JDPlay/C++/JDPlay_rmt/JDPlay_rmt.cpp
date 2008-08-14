@@ -36,6 +36,7 @@ using namespace std;
 
 // *** Variable declarations ***
 JDPlay* jdplay;
+bool debug;
 
 // *** Method declarations ***
 void waitForCommand();
@@ -46,7 +47,7 @@ void printHelp();
 // *** Method implementations ***
 int main(int argc, char* argv[]){
 	//Read args ************************************************
-	bool debug = false;
+	debug = false;
 	char* playerName;
 	int maxSearchRetries;
 
@@ -155,13 +156,19 @@ void waitForCommand(){
 		string s_isHost = input.substr(input.find(" isHost:")+8);
 
 		if(s_gameGUID.length() != 38){
-			cout << "ERR gameGUID: got \"" << s_gameGUID << "\", but expected something like \"{BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}\"" << endl;
+			cout << "NAK" << endl;
+			if(debug){
+				cout << "gameGUID: got \"" << s_gameGUID << "\", but expected something like \"{BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}\"" << endl;
+			}
 			fflush(stdout);
 			return;
 		}
 
 		if(s_hostIP.length() > 256){
-			cout << "ERR hostIP: value has " << s_gameGUID.length() << " chars length, but 255 chars are maximum" << endl;
+			cout << "NAK" << endl;
+			if(debug){
+				cout << "hostIP: value has " << s_gameGUID.length() << " chars length, but 255 chars are maximum" << endl;
+			}
 			fflush(stdout);
 			return;
 		}
@@ -173,22 +180,22 @@ void waitForCommand(){
 		if(!s_isHost.compare("false")){
 			isHost = false;
 		}else{
-			cout << "ERR isHost: got \"" << s_isHost << "\", but expected \"true\" or \"false\"" << endl;
+			cout << "NAK" << endl;
+			if(debug){
+				cout << "isHost: got \"" << s_isHost << "\", but expected \"true\" or \"false\"" << endl;
+			}
 			fflush(stdout);
 			return;
 		}
 
+		char gameGUID[39];
+		char hostIP[256]; //could also be a domain name
+		strcpy(gameGUID, s_gameGUID.c_str());
+		
+		strcpy(hostIP, s_hostIP.c_str());
+		
 		cout << "ACK" << endl;
 		fflush(stdout);
-		
-		cout << s_gameGUID.c_str() << "|" << s_hostIP.c_str() << "|" << s_isHost.c_str() << endl;
-
-		char gameGUID[39];
-		char hostIP[256]; //could also be a dns name
-		strcpy(gameGUID, s_gameGUID.c_str());
-		strcpy(hostIP, s_hostIP.c_str());
-
-		cout << gameGUID << "|" << hostIP << "|" << isHost << endl;
 		initialize(gameGUID, hostIP, isHost);
 	}else
 	if(!input.substr(0,7).compare("LAUNCH ") && input.find(" doSearch:") != string::npos){
@@ -202,7 +209,10 @@ void waitForCommand(){
 		if(!s_doSearch.compare("false")){
 			doSearch = false;
 		}else{
-			cout << "ERR found \"" << s_doSearch << "\", but expected \"true\" or \"false\"" << endl;
+			cout << "NAK" << endl;
+			if(debug){
+				cout << "doSearch: found \"" << s_doSearch << "\", but expected \"true\" or \"false\"" << endl;
+			}
 			fflush(stdout);
 			return;
 		}
@@ -211,22 +221,24 @@ void waitForCommand(){
 		fflush(stdout);
 		launch(doSearch);
 	}else
-	if(!input.substr(0,17).compare("UPDATEPLAYERNAME ")){
+	if(!input.substr(0,7).compare("UPDATE ")){
 		//Set new playername
-		cout << "ACK" << endl;
-		fflush(stdout);
-
-		string s_playerName = input.substr(17);
+		string s_playerName = input.substr(input.find(" playerName:")+12);
 		char playerName[256];
 
 		if(s_playerName.length() > 255){
-			cout << "ERR playername is " << s_playerName.length() << " chars long, but 255 chars are maximum" << endl;
+			cout << "NAK" << endl;
+			if(debug){
+				cout << "playerName: value has " << s_playerName.length() << " chars length, but 255 chars are maximum" << endl;
+			}
 			fflush(stdout);
 			return;
 		}
-
-		strcpy(playerName, s_playerName.c_str());	
-
+		
+		strcpy(playerName, s_playerName.c_str());
+		
+		cout << "ACK" << endl;
+		fflush(stdout);
 		jdplay->updatePlayerName(playerName);
 	}else{
 		//Unknown command
@@ -238,7 +250,10 @@ void waitForCommand(){
 void initialize(char* gameGUID, char* hostIP, bool isHost){
 	bool ret = jdplay->initialize(gameGUID, hostIP, isHost);
 	if(!ret){
-		cout << "ERR initialize" << endl;
+		cout << "ERR" << endl;
+		fflush(stdout);
+	}else{
+		cout << "FIN" << endl;
 		fflush(stdout);
 	}
 }
@@ -246,7 +261,10 @@ void initialize(char* gameGUID, char* hostIP, bool isHost){
 void launch(bool doSearch){
 	bool ret = jdplay->launch(doSearch);
 	if(!ret){
-		cout << "ERR launch" << endl;
+		cout << "ERR" << endl;
+		fflush(stdout);
+	}else{
+		cout << "FIN" << endl;
 		fflush(stdout);
 	}
 }
@@ -272,7 +290,7 @@ void printHelp(){
 		 << "  # JDPlay understood the command and launches" << endl
 		 << "    OUT: ACK" << endl
 		 << "  # the initalization process takes some seconds" << endl
-		 << "    OUT: FIN initialize" << endl
+		 << "    OUT: FIN" << endl
 		 << "    OUT: RDY" << endl
 		 << "  # now, any other command can follow, you can even initialize again for a different game" << endl
 		 << endl
@@ -283,13 +301,13 @@ void printHelp(){
 		 << "  # JDPlay understood the command and launches" << endl
 		 << "    OUT: ACK" << endl
 		 << "  # game has been closed" << endl
-		 << "    OUT: FIN launch" << endl
+		 << "    OUT: FIN" << endl
 		 << "    OUT: RDY" << endl
 		 << "  # now, the game could be relaunched by sending LAUNCH again" << endl
 		 << endl
 		 << "  # there's also the possibility to change the playername after a RDY" << endl
 		 << "    OUT: RDY" << endl
-		 << "    IN:  UPDATEPLAYERNAME <NAME>" << endl
+		 << "    IN:  UPDATE playerName:subes" << endl
 		 << "    OUT: ACK" << endl
 		 << "    OUT: RDY" << endl
 		 << endl
@@ -299,15 +317,15 @@ void printHelp(){
 		 << "    OUT: NAK" << endl
 		 << "    OUT: RDY" << endl
 		 << endl
-		 << "  # errors are printed like this" << endl
-		 << "    OUT: ERR <MESSAGE>" << endl
+		 << "  # this indicates an error and may be printed instead of FIN" << endl
+		 << "    OUT: ERR" << endl
 		 << endl
 		 << "Parameters are always mandatory, though when a game is initialized as host, the doSearch parameters value to LAUNCH gets ignored."
 		 << "Whitespace between parameters and the order of the parameters has to be correct. Here is a detailed list of available commands:" << endl
 		 << endl
 		 << "  INITIALIZE gameGUID:<e.g. {BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}> hostIP:<e.g. 192.168.0.3> isHost:<true or false>" << endl
 		 << "  LAUNCH doSearch:<true or false>" << endl
-		 << "  UPDATEPLAYERNAME <NAME>" << endl
+		 << "  UPDATE playerName:<NAME>" << endl
 		 << endl
 		 << "Every command ends with and is recognized after an endline (\\n). Commands have to be written in UPPERCASE. "
 		 << "Before a RDY is written, stdin gets flushed, so theres no possibility that old text is read. JDPlay may print stuff that can be ignored while remote controlling."

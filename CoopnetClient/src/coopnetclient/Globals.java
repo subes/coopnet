@@ -36,7 +36,7 @@ import coopnetclient.frames.TextPreviewFrame;
 import coopnetclient.modules.Settings;
 import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.launchers.Launcher;
+import coopnetclient.launcher.OLDLauncher;
 import coopnetclient.modules.Colorizer;
 import java.awt.Point;
 import javax.swing.JFrame;
@@ -62,7 +62,7 @@ public class Globals {
     private static String thisPlayer_inGameName;
     
     //Objects
-    private static Launcher launcher;
+    private static OLDLauncher launcher;
     
     private static ClientFrame clientFrame;
     
@@ -182,11 +182,11 @@ public class Globals {
         return lastOpenedDir;
     }
     
-    public static void setLauncher(Launcher value){
+    public static void setLauncher(OLDLauncher value){
         launcher = value;
     }
     
-    public static Launcher getLauncher(){
+    public static OLDLauncher getLauncher(){
         return launcher;
     }
     

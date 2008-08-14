@@ -22,11 +22,11 @@ package coopnetclient;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.launchers.Launcher;
+import coopnetclient.launcher.OLDLauncher;
 import coopnetclient.modules.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.launchers.LinuxLauncher;
-import coopnetclient.launchers.WindowsLauncher;
+import coopnetclient.launcher.LinuxLauncher;
+import coopnetclient.launcher.WindowsLauncher;
 import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.modules.Colorizer;
 import coopnetclient.modules.SoundPlayer;
@@ -172,7 +172,7 @@ public class Client {
 
             @Override
             public void run() {
-                Launcher launcher = Globals.getLauncher();
+                OLDLauncher launcher = Globals.getLauncher();
                 int i = 0;
                 while (!launcher.isInitialised() && i < LAUNCH_TIMEOUT) {
                     try {

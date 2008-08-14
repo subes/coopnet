@@ -18,21 +18,15 @@ You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.launchers.launchinfos;
-
-import coopnetclient.enums.LaunchMethods;
+package coopnetclient.launcher.launchinfos;
 
 public class DirectPlayLaunchInfo extends LaunchInfo {
     
     private String gameGUID;
     private boolean compatibility;
     
-    public DirectPlayLaunchInfo(LaunchMethods launchMethod, String hostIP, boolean isHost, String gameGUID, boolean compatibility){
-        super(launchMethod, hostIP, isHost);
-        
-        if(!(launchMethod == LaunchMethods.DIRECTPLAY || launchMethod == LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY)){
-            throw new IllegalArgumentException("launchMethod \""+launchMethod+"\" is not supported here");
-        }
+    public DirectPlayLaunchInfo(String hostIP, boolean isHost, String gameGUID, boolean compatibility){
+        super(hostIP, isHost);
         
         this.gameGUID = gameGUID;
         this.compatibility = compatibility;

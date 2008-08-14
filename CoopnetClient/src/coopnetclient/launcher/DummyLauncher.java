@@ -18,11 +18,11 @@ You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.launchers;
+package coopnetclient.launcher;
 
 import coopnetclient.frames.clientframe.TabOrganizer;
 
-public class DummyLauncher implements Launcher {
+public class DummyLauncher implements OLDLauncher {
 
     String gamename;
 

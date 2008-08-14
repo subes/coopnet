@@ -23,9 +23,6 @@ import coopnetclient.Globals;
 
 public class Main {
     
-    /** Creates a new instance of Main */
-    public Main() {
-    }
     public static void main(String[] args) {
         checkArgs(args);
         Client.startup();
