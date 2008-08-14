@@ -48,7 +48,7 @@ public abstract class LaunchHandler {
         if(isInitialized){
             boolean success = doLaunch();
             if(!success){
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed launching the game, there seems to be a problem with the setup of the game!", ChatStyles.SYSTEM);
+                //Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed launching the game, there seems to be a problem with the setup of the game!", ChatStyles.SYSTEM);
             }
         }else{
             throw new IllegalStateException("The game has to be initialized before launching it!");

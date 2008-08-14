@@ -24,7 +24,6 @@ import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.launcher.launchinfos.LaunchInfo;
-import coopnetclient.modules.Settings;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -77,13 +76,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
             return false;
         }
         
-        String[] toRead = {"FIN", "ERR"};
-        int ret = read(toRead);
-        if(ret == 0){
-            return true;
-        }else{
-            return false;
-        }
+        return waitForCommandResult();
     }
 
     @Override
@@ -92,18 +85,13 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
             return false;
         }
         
-        String[] toRead = {"FIN", "ERR"};
-        int ret = read(toRead);
-        if(ret == 0){
-            return true;
-        }else{
-            return false;
-        }
+        return waitForCommandResult();
     }
 
     @Override
     public void updatePlayerName() {
-        write("UPDATE playerName:"+Globals.getThisPlayer_inGameName());
+        write("UPDATE playerName:" + Globals.getThisPlayer_inGameName());
+        write("DONE");
     }
     
     private void read(String toRead) {
@@ -122,12 +110,6 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                 if (ret == null) {
                     if (Globals.getDebug()) {
                         System.out.println("[RMT]\tRead null, JDPlay_rmt.exe closed");
-                        jdplay.destroy();
-                        jdplay = null;
-                        in.close();
-                        in = null;
-                        out.close();
-                        out = null;
                     }
                     return -1;
                 }
@@ -143,7 +125,20 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
             return -1;
         }
     }
-
+    
+    private boolean waitForCommandResult(){
+        String[] toRead = {"FIN", "ERR"};
+        int ret = read(toRead);
+        
+        write("DONE");
+        
+        if(ret == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
     private synchronized boolean write(String toWrite) {
         //wait until jdplay is ready
         read("RDY");
@@ -162,7 +157,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
             
             //verify if jdplay understood
             String[] toRead = {"ACK", "NAK"};
-            int ret = read(toRead); 
+            int ret = read(toRead);            
             if(ret == 0){
                 return true;
             }else{
