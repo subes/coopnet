@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.launcher.launchhandlers;
+package coopnetclient.utils.launcher.launchhandlers;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
@@ -39,7 +39,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
     private static BufferedReader in;
     
     @Override
-    protected boolean doInitialize(LaunchInfo launchInfo) {
+    public boolean doInitialize(LaunchInfo launchInfo) {
         if(jdplay == null){
             String command = Settings.getWineCommand() + " lib/JDPlay_rmt.exe" +
                  " --playerName " + Globals.getThisPlayer_inGameName() + 
@@ -81,7 +81,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
     }
 
     @Override
-    protected boolean doLaunch() {
+    public boolean launch() {
         if (!write("LAUNCH doSearch:" + launchInfo.getCompatibility())){
             return false;
         }

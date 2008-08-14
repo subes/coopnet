@@ -18,9 +18,8 @@ You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.launcher.launchhandlers;
+package coopnetclient.utils.launcher.launchhandlers;
 
-import coopnetclient.launcher.*;
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.modules.Settings;

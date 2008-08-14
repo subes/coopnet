@@ -18,11 +18,23 @@ You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.launcher.launchinfos;
+package coopnetclient.utils.launcher.launchinfos;
 
-public class ParameterLaunchInfo extends LaunchInfo {
+public abstract class LaunchInfo {
     
-    public ParameterLaunchInfo(String hostIP, boolean isHost){
-        super(hostIP, isHost);
+    private String hostIP;
+    private boolean isHost;
+    
+    public LaunchInfo(String hostIP, boolean isHost){        
+        this.hostIP = hostIP;
+        this.isHost = isHost;
+    }
+    
+    public String getHostIP(){
+        return hostIP;
+    }
+    
+    public boolean getIsHost(){
+        return isHost;
     }
 }

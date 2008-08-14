@@ -18,25 +18,11 @@ You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.launcher.launchhandlers;
+package coopnetclient.utils.launcher.launchinfos;
 
-import coopnetclient.launcher.launchinfos.LaunchInfo;
-
-public class ParameterLaunchHandler extends LaunchHandler {
-
-    @Override
-    protected boolean doInitialize(LaunchInfo launchInfo) {
-        throw new UnsupportedOperationException("Not supported yet.");
+public class ParameterLaunchInfo extends LaunchInfo {
+    
+    public ParameterLaunchInfo(String hostIP, boolean isHost){
+        super(hostIP, isHost);
     }
-
-    @Override
-    protected boolean doLaunch() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void updatePlayerName() {
-        //do nothing, because parameter based games don't support this
-    }
-
 }

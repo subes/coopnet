@@ -18,8 +18,25 @@ You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.launcher;
+package coopnetclient.utils.launcher.launchinfos;
 
-public class Launcher {
-
+public class DirectPlayLaunchInfo extends LaunchInfo {
+    
+    private String gameGUID;
+    private boolean compatibility;
+    
+    public DirectPlayLaunchInfo(String hostIP, boolean isHost, String gameGUID, boolean compatibility){
+        super(hostIP, isHost);
+        
+        this.gameGUID = gameGUID;
+        this.compatibility = compatibility;
+    }
+    
+    public String getGameGUID(){
+        return gameGUID;
+    }
+    
+    public boolean getCompatibility(){
+        return compatibility;
+    }
 }

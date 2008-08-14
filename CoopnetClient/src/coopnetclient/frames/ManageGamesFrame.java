@@ -24,7 +24,7 @@ import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.launcher.WindowsLauncher;
+import coopnetclient.utils.launcher.WindowsLauncher;
 import coopnetclient.modules.models.SortedListModel;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.io.File;

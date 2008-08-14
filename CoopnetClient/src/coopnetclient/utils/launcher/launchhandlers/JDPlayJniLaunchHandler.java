@@ -18,7 +18,7 @@ You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.launcher.launchhandlers;
+package coopnetclient.utils.launcher.launchhandlers;
 
 import coopnetclient.Globals;
 import coopnetclient.launcher.launchinfos.DirectPlayLaunchInfo;
@@ -27,12 +27,12 @@ import jdplay.JDPlay;
 
 public class JDPlayJniLaunchHandler extends LaunchHandler {
 
-    private static JDPlay jdplay;
+    private JDPlay jdplay;
     
     private DirectPlayLaunchInfo launchInfo;
     
     @Override
-    protected boolean doInitialize(LaunchInfo launchInfo) {
+    public boolean doInitialize(LaunchInfo launchInfo) {
         if(jdplay == null){
             jdplay = new JDPlay(Globals.getThisPlayer_inGameName(), Globals.JDPLAY_MAXSEARCHRETRIES, Globals.getDebug());
         }
@@ -47,7 +47,7 @@ public class JDPlayJniLaunchHandler extends LaunchHandler {
     }
 
     @Override
-    protected boolean doLaunch() {
+    public boolean launch() {
         boolean compatibility = launchInfo.getCompatibility();
         
         return jdplay.launch(compatibility);

@@ -36,7 +36,7 @@ import coopnetclient.frames.TextPreviewFrame;
 import coopnetclient.modules.Settings;
 import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.launcher.OLDLauncher;
+import coopnetclient.utils.launcher.OLDLauncher;
 import coopnetclient.modules.Colorizer;
 import java.awt.Point;
 import javax.swing.JFrame;
