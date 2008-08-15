@@ -42,13 +42,13 @@ public interface OLDLauncher {
 
     public void setMod(String mod);
 
-    public boolean isLaunchable(String gamename);
+    //public boolean isLaunchable(String gamename);
 
-    public String getExecutablePath(String gamename);
+    //public String getExecutablePath(String gamename);
 
-    public String getInstallPath(String gamename);
+    //public String getInstallPath(String gamename);
 
-    public String getFullMapPath(String gamename);
+    //public String getFullMapPath(String gamename);
 
     public void setSetting(String settingname, String value, boolean broadcastit);
     public String getSetting(String settingName);

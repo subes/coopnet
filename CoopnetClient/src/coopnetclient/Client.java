@@ -208,9 +208,8 @@ public class Client {
                 if (!launched) {
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed to start the game!", ChatStyles.SYSTEM);
                 }
-                Client.send(Protocol.closeRoom(), channel);
-                Globals.setIsPlayingStatus(false);
                 Client.send(Protocol.gameClosed(), channel);
+                Globals.setIsPlayingStatus(false);                
                 Globals.setSleepModeStatus(false);
                 TabOrganizer.getChannelPanel(channel).enablebuttons();
             }

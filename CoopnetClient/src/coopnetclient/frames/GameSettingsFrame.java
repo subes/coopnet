@@ -170,7 +170,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
 
     private String[] loadMaps() {
         String extension = GameDatabase.getMapExtension(gamename, modname);
-        String path = Globals.getLauncher().getFullMapPath(gamename);
+        String path = GameDatabase.getFullMapPath(gamename, modname);
         System.out.println("loading maps from: " + path);
         if (path.endsWith("\\") || path.endsWith("/")) {
             path = path.substring(0, path.length() - 1);

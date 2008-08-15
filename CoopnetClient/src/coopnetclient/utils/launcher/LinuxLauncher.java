@@ -19,7 +19,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 package coopnetclient.utils.launcher;
 
-import coopnetclient.launcher.launchhandlers.DPlayExeHandler;
+import coopnetclient.utils.launcher.launchhandlers.DPlayExeHandler;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.*;
 import coopnetclient.enums.ChatStyles;
@@ -105,7 +105,7 @@ public class LinuxLauncher implements OLDLauncher {
 
     private boolean launchParam(String gamename) {
         String callerstring = null;
-        callerstring = getLaunchPathWithExe(gamename);
+        callerstring = GameDatabase.getLaunchPathWithExe(gamename,modName);
         if (callerstring == null) {
             return false;
         }
@@ -184,51 +184,6 @@ public class LinuxLauncher implements OLDLauncher {
     @Override
     public String getMap() {
         return this.map;
-    }
-
-    @Override
-    public String getFullMapPath(String gamename) {
-        String tmp = GameDatabase.getLocalInstallPath(gamename);
-        if (tmp == null || tmp.length() == 0) {
-            return null;
-        }
-        String relativemappath = GameDatabase.getMapPath(gamename, modName);
-        relativemappath = relativemappath.replace('\\', '/');
-        if (!tmp.endsWith("/")) {
-            tmp += "/";
-        }
-        tmp = tmp + relativemappath;
-        return tmp;
-    }
-
-    private String getLaunchPathWithExe(String gamename) {
-        //user should be able to give the correct executable , no checking
-        String path = GameDatabase.getLocalExecutablePath(gamename);
-        return path;
-    }
-
-    @Override
-    public boolean isLaunchable(String gamename) {
-        String test = null;
-        if (GameDatabase.getLaunchMethod(gamename, modName) == LaunchMethods.DIRECTPLAY || GameDatabase.getLaunchMethod(gamename, modName) == LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY) {
-            return true;
-        }
-        test = getLaunchPathWithExe(gamename);
-        if (test != null && test.length() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public String getExecutablePath(String gamename) {
-        return GameDatabase.getLocalExecutablePath(gamename);
-    }
-
-    @Override
-    public String getInstallPath(String gamename) {
-        return GameDatabase.getLocalInstallPath(gamename);
     }
 
     @Override

@@ -17,12 +17,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.clientframe;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.panels.BrowserPanel;
 import coopnetclient.frames.clientframe.panels.ChannelPanel;
 import coopnetclient.frames.clientframe.panels.ErrorPanel;
@@ -32,7 +32,6 @@ import coopnetclient.frames.clientframe.panels.LoginPanel;
 import coopnetclient.frames.clientframe.panels.PrivateChatPanel;
 import coopnetclient.frames.clientframe.panels.RoomPanel;
 import coopnetclient.frames.clientframe.panels.TestGameDataEditor;
-import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -48,7 +47,6 @@ import javax.swing.event.ChangeListener;
 public class TabOrganizer {
 
     private static JTabbedPane tabHolder;
-    
     private static Vector<ChannelPanel> channelPanels = new Vector<ChannelPanel>();
     private static RoomPanel roomPanel;
     private static Vector<PrivateChatPanel> privateChatPanels = new Vector<PrivateChatPanel>();
@@ -59,10 +57,11 @@ public class TabOrganizer {
     private static Vector<FileTransferSendPanel> fileTransferSendPanels = new Vector<FileTransferSendPanel>();
     private static Vector<FileTransferRecievePanel> fileTransferReceivePanels = new Vector<FileTransferRecievePanel>();
     
-    static{
-        tabHolder = Globals.getClientFrame().getTabHolder();    
+
+    static {
+        tabHolder = Globals.getClientFrame().getTabHolder();
     }
-    
+
     public static void openChannelPanel(String channelname) {
         int index = -1;
         index = tabHolder.indexOfTab(channelname);
@@ -74,34 +73,40 @@ public class TabOrganizer {
         tabHolder.setTitleAt(0, channelname);
         channelPanels.add(currentchannel);
         Globals.getClientFrame().repaint();
-        //check if the game is installed
-        if (!Globals.getLauncher().isLaunchable(channelname)) {
-            currentchannel.disablebuttons();
-            currentchannel.printMainChatMessage("SYSTEM",
-                    "The game couldn't be detected, please set the path manually at " +
-                    "options/manage games to enable playing this game!",
-                    ChatStyles.SYSTEM);
-        } else {
-            currentchannel.setLaunchable(true);
+        //chatonly or game?
+        if (GameDatabase.getLaunchMethod(channelname, null) == LaunchMethods.CHAT_ONLY) {
+            currentchannel.hideRoomList();
+        } else {//game channel
+            //check if the game is installed
+            if (!GameDatabase.isLaunchable(channelname)) {
+                currentchannel.disablebuttons();
+                currentchannel.printMainChatMessage("SYSTEM",
+                        "The game couldn't be detected, please set the path manually at " +
+                        "options/manage games to enable playing this game!",
+                        ChatStyles.SYSTEM);
+            } else {
+                currentchannel.setLaunchable(true);
+            }
+            if (GameDatabase.isBeta(channelname)) {
+                currentchannel.printMainChatMessage("SYSTEM", "Support for this game is experimental," +
+                        " email coopnetbugs@gmail.com if you have problems!",
+                        ChatStyles.SYSTEM);
+            }
         }
-        if (GameDatabase.isBeta(channelname)) {
-            currentchannel.printMainChatMessage("SYSTEM", "Support for this game is experimental," +
-                    " email coopnetbugs@gmail.com if you have problems!",
-                    ChatStyles.SYSTEM);
-        }
-        
+
+
         tabHolder.setSelectedComponent(currentchannel);
     }
-    
+
     public static void closeChannelPanel(String channelName) {
         closeChannelPanel(getChannelPanel(channelName));
     }
-    
+
     public static void closeChannelPanel(ChannelPanel which) {
         channelPanels.remove(which);
         tabHolder.remove(which);
     }
-    
+
     public static ChannelPanel getChannelPanel(String channelName) {
         int index = -1;
         index = tabHolder.indexOfTab(channelName);
@@ -119,60 +124,60 @@ public class TabOrganizer {
             }
         }
     }
-    
-    public static ChannelPanel getChannelPanel(int index){
-        if(index < channelPanels.size()){
+
+    public static ChannelPanel getChannelPanel(int index) {
+        if (index < channelPanels.size()) {
             return channelPanels.get(index);
-        }else{
+        } else {
             return null;
         }
     }
-    
-    public static void openRoomPanel(boolean isHost, String channel, String modindex, String ip, boolean compatible, String hamachiIp, int maxPlayers){
-        if(roomPanel == null){
+
+    public static void openRoomPanel(boolean isHost, String channel, String modindex, String ip, boolean compatible, String hamachiIp, int maxPlayers) {
+        if (roomPanel == null) {
             roomPanel = new RoomPanel(isHost, channel, modindex, ip, compatible, hamachiIp, maxPlayers);
-            
+
             tabHolder.insertTab("Room", null, roomPanel, null, channelPanels.size());
-        
+
             tabHolder.setSelectedComponent(roomPanel);
-        
+
             for (ChannelPanel cp : channelPanels) {
                 cp.disablebuttons();
             }
-            
-        }else{
-            if(Globals.getDebug()){
+
+        } else {
+            if (Globals.getDebug()) {
                 System.out.println("[W]\tClose the current RoomPanel before opening a new one!");
             }
         }
     }
-    
-    public static void closeRoomPanel(){
-        if(roomPanel != null){
-            if(Globals.getLauncher() != null){
+
+    public static void closeRoomPanel() {
+        if (roomPanel != null) {
+            if (Globals.getLauncher() != null) {
                 Globals.getLauncher().stop();
-            }else{
-                if(Globals.getDebug()){
+            } else {
+                if (Globals.getDebug()) {
                     System.out.println("[W]\tLauncher should not be set to null!");
                 }
             }
             Globals.closeGameSettingsFrame();
-            
+
             tabHolder.remove(roomPanel);
 
             int index = tabHolder.indexOfTab(roomPanel.channel);
-            if(index != -1){
+            if (index != -1) {
                 tabHolder.setSelectedIndex(index);
             }
             for (ChannelPanel cp : channelPanels) {
                 cp.enablebuttons();
             }
-            
+
             roomPanel = null;
         }
     }
-    
-    public static RoomPanel getRoomPanel(){
+
+    public static RoomPanel getRoomPanel() {
         return roomPanel;
     }
 
@@ -182,10 +187,10 @@ public class TabOrganizer {
             PrivateChatPanel pc = new PrivateChatPanel(title);
             tabHolder.add(title, pc);
             privateChatPanels.add(pc);
-            if(setFocus){
+            if (setFocus) {
                 tabHolder.setSelectedComponent(pc);
                 pc.requestFocus();
-            }else{
+            } else {
                 //Workaround for wrong color @ new tab that doesnt get focus
                 if (Settings.getColorizeBody()) {
                     ChangeListener[] listeners = tabHolder.getChangeListeners();
@@ -198,43 +203,43 @@ public class TabOrganizer {
                     }
                 }
             }
-        }else{
-            if(setFocus){
+        } else {
+            if (setFocus) {
                 tabHolder.setSelectedIndex(tabHolder.indexOfTab(title));
                 tabHolder.getSelectedComponent().requestFocus();
             }
         }
     }
-    
-    public static void closePrivateChatPanel(PrivateChatPanel which){
+
+    public static void closePrivateChatPanel(PrivateChatPanel which) {
         tabHolder.remove(which);
         privateChatPanels.remove(which);
     }
-    
+
     public static PrivateChatPanel getPrivateChatPanel(String title) {
         int index = tabHolder.indexOfTab(title);
-        if(index != -1){
+        if (index != -1) {
             JPanel panel = (JPanel) tabHolder.getComponentAt(index);
-            if(panel instanceof PrivateChatPanel){
+            if (panel instanceof PrivateChatPanel) {
                 return (PrivateChatPanel) panel;
-            }else{
-                if(Globals.getDebug()){
-                    System.out.println("[W]\tThe Panel \""+title+"\" is not a PrivateChatPanel!");
+            } else {
+                if (Globals.getDebug()) {
+                    System.out.println("[W]\tThe Panel \"" + title + "\" is not a PrivateChatPanel!");
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     public static void openBrowserPanel(String url) {
-        if(browserPanel == null){
+        if (browserPanel == null) {
             browserPanel = new BrowserPanel(url);
-            
+
             //panelHolder.addTab("Browser", browserPanel);
             tabHolder.addTab("Beginner's Guide", browserPanel); //For now this is ok
             tabHolder.setSelectedComponent(browserPanel);
-        }else{
+        } else {
             tabHolder.setSelectedComponent(browserPanel);
             browserPanel.openUrl(url);
         }
@@ -246,40 +251,40 @@ public class TabOrganizer {
         tabHolder.remove(browserPanel);
         browserPanel = null;
     }
-    
+
     public static void openErrorPanel(int mode, Exception e) {
-        if(errorPanel == null || errorPanel.hasException() == false && e != null){
+        if (errorPanel == null || errorPanel.hasException() == false && e != null) {
             errorPanel = new ErrorPanel(mode, e);
             tabHolder.addTab("Error", errorPanel);
             tabHolder.setSelectedComponent(errorPanel);
-        }else{
-            if(Globals.getDebug()){
+        } else {
+            if (Globals.getDebug()) {
                 System.out.println("[W]\tWe don't need another error tab, this error may be caused by the first one!");
             }
             tabHolder.setSelectedComponent(errorPanel);
         }
-        
+
         Globals.getClientFrame().repaint();
     }
-    
+
     public static void openLoginPanel() {
-        if(loginPanel == null){
+        if (loginPanel == null) {
             //Thread is needed here to get rid of an exception at startup
             SwingUtilities.invokeLater(new Thread() {
 
                 @Override
                 public void run() {
-                    try{
+                    try {
                         loginPanel = new LoginPanel();
                         tabHolder.addTab("Login", loginPanel);
                         tabHolder.setSelectedComponent(loginPanel);
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         ErrorHandler.handleException(e);
                     }
                 }
             });
-        }else{
-            if(Globals.getDebug()){
+        } else {
+            if (Globals.getDebug()) {
                 System.out.println("[W]\tThere's an open LoginPanel already!");
                 tabHolder.setSelectedComponent(loginPanel);
             }
@@ -290,96 +295,94 @@ public class TabOrganizer {
         tabHolder.remove(loginPanel);
         loginPanel = null;
     }
-    
+
     public static void openFileTransferSendPanel(String reciever, File file) {
         FileTransferSendPanel panel = new FileTransferSendPanel(reciever, file);
         fileTransferSendPanels.add(panel);
         tabHolder.add("Send file to " + reciever, panel);
     }
-    
-    public static void closeFileTransferSendPanel(FileTransferSendPanel which){
+
+    public static void closeFileTransferSendPanel(FileTransferSendPanel which) {
         fileTransferSendPanels.remove(which);
         tabHolder.remove(which);
     }
-    
-    public static FileTransferSendPanel getFileTransferSendPanel(String receiver, String fileName){
-        for(int i = 0; i < fileTransferSendPanels.size(); i++){
-            if(fileTransferSendPanels.get(i).getFilename().equals(fileName) && fileTransferSendPanels.get(i).getReciever().equals(receiver)){
+
+    public static FileTransferSendPanel getFileTransferSendPanel(String receiver, String fileName) {
+        for (int i = 0; i < fileTransferSendPanels.size(); i++) {
+            if (fileTransferSendPanels.get(i).getFilename().equals(fileName) && fileTransferSendPanels.get(i).getReciever().equals(receiver)) {
                 return fileTransferSendPanels.get(i);
             }
         }
         return null;
     }
 
-    public static void openFileTransferReceivePanel(String sender, String size, String filename,String ip,String port) {
-        FileTransferRecievePanel panel = new FileTransferRecievePanel(sender, new Long(size), filename,ip,port);
+    public static void openFileTransferReceivePanel(String sender, String size, String filename, String ip, String port) {
+        FileTransferRecievePanel panel = new FileTransferRecievePanel(sender, new Long(size), filename, ip, port);
         fileTransferReceivePanels.add(panel);
         tabHolder.add("Recieve file from " + sender, panel);
     }
-    
+
     public static void closeFileTransferReceivePanel(FileTransferRecievePanel which) {
         fileTransferReceivePanels.remove(which);
         tabHolder.remove(which);
     }
-    
-    public static FileTransferRecievePanel getFileTransferReceivePanel(String sender, String fileName){
-        for(int i = 0; i < fileTransferReceivePanels.size(); i++){
-            if(fileTransferReceivePanels.get(i).getFilename().equals(fileName) && fileTransferReceivePanels.get(i).getSender().equals(sender)){
+
+    public static FileTransferRecievePanel getFileTransferReceivePanel(String sender, String fileName) {
+        for (int i = 0; i < fileTransferReceivePanels.size(); i++) {
+            if (fileTransferReceivePanels.get(i).getFilename().equals(fileName) && fileTransferReceivePanels.get(i).getSender().equals(sender)) {
                 return fileTransferReceivePanels.get(i);
             }
         }
         return null;
     }
-    
-    public static void openGameDataEditor(){
-        GameDatabase.load(null,GameDatabase.testdatafilepath );
-        if(gamedataeditor == null){
+
+    public static void openGameDataEditor() {
+        GameDatabase.load(null, GameDatabase.testdatafilepath);
+        if (gamedataeditor == null) {
             gamedataeditor = new JScrollPane(new TestGameDataEditor());
             tabHolder.add("TestGameData Editor", gamedataeditor);
-        }
-        else{
-            putFocusOnTab("TestGameData Editor");            
+        } else {
+            putFocusOnTab("TestGameData Editor");
         }
     }
-    
-    public static void closeGameDataEditor(){
+
+    public static void closeGameDataEditor() {
         tabHolder.remove(gamedataeditor);
         gamedataeditor = null;
         GameDatabase.saveTestData();
     }
-    
-    /*******************************************************************/
 
-    public static void updateTitleOnTab(String oldTitle, String newTitle){
+    /*******************************************************************/
+    public static void updateTitleOnTab(String oldTitle, String newTitle) {
         int index = -1;
-        while((index = tabHolder.indexOfTab(oldTitle)) != -1){
+        while ((index = tabHolder.indexOfTab(oldTitle)) != -1) {
             tabHolder.setTitleAt(index, newTitle);
         }
     }
-    
+
     public static void putFocusOnTab(String title) {
-        if(title != null){
+        if (title != null) {
             int index = tabHolder.indexOfTab(title);
             if (index != -1) {
                 tabHolder.setSelectedIndex(index);
                 tabHolder.getSelectedComponent().requestFocus();
             }
-        }else{
-            if(tabHolder.getSelectedComponent() != null){
+        } else {
+            if (tabHolder.getSelectedComponent() != null) {
                 tabHolder.getSelectedComponent().requestFocus();
             }
         }
     }
-    
+
     public static void updateSleepMode() {
         for (ChannelPanel cp : channelPanels) {
             cp.updateSleepMode();
         }
     }
-    
+
     public static void closeAllTabs() {
         tabHolder.removeAll();
-        
+
         channelPanels.clear();
         roomPanel = null;
         privateChatPanels.clear();
@@ -389,5 +392,4 @@ public class TabOrganizer {
         fileTransferSendPanels.clear();
         fileTransferReceivePanels.clear();
     }
-    
 }

@@ -41,15 +41,14 @@ public class GameDatabase {
     private static final String lpfilepath = "data/localpaths";
     private static boolean registryOK = false;
     protected static final String SETTING_DELIMITER_PATTERN = "\\^";
-    protected static final String SETTING_DELIMITER = "^";
-    
-    //fields
+    protected static final String SETTING_DELIMITER = "^";    //fields
     private static HashMap<String, String> IDtoGameName;     // key is the ID    
     private static HashMap<String, String> localexecutablepath; //shud point to the exe/binary
     private static HashMap<String, String> localinstallpath; //shud point to the game basedir
     private static ArrayList<String> isexperimental;
     private static ArrayList<Game> gameData;
     public static int version = 0;
+    
 
     static {
         if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
@@ -74,8 +73,9 @@ public class GameDatabase {
         load(null, testdatafilepath);
         loadLocalPaths();
         IDtoGameName.put("WLC", "Welcome");
+        IDtoGameName.put("TST", "GameTest channel");
     }
-    
+
     public static boolean isBeta(String channelname) {
         return isexperimental.contains(channelname);
     }
@@ -92,6 +92,7 @@ public class GameDatabase {
         isexperimental = new ArrayList<String>();
         gameData = new ArrayList<Game>();
         IDtoGameName.put("WLC", "Welcome");
+        IDtoGameName.put("TST", "GameTest channel");
     }
 
     private static int indexOfGame(String gamename) {
@@ -243,7 +244,11 @@ public class GameDatabase {
 
     public static LaunchMethods getLaunchMethod(String gamename, String modname) {
         int idx = indexOfGame(gamename);
-        return gameData.get(idx).getLaunchMethod(modname);
+        if (idx > 0) {
+            return gameData.get(idx).getLaunchMethod(modname);
+        } else {
+            return LaunchMethods.CHAT_ONLY;
+        }
     }
 
     public static void setGuid(String gamename, String guid) {
@@ -252,6 +257,70 @@ public class GameDatabase {
 
     public static String getGuid(String gamename, String modname) {
         return gameData.get(indexOfGame(gamename)).getGuid(modname);
+    }
+
+    public static boolean isLaunchable(String gamename) {
+        String test = null;
+
+        if (getLaunchMethod(gamename, null) == LaunchMethods.DIRECTPLAY || getLaunchMethod(gamename, null) == LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY) {
+            return true;
+        }
+        test = getLaunchPathWithExe(gamename,null);
+        if (test != null && test.length() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static String getInstallPath(String gamename) {
+        String exepath = getLaunchPathWithExe(gamename, null);
+        String relativexepath = GameDatabase.getRelativeExePath(gamename, null);
+
+        if (exepath != null && exepath.length() > 0 && relativexepath != null) {
+            return exepath.substring(0, exepath.length() - relativexepath.length());
+        } else {
+            return "";
+        }
+    }
+
+    public static String getFullMapPath(String gamename, String modName) {
+        String tmp = getLaunchPathWithExe(gamename, modName);
+        if (tmp == null || tmp.length() == 0) {
+            return null;
+        }
+        String relativeexepath = GameDatabase.getRelativeExePath(gamename, modName);
+        String mappath = GameDatabase.getMapPath(gamename, modName);
+        tmp = tmp.replace(relativeexepath, mappath);
+        return tmp;
+    }
+
+    public static String getLaunchPathWithExe(String gamename, String modName) {
+        String path = "";
+        switch (Globals.getOperatingSystem()) {
+            case LINUX:
+                path = GameDatabase.getLocalExecutablePath(gamename);
+                break;
+            case WINDOWS:
+                path = GameDatabase.readRegistry(GameDatabase.getRegEntry(gamename, modName));
+
+                //if its not detected try loading from local paths(given by user)
+                if (path == null || (path != null && path.length() == 0)) {
+                    String tmp = GameDatabase.getLocalExecutablePath(gamename);
+                    if (tmp != null) {
+                        path = tmp;
+                    }
+                }
+                // make sure ret points to the exe
+                if (path != null && path.length() > 0 && !path.endsWith(".exe")) {
+                    String tmp = GameDatabase.getRelativeExePath(gamename, modName);
+                    if (tmp != null) {
+                        path = path + tmp;
+                    }
+                }
+                break;
+        }
+        return path;
     }
 
     public static void loadVersion() {
@@ -271,7 +340,7 @@ public class GameDatabase {
         }
     }
 
-    public static void load(String gamename, String datafilepath) {       
+    public static void load(String gamename, String datafilepath) {
         Game currentgame = new Game();
         Game currentmod = new Game();
         boolean beta = false;

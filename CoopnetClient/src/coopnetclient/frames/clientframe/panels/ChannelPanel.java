@@ -95,6 +95,11 @@ public class ChannelPanel extends javax.swing.JPanel {
         rooms.setLaunchedStatus(playername, false);
     }
 
+    public void hideRoomList() {
+        pnl_roomActions.setVisible(false);
+        sp_vertical.setDividerSize(0);
+    }
+
     public void setPlayingStatus(String player) {
         users.playerLaunchedGame(player);
         rooms.setLaunchedStatus(player, true);

@@ -31,10 +31,10 @@
                   <Group type="102" attributes="0">
                       <Component id="lbl_filter" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="tf_filter" pref="490" max="32767" attributes="0"/>
+                      <Component id="tf_filter" pref="492" max="32767" attributes="0"/>
                   </Group>
                   <Component id="lbl_games" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="scrl_games" alignment="1" pref="522" max="32767" attributes="1"/>
+                  <Component id="scrl_games" alignment="1" pref="524" max="32767" attributes="1"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lbl_installPath" alignment="0" min="-2" max="-2" attributes="0"/>

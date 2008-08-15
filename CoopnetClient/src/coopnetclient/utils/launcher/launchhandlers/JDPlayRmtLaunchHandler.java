@@ -22,8 +22,8 @@ package coopnetclient.utils.launcher.launchhandlers;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
-import coopnetclient.launcher.launchinfos.DirectPlayLaunchInfo;
-import coopnetclient.launcher.launchinfos.LaunchInfo;
+import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
+import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.modules.Settings;
 import java.io.BufferedReader;
 import java.io.IOException;

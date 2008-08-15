@@ -61,27 +61,6 @@ public class DummyLauncher implements OLDLauncher {
         return "";
     }
 
-
-    @Override
-    public boolean isLaunchable(String gamename) {
-        return true;
-    }
-
-    @Override
-    public String getExecutablePath(String gamename) {
-        return "";
-    }
-
-    @Override
-    public String getInstallPath(String gamename) {
-        return "";
-    }
-
-    @Override
-    public String getFullMapPath(String gamename) {
-        return "";
-    }
-
     @Override
     public String getMod() {
         return "";

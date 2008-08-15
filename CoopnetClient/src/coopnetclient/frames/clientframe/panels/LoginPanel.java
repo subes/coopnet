@@ -23,6 +23,7 @@ package coopnetclient.frames.clientframe.panels;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
+import coopnetclient.modules.Settings;
 import coopnetclient.modules.Verification;
 
 public class LoginPanel extends javax.swing.JPanel {
@@ -60,6 +61,7 @@ public class LoginPanel extends javax.swing.JPanel {
                 Thread.sleep(100);
             }catch(InterruptedException ex){}
 
+            Client.send(Protocol.SetSleep(Settings.getSleepEnabled()), null);
             String s = coopnetclient.modules.Settings.getHomeChannel();
             if (s.length() > 0) {
                 Client.send(Protocol.JoinChannel(s), null);

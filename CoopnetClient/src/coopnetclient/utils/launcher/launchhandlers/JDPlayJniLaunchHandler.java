@@ -21,8 +21,8 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 package coopnetclient.utils.launcher.launchhandlers;
 
 import coopnetclient.Globals;
-import coopnetclient.launcher.launchinfos.DirectPlayLaunchInfo;
-import coopnetclient.launcher.launchinfos.LaunchInfo;
+import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
+import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import jdplay.JDPlay;
 
 public class JDPlayJniLaunchHandler extends LaunchHandler {

@@ -137,7 +137,7 @@ public class WindowsLauncher implements OLDLauncher {
 
     private boolean launchParam(String gamename) {
         String callerstring = null;
-        callerstring = getLaunchPathWithExe(gamename);
+        callerstring = GameDatabase.getLaunchPathWithExe(gamename,modName);
         if (callerstring == null) {
             return false;
         }
@@ -218,72 +218,6 @@ public class WindowsLauncher implements OLDLauncher {
     @Override
     public String getMap() {
         return this.map;
-    }
-
-    @Override
-    public String getFullMapPath(String gamename) {
-        String tmp = getLaunchPathWithExe(gamename);
-        if (tmp == null || tmp.length() == 0) {
-            return null;
-        }
-        String relativeexepath = GameDatabase.getRelativeExePath(gamename, modName);
-        String mappath = GameDatabase.getMapPath(gamename, modName);
-        tmp = tmp.replace(relativeexepath, mappath);
-        return tmp;
-    }
-
-    private String getLaunchPathWithExe(String gamename) {
-        String path = "";
-
-        path = GameDatabase.readRegistry(GameDatabase.getRegEntry(gamename, modName));
-
-        //if its not detected try loading from local paths(given by user)
-        if (path == null || (path != null && path.length() == 0)) {
-            String tmp = GameDatabase.getLocalExecutablePath(gamename);
-            if (tmp != null) {
-                path = tmp;
-            }
-        }
-        // make sure ret points to the exe
-        if (path != null && path.length() > 0 && !path.endsWith(".exe")) {
-            String tmp = GameDatabase.getRelativeExePath(gamename, modName);
-            if (tmp != null) {
-                path = path + tmp;
-            }
-        }
-        return path;
-    }
-
-    @Override
-    public boolean isLaunchable(String gamename) {
-        String test = null;
-
-        if (GameDatabase.getLaunchMethod(gamename, modName) == LaunchMethods.DIRECTPLAY || GameDatabase.getLaunchMethod(gamename, modName) == LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY) {
-            return true;
-        }
-        test = getLaunchPathWithExe(gamename);
-        if (test != null && test.length() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public String getExecutablePath(String gamename) {
-        return getLaunchPathWithExe(gamename);
-    }
-
-    @Override
-    public String getInstallPath(String gamename) {
-        String exepath = getLaunchPathWithExe(gamename);
-        String relativexepath = GameDatabase.getRelativeExePath(gamename, modName);
-
-        if (exepath != null && exepath.length() > 0 && relativexepath != null) {
-            return exepath.substring(0, exepath.length() - relativexepath.length());
-        } else {
-            return "";
-        }
     }
 
     @Override

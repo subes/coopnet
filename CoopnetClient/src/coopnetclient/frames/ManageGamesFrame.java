@@ -209,9 +209,9 @@ public class ManageGamesFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private void lst_gamesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_gamesMousePressed
         if (lst_games.getSelectedValue() != null) {
-            String path = Globals.getLauncher().getExecutablePath(lst_games.getSelectedValue().toString());
+            String path = GameDatabase.getLaunchPathWithExe(lst_games.getSelectedValue().toString(),null);
             tf_path.setText(path);
-            String installpath = Globals.getLauncher().getInstallPath(lst_games.getSelectedValue().toString());
+            String installpath = GameDatabase.getInstallPath(lst_games.getSelectedValue().toString());
             tf_installPath.setText(installpath);
         }
 }//GEN-LAST:event_lst_gamesMousePressed

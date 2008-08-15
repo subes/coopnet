@@ -22,15 +22,17 @@ package coopnetclient.utils.launcher;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.launcher.launchhandlers.JDPlayJniLaunchHandler;
-import coopnetclient.launcher.launchhandlers.JDPlayRmtLaunchHandler;
-import coopnetclient.launcher.launchhandlers.LaunchHandler;
-import coopnetclient.launcher.launchhandlers.ParameterLaunchHandler;
-import coopnetclient.launcher.launchinfos.DirectPlayLaunchInfo;
-import coopnetclient.launcher.launchinfos.LaunchInfo;
-import coopnetclient.launcher.launchinfos.ParameterLaunchInfo;
+import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.utils.launcher.launchhandlers.JDPlayJniLaunchHandler;
+import coopnetclient.utils.launcher.launchhandlers.JDPlayRmtLaunchHandler;
+import coopnetclient.utils.launcher.launchhandlers.LaunchHandler;
+import coopnetclient.utils.launcher.launchhandlers.ParameterLaunchHandler;
+import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
+import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
+import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
 
 public class Launcher {
     
