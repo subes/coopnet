@@ -43,6 +43,13 @@ public class GameDatabase {
     protected static final String SETTING_DELIMITER_PATTERN = "\\^";
     protected static final String SETTING_DELIMITER = "^";
     
+    //fields
+    private static HashMap<String, String> IDtoGameName;     // key is the ID    
+    private static HashMap<String, String> localexecutablepath; //shud point to the exe/binary
+    private static HashMap<String, String> localinstallpath; //shud point to the game basedir
+    private static ArrayList<String> isexperimental;
+    private static ArrayList<Game> gameData;
+    public static int version = 0;
 
     static {
         if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
@@ -66,15 +73,9 @@ public class GameDatabase {
         load("", datafilepath);
         load(null, testdatafilepath);
         loadLocalPaths();
+        IDtoGameName.put("WLC", "Welcome");
     }
-    //fields
-    private static HashMap<String, String> IDtoGameName;     // key is the ID    
-    private static HashMap<String, String> localexecutablepath; //shud point to the exe/binary
-    private static HashMap<String, String> localinstallpath; //shud point to the game basedir
-    private static ArrayList<String> isexperimental;
-    private static ArrayList<Game> gameData;
-    public static int version = 0;
-
+    
     public static boolean isBeta(String channelname) {
         return isexperimental.contains(channelname);
     }
@@ -90,6 +91,7 @@ public class GameDatabase {
         IDtoGameName = new HashMap<String, String>();
         isexperimental = new ArrayList<String>();
         gameData = new ArrayList<Game>();
+        IDtoGameName.put("WLC", "Welcome");
     }
 
     private static int indexOfGame(String gamename) {

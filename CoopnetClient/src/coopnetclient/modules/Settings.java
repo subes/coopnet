@@ -136,7 +136,7 @@ public class Settings {
     private final static String def_recievedest = "./RecievedFiles/";
     private final static int def_nameSize = 12;
     private final static String def_messageStyle = "Monospaced";
-    private final static String def_homeChannel = "Fallout Tactics";
+    private final static String def_homeChannel = "Welcome";
     private final static int def_messageSize = 12;
     private final static boolean def_colorizeBody = false;
     private final static boolean def_colorizeText = true;
