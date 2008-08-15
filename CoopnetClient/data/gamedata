@@ -23,10 +23,10 @@ EXE=System\UnrealTournament.exe
 MAPPATH=Maps
 MAPEXT=UNR
 SETTINGS:(
-GameMode^2^GAMEMODE^^Capture the Flag=CTFGame^Deathmatch=DeathMatchPlus^Domination=Domination^Assault=Assault^LastManStanding=LastManStanding^TDarkMatch=TDarkMatch
-timelimit^3^TIMELIMIT^0^0^999
-maxplayers^3^MAXPLAYERS^0^0^999
-shared:port^3^PORT^7777
+GameMode^CHOISE^GAMEMODE^^Capture the Flag=CTFGame^Deathmatch=DeathMatchPlus^Domination=Domination^Assault=Assault^LastManStanding=LastManStanding^TDarkMatch=TDarkMatch
+timelimit^NUMBER^TIMELIMIT^0^0^999
+maxplayers^NUMBER^MAXPLAYERS^0^0^999
+shared:port^NUMBER^PORT^7777
 )
 }
 {
@@ -42,12 +42,12 @@ EXE=\System\UT2004.exe
 MAPPATH=\Maps\
 MAPEXT=ut2
 SETTINGS:(
-gamemode^2^GAMEMODE^^Assault=UT2k4Assault.ASGameInfoX^Capture the Flag=XGame.xCTFGame^Deathmatch=XGame.xDeathMatch^Bombing Run=XGame.xBombingRun^DoubleDomination=xGame.xDoubleDom^Invasion=SkaarjPack.Invasion^LastManStanding=BonusPack.xLastManStandingGame^Mutant=xMutantGame^Onslaught=Onslaught.ONSOnslaughtGame^Team Deathmatch=XGame.xTeamGame
-timelimit^3^TIMELIMIT^0^0^999
-maxplayers^3^MAXPLAYERS^0^0^999
-shared:port^3^PORT^7777
-bots^3^BOTS^0^0^999
-goalscore^3^GOALSCORE^0^0^999
+gamemode^CHOISE^GAMEMODE^^Assault=UT2k4Assault.ASGameInfoX^Capture the Flag=XGame.xCTFGame^Deathmatch=XGame.xDeathMatch^Bombing Run=XGame.xBombingRun^DoubleDomination=xGame.xDoubleDom^Invasion=SkaarjPack.Invasion^LastManStanding=BonusPack.xLastManStandingGame^Mutant=xMutantGame^Onslaught=Onslaught.ONSOnslaughtGame^Team Deathmatch=XGame.xTeamGame
+timelimit^NUMBER^TIMELIMIT^0^0^999
+maxplayers^NUMBER^MAXPLAYERS^0^0^999
+shared:port^NUMBER^PORT^7777
+bots^NUMBER^BOTS^0^0^999
+goalscore^NUMBER^GOALSCORE^0^0^999
 )
 MODS:[
 NAME=Alien Swarm
