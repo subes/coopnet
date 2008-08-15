@@ -62,9 +62,14 @@ public class HyperlinkMouseListener extends MouseAdapter {
             DefaultStyledDocument hdoc = (DefaultStyledDocument) doc;
             Element el = hdoc.getCharacterElement(pos);
             AttributeSet a = el.getAttributes();
-            String href = (String) a.getAttribute(HTML.Attribute.HREF);
+            final String href = (String) a.getAttribute(HTML.Attribute.HREF);
             if (href != null) {
-                openURL(href);
+                new Thread(){
+                    @Override
+                    public void run() {
+                         openURL(href);
+                    }
+                }.start();                
             }
         }
     }
