@@ -61,8 +61,8 @@ public class ClientFrame extends javax.swing.JFrame {
         
         initComponents(); 
         
-        contactListPanel.setVisible(false); 
-        slp_MainSplitPanel.setDividerSize(0);
+        pnl_contactList.setVisible(false); 
+        slp_mainSplitPanel.setDividerSize(0);
 
         mi_disconnect.setEnabled(true);
         mi_connect.setEnabled(false);
@@ -206,6 +206,18 @@ public class ClientFrame extends javax.swing.JFrame {
         //update the pm tab title too
         TabOrganizer.updateTitleOnTab(oldname, newname);
     }
+    
+    private void setQuickBarVisibility(boolean visibility){
+        pnl_contactList.setVisible(visibility);
+        if (visibility) {
+            slp_mainSplitPanel.setDividerSize(DIVIDERWIDTH);
+            slp_mainSplitPanel.setDividerLocation(pnl_contactList.getSize().width);
+            pnl_toggleQuickBar.setBorder(BorderFactory.createLoweredBevelBorder());
+        } else {
+            slp_mainSplitPanel.setDividerSize(0);
+            pnl_toggleQuickBar.setBorder(BorderFactory.createRaisedBevelBorder());
+        }
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -216,10 +228,10 @@ public class ClientFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        pnl_toggleBar = new javax.swing.JPanel();
+        pnl_toggleQuickBar = new javax.swing.JPanel();
         pnl_PlayerListHolder = new javax.swing.JPanel();
-        slp_MainSplitPanel = new javax.swing.JSplitPane();
-        contactListPanel = new ContactListPanel(contacts);
+        slp_mainSplitPanel = new javax.swing.JSplitPane();
+        pnl_contactList = new ContactListPanel(contacts);
         tabpn_tabs = new javax.swing.JTabbedPane();
         mbar = new javax.swing.JMenuBar();
         m_main = new javax.swing.JMenu();
@@ -253,47 +265,47 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        pnl_toggleBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        pnl_toggleBar.setMinimumSize(new java.awt.Dimension(5, 100));
-        pnl_toggleBar.setPreferredSize(new java.awt.Dimension(5, 100));
-        pnl_toggleBar.addMouseListener(new java.awt.event.MouseAdapter() {
+        pnl_toggleQuickBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnl_toggleQuickBar.setMinimumSize(new java.awt.Dimension(5, 100));
+        pnl_toggleQuickBar.setPreferredSize(new java.awt.Dimension(5, 100));
+        pnl_toggleQuickBar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                pnl_toggleBarMouseEntered(evt);
+                pnl_toggleQuickBarMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                pnl_toggleBarMouseExited(evt);
+                pnl_toggleQuickBarMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                pnl_toggleBarMousePressed(evt);
+                pnl_toggleQuickBarMousePressed(evt);
             }
         });
 
-        javax.swing.GroupLayout pnl_toggleBarLayout = new javax.swing.GroupLayout(pnl_toggleBar);
-        pnl_toggleBar.setLayout(pnl_toggleBarLayout);
-        pnl_toggleBarLayout.setHorizontalGroup(
-            pnl_toggleBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout pnl_toggleQuickBarLayout = new javax.swing.GroupLayout(pnl_toggleQuickBar);
+        pnl_toggleQuickBar.setLayout(pnl_toggleQuickBarLayout);
+        pnl_toggleQuickBarLayout.setHorizontalGroup(
+            pnl_toggleQuickBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1, Short.MAX_VALUE)
         );
-        pnl_toggleBarLayout.setVerticalGroup(
-            pnl_toggleBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnl_toggleQuickBarLayout.setVerticalGroup(
+            pnl_toggleQuickBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 302, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        getContentPane().add(pnl_toggleBar, gridBagConstraints);
+        getContentPane().add(pnl_toggleQuickBar, gridBagConstraints);
 
         pnl_PlayerListHolder.setMinimumSize(new java.awt.Dimension(400, 300));
         pnl_PlayerListHolder.setPreferredSize(new java.awt.Dimension(400, 300));
 
-        slp_MainSplitPanel.setBorder(null);
-        slp_MainSplitPanel.setMinimumSize(new java.awt.Dimension(400, 300));
-        slp_MainSplitPanel.setPreferredSize(new java.awt.Dimension(400, 300));
+        slp_mainSplitPanel.setBorder(null);
+        slp_mainSplitPanel.setMinimumSize(new java.awt.Dimension(400, 300));
+        slp_mainSplitPanel.setPreferredSize(new java.awt.Dimension(400, 300));
 
-        contactListPanel.setMinimumSize(new java.awt.Dimension(150, 100));
-        contactListPanel.setPreferredSize(new java.awt.Dimension(150, 100));
-        slp_MainSplitPanel.setLeftComponent(contactListPanel);
+        pnl_contactList.setMinimumSize(new java.awt.Dimension(150, 100));
+        pnl_contactList.setPreferredSize(new java.awt.Dimension(150, 100));
+        slp_mainSplitPanel.setLeftComponent(pnl_contactList);
 
         tabpn_tabs.setFocusable(false);
         tabpn_tabs.setMinimumSize(null);
@@ -311,17 +323,17 @@ public class ClientFrame extends javax.swing.JFrame {
                 tabpn_tabsComponentRemoved(evt);
             }
         });
-        slp_MainSplitPanel.setRightComponent(tabpn_tabs);
+        slp_mainSplitPanel.setRightComponent(tabpn_tabs);
 
         javax.swing.GroupLayout pnl_PlayerListHolderLayout = new javax.swing.GroupLayout(pnl_PlayerListHolder);
         pnl_PlayerListHolder.setLayout(pnl_PlayerListHolderLayout);
         pnl_PlayerListHolderLayout.setHorizontalGroup(
             pnl_PlayerListHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(slp_MainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(slp_mainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pnl_PlayerListHolderLayout.setVerticalGroup(
             pnl_PlayerListHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(slp_MainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+            .addComponent(slp_mainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -526,6 +538,8 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_disconnectActionPerformed
 
     public void disconnect() {
+        setQuickBarVisibility(false);
+        
         Client.send(Protocol.quit(), null);
         Client.stopConnection();
         TabOrganizer.closeAllTabs();
@@ -683,44 +697,34 @@ private void mi_bugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     Globals.openBugReportFrame();
 }//GEN-LAST:event_mi_bugReportActionPerformed
 
-private void pnl_toggleBarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleBarMouseEntered
+private void pnl_toggleQuickBarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleQuickBarMouseEntered
     if(Globals.getLoggedInStatus()){
         if(Settings.getColorizeBody()){
-            pnl_toggleBar.setBackground(Settings.getSelectionColor());
+            pnl_toggleQuickBar.setBackground(Settings.getSelectionColor());
         }else{
-            pnl_toggleBar.setBackground((Color) UIManager.get("List.selectionBackground"));
+            pnl_toggleQuickBar.setBackground((Color) UIManager.get("List.selectionBackground"));
         }    
     }
-}//GEN-LAST:event_pnl_toggleBarMouseEntered
+}//GEN-LAST:event_pnl_toggleQuickBarMouseEntered
 
-private void pnl_toggleBarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleBarMouseExited
+private void pnl_toggleQuickBarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleQuickBarMouseExited
     if(Globals.getLoggedInStatus()){
         if(Settings.getColorizeBody()){
-            pnl_toggleBar.setBackground(Settings.getBackgroundColor());
+            pnl_toggleQuickBar.setBackground(Settings.getBackgroundColor());
         }else{
-            pnl_toggleBar.setBackground((Color) UIManager.get("Panel.background"));
+            pnl_toggleQuickBar.setBackground((Color) UIManager.get("Panel.background"));
         }
     }
-}//GEN-LAST:event_pnl_toggleBarMouseExited
+}//GEN-LAST:event_pnl_toggleQuickBarMouseExited
 
-private void pnl_toggleBarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleBarMousePressed
+private void pnl_toggleQuickBarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleQuickBarMousePressed
     if(Globals.getLoggedInStatus()){
-        boolean visible = !leftPanelVIsibility;
-        leftPanelVIsibility = visible;
-        contactListPanel.setVisible(visible);
-        if (visible) {
-            slp_MainSplitPanel.setDividerSize(DIVIDERWIDTH);
-            slp_MainSplitPanel.setDividerLocation(contactListPanel.getSize().width);
-            pnl_toggleBar.setBorder(BorderFactory.createLoweredBevelBorder());
-        } else {
-            slp_MainSplitPanel.setDividerSize(0);
-            pnl_toggleBar.setBorder(BorderFactory.createRaisedBevelBorder());
-        }
+        leftPanelVIsibility = !leftPanelVIsibility;
+        setQuickBarVisibility(leftPanelVIsibility);
     }
-}//GEN-LAST:event_pnl_toggleBarMousePressed
+}//GEN-LAST:event_pnl_toggleQuickBarMousePressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private coopnetclient.frames.clientframe.panels.ContactListPanel contactListPanel;
     private javax.swing.JMenu m_channels;
     private javax.swing.JMenu m_help;
     private javax.swing.JMenu m_main;
@@ -743,8 +747,9 @@ private void pnl_toggleBarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIR
     private javax.swing.JSeparator mi_seperator;
     private javax.swing.JMenuItem mi_update;
     private javax.swing.JPanel pnl_PlayerListHolder;
-    private javax.swing.JPanel pnl_toggleBar;
-    private javax.swing.JSplitPane slp_MainSplitPanel;
+    private coopnetclient.frames.clientframe.panels.ContactListPanel pnl_contactList;
+    private javax.swing.JPanel pnl_toggleQuickBar;
+    private javax.swing.JSplitPane slp_mainSplitPanel;
     private javax.swing.JTabbedPane tabpn_tabs;
     // End of variables declaration//GEN-END:variables
 }
