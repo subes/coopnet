@@ -66,13 +66,15 @@ public class TabOrganizer {
         int index = -1;
         index = tabHolder.indexOfTab(channelname);
         if (index != -1) {
+            tabHolder.setSelectedIndex(index);
             return;
         }
+        
         ChannelPanel currentchannel = new ChannelPanel(channelname);
         tabHolder.add(currentchannel, 0);
         tabHolder.setTitleAt(0, channelname);
         channelPanels.add(currentchannel);
-        Globals.getClientFrame().repaint();
+        
         //chatonly or game?
         if (GameDatabase.getLaunchMethod(channelname, null) == LaunchMethods.CHAT_ONLY) {
             currentchannel.hideRoomList();
@@ -94,7 +96,7 @@ public class TabOrganizer {
             }
         }
 
-
+        Globals.getClientFrame().repaint();
         tabHolder.setSelectedComponent(currentchannel);
     }
 

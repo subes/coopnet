@@ -381,9 +381,9 @@ public class RoomPanel extends javax.swing.JPanel {
                 .addComponent(cb_useHamachi)
                 .addGap(18, 18, 18)
                 .addComponent(btn_gameSettings)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addComponent(btn_close))
-            .addComponent(sp_chatHorizontal, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+            .addComponent(sp_chatHorizontal, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -395,7 +395,7 @@ public class RoomPanel extends javax.swing.JPanel {
                     .addComponent(cb_useHamachi)
                     .addComponent(btn_gameSettings))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sp_chatHorizontal, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
+                .addComponent(sp_chatHorizontal, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     private void tp_chatOutputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tp_chatOutputFocusLost

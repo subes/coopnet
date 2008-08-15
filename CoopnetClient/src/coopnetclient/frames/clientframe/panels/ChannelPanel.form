@@ -210,11 +210,8 @@
                 </Container>
                 <Component class="javax.swing.JButton" name="btn_leaveChannel1">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Leave Channel"/>
+                    <Property name="text" type="java.lang.String" value="Leave"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[100, 25]"/>
-                    </Property>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[100, 25]"/>
                     </Property>
@@ -354,7 +351,7 @@
             </Container>
             <Component class="javax.swing.JButton" name="btn_leaveChannel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Leave Channel"/>
+                <Property name="text" type="java.lang.String" value="Leave"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[100, 25]"/>

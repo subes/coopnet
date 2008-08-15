@@ -331,9 +331,8 @@ public class ChannelPanel extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         jPanel1.add(scrl_userList, gridBagConstraints);
 
-        btn_leaveChannel1.setText("Leave Channel");
+        btn_leaveChannel1.setText("Leave");
         btn_leaveChannel1.setFocusable(false);
-        btn_leaveChannel1.setMaximumSize(new java.awt.Dimension(100, 25));
         btn_leaveChannel1.setMinimumSize(new java.awt.Dimension(100, 25));
         btn_leaveChannel1.setPreferredSize(new java.awt.Dimension(100, 25));
         btn_leaveChannel1.addActionListener(new java.awt.event.ActionListener() {
@@ -414,7 +413,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         });
         scrl_roomList.setViewportView(tbl_roomList);
 
-        btn_leaveChannel.setText("Leave Channel");
+        btn_leaveChannel.setText("Leave");
         btn_leaveChannel.setFocusable(false);
         btn_leaveChannel.setMaximumSize(new java.awt.Dimension(100, 25));
         btn_leaveChannel.setMinimumSize(new java.awt.Dimension(100, 25));
