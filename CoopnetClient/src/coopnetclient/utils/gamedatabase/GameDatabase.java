@@ -244,7 +244,7 @@ public class GameDatabase {
 
     public static LaunchMethods getLaunchMethod(String gamename, String modname) {
         int idx = indexOfGame(gamename);
-        if (idx > 0) {
+        if (idx > -1) {
             return gameData.get(idx).getLaunchMethod(modname);
         } else {
             return LaunchMethods.CHAT_ONLY;
@@ -328,6 +328,7 @@ public class GameDatabase {
         try {
             br = new BufferedReader(new FileReader(datafilepath));
         } catch (FileNotFoundException ex) {
+            //ex.printStackTrace();            
             System.out.println("Could not load gamedatabase");
             return;
         }
@@ -335,12 +336,13 @@ public class GameDatabase {
         try {
             version = new Integer(br.readLine().substring(8));
         } catch (IOException ex) {
+            //ex.printStackTrace();
             System.out.println("Could not load gamedatabase");
             return;
         }
     }
 
-    public static void load(String gamename, String datafilepath) {
+    public static synchronized void load(String gamename, String datafilepath) {
         Game currentgame = new Game();
         Game currentmod = new Game();
         boolean beta = false;
@@ -351,6 +353,7 @@ public class GameDatabase {
         try {
             br = new BufferedReader(new FileReader(datafilepath));
         } catch (FileNotFoundException ex) {
+            //ex.printStackTrace();
             System.out.println("Could not load gamedatabase");
             return;
         }
@@ -367,6 +370,7 @@ public class GameDatabase {
                     continue;
                 }
             } catch (IOException ex) {
+                //ex.printStackTrace();
                 System.out.println("Could not load gamedatabase");
                 return;
             }
