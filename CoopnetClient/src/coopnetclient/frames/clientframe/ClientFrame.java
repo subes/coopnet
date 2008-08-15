@@ -27,11 +27,14 @@ import coopnetclient.frames.clientframe.panels.PrivateChatPanel;
 import coopnetclient.frames.clientframe.panels.RoomPanel;
 import coopnetclient.Protocol;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.enums.PlayerStatuses;
+import coopnetclient.frames.clientframe.panels.ContactListPanel;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.components.FavMenuItem;
 import coopnetclient.frames.clientframe.panels.FileTransferRecievePanel;
 import coopnetclient.frames.clientframe.panels.FileTransferSendPanel;
 import coopnetclient.modules.FileDownloader;
+import coopnetclient.modules.models.ContactListModel;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.BorderFactory;
@@ -39,17 +42,25 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EtchedBorder;
 
 public class ClientFrame extends javax.swing.JFrame {
 
     private static final int DIVIDERWIDTH = 5;
     private static boolean leftPanelVIsibility = false;
+    private static ContactListModel contacts;
 
     /** Creates new form ClientFrame */
     public ClientFrame() {
+        contacts = new ContactListModel();        
+        //samplée data
+        contacts.addContact("guy1", PlayerStatuses.CHATTING);
+        contacts.addContact("guy2", PlayerStatuses.IN_ROOM);
+        contacts.addContact("guy3", PlayerStatuses.PLAYING);
+        contacts.addContact("guy0", PlayerStatuses.OFFLINE);
+        contacts.addContact("guy5", PlayerStatuses.PENDING_REQUEST);
+        
         initComponents(); 
+        
         contactListPanel.setVisible(false); 
         slp_MainSplitPanel.setDividerSize(0);
 
@@ -208,7 +219,7 @@ public class ClientFrame extends javax.swing.JFrame {
         pnl_toggleBar = new javax.swing.JPanel();
         pnl_PlayerListHolder = new javax.swing.JPanel();
         slp_MainSplitPanel = new javax.swing.JSplitPane();
-        contactListPanel = new coopnetclient.frames.clientframe.panels.ContactListPanel();
+        contactListPanel = new ContactListPanel(contacts);
         tabpn_tabs = new javax.swing.JTabbedPane();
         mbar = new javax.swing.JMenuBar();
         m_main = new javax.swing.JMenu();
@@ -695,7 +706,7 @@ private void pnl_toggleBarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIR
     contactListPanel.setVisible(visible);
     if (visible) {
         slp_MainSplitPanel.setDividerSize(DIVIDERWIDTH);
-        slp_MainSplitPanel.setDividerLocation(contactListPanel.getMinimumSize().width);
+        slp_MainSplitPanel.setDividerLocation(contactListPanel.getSize().width);
         pnl_toggleBar.setBorder(BorderFactory.createLoweredBevelBorder());
     } else {
         slp_MainSplitPanel.setDividerSize(0);

@@ -1,15 +1,27 @@
-/*
- * PlayerListPaneé.java
- *
- * Created on 2008. augusztus 15., 16:43
- */
+/*	
+Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
+Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
 
+This file is part of Coopnet.
+
+Coopnet is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Coopnet is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package coopnetclient.frames.clientframe.panels;
 
-/**
- *
- * @author  kecske
- */
+import coopnetclient.modules.models.ContactListModel;
+import coopnetclient.modules.renderers.ContactListRenderer;
+
 public class ContactListPanel extends javax.swing.JPanel {
 
     /** Creates new form PlayerListPaneé */
@@ -17,6 +29,12 @@ public class ContactListPanel extends javax.swing.JPanel {
         initComponents();
     }
 
+    public ContactListPanel(ContactListModel model) {
+        initComponents();
+        jList1.setModel(model);
+        jList1.setCellRenderer(new ContactListRenderer(model));
+    }
+            
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -43,7 +61,7 @@ public class ContactListPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jList1);
 
-        jTabbedPane1.addTab("tab1", jScrollPane1);
+        jTabbedPane1.addTab("Contacts", jScrollPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
