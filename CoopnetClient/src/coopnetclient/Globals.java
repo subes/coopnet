@@ -38,6 +38,7 @@ import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.launcher.OLDLauncher;
 import coopnetclient.modules.Colorizer;
+import coopnetclient.utils.launcher.Launcher;
 import java.awt.Point;
 import javax.swing.JFrame;
 
@@ -147,6 +148,7 @@ public class Globals {
     
     public static void setThisPlayer_inGameName(String value){
         thisPlayer_inGameName = value;
+        Launcher.updatePlayerName();
     }
     
     public static String getThisPlayer_inGameName(){

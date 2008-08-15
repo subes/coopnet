@@ -193,7 +193,7 @@ public class Client {
                 }
 
                 Globals.setIsPlayingStatus(true);
-                TabOrganizer.getChannelPanel(channel).disablebuttons();
+                TabOrganizer.getChannelPanel(channel).disableButtons();
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                         "Game launching... please wait!",
                         ChatStyles.SYSTEM);

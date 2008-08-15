@@ -27,7 +27,7 @@ import jdplay.JDPlay;
 
 public class JDPlayJniLaunchHandler extends LaunchHandler {
 
-    private JDPlay jdplay;
+    private static JDPlay jdplay;
     
     private DirectPlayLaunchInfo launchInfo;
     

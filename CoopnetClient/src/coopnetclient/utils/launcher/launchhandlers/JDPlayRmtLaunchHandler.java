@@ -31,12 +31,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 public class JDPlayRmtLaunchHandler extends LaunchHandler {
-
-    private DirectPlayLaunchInfo launchInfo;
     
     private static Process jdplay;
     private static OutputStream out;
     private static BufferedReader in;
+    
+    private DirectPlayLaunchInfo launchInfo;
     
     @Override
     public boolean doInitialize(LaunchInfo launchInfo) {

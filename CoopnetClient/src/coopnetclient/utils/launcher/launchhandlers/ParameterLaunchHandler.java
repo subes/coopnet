@@ -21,12 +21,21 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 package coopnetclient.utils.launcher.launchhandlers;
 
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
+import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
 
 public class ParameterLaunchHandler extends LaunchHandler {
 
+    private ParameterLaunchInfo launchInfo;
+    
     @Override
     public boolean doInitialize(LaunchInfo launchInfo) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(!(launchInfo instanceof ParameterLaunchInfo)){
+            throw new IllegalArgumentException("expected launchInfo to be "+ParameterLaunchInfo.class.toString()+", but got "+launchInfo.getClass().toString());
+        }
+        
+        this.launchInfo =  (ParameterLaunchInfo) launchInfo;
+        
+        return true;
     }
 
     @Override

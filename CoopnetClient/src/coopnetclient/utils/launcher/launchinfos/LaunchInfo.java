@@ -24,10 +24,16 @@ public abstract class LaunchInfo {
     
     private String hostIP;
     private boolean isHost;
+    private String gameName;
     
-    public LaunchInfo(String hostIP, boolean isHost){        
+    public LaunchInfo(String gameName, String hostIP, boolean isHost){      
+        this.gameName = gameName;
         this.hostIP = hostIP;
         this.isHost = isHost;
+    }
+    
+    public String getGameName(){
+        return gameName;
     }
     
     public String getHostIP(){

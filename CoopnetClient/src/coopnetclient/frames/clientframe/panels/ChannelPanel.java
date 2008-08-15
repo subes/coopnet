@@ -83,7 +83,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
         lst_userList.setComponentPopupMenu(mypopup);
         
-        disablebuttons();
+        disableButtons();
         enablebuttons();
         if(ID.equals("TST")){
             TabOrganizer.openGameDataEditor();
@@ -156,7 +156,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         users.playerEnteredChannel(name);
     }
 
-    public void disablebuttons() {
+    public void disableButtons() {
         btn_create.setEnabled(false);
         btn_join.setEnabled(false);
     }

@@ -22,7 +22,7 @@ package coopnetclient.utils.launcher.launchinfos;
 
 public class ParameterLaunchInfo extends LaunchInfo {
     
-    public ParameterLaunchInfo(String hostIP, boolean isHost){
-        super(hostIP, isHost);
+    public ParameterLaunchInfo(String gameName, String hostIP, boolean isHost){
+        super(gameName, hostIP, isHost);
     }
 }

@@ -20,15 +20,17 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 
 package coopnetclient.utils.launcher.launchinfos;
 
+import coopnetclient.utils.gamedatabase.GameDatabase;
+
 public class DirectPlayLaunchInfo extends LaunchInfo {
     
     private String gameGUID;
     private boolean compatibility;
     
-    public DirectPlayLaunchInfo(String hostIP, boolean isHost, String gameGUID, boolean compatibility){
-        super(hostIP, isHost);
+    public DirectPlayLaunchInfo(String gameName, String hostIP, boolean isHost, boolean compatibility){
+        super(gameName, hostIP, isHost);
         
-        this.gameGUID = gameGUID;
+        this.gameGUID = GameDatabase.getGuid(gameName, null);
         this.compatibility = compatibility;
     }
     
