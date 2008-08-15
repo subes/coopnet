@@ -22,10 +22,8 @@ package coopnetclient.utils.launcher;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
-import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.launcher.launchhandlers.JDPlayJniLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.JDPlayRmtLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.LaunchHandler;

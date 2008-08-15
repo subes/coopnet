@@ -79,7 +79,7 @@ public class TabOrganizer {
         } else {//game channel
             //check if the game is installed
             if (!GameDatabase.isLaunchable(channelname)) {
-                currentchannel.disablebuttons();
+                currentchannel.disableButtons();
                 currentchannel.printMainChatMessage("SYSTEM",
                         "The game couldn't be detected, please set the path manually at " +
                         "options/manage games to enable playing this game!",
@@ -142,7 +142,7 @@ public class TabOrganizer {
             tabHolder.setSelectedComponent(roomPanel);
 
             for (ChannelPanel cp : channelPanels) {
-                cp.disablebuttons();
+                cp.disableButtons();
             }
 
         } else {
