@@ -63,6 +63,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         cb_colorizeText.setSelected(coopnetclient.modules.Settings.getColorizeText());
 
         cb_sounds.setSelected(coopnetclient.modules.Settings.getSoundEnabled());
+        cb_sleepMode.setSelected(coopnetclient.modules.Settings.getSleepEnabled());
 
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         String fontNames[] = ge.getAvailableFontFamilyNames();
