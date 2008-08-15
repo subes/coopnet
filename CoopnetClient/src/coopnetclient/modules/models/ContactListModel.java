@@ -81,7 +81,7 @@ public class ContactListModel extends AbstractListModel {
         fireContentsChanged(this, 0, getSize());
     }
 
-    /*public boolean contains(Object element) {
-        //return pendingList.contains(element) || contactList.contains(element);
-    }*/
+    public boolean contains(Object element) {
+        return pendingList.contains(element) || contactList.containsKey(element);
+    }
 }

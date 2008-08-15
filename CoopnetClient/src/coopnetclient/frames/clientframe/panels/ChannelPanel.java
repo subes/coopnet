@@ -55,6 +55,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         this.name = name;
         ID = GameDatabase.IDofGame(name);
         initComponents();
+        btn_leaveChannel1.setVisible(false);
         coopnetclient.modules.Colorizer.colorize(this);
 
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
@@ -98,6 +99,7 @@ public class ChannelPanel extends javax.swing.JPanel {
     public void hideRoomList() {
         pnl_roomActions.setVisible(false);
         sp_vertical.setDividerSize(0);
+        btn_leaveChannel1.setVisible(true);
     }
 
     public void setPlayingStatus(String player) {
@@ -219,16 +221,19 @@ public class ChannelPanel extends javax.swing.JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         sp_vertical = new javax.swing.JSplitPane();
         sp_chatHorizontal = new javax.swing.JSplitPane();
-        scrl_userList = new javax.swing.JScrollPane();
-        lst_userList = new javax.swing.JList();
         sp_chatVertical = new javax.swing.JSplitPane();
         scrl_chatOutput = new javax.swing.JScrollPane();
         tp_chatOutput = new javax.swing.JTextPane();
         scrl_chatInput = new javax.swing.JScrollPane();
         tp_chatInput = new javax.swing.JTextPane();
+        jPanel1 = new javax.swing.JPanel();
+        scrl_userList = new javax.swing.JScrollPane();
+        lst_userList = new javax.swing.JList();
+        btn_leaveChannel1 = new javax.swing.JButton();
         pnl_roomActions = new javax.swing.JPanel();
         btn_create = new javax.swing.JButton();
         btn_join = new javax.swing.JButton();
@@ -249,27 +254,6 @@ public class ChannelPanel extends javax.swing.JPanel {
         sp_chatHorizontal.setResizeWeight(1.0);
         sp_chatHorizontal.setFocusable(false);
         sp_chatHorizontal.setPreferredSize(new java.awt.Dimension(200, 100));
-
-        scrl_userList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrl_userList.setFocusable(false);
-        scrl_userList.setMinimumSize(new java.awt.Dimension(100, 50));
-
-        lst_userList.setModel(users);
-        lst_userList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        lst_userList.setAutoscrolls(false);
-        lst_userList.setCellRenderer(renderer);
-        lst_userList.setFixedCellHeight(20);
-        lst_userList.setFocusable(false);
-        lst_userList.setMinimumSize(new java.awt.Dimension(30, 50));
-        lst_userList.setPreferredSize(null);
-        lst_userList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lst_userListMouseClicked(evt);
-            }
-        });
-        scrl_userList.setViewportView(lst_userList);
-
-        sp_chatHorizontal.setRightComponent(scrl_userList);
 
         sp_chatVertical.setDividerSize(3);
         sp_chatVertical.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
@@ -317,6 +301,51 @@ public class ChannelPanel extends javax.swing.JPanel {
         sp_chatVertical.setRightComponent(scrl_chatInput);
 
         sp_chatHorizontal.setLeftComponent(sp_chatVertical);
+
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
+        scrl_userList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrl_userList.setFocusable(false);
+        scrl_userList.setMinimumSize(new java.awt.Dimension(100, 50));
+
+        lst_userList.setModel(users);
+        lst_userList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lst_userList.setAutoscrolls(false);
+        lst_userList.setCellRenderer(renderer);
+        lst_userList.setFixedCellHeight(20);
+        lst_userList.setFocusable(false);
+        lst_userList.setMinimumSize(new java.awt.Dimension(30, 50));
+        lst_userList.setPreferredSize(null);
+        lst_userList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lst_userListMouseClicked(evt);
+            }
+        });
+        scrl_userList.setViewportView(lst_userList);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel1.add(scrl_userList, gridBagConstraints);
+
+        btn_leaveChannel1.setText("Leave Channel");
+        btn_leaveChannel1.setFocusable(false);
+        btn_leaveChannel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_leaveChannel1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        jPanel1.add(btn_leaveChannel1, gridBagConstraints);
+
+        sp_chatHorizontal.setRightComponent(jPanel1);
 
         sp_vertical.setBottomComponent(sp_chatHorizontal);
 
@@ -515,6 +544,10 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
     }
 }//GEN-LAST:event_tp_chatOutputKeyTyped
 
+private void btn_leaveChannel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveChannel1ActionPerformed
+    btn_leaveChannelActionPerformed(evt);
+}//GEN-LAST:event_btn_leaveChannel1ActionPerformed
+
     public int getChannelChatHorizontalposition() {
         return sp_chatHorizontal.getDividerLocation();
     }
@@ -534,7 +567,9 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
     private javax.swing.JButton btn_create;
     private javax.swing.JButton btn_join;
     private javax.swing.JButton btn_leaveChannel;
+    private javax.swing.JButton btn_leaveChannel1;
     private javax.swing.JButton btn_refresh;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JList lst_userList;
     private javax.swing.JPanel pnl_roomActions;
     private javax.swing.JScrollPane scrl_chatInput;
