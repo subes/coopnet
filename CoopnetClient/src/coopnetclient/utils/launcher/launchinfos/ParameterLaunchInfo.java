@@ -20,9 +20,51 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 
 package coopnetclient.utils.launcher.launchinfos;
 
+import coopnetclient.Globals;
+import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.utils.gamedatabase.GameSetting;
+
 public class ParameterLaunchInfo extends LaunchInfo {
     
-    public ParameterLaunchInfo(String gameName, String hostIP, boolean isHost){
-        super(gameName, hostIP, isHost);
+    private String binaryPath;
+    private String parameters;
+    private String curPlayerName;
+    
+    public ParameterLaunchInfo(String gameName, String selectedChildName, String hostIP, boolean isHost, String map){
+        super(gameName, selectedChildName, hostIP, isHost);
+        
+        curPlayerName = Globals.getThisPlayer_inGameName();
+        
+        binaryPath = GameDatabase.getLaunchPathWithExe(gameName, selectedChildName);
+        
+        if(isHost){
+            parameters = " " + GameDatabase.getHostPattern(gameName, selectedChildName);
+        }else{
+            parameters = " " + GameDatabase.getJoinPattern(gameName, selectedChildName);
+        }
+        
+        parameters = parameters.replace("{HOSTIP}", hostIP);
+        parameters = parameters.replace("{NAME}", curPlayerName);
+        parameters = parameters.replace("{HOSTIP}", hostIP);
+        
+        if(map != null){
+            parameters.replace("{MAP}", map);
+        }
+        
+        for (GameSetting gs : GameDatabase.getGameSettings(gameName, selectedChildName)) {
+            parameters = parameters.replace("{" + gs.getKeyWord() + "}", gs.getValue());
+        }
+    }
+    
+    public String getBinaryPath(){
+        return binaryPath;
+    }
+    
+    public String getParameters(){
+        return parameters;
+    }
+    
+    public void updatePlayerName(){
+        parameters = parameters.replace(curPlayerName, Globals.getThisPlayer_inGameName());
     }
 }

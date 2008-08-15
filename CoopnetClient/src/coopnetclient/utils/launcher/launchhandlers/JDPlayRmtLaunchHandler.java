@@ -60,7 +60,13 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                 out = jdplay.getOutputStream();
                 in = new BufferedReader(new InputStreamReader(jdplay.getInputStream()));
             } catch (IOException e) {
-                printCommunicationError(e);
+                closeJDPlay();
+                
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                    "Error while initializing:" + e.getMessage(),
+                    ChatStyles.SYSTEM);
+                
+                return false;
             }   
         }
         
@@ -95,9 +101,14 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
         write("DONE");
     }
     
-    private void read(String toRead) {
+    private boolean read(String toRead) {
         String[] asArray = {toRead};
-        read(asArray);
+        if(read(asArray) == 0){
+            return true;
+        }else{
+            return false;
+        }
+        
     }
     //Reads one of the possibilities given in toRead and gives the found index
     private int read(String[] toRead) {
@@ -112,6 +123,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                     if (Globals.getDebug()) {
                         System.out.println("[RMT]\tRead null, JDPlay_rmt.exe closed");
                     }
+                    closeJDPlay();
                     return -1;
                 }
 
@@ -122,6 +134,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                 }
             } while (true);
         } catch (IOException e) {
+            closeJDPlay();
             printCommunicationError(e);
             return -1;
         }
@@ -165,12 +178,13 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                 return false;
             }
         } catch (IOException e) {
+            closeJDPlay();
             printCommunicationError(e);
             return false;
         }
     }
 
-    private void printCommunicationError(Exception e) {
+    private void printCommunicationError(Exception e) {        
         if (e == null) {
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "Undetermined DirectPlay communication error.",
@@ -179,6 +193,27 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "DirectPlay communication error: " + e.getMessage(),
                     ChatStyles.SYSTEM);
+        }
+    }
+    
+    private void closeJDPlay(){
+        if(jdplay != null){
+            jdplay.destroy();
+            jdplay = null;
+        }
+
+        if(out != null){
+            try {
+                out.close();
+            } catch (IOException ex) {}
+            out = null;
+        }
+
+        if(in != null){
+            try {
+                in.close();
+            } catch (IOException ex) {}
+            in = null;
         }
     }
 

@@ -72,9 +72,8 @@ public class Launcher {
         }
         if(isInitialized()){
             isPlaying = true;
-            boolean success = launchHandler.launch();
-            if(!success){
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed launching the game, there seems to be a problem with the setup of the game!", ChatStyles.SYSTEM);
+            if(!launchHandler.launch()){
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, there seems to be a problem with the setup of the game!", ChatStyles.SYSTEM);
             }
             isPlaying = false;
         }else{

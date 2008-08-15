@@ -21,6 +21,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 package coopnetclient.utils.launcher.launchhandlers;
 
 import coopnetclient.Globals;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import jdplay.JDPlay;
@@ -34,6 +35,14 @@ public class JDPlayJniLaunchHandler extends LaunchHandler {
     @Override
     public boolean doInitialize(LaunchInfo launchInfo) {
         if(jdplay == null){
+            try {
+                System.loadLibrary("lib/JDPlay_jni");
+            } catch (UnsatisfiedLinkError e) {
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                    "Error while initializing:" + e.getMessage(),
+                    ChatStyles.SYSTEM);
+                return false;
+            }
             jdplay = new JDPlay(Globals.getThisPlayer_inGameName(), Globals.JDPLAY_MAXSEARCHRETRIES, Globals.getDebug());
         }
         

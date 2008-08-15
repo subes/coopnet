@@ -20,8 +20,11 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 
 package coopnetclient.utils.launcher.launchhandlers;
 
+import coopnetclient.Globals;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
+import java.io.IOException;
 
 public class ParameterLaunchHandler extends LaunchHandler {
 
@@ -40,12 +43,25 @@ public class ParameterLaunchHandler extends LaunchHandler {
 
     @Override
     public boolean launch() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Process p = null;
+        try {
+            Runtime rt = Runtime.getRuntime();
+            p = rt.exec(launchInfo.getBinaryPath()+launchInfo.getParameters());
+            try {
+                p.waitFor();
+            } catch (InterruptedException ex) {
+            }
+        } catch (IOException e) {
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                    "Error while launching: " + e.getMessage(),
+                    ChatStyles.SYSTEM);
+        }
+        return (p.exitValue() == 0 ? true : false);
     }
 
     @Override
     public void updatePlayerName() {
-        //do nothing, because parameter based games don't support this
+        launchInfo.updatePlayerName();
     }
 
 }
