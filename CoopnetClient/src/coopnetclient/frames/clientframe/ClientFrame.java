@@ -684,33 +684,38 @@ private void mi_bugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 }//GEN-LAST:event_mi_bugReportActionPerformed
 
 private void pnl_toggleBarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleBarMouseEntered
-    //Togglebar.setBackground();
-    if(Settings.getColorizeBody()){
-        pnl_toggleBar.setBackground(Settings.getSelectionColor());
-    }else{
-        pnl_toggleBar.setBackground((Color) UIManager.get("List.selectionBackground"));
-    }    
+    if(Globals.getLoggedInStatus()){
+        if(Settings.getColorizeBody()){
+            pnl_toggleBar.setBackground(Settings.getSelectionColor());
+        }else{
+            pnl_toggleBar.setBackground((Color) UIManager.get("List.selectionBackground"));
+        }    
+    }
 }//GEN-LAST:event_pnl_toggleBarMouseEntered
 
 private void pnl_toggleBarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleBarMouseExited
-    if(Settings.getColorizeBody()){
-        pnl_toggleBar.setBackground(Settings.getBackgroundColor());
-    }else{
-        pnl_toggleBar.setBackground((Color) UIManager.get("Panel.background"));
+    if(Globals.getLoggedInStatus()){
+        if(Settings.getColorizeBody()){
+            pnl_toggleBar.setBackground(Settings.getBackgroundColor());
+        }else{
+            pnl_toggleBar.setBackground((Color) UIManager.get("Panel.background"));
+        }
     }
 }//GEN-LAST:event_pnl_toggleBarMouseExited
 
 private void pnl_toggleBarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleBarMousePressed
-    boolean visible = !leftPanelVIsibility;
-    leftPanelVIsibility = visible;
-    contactListPanel.setVisible(visible);
-    if (visible) {
-        slp_MainSplitPanel.setDividerSize(DIVIDERWIDTH);
-        slp_MainSplitPanel.setDividerLocation(contactListPanel.getSize().width);
-        pnl_toggleBar.setBorder(BorderFactory.createLoweredBevelBorder());
-    } else {
-        slp_MainSplitPanel.setDividerSize(0);
-        pnl_toggleBar.setBorder(BorderFactory.createRaisedBevelBorder());
+    if(Globals.getLoggedInStatus()){
+        boolean visible = !leftPanelVIsibility;
+        leftPanelVIsibility = visible;
+        contactListPanel.setVisible(visible);
+        if (visible) {
+            slp_MainSplitPanel.setDividerSize(DIVIDERWIDTH);
+            slp_MainSplitPanel.setDividerLocation(contactListPanel.getSize().width);
+            pnl_toggleBar.setBorder(BorderFactory.createLoweredBevelBorder());
+        } else {
+            slp_MainSplitPanel.setDividerSize(0);
+            pnl_toggleBar.setBorder(BorderFactory.createRaisedBevelBorder());
+        }
     }
 }//GEN-LAST:event_pnl_toggleBarMousePressed
 
