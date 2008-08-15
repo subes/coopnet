@@ -195,8 +195,11 @@ public class ClientFrame extends javax.swing.JFrame {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         tabpn_tabs = new javax.swing.JTabbedPane();
+        pnl_PlayerListHolder = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         mbar = new javax.swing.JMenuBar();
         m_main = new javax.swing.JMenu();
         mi_profile = new javax.swing.JMenuItem();
@@ -221,11 +224,13 @@ public class ClientFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CoopnetClient "+ Globals.getClientVersion());
+        setMinimumSize(new java.awt.Dimension(400, 300));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
         tabpn_tabs.setFocusable(false);
         tabpn_tabs.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -241,6 +246,38 @@ public class ClientFrame extends javax.swing.JFrame {
                 tabpn_tabsComponentRemoved(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        getContentPane().add(tabpn_tabs, gridBagConstraints);
+
+        pnl_PlayerListHolder.setMinimumSize(new java.awt.Dimension(3, 100));
+        pnl_PlayerListHolder.setPreferredSize(new java.awt.Dimension(3, 100));
+        pnl_PlayerListHolder.setLayout(new java.awt.CardLayout());
+
+        jButton1.setFont(new java.awt.Font("Monospaced", 1, 1)); // NOI18N
+        jButton1.setText("►");
+        jButton1.setBorderPainted(false);
+        jButton1.setFocusable(false);
+        jButton1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jButton1.setMaximumSize(new java.awt.Dimension(3, 23));
+        jButton1.setMinimumSize(new java.awt.Dimension(3, 23));
+        jButton1.setPreferredSize(new java.awt.Dimension(5, 23));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        pnl_PlayerListHolder.add(jButton1, "card1");
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        getContentPane().add(pnl_PlayerListHolder, gridBagConstraints);
 
         mbar.setFocusable(false);
 
@@ -380,17 +417,6 @@ public class ClientFrame extends javax.swing.JFrame {
         mbar.add(m_help);
 
         setJMenuBar(mbar);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabpn_tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabpn_tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-        );
 
         getAccessibleContext().setAccessibleName("Client");
 
@@ -604,7 +630,13 @@ private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 private void mi_bugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_bugReportActionPerformed
     Globals.openBugReportFrame();
 }//GEN-LAST:event_mi_bugReportActionPerformed
+
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JMenu m_channels;
     private javax.swing.JMenu m_help;
     private javax.swing.JMenu m_main;
@@ -626,6 +658,7 @@ private void mi_bugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JMenuItem mi_quit;
     private javax.swing.JSeparator mi_seperator;
     private javax.swing.JMenuItem mi_update;
+    private javax.swing.JPanel pnl_PlayerListHolder;
     private javax.swing.JTabbedPane tabpn_tabs;
     // End of variables declaration//GEN-END:variables
 
