@@ -34,10 +34,13 @@ import coopnetclient.frames.clientframe.panels.FileTransferSendPanel;
 import coopnetclient.modules.FileDownloader;
 import java.awt.Color;
 import java.awt.Component;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
 
 public class ClientFrame extends javax.swing.JFrame {
 
@@ -239,8 +242,9 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        pnl_toggleBar.setMinimumSize(new java.awt.Dimension(3, 100));
-        pnl_toggleBar.setPreferredSize(new java.awt.Dimension(3, 100));
+        pnl_toggleBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        pnl_toggleBar.setMinimumSize(new java.awt.Dimension(5, 100));
+        pnl_toggleBar.setPreferredSize(new java.awt.Dimension(5, 100));
         pnl_toggleBar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pnl_toggleBarMouseEntered(evt);
@@ -257,11 +261,11 @@ public class ClientFrame extends javax.swing.JFrame {
         pnl_toggleBar.setLayout(pnl_toggleBarLayout);
         pnl_toggleBarLayout.setHorizontalGroup(
             pnl_toggleBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 3, Short.MAX_VALUE)
+            .addGap(0, 1, Short.MAX_VALUE)
         );
         pnl_toggleBarLayout.setVerticalGroup(
             pnl_toggleBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 306, Short.MAX_VALUE)
+            .addGap(0, 302, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -692,8 +696,10 @@ private void pnl_toggleBarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIR
     if (visible) {
         slp_MainSplitPanel.setDividerSize(DIVIDERWIDTH);
         slp_MainSplitPanel.setDividerLocation(contactListPanel.getMinimumSize().width);
+        pnl_toggleBar.setBorder(BorderFactory.createLoweredBevelBorder());
     } else {
         slp_MainSplitPanel.setDividerSize(0);
+        pnl_toggleBar.setBorder(BorderFactory.createRaisedBevelBorder());
     }
 }//GEN-LAST:event_pnl_toggleBarMousePressed
 
