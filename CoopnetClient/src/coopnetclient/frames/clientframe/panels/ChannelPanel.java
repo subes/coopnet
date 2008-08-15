@@ -333,6 +333,9 @@ public class ChannelPanel extends javax.swing.JPanel {
 
         btn_leaveChannel1.setText("Leave Channel");
         btn_leaveChannel1.setFocusable(false);
+        btn_leaveChannel1.setMaximumSize(new java.awt.Dimension(100, 25));
+        btn_leaveChannel1.setMinimumSize(new java.awt.Dimension(100, 25));
+        btn_leaveChannel1.setPreferredSize(new java.awt.Dimension(100, 25));
         btn_leaveChannel1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_leaveChannel1ActionPerformed(evt);
@@ -413,6 +416,9 @@ public class ChannelPanel extends javax.swing.JPanel {
 
         btn_leaveChannel.setText("Leave Channel");
         btn_leaveChannel.setFocusable(false);
+        btn_leaveChannel.setMaximumSize(new java.awt.Dimension(100, 25));
+        btn_leaveChannel.setMinimumSize(new java.awt.Dimension(100, 25));
+        btn_leaveChannel.setPreferredSize(new java.awt.Dimension(100, 25));
         btn_leaveChannel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_leaveChannelActionPerformed(evt);
@@ -429,8 +435,8 @@ public class ChannelPanel extends javax.swing.JPanel {
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_refresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(btn_leaveChannel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                .addComponent(btn_leaveChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(scrl_roomList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         pnl_roomActionsLayout.setVerticalGroup(
@@ -440,7 +446,7 @@ public class ChannelPanel extends javax.swing.JPanel {
                     .addComponent(btn_create)
                     .addComponent(btn_join)
                     .addComponent(btn_refresh)
-                    .addComponent(btn_leaveChannel))
+                    .addComponent(btn_leaveChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
         );
