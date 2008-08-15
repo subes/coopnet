@@ -34,6 +34,8 @@ public class ContactListPanel extends javax.swing.JPanel {
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         jTabbedPane1.setDoubleBuffered(true);
 
+        jScrollPane1.setBorder(null);
+
         jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }

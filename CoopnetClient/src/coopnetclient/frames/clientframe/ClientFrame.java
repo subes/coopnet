@@ -17,7 +17,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
@@ -39,10 +38,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
 public class ClientFrame extends javax.swing.JFrame {
-    
+
+    private static final int DIVIDERWIDTH = 5;
+    private static boolean leftPanelVIsibility = false;
+
     /** Creates new form ClientFrame */
     public ClientFrame() {
-        initComponents();
+        initComponents(); 
+        contactListPanel.setVisible(false); 
+        slp_MainSplitPanel.setDividerSize(0);
 
         mi_disconnect.setEnabled(true);
         mi_connect.setEnabled(false);
@@ -57,19 +61,18 @@ public class ClientFrame extends javax.swing.JFrame {
         this.setSize(width, height);
         //maximise if needed
         int status = Settings.getMainFrameMaximised();
-        if(status == JFrame.MAXIMIZED_BOTH ){
+        if (status == JFrame.MAXIMIZED_BOTH) {
             this.setExtendedState(status);
         }
 
         updateMenu();
     }
-    
     //Callback for Globals
-    public void updateLoggedInStatus(){
-        if(Globals.getLoggedInStatus()){
+    public void updateLoggedInStatus() {
+        if (Globals.getLoggedInStatus()) {
             mi_profile.setEnabled(true);
             mi_channelList.setEnabled(true);
-        }else{
+        } else {
             mi_profile.setEnabled(false);
         }
     }
@@ -77,41 +80,41 @@ public class ClientFrame extends javax.swing.JFrame {
     public void turnAroundTransfer(String peer, String filename) {
         FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(peer, filename);
         FileTransferRecievePanel recvPanel = TabOrganizer.getFileTransferReceivePanel(peer, filename);
-        
-        if(sendPanel != null){
+
+        if (sendPanel != null) {
             sendPanel.turnAround();
         }
-        if(recvPanel != null){
+        if (recvPanel != null) {
             recvPanel.turnAround();
         }
     }
 
     public void startSending(String ip, String reciever, String filename, String port, long firstByte) {
         FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(reciever, filename);
-        
-        if(sendPanel != null){
-            sendPanel.startSending(ip, port,firstByte);
+
+        if (sendPanel != null) {
+            sendPanel.startSending(ip, port, firstByte);
         }
     }
 
     public void refusedTransfer(String reciever, String filename) {
         FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(reciever, filename);
-        
-        if(sendPanel != null){
+
+        if (sendPanel != null) {
             sendPanel.refused();
         }
     }
 
     public void cancelledTransfer(String sender, String filename) {
         FileTransferRecievePanel recvPanel = TabOrganizer.getFileTransferReceivePanel(sender, filename);
-        
-        if(recvPanel != null){
+
+        if (recvPanel != null) {
             recvPanel.cancelled();
         }
     }
 
     public void gameClosed(String channel, String playername) {
-        TabOrganizer.getChannelPanel(channel).gameClosed(playername);        
+        TabOrganizer.getChannelPanel(channel).gameClosed(playername);
     }
 
     public void setPlayingStatus(String channel, String player) {
@@ -130,7 +133,7 @@ public class ClientFrame extends javax.swing.JFrame {
         TabOrganizer.getChannelPanel(channel).addRoomToTable(roomname,
                 hostname, maxplayers, type);
     }
-    
+
     public void removeRoomFromTable(String channel, String hostname) {
         TabOrganizer.getChannelPanel(channel).removeRoomFromTable(hostname);
     }
@@ -165,9 +168,9 @@ public class ClientFrame extends javax.swing.JFrame {
             TabOrganizer.openPrivateChatPanel(sender, false);
             privatechat = TabOrganizer.getPrivateChatPanel(sender);
         }
-        
+
         privatechat.append(sender, message);
-        
+
         if (!privatechat.isVisible()) {
             printToVisibleChatbox(sender, message, ChatStyles.WHISPER_NOTIFICATION);
         }
@@ -197,9 +200,11 @@ public class ClientFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        tabpn_tabs = new javax.swing.JTabbedPane();
+        LeftPanelToggleButton = new javax.swing.JButton();
         pnl_PlayerListHolder = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        slp_MainSplitPanel = new javax.swing.JSplitPane();
+        contactListPanel = new coopnetclient.frames.clientframe.panels.ContactListPanel();
+        tabpn_tabs = new javax.swing.JTabbedPane();
         mbar = new javax.swing.JMenuBar();
         m_main = new javax.swing.JMenu();
         mi_profile = new javax.swing.JMenuItem();
@@ -232,7 +237,41 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
+        LeftPanelToggleButton.setFont(new java.awt.Font("Monospaced", 1, 1)); // NOI18N
+        LeftPanelToggleButton.setText("►");
+        LeftPanelToggleButton.setBorderPainted(false);
+        LeftPanelToggleButton.setFocusable(false);
+        LeftPanelToggleButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        LeftPanelToggleButton.setMaximumSize(new java.awt.Dimension(3, 23));
+        LeftPanelToggleButton.setMinimumSize(new java.awt.Dimension(3, 23));
+        LeftPanelToggleButton.setPreferredSize(new java.awt.Dimension(5, 23));
+        LeftPanelToggleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeftPanelToggleButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weighty = 1.0;
+        getContentPane().add(LeftPanelToggleButton, gridBagConstraints);
+
+        pnl_PlayerListHolder.setMinimumSize(new java.awt.Dimension(400, 300));
+        pnl_PlayerListHolder.setPreferredSize(new java.awt.Dimension(400, 300));
+
+        slp_MainSplitPanel.setBorder(null);
+        slp_MainSplitPanel.setMinimumSize(new java.awt.Dimension(400, 300));
+        slp_MainSplitPanel.setPreferredSize(new java.awt.Dimension(400, 300));
+
+        contactListPanel.setMinimumSize(new java.awt.Dimension(150, 100));
+        contactListPanel.setPreferredSize(new java.awt.Dimension(150, 100));
+        slp_MainSplitPanel.setLeftComponent(contactListPanel);
+
         tabpn_tabs.setFocusable(false);
+        tabpn_tabs.setMinimumSize(null);
+        tabpn_tabs.setPreferredSize(null);
         tabpn_tabs.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 tabpn_tabsStateChanged(evt);
@@ -246,37 +285,25 @@ public class ClientFrame extends javax.swing.JFrame {
                 tabpn_tabsComponentRemoved(evt);
             }
         });
+        slp_MainSplitPanel.setRightComponent(tabpn_tabs);
+
+        javax.swing.GroupLayout pnl_PlayerListHolderLayout = new javax.swing.GroupLayout(pnl_PlayerListHolder);
+        pnl_PlayerListHolder.setLayout(pnl_PlayerListHolderLayout);
+        pnl_PlayerListHolderLayout.setHorizontalGroup(
+            pnl_PlayerListHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(slp_MainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+        );
+        pnl_PlayerListHolderLayout.setVerticalGroup(
+            pnl_PlayerListHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(slp_MainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+        );
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        getContentPane().add(tabpn_tabs, gridBagConstraints);
-
-        pnl_PlayerListHolder.setMinimumSize(new java.awt.Dimension(3, 100));
-        pnl_PlayerListHolder.setPreferredSize(new java.awt.Dimension(3, 100));
-        pnl_PlayerListHolder.setLayout(new java.awt.CardLayout());
-
-        jButton1.setFont(new java.awt.Font("Monospaced", 1, 1)); // NOI18N
-        jButton1.setText("►");
-        jButton1.setBorderPainted(false);
-        jButton1.setFocusable(false);
-        jButton1.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        jButton1.setMaximumSize(new java.awt.Dimension(3, 23));
-        jButton1.setMinimumSize(new java.awt.Dimension(3, 23));
-        jButton1.setPreferredSize(new java.awt.Dimension(5, 23));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        pnl_PlayerListHolder.add(jButton1, "card1");
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         getContentPane().add(pnl_PlayerListHolder, gridBagConstraints);
 
         mbar.setFocusable(false);
@@ -435,12 +462,12 @@ public class ClientFrame extends javax.swing.JFrame {
         Client.stopConnection();
         //save sizes
         coopnetclient.modules.Settings.setMainFrameMaximised(this.getExtendedState());
-        
+
         if (this.getExtendedState() == javax.swing.JFrame.NORMAL) {
             coopnetclient.modules.Settings.setMainFrameHeight(this.getHeight());
             coopnetclient.modules.Settings.setMainFrameWidth(this.getWidth());
         }
-        
+
         System.exit(0);
     }
 
@@ -476,7 +503,7 @@ public class ClientFrame extends javax.swing.JFrame {
         Client.send(Protocol.quit(), null);
         Client.stopConnection();
         TabOrganizer.closeAllTabs();
-        
+
         mi_disconnect.setEnabled(false);
         mi_profile.setEnabled(false);
         mi_connect.setEnabled(true);
@@ -542,9 +569,8 @@ public class ClientFrame extends javax.swing.JFrame {
     public void updateMenu() {
         mi_Sounds.setSelected(Settings.getSoundEnabled());
     }
-    
     //Only used by ClientFramePanelHandler!
-    protected JTabbedPane getTabHolder(){
+    protected JTabbedPane getTabHolder() {
         return tabpn_tabs;
     }
 
@@ -605,8 +631,8 @@ private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
         @Override
         public void run() {
-            try{
-                int n = JOptionPane.showConfirmDialog(null, 
+            try {
+                int n = JOptionPane.showConfirmDialog(null,
                         "<html>Would you like to update your CoopnetClient now?<br>" +
                         "(The client will close and update itself)", "Client outdated",
                         JOptionPane.YES_NO_OPTION);
@@ -620,7 +646,7 @@ private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                         ex.printStackTrace();
                     }
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 ErrorHandler.handleException(e);
             }
         }
@@ -631,12 +657,20 @@ private void mi_bugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     Globals.openBugReportFrame();
 }//GEN-LAST:event_mi_bugReportActionPerformed
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_jButton1ActionPerformed
-
+private void LeftPanelToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeftPanelToggleButtonActionPerformed
+    boolean visible = !leftPanelVIsibility;
+    leftPanelVIsibility = visible;
+    contactListPanel.setVisible(visible);
+    if (visible) {
+        slp_MainSplitPanel.setDividerSize(DIVIDERWIDTH);
+        slp_MainSplitPanel.setDividerLocation(contactListPanel.getMinimumSize().width);
+    } else {
+        slp_MainSplitPanel.setDividerSize(0);
+    }
+}//GEN-LAST:event_LeftPanelToggleButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton LeftPanelToggleButton;
+    private coopnetclient.frames.clientframe.panels.ContactListPanel contactListPanel;
     private javax.swing.JMenu m_channels;
     private javax.swing.JMenu m_help;
     private javax.swing.JMenu m_main;
@@ -659,7 +693,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JSeparator mi_seperator;
     private javax.swing.JMenuItem mi_update;
     private javax.swing.JPanel pnl_PlayerListHolder;
+    private javax.swing.JSplitPane slp_MainSplitPanel;
     private javax.swing.JTabbedPane tabpn_tabs;
     // End of variables declaration//GEN-END:variables
-
 }
