@@ -87,4 +87,10 @@ public class Launcher {
         launchHandler = null;
     }
     
+    public static void updatePlayerName(){
+        if(launchHandler != null){
+            launchHandler.updatePlayerName();
+        }
+    }
+    
 }
