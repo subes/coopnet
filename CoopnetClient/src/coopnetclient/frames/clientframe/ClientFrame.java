@@ -32,10 +32,12 @@ import coopnetclient.modules.components.FavMenuItem;
 import coopnetclient.frames.clientframe.panels.FileTransferRecievePanel;
 import coopnetclient.frames.clientframe.panels.FileTransferSendPanel;
 import coopnetclient.modules.FileDownloader;
+import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 
 public class ClientFrame extends javax.swing.JFrame {
 
@@ -200,7 +202,7 @@ public class ClientFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        LeftPanelToggleButton = new javax.swing.JButton();
+        Togglebar = new javax.swing.JPanel();
         pnl_PlayerListHolder = new javax.swing.JPanel();
         slp_MainSplitPanel = new javax.swing.JSplitPane();
         contactListPanel = new coopnetclient.frames.clientframe.panels.ContactListPanel();
@@ -237,26 +239,35 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        LeftPanelToggleButton.setFont(new java.awt.Font("Monospaced", 1, 1)); // NOI18N
-        LeftPanelToggleButton.setText("►");
-        LeftPanelToggleButton.setBorderPainted(false);
-        LeftPanelToggleButton.setFocusable(false);
-        LeftPanelToggleButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        LeftPanelToggleButton.setMaximumSize(new java.awt.Dimension(3, 23));
-        LeftPanelToggleButton.setMinimumSize(new java.awt.Dimension(3, 23));
-        LeftPanelToggleButton.setPreferredSize(new java.awt.Dimension(5, 23));
-        LeftPanelToggleButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LeftPanelToggleButtonActionPerformed(evt);
+        Togglebar.setMinimumSize(new java.awt.Dimension(3, 100));
+        Togglebar.setPreferredSize(new java.awt.Dimension(3, 100));
+        Togglebar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                TogglebarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                TogglebarMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                TogglebarMousePressed(evt);
             }
         });
+
+        javax.swing.GroupLayout TogglebarLayout = new javax.swing.GroupLayout(Togglebar);
+        Togglebar.setLayout(TogglebarLayout);
+        TogglebarLayout.setHorizontalGroup(
+            TogglebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 3, Short.MAX_VALUE)
+        );
+        TogglebarLayout.setVerticalGroup(
+            TogglebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 306, Short.MAX_VALUE)
+        );
+
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 1.0;
-        getContentPane().add(LeftPanelToggleButton, gridBagConstraints);
+        getContentPane().add(Togglebar, gridBagConstraints);
 
         pnl_PlayerListHolder.setMinimumSize(new java.awt.Dimension(400, 300));
         pnl_PlayerListHolder.setPreferredSize(new java.awt.Dimension(400, 300));
@@ -291,7 +302,7 @@ public class ClientFrame extends javax.swing.JFrame {
         pnl_PlayerListHolder.setLayout(pnl_PlayerListHolderLayout);
         pnl_PlayerListHolderLayout.setHorizontalGroup(
             pnl_PlayerListHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(slp_MainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(slp_MainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pnl_PlayerListHolderLayout.setVerticalGroup(
             pnl_PlayerListHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -657,7 +668,24 @@ private void mi_bugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     Globals.openBugReportFrame();
 }//GEN-LAST:event_mi_bugReportActionPerformed
 
-private void LeftPanelToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeftPanelToggleButtonActionPerformed
+private void TogglebarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TogglebarMouseEntered
+    //Togglebar.setBackground();
+    if(Settings.getColorizeBody()){
+        Togglebar.setBackground(Settings.getSelectionColor());
+    }else{
+        Togglebar.setBackground((Color) UIManager.get("List.selectionBackground"));
+    }    
+}//GEN-LAST:event_TogglebarMouseEntered
+
+private void TogglebarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TogglebarMouseExited
+    if(Settings.getColorizeBody()){
+        Togglebar.setBackground(Settings.getBackgroundColor());
+    }else{
+        Togglebar.setBackground((Color) UIManager.get("List.background"));
+    }
+}//GEN-LAST:event_TogglebarMouseExited
+
+private void TogglebarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TogglebarMousePressed
     boolean visible = !leftPanelVIsibility;
     leftPanelVIsibility = visible;
     contactListPanel.setVisible(visible);
@@ -667,9 +695,10 @@ private void LeftPanelToggleButtonActionPerformed(java.awt.event.ActionEvent evt
     } else {
         slp_MainSplitPanel.setDividerSize(0);
     }
-}//GEN-LAST:event_LeftPanelToggleButtonActionPerformed
+}//GEN-LAST:event_TogglebarMousePressed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton LeftPanelToggleButton;
+    private javax.swing.JPanel Togglebar;
     private coopnetclient.frames.clientframe.panels.ContactListPanel contactListPanel;
     private javax.swing.JMenu m_channels;
     private javax.swing.JMenu m_help;
