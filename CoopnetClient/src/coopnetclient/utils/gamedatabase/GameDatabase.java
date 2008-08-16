@@ -70,10 +70,10 @@ public class GameDatabase {
         isexperimental = new ArrayList<String>();
         gameData = new ArrayList<Game>();
         load("", datafilepath);
-        load(null, testdatafilepath);
         loadLocalPaths();
         IDtoGameName.put("WLC", "Welcome");
         IDtoGameName.put("TST", "GameTest channel");
+        load("GameTest channel", testdatafilepath);
     }
 
     public static boolean isBeta(String channelname) {
@@ -108,7 +108,12 @@ public class GameDatabase {
     }
 
     public static Game getGameData(String gamename) {
-        return gameData.get(indexOfGame(gamename));
+        int idx = indexOfGame(gamename);
+        if (idx > -1) {
+            return gameData.get(idx);
+        } else {
+            return null;
+        }
     }
 
     public static Object[] getGameModNames(String gamename) {
@@ -265,7 +270,7 @@ public class GameDatabase {
         if (getLaunchMethod(gamename, null) == LaunchMethods.DIRECTPLAY || getLaunchMethod(gamename, null) == LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY) {
             return true;
         }
-        test = getLaunchPathWithExe(gamename,null);
+        test = getLaunchPathWithExe(gamename, null);
         if (test != null && test.length() > 0) {
             return true;
         } else {
@@ -354,6 +359,16 @@ public class GameDatabase {
             br = new BufferedReader(new FileReader(datafilepath));
         } catch (FileNotFoundException ex) {
             //ex.printStackTrace();
+            if (gamename != null && IDofGame(gamename).equals("TST")) {//put default testdata if not found
+                Game testdata = new Game();
+                testdata.setGameName(gamename);
+                testdata.setLaunchMethod(LaunchMethods.PARAMETER.toString());
+                int idx = indexOfGame(gamename);
+                if(idx > -1){
+                    gameData.remove(idx);
+                }
+                gameData.add(testdata);
+            }
             System.out.println("Could not load gamedatabase");
             return;
         }

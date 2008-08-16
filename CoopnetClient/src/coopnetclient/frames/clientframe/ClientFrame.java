@@ -56,8 +56,6 @@ public class ClientFrame extends javax.swing.JFrame {
         contacts.addGroup("No-Group");
         contacts.addGroup("Fallout Tactics");
         contacts.addGroup("Unreal Tournament");
-        contacts.toggleGroupClosedStatus("Fallout Tactics");
-        contacts.toggleShowOfflineStatus();
         
         contacts.addContact("guy2", "No-Group", ContactStatuses.CHATTING);
         contacts.addContact("guy4", "No-Group", ContactStatuses.IN_ROOM);
@@ -74,6 +72,7 @@ public class ClientFrame extends javax.swing.JFrame {
         contacts.addContact("guy42", "Fallout Tactics", ContactStatuses.OFFLINE );
         
         contacts.addContact("somedude", "", ContactStatuses.PENDING_REQUEST);
+        contacts.addContact("someotherdude", "", ContactStatuses.PENDING_CONTACT);
         
         initComponents(); 
         
@@ -283,8 +282,7 @@ public class ClientFrame extends javax.swing.JFrame {
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         pnl_toggleQuickBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        pnl_toggleQuickBar.setMinimumSize(new java.awt.Dimension(5, 100));
-        pnl_toggleQuickBar.setPreferredSize(new java.awt.Dimension(5, 100));
+        pnl_toggleQuickBar.setMinimumSize(new java.awt.Dimension(5, 10));
         pnl_toggleQuickBar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pnl_toggleQuickBarMouseEntered(evt);
@@ -305,7 +303,7 @@ public class ClientFrame extends javax.swing.JFrame {
         );
         pnl_toggleQuickBarLayout.setVerticalGroup(
             pnl_toggleQuickBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 302, Short.MAX_VALUE)
+            .addGap(0, 407, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -313,17 +311,14 @@ public class ClientFrame extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         getContentPane().add(pnl_toggleQuickBar, gridBagConstraints);
 
-        pnl_PlayerListHolder.setMinimumSize(new java.awt.Dimension(400, 300));
-        pnl_PlayerListHolder.setPreferredSize(new java.awt.Dimension(400, 300));
-
         slp_mainSplitPanel.setBorder(null);
-        slp_mainSplitPanel.setMinimumSize(new java.awt.Dimension(400, 300));
-        slp_mainSplitPanel.setPreferredSize(new java.awt.Dimension(400, 300));
+        slp_mainSplitPanel.setPreferredSize(new java.awt.Dimension(0, 0));
 
-        pnl_contactList.setMinimumSize(new java.awt.Dimension(150, 100));
-        pnl_contactList.setPreferredSize(new java.awt.Dimension(150, 100));
+        pnl_contactList.setMinimumSize(new java.awt.Dimension(100, 10));
+        pnl_contactList.setPreferredSize(new java.awt.Dimension(250, 100));
         slp_mainSplitPanel.setLeftComponent(pnl_contactList);
 
+        tabpn_tabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         tabpn_tabs.setFocusable(false);
         tabpn_tabs.setMinimumSize(null);
         tabpn_tabs.setPreferredSize(null);
@@ -346,11 +341,11 @@ public class ClientFrame extends javax.swing.JFrame {
         pnl_PlayerListHolder.setLayout(pnl_PlayerListHolderLayout);
         pnl_PlayerListHolderLayout.setHorizontalGroup(
             pnl_PlayerListHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(slp_mainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(slp_mainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
         );
         pnl_PlayerListHolderLayout.setVerticalGroup(
             pnl_PlayerListHolderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(slp_mainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+            .addComponent(slp_mainSplitPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();

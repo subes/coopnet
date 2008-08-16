@@ -40,7 +40,8 @@ public class ContactListRenderer extends JLabel implements ListCellRenderer {
     public static ImageIcon chatIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/inchat.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     public static ImageIcon lobbyIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/inlobby.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     public static ImageIcon gameIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/ingame.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon pendingIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/pending.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon pendingRequestIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/pending_request.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon pendingContactIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/pending_contact.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     public static ImageIcon offlineIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/offline.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     private ContactListModel model;
 
@@ -72,7 +73,7 @@ public class ContactListRenderer extends JLabel implements ListCellRenderer {
             }
         }
         setHorizontalAlignment(LEFT);
-        setBorder(BorderFactory.createEmptyBorder(0,20,0,0));
+        setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         switch (model.getStatus(value.toString())) {
             case CHATTING:
                 setIcon(chatIcon);
@@ -81,8 +82,12 @@ public class ContactListRenderer extends JLabel implements ListCellRenderer {
                 setIcon(lobbyIcon);
                 break;
             case PENDING_REQUEST:
-                setIcon(pendingIcon);
-                setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                setIcon(pendingRequestIcon);
+                setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                break;
+            case PENDING_CONTACT:
+                setIcon(pendingContactIcon);
+                setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
                 break;
             case PLAYING:
                 setIcon(gameIcon);
@@ -91,12 +96,12 @@ public class ContactListRenderer extends JLabel implements ListCellRenderer {
                 setIcon(offlineIcon);
                 break;
             case GROUPNAME_OPEN:
-                setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
                 setIcon(UIManager.getIcon("Tree.expandedIcon"));
                 setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
                 break;
             case GROUPNAME_CLOSED:
-                setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
                 setIcon(UIManager.getIcon("Tree.collapsedIcon"));
                 setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
                 break;

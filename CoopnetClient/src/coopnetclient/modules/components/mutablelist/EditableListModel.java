@@ -17,17 +17,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-package coopnetclient.enums;
+package coopnetclient.modules.components.mutablelist;
 
-public enum ContactStatuses {
+import javax.swing.ListModel;
 
-    PENDING_REQUEST, //request to this palyer
-    PENDING_CONTACT, //the requests of this palyer to others
-    CHATTING,
-    IN_ROOM,
-    PLAYING,
-    OFFLINE,
-    GROUPNAME_OPEN,
-    GROUPNAME_CLOSED
-
-}
+public interface EditableListModel extends ListModel{ 
+    public boolean isCellEditable(int index); 
+    public void setValueAt(Object value, int index); 
+} 

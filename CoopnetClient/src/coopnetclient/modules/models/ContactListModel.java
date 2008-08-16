@@ -20,6 +20,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 package coopnetclient.modules.models;
 
 import coopnetclient.enums.ContactStatuses;
+import coopnetclient.modules.components.mutablelist.EditableListModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,7 +33,7 @@ import javax.swing.AbstractListModel;
 /**
  * Model of the user list which is sorted 
  */
-public class ContactListModel extends AbstractListModel {
+public class ContactListModel extends AbstractListModel implements EditableListModel {
 
     public static final String NO_GROUP = "No-Group";
     private static boolean showoffline = true;
@@ -41,7 +42,6 @@ public class ContactListModel extends AbstractListModel {
 
         String name;
         boolean closed = false;
-        
         HashMap<String, ContactStatuses> contacts;
         TreeSet<String> offlinecontacts;
 
@@ -55,7 +55,7 @@ public class ContactListModel extends AbstractListModel {
             if (closed) {
                 return 1;
             } else {
-                return 1 + contacts.size() + (showoffline ? offlinecontacts.size() : 0);
+                return (1 + contacts.size() + (showoffline ? offlinecontacts.size() : 0));
             }
         }
 
@@ -76,7 +76,7 @@ public class ContactListModel extends AbstractListModel {
             }
         }
     }
-    private TreeSet<String> pendingList = new TreeSet<String>();
+    private HashMap<String, ContactStatuses> pendingList = new HashMap<String, ContactStatuses>();
     private ArrayList<Group> groups = new ArrayList<Group>();
 
     public ContactListModel() {
@@ -98,7 +98,10 @@ public class ContactListModel extends AbstractListModel {
     public Object getElementAt(int index) {
         // Return the appropriate element
         if (index < pendingList.size()) {
-            return pendingList.toArray()[index];
+            Set<String> names = pendingList.keySet();
+            String[] namesarray = names.toArray(new String[0]);
+            Collections.sort(Arrays.asList(namesarray));
+            return namesarray[index];
         } else {
             //get the correct element from the corrent group
             int sizethisfar = pendingList.size();
@@ -140,17 +143,17 @@ public class ContactListModel extends AbstractListModel {
         groups.add(new Group(groupName));
         fireContentsChanged(this, 0, getSize());
     }
-    
+
     public void removeGroup(String groupName) {
-        groups.remove( indexOfGroup(groupName) );
+        groups.remove(indexOfGroup(groupName));
         fireContentsChanged(this, 0, getSize());
     }
-    
-    public void renameGroup(String groupName, String newName){
-        groups.get( indexOfGroup(groupName) ).name=newName;
+
+    public void renameGroup(String groupName, String newName) {
+        groups.get(indexOfGroup(groupName)).name = newName;
         fireContentsChanged(this, 0, getSize());
     }
-    
+
     public Collection getGroupNames() {
         ArrayList<String> groupnames = new ArrayList<String>();
         for (Group g : groups) {
@@ -158,22 +161,24 @@ public class ContactListModel extends AbstractListModel {
         }
         return groupnames;
     }
-    
-    public void toggleGroupClosedStatus(String groupName){
+
+    public void toggleGroupClosedStatus(String groupName) {
         groups.get(indexOfGroup(groupName)).closed = !(groups.get(indexOfGroup(groupName)).closed);
         fireContentsChanged(this, 0, getSize());
     }
-    
-    public void toggleShowOfflineStatus(){
+
+    public void toggleShowOfflineStatus() {
         showoffline = !showoffline;
         fireContentsChanged(this, 0, getSize());
     }
-    
     //other methods
     public void addContact(String contactname, String groupName, ContactStatuses status) {
         switch (status) {
             case PENDING_REQUEST:
-                pendingList.add(contactname);
+                pendingList.put(contactname, ContactStatuses.PENDING_REQUEST);
+                break;
+            case PENDING_CONTACT:
+                pendingList.put(contactname, ContactStatuses.PENDING_CONTACT);
                 break;
             case OFFLINE:
                 groups.get(indexOfGroup(groupName)).offlinecontacts.add(contactname);
@@ -193,6 +198,20 @@ public class ContactListModel extends AbstractListModel {
         }
     }
 
+    public void moveContact(String contactName, String tartgetGroup) {
+        Group source = groupOfContact(contactName);
+        Group target = groups.get(indexOfGroup(tartgetGroup));
+        if (source == null || target == null || source.name.equals(target.name)) {
+            return;     //dont do shit
+        }
+        ContactStatuses status = getStatus(contactName);
+        source.contacts.remove(contactName);
+        source.offlinecontacts.remove(contactName);
+        addContact(contactName, tartgetGroup, status);
+        fireContentsChanged(this, 0, getSize());
+    //TODO send to server
+    }
+
     public void removePending(String contactname) {
         pendingList.remove(contactname);
         fireContentsChanged(this, 0, getSize());
@@ -201,7 +220,7 @@ public class ContactListModel extends AbstractListModel {
     public void setStatus(String contactName, ContactStatuses status) {
         //if it was pending
         Group group = null;
-        if (pendingList.contains(contactName)) {
+        if (pendingList.containsKey(contactName)) {
             group = groups.get(indexOfGroup(NO_GROUP));
             if (status == ContactStatuses.OFFLINE) {
                 group.offlinecontacts.add(contactName);
@@ -221,35 +240,30 @@ public class ContactListModel extends AbstractListModel {
         fireContentsChanged(this, 0, getSize());
     }
 
-    
-
-    public ContactStatuses getStatus(String contactName) {
-        if (pendingList.contains(contactName)) {
-            return ContactStatuses.PENDING_REQUEST;
+    public ContactStatuses getStatus(String itemName) {
+        if (pendingList.containsKey(itemName)) {
+            return pendingList.get(itemName);
         }
-        if (getGroupNames().contains(contactName)) {
-            Group currentgroup = groups.get(indexOfGroup(contactName));
+        if (getGroupNames().contains(itemName)) {
+            Group currentgroup = groups.get(indexOfGroup(itemName));
             if (currentgroup.closed) {
                 return ContactStatuses.GROUPNAME_CLOSED;
             } else {
                 return ContactStatuses.GROUPNAME_OPEN;
             }
         }
-        Group group = groupOfContact(contactName);
+        Group group = groupOfContact(itemName);
         if (group != null) {
-            ContactStatuses status = group.contacts.get(contactName);
+            ContactStatuses status = group.contacts.get(itemName);
             if (status == null) {
-                if (group.offlinecontacts.contains(contactName)) {
+                if (group.offlinecontacts.contains(itemName)) {
                     return ContactStatuses.OFFLINE;
-                } else {
-                    return ContactStatuses.PENDING_REQUEST;
                 }
             } else {
                 return status;
             }
-        } else {
-            return null;
         }
+        return null;
     }
 
     public void clear() {
@@ -262,6 +276,41 @@ public class ContactListModel extends AbstractListModel {
         if (groupOfContact(element.toString()) != null) {
             return true;
         }
-        return pendingList.contains(element);
+        return pendingList.containsKey(element);
+    }
+
+    @Override
+    public boolean isCellEditable(int index) {
+        if (index < pendingList.size()) {
+            return false;
+        } else {
+            //get the correct element from the corrent group
+            int sizethisfar = pendingList.size();
+            for (Group g : groups) {
+                if ((sizethisfar + g.size()) > index) { //element is in this group
+                    return (index - sizethisfar) == 0;
+                } else {
+                    sizethisfar += g.size();
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void setValueAt(Object value, int index) {
+        //TODO send rename command to server
+
+        int sizethisfar = pendingList.size();
+        for (Group g : groups) {
+            if ((sizethisfar + g.size()) > index) { //element is in this group
+                if ((index - sizethisfar) == 0) {
+                    g.name = value.toString();
+                    return;
+                }
+            } else {
+                sizethisfar += g.size();
+            }
+        }
     }
 }
