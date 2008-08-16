@@ -19,8 +19,14 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 package coopnetclient.enums;
 
-public enum PlayerStatuses {
+public enum ContactStatuses {
+
+    PENDING_REQUEST,
     CHATTING,
     IN_ROOM,
-    PLAYING
+    PLAYING,
+    OFFLINE,
+    GROUPNAME_OPEN,
+    GROUPNAME_CLOSED
+
 }

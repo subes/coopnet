@@ -48,17 +48,26 @@ public class ContactListPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
 
+        setMinimumSize(null);
+        setPreferredSize(null);
+
         jTabbedPane1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         jTabbedPane1.setDoubleBuffered(true);
+        jTabbedPane1.setPreferredSize(null);
 
         jScrollPane1.setBorder(null);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(1, 1));
+        jScrollPane1.setPreferredSize(null);
 
         jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        jList1.setMinimumSize(null);
+        jList1.setPreferredSize(null);
         jScrollPane1.setViewportView(jList1);
 
         jTabbedPane1.addTab("Contacts", jScrollPane1);

@@ -27,7 +27,7 @@ import coopnetclient.frames.clientframe.panels.PrivateChatPanel;
 import coopnetclient.frames.clientframe.panels.RoomPanel;
 import coopnetclient.Protocol;
 import coopnetclient.enums.ChatStyles;
-import coopnetclient.enums.PlayerStatuses;
+import coopnetclient.enums.ContactStatuses;
 import coopnetclient.frames.clientframe.panels.ContactListPanel;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.components.FavMenuItem;
@@ -52,12 +52,28 @@ public class ClientFrame extends javax.swing.JFrame {
     /** Creates new form ClientFrame */
     public ClientFrame() {
         contacts = new ContactListModel();        
-        //samplée data
-        contacts.addContact("guy1", PlayerStatuses.CHATTING);
-        contacts.addContact("guy2", PlayerStatuses.IN_ROOM);
-        contacts.addContact("guy3", PlayerStatuses.PLAYING);
-        contacts.addContact("guy0", PlayerStatuses.OFFLINE);
-        contacts.addContact("guy5", PlayerStatuses.PENDING_REQUEST);
+        //sample data
+        contacts.addGroup("No-Group");
+        contacts.addGroup("Fallout Tactics");
+        contacts.addGroup("Unreal Tournament");
+        contacts.toggleGroupClosedStatus("Fallout Tactics");
+        contacts.toggleShowOfflineStatus();
+        
+        contacts.addContact("guy2", "No-Group", ContactStatuses.CHATTING);
+        contacts.addContact("guy4", "No-Group", ContactStatuses.IN_ROOM);
+        contacts.addContact("guy3", "No-Group", ContactStatuses.PLAYING);
+        contacts.addContact("guy1", "No-Group", ContactStatuses.PLAYING);
+        contacts.addContact("guy6", "No-Group", ContactStatuses.OFFLINE );
+        contacts.addContact("guy5", "No-Group", ContactStatuses.OFFLINE );
+        
+        contacts.addContact("guy7", "Fallout Tactics", ContactStatuses.CHATTING);
+        contacts.addContact("guy8", "Fallout Tactics", ContactStatuses.IN_ROOM);
+        contacts.addContact("guy10", "Fallout Tactics", ContactStatuses.PLAYING);
+        contacts.addContact("guy9", "Fallout Tactics", ContactStatuses.PLAYING);
+        contacts.addContact("guy21", "Fallout Tactics", ContactStatuses.OFFLINE );
+        contacts.addContact("guy42", "Fallout Tactics", ContactStatuses.OFFLINE );
+        
+        contacts.addContact("somedude", "", ContactStatuses.PENDING_REQUEST);
         
         initComponents(); 
         
@@ -205,6 +221,7 @@ public class ClientFrame extends javax.swing.JFrame {
         }
         //update the pm tab title too
         TabOrganizer.updateTitleOnTab(oldname, newname);
+        //TODO update in playerlist aswell
     }
     
     private void setQuickBarVisibility(boolean visibility){

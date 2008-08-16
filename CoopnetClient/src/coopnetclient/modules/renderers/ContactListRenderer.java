@@ -25,6 +25,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -70,7 +71,8 @@ public class ContactListRenderer extends JLabel implements ListCellRenderer {
                 setBackground(null);
             }
         }
-
+        setHorizontalAlignment(LEFT);
+        setBorder(BorderFactory.createEmptyBorder(0,20,0,0));
         switch (model.getStatus(value.toString())) {
             case CHATTING:
                 setIcon(chatIcon);
@@ -80,12 +82,23 @@ public class ContactListRenderer extends JLabel implements ListCellRenderer {
                 break;
             case PENDING_REQUEST:
                 setIcon(pendingIcon);
+                setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
                 break;
             case PLAYING:
                 setIcon(gameIcon);
                 break;
             case OFFLINE:
                 setIcon(offlineIcon);
+                break;
+            case GROUPNAME_OPEN:
+                setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                setIcon(UIManager.getIcon("Tree.expandedIcon"));
+                setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
+                break;
+            case GROUPNAME_CLOSED:
+                setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+                setIcon(UIManager.getIcon("Tree.collapsedIcon"));
+                setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
                 break;
         }
         return this;
