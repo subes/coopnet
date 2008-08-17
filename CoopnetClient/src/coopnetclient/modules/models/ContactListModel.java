@@ -19,6 +19,8 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 package coopnetclient.modules.models;
 
+import coopnetclient.Client;
+import coopnetclient.Protocol;
 import coopnetclient.enums.ContactStatuses;
 import coopnetclient.modules.components.mutablelist.EditableListModel;
 import java.util.ArrayList;
@@ -81,6 +83,32 @@ public class ContactListModel extends AbstractListModel implements EditableListM
 
     public ContactListModel() {
         super();
+        //groups.add(new Group(NO_GROUP));
+    }
+
+    public void buildFrom(String data) {
+        clear();
+        String[] rows = data.split("\n");
+        int currentrow = 0;
+        for(String row : rows){            
+            String[] fields = row.split(Protocol.INFORMATION_DELIMITER);
+            if(currentrow == 0){
+                for(int i = 1; i < fields.length; i++){
+                    addContact(fields[i], "", ContactStatuses.PENDING_REQUEST);
+                }
+            }else if(currentrow == 1){
+                for(int i = 1; i < fields.length; i++){
+                    addContact(fields[i], "", ContactStatuses.PENDING_CONTACT);
+                }
+            } else{
+                addGroup(fields[0]);
+                for(int i = 1; i < fields.length; i++){
+                    addContact(fields[i], fields[0], ContactStatuses.OFFLINE);
+                }
+            }
+            currentrow ++;
+        }
+        fireContentsChanged(this, 0, getSize());
     }
     // ListModel methods
     @Override
@@ -139,14 +167,25 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         return null;
     }
 
+    public void createNewGroup(String name){
+        addGroup(name);
+        Client.send(Protocol.createGroup(name), null);
+    }
+    
     public void addGroup(String groupName) {
         groups.add(new Group(groupName));
         fireContentsChanged(this, 0, getSize());
     }
 
     public void removeGroup(String groupName) {
-        groups.remove(indexOfGroup(groupName));
-        fireContentsChanged(this, 0, getSize());
+        Group nogroup = groups.get( indexOfGroup(NO_GROUP));
+        int idx = indexOfGroup(groupName);
+        if(idx > -1 && !groups.get(idx).name.equals(NO_GROUP)){
+            nogroup.contacts.putAll(groups.get(idx).contacts);
+            nogroup.offlinecontacts.addAll(groups.get(idx).offlinecontacts);
+            groups.remove(idx);
+            fireContentsChanged(this, 0, getSize());
+        }        
     }
 
     public void renameGroup(String groupName, String newName) {
@@ -209,7 +248,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         source.offlinecontacts.remove(contactName);
         addContact(contactName, tartgetGroup, status);
         fireContentsChanged(this, 0, getSize());
-    //TODO send to server
+        Client.send(Protocol.moveToGroup(contactName,tartgetGroup), null);
     }
 
     public void removePending(String contactname) {
@@ -268,7 +307,8 @@ public class ContactListModel extends AbstractListModel implements EditableListM
 
     public void clear() {
         pendingList.clear();
-        groups.clear();
+        groups.clear(); 
+        //groups.add(new Group(NO_GROUP));
         fireContentsChanged(this, 0, getSize());
     }
 
@@ -298,13 +338,12 @@ public class ContactListModel extends AbstractListModel implements EditableListM
     }
 
     @Override
-    public void setValueAt(Object value, int index) {
-        //TODO send rename command to server
-
+    public void setValueAt(Object value, int index) {     
         int sizethisfar = pendingList.size();
         for (Group g : groups) {
             if ((sizethisfar + g.size()) > index) { //element is in this group
-                if ((index - sizethisfar) == 0) {
+                if ((index - sizethisfar) == 0) {   // is group's index
+                    Client.send(Protocol.renameGroup(g.name,value.toString()), null);
                     g.name = value.toString();
                     return;
                 }

@@ -19,22 +19,28 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 package coopnetclient.frames.clientframe.panels;
 
+import coopnetclient.Client;
+import coopnetclient.Protocol;
 import coopnetclient.enums.ContactStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.modules.Settings;
 import coopnetclient.modules.components.ContactListPopupMenu;
 import coopnetclient.modules.components.mutablelist.DefaultListCellEditor;
 import coopnetclient.modules.models.ContactListModel;
 import coopnetclient.modules.renderers.ContactListRenderer;
+import java.awt.Cursor;
 import java.awt.Toolkit;
+import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
 public class ContactListPanel extends javax.swing.JPanel {
-    
-    public static ImageIcon ContactListIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/contacts.png") );//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+
+    public static ImageIcon ContactListIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/contacts.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon FavouritesIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/favourites.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
     private static ContactListPopupMenu popup;
     ContactListModel model;
-    
+
     /** Creates new form PlayerListPanel */
     public ContactListPanel() {
         initComponents();
@@ -43,14 +49,35 @@ public class ContactListPanel extends javax.swing.JPanel {
     public ContactListPanel(ContactListModel model) {
         this.model = model;
         initComponents();
-        editableJlist1.setModel(model);
-        editableJlist1.setCellRenderer(new ContactListRenderer(model));
-        editableJlist1.setListCellEditor(new DefaultListCellEditor(new JTextField()));
-        popup = new ContactListPopupMenu(editableJlist1);
-        editableJlist1.setComponentPopupMenu(popup);
+        ContactList.setModel(model);
+        ContactList.setCellRenderer(new ContactListRenderer(model));
+        ContactList.setListCellEditor(new DefaultListCellEditor(new JTextField()));
+        popup = new ContactListPopupMenu(ContactList);
+        ContactList.setComponentPopupMenu(popup);
         popup.refreshMoveToMenu();
+        refreshFavourites();
+        jl_FavouritesList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }
-            
+
+    public void refreshFavourites() {
+        final Vector<String> favs = Settings.getFavourites();
+        jl_FavouritesList.setModel(new javax.swing.AbstractListModel() {
+
+            Vector<String> strings = favs;
+
+            @Override
+            public int getSize() {
+                return strings.size();
+            }
+
+            @Override
+            public Object getElementAt(int i) {
+                return strings.get(i);
+            }
+        });
+        jl_FavouritesList.repaint();
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -60,71 +87,106 @@ public class ContactListPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tp_QuickPanel = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        editableJlist1 = new coopnetclient.modules.components.mutablelist.EditableJlist();
+        ContactList = new coopnetclient.modules.components.mutablelist.EditableJlist();
+        jp_FavouritesPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jl_FavouritesList = new javax.swing.JList();
 
         setFocusable(false);
         setPreferredSize(new java.awt.Dimension(200, 200));
 
-        jTabbedPane1.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
-        jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
-        jTabbedPane1.setDoubleBuffered(true);
-        jTabbedPane1.setFocusable(false);
+        tp_QuickPanel.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+        tp_QuickPanel.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        tp_QuickPanel.setDoubleBuffered(true);
+        tp_QuickPanel.setFocusable(false);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setFocusable(false);
         jScrollPane1.setMinimumSize(null);
 
-        editableJlist1.setModel(new javax.swing.AbstractListModel() {
+        ContactList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        editableJlist1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        editableJlist1.setFocusable(false);
-        editableJlist1.setMaximumSize(null);
-        editableJlist1.setMinimumSize(null);
-        editableJlist1.setPreferredSize(new java.awt.Dimension(150, 200));
-        editableJlist1.addMouseListener(new java.awt.event.MouseAdapter() {
+        ContactList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        ContactList.setFocusable(false);
+        ContactList.setMaximumSize(null);
+        ContactList.setMinimumSize(null);
+        ContactList.setPreferredSize(new java.awt.Dimension(150, 200));
+        ContactList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                editableJlist1MouseClicked(evt);
+                ContactListMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(editableJlist1);
+        jScrollPane1.setViewportView(ContactList);
 
-        jTabbedPane1.addTab("", ContactListIcon, jScrollPane1, "Contact List");
+        tp_QuickPanel.addTab("", ContactListIcon, jScrollPane1, "Contact List");
+
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        jl_FavouritesList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jl_FavouritesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jl_FavouritesList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jl_FavouritesListMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jl_FavouritesList);
+
+        javax.swing.GroupLayout jp_FavouritesPanelLayout = new javax.swing.GroupLayout(jp_FavouritesPanel);
+        jp_FavouritesPanel.setLayout(jp_FavouritesPanelLayout);
+        jp_FavouritesPanelLayout.setHorizontalGroup(
+            jp_FavouritesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+        );
+        jp_FavouritesPanelLayout.setVerticalGroup(
+            jp_FavouritesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+        );
+
+        tp_QuickPanel.addTab("", FavouritesIcon, jp_FavouritesPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+            .addComponent(tp_QuickPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(tp_QuickPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-private void editableJlist1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editableJlist1MouseClicked
-    if(evt.getClickCount() ==2){
-        String selected = editableJlist1.getSelectedValue().toString();
-        if(model.getGroupNames().contains(selected)){
+private void ContactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ContactListMouseClicked
+    if (evt.getClickCount() == 2 && ContactList.getSelectedIndex()> -1) {
+        String selected = ContactList.getSelectedValue().toString();
+        if (model.getGroupNames().contains(selected)) {
             model.toggleGroupClosedStatus(selected);
-        }else{
-            if(model.getStatus(selected) != ContactStatuses.OFFLINE  ){
+        } else {
+            if (model.getStatus(selected) != ContactStatuses.OFFLINE) {
                 TabOrganizer.openPrivateChatPanel(selected, true);
             }
         }
     }
-}//GEN-LAST:event_editableJlist1MouseClicked
+}//GEN-LAST:event_ContactListMouseClicked
 
-
+private void jl_FavouritesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_FavouritesListMouseClicked
+    Client.send(Protocol.JoinChannel(jl_FavouritesList.getSelectedValue().toString()), null);
+}//GEN-LAST:event_jl_FavouritesListMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private coopnetclient.modules.components.mutablelist.EditableJlist editableJlist1;
+    private coopnetclient.modules.components.mutablelist.EditableJlist ContactList;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList jl_FavouritesList;
+    private javax.swing.JPanel jp_FavouritesPanel;
+    private javax.swing.JTabbedPane tp_QuickPanel;
     // End of variables declaration//GEN-END:variables
-
 }

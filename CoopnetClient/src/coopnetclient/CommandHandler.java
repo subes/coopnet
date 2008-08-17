@@ -21,6 +21,7 @@ along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
 package coopnetclient;
 
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.enums.ContactStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Verification;
 import coopnetclient.modules.Settings;
@@ -28,6 +29,7 @@ import coopnetclient.modules.SoundPlayer;
 import coopnetclient.modules.FrameIconFlasher;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.FileDownloader;
+import coopnetclient.modules.models.ContactListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -340,7 +342,43 @@ public class CommandHandler {
                 if (input.startsWith("TurnAround")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1sender  2filename
                 Globals.getClientFrame().turnAroundTransfer(tmp[1], tmp[2]);
-            } else 
+            }// contact list commands
+                else if (input.startsWith("contactrequest ")) {
+                String name = input.substring(15);
+                Globals.getContactList().addContact(name, "", ContactStatuses.PENDING_REQUEST);
+            } else if (input.startsWith("setcontactstatus")) {
+                String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1contact  2status
+                ContactStatuses status = null;
+                int statuscode = Integer.valueOf(tmp[2]);
+                switch(statuscode){ //0 offline  * 1 chatting   * 2 inroom   * 3 playing
+                    case 0:
+                        status = ContactStatuses.OFFLINE;
+                        break;
+                    case 1:
+                        status = ContactStatuses.CHATTING;
+                        break;
+                    case 2:
+                        status = ContactStatuses.IN_ROOM;
+                        break;
+                    case 3:   
+                        status = ContactStatuses.PLAYING;
+                        break;
+                    default: status = ContactStatuses.OFFLINE;
+                        break;
+                }
+                 Globals.getContactList().setStatus(tmp[1], status);
+            } else if (input.startsWith("acceptedrequest")) {
+                String name = input.substring(15);
+                Globals.getContactList().addContact(name, ContactListModel.NO_GROUP, ContactStatuses.OFFLINE);
+                Globals.getContactList().removePending(name);
+            } else if (input.startsWith("refusedrequest")) {
+                String name = input.substring(14);
+                Globals.getContactList().removePending(name);
+            } else if (input.startsWith("contactdata ")) {
+                String data = input.substring(12);
+                Globals.getContactList().buildFrom(data);
+            }             
+                else 
                 if(input.startsWith("ILaunch")){
                     final String tmp[] = input.substring(7).split(Protocol.INFORMATION_DELIMITER);
                     new Thread(){

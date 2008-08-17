@@ -38,6 +38,7 @@ import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.launcher.OLDLauncher;
 import coopnetclient.modules.Colorizer;
+import coopnetclient.modules.models.ContactListModel;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Point;
 import javax.swing.JFrame;
@@ -66,6 +67,8 @@ public class Globals {
     private static OLDLauncher launcher;
     
     private static ClientFrame clientFrame;
+    
+    private static ContactListModel contacts = new ContactListModel();
     
     private static ChangePasswordFrame changePasswordFrame;
     private static ChannelListFrame channelListFrame;
@@ -127,6 +130,10 @@ public class Globals {
     
     public static String getClientVersion(){
         return clientVersion;
+    }
+    
+    public static ContactListModel getContactList(){
+        return contacts;
     }
     
     public static void setLoggedInStatus(boolean value){

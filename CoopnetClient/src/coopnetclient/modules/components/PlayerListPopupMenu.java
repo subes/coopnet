@@ -24,6 +24,7 @@ import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
+import coopnetclient.enums.ContactStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Component;
@@ -60,6 +61,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(makeMenuItem("Nudge"));
         this.add(makeMenuItem("Whisper..."));
         this.add(makeMenuItem("Send file..."));
+         this.add(makeMenuItem("Add to Contacts"));
         this.add(new JSeparator());
         if (mode == HOST_MODE) {
             this.add(makeMenuItem("Kick"));
@@ -104,6 +106,9 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             Client.send(Protocol.unban(subject), null);
         } else if (command.equals("Mute")) {
             Client.send(Protocol.mute(subject), null);
+        } else if (command.equals("Add to Contacts")) {
+            Globals.getContactList().addContact(subject, "", ContactStatuses.PENDING_CONTACT);
+            Client.send(Protocol.RequestContact(subject), null);
         } else if (command.equals("UnMute")) {
             Client.send(Protocol.unmute(subject), null);
         } else if (command.equals("Whisper...")) {

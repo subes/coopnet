@@ -27,14 +27,12 @@ import coopnetclient.frames.clientframe.panels.PrivateChatPanel;
 import coopnetclient.frames.clientframe.panels.RoomPanel;
 import coopnetclient.Protocol;
 import coopnetclient.enums.ChatStyles;
-import coopnetclient.enums.ContactStatuses;
 import coopnetclient.frames.clientframe.panels.ContactListPanel;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.components.FavMenuItem;
 import coopnetclient.frames.clientframe.panels.FileTransferRecievePanel;
 import coopnetclient.frames.clientframe.panels.FileTransferSendPanel;
 import coopnetclient.modules.FileDownloader;
-import coopnetclient.modules.models.ContactListModel;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.BorderFactory;
@@ -47,36 +45,12 @@ public class ClientFrame extends javax.swing.JFrame {
 
     private static final int DIVIDERWIDTH = 5;
     private static boolean leftPanelVIsibility = false;
-    private static ContactListModel contacts;
+    
 
     /** Creates new form ClientFrame */
     public ClientFrame() {
-        contacts = new ContactListModel();        
-        //sample data
-        contacts.addGroup("No-Group");
-        contacts.addGroup("Fallout Tactics");
-        contacts.addGroup("Unreal Tournament");
-        
-        contacts.addContact("guy2", "No-Group", ContactStatuses.CHATTING);
-        contacts.addContact("guy4", "No-Group", ContactStatuses.IN_ROOM);
-        contacts.addContact("guy3", "No-Group", ContactStatuses.PLAYING);
-        contacts.addContact("guy1", "No-Group", ContactStatuses.PLAYING);
-        contacts.addContact("guy6", "No-Group", ContactStatuses.OFFLINE );
-        contacts.addContact("guy5", "No-Group", ContactStatuses.OFFLINE );
-        
-        contacts.addContact("guy7", "Fallout Tactics", ContactStatuses.CHATTING);
-        contacts.addContact("guy8", "Fallout Tactics", ContactStatuses.IN_ROOM);
-        contacts.addContact("guy10", "Fallout Tactics", ContactStatuses.PLAYING);
-        contacts.addContact("guy9", "Fallout Tactics", ContactStatuses.PLAYING);
-        contacts.addContact("guy21", "Fallout Tactics", ContactStatuses.OFFLINE );
-        contacts.addContact("guy42", "Fallout Tactics", ContactStatuses.OFFLINE );
-        
-        contacts.addContact("somedude", "", ContactStatuses.PENDING_REQUEST);
-        contacts.addContact("someotherdude", "", ContactStatuses.PENDING_CONTACT);
-        
-        initComponents(); 
-        
-        pnl_contactList.setVisible(false); 
+        initComponents();
+        pnl_contactList.setVisible(false);
         slp_mainSplitPanel.setDividerSize(0);
 
         mi_disconnect.setEnabled(true);
@@ -247,7 +221,7 @@ public class ClientFrame extends javax.swing.JFrame {
         pnl_toggleQuickBar = new javax.swing.JPanel();
         pnl_PlayerListHolder = new javax.swing.JPanel();
         slp_mainSplitPanel = new javax.swing.JSplitPane();
-        pnl_contactList = new ContactListPanel(contacts);
+        pnl_contactList = new ContactListPanel(Globals.getContactList());
         tabpn_tabs = new javax.swing.JTabbedPane();
         mbar = new javax.swing.JMenuBar();
         m_main = new javax.swing.JMenu();
@@ -585,6 +559,7 @@ public class ClientFrame extends javax.swing.JFrame {
             addFavourite(s);
         }
         m_channels.revalidate();
+        pnl_contactList.refreshFavourites();
     }
 
     /**

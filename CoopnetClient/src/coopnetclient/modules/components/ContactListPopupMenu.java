@@ -32,6 +32,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Collection;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -75,7 +76,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         rename = makeMenuItem("Rename Group");
         hideOffline = new JCheckBoxMenuItem("Hide offline contacts");
         hideOffline.addActionListener(this);
-        toggle =  makeMenuItem("Open/Collapse");
+        toggle = makeMenuItem("Open/Collapse");
 
         this.add(playername);
         this.add(new JSeparator());
@@ -115,7 +116,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     }
 
     public void setGroupActionVisibility(boolean isVisible) {
-        create.setVisible(isVisible);
+        //create.setVisible(isVisible);
         delete.setVisible(isVisible);
         rename.setVisible(isVisible);
         toggle.setVisible(isVisible);
@@ -127,18 +128,40 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         String command = e.getActionCommand();
         ContactListModel model = ((ContactListModel) source.getModel());
 
-        if (command.equals("Hide offline contacts")) {            
+        if (command.equals("Hide offline contacts")) {
             model.toggleShowOfflineStatus();
         }
 
         final String subject = (String) source.getSelectedValue();
 
-        if (command.equals("Accept")) {
+        if (command.equals("Accept")) {            
+            Client.send(Protocol.acceptRequest(subject), null);
+            model.removePending(subject);            
         } else if (command.equals("Refuse")) {
-        } else if (command.equals("Move to Group:")) {
+            model.removePending(subject);
+            Client.send(Protocol.refuseRequest(subject), null);
         } else if (command.equals("Create new Group...")) {
+            Collection groups = model.getGroupNames();
+            if (groups.contains("New Group")) {
+                int i = 1;
+                while (groups.contains("New Group" + i)) {
+                    i++;
+                }
+                //create newgroup i
+                model.createNewGroup("New Group" + i);
+            } else {
+                model.createNewGroup("New Group");
+            }
+            source.editCellAt(model.getSize() - 1, e);
+            Component editorComp = source.getEditorComponent();
+            if (editorComp != null) {
+                editorComp.requestFocus();
+            }
         } else if (command.equals("Delete Group")) {
+            model.removeGroup(subject);
+            Client.send(Protocol.deleteGroup(subject), null);
         } else if (command.equals("Refresh list")) {
+            Client.send(Protocol.refreshContacts(), null);
         } else if (command.equals("Rename Group")) {
             System.out.println("rename:" + source.getSelectedIndex());
             source.editCellAt(source.getSelectedIndex(), e);
@@ -147,7 +170,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                 editorComp.requestFocus();
             }
         } else if (command.equals("Open/Collapse")) {
-             model.toggleGroupClosedStatus(subject);
+            model.toggleGroupClosedStatus(subject);
         } else if (command.equals("Whisper...")) {
             if (model.getStatus(subject) != ContactStatuses.OFFLINE) {
                 TabOrganizer.openPrivateChatPanel(subject, true);
@@ -204,6 +227,10 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                     moveto.setVisible(false);
                     break;
                 case PENDING_CONTACT:
+                    setPendingActionVisibility(false);
+                    setGroupActionVisibility(false);
+                    moveto.setVisible(false);
+                    break;
                 case PENDING_REQUEST:
                     setPendingActionVisibility(true);
                     setGroupActionVisibility(false);

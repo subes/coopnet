@@ -50,6 +50,38 @@ public class Protocol {
         }
     }
     
+    public static String RequestContact(String contactname) {
+        return "sendrequest" + contactname;
+    }
+    
+    public static String acceptRequest(String contactname) {
+        return "acceptrequest" + contactname;
+    }
+    
+    public static String refuseRequest(String contactname) {
+        return "refuserequest" + contactname;
+    }
+    
+    public static String createGroup(String groupName) {
+        return "makegroup" + groupName;
+    }
+    
+    public static String renameGroup(String groupName,String newgroupName) {
+        return "renamegroup" + groupName + INFORMATION_DELIMITER +newgroupName;
+    }
+    
+    public static String deleteGroup(String groupName) {
+        return "deletegroup" + groupName;
+    }
+    
+    public static String moveToGroup(String contact,String newgroupName) {
+        return "movetogroup" + contact + INFORMATION_DELIMITER +newgroupName;
+    }
+    
+    public static String refreshContacts() {
+        return "resendcontacts";
+    }
+    
     public static String AcceptTransfer(String sender, String filename, long firstByteToSend) {
         return "AcceptFile" + INFORMATION_DELIMITER 
                 + sender + INFORMATION_DELIMITER 
