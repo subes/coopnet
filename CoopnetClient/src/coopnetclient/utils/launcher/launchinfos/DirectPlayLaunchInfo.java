@@ -26,10 +26,10 @@ public class DirectPlayLaunchInfo extends LaunchInfo {
     private String gameGUID;
     private boolean compatibility;
     
-    public DirectPlayLaunchInfo(String gameName, String selectedChildName, String hostIP, boolean isHost, boolean compatibility){
-        super(gameName, selectedChildName, hostIP, isHost);
+    public DirectPlayLaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch, boolean compatibility){
+        super(gameName, childName, hostIP, isHost, isInstantLaunch);
         
-        this.gameGUID = GameDatabase.getGuid(gameName, selectedChildName);
+        this.gameGUID = GameDatabase.getGuid(gameName, childName);
         this.compatibility = compatibility;
     }
     

@@ -20,6 +20,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.Client;
+import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
@@ -60,12 +61,12 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }
 
     /** Creates new form GameSettingsPanel */
-    public GameSettingsFrame(String gamename, String modname, String name, String password, int modindex, int maxPlayers, boolean compatible) {
+    public GameSettingsFrame(String gamename, String modname, String roomname, String password, int modindex, int maxPlayers, boolean compatible) {
         initComponents();
         isInstant = true;
         this.gamename = gamename;
         this.modname = modname;
-        this.roomname = name;
+        this.roomname = roomname;
         this.password = password;
         this.modindex = modindex;
         this.maxPlayers = maxPlayers;
@@ -81,7 +82,11 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             lbl_map.setVisible(true);
             cb_map.setVisible(true);
             cb_map.setModel(new DefaultComboBoxModel(loadMaps()));
-            cb_map.setSelectedItem(TempGameSettings.getMap());
+            cb_map.setSelectedItem(TempGameSettings.getMap());            
+            
+            if(cb_map.getSelectedItem() == null && cb_map.getComponentCount() > 0){
+                cb_map.setSelectedIndex(0);
+            }
         }
         //add setting components to frame and internal lists
         GridBagConstraints firstcolumn = new GridBagConstraints();
@@ -267,8 +272,9 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     try {
         //if somethings unselected an exception is thrown        
         if (cb_map.isVisible()) {
-            TempGameSettings.setMap(cb_map.getSelectedItem().toString());
-            System.out.println("map was set:" + cb_map.getSelectedItem().toString());
+            if(cb_map.getSelectedItem() != null){
+                TempGameSettings.setMap(cb_map.getSelectedItem().toString());
+            }
         }
         //save settings
         String name,value = "save-error";
@@ -297,7 +303,16 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     if (btn_save.getText().equals("Launch")) {
         Client.send(Protocol.createRoom(roomname, modindex + "", password, maxPlayers + "", compatible, true), gamename);
         Globals.closeRoomCreationFrame();
-        Client.instantLaunch(gamename);
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Client.instantLaunch(gamename);
+                } catch (Exception e) {
+                    ErrorHandler.handleException(e);
+                }
+            }
+        }.start();
     }
 
 }//GEN-LAST:event_btn_saveActionPerformed

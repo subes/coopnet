@@ -22,23 +22,25 @@ package coopnetclient.utils.launcher.launchinfos;
 public abstract class LaunchInfo {
     
     private String gameName;
-    private String selectedChildName; //null, if original game
+    private String childName; //null, if original game
     private String hostIP;
     private boolean isHost;
+    private boolean isInstantLaunch;
     
-    public LaunchInfo(String gameName, String selectedChildName, String hostIP, boolean isHost){  
+    public LaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch){  
         this.gameName = gameName;
-        this.selectedChildName = selectedChildName;
+        this.childName = childName;
         this.hostIP = hostIP;
         this.isHost = isHost;
+        this.isInstantLaunch = isInstantLaunch;
     }
     
     public String getGameName(){
         return gameName;
     }
     
-    public String getSelectedChildName(){
-        return selectedChildName;
+    public String getChildName(){
+        return childName;
     }
     
     public String getHostIP(){
@@ -47,5 +49,9 @@ public abstract class LaunchInfo {
     
     public boolean getIsHost(){
         return isHost;
+    }
+    
+    public boolean getIsInstantLaunch(){
+        return isInstantLaunch;
     }
 }

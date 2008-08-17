@@ -122,9 +122,9 @@ public class RoomPanel extends javax.swing.JPanel {
                     
                     LaunchMethods method = GameDatabase.getLaunchMethod(gameName, childName);
                     if(method == LaunchMethods.PARAMETER){
-                        launchInfo = new ParameterLaunchInfo(gameName, childName, ip, isHost);
+                        launchInfo = new ParameterLaunchInfo(gameName, childName, ip, isHost, false);
                     }else{
-                        launchInfo = new DirectPlayLaunchInfo(gameName, childName, ip, isHost, compatible);
+                        launchInfo = new DirectPlayLaunchInfo(gameName, childName, ip, isHost, false, compatible);
                     }
                     Launcher.initialize(launchInfo);
                 }catch(Exception e){

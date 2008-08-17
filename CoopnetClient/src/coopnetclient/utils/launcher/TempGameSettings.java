@@ -57,11 +57,13 @@ public class TempGameSettings {
     }
     
     public static String getGameSetting(String settingName) {
-        for(GameSetting gs : gameSettings){
-            if(gs.getName().equals(settingName)){
-                return gs.getValue();
+        if(settingName != null){
+            for(GameSetting gs : gameSettings){
+                if(gs.getName().equals(settingName)){
+                    return gs.getValue();
+                }
             }
-        }
+        }        
         return null;
     }
     

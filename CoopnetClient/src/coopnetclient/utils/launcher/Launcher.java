@@ -48,6 +48,9 @@ public class Launcher {
     }
     
     public static void initialize(LaunchInfo launchInfo){
+        
+         TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getChildName());
+        
         if(launchInfo instanceof DirectPlayLaunchInfo){
             if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS){
                 launchHandler = new JDPlayJniLaunchHandler();
@@ -57,14 +60,18 @@ public class Launcher {
         }else
         if(launchInfo instanceof ParameterLaunchInfo){
             launchHandler = new ParameterLaunchHandler();
-            TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getSelectedChildName());
+            if(!launchInfo.getIsInstantLaunch()){
+                Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getChildName());
+            }
         }
         
         isInitialized = launchHandler.initialize(launchInfo);
         if(isInitialized == false){
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed initializing the "+launchHandler.getClass().toString()+", you won't be able to play the game!", ChatStyles.SYSTEM);
         }else{
-            TabOrganizer.getRoomPanel().enableButtons();
+            if(TabOrganizer.getRoomPanel() != null && !(launchInfo instanceof ParameterLaunchInfo)){
+                TabOrganizer.getRoomPanel().enableButtons();
+            }
         }
     }
     
@@ -90,6 +97,10 @@ public class Launcher {
             }
             
             Globals.setSleepModeStatus(false);
+            
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
+                            "Game closed ...", 
+                            ChatStyles.SYSTEM);
             
             isPlaying = false;
         }else{
