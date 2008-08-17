@@ -56,9 +56,9 @@ public class ParameterLaunchInfo extends LaunchInfo {
         }
         
         for (GameSetting gs : TempGameSettings.getGameSettings()) {
-            parameters = parameters.replace("{" + gs.getKeyWord() + "}", gs.getValue());
+            ret = ret.replace("{" + gs.getKeyWord() + "}", gs.getValue());
         }
         
-        return parameters;
+        return ret;
     }
 }
