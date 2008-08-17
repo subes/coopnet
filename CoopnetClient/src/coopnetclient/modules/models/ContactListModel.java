@@ -212,6 +212,10 @@ public class ContactListModel extends AbstractListModel implements EditableListM
     }
     //other methods
     public void addContact(String contactname, String groupName, ContactStatuses status) {
+        //dont add if already on list
+        if(pendingList.containsKey(contactname) ||  getStatus(contactname) != null  ){
+            return ;
+        }
         switch (status) {
             case PENDING_REQUEST:
                 pendingList.put(contactname, ContactStatuses.PENDING_REQUEST);
