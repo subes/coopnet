@@ -383,7 +383,7 @@ public class CommandHandler {
                     final String tmp[] = input.substring(7).split(Protocol.INFORMATION_DELIMITER);
                     new Thread(){
                         public void run(){
-                            Client.initInstantLaunch(tmp[0], new Integer(tmp[1]), new Integer(tmp[2]), tmp[3].equals("true"),false);
+                            Client.initInstantLaunch(tmp[0], new Integer(tmp[1]),tmp[2], new Integer(tmp[3]), tmp[4].equals("true"),false);
                             Client.instantLaunch(tmp[0], new Integer(tmp[1]), new Integer(tmp[2]), tmp[3].equals("true"));
                         }
                     }.start();                    
