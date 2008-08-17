@@ -24,6 +24,11 @@ public class Main {
     
     public static void main(String[] args) {
         checkArgs(args);
+        
+        if(Globals.getDebug()){
+            System.out.println("[L]\tStarting ...");
+        }
+        
         Client.startup();
     }
     
