@@ -30,7 +30,7 @@
               <Component id="btn_save" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_cancel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="239" max="32767" attributes="0"/>
+              <EmptySpace pref="292" max="32767" attributes="0"/>
               <Component id="btn_changePassword" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -52,7 +52,7 @@
                   </Group>
                   <Component id="btn_save" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="27" max="32767" attributes="0"/>
+              <EmptySpace pref="32" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

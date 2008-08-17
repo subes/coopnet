@@ -1,21 +1,20 @@
-/*	
-Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
-Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
-
-This file is part of Coopnet.
-
-Coopnet is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Coopnet is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
+ *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+ *
+ *  This file is part of Coopnet.
+ *
+ *  Coopnet is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Coopnet is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package coopnetclient.frames.clientframe.panels;
@@ -28,14 +27,19 @@ import coopnetclient.modules.components.PlayerListPopupMenu;
 import coopnetclient.modules.models.SortedListModel;
 import coopnetclient.Protocol;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.SoundPlayer;
-import coopnetclient.modules.ColoredChatHandler;
 import coopnetclient.modules.renderers.RoomStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.listeners.HyperlinkMouseListener;
 import coopnetclient.utils.gamedatabase.GameSetting;
+import coopnetclient.utils.launcher.Launcher;
+import coopnetclient.utils.launcher.TempGameSettings;
+import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
+import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
+import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,32 +48,34 @@ import javax.swing.text.StyledDocument;
 
 public class RoomPanel extends javax.swing.JPanel {
 
+    private LaunchInfo launchInfo;
+    
     private boolean isHost = false;
     private boolean compatible = true;
     private SortedListModel users;
     private PlayerListPopupMenu mypopup;
-    public String channel;
-    public String modname;
-    private String ip;
-    private String hamachiIp;
+    public String gameName;
+    public String childName;
+    private String hostIP;
+    private String hamachiHostIP;
     private int maxPlayers;
     private HashMap<String, String> gamesettings = new HashMap<String, String>();
     private RoomStatusListCellRenderer roomStatusListCR;
 
-    public RoomPanel(boolean isHost, String channel, String modindex, String ip, boolean compatible, String hamachiIp, int maxPlayers) {
-        this.channel = channel;
+    public RoomPanel(boolean isHost, String channel, String modindex, String hostIP, boolean compatible, String hamachiIp, int maxPlayers) {
+        this.gameName = channel;
         this.maxPlayers = maxPlayers;
         this.isHost = isHost;
-        this.ip = ip;
-        this.hamachiIp = hamachiIp;
+        this.hostIP = hostIP;
+        this.hamachiHostIP = hamachiIp;
         this.users = new SortedListModel();
         users.add(Globals.getThisPlayer_loginName());
         this.compatible = compatible;
         
         if (Integer.valueOf(modindex) == -1) {
-            this.modname = null;
+            this.childName = null;
         } else {
-            this.modname = GameDatabase.getGameModNames(channel)[Integer.valueOf(modindex)].toString();
+            this.childName = GameDatabase.getGameModNames(channel)[Integer.valueOf(modindex)].toString();
         }
         initComponents();
         
@@ -95,7 +101,7 @@ public class RoomPanel extends javax.swing.JPanel {
 
         initLauncher();
 
-        ArrayList<GameSetting> settings = GameDatabase.getGameSettings(channel, modname);
+        ArrayList<GameSetting> settings = GameDatabase.getGameSettings(channel, childName);
         if (settings == null || settings.size() == 0) {
             btn_gameSettings.setVisible(false);
         }
@@ -107,7 +113,20 @@ public class RoomPanel extends javax.swing.JPanel {
             @Override
             public void run() {
                 try{
-                    Globals.getLauncher().initialize(channel, modname, isHost, ip, compatible, maxPlayers);
+                    String ip = null;
+                    if(cb_useHamachi.isSelected()){
+                        ip = hamachiHostIP;
+                    }else{
+                        ip = hostIP;
+                    }
+                    
+                    LaunchMethods method = GameDatabase.getLaunchMethod(gameName, childName);
+                    if(method == LaunchMethods.PARAMETER){
+                        launchInfo = new ParameterLaunchInfo(gameName, childName, ip, isHost);
+                    }else{
+                        launchInfo = new DirectPlayLaunchInfo(gameName, childName, ip, isHost, compatible);
+                    }
+                    Launcher.initialize(launchInfo);
                 }catch(Exception e){
                     ErrorHandler.handleException(e);
                 }
@@ -117,7 +136,7 @@ public class RoomPanel extends javax.swing.JPanel {
 
     public void showSettings() {
         if (btn_gameSettings.isVisible()) {
-            Globals.openGameSettingsFrame(channel, modname);
+            Globals.openGameSettingsFrame(gameName, childName);
         }
     }
 
@@ -198,7 +217,7 @@ public class RoomPanel extends javax.swing.JPanel {
     }
 
     public void launch() {
-        if (Globals.getIsPlayingStatus()) {
+        if (Launcher.isPlaying()) {
             return;
         }
 
@@ -206,39 +225,14 @@ public class RoomPanel extends javax.swing.JPanel {
 
             @Override
             public void run() {
-                try{
-                    Globals.setIsPlayingStatus(true);
-
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
-                            "Game launching... please wait!", 
-                            ChatStyles.SYSTEM);
-                    //play sound
-                    SoundPlayer.playLaunchSound();
-
-                    if (Settings.getSleepEnabled()) {
-                        Globals.setSleepModeStatus(true);
-                    }
-
-
-                    String _channel = channel;
-                    boolean launched = Globals.getLauncher().launch();
-
-                    if (!launched) {
-                        Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed to start the game!", ChatStyles.SYSTEM);
-                    }
-
-                    Globals.setIsPlayingStatus(false);
-                    Client.send(Protocol.gameClosed(), _channel);
-                    Globals.setSleepModeStatus(false);
+                try{                 
+                    Launcher.launch();
+                    Client.send(Protocol.gameClosed(), gameName);
                 }catch(Exception e){
                     ErrorHandler.handleException(e);
                 }
             }
         }.start();
-    }
-
-    public void setGameName(String ingamename) {
-        Globals.getLauncher().setIngameName(ingamename);
     }
 
     public void enableButtons() {
@@ -407,9 +401,9 @@ public class RoomPanel extends javax.swing.JPanel {
 
     private void btn_close(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_close
         if (isHost) {
-            Client.send(Protocol.closeRoom(), channel);
+            Client.send(Protocol.closeRoom(), gameName);
         } else {
-            Client.send(Protocol.leaveRoom(), channel);
+            Client.send(Protocol.leaveRoom(), gameName);
         }
 }//GEN-LAST:event_btn_close
 
@@ -452,10 +446,10 @@ public class RoomPanel extends javax.swing.JPanel {
         btn_ready.setEnabled(false);
         if (cb_useHamachi.isSelected()) {
             System.out.println("Hamachi support turning on");
-            Globals.getLauncher().initialize(channel, modname, isHost, hamachiIp, compatible, maxPlayers);
+            initLauncher();
         } else {
             System.out.println("Hamachi support turning off");
-            Globals.getLauncher().initialize(channel, modname, isHost, ip, compatible, maxPlayers);
+            initLauncher();
         }
 }//GEN-LAST:event_cb_useHamachiActionPerformed
 

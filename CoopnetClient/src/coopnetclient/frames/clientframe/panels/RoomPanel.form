@@ -33,10 +33,10 @@
               <Component id="cb_useHamachi" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btn_gameSettings" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="7" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="btn_close" min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="sp_chatHorizontal" alignment="0" pref="436" max="32767" attributes="0"/>
+          <Component id="sp_chatHorizontal" alignment="0" pref="435" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">

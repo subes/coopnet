@@ -28,7 +28,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_close" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="279" max="32767" attributes="0"/>
+              <EmptySpace pref="295" max="32767" attributes="0"/>
           </Group>
           <Component id="pnl_profile" alignment="0" max="32767" attributes="0"/>
       </Group>
@@ -39,7 +39,7 @@
               <Component id="pnl_profile" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_close" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="32" max="32767" attributes="0"/>
+              <EmptySpace pref="37" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

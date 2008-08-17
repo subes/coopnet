@@ -1,21 +1,20 @@
-/*	
-Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
-Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
-
-This file is part of Coopnet.
-
-Coopnet is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Coopnet is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
+ *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+ *
+ *  This file is part of Coopnet.
+ *
+ *  Coopnet is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Coopnet is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package coopnetclient;
@@ -36,7 +35,6 @@ import coopnetclient.frames.TextPreviewFrame;
 import coopnetclient.modules.Settings;
 import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.utils.launcher.OLDLauncher;
 import coopnetclient.modules.Colorizer;
 import coopnetclient.modules.models.ContactListModel;
 import coopnetclient.utils.launcher.Launcher;
@@ -57,15 +55,12 @@ public class Globals {
     private static final String clientVersion = "0.96.1";
     private static boolean loggedInStatus = false;
     private static boolean sleepModeStatus = false;
-    private static boolean isPlayingStatus = false;
     
     //First set when known
     private static String thisPlayer_loginName;
     private static String thisPlayer_inGameName;
     
     //Objects
-    private static OLDLauncher launcher;
-    
     private static ClientFrame clientFrame;
     
     private static ContactListModel contacts = new ContactListModel();
@@ -99,6 +94,11 @@ public class Globals {
         }
         //Set debug
         debug = Settings.getDebugMode();
+        
+        if(debug){
+            System.out.println("[L]\tOperatingSystem: "+operatingSystem.toString());
+        }
+        
     }
     
     public static void recolorFrames(){
@@ -177,28 +177,12 @@ public class Globals {
         return sleepModeStatus;
     }
     
-    public static void setIsPlayingStatus(boolean value){
-        isPlayingStatus = value;
-    }
-    
-    public static boolean getIsPlayingStatus(){
-        return isPlayingStatus;
-    }
-    
     public static void setLastOpenedDir(String value){
         lastOpenedDir = value;
     }
     
     public static String getLastOpenedDir(){
         return lastOpenedDir;
-    }
-    
-    public static void setLauncher(OLDLauncher value){
-        launcher = value;
-    }
-    
-    public static OLDLauncher getLauncher(){
-        return launcher;
     }
     
     public static void openClientFrame(){

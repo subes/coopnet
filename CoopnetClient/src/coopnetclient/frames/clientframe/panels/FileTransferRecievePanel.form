@@ -37,19 +37,19 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lbl_senderValue" alignment="0" pref="428" max="32767" attributes="1"/>
-                          <Component id="lbl_fileValue" alignment="0" pref="428" max="32767" attributes="1"/>
-                          <Component id="lbl_sizeValue" alignment="0" pref="428" max="32767" attributes="1"/>
+                          <Component id="lbl_senderValue" alignment="0" pref="441" max="32767" attributes="1"/>
+                          <Component id="lbl_fileValue" alignment="0" pref="441" max="32767" attributes="1"/>
+                          <Component id="lbl_sizeValue" alignment="0" pref="441" max="32767" attributes="1"/>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="tf_savePath" pref="349" max="32767" attributes="0"/>
+                              <Component id="tf_savePath" pref="374" max="32767" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btn_browseSavePath" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="cb_Resume" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="lbl_note" alignment="0" pref="492" max="32767" attributes="0"/>
-                  <Component id="pgb_progress" alignment="0" pref="492" max="32767" attributes="1"/>
+                  <Component id="lbl_note" alignment="0" pref="511" max="32767" attributes="0"/>
+                  <Component id="pgb_progress" alignment="0" pref="511" max="32767" attributes="1"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lbl_progress" min="-2" max="-2" attributes="1"/>
                       <EmptySpace pref="332" max="32767" attributes="0"/>
@@ -59,13 +59,13 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btn_accept" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="356" max="32767" attributes="0"/>
+                      <EmptySpace pref="411" max="32767" attributes="0"/>
                       <Component id="btn_refuse" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="lbl_status" pref="47" max="32767" attributes="1"/>
+                      <Component id="lbl_status" pref="57" max="32767" attributes="1"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lbl_statusValue" pref="439" max="32767" attributes="1"/>
+                      <Component id="lbl_statusValue" pref="448" max="32767" attributes="1"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -117,7 +117,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lbl_note" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="17" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

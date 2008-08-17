@@ -1,21 +1,20 @@
-/*	
-Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
-Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
-
-This file is part of Coopnet.
-
-Coopnet is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Coopnet is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
+ *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+ *
+ *  This file is part of Coopnet.
+ *
+ *  Coopnet is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Coopnet is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package coopnetclient.frames;
@@ -280,8 +279,8 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             //simple instantlaunch
             Client.send(Protocol.createRoom(channel, modindex + "", passw, spn_maxPlayers.getValue().toString(), cb_compatibility.isSelected(), true), channel);
             Globals.closeRoomCreationFrame();
-            Client.initInstantLaunch(channel, modindex,"", (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(),true);
-            Client.instantLaunch(channel, modindex, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected());
+            Client.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(),true);
+            Client.instantLaunch(channel);
         } else if (btn_create.getText().equals("Setup & Launch")) {
             //show settings with launch button
             String modname = null;
@@ -289,7 +288,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 modname = modnames[modindex].toString();
             }
             Globals.closeRoomCreationFrame();
-            Client.initInstantLaunch(channel, modindex,"", (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(),true);
+            Client.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(),true);
             Globals.openGameSettingsFrame(channel, modname, tf_name.getText(), passw, modindex, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected());
         }
     }//GEN-LAST:event_create

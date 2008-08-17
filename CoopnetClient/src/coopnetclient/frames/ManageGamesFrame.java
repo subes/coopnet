@@ -1,21 +1,20 @@
-/*	
-Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
-Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
-
-This file is part of Coopnet.
-
-Coopnet is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Coopnet is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
+ *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+ *
+ *  This file is part of Coopnet.
+ *
+ *  Coopnet is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Coopnet is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package coopnetclient.frames;
@@ -24,7 +23,6 @@ import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.utils.launcher.WindowsLauncher;
 import coopnetclient.modules.models.SortedListModel;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.io.File;
@@ -239,7 +237,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_browsePathActionPerformed
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
-        if (Globals.getLauncher() instanceof WindowsLauncher) {
+        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
             if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0) {
                 GameDatabase.setLocalExecutablePath(lst_games.getSelectedValue().toString(), tf_path.getText());
                 GameDatabase.setLocalInstallPath(lst_games.getSelectedValue().toString(), tf_installPath.getText());

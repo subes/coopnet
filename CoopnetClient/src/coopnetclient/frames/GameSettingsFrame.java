@@ -1,21 +1,20 @@
-/*	
-Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
-Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
-
-This file is part of Coopnet.
-
-Coopnet is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Coopnet is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
+ *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+ *
+ *  This file is part of Coopnet.
+ *
+ *  Coopnet is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Coopnet is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package coopnetclient.frames;
@@ -26,6 +25,7 @@ import coopnetclient.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
+import coopnetclient.utils.launcher.TempGameSettings;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -81,7 +81,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             lbl_map.setVisible(true);
             cb_map.setVisible(true);
             cb_map.setModel(new DefaultComboBoxModel(loadMaps()));
-            cb_map.setSelectedItem(Globals.getLauncher().getMap());
+            cb_map.setSelectedItem(TempGameSettings.getMap());
         }
         //add setting components to frame and internal lists
         GridBagConstraints firstcolumn = new GridBagConstraints();
@@ -119,7 +119,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             switch (gs.getType()) {
                 case TEXT: {
                     input = new JTextField(gs.getDefaultValue());
-                    String currentValue = Globals.getLauncher().getSetting(gs.getName());
+                    String currentValue = TempGameSettings.getGameSetting(gs.getName());
                     if( currentValue != null && currentValue.length()>0 ){
                         ((JTextField)input).setText(currentValue);
                     }
@@ -135,7 +135,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                     }else{
                          input = new JSpinner();
                     }
-                    String currentValue = Globals.getLauncher().getSetting(gs.getName());
+                    String currentValue = TempGameSettings.getGameSetting(gs.getName());
                     if( currentValue != null && currentValue.length()>0 ){
                         ((JSpinner)input).setValue(Integer.valueOf(currentValue));
                     }
@@ -150,7 +150,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                             ((JComboBox) input).setSelectedIndex(idx);
                         }
                     }
-                    String currentValue = Globals.getLauncher().getSetting(gs.getName());
+                    String currentValue = TempGameSettings.getGameSetting(gs.getName());
                     if( currentValue != null && currentValue.length()>0 ){
                         ((JComboBox)input).setSelectedItem(currentValue);
                     }
@@ -267,7 +267,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     try {
         //if somethings unselected an exception is thrown        
         if (cb_map.isVisible()) {
-            Globals.getLauncher().setMap(cb_map.getSelectedItem().toString());
+            TempGameSettings.setMap(cb_map.getSelectedItem().toString());
             System.out.println("map was set:" + cb_map.getSelectedItem().toString());
         }
         //save settings
@@ -284,7 +284,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             if(input instanceof JComboBox){
                 value =((JComboBox)input).getSelectedItem().toString();
             }
-            Globals.getLauncher().setSetting(name, value,true);
+            TempGameSettings.setGameSetting(name, value,true);
         }
 
         if (!isInstant) {
@@ -297,7 +297,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     if (btn_save.getText().equals("Launch")) {
         Client.send(Protocol.createRoom(roomname, modindex + "", password, maxPlayers + "", compatible, true), gamename);
         Globals.closeRoomCreationFrame();
-        Client.instantLaunch(gamename, modindex, maxPlayers, compatible);
+        Client.instantLaunch(gamename);
     }
 
 }//GEN-LAST:event_btn_saveActionPerformed

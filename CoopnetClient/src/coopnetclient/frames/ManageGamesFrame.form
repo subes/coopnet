@@ -34,7 +34,7 @@
                       <Component id="tf_filter" pref="492" max="32767" attributes="0"/>
                   </Group>
                   <Component id="lbl_games" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="scrl_games" alignment="1" pref="524" max="32767" attributes="1"/>
+                  <Component id="scrl_games" alignment="1" pref="536" max="32767" attributes="1"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lbl_installPath" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -43,12 +43,12 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="tf_path" pref="364" max="32767" attributes="1"/>
+                              <Component id="tf_path" pref="371" max="32767" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btn_browsePath" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="tf_installPath" pref="364" max="32767" attributes="1"/>
+                              <Component id="tf_installPath" pref="371" max="32767" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btn_browseInstallPath" min="-2" max="-2" attributes="0"/>
                           </Group>

@@ -1,21 +1,20 @@
-/*	
-Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
-Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
-
-This file is part of Coopnet.
-
-Coopnet is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Coopnet is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
+ *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+ *
+ *  This file is part of Coopnet.
+ *
+ *  Coopnet is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Coopnet is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package coopnetclient;
@@ -30,6 +29,7 @@ import coopnetclient.modules.FrameIconFlasher;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.FileDownloader;
 import coopnetclient.modules.models.ContactListModel;
+import coopnetclient.utils.launcher.TempGameSettings;
 import javax.swing.JOptionPane;
 
 /**
@@ -120,9 +120,7 @@ public class CommandHandler {
 
             if (input.startsWith("setgamesetting")) {
                 String[] setting = input.substring(14).split(Protocol.INFORMATION_DELIMITER);
-                if(Globals.getLauncher()!=null){
-                    Globals.getLauncher().setSetting(setting[0],setting[1],false);                
-                }
+                TempGameSettings.setGameSetting(setting[0],setting[1],false);                
             } else if (input.startsWith("joinchannel ")) {
                 String tmp = input.substring(12);
                 GameDatabase.load(tmp,GameDatabase.datafilepath);
@@ -313,9 +311,6 @@ public class CommandHandler {
             //set the players in-game name
             if (input.startsWith("gamename ")) {
                 Globals.setThisPlayer_inGameName(input.substring(9));
-                if (TabOrganizer.getRoomPanel() != null) {
-                    TabOrganizer.getRoomPanel().setGameName(input.substring(9));
-                }
             } else 
             //a player changed its name, msut update in player list and room list
             if (input.startsWith("updatename ")) {
@@ -383,8 +378,8 @@ public class CommandHandler {
                     final String tmp[] = input.substring(7).split(Protocol.INFORMATION_DELIMITER);
                     new Thread(){
                         public void run(){
-                            Client.initInstantLaunch(tmp[0], new Integer(tmp[1]),tmp[2], new Integer(tmp[3]), tmp[4].equals("true"),false);
-                            Client.instantLaunch(tmp[0], new Integer(tmp[1]), new Integer(tmp[2]), tmp[3].equals("true"));
+                            Client.initInstantLaunch(tmp[0], GameDatabase.getModByIndex(tmp[0], new Integer(tmp[1])),tmp[2], new Integer(tmp[3]), tmp[4].equals("true"),false);
+                            Client.instantLaunch(tmp[0]);
                         }
                     }.start();                    
                 }
