@@ -17,6 +17,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+ /**
+ * Based on http://www.jroller.com/santhosh/entry/making_jlist_editable_no_jtable
+ */
+
 package coopnetclient.modules.components.mutablelist;
 
 import javax.swing.ListModel;
