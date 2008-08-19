@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.clientframe.panels;
 
 import coopnetclient.Client;
@@ -121,6 +120,11 @@ public class ContactListPanel extends javax.swing.JPanel {
                 ContactListMouseClicked(evt);
             }
         });
+        ContactList.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                ContactListMouseMoved(evt);
+            }
+        });
         jScrollPane1.setViewportView(ContactList);
 
         tp_QuickPanel.addTab("", ContactListIcon, jScrollPane1, "Contact List");
@@ -136,6 +140,11 @@ public class ContactListPanel extends javax.swing.JPanel {
         jl_FavouritesList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jl_FavouritesListMouseClicked(evt);
+            }
+        });
+        jl_FavouritesList.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jl_FavouritesListMouseMoved(evt);
             }
         });
         jScrollPane2.setViewportView(jl_FavouritesList);
@@ -166,7 +175,7 @@ public class ContactListPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void ContactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ContactListMouseClicked
-    if (evt.getClickCount() == 2 && ContactList.getSelectedIndex()> -1) {
+    if (evt.getClickCount() == 2 && ContactList.getSelectedIndex() > -1) {
         String selected = ContactList.getSelectedValue().toString();
         if (model.getGroupNames().contains(selected)) {
             model.toggleGroupClosedStatus(selected);
@@ -181,6 +190,14 @@ private void ContactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
 private void jl_FavouritesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_FavouritesListMouseClicked
     Client.send(Protocol.JoinChannel(jl_FavouritesList.getSelectedValue().toString()), null);
 }//GEN-LAST:event_jl_FavouritesListMouseClicked
+
+private void ContactListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ContactListMouseMoved
+    ContactList.setSelectedIndex(ContactList.locationToIndex(evt.getPoint()));
+}//GEN-LAST:event_ContactListMouseMoved
+
+private void jl_FavouritesListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_FavouritesListMouseMoved
+    jl_FavouritesList.setSelectedIndex(jl_FavouritesList.locationToIndex(evt.getPoint()));
+}//GEN-LAST:event_jl_FavouritesListMouseMoved
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private coopnetclient.modules.components.mutablelist.EditableJlist ContactList;
     private javax.swing.JScrollPane jScrollPane1;

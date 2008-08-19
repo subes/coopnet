@@ -33,6 +33,7 @@ import coopnetclient.modules.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.models.ChannelStatusListModel;
 import coopnetclient.modules.listeners.HyperlinkMouseListener;
+import java.awt.Component;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -320,6 +321,11 @@ public class ChannelPanel extends javax.swing.JPanel {
                 lst_userListMouseClicked(evt);
             }
         });
+        lst_userList.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                lst_userListMouseMoved(evt);
+            }
+        });
         scrl_userList.setViewportView(lst_userList);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -433,7 +439,7 @@ public class ChannelPanel extends javax.swing.JPanel {
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_refresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(btn_leaveChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(scrl_roomList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
@@ -551,6 +557,10 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
 private void btn_leaveChannel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveChannel1ActionPerformed
     btn_leaveChannelActionPerformed(evt);
 }//GEN-LAST:event_btn_leaveChannel1ActionPerformed
+
+private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
+    lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+}//GEN-LAST:event_lst_userListMouseMoved
 
     public int getChannelChatHorizontalposition() {
         return sp_chatHorizontal.getDividerLocation();

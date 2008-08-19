@@ -306,6 +306,11 @@ public class RoomPanel extends javax.swing.JPanel {
                 lst_userListMouseClicked(evt);
             }
         });
+        lst_userList.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                lst_userListMouseMoved(evt);
+            }
+        });
         scrl_userList.setViewportView(lst_userList);
 
         sp_chatHorizontal.setRightComponent(scrl_userList);
@@ -375,9 +380,9 @@ public class RoomPanel extends javax.swing.JPanel {
                 .addComponent(cb_useHamachi)
                 .addGap(18, 18, 18)
                 .addComponent(btn_gameSettings)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_close))
-            .addComponent(sp_chatHorizontal, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE)
+            .addComponent(sp_chatHorizontal, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -389,7 +394,7 @@ public class RoomPanel extends javax.swing.JPanel {
                     .addComponent(cb_useHamachi)
                     .addComponent(btn_gameSettings))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sp_chatHorizontal, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE))
+                .addComponent(sp_chatHorizontal, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     private void tp_chatOutputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tp_chatOutputFocusLost
@@ -474,6 +479,11 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
         tp_chatInput.requestFocus();
     }
 }//GEN-LAST:event_tp_chatOutputKeyTyped
+
+private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
+    lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+}//GEN-LAST:event_lst_userListMouseMoved
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_close;
     private javax.swing.JButton btn_gameSettings;

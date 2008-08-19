@@ -204,6 +204,7 @@
                       </Properties>
                       <Events>
                         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lst_userListMouseClicked"/>
+                        <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="lst_userListMouseMoved"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -254,7 +255,7 @@
                       <Component id="btn_join" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btn_refresh" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="100" max="32767" attributes="0"/>
+                      <EmptySpace pref="43" max="32767" attributes="0"/>
                       <Component id="btn_leaveChannel" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="scrl_roomList" alignment="0" pref="0" max="32767" attributes="0"/>
