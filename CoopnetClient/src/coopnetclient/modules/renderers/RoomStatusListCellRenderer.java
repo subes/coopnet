@@ -20,6 +20,7 @@
 package coopnetclient.modules.renderers;
 
 import coopnetclient.Globals;
+import coopnetclient.modules.Colorizer;
 import coopnetclient.modules.Settings;
 import java.awt.Color;
 import java.awt.Component;
@@ -112,13 +113,13 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
             setBackground(Color.red);
         }
         if (isSelected) {
-            setText("<html><pre><b>" + value.toString() + "</b></pre></html>");
+            setText("<html><pre>&nbsp;" + value.toString() + "</pre></html>");
             //setIcon(selectionIcon);
-            setBorder(BorderFactory.createLineBorder(Color.BLACK , 2));
+            setBorder(BorderFactory.createLineBorder(Colorizer.getSelectionColor() , 2));
 
         } else {
             setIcon(null);
-            setText("<html><pre>" + value.toString() + "</pre></html>");
+            setText("<html><pre>&nbsp;" + value.toString() + "</pre></html>");
         }
         
         return this;

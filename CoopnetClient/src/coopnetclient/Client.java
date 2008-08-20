@@ -183,7 +183,9 @@ public class Client {
                 br.close();
                 br = null;
                 server = temp.toString().trim();
-                System.out.println("server adress read: "+server);
+                if(Globals.getDebug()){
+                    System.out.println("[L]\tServer address read: "+server);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 server = null;
