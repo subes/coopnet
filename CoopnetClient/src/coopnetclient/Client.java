@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient;
 
 import coopnetclient.enums.ChatStyles;
@@ -29,8 +28,11 @@ import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.URL;
 import java.util.Enumeration;
 import javax.swing.SwingUtilities;
 
@@ -84,29 +86,9 @@ public class Client {
      * 
      */
     public static void startup() {
-        //Determine server IP and Port
-        if(Globals.getServerIP() == null){
-            //TODO download server ip from http://coopnet.sourceforge.net/CoopnetServer.txt
-            //file is in format: subes.dyndns.org:6667
-            //put the data in this variable, leave null if it didnt work out
-            
-            String server = "subes.dyndns.org:6667";
-            
-            if(server != null){
-                String ip = server.substring(0, server.indexOf(":"));
-                Globals.setServerIP(ip);
-                int port = Integer.parseInt(server.substring(server.indexOf(":")+1));
-                Globals.setServerPort(port);
-                
-                Settings.setLastValidServerIP(ip);
-                Settings.setLastValidServerPort(port);
-            }else{
-            
-                Globals.setServerIP(Settings.getLastValidServerIP());
-                Globals.setServerPort(Settings.getLastValidServerPort());
-            }
-        }
-        
+
+        readServerAddress();
+
         SwingUtilities.invokeLater(new Thread() {
 
             @Override
@@ -147,35 +129,34 @@ public class Client {
         handlerThread = null;
     }
 
-    public static void initInstantLaunch(final String game, final String mod, final String hostIP, final int maxPlayers, final boolean compatible, final boolean isHost){
-        Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
-                            "Initializing game ...",
-                            ChatStyles.SYSTEM);
+    public static void initInstantLaunch(final String game, final String mod, final String hostIP, final int maxPlayers, final boolean compatible, final boolean isHost) {
+        Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                "Initializing game ...",
+                ChatStyles.SYSTEM);
 
         LaunchInfo launchInfo;
 
         LaunchMethods method = GameDatabase.getLaunchMethod(game, mod);
-        
-        if(method == LaunchMethods.PARAMETER){
+
+        if (method == LaunchMethods.PARAMETER) {
             launchInfo = new ParameterLaunchInfo(game, mod, hostIP, isHost, true);
-        }else
-        if(method == LaunchMethods.CHAT_ONLY){
-            throw new IllegalArgumentException("You can't launch from CHAT_ONLY channel! GameName: "+game+" ChildName: "+mod);
-        }else{
+        } else if (method == LaunchMethods.CHAT_ONLY) {
+            throw new IllegalArgumentException("You can't launch from CHAT_ONLY channel! GameName: " + game + " ChildName: " + mod);
+        } else {
             launchInfo = new DirectPlayLaunchInfo(game, mod, hostIP, isHost, true, compatible);
         }
 
         Launcher.initialize(launchInfo);
 
-        if(!Launcher.isInitialized()){
+        if (!Launcher.isInitialized()) {
             Client.send(Protocol.closeRoom(), game);
             Client.send(Protocol.gameClosed(), game);
             TabOrganizer.getChannelPanel(game).enablebuttons();
         }
     }
-    
+
     public static void instantLaunch(String channel) {
-        if(Launcher.isInitialized()){
+        if (Launcher.isInitialized()) {
             TabOrganizer.getChannelPanel(channel).disableButtons();
 
             Launcher.launch();
@@ -183,6 +164,42 @@ public class Client {
             Client.send(Protocol.gameClosed(), channel);
             TabOrganizer.getChannelPanel(channel).enablebuttons();
             Launcher.deInitialize();
+        }
+    }
+
+    private static void readServerAddress() {
+        String server = null;
+        //Determine server IP and Port
+        if (Globals.getServerIP() == null) {
+            try {
+                URL sourceforge = new URL("http://coopnet.sourceforge.net/CoopnetServer.txt");
+                BufferedReader br = new BufferedReader(new InputStreamReader(sourceforge.openStream()));
+
+                StringBuilder temp = new StringBuilder();
+                int c;
+                while ((c = br.read()) != -1) {
+                    temp.append((char) c);
+                }
+                br.close();
+                br = null;
+                server = temp.toString().trim();
+                System.out.println("server adress read: "+server);
+            } catch (Exception e) {
+                e.printStackTrace();
+                server = null;
+            }
+
+            if (server != null) {
+                String ip = server.substring(0, server.indexOf(":"));
+                Globals.setServerIP(ip);
+                int port = Integer.parseInt(server.substring(server.indexOf(":") + 1));
+                Globals.setServerPort(port);
+                Settings.setLastValidServerIP(ip);
+                Settings.setLastValidServerPort(port);
+            } else {
+                Globals.setServerIP(Settings.getLastValidServerIP());
+                Globals.setServerPort(Settings.getLastValidServerPort());
+            }
         }
     }
 }
