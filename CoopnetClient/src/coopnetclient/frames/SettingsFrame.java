@@ -27,6 +27,7 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.Protocol;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.modules.Colorizer;
+import coopnetclient.modules.Settings;
 import java.awt.GraphicsEnvironment;
 import javax.swing.JOptionPane;
 import coopnetclient.modules.listeners.ColorChooserButtonActionListener;
@@ -42,9 +43,6 @@ public class SettingsFrame extends javax.swing.JFrame {
         cmb_homeChannel.insertItemAt("", 0);
 
         //FILL IN FIELDS
-        tf_serverAddress.setText(coopnetclient.modules.Settings.getServerIp());
-        tf_serverPort.setText(String.valueOf(coopnetclient.modules.Settings.getServerPort()));
-
         cmb_homeChannel.setSelectedItem(coopnetclient.modules.Settings.getHomeChannel());
         
         if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS){
@@ -133,11 +131,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         lbl_dplayEnv = new javax.swing.JLabel();
         tf_dplayEnv = new javax.swing.JTextField();
         pnl_network = new javax.swing.JPanel();
-        lbl_serverAddress = new javax.swing.JLabel();
-        tf_serverAddress = new javax.swing.JTextField();
         cb_autoLogin = new javax.swing.JCheckBox();
-        tf_serverPort = new javax.swing.JTextField();
-        lbl_serverPort = new javax.swing.JLabel();
         lbl_transferPort = new javax.swing.JLabel();
         tf_transferPort = new javax.swing.JTextField();
         lbl_receiveDir = new javax.swing.JLabel();
@@ -244,11 +238,7 @@ public class SettingsFrame extends javax.swing.JFrame {
 
         tabpn_settings.addTab("General", pnl_general);
 
-        lbl_serverAddress.setText("Server address:");
-
         cb_autoLogin.setText("Automatically login");
-
-        lbl_serverPort.setText("Server port:");
 
         lbl_transferPort.setText("Filetransfer port:");
 
@@ -269,18 +259,9 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl_networkLayout.createSequentialGroup()
-                        .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbl_serverPort, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbl_serverAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnl_networkLayout.createSequentialGroup()
-                                .addComponent(tf_serverAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(cb_autoLogin))
-                            .addComponent(tf_serverPort, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_networkLayout.createSequentialGroup()
+                        .addComponent(cb_autoLogin)
+                        .addContainerGap(444, Short.MAX_VALUE))
+                    .addGroup(pnl_networkLayout.createSequentialGroup()
                         .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_receiveDir)
                             .addComponent(lbl_transferPort, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))
@@ -291,22 +272,12 @@ public class SettingsFrame extends javax.swing.JFrame {
                                 .addComponent(tf_receiveDir, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_browseReceiveDir)))
-                        .addGap(208, 208, 208)))
-                .addGap(649, 649, 649))
+                        .addGap(167, 167, 167))))
         );
         pnl_networkLayout.setVerticalGroup(
             pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_networkLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_networkLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_serverAddress)
-                    .addComponent(tf_serverAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cb_autoLogin))
-                .addGap(11, 11, 11)
-                .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_serverPort)
-                    .addComponent(tf_serverPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
                 .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_receiveDir)
                     .addComponent(tf_receiveDir, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -315,7 +286,9 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_transferPort)
                     .addComponent(tf_transferPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
+                .addComponent(cb_autoLogin)
+                .addContainerGap())
         );
 
         tabpn_settings.addTab("Network", pnl_network);
@@ -801,43 +774,41 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
         boolean error = false;
 
         try {
-            coopnetclient.modules.Settings.setServerIp(tf_serverAddress.getText());
-            coopnetclient.modules.Settings.setServerPort(Integer.parseInt(tf_serverPort.getText()));
 
-            coopnetclient.modules.Settings.setAutoLogin(cb_autoLogin.isSelected());
-            coopnetclient.modules.Settings.setSoundEnabled(cb_sounds.isSelected());
-            coopnetclient.modules.Settings.setTimeStampEnabled(cb_timeStamps.isSelected());
+            Settings.setAutoLogin(cb_autoLogin.isSelected());
+            Settings.setSoundEnabled(cb_sounds.isSelected());
+            Settings.setTimeStampEnabled(cb_timeStamps.isSelected());
 
             if (cb_sleepMode.isSelected() != coopnetclient.modules.Settings.getSleepEnabled()) {
-                coopnetclient.modules.Settings.setSleepenabled(cb_sleepMode.isSelected());
+                Settings.setSleepenabled(cb_sleepMode.isSelected());
                 Client.send(Protocol.SetSleep(cb_sleepMode.isSelected()), null);
             }
-            coopnetclient.modules.Settings.setRecieveDestination(tf_receiveDir.getText());
-            coopnetclient.modules.Settings.setHomeChannel(cmb_homeChannel.getSelectedItem().toString());
-            coopnetclient.modules.Settings.setWineCommand(tf_dplayEnv.getText());
-             coopnetclient.modules.Settings.setFiletTansferPort(new Integer(tf_transferPort.getText()));
+            Settings.setRecieveDestination(tf_receiveDir.getText());
+            Settings.setHomeChannel(cmb_homeChannel.getSelectedItem().toString());
+            Settings.setWineCommand(tf_dplayEnv.getText());
+            Settings.setFiletTansferPort(new Integer(tf_transferPort.getText()));
 
             //Colors
-            coopnetclient.modules.Settings.setBackgroundColor(btn_background.getForeground());
-            coopnetclient.modules.Settings.setForegroundColor(btn_foreground.getForeground());
+            Settings.setBackgroundColor(btn_background.getForeground());
+            Settings.setForegroundColor(btn_foreground.getForeground());
 
-            coopnetclient.modules.Settings.setYourUsernameColor(btn_yourUsername.getForeground());
-            coopnetclient.modules.Settings.setOtherUsernamesColor(btn_otherUsernames.getForeground());
-            coopnetclient.modules.Settings.setSystemMessageColor(btn_systemMessages.getForeground());
-            coopnetclient.modules.Settings.setWhisperMessageColor(btn_whisperMessages.getForeground());
-            coopnetclient.modules.Settings.setUserMessageColor(btn_userMessages.getForeground());
-            coopnetclient.modules.Settings.setSelectionColor(btn_selection.getForeground());
+            Settings.setYourUsernameColor(btn_yourUsername.getForeground());
+            Settings.setOtherUsernamesColor(btn_otherUsernames.getForeground());
+            Settings.setSystemMessageColor(btn_systemMessages.getForeground());
+            Settings.setWhisperMessageColor(btn_whisperMessages.getForeground());
+            Settings.setUserMessageColor(btn_userMessages.getForeground());
+            Settings.setSelectionColor(btn_selection.getForeground());
             
-            coopnetclient.modules.Settings.setSelectedLookAndFeel((String)cmb_style.getSelectedItem());
-            coopnetclient.modules.Settings.setUseNativeLookAndFeel(cb_nativeStyle.isSelected());
+            Settings.setSelectedLookAndFeel((String)cmb_style.getSelectedItem());
+            Settings.setUseNativeLookAndFeel(cb_nativeStyle.isSelected());
             
-            coopnetclient.modules.Settings.setColorizeBody(cb_colorizeBody.isSelected());
-            coopnetclient.modules.Settings.setColorizeText(cb_colorizeText.isSelected());
+            Settings.setColorizeBody(cb_colorizeBody.isSelected());
+            Settings.setColorizeText(cb_colorizeText.isSelected());
 
-            coopnetclient.modules.Settings.setNameStyle(cmb_playerNamesType.getSelectedItem().toString());
-            coopnetclient.modules.Settings.setNameSize(Integer.parseInt(tf_playerNamesSize.getText()));
-            coopnetclient.modules.Settings.setMessageStyle(cmb_playerMessagesType.getSelectedItem().toString());
-            coopnetclient.modules.Settings.setMessageSize(Integer.parseInt(tf_playerMessagesSize.getText()));
+            Settings.setNameStyle(cmb_playerNamesType.getSelectedItem().toString());
+            Settings.setNameSize(Integer.parseInt(tf_playerNamesSize.getText()));
+            Settings.setMessageStyle(cmb_playerMessagesType.getSelectedItem().toString());
+            Settings.setMessageSize(Integer.parseInt(tf_playerMessagesSize.getText()));
             
             Globals.getClientFrame().updateMenu();
 
@@ -909,8 +880,6 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     private javax.swing.JLabel lbl_playerNamesType;
     private javax.swing.JLabel lbl_receiveDir;
     private javax.swing.JLabel lbl_selection;
-    private javax.swing.JLabel lbl_serverAddress;
-    private javax.swing.JLabel lbl_serverPort;
     private javax.swing.JLabel lbl_style;
     private javax.swing.JLabel lbl_systemMessages;
     private javax.swing.JLabel lbl_transferPort;
@@ -930,8 +899,6 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     private javax.swing.JTextField tf_playerMessagesSize;
     private javax.swing.JTextField tf_playerNamesSize;
     private javax.swing.JTextField tf_receiveDir;
-    private javax.swing.JTextField tf_serverAddress;
-    private javax.swing.JTextField tf_serverPort;
     private javax.swing.JTextField tf_transferPort;
     // End of variables declaration//GEN-END:variables
 

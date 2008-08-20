@@ -77,12 +77,13 @@ public class Settings {
     /**********************************************************************/
     
     //Settings names in variable form
-    private final static String serverIp = "ServerIp",
+    private final static String 
+            lastValidServerIP = "LastValidServerIP",
+            lastValidServerPort = "LastValidServerPort",  
             recieveDest="FileDestination", 
             sleepEnabled="SleepModeEnabled" , 
             firstRun = "FirstRun",  
-            homeChannel = "HomeChannel",  
-            serverPort = "ServerPort",  
+            homeChannel = "HomeChannel",
             updateURL = "UpdateURL",  
             autoLogin = "AutoLogin",  
             debugMode = "DebugMode", 
@@ -116,8 +117,8 @@ public class Settings {
             fileTransferPort="FiletransferPort";
    
     //Default
-    private final static String def_serverIp = "subes.dyndns.org";
-    private final static int def_serverPort = 6667;
+    private final static String def_lastValidServerIP = "subes.dyndns.org";
+    private final static int def_lastValidServerPort = 6667;
     private final static boolean def_firstRun = true;
     private final static boolean def_sleepEnabled = true;
     private final static boolean def_autoLogin = false;
@@ -364,21 +365,21 @@ public class Settings {
     }
 
     //serverIp
-    public static String getServerIp() {
-        return readString(serverIp, def_serverIp);
+    public static String getLastValidServerIP() {
+        return readString(lastValidServerIP, def_lastValidServerIP);
     }
 
-    public static void setServerIp(String ip) {
-        writeSetting(serverIp, ip);
+    public static void setLastValidServerIP(String ip) {
+        writeSetting(lastValidServerIP, ip);
     }
 
     //serverPort
-    public static int getServerPort() {
-        return readInteger(serverPort, def_serverPort);
+    public static int getLastValidServerPort() {
+        return readInteger(lastValidServerPort, def_lastValidServerPort);
     }
 
-    public static void setServerPort(int port) {
-        writeSetting(serverPort, String.valueOf(port));
+    public static void setLastValidServerPort(int port) {
+        writeSetting(lastValidServerPort, String.valueOf(port));
     }
 
      public static void setUpdateURL(String url) {

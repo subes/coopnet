@@ -507,11 +507,8 @@ public class ClientFrame extends javax.swing.JFrame {
                 "\nannoy the player with advertisements and bugs." +
                 "\n\nFuture plans include support for many different games" +
                 "\nand added functionality to meet the gamers needs." +
-                "\n\n<html><font size='2'>Download latest version from:</font></html>" +
-                "\n<html>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://www.coopnet.tk'><font size='2'>http://www.coopnet.tk</font></a></html>" +
-                "\n\n<html><font size='2'>Main developers can be contacted via MSN or E-Mail at:</font></html>" +
-                "\n<html>&nbsp;&nbsp;&nbsp;&nbsp;<a href='mailto://kecske.85@hotmail.com'><font size='2'>kecske.85@hotmail.com</font></a></html>" +
-                "\n<html>&nbsp;&nbsp;&nbsp;&nbsp;<a href='mailto://subes@hotmail.de'><font size='2'>subes@hotmail.de</font></a></html>" +
+                "\n\nVisit us at:" +
+                "\n<html>&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://coopnet.sourceforge.net'><font size='2'>http://coopnet.sourceforge.net</font></a></html>" +
                 "\n\n\n<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
                 "<i>Thank you for choosing Coopnet!</i></html>\n ";
 

@@ -21,12 +21,10 @@ package coopnetclient;
 
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
-import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.Colorizer;
-import coopnetclient.modules.SoundPlayer;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
@@ -86,6 +84,29 @@ public class Client {
      * 
      */
     public static void startup() {
+        //Determine server IP and Port
+        if(Globals.getServerIP() == null){
+            //TODO download server ip from http://coopnet.sourceforge.net/CoopnetServer.txt
+            //file is in format: subes.dyndns.org:6667
+            //put the data in this variable, leave null if it didnt work out
+            
+            String server = "subes.dyndns.org:6667";
+            
+            if(server != null){
+                String ip = server.substring(0, server.indexOf(":"));
+                Globals.setServerIP(ip);
+                int port = Integer.parseInt(server.substring(server.indexOf(":")+1));
+                Globals.setServerPort(port);
+                
+                Settings.setLastValidServerIP(ip);
+                Settings.setLastValidServerPort(port);
+            }else{
+            
+                Globals.setServerIP(Settings.getLastValidServerIP());
+                Globals.setServerPort(Settings.getLastValidServerPort());
+            }
+        }
+        
         SwingUtilities.invokeLater(new Thread() {
 
             @Override

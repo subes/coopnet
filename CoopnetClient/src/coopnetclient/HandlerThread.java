@@ -75,7 +75,7 @@ public class HandlerThread extends Thread {
         try {
             socketChannel = null;
             socketChannel = SocketChannel.open();
-            socketChannel.connect(new InetSocketAddress(coopnetclient.modules.Settings.getServerIp(), coopnetclient.modules.Settings.getServerPort()));
+            socketChannel.connect(new InetSocketAddress(Globals.getServerIP(), Globals.getServerPort()));
             //start sender thread
             sender = new Thread() {
 

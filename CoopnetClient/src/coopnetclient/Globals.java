@@ -59,6 +59,8 @@ public class Globals {
     //First set when known
     private static String thisPlayer_loginName;
     private static String thisPlayer_inGameName;
+    private static String serverIP;
+    private static int serverPort;
     
     //Objects
     private static ClientFrame clientFrame;
@@ -160,6 +162,22 @@ public class Globals {
     
     public static String getThisPlayer_inGameName(){
         return  thisPlayer_inGameName;
+    }
+    
+    public static String getServerIP(){
+        return serverIP;
+    }
+    
+    public static void setServerIP(String ip){
+        serverIP = ip;
+    }
+    
+    public static int getServerPort(){
+        return serverPort;
+    }
+    
+    public static void setServerPort(int port){
+        serverPort = port;
     }
     
     public static OperatingSystems getOperatingSystem(){
