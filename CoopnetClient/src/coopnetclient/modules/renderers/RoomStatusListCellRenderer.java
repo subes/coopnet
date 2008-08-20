@@ -24,7 +24,11 @@ import coopnetclient.modules.Settings;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.Vector;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
@@ -37,6 +41,8 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
 
     private Vector<String> readylist = new Vector<String>();
     private Vector<String> playinglist = new Vector<String>();
+    
+    public static ImageIcon selectionIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/selection.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 
     public RoomStatusListCellRenderer() {
         setOpaque(true);
@@ -94,12 +100,7 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
         //set foreground
         setForeground(Color.black);
-        if (isSelected) {
-            setText("<html><pre><b><i>" + value.toString() + "</i></b></pre></html>");
-
-        } else {
-            setText("<html><pre>" + value.toString() + "</pre></html>");
-        }
+        setBorder(null);
         //set background color
         if (readylist.contains(value.toString())) {
             if (playinglist.contains(value.toString())) {
@@ -110,6 +111,16 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
         } else {
             setBackground(Color.red);
         }
+        if (isSelected) {
+            setText("<html><pre><b>" + value.toString() + "</b></pre></html>");
+            //setIcon(selectionIcon);
+            setBorder(BorderFactory.createLineBorder(Color.BLACK , 2));
+
+        } else {
+            setIcon(null);
+            setText("<html><pre>" + value.toString() + "</pre></html>");
+        }
+        
         return this;
     }
 }
