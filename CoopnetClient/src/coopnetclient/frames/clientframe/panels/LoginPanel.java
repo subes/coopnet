@@ -97,6 +97,7 @@ public class LoginPanel extends javax.swing.JPanel {
         cb_autoLogin = new javax.swing.JCheckBox();
         pnl_bottom = new javax.swing.JPanel();
 
+        setMinimumSize(new java.awt.Dimension(10, 10));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
 
         pnl_top.setFocusable(false);

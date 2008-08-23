@@ -114,7 +114,8 @@ public class Settings {
             channelChatHorizontalSPPosition = "ChannelChatHorizontalSPPosition",  
             channelChatVerticalSPPosition = "ChannelChatVerticalSPPosition",
             wineCommand="WineCommand",
-            fileTransferPort="FiletransferPort";
+            fileTransferPort="FiletransferPort",
+            quickPanelPostionisLeft = "QuickPanelPositionIsLeft";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -145,6 +146,7 @@ public class Settings {
     private final static String def_lastLoginPassword = "";
     private final static boolean def_SoundEnabled = true;
     private final static boolean def_TimeStamps = false;
+    private final static boolean def_QuickPanelPostionIsLeft = true;
     private final static int def_MainFrameMaximised = javax.swing.JFrame.NORMAL;
     private final static int def_MainFrameWidth = 465;
     private final static int def_MainFrameHeight = 400;
@@ -279,6 +281,16 @@ public class Settings {
         save();
     }
 
+    
+    
+            
+    public static boolean getQuickPanelPostionisLeft() {
+        return readBoolean(quickPanelPostionisLeft, def_QuickPanelPostionIsLeft);
+    }
+
+    public static void setQuickPanelPostionisLeft(boolean status) {
+        writeSetting(quickPanelPostionisLeft, String.valueOf(status));
+    }
     /**
      *  public getters and setters used by other classes
      */

@@ -243,6 +243,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         btn_leaveChannel = new javax.swing.JButton();
 
         setFocusable(false);
+        setMinimumSize(new java.awt.Dimension(10, 10));
         setPreferredSize(new java.awt.Dimension(350, 400));
 
         sp_vertical.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);

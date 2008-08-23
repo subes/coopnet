@@ -39,7 +39,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <Component id="tabpn_settings" pref="330" max="32767" attributes="0"/>
+              <Component id="tabpn_settings" pref="332" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btn_save" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -77,7 +77,7 @@
                           <Component id="cb_sleepMode" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="cb_sounds" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="lbl_homeChannel" max="32767" attributes="1"/>
+                              <Component id="lbl_homeChannel" pref="96" max="32767" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cmb_homeChannel" min="-2" pref="465" max="-2" attributes="1"/>
                           </Group>
@@ -104,7 +104,7 @@
                           <Component id="lbl_dplayEnv" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tf_dplayEnv" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="166" max="32767" attributes="0"/>
+                      <EmptySpace pref="183" max="32767" attributes="0"/>
                       <Component id="cb_sounds" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cb_sleepMode" min="-2" max="-2" attributes="0"/>
@@ -162,12 +162,12 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="cb_autoLogin" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="444" max="32767" attributes="0"/>
+                              <EmptySpace pref="460" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="lbl_receiveDir" alignment="0" min="-2" max="-2" attributes="1"/>
-                                  <Component id="lbl_transferPort" pref="132" max="32767" attributes="1"/>
+                                  <Component id="lbl_transferPort" pref="127" max="32767" attributes="1"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -198,7 +198,7 @@
                           <Component id="lbl_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tf_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="203" max="32767" attributes="0"/>
+                      <EmptySpace pref="216" max="32767" attributes="0"/>
                       <Component id="cb_autoLogin" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -312,7 +312,7 @@
                                                   <Component id="tf_playerMessagesSize" min="-2" pref="25" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
                                               </Group>
-                                              <Component id="cmb_playerMessagesType" pref="214" max="32767" attributes="0"/>
+                                              <Component id="cmb_playerMessagesType" pref="262" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
@@ -323,7 +323,7 @@
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="tf_playerNamesSize" min="-2" pref="24" max="-2" attributes="0"/>
-                                              <Component id="cmb_playerNamesType" pref="214" max="32767" attributes="0"/>
+                                              <Component id="cmb_playerNamesType" pref="262" max="32767" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
@@ -492,7 +492,7 @@
                               <Component id="btn_whisperMessages" min="-2" pref="18" max="-2" attributes="0"/>
                               <Component id="lbl_whisperMessages" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="16" max="32767" attributes="0"/>
                           <Component id="cb_colorizeText" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -583,7 +583,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="pnl_lookAndFeel" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jPanel1" max="32767" attributes="0"/>
+                                  <Component id="pnl_lookAndFeel" alignment="0" max="32767" attributes="0"/>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="pnl_bodyColors" min="-2" max="-2" attributes="1"/>
                           </Group>
@@ -604,9 +607,13 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="pnl_bodyColors" min="-2" max="-2" attributes="1"/>
-                          <Component id="pnl_lookAndFeel" min="-2" max="-2" attributes="1"/>
+                          <Group type="102" attributes="0">
+                              <Component id="pnl_lookAndFeel" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace pref="62" max="32767" attributes="0"/>
+                      <EmptySpace pref="39" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbl_note" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lbl_noteText" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -759,7 +766,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="lbl_style" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cmb_style" pref="200" max="32767" attributes="0"/>
+                                  <Component id="cmb_style" pref="223" max="32767" attributes="0"/>
                               </Group>
                               <Component id="cb_nativeStyle" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -811,7 +818,7 @@
             </Container>
             <Component class="javax.swing.JLabel" name="lbl_noteText">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;Custom body colors are only supported by the &quot;Metal&quot; style.&lt;br&gt;To enable a new style, Coopnet has to be restarted.&lt;/html&gt;"/>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;Custom body colors are only supported by the &quot;Metal&quot; style.&lt;br&gt;To enable a new style or to change quickpanel position&lt;br&gt; Coopnet has to be restarted.&lt;/html&gt;"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lbl_note">
@@ -819,6 +826,61 @@
                 <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Note:"/>
               </Properties>
             </Component>
+            <Container class="javax.swing.JPanel" name="jPanel1">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="QuicPanel">
+                      <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+                        <EtchetBorder/>
+                      </Border>
+                    </TitledBorder>
+                  </Border>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="lbl_quickpanelposition" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                          <Component id="cmb_QuickPanelPosition" pref="149" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="cmb_QuickPanelPosition" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbl_quickpanelposition" linkSize="1" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="lbl_quickpanelposition">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="QuickPanel position:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="cmb_QuickPanelPosition">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="2">
+                        <StringItem index="0" value="Left"/>
+                        <StringItem index="1" value="Right"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
       </SubComponents>

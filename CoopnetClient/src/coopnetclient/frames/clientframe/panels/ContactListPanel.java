@@ -31,6 +31,7 @@ import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.util.Vector;
 import javax.swing.ImageIcon;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 public class ContactListPanel extends javax.swing.JPanel {
@@ -56,6 +57,15 @@ public class ContactListPanel extends javax.swing.JPanel {
         popup.refreshMoveToMenu();
         refreshFavourites();
         jl_FavouritesList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+    }
+    
+    public void setTabAlignment(boolean left){
+        if(left){
+            tp_QuickPanel.setTabPlacement(JTabbedPane.LEFT);
+        }
+        else{
+            tp_QuickPanel.setTabPlacement(JTabbedPane.RIGHT);
+        }
     }
 
     public void refreshFavourites() {
@@ -157,7 +167,7 @@ public class ContactListPanel extends javax.swing.JPanel {
         );
         jp_FavouritesPanelLayout.setVerticalGroup(
             jp_FavouritesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
         );
 
         tp_QuickPanel.addTab("", FavouritesIcon, jp_FavouritesPanel);
@@ -170,7 +180,7 @@ public class ContactListPanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tp_QuickPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+            .addComponent(tp_QuickPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

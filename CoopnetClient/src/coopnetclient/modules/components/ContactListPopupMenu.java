@@ -117,8 +117,13 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
 
     public void setGroupActionVisibility(boolean isVisible) {
         //create.setVisible(isVisible);
-        delete.setVisible(isVisible);
-        rename.setVisible(isVisible);
+        if(source.getSelectedValue().toString().equals(ContactListModel.NO_GROUP)){
+            delete.setVisible(false);
+            rename.setVisible(false);
+        }else{
+            delete.setVisible(isVisible);
+            rename.setVisible(isVisible);
+        }
         toggle.setVisible(isVisible);
     }
 
