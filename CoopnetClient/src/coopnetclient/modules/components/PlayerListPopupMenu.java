@@ -80,10 +80,20 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         item.addActionListener(this);
         return item;
     }
+    
+    @Override
+    public void setVisible(boolean visible){
+        super.setVisible(visible);
+        if(!visible){
+            Globals.setplayerListPopupIsUp(false); 
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        //Globals.setplayerListPopupIsUp(false); 
+        
         String command = e.getActionCommand();
 
         //JList source = null;

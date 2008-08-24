@@ -19,6 +19,7 @@
 
 package coopnetclient.modules.renderers;
 
+import coopnetclient.Globals;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.models.ChannelStatusListModel;
 import java.awt.Component;
@@ -60,7 +61,7 @@ public class ChannelStatusListCellRenderer extends JLabel implements ListCellRen
                 setBackground(Settings.getBackgroundColor());
             }
         } else {
-            if (isSelected) {
+            if (isSelected && !(value.toString().equals(Globals.getThisPlayer_loginName()))) {
                 setForeground(UIManager.getColor("List.selectionForeground"));
                 setBackground(UIManager.getColor("List.selectionBackground"));
             } else {

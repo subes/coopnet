@@ -112,7 +112,7 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
         } else {
             setBackground(Color.red);
         }
-        if (isSelected) {
+        if (isSelected && !(value.toString().equals(Globals.getThisPlayer_loginName()))) {
             setText("<html><pre>&nbsp;" + value.toString() + "</pre></html>");
             //setIcon(selectionIcon);
             setBorder(BorderFactory.createLineBorder(Colorizer.getSelectionColor() , 2));

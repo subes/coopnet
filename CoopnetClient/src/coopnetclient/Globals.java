@@ -55,6 +55,7 @@ public class Globals {
     private static final String clientVersion = "0.96.1";
     private static boolean loggedInStatus = false;
     private static boolean sleepModeStatus = false;
+    private static boolean playerListPopupIsUp = false;
     
     //First set when known
     private static String thisPlayer_loginName;
@@ -120,6 +121,14 @@ public class Globals {
     
         Colorizer.colorize(bugReportFrame);
         Colorizer.colorize(textPreviewFrame);
+    }
+    
+    public static boolean getplayerListPopupIsUp(){
+        return playerListPopupIsUp;
+    }
+    
+    public static void setplayerListPopupIsUp(boolean isUp){
+         playerListPopupIsUp = isUp;
     }
     
     public static void enableDebug(){

@@ -29,14 +29,12 @@ import coopnetclient.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.modules.Settings;
 import coopnetclient.modules.SoundPlayer;
 import coopnetclient.modules.renderers.RoomStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.listeners.HyperlinkMouseListener;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.Launcher;
-import coopnetclient.utils.launcher.TempGameSettings;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
@@ -305,6 +303,9 @@ public class RoomPanel extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lst_userListMouseClicked(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lst_userListMouseExited(evt);
+            }
         });
         lst_userList.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -432,8 +433,13 @@ public class RoomPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_clickedbtn_ready
 
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
+        if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
+                lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+            } else{
+                lst_userList.clearSelection();
+            }
         if(evt.getButton() == MouseEvent.BUTTON3){
-            lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+            Globals.setplayerListPopupIsUp(true);            
             lst_userList.getComponentPopupMenu().show(lst_userList, evt.getX(), evt.getY());
         }else
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
@@ -481,8 +487,16 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
 }//GEN-LAST:event_tp_chatOutputKeyTyped
 
 private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
-    lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+    if(!Globals.getplayerListPopupIsUp()){
+        if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
+            lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+        }
+    }
 }//GEN-LAST:event_lst_userListMouseMoved
+
+private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseExited
+    lst_userList.clearSelection();
+}//GEN-LAST:event_lst_userListMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_close;

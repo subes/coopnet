@@ -243,7 +243,6 @@ public class ChannelPanel extends javax.swing.JPanel {
         btn_leaveChannel = new javax.swing.JButton();
 
         setFocusable(false);
-        setMinimumSize(new java.awt.Dimension(10, 10));
         setPreferredSize(new java.awt.Dimension(350, 400));
 
         sp_vertical.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
@@ -320,6 +319,9 @@ public class ChannelPanel extends javax.swing.JPanel {
         lst_userList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lst_userListMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lst_userListMouseExited(evt);
             }
         });
         lst_userList.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -514,8 +516,14 @@ public class ChannelPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_refresh
 
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
+        if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
+                lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+            }else{
+                lst_userList.clearSelection();
+            }
         if(evt.getButton() == MouseEvent.BUTTON3){
-            lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+            Globals.setplayerListPopupIsUp(true);
+            
             lst_userList.getComponentPopupMenu().show(lst_userList, evt.getX(), evt.getY());
         }else
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
@@ -560,8 +568,16 @@ private void btn_leaveChannel1ActionPerformed(java.awt.event.ActionEvent evt) {/
 }//GEN-LAST:event_btn_leaveChannel1ActionPerformed
 
 private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
-    lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+    if(!Globals.getplayerListPopupIsUp()){
+        if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
+            lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+        }
+    }
 }//GEN-LAST:event_lst_userListMouseMoved
+
+private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseExited
+    lst_userList.clearSelection();
+}//GEN-LAST:event_lst_userListMouseExited
 
     public int getChannelChatHorizontalposition() {
         return sp_chatHorizontal.getDividerLocation();
