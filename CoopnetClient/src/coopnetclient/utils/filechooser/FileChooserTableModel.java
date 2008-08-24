@@ -143,16 +143,16 @@ class FileChooserTableModel extends DefaultTableModel {
                 i++;
             }
             if (i == 0) {
-                unit = "bytes";
+                unit = "b";
             }
             if (i == 1) {
-                unit = "K";
+                unit = "kb";
             }
             if (i == 2) {
-                unit = "M";
+                unit = "mb";
             }
             if (i == 3) {
-                unit = "G";
+                unit = "gb";
             }
             this.size.add(size + unit);
         } else {

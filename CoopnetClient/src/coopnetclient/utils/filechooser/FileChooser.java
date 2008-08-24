@@ -94,7 +94,7 @@ public class FileChooser extends javax.swing.JFrame {
     }
 
     private void fillPlacesComboBox() {
-        cmb_places.addItem("Click here to jump...");
+        cmb_places.addItem("Jump to ...");
         cmb_places.addItem("<html><b>- Places -");
         
         if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
@@ -125,26 +125,12 @@ public class FileChooser extends javax.swing.JFrame {
     private String getFileType(File file) {
         String filename = file.getName();
         String[] tmp = filename.split("\\.");
+        
         if (tmp.length < 2) {
             return "";
         }
-        String extension = tmp[tmp.length - 1].toLowerCase();
-        if (extension.equals("exe")) {
-            return "executable";
-        }
-        if (extension.equals("zip") || extension.equals("rar") || extension.equals("ace") || extension.equals("arj")) {
-            return "archive";
-        }
-        if (extension.equals("bmp") || extension.equals("jpg") || extension.equals("gif")) {
-            return "picture";
-        }
-        if (extension.equals("wav") || extension.equals("mp3") || extension.equals("wma")) {
-            return "audio";
-        }
-        if (extension.equals("txt") || extension.equals("doc") || extension.equals("rtf")) {
-            return "text";
-        }
-        return "file";
+        
+        return tmp[tmp.length - 1].toLowerCase();
     }
 
     private void openDirectory(File directory) {
@@ -503,7 +489,7 @@ private void cmb_placesPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuE
         openDirectory(new File(cmb_places.getSelectedItem().toString()));
     }
     cmb_places.removeItemAt(0);
-    cmb_places.insertItemAt("Click here to jump...", 0);
+    cmb_places.insertItemAt("Jump to ...", 0);
     cmb_places.setSelectedIndex(0);
 }//GEN-LAST:event_cmb_placesPopupMenuWillBecomeInvisible
 
