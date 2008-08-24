@@ -45,6 +45,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem playername;
     private JMenuItem accept;
     private JMenuItem refuse;
+    private JMenuItem deleteContact;
     private JMenuItem nudge;
     private JMenuItem showProfile;
     private JMenuItem whisper;
@@ -53,7 +54,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenu moveto;
     private JCheckBoxMenuItem hideOffline;
     private JMenuItem create;
-    private JMenuItem delete;
+    private JMenuItem deleteGroup;
     private JMenuItem rename;
     private JMenuItem toggle;
 
@@ -72,7 +73,8 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         refresh = makeMenuItem("Refresh list");
         moveto = new JMenu("Move to Group:");
         create = makeMenuItem("Create new Group...");
-        delete = makeMenuItem("Delete Group");
+        deleteGroup = makeMenuItem("Delete Group");
+        deleteContact = makeMenuItem("Remove Contact");
         rename = makeMenuItem("Rename Group");
         hideOffline = new JCheckBoxMenuItem("Hide offline contacts");
         hideOffline.addActionListener(this);
@@ -82,6 +84,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(new JSeparator());
         this.add(accept);
         this.add(refuse);
+        this.add(deleteContact) ;
         this.add(new JSeparator());
         this.add(nudge);
         this.add(showProfile);
@@ -92,7 +95,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(new JSeparator());
         this.add(hideOffline);
         this.add(create);
-        this.add(delete);
+        this.add(deleteGroup);
         this.add(rename);
         this.add(toggle);
     }
@@ -110,6 +113,10 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         }
     }
 
+    public void setContactActionVisibility(boolean isVisible) {
+        moveto.setVisible(isVisible);
+        deleteContact.setVisible(isVisible);
+    }
     public void setPendingActionVisibility(boolean isVisible) {
         accept.setVisible(isVisible);
         refuse.setVisible(isVisible);
@@ -118,10 +125,10 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     public void setGroupActionVisibility(boolean isVisible) {
         //create.setVisible(isVisible);
         if(source.getSelectedValue().toString().equals(ContactListModel.NO_GROUP)){
-            delete.setVisible(false);
+            deleteGroup.setVisible(false);
             rename.setVisible(false);
         }else{
-            delete.setVisible(isVisible);
+            deleteGroup.setVisible(isVisible);
             rename.setVisible(isVisible);
         }
         toggle.setVisible(isVisible);
@@ -138,13 +145,16 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         }
 
         final String subject = (String) source.getSelectedValue();
-
+//Remove Contact
         if (command.equals("Accept")) {            
             Client.send(Protocol.acceptRequest(subject), null);
             model.removePending(subject);            
         } else if (command.equals("Refuse")) {
             model.removePending(subject);
             Client.send(Protocol.refuseRequest(subject), null);
+        } else if (command.equals("Remove Contact")) {
+            model.removecontact(subject);
+            Client.send(Protocol.removeContact(subject), null);
         } else if (command.equals("Create new Group...")) {
             Collection groups = model.getGroupNames();
             if (groups.contains("New Group")) {
@@ -229,22 +239,22 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                 case GROUPNAME_OPEN:
                     setPendingActionVisibility(false);
                     setGroupActionVisibility(true);
-                    moveto.setVisible(false);
+                    setContactActionVisibility(false);
                     break;
                 case PENDING_CONTACT:
                     setPendingActionVisibility(false);
                     setGroupActionVisibility(false);
-                    moveto.setVisible(false);
+                    setContactActionVisibility(false);
                     break;
                 case PENDING_REQUEST:
                     setPendingActionVisibility(true);
                     setGroupActionVisibility(false);
-                    moveto.setVisible(false);
+                    setContactActionVisibility(false);
                     break;
                 default:
                     setPendingActionVisibility(false);
                     setGroupActionVisibility(false);
-                    moveto.setVisible(true);
+                    setContactActionVisibility(true);
                     break;
             }
             playername.setText((String) source.getSelectedValue());

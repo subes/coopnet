@@ -64,6 +64,10 @@ public class Protocol {
     public static String createGroup(String groupName) {
         return "makegroup" + groupName;
     }
+
+    public static String removeContact(String contactname) {
+        return "deletecontact" + contactname;
+    }
     
     public static String renameGroup(String groupName,String newgroupName) {
         return "renamegroup" + groupName + INFORMATION_DELIMITER +newgroupName;

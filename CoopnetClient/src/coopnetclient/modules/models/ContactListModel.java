@@ -233,10 +233,11 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         fireContentsChanged(this, 0, getSize());
     }
 
-    public void removecontact(String contactname, String groupName) {
-        if (groupName != null && groupName.length() > 0) {
-            groups.get(indexOfGroup(groupName)).contacts.remove(contactname);
-            groups.get(indexOfGroup(groupName)).offlinecontacts.remove(contactname);
+    public void removecontact(String contactName) {
+        Group source = groupOfContact(contactName);
+        if (source != null ) {
+            source.contacts.remove(contactName);
+            source.offlinecontacts.remove(contactName);
             fireContentsChanged(this, 0, getSize());
         }
     }
