@@ -40,8 +40,16 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
     @Override
     public boolean doInitialize(LaunchInfo launchInfo) {
         if(jdplay == null){
+            //Workaround for wine, it puts "" to the playername if the playername doesn't contain a space
+            String playerName;
+            if(Globals.getThisPlayer_inGameName().contains(" ")){
+                playerName = "\""+Globals.getThisPlayer_inGameName()+"\"";
+            }else{
+                playerName = Globals.getThisPlayer_inGameName();
+            }
+            
             String command = Settings.getWineCommand() + " lib/JDPlay_rmt.exe" +
-                 " --playerName " + Globals.getThisPlayer_inGameName() + 
+                 " --playerName " + playerName + 
                  " --maxSearchRetries " + Globals.JDPLAY_MAXSEARCHRETRIES;
             
             if(Globals.getDebug()){
@@ -91,7 +99,16 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
             return false;
         }
         
-        return waitForCommandResult();
+        boolean ret = waitForCommandResult();
+        
+        try{
+            Process p = Runtime.getRuntime().exec("pkill -f dplaysvr.exe");
+            p.waitFor();
+        }catch(Exception e){
+            printCommunicationError(e);
+        }
+        
+        return ret;
     }
 
     @Override
@@ -133,6 +150,10 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                 }
             } while (true);
         } catch (IOException e) {
+            closeJDPlay();
+            printCommunicationError(e);
+            return -1;
+        } catch (NullPointerException e){
             closeJDPlay();
             printCommunicationError(e);
             return -1;
