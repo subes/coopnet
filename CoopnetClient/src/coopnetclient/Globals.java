@@ -123,11 +123,11 @@ public class Globals {
         Colorizer.colorize(textPreviewFrame);
     }
     
-    public static boolean getplayerListPopupIsUp(){
+    public static boolean getPlayerListPopupIsUp(){
         return playerListPopupIsUp;
     }
     
-    public static void setplayerListPopupIsUp(boolean isUp){
+    public static void setPlayerListPopupIsUp(boolean isUp){
          playerListPopupIsUp = isUp;
     }
     

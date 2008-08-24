@@ -17,8 +17,9 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.frames.clientframe.panels;
+package coopnetclient.frames.clientframe.tabs;
 
+import coopnetclient.frames.clientframe.*;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.modules.listeners.ChatInputKeyListener;
@@ -442,7 +443,7 @@ public class ChannelPanel extends javax.swing.JPanel {
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_refresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addComponent(btn_leaveChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(scrl_roomList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
@@ -522,8 +523,6 @@ public class ChannelPanel extends javax.swing.JPanel {
                 lst_userList.clearSelection();
             }
         if(evt.getButton() == MouseEvent.BUTTON3){
-            Globals.setplayerListPopupIsUp(true);
-            
             lst_userList.getComponentPopupMenu().show(lst_userList, evt.getX(), evt.getY());
         }else
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
@@ -568,9 +567,11 @@ private void btn_leaveChannel1ActionPerformed(java.awt.event.ActionEvent evt) {/
 }//GEN-LAST:event_btn_leaveChannel1ActionPerformed
 
 private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
-    if(!Globals.getplayerListPopupIsUp()){
+    if(!Globals.getPlayerListPopupIsUp()){
         if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
             lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+        }else{
+            lst_userList.clearSelection();
         }
     }
 }//GEN-LAST:event_lst_userListMouseMoved

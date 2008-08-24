@@ -17,7 +17,7 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.frames.clientframe.panels;
+package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Client;
 import coopnetclient.Protocol;

@@ -19,7 +19,7 @@
 
 package coopnetclient.modules.listeners;
 
-import coopnetclient.frames.clientframe.panels.PrivateChatPanel;
+import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;

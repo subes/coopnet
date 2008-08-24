@@ -17,7 +17,7 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.frames.clientframe.panels;
+package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
@@ -438,8 +438,7 @@ public class RoomPanel extends javax.swing.JPanel {
             } else{
                 lst_userList.clearSelection();
             }
-        if(evt.getButton() == MouseEvent.BUTTON3){
-            Globals.setplayerListPopupIsUp(true);            
+        if(evt.getButton() == MouseEvent.BUTTON3){           
             lst_userList.getComponentPopupMenu().show(lst_userList, evt.getX(), evt.getY());
         }else
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
@@ -487,9 +486,11 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
 }//GEN-LAST:event_tp_chatOutputKeyTyped
 
 private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
-    if(!Globals.getplayerListPopupIsUp()){
+    if(!Globals.getPlayerListPopupIsUp()){
         if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
             lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+        }else{
+            lst_userList.clearSelection();
         }
     }
 }//GEN-LAST:event_lst_userListMouseMoved

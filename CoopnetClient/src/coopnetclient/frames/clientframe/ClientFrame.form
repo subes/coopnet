@@ -31,7 +31,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ContactListPanel(Globals.getContactList())"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new coopnetclient.frames.clientframe.QuickPanel(Globals.getContactList())"/>
       </AuxValues>
     </Component>
     <Menu class="javax.swing.JMenuBar" name="mbar">
