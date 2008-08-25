@@ -25,15 +25,30 @@ import coopnetclient.Protocol;
 
 public class JoinRoomPasswordFrame extends javax.swing.JFrame {
 
-    private String host_name = "";
-    private String channel;
+    private String host_name = null;
+    private String channel = null;
+    private String ID = null;
     
     /** Creates new form RoomJoinPasswordFrame */
     public JoinRoomPasswordFrame(String host_name,String channel) {
-        initComponents();
-        
+        initComponents();        
+        hideWrongPasswordNotification();
         this.host_name = host_name;
         this.channel=channel;
+    }
+    
+    public JoinRoomPasswordFrame(String ID) {
+        initComponents();
+        hideWrongPasswordNotification();
+        this.ID = ID;        
+    }
+    
+    public void showWrongPasswordNotification(){
+        lbl_errormsg.setText("Wrong Password!");
+    }
+    
+    public void hideWrongPasswordNotification(){
+        lbl_errormsg.setText("");
     }
 
     /** This method is called from within the constructor to
@@ -49,6 +64,7 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         pnl_input = new javax.swing.JPanel();
         lbl_roomPassword = new javax.swing.JLabel();
         pf_roomPassword = new javax.swing.JPasswordField();
+        lbl_errormsg = new javax.swing.JLabel();
 
         setTitle("Enter password");
         setResizable(false);
@@ -82,15 +98,19 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
             }
         });
 
+        lbl_errormsg.setForeground(new java.awt.Color(255, 0, 0));
+        lbl_errormsg.setText("Wrong Password!");
+
         javax.swing.GroupLayout pnl_inputLayout = new javax.swing.GroupLayout(pnl_input);
         pnl_input.setLayout(pnl_inputLayout);
         pnl_inputLayout.setHorizontalGroup(
             pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_inputLayout.createSequentialGroup()
+            .addGroup(pnl_inputLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pf_roomPassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-                    .addComponent(lbl_roomPassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE))
+                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pf_roomPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                    .addComponent(lbl_roomPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                    .addComponent(lbl_errormsg, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnl_inputLayout.setVerticalGroup(
@@ -99,20 +119,21 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
                 .addComponent(lbl_roomPassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pf_roomPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_errormsg))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addContainerGap(232, Short.MAX_VALUE))
-            .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(262, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,7 +143,7 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_join)
                     .addComponent(btn_cancel))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -133,7 +154,10 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         if (host_name != null) {
             Client.send(Protocol.joinRoom(host_name, passw),channel);
             this.setVisible(false);
+        }else if(ID != null){
+            Client.send(Protocol.joinRoomByID(ID, passw),null);
         }
+        hideWrongPasswordNotification();
     }//GEN-LAST:event_join
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
@@ -151,6 +175,7 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_join;
+    private javax.swing.JLabel lbl_errormsg;
     private javax.swing.JLabel lbl_roomPassword;
     private javax.swing.JPasswordField pf_roomPassword;
     private javax.swing.JPanel pnl_input;

@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient;
 
 import coopnetclient.enums.OperatingSystems;
@@ -44,48 +43,35 @@ import javax.swing.JFrame;
 public class Globals {
 
     //Constants
-    public static final int JDPLAY_MAXSEARCHRETRIES = 10;
-    
-    //Set via static{}
+    public static final int JDPLAY_MAXSEARCHRETRIES = 10;    //Set via static{}
     private static OperatingSystems operatingSystem;
-    private static String lastOpenedDir;
-    
-    //Preset value
+    private static String lastOpenedDir;    //Preset value
     private static boolean debug = false;
     private static final String clientVersion = "0.96.1";
     private static boolean loggedInStatus = false;
     private static boolean sleepModeStatus = false;
-    private static boolean playerListPopupIsUp = false;
-    
-    //First set when known
+    private static boolean playerListPopupIsUp = false;    //First set when known
     private static String thisPlayer_loginName;
     private static String thisPlayer_inGameName;
     private static String serverIP;
-    private static int serverPort;
-    
-    //Objects
+    private static int serverPort;    //Objects
     private static ClientFrame clientFrame;
-    
     private static ContactListModel contacts = new ContactListModel();
-    
     private static ChangePasswordFrame changePasswordFrame;
     private static ChannelListFrame channelListFrame;
     private static FavouritesFrame favouritesFrame;
     private static GameSettingsFrame gameSettingsFrame;
     private static SettingsFrame settingsFrame;
     private static ManageGamesFrame manageGamesFrame;
-    
     private static EditProfileFrame editProfileFrame;
     private static ShowProfileFrame showProfileFrame;
-    
     private static JoinRoomPasswordFrame roomJoinPasswordFrame;
     private static CreateRoomFrame createRoomFrame;
-    
-    private static BugReportFrame  bugReportFrame;
+    private static BugReportFrame bugReportFrame;
     private static TextPreviewFrame textPreviewFrame;
-    
     /*******************************************************************/
     
+
     static {
         //Detect OS
         if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
@@ -97,14 +83,14 @@ public class Globals {
         }
         //Set debug
         debug = Settings.getDebugMode();
-        
-        if(debug){
-            System.out.println("[L]\tOperatingSystem: "+operatingSystem.toString());
+
+        if (debug) {
+            System.out.println("[L]\tOperatingSystem: " + operatingSystem.toString());
         }
-        
+
     }
-    
-    public static void recolorFrames(){
+
+    public static void recolorFrames() {
         Colorizer.colorize(clientFrame);
         Colorizer.colorize(changePasswordFrame);
         Colorizer.colorize(channelListFrame);
@@ -112,13 +98,13 @@ public class Globals {
         Colorizer.colorize(gameSettingsFrame);
         Colorizer.colorize(settingsFrame);
         Colorizer.colorize(manageGamesFrame);
-    
+
         Colorizer.colorize(editProfileFrame);
         Colorizer.colorize(showProfileFrame);
-    
+
         Colorizer.colorize(roomJoinPasswordFrame);
         Colorizer.colorize(createRoomFrame);
-    
+
         Colorizer.colorize(bugReportFrame);
         Colorizer.colorize(textPreviewFrame);
     }
@@ -130,363 +116,393 @@ public class Globals {
     public static void setPlayerListPopupIsUp(boolean isUp){
          playerListPopupIsUp = isUp;
     }
-    
-    public static void enableDebug(){
+
+    public static void enableDebug() {
         debug = true;
     }
-    
-    public static boolean getDebug(){
+
+    public static boolean getDebug() {
         return debug;
     }
-    
-    public static String getClientVersion(){
+
+    public static String getClientVersion() {
         return clientVersion;
     }
-    
-    public static ContactListModel getContactList(){
+
+    public static ContactListModel getContactList() {
         return contacts;
     }
-    
-    public static void setLoggedInStatus(boolean value){
+
+    public static void setLoggedInStatus(boolean value) {
         loggedInStatus = value;
         getClientFrame().updateLoggedInStatus();
     }
-    
-    public static boolean getLoggedInStatus(){
+
+    public static boolean getLoggedInStatus() {
         return loggedInStatus;
     }
-    
-    public static void setThisPlayer_loginName(String value){
+
+    public static void setThisPlayer_loginName(String value) {
         thisPlayer_loginName = value;
     }
-    
-    public static String getThisPlayer_loginName(){
+
+    public static String getThisPlayer_loginName() {
         return thisPlayer_loginName;
     }
-    
-    public static void setThisPlayer_inGameName(String value){
+
+    public static void setThisPlayer_inGameName(String value) {
         thisPlayer_inGameName = value;
         Launcher.updatePlayerName();
     }
-    
-    public static String getThisPlayer_inGameName(){
-        return  thisPlayer_inGameName;
+
+    public static String getThisPlayer_inGameName() {
+        return thisPlayer_inGameName;
     }
-    
-    public static String getServerIP(){
+
+    public static String getServerIP() {
         return serverIP;
     }
-    
-    public static void setServerIP(String ip){
+
+    public static void setServerIP(String ip) {
         serverIP = ip;
     }
-    
-    public static int getServerPort(){
+
+    public static int getServerPort() {
         return serverPort;
     }
-    
-    public static void setServerPort(int port){
+
+    public static void setServerPort(int port) {
         serverPort = port;
     }
-    
-    public static OperatingSystems getOperatingSystem(){
+
+    public static OperatingSystems getOperatingSystem() {
         return operatingSystem;
     }
-    
-    public static void setSleepModeStatus(boolean value){
-        if(Settings.getSleepEnabled()){
+
+    public static void setSleepModeStatus(boolean value) {
+        if (Settings.getSleepEnabled()) {
             sleepModeStatus = value;
             TabOrganizer.updateSleepMode();
         }
     }
-    
-    public static boolean getSleepModeStatus(){
+
+    public static boolean getSleepModeStatus() {
         return sleepModeStatus;
     }
-    
-    public static void setLastOpenedDir(String value){
+
+    public static void setLastOpenedDir(String value) {
         lastOpenedDir = value;
     }
-    
-    public static String getLastOpenedDir(){
+
+    public static String getLastOpenedDir() {
         return lastOpenedDir;
     }
-    
-    public static void openClientFrame(){
-        if(clientFrame == null){
+
+    public static void openClientFrame() {
+        if (clientFrame == null) {
             clientFrame = new ClientFrame();
             setupFrame(clientFrame);
-        }else{
-            if(getDebug()){
+        } else {
+            if (getDebug()) {
                 System.out.println("[W]\tClientFrame is supposed to be created only once!");
             }
         }
     }
-    
-    public static void closeClientFrame(){
-        if(clientFrame != null){
+
+    public static void closeClientFrame() {
+        if (clientFrame != null) {
             clientFrame.dispose();
             clientFrame = null;
         }
     }
-    
-    public static ClientFrame getClientFrame(){
+
+    public static ClientFrame getClientFrame() {
         return clientFrame;
     }
-    
-    public static void openShowProfileFrame(String name, String email, String country, String webpage){
-        if(showProfileFrame != null){
+
+    public static void openShowProfileFrame(String name, String email, String country, String webpage) {
+        if (showProfileFrame != null) {
             Point prevLocation = showProfileFrame.getLocation();
             showProfileFrame.dispose();
             showProfileFrame = null;
             showProfileFrame = new ShowProfileFrame(name, email, country, webpage);
             setupFrame(showProfileFrame, prevLocation);
-        }else{
+        } else {
             showProfileFrame = new ShowProfileFrame(name, email, country, webpage);
             setupFrame(showProfileFrame);
         }
     }
-    
-    public static void closeShowProfileFrame(){
-        if(showProfileFrame != null){
+
+    public static void closeShowProfileFrame() {
+        if (showProfileFrame != null) {
             showProfileFrame.dispose();
             showProfileFrame = null;
         }
     }
-    
-    public static void openEditProfileFrame(String name, String ingamename, String email, String emailpublicity, String country, String webpage){
-        if(editProfileFrame != null){
+
+    public static void openEditProfileFrame(String name, String ingamename, String email, String emailpublicity, String country, String webpage) {
+        if (editProfileFrame != null) {
             Point prevLocation = editProfileFrame.getLocation();
             closeChangePasswordFrame();
             editProfileFrame.dispose();
             editProfileFrame = null;
             editProfileFrame = new EditProfileFrame(name, ingamename, email, emailpublicity, country, webpage);
             setupFrame(editProfileFrame, prevLocation);
-        }else{
+        } else {
             editProfileFrame = new EditProfileFrame(name, ingamename, email, emailpublicity, country, webpage);
             setupFrame(editProfileFrame);
         }
     }
-    
-    public static void closeEditProfileFrame(){
-        if(editProfileFrame != null){
+
+    public static void closeEditProfileFrame() {
+        if (editProfileFrame != null) {
             closeChangePasswordFrame();
             editProfileFrame.dispose();
             editProfileFrame = null;
         }
     }
-    
-    public static void openChangePasswordFrame(){
-        if(changePasswordFrame != null){
+
+    public static void openChangePasswordFrame() {
+        if (changePasswordFrame != null) {
             changePasswordFrame.setVisible(true);
-        }else{
+        } else {
             changePasswordFrame = new ChangePasswordFrame();
             setupFrame(changePasswordFrame);
         }
     }
-    
-    public static void closeChangePasswordFrame(){
-        if(changePasswordFrame != null){
+
+    public static void closeChangePasswordFrame() {
+        if (changePasswordFrame != null) {
             changePasswordFrame.dispose();
             changePasswordFrame = null;
         }
     }
-    
-    public static void openChannelListFrame(){
-        if(channelListFrame != null){
+
+    public static void openChannelListFrame() {
+        if (channelListFrame != null) {
             channelListFrame.setVisible(true);
-        }else{
+        } else {
             channelListFrame = new ChannelListFrame();
             setupFrame(channelListFrame);
         }
     }
-    
-    public static void closeChannelListFrame(){
-        if(channelListFrame != null){
+
+    public static void closeChannelListFrame() {
+        if (channelListFrame != null) {
             channelListFrame.dispose();
             channelListFrame = null;
         }
     }
-    
-    public static void openGameSettingsFrame(String gameName, String modName){
-        if(gameSettingsFrame != null){
+
+    public static void openGameSettingsFrame(String gameName, String modName) {
+        if (gameSettingsFrame != null) {
             gameSettingsFrame.setVisible(true);
-        }else{
+        } else {
             gameSettingsFrame = new GameSettingsFrame(gameName, modName);
             setupFrame(gameSettingsFrame);
         }
     }
-    
-    public static void openGameSettingsFrame(String gameName, String modName, String roomName , String password, int modIndex, int maxPlayers, boolean compatible){
-        if(gameSettingsFrame != null){
+
+    public static void openGameSettingsFrame(String gameName, String modName, String roomName, String password, int modIndex, int maxPlayers, boolean compatible) {
+        if (gameSettingsFrame != null) {
             gameSettingsFrame.setVisible(true);
-        }else{
+        } else {
             gameSettingsFrame = new GameSettingsFrame(gameName, modName, roomName, password, modIndex, maxPlayers, compatible);
             setupFrame(gameSettingsFrame);
         }
     }
-    
-    public static void closeGameSettingsFrame(){
-        if(gameSettingsFrame != null){
+
+    public static void closeGameSettingsFrame() {
+        if (gameSettingsFrame != null) {
             gameSettingsFrame.dispose();
             gameSettingsFrame = null;
         }
     }
+
+    public static void closeJoinRoomPasswordFrame(){
+        if (roomJoinPasswordFrame != null) {
+            roomJoinPasswordFrame.dispose();
+            roomJoinPasswordFrame = null;
+        }
+    }
     
-    public static void openJoinRoomPasswordFrame(String channel, String roomHost){
-        if(createRoomFrame != null){
+    public static void openJoinRoomPasswordFrame(String channel, String roomHost) {
+        if (createRoomFrame != null) {
             createRoomFrame.dispose();
             createRoomFrame = null;
-            if(getDebug()){
+            if (getDebug()) {
                 System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
             }
         }
-        if(roomJoinPasswordFrame != null){
+        if (roomJoinPasswordFrame != null) {
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
-            if(getDebug()){
+            if (getDebug()) {
                 System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
             }
         }
-        
+
         roomJoinPasswordFrame = new JoinRoomPasswordFrame(roomHost, channel);
         setupFrame(roomJoinPasswordFrame);
     }
-    
-    public static void openCreateRoomFrame(String channel){
-        if(createRoomFrame != null){
+
+    public static void openJoinRoomPasswordFrame(String ID) {
+        if (createRoomFrame != null) {
             createRoomFrame.dispose();
             createRoomFrame = null;
-            if(getDebug()){
+            if (getDebug()) {
                 System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
             }
         }
-        if(roomJoinPasswordFrame != null){
+        if (roomJoinPasswordFrame != null) {
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
-            if(getDebug()){
+            if (getDebug()) {
                 System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
             }
         }
-        
+
+        roomJoinPasswordFrame = new JoinRoomPasswordFrame(ID);
+        setupFrame(roomJoinPasswordFrame);
+    }
+
+    public static void showWrongPasswordNotification() {
+        if (roomJoinPasswordFrame == null) {
+            roomJoinPasswordFrame.showWrongPasswordNotification();
+        }
+    }
+
+    public static void openCreateRoomFrame(String channel) {
+        if (createRoomFrame != null) {
+            createRoomFrame.dispose();
+            createRoomFrame = null;
+            if (getDebug()) {
+                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
+            }
+        }
+        if (roomJoinPasswordFrame != null) {
+            roomJoinPasswordFrame.dispose();
+            roomJoinPasswordFrame = null;
+            if (getDebug()) {
+                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
+            }
+        }
+
         createRoomFrame = new CreateRoomFrame(channel);
         setupFrame(createRoomFrame);
     }
-    
-    public static void closeRoomCreationFrame(){
-        if(createRoomFrame != null){
+
+    public static void closeRoomCreationFrame() {
+        if (createRoomFrame != null) {
             createRoomFrame.dispose();
             createRoomFrame = null;
         }
-        if(roomJoinPasswordFrame != null){
-            roomJoinPasswordFrame.dispose();
-            roomJoinPasswordFrame = null;
-        }
+        closeJoinRoomPasswordFrame();
     }
-    
-    public static void openFavouritesFrame(){
-        if(favouritesFrame != null){
+
+    public static void openFavouritesFrame() {
+        if (favouritesFrame != null) {
             favouritesFrame.setVisible(true);
-        }else{
+        } else {
             favouritesFrame = new FavouritesFrame();
             setupFrame(favouritesFrame);
         }
     }
-    
-    public static void closeFavouritesFrame(){
-        if(favouritesFrame != null){
+
+    public static void closeFavouritesFrame() {
+        if (favouritesFrame != null) {
             favouritesFrame.dispose();
             favouritesFrame = null;
         }
     }
-    
-    public static void openSettingsFrame(){
-        if(settingsFrame != null){
+
+    public static void openSettingsFrame() {
+        if (settingsFrame != null) {
             settingsFrame.setVisible(true);
-        }else{
+        } else {
             settingsFrame = new SettingsFrame();
             setupFrame(settingsFrame);
         }
     }
-    
-    public static void closeSettingsFrame(){
-        if(settingsFrame != null){
+
+    public static void closeSettingsFrame() {
+        if (settingsFrame != null) {
             settingsFrame.dispose();
             settingsFrame = null;
         }
     }
-    
-    public static void openManageGamesFrame(){
-        if(manageGamesFrame != null){
+
+    public static void openManageGamesFrame() {
+        if (manageGamesFrame != null) {
             manageGamesFrame.setVisible(true);
-        }else{
+        } else {
             manageGamesFrame = new ManageGamesFrame();
             setupFrame(manageGamesFrame);
         }
     }
-    
-    public static void closeManageGamesFrame(){
-        if(manageGamesFrame != null){
+
+    public static void closeManageGamesFrame() {
+        if (manageGamesFrame != null) {
             manageGamesFrame.dispose();
             manageGamesFrame = null;
         }
     }
-    
-    public static void openBugReportFrame(){
-        if(bugReportFrame != null){
+
+    public static void openBugReportFrame() {
+        if (bugReportFrame != null) {
             bugReportFrame.setVisible(true);
-        }else{
+        } else {
             bugReportFrame = new BugReportFrame();
             setupFrame(bugReportFrame);
         }
     }
-    
-    public static void openBugReportFrame(Exception exception, String trafficLog){
-        if(bugReportFrame != null){
+
+    public static void openBugReportFrame(Exception exception, String trafficLog) {
+        if (bugReportFrame != null) {
             bugReportFrame.setVisible(true);
-        }else{
+        } else {
             bugReportFrame = new BugReportFrame(exception, trafficLog);
             setupFrame(bugReportFrame);
         }
     }
-    
-    public static void closeBugReportFrame(){
-        if(bugReportFrame != null){
+
+    public static void closeBugReportFrame() {
+        if (bugReportFrame != null) {
             closeTextPreviewFrame();
             bugReportFrame.dispose();
             bugReportFrame = null;
         }
     }
-    
-    public static void openTextPreviewFrame(String title, String text){
-        if(textPreviewFrame != null){
+
+    public static void openTextPreviewFrame(String title, String text) {
+        if (textPreviewFrame != null) {
             Point prevPosition = textPreviewFrame.getLocation();
             textPreviewFrame.dispose();
             textPreviewFrame = null;
             textPreviewFrame = new TextPreviewFrame(title, text);
             setupFrame(textPreviewFrame, prevPosition);
-        }else{
+        } else {
             textPreviewFrame = new TextPreviewFrame(title, text);
             setupFrame(textPreviewFrame);
         }
-        
+
     }
-    
-    public static void closeTextPreviewFrame(){
-        if(textPreviewFrame != null){
+
+    public static void closeTextPreviewFrame() {
+        if (textPreviewFrame != null) {
             textPreviewFrame.dispose();
             textPreviewFrame = null;
         }
     }
-    
-    private static void setupFrame(JFrame frame){
+
+    private static void setupFrame(JFrame frame) {
         frame.setLocationRelativeTo(null);
         Colorizer.colorize(frame);
         frame.pack();
         frame.setVisible(true);
     }
-    
-    private static void setupFrame(JFrame frame, Point position){
+
+    private static void setupFrame(JFrame frame, Point position) {
         frame.setLocation(position);
         Colorizer.colorize(frame);
         frame.pack();

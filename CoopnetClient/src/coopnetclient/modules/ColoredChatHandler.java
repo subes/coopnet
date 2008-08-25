@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.modules;
 
 import coopnetclient.Globals;
@@ -50,7 +49,7 @@ public class ColoredChatHandler {
         StyleConstants.setForeground(hlinkStyle, Color.BLUE);
         StyleConstants.setUnderline(hlinkStyle, true);
 
-        switch(chatStyle){
+        switch (chatStyle) {
             case SYSTEM:
                 if (coopnetclient.modules.Settings.getColorizeText()) {
                     StyleConstants.setForeground(nameStyle, coopnetclient.modules.Settings.getSystemMessageColor());
@@ -62,10 +61,10 @@ public class ColoredChatHandler {
 
                 StyleConstants.setFontFamily(messageStyle, "monospaced");
                 StyleConstants.setFontSize(messageStyle, coopnetclient.modules.Settings.getMessageSize());
-                
+
                 break;
             case WHISPER:
-                //Identical as USER atm, but we might want to change something sometime
+            //Identical as USER atm, but we might want to change something sometime
             case USER:
                 if (coopnetclient.modules.Settings.getColorizeText()) {
                     if (name.equals(Globals.getThisPlayer_loginName())) {
@@ -81,7 +80,7 @@ public class ColoredChatHandler {
 
                 StyleConstants.setFontFamily(messageStyle, coopnetclient.modules.Settings.getMessageStyle());
                 StyleConstants.setFontSize(messageStyle, coopnetclient.modules.Settings.getMessageSize());
-               
+
                 break;
             case WHISPER_NOTIFICATION:
                 if (coopnetclient.modules.Settings.getColorizeText()) {
@@ -94,7 +93,7 @@ public class ColoredChatHandler {
 
                 StyleConstants.setFontFamily(messageStyle, coopnetclient.modules.Settings.getMessageStyle());
                 StyleConstants.setFontSize(messageStyle, coopnetclient.modules.Settings.getMessageSize());
-                
+
                 break;
             default:
                 if (coopnetclient.modules.Settings.getColorizeBody()) {
@@ -134,7 +133,7 @@ public class ColoredChatHandler {
 
             name = "(" + dateformat.format(date) + ") " + name;
         }
-        
+
         if (message.startsWith("/me")) {
             name = "  **" + name;
             message = message.substring(3);
@@ -144,42 +143,35 @@ public class ColoredChatHandler {
             name = "    ";
         }
 
-        int linkstart = message.indexOf("http://");
-        int linkend = message.indexOf(' ', linkstart);
-        String href = null;
-        SimpleAttributeSet attr2 = new SimpleAttributeSet();
-        String messageend = null;
-        if (linkstart != -1) {
-            if (linkend == -1) {
-                linkend = message.length();
-            }
-            href = message.substring(linkstart, linkend);
-            attr2.addAttribute(HTML.Attribute.HREF, href);
-            messageend = message.substring(linkend);
-            message = message.substring(0, linkstart);
-        }
+
         try {
             tp_ChatOutput.setCaretPosition(tp_ChatOutput.getDocument().getLength());
             doc.insertString(doc.getLength(), "\n" + name, doc.getStyle(nameStyleName));
-            doc.insertString(doc.getLength(), message, doc.getStyle(messageStyleName));
-
-            if (linkstart != -1) {
-                StyledDocument m_doc = (StyledDocument) tp_ChatOutput.getDocument();
-                try {
-                    doc.insertString(doc.getLength(), href, doc.getStyle(hlinkStyleName));
-                    m_doc.setCharacterAttributes(m_doc.getLength() - href.length() - 1, m_doc.getLength(), attr2, false);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+            String[] messageWords = message.split(" ");
+            for (String word : messageWords) {
+                if (word.startsWith("http://") || word.startsWith("room://")) {
+                    //print link
+                    String href = word;
+                    SimpleAttributeSet attr2 = new SimpleAttributeSet();
+                    attr2.addAttribute(HTML.Attribute.HREF, href);
+                    try {
+                        doc.insertString(doc.getLength(), href, doc.getStyle(hlinkStyleName));
+                        doc.setCharacterAttributes(doc.getLength() - href.length() - 1, doc.getLength(), attr2, false);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    attr2.removeAttributes(attr2.getAttributeNames());
+                } else {//print normal text
+                    doc.insertString(doc.getLength(), word, doc.getStyle(messageStyleName));
                 }
-                attr2.removeAttributes(attr2.getAttributeNames());
-                doc.insertString(doc.getLength(), messageend, doc.getStyle(messageStyleName));
+                doc.insertString(doc.getLength(), " ", doc.getStyle(messageStyleName));
             }
 
         } catch (BadLocationException ex) {
             ex.printStackTrace();
         }
 
-        //autoscrolling
+//autoscrolling
         if (autoScroll) {
             tp_ChatOutput.setCaretPosition(doc.getLength());
             tp_ChatOutput.setSelectionStart(doc.getLength());
@@ -190,7 +182,7 @@ public class ColoredChatHandler {
             tp_ChatOutput.setSelectionEnd(end);
         }
 
-        //removing the styles again
+//removing the styles again
         doc.removeStyle(nameStyleName);
         doc.removeStyle(messageStyleName);
         doc.removeStyle(hlinkStyleName);

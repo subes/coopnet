@@ -186,6 +186,13 @@ public class CommandHandler {
                 String[] tmp = input.substring(5).split(Protocol.INFORMATION_DELIMITER); // join, ip,compatibility,hamachiip, maxplayers, modindex
                 TabOrganizer.openRoomPanel(false, currentchannel, tmp[5], tmp[1], tmp[2].equals("true"), tmp[3], new Integer(tmp[4]));
             } else 
+            if (input.startsWith("requestpassword")) {
+                String ID = input.substring(15) ;
+                Globals.openJoinRoomPasswordFrame(ID);
+            } else 
+            if (input.startsWith("wrongroompassword")) {                
+                Globals.showWrongPasswordNotification();
+            } else 
             //the server accepted the room creation request, must create a new room tab in server mode
             if (input.startsWith("create ")) {
                 String[] tmp = input.substring(7).split(Protocol.INFORMATION_DELIMITER);

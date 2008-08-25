@@ -139,7 +139,7 @@ public class TabOrganizer {
     public static void openRoomPanel(boolean isHost, String channel, String modindex, String ip, boolean compatible, String hamachiIp, int maxPlayers) {
         if (roomPanel == null) {
             roomPanel = new RoomPanel(isHost, channel, modindex, ip, compatible, hamachiIp, maxPlayers);
-
+            Globals.closeJoinRoomPasswordFrame();
             tabHolder.insertTab("Room", null, roomPanel, null, channelPanels.size());
 
             tabHolder.setSelectedComponent(roomPanel);

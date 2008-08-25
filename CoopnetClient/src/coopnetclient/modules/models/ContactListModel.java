@@ -275,6 +275,9 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         } else {
             group = groupOfContact(contactName);
         }
+        if(group == null){
+            return;
+        }
         if (group.offlinecontacts.contains(contactName)) {//was offline
             group.contacts.put(contactName, status);
             group.offlinecontacts.remove(contactName);

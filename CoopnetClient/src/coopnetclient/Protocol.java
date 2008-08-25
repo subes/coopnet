@@ -127,6 +127,10 @@ public class Protocol {
     public static String joinRoom(String hostname, String password) {
         return "join " + hostname + INFORMATION_DELIMITER + password;
     }
+    
+    public static String joinRoomByID(String ID, String password) {
+        return "joinID" + ID + INFORMATION_DELIMITER + password;
+    }
 
     public static String refresh() {
         return "refresh";

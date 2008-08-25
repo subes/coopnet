@@ -19,7 +19,9 @@
 
 package coopnetclient.modules.listeners;
 
+import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
+import coopnetclient.Protocol;
 import java.awt.Desktop;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -75,6 +77,10 @@ public class HyperlinkMouseListener extends MouseAdapter {
     }
 
     public static void openURL(String address) {
+        if(address.startsWith("room://")){
+            Client.send(Protocol.joinRoomByID(address.substring(7), ""), null);
+            return ;
+        }
         try {
             Desktop desktop = null;
             if (Desktop.isDesktopSupported()) {
