@@ -22,6 +22,7 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
+import java.awt.Color;
 
 public class JoinRoomPasswordFrame extends javax.swing.JFrame {
 
@@ -44,11 +45,12 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
     }
     
     public void showWrongPasswordNotification(){
+        lbl_errormsg.setForeground(Color.red);
         lbl_errormsg.setText("Wrong Password!");
     }
     
     public void hideWrongPasswordNotification(){
-        lbl_errormsg.setText("");
+        lbl_errormsg.setText(" ");
     }
 
     /** This method is called from within the constructor to
@@ -153,7 +155,6 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         String passw = new String(pf_roomPassword.getPassword());
         if (host_name != null) {
             Client.send(Protocol.joinRoom(host_name, passw),channel);
-            this.setVisible(false);
         }else if(ID != null){
             Client.send(Protocol.joinRoomByID(ID, passw),null);
         }

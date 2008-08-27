@@ -367,7 +367,7 @@ public class Globals {
     }
 
     public static void showWrongPasswordNotification() {
-        if (roomJoinPasswordFrame == null) {
+        if (roomJoinPasswordFrame != null) {
             roomJoinPasswordFrame.showWrongPasswordNotification();
         }
     }

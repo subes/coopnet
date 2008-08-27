@@ -187,7 +187,7 @@ public class CommandHandler {
                 TabOrganizer.openRoomPanel(false, currentchannel, tmp[5], tmp[1], tmp[2].equals("true"), tmp[3], new Integer(tmp[4]));
             } else 
             if (input.startsWith("requestpassword")) {
-                String ID = input.substring(15) ;
+                String ID = input.split(Protocol.INFORMATION_DELIMITER)[1];
                 Globals.openJoinRoomPasswordFrame(ID);
             } else 
             if (input.startsWith("wrongroompassword")) {                
