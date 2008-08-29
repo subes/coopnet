@@ -19,7 +19,6 @@
 
 package coopnetclient.frames.clientframe.tabs;
 
-import coopnetclient.frames.clientframe.*;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.modules.listeners.ChatInputKeyListener;
@@ -34,7 +33,6 @@ import coopnetclient.modules.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.models.ChannelStatusListModel;
 import coopnetclient.modules.listeners.HyperlinkMouseListener;
-import java.awt.Component;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -571,13 +569,15 @@ private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:
         if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
             lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
         }else{
-            lst_userList.clearSelection();
+           lst_userList.clearSelection();
         }
     }
 }//GEN-LAST:event_lst_userListMouseMoved
 
 private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseExited
-    lst_userList.clearSelection();
+    if(!Globals.getPlayerListPopupIsUp()){
+        lst_userList.clearSelection();
+    }
 }//GEN-LAST:event_lst_userListMouseExited
 
     public int getChannelChatHorizontalposition() {

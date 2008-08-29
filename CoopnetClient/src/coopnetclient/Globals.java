@@ -50,6 +50,7 @@ public class Globals {
     private static final String clientVersion = "0.96.1";
     private static boolean loggedInStatus = false;
     private static boolean sleepModeStatus = false;
+    private static boolean contactListPopupIsUp = false;
     private static boolean playerListPopupIsUp = false;    //First set when known
     private static String thisPlayer_loginName;
     private static String thisPlayer_inGameName;
@@ -69,6 +70,7 @@ public class Globals {
     private static CreateRoomFrame createRoomFrame;
     private static BugReportFrame bugReportFrame;
     private static TextPreviewFrame textPreviewFrame;
+    private static JFrame childFrame;
     /*******************************************************************/
     
 
@@ -109,12 +111,28 @@ public class Globals {
         Colorizer.colorize(textPreviewFrame);
     }
     
+    public static boolean getChildFrameExists(){
+        return childFrame == null;
+    }
+    
+    public static void setChildFrame(JFrame child){
+         childFrame = child;
+    }
+    
     public static boolean getPlayerListPopupIsUp(){
         return playerListPopupIsUp;
     }
     
     public static void setPlayerListPopupIsUp(boolean isUp){
          playerListPopupIsUp = isUp;
+    }
+    
+    public static boolean getContactListPopupIsUp(){
+        return contactListPopupIsUp;
+    }
+    
+    public static void setContactListPopupIsUp(boolean isUp){
+         contactListPopupIsUp = isUp;
     }
 
     public static void enableDebug() {

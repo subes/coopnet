@@ -49,9 +49,11 @@ public class ClientFrame extends javax.swing.JFrame {
     private static boolean quickPanelOrientationIsLeft = true;
     private static Border openQuickbarBorder = BorderFactory.createLoweredBevelBorder();
     private static Border closedQuickbarBorder = BorderFactory.createRaisedBevelBorder();
-
+    private static QuickPanel pnl_contactList;
+    
     /** Creates new form ClientFrame */
     public ClientFrame() {
+        pnl_contactList = new coopnetclient.frames.clientframe.QuickPanel(Globals.getContactList());
         initComponents();
         setQuickPanelPosition(Settings.getQuickPanelPostionisLeft());
         pnl_contactList.setVisible(false);
@@ -261,7 +263,6 @@ public class ClientFrame extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         tabpn_tabs = new javax.swing.JTabbedPane();
-        pnl_contactList = new QuickPanel(Globals.getContactList());
         slp_mainSplitPanel = new javax.swing.JSplitPane();
         pnl_toggleQuickBarLeft = new javax.swing.JPanel();
         pnl_toggleQuickBarRight = new javax.swing.JPanel();
@@ -304,9 +305,6 @@ public class ClientFrame extends javax.swing.JFrame {
                 tabpn_tabsComponentRemoved(evt);
             }
         });
-
-        pnl_contactList.setMinimumSize(new java.awt.Dimension(190, 100));
-        pnl_contactList.setPreferredSize(new java.awt.Dimension(250, 100));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CoopnetClient "+ Globals.getClientVersion());
@@ -832,7 +830,6 @@ private void pnl_toggleQuickBar1MouseEntered(java.awt.event.MouseEvent evt) {//G
     private javax.swing.JMenuItem mi_quit;
     private javax.swing.JSeparator mi_seperator;
     private javax.swing.JMenuItem mi_update;
-    private coopnetclient.frames.clientframe.QuickPanel pnl_contactList;
     private javax.swing.JPanel pnl_toggleQuickBarLeft;
     private javax.swing.JPanel pnl_toggleQuickBarRight;
     private javax.swing.JSplitPane slp_mainSplitPanel;

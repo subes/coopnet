@@ -100,7 +100,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         if (source == null) {
             return;
         }
-        final String subject = (String) source.getSelectedValue();
+        final String subject =playername.getText(); //(String) source.getSelectedValue();
         if (subject == null) {
             return;
         }

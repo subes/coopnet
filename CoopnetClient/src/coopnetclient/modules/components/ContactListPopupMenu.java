@@ -135,6 +135,12 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     }
 
     @Override
+    public void setVisible(boolean visible){
+        super.setVisible(visible);
+        Globals.setContactListPopupIsUp(visible);
+    }
+    
+    @Override
     public void actionPerformed(ActionEvent e) {
 
         String command = e.getActionCommand();
@@ -144,7 +150,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             model.toggleShowOfflineStatus();
         }
 
-        final String subject = (String) source.getSelectedValue();
+        final String subject = playername.getText();//(String) source.getSelectedValue();
 //Remove Contact
         if (command.equals("Accept")) {            
             Client.send(Protocol.acceptRequest(subject), null);

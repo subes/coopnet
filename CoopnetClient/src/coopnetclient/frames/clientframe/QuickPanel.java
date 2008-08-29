@@ -19,6 +19,7 @@
 package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.enums.ContactStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
@@ -204,15 +205,21 @@ private void lst_favouritesListMouseClicked(java.awt.event.MouseEvent evt) {//GE
 }//GEN-LAST:event_lst_favouritesListMouseClicked
 
 private void lst_contactListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseMoved
-    lst_contactList.setSelectedIndex(lst_contactList.locationToIndex(evt.getPoint()));
+    if(!Globals.getContactListPopupIsUp()){
+        lst_contactList.setSelectedIndex(lst_contactList.locationToIndex(evt.getPoint()));
+    }
 }//GEN-LAST:event_lst_contactListMouseMoved
 
 private void lst_favouritesListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_favouritesListMouseMoved
-    lst_favouritesList.setSelectedIndex(lst_favouritesList.locationToIndex(evt.getPoint()));
+     if(!Globals.getContactListPopupIsUp()){
+        lst_favouritesList.setSelectedIndex(lst_favouritesList.locationToIndex(evt.getPoint()));
+     }
 }//GEN-LAST:event_lst_favouritesListMouseMoved
 
 private void lst_contactListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseExited
-    lst_contactList.clearSelection();
+    if(!Globals.getContactListPopupIsUp()){
+        lst_contactList.clearSelection();
+    }    
 }//GEN-LAST:event_lst_contactListMouseExited
 
 private void lst_favouritesListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_favouritesListMouseExited

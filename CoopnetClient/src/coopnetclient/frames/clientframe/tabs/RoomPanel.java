@@ -496,7 +496,9 @@ private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:
 }//GEN-LAST:event_lst_userListMouseMoved
 
 private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseExited
-    lst_userList.clearSelection();
+    if(!Globals.getPlayerListPopupIsUp()){
+        lst_userList.clearSelection();
+    }
 }//GEN-LAST:event_lst_userListMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
