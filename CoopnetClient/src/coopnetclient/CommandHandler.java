@@ -371,8 +371,8 @@ public class CommandHandler {
                  Globals.getContactList().setStatus(tmp[1], status);
             } else if (input.startsWith("acceptedrequest")) {
                 String name = input.substring(15);
-                Globals.getContactList().addContact(name, ContactListModel.NO_GROUP, ContactStatuses.OFFLINE);
                 Globals.getContactList().removePending(name);
+                Globals.getContactList().addContact(name, ContactListModel.NO_GROUP, ContactStatuses.OFFLINE);
             } else if (input.startsWith("refusedrequest")) {
                 String name = input.substring(14);
                 Globals.getContactList().removePending(name);

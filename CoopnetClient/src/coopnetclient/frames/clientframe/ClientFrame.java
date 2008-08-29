@@ -208,9 +208,9 @@ public class ClientFrame extends javax.swing.JFrame {
         if (visibility) {
             if (lastdividerposition == null) {
                 if(quickPanelOrientationIsLeft){
-                    lastdividerposition = pnl_contactList.getSize().width;
+                    lastdividerposition = pnl_contactList.getPreferredSize().width;
                 }else{
-                    lastdividerposition = slp_mainSplitPanel.getWidth()  - pnl_contactList.getSize().width - DIVIDERWIDTH - slp_mainSplitPanel.getInsets().right;
+                    lastdividerposition = slp_mainSplitPanel.getWidth()  - pnl_contactList.getPreferredSize().width - DIVIDERWIDTH - slp_mainSplitPanel.getInsets().right;
                 }
             }
             slp_mainSplitPanel.setDividerSize(DIVIDERWIDTH);

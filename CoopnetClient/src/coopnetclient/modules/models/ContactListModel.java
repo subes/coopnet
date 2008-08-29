@@ -170,6 +170,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
     public void createNewGroup(String name){
         addGroup(name);
         Client.send(Protocol.createGroup(name), null);
+        fireContentsChanged(this, 0, getSize());
     }
     
     public void addGroup(String groupName) {
@@ -212,10 +213,6 @@ public class ContactListModel extends AbstractListModel implements EditableListM
     }
     //other methods
     public void addContact(String contactname, String groupName, ContactStatuses status) {
-        //dont add if already on list
-        if(pendingList.containsKey(contactname) ||  getStatus(contactname) != null  ){
-            return ;
-        }
         switch (status) {
             case PENDING_REQUEST:
                 pendingList.put(contactname, ContactStatuses.PENDING_REQUEST);
@@ -254,6 +251,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         addContact(contactName, tartgetGroup, status);
         fireContentsChanged(this, 0, getSize());
         Client.send(Protocol.moveToGroup(contactName,tartgetGroup), null);
+        fireContentsChanged(this, 0, getSize());
     }
 
     public void removePending(String contactname) {
@@ -359,5 +357,6 @@ public class ContactListModel extends AbstractListModel implements EditableListM
                 sizethisfar += g.size();
             }
         }
+        fireContentsChanged(this, 0, getSize());
     }
 }
