@@ -763,6 +763,9 @@ public class SettingsFrame extends javax.swing.JFrame {
                             .addComponent(lbl_noteText1))
                         .addGap(72, 72, 72))))
         );
+
+        pnl_QuckPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pnl_ContactList, pnl_General});
+
         pnl_QuckPanelLayout.setVerticalGroup(
             pnl_QuckPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_QuckPanelLayout.createSequentialGroup()
@@ -813,8 +816,9 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_save)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_cancel))
-            .addComponent(tabpn_settings, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_cancel)
+                .addContainerGap(381, Short.MAX_VALUE))
+            .addComponent(tabpn_settings, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

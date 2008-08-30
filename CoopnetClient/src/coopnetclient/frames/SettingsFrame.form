@@ -32,8 +32,9 @@
               <Component id="btn_save" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_cancel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="381" max="32767" attributes="0"/>
           </Group>
-          <Component id="tabpn_settings" alignment="0" min="-2" pref="590" max="-2" attributes="0"/>
+          <Component id="tabpn_settings" alignment="0" pref="590" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -837,11 +838,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="pnl_ContactList" min="-2" max="-2" attributes="1"/>
+                              <Component id="pnl_ContactList" linkSize="4" min="-2" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="pnl_General" max="32767" attributes="1"/>
+                              <Component id="pnl_General" linkSize="4" max="32767" attributes="1"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="lbl_note1" min="-2" max="-2" attributes="0"/>
