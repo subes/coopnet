@@ -170,11 +170,11 @@ public class Game {
     }
     
     public boolean getNoSpacesFlag(String modname) {
-        return getFieldValue("MAPPATH", modname).toLowerCase().equals("true");
+        return getFieldValue("NOSPACES", modname).toLowerCase().equals("true");
     }
 
     public void setNoSpacesFlag(boolean value) {
-        fields.put("MAPPATH", value?"true":"false");
+        fields.put("NOSPACES", value?"true":"false");
     }
 
     public String getMapPath(String modname) {
