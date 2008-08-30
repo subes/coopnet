@@ -116,6 +116,11 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     public void setContactActionVisibility(boolean isVisible) {
         moveto.setVisible(isVisible);
         deleteContact.setVisible(isVisible);
+        deleteContact.setVisible(isVisible);
+        nudge.setVisible(isVisible);
+        showProfile.setVisible(isVisible);
+        whisper.setVisible(isVisible);
+        sendfile.setVisible(isVisible);
     }
     public void setPendingActionVisibility(boolean isVisible) {
         accept.setVisible(isVisible);
