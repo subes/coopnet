@@ -35,9 +35,9 @@ public class ParameterLaunchInfo extends LaunchInfo {
         binaryPath = GameDatabase.getLaunchPathWithExe(gameName, childName);
         
         if(isHost){
-            parameters = " " + GameDatabase.getHostPattern(gameName, childName);
+            parameters = " \"" + GameDatabase.getHostPattern(gameName, childName) + "\"";
         }else{
-            parameters = " " + GameDatabase.getJoinPattern(gameName, childName);
+            parameters = " \"" + GameDatabase.getJoinPattern(gameName, childName) + "\"";
         }
     }
     
@@ -49,7 +49,11 @@ public class ParameterLaunchInfo extends LaunchInfo {
         String ret = parameters;
         
         ret = ret.replace("{HOSTIP}", this.getHostIP());
-        ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName());
+        if(GameDatabase.getNoSpacesFlag(getGameName(), getChildName())){
+            ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName().replace(" ", "_"));
+        }else{
+            ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName());
+        }
         
         if(TempGameSettings.getMap() != null){
             ret = ret.replace("{MAP}", TempGameSettings.getMap());

@@ -1,4 +1,4 @@
-VERSION 7
+VERSION 8
 {
 NAME=Age of Empires 2
 ID=AE2
@@ -22,6 +22,7 @@ REGENTRY=HKEY_LOCAL_MACHINE\SOFTWARE\Unreal Technology\Installed Apps\UnrealTour
 EXE=System\UnrealTournament.exe
 MAPPATH=Maps
 MAPEXT=UNR
+NOSPACES=true
 SETTINGS:(
 GameMode^CHOISE^GAMEMODE^^Capture the Flag=CTFGame^Deathmatch=DeathMatchPlus^Domination=Domination^Assault=Assault^LastManStanding=LastManStanding^TDarkMatch=TDarkMatch
 timelimit^NUMBER^TIMELIMIT^0^0^999
@@ -41,6 +42,7 @@ REGENTRY=HKEY_LOCAL_MACHINE\SOFTWARE\Unreal Technology\Installed Apps\UT2004\Fol
 EXE=\System\UT2004.exe
 MAPPATH=\Maps\
 MAPEXT=ut2
+NOSPACES=true
 SETTINGS:(
 gamemode^CHOISE^GAMEMODE^^Assault=UT2k4Assault.ASGameInfoX^Capture the Flag=XGame.xCTFGame^Deathmatch=XGame.xDeathMatch^Bombing Run=XGame.xBombingRun^DoubleDomination=xGame.xDoubleDom^Invasion=SkaarjPack.Invasion^LastManStanding=BonusPack.xLastManStandingGame^Mutant=xMutantGame^Onslaught=Onslaught.ONSOnslaughtGame^Team Deathmatch=XGame.xTeamGame
 timelimit^NUMBER^TIMELIMIT^0^0^999
