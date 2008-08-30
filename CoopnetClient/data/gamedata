@@ -36,7 +36,7 @@ beta
 InstantLaunchable
 ID=UT4
 LAUNCHMETHOD=PARAMETER
-LAUNCHPATTERN= server {MAP}?Listen?Name={NAME}?game={GAMEMODE}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?NumBots={BOTS}?GoalScore={GOALSCORE} -port={PORT}
+LAUNCHPATTERN=server {MAP}?Listen?Name={NAME}?game={GAMEMODE}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?NumBots={BOTS}?GoalScore={GOALSCORE} -port={PORT}
 JOINPATTERN={HOSTIP}:{PORT}/?Name={NAME}
 REGENTRY=HKEY_LOCAL_MACHINE\SOFTWARE\Unreal Technology\Installed Apps\UT2004\Folder
 EXE=\System\UT2004.exe
