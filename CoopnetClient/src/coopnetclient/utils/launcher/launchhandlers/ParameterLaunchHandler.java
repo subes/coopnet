@@ -45,6 +45,9 @@ public class ParameterLaunchHandler extends LaunchHandler {
         Process p = null;
         try {
             Runtime rt = Runtime.getRuntime();
+            if(Globals.getDebug()){
+                System.out.println(launchInfo.getBinaryPath()+launchInfo.getParameters());
+            }
             p = rt.exec(launchInfo.getBinaryPath()+launchInfo.getParameters());
             try {
                 p.waitFor();

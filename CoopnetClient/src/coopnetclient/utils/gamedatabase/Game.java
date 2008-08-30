@@ -168,6 +168,14 @@ public class Game {
             mods.get(indexOfMod(modname)).settings = settings;
         }        
     }
+    
+    public boolean getNoSpacesFlag(String modname) {
+        return getFieldValue("MAPPATH", modname).toLowerCase().equals("true");
+    }
+
+    public void setNoSpacesFlag(boolean value) {
+        fields.put("MAPPATH", value?"true":"false");
+    }
 
     public String getMapPath(String modname) {
         return getFieldValue("MAPPATH", modname);

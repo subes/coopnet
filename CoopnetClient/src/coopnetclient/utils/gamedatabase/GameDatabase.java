@@ -158,6 +158,14 @@ public class GameDatabase {
         return "";
     }
 
+    public static void setNoSpacesFlag(String gamename, boolean flag) {
+        gameData.get(indexOfGame(gamename)).setNoSpacesFlag(flag);
+    }
+
+    public static boolean getNoSpacesFlag(String gamename, String modname) {
+        return gameData.get(indexOfGame(gamename)).getNoSpacesFlag(modname);
+    }
+    
     public static void setGameSettings(String gamename, String modname, ArrayList<GameSetting> settings) {
         gameData.get(indexOfGame(gamename)).setGameSettings(modname, settings);
     }
