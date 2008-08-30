@@ -174,7 +174,7 @@ public class Game {
         if(val == null){
             return false;
         }
-        return true;
+        return val.toLowerCase().equals("true");
     }
 
     public void setNoSpacesFlag(boolean value) {
