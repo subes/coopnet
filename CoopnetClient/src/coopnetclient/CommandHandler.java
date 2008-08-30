@@ -73,6 +73,7 @@ public class CommandHandler {
                                     "Client outdated", JOptionPane.YES_NO_OPTION);
                             if (n == JOptionPane.YES_OPTION) {
                                 try {
+                                    FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", "./CoopnetUpdater.jar");
                                     Runtime rt = Runtime.getRuntime();
                                     rt.exec("java -jar CoopnetUpdater.jar");
                                     Globals.getClientFrame().quit();
