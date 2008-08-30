@@ -1,3 +1,12 @@
+2008/08/30: CoopnetClient 0.97.0
+  - Many Bugfixes and minor improvements
+  - Communication changes between Server and Client
+  - Instand Launch
+  - QuickPanel with ContactList
+  - Reimplemented launcher
+  - Room URL & Invite
+  - Instant Launch
+
 2008/07/02: CoopnetClient 0.96.1
   - Many Bugfixes and minor improvements
   - Communication changes between Server and Client
