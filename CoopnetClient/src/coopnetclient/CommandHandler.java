@@ -184,8 +184,8 @@ public class CommandHandler {
             } else 
             //the server accepted the join request, must create a new room tab now in client mode
             if (input.startsWith("join ")) {
-                String[] tmp = input.substring(5).split(Protocol.INFORMATION_DELIMITER); // join, ip,compatibility,hamachiip, maxplayers, modindex
-                TabOrganizer.openRoomPanel(false, currentchannel, tmp[5], tmp[1], tmp[2].equals("true"), tmp[3], new Integer(tmp[4]));
+                String[] tmp = input.split(Protocol.INFORMATION_DELIMITER); // ip,compatibility,hamachiip, maxplayers, modindex, hostname
+                TabOrganizer.openRoomPanel(false, currentchannel, tmp[5], tmp[1], tmp[2].equals("true"), tmp[3], new Integer(tmp[4]), tmp[6]);
             } else 
             if (input.startsWith("requestpassword")) {
                 String ID = input.split(Protocol.INFORMATION_DELIMITER)[1];
@@ -200,7 +200,7 @@ public class CommandHandler {
                 boolean compatible = Boolean.valueOf(tmp[1]);
                 int maxplayers = Integer.valueOf(tmp[2]);
                 String modindex = tmp.length>3?tmp[3]:"";
-                TabOrganizer.openRoomPanel(true, currentchannel, modindex, "", compatible, "", maxplayers);
+                TabOrganizer.openRoomPanel(true, currentchannel, modindex, "", compatible, "", maxplayers, Globals.getThisPlayer_loginName());
             } else 
             //server accepted leave request, must delete room tab
             if (input.startsWith("leave")) {

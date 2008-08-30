@@ -20,6 +20,7 @@
 package coopnetclient.modules.renderers;
 
 import coopnetclient.Globals;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Colorizer;
 import coopnetclient.modules.Settings;
 import java.awt.Color;
@@ -119,6 +120,9 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
 
         } else {
             setText("<html><pre>&nbsp;" + value.toString() + "</pre></html>");
+        }
+        if(value.toString().equals( TabOrganizer.getRoomPanel().hostName )){
+            setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
         }
         
         return this;

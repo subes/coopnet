@@ -54,19 +54,21 @@ public class RoomPanel extends javax.swing.JPanel {
     private PlayerListPopupMenu mypopup;
     public String gameName;
     public String childName;
+    public String hostName;
     private String hostIP;
     private String hamachiHostIP;
     private int maxPlayers;
     private HashMap<String, String> gamesettings = new HashMap<String, String>();
     private RoomStatusListCellRenderer roomStatusListCR;
 
-    public RoomPanel(boolean isHost, String channel, String modindex, String hostIP, boolean compatible, String hamachiIp, int maxPlayers) {
+    public RoomPanel(boolean isHost, String channel, String modindex, String hostIP, boolean compatible, String hamachiIp, int maxPlayers,String hostName) {
         this.gameName = channel;
         this.maxPlayers = maxPlayers;
         this.isHost = isHost;
         this.hostIP = hostIP;
         this.hamachiHostIP = hamachiIp;
         this.users = new SortedListModel();
+        this.hostName = hostName;
         users.add(Globals.getThisPlayer_loginName());
         this.compatible = compatible;
         
@@ -181,7 +183,7 @@ public class RoomPanel extends javax.swing.JPanel {
     }
 
     public void removeMember(String playername) {
-        roomStatusListCR.readyPlayer(playername);
+        roomStatusListCR.removePlayer(playername);
         users.removeElement(playername);
         lst_userList.repaint();
     }
