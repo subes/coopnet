@@ -57,6 +57,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         
         this.add(new JSeparator());
         
+        this.add(makeMenuItem("Invite to room"));
         this.add(makeMenuItem("Nudge"));
         this.add(makeMenuItem("Whisper..."));
         this.add(makeMenuItem("Send file..."));
@@ -122,6 +123,8 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             TabOrganizer.openPrivateChatPanel(subject, true);
         } else if (command.equals("Show profile...")) {
             Client.send(Protocol.requestProfile(subject), null);
+        } else if (command.equals("Invite to room")) {
+            Client.send(Protocol.sendInvite(subject), null);
         } else if (command.equals("Nudge")) {
             Client.send(Protocol.nudge(subject), null);
         } else if (command.equals("Send file...")) {

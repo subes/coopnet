@@ -50,6 +50,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem showProfile;
     private JMenuItem whisper;
     private JMenuItem sendfile;
+    private JMenuItem invite;
     private JMenuItem refresh;
     private JMenu moveto;
     private JCheckBoxMenuItem hideOffline;
@@ -79,6 +80,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         hideOffline = new JCheckBoxMenuItem("Hide offline contacts");
         hideOffline.addActionListener(this);
         toggle = makeMenuItem("Open/Collapse");
+        invite = makeMenuItem("Invite to room");
 
         this.add(playername);
         this.add(new JSeparator());
@@ -90,6 +92,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(showProfile);
         this.add(whisper);
         this.add(sendfile);
+        this.add(invite);
         this.add(refresh);
         this.add(moveto);
         this.add(new JSeparator());
@@ -202,8 +205,11 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                 TabOrganizer.openPrivateChatPanel(subject, true);
             }
         } else if (command.equals("Nudge")) {
-            Client.send(Protocol.nudge(subject), null);
-        } else if (command.equals("Show profile...")) {
+            Client.send(Protocol.nudge(subject), null);            
+        } else if (command.equals("Invite to room")) {
+            Client.send(Protocol.sendInvite(subject), null);
+        }         
+        else if (command.equals("Show profile...")) {
             Client.send(Protocol.requestProfile(subject), null);
         } else if (command.equals("Send file...")) {
             if (model.getStatus(subject) != ContactStatuses.OFFLINE) {

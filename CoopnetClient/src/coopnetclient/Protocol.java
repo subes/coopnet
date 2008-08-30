@@ -198,6 +198,10 @@ public class Protocol {
         return "ban " + playername;
     }
 
+    public static String sendInvite(String subject) {
+        return "inviteuser"+subject;
+    }
+
     public static String turnTransferAround(String username,String filename) {
         return "TurnAround"  + INFORMATION_DELIMITER +username + INFORMATION_DELIMITER + filename ;
     }
