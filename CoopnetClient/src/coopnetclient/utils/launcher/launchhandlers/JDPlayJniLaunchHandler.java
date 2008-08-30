@@ -39,7 +39,7 @@ public class JDPlayJniLaunchHandler extends LaunchHandler {
             } catch (UnsatisfiedLinkError e) {
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "Error while initializing:" + e.getMessage(),
-                    ChatStyles.SYSTEM);
+                    ChatStyles.SYSTEM,false);
                 return false;
             }
             jdplay = new JDPlay(Globals.getThisPlayer_inGameName(), Globals.JDPLAY_MAXSEARCHRETRIES, Globals.getDebug());

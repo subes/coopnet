@@ -52,6 +52,9 @@ public class SettingsFrame extends javax.swing.JFrame {
         cmb_QuickPanelPosition.setSelectedIndex( Settings.getQuickPanelPostionisLeft() ?0:1);
         spn_DividerWidth.setValue(Settings.getQuickPanelDividerWidth());
         
+        cb_TextNotification.setSelected(Settings.getContactStatusChangeTextNotification());
+        cb_SoundNotification.setSelected(Settings.getContactStatusChangeSoundNotification());
+                
         tf_dplayEnv.setText(coopnetclient.modules.Settings.getWineCommand());
         tf_transferPort.setText(coopnetclient.modules.Settings.getFiletTansferPort()+"");
 
@@ -180,14 +183,18 @@ public class SettingsFrame extends javax.swing.JFrame {
         cb_nativeStyle = new javax.swing.JCheckBox();
         lbl_noteText = new javax.swing.JLabel();
         lbl_note = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        pnl_QuckPanel = new javax.swing.JPanel();
+        pnl_General = new javax.swing.JPanel();
         lbl_quickpanelposition = new javax.swing.JLabel();
         cmb_QuickPanelPosition = new javax.swing.JComboBox();
         lbl_DividerWidth = new javax.swing.JLabel();
         spn_DividerWidth = new javax.swing.JSpinner();
         lbl_noteText1 = new javax.swing.JLabel();
         lbl_note1 = new javax.swing.JLabel();
+        pnl_ContactList = new javax.swing.JPanel();
+        lbl_StatusChangeNotification = new javax.swing.JLabel();
+        cb_TextNotification = new javax.swing.JCheckBox();
+        cb_SoundNotification = new javax.swing.JCheckBox();
         btn_save = new javax.swing.JButton();
         btn_cancel = new javax.swing.JButton();
         btn_apply = new javax.swing.JButton();
@@ -205,6 +212,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         lbl_homeChannel.setText("Home channel:");
 
         cmb_homeChannel.setModel(new javax.swing.DefaultComboBoxModel(GameDatabase.gameNames()));
+        cmb_homeChannel.setMinimumSize(new java.awt.Dimension(5, 20));
 
         cb_sleepMode.setText("Sleep mode");
 
@@ -222,7 +230,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_generalLayout.createSequentialGroup()
                         .addComponent(lbl_homeChannel, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmb_homeChannel, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cmb_homeChannel, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnl_generalLayout.createSequentialGroup()
                         .addComponent(lbl_dplayEnv)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -237,8 +245,8 @@ public class SettingsFrame extends javax.swing.JFrame {
             .addGroup(pnl_generalLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmb_homeChannel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_homeChannel))
+                    .addComponent(lbl_homeChannel)
+                    .addComponent(cmb_homeChannel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_dplayEnv)
@@ -272,9 +280,7 @@ public class SettingsFrame extends javax.swing.JFrame {
             .addGroup(pnl_networkLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_networkLayout.createSequentialGroup()
-                        .addComponent(cb_autoLogin)
-                        .addContainerGap(460, Short.MAX_VALUE))
+                    .addComponent(cb_autoLogin)
                     .addGroup(pnl_networkLayout.createSequentialGroup()
                         .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_receiveDir)
@@ -283,10 +289,10 @@ public class SettingsFrame extends javax.swing.JFrame {
                         .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tf_transferPort, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnl_networkLayout.createSequentialGroup()
-                                .addComponent(tf_receiveDir, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_browseReceiveDir)))
-                        .addGap(167, 167, 167))))
+                                .addComponent(tf_receiveDir, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_browseReceiveDir)))))
+                .addContainerGap())
         );
         pnl_networkLayout.setVerticalGroup(
             pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -294,8 +300,8 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_receiveDir)
-                    .addComponent(tf_receiveDir, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_browseReceiveDir))
+                    .addComponent(btn_browseReceiveDir)
+                    .addComponent(tf_receiveDir, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_transferPort)
@@ -642,7 +648,7 @@ public class SettingsFrame extends javax.swing.JFrame {
 
         tabpn_settings.addTab("Body", pnl_body);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("General"));
+        pnl_General.setBorder(javax.swing.BorderFactory.createTitledBorder("General"));
 
         lbl_quickpanelposition.setText("Position:");
 
@@ -653,74 +659,109 @@ public class SettingsFrame extends javax.swing.JFrame {
         spn_DividerWidth.setModel(new javax.swing.SpinnerNumberModel(5, 0, 100, 1));
         spn_DividerWidth.setEditor(new javax.swing.JSpinner.NumberEditor(spn_DividerWidth, ""));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnl_GeneralLayout = new javax.swing.GroupLayout(pnl_General);
+        pnl_General.setLayout(pnl_GeneralLayout);
+        pnl_GeneralLayout.setHorizontalGroup(
+            pnl_GeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_GeneralLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(pnl_GeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl_GeneralLayout.createSequentialGroup()
                         .addComponent(lbl_quickpanelposition)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmb_QuickPanelPosition, 0, 227, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cmb_QuickPanelPosition, 0, 206, Short.MAX_VALUE))
+                    .addGroup(pnl_GeneralLayout.createSequentialGroup()
                         .addComponent(lbl_DividerWidth)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(spn_DividerWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lbl_DividerWidth, lbl_quickpanelposition});
+        pnl_GeneralLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lbl_DividerWidth, lbl_quickpanelposition});
 
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        pnl_GeneralLayout.setVerticalGroup(
+            pnl_GeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_GeneralLayout.createSequentialGroup()
+                .addGroup(pnl_GeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_quickpanelposition, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmb_QuickPanelPosition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnl_GeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_DividerWidth)
                     .addComponent(spn_DividerWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_DividerWidth, spn_DividerWidth});
+        pnl_GeneralLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_DividerWidth, spn_DividerWidth});
 
         lbl_noteText1.setText("<html>Changes to general settings take effect<br>after restarting Coopnet</html>");
 
         lbl_note1.setText("<html><b>Note:");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        pnl_ContactList.setBorder(javax.swing.BorderFactory.createTitledBorder("ContactList"));
+
+        lbl_StatusChangeNotification.setText("Contact status-change notifications:");
+
+        cb_TextNotification.setText("Text");
+
+        cb_SoundNotification.setText("Sound");
+
+        javax.swing.GroupLayout pnl_ContactListLayout = new javax.swing.GroupLayout(pnl_ContactList);
+        pnl_ContactList.setLayout(pnl_ContactListLayout);
+        pnl_ContactListLayout.setHorizontalGroup(
+            pnl_ContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_ContactListLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnl_ContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cb_SoundNotification)
+                    .addComponent(cb_TextNotification)
+                    .addComponent(lbl_StatusChangeNotification))
+                .addContainerGap(111, Short.MAX_VALUE))
+        );
+        pnl_ContactListLayout.setVerticalGroup(
+            pnl_ContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_ContactListLayout.createSequentialGroup()
+                .addComponent(lbl_StatusChangeNotification)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(cb_TextNotification)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cb_SoundNotification)
+                .addContainerGap(104, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout pnl_QuckPanelLayout = new javax.swing.GroupLayout(pnl_QuckPanel);
+        pnl_QuckPanel.setLayout(pnl_QuckPanelLayout);
+        pnl_QuckPanelLayout.setHorizontalGroup(
+            pnl_QuckPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_QuckPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnl_QuckPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(pnl_ContactList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnl_General, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl_QuckPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbl_note1)
                     .addComponent(lbl_noteText1))
-                .addGap(51, 51, 51))
+                .addGap(72, 72, 72))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+        pnl_QuckPanelLayout.setVerticalGroup(
+            pnl_QuckPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_QuckPanelLayout.createSequentialGroup()
+                .addGroup(pnl_QuckPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl_QuckPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(pnl_General, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnl_QuckPanelLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(lbl_note1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbl_noteText1)))
-                .addContainerGap(212, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnl_ContactList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        tabpn_settings.addTab("QuckPanel", jPanel2);
+        tabpn_settings.addTab("QuckPanel", pnl_QuckPanel);
 
         btn_save.setText("Save");
         btn_save.addActionListener(new java.awt.event.ActionListener() {
@@ -872,6 +913,9 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             Settings.setQuickPanelPostionisLeft(cmb_QuickPanelPosition.getSelectedIndex() == 0);
             Settings.setQuickPanelDividerWidth(Integer.valueOf(spn_DividerWidth.getValue().toString()));
             
+            Settings.setContactStatusChangeTextNotification(cb_TextNotification.isSelected());
+            Settings.setContactStatusChangeSoundNotification(cb_SoundNotification.isSelected());
+            
             Settings.setAutoLogin(cb_autoLogin.isSelected());
             Settings.setSoundEnabled(cb_sounds.isSelected());
             Settings.setTimeStampEnabled(cb_timeStamps.isSelected());
@@ -951,6 +995,8 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     private javax.swing.JButton btn_userMessages;
     private javax.swing.JButton btn_whisperMessages;
     private javax.swing.JButton btn_yourUsername;
+    private javax.swing.JCheckBox cb_SoundNotification;
+    private javax.swing.JCheckBox cb_TextNotification;
     private javax.swing.JCheckBox cb_autoLogin;
     private javax.swing.JCheckBox cb_colorizeBody;
     private javax.swing.JCheckBox cb_colorizeText;
@@ -963,9 +1009,8 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     private javax.swing.JComboBox cmb_playerMessagesType;
     private javax.swing.JComboBox cmb_playerNamesType;
     private javax.swing.JComboBox cmb_style;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lbl_DividerWidth;
+    private javax.swing.JLabel lbl_StatusChangeNotification;
     private javax.swing.JLabel lbl_background;
     private javax.swing.JLabel lbl_dplayEnv;
     private javax.swing.JLabel lbl_foreground;
@@ -990,6 +1035,9 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     private javax.swing.JLabel lbl_userMessages;
     private javax.swing.JLabel lbl_whisperMessages;
     private javax.swing.JLabel lbl_yourUsername;
+    private javax.swing.JPanel pnl_ContactList;
+    private javax.swing.JPanel pnl_General;
+    private javax.swing.JPanel pnl_QuckPanel;
     private javax.swing.JPanel pnl_body;
     private javax.swing.JPanel pnl_bodyColors;
     private javax.swing.JPanel pnl_general;

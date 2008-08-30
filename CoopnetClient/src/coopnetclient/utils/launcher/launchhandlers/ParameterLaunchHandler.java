@@ -53,7 +53,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
         } catch (IOException e) {
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "Error while launching: " + e.getMessage(),
-                    ChatStyles.SYSTEM);
+                    ChatStyles.SYSTEM,false);
         }
         return (p.exitValue() == 0 ? true : false);
     }

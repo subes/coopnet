@@ -21,13 +21,13 @@ package coopnetclient.enums;
 
 public enum ContactStatuses {
 
-    PENDING_REQUEST, //request to this palyer
-    PENDING_CONTACT, //the requests of this palyer to others
-    CHATTING,
-    IN_ROOM,
-    PLAYING,
-    OFFLINE,
-    GROUPNAME_OPEN,
-    GROUPNAME_CLOSED
+    PENDING_REQUEST, //0 request to this palyer
+    PENDING_CONTACT, //1 the requests of this palyer to others
+    CHATTING,        //2
+    IN_ROOM,         //3
+    PLAYING,         //4
+    OFFLINE,         //5
+    GROUPNAME_OPEN,  //6
+    GROUPNAME_CLOSED //7
 
 }

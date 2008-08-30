@@ -79,7 +79,7 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="lbl_homeChannel" linkSize="3" pref="115" max="32767" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cmb_homeChannel" min="-2" pref="465" max="-2" attributes="1"/>
+                              <Component id="cmb_homeChannel" min="-2" pref="446" max="-2" attributes="1"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lbl_dplayEnv" linkSize="3" min="-2" max="-2" attributes="1"/>
@@ -96,8 +96,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="cmb_homeChannel" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                           <Component id="lbl_homeChannel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmb_homeChannel" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -128,6 +128,9 @@
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="new javax.swing.DefaultComboBoxModel(GameDatabase.gameNames())" type="code"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[5, 20]"/>
                 </Property>
               </Properties>
             </Component>
@@ -160,10 +163,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="cb_autoLogin" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="460" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="cb_autoLogin" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="lbl_receiveDir" alignment="0" min="-2" max="-2" attributes="1"/>
@@ -173,14 +173,14 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="tf_transferPort" min="-2" pref="70" max="-2" attributes="1"/>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="tf_receiveDir" min="-2" pref="202" max="-2" attributes="1"/>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="tf_receiveDir" min="-2" pref="355" max="-2" attributes="1"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="btn_browseReceiveDir" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="167" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -190,8 +190,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbl_receiveDir" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tf_receiveDir" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                           <Component id="btn_browseReceiveDir" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tf_receiveDir" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -821,7 +821,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel2">
+        <Container class="javax.swing.JPanel" name="pnl_QuckPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="QuckPanel">
@@ -833,15 +833,18 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel1" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="pnl_ContactList" alignment="0" max="32767" attributes="1"/>
+                          <Component id="pnl_General" alignment="0" max="32767" attributes="1"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lbl_note1" min="-2" max="-2" attributes="0"/>
                           <Component id="lbl_noteText1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -849,9 +852,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                              <Component id="pnl_General" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
@@ -860,13 +863,15 @@
                               <Component id="lbl_noteText1" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="212" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="pnl_ContactList" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="jPanel1">
+            <Container class="javax.swing.JPanel" name="pnl_General">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -884,7 +889,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="lbl_quickpanelposition" linkSize="1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cmb_QuickPanelPosition" pref="227" max="32767" attributes="0"/>
+                                  <Component id="cmb_QuickPanelPosition" pref="206" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="lbl_DividerWidth" linkSize="1" min="-2" max="-2" attributes="0"/>
@@ -956,6 +961,60 @@
                 <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Note:"/>
               </Properties>
             </Component>
+            <Container class="javax.swing.JPanel" name="pnl_ContactList">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="ContactList"/>
+                  </Border>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="cb_SoundNotification" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="cb_TextNotification" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbl_StatusChangeNotification" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="111" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lbl_StatusChangeNotification" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="cb_TextNotification" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="cb_SoundNotification" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="104" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="lbl_StatusChangeNotification">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Contact status-change notifications:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="cb_TextNotification">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Text"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="cb_SoundNotification">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Sound"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
       </SubComponents>

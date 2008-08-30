@@ -67,7 +67,7 @@ public class Launcher {
         
         isInitialized = launchHandler.initialize(launchInfo);
         if(isInitialized == false){
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed initializing the "+launchHandler.getClass().toString()+", you won't be able to play the game!", ChatStyles.SYSTEM);
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed initializing the "+launchHandler.getClass().toString()+", you won't be able to play the game!", ChatStyles.SYSTEM,false);
         }else{
             if(TabOrganizer.getRoomPanel() != null && !(launchInfo instanceof ParameterLaunchInfo)){
                 TabOrganizer.getRoomPanel().enableButtons();
@@ -84,7 +84,7 @@ public class Launcher {
             
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
                             "Launching game ...", 
-                            ChatStyles.SYSTEM);
+                            ChatStyles.SYSTEM,false);
             
             SoundPlayer.playLaunchSound();
 
@@ -93,14 +93,14 @@ public class Launcher {
             }
             
             if(!launchHandler.launch()){
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, there seems to be a problem with the setup of the game!", ChatStyles.SYSTEM);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, there seems to be a problem with the setup of the game!", ChatStyles.SYSTEM,false);
             }
             
             Globals.setSleepModeStatus(false);
             
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
                             "Game closed ...", 
-                            ChatStyles.SYSTEM);
+                            ChatStyles.SYSTEM,false);
             
             isPlaying = false;
         }else{

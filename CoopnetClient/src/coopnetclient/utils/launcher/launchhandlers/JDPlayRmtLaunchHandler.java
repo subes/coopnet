@@ -71,7 +71,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                 
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "Error while initializing:" + e.getMessage(),
-                    ChatStyles.SYSTEM);
+                    ChatStyles.SYSTEM,false);
                 
                 return false;
             }   
@@ -208,11 +208,11 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
         if (e == null) {
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "Undetermined DirectPlay communication error.",
-                    ChatStyles.SYSTEM);
+                    ChatStyles.SYSTEM,false);
         } else {
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "DirectPlay communication error: " + e.getMessage(),
-                    ChatStyles.SYSTEM);
+                    ChatStyles.SYSTEM,false);
         }
     }
     

@@ -132,7 +132,7 @@ public class Client {
     public static void initInstantLaunch(final String game, final String mod, final String hostIP, final int maxPlayers, final boolean compatible, final boolean isHost) {
         Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                 "Initializing game ...",
-                ChatStyles.SYSTEM);
+                ChatStyles.SYSTEM,false);
 
         LaunchInfo launchInfo;
 

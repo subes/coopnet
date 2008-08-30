@@ -116,7 +116,9 @@ public class Settings {
             wineCommand="WineCommand",
             fileTransferPort="FiletransferPort",
             quickPanelPostionisLeft = "QuickPanelPositionIsLeft",
-            quickPanelDividerWidth = "QuckPanelDividerWidth";
+            quickPanelDividerWidth = "QuckPanelDividerWidth",
+            contactStatusChangeTextNotification = "ContactStatusChangeTextNotification",
+            contactStatusChangeSoundNotification = "ContactStatusChangeSoundNotification";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -157,6 +159,8 @@ public class Settings {
     private final static String def_WineComamnd = "wine";
     private final static int def_FileTransferPort = 2300;
     private final static int def_QuickPanelDividerWidth = 5;
+    private final static boolean def_ContactStatusChangeTextNotification = true;
+    private final static boolean def_ContactStatusChangeSoundNotification = true;
     private static Vector<String> favourites;
 
     /**
@@ -300,6 +304,22 @@ public class Settings {
     
     public static void setQuickPanelDividerWidth(int width) {
         writeSetting(quickPanelDividerWidth, String.valueOf(width));
+    }
+    
+    public static boolean getContactStatusChangeTextNotification() {
+        return readBoolean(contactStatusChangeTextNotification, def_ContactStatusChangeTextNotification);
+    }
+
+    public static void setContactStatusChangeTextNotification(boolean status) {
+        writeSetting(contactStatusChangeTextNotification, String.valueOf(status));
+    }
+    
+    public static boolean getContactStatusChangeSoundNotification() {
+        return readBoolean(contactStatusChangeSoundNotification, def_ContactStatusChangeSoundNotification);
+    }
+
+    public static void setContactStatusChangeSoundNotification(boolean status) {
+        writeSetting(contactStatusChangeSoundNotification, String.valueOf(status));
     }
     
     /**

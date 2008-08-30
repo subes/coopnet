@@ -76,7 +76,7 @@ public class ChatInputKeyListener implements KeyListener {
                     return;
                 }
                 if(command.length() > 2500){
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Could not send message, because it is too big!", ChatStyles.SYSTEM);
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Could not send message, because it is too big!", ChatStyles.SYSTEM,false);
                     return;
                 }
 

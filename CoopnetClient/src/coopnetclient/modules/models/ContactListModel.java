@@ -107,6 +107,8 @@ public class ContactListModel extends AbstractListModel implements EditableListM
     
     public void buildFrom(String data) {
         clear();
+        String currentname = null;
+        Integer currentstatusindex = null;
         String[] rows = data.split("\n");
         int currentrow = 0;
         for(String row : rows){            
@@ -120,9 +122,11 @@ public class ContactListModel extends AbstractListModel implements EditableListM
                     addContact(fields[i], "", ContactStatuses.PENDING_CONTACT);
                 }
             } else{
-                addGroup(fields[0]);
+                addGroup(fields[0]);                
                 for(int i = 1; i < fields.length; i++){
-                    addContact(fields[i], fields[0], ContactStatuses.OFFLINE);
+                    currentname = fields[i].substring(1);                    
+                    currentstatusindex = Integer.valueOf(fields[i].substring(0,1)  );
+                    addContact(currentname, fields[0], ContactStatuses.values()[currentstatusindex]);
                 }
             }
             currentrow ++;
@@ -297,7 +301,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         }
         if (group.offlinecontacts.contains(contactName)) {//was offline
             group.contacts.put(contactName, status);
-            group.offlinecontacts.remove(contactName);
+            group.offlinecontacts.remove(contactName);            
         } else {//was online and valid contact
             group.contacts.put(contactName, status);//override status
         }

@@ -129,10 +129,10 @@ public class CommandHandler {
             } else if (input.startsWith("nudge ")) {
                 String tmp = input.substring(6);
                 new FrameIconFlasher(Globals.getClientFrame(), "data/icons/nudge.png", tmp + " sent you a nudge!");
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp + " sent you a nudge!", ChatStyles.SYSTEM);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp + " sent you a nudge!", ChatStyles.SYSTEM,false);
                 SoundPlayer.playNudgeSound();
             } else if (input.startsWith("error")) {
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(6), ChatStyles.SYSTEM);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(6), ChatStyles.SYSTEM,true);
             } else if (input.startsWith("gamedataurl ")) {
                 String tmp = input.substring(12);
                 gameDataUrl = tmp;
@@ -248,7 +248,7 @@ public class CommandHandler {
             } else 
             //print a message from the server
             if (input.startsWith("echo ")) {
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(5), ChatStyles.SYSTEM);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(5), ChatStyles.SYSTEM,true);
             } else 
             //set players(name in parameter) ready status to not ready
             if (input.startsWith("unready ")) {
@@ -281,12 +281,12 @@ public class CommandHandler {
             //confirmation message from the server. the password was changed succesfully
             if (input.startsWith("passwordchanged")) {
                 Globals.closeChangePasswordFrame();
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Password changed!", ChatStyles.SYSTEM);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Password changed!", ChatStyles.SYSTEM,false);
             } else 
             //confirmation message from the server. the name was changed successfully(if changed)
             if (input.startsWith("profilesaved")) {
                 Globals.closeEditProfileFrame();
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Profile saved!", ChatStyles.SYSTEM);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Profile saved!", ChatStyles.SYSTEM,false);
             } else 
             //show the profile-editing window with the data in parameters
             if (input.startsWith("editprofile")) {
@@ -328,14 +328,14 @@ public class CommandHandler {
                 if(Globals.getThisPlayer_loginName().equals(tmp[0]) ){
                     Globals.setThisPlayer_loginName(tmp[1]);
                 }else{
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp[0] + " is now known as " + tmp[1], ChatStyles.SYSTEM);
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp[0] + " is now known as " + tmp[1], ChatStyles.SYSTEM,false);
                 }
                 Globals.getContactList().updateName(tmp[0], tmp[1]);
                 Globals.getClientFrame().repaint();
             } else if (input.startsWith("SendingFile")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1sender  2file 3size 4 ip 5 port
                 TabOrganizer.openFileTransferReceivePanel(tmp[1], tmp[3], tmp[2],tmp[4],tmp[5]);
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp[1] + " wants to send you a file!", ChatStyles.SYSTEM);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp[1] + " wants to send you a file!", ChatStyles.SYSTEM,false);
             } else if (input.startsWith("AcceptedFile")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//0command 1reciever  2filename 3 ip 4 port 5 firstbyte
                 Globals.getClientFrame().startSending(tmp[3], tmp[1], tmp[2], tmp[4], new Long(tmp[5]));
@@ -354,12 +354,14 @@ public class CommandHandler {
                 else if (input.startsWith("contactrequest ")) {
                 String name = input.substring(15);
                 Globals.getContactList().addContact(name, "", ContactStatuses.PENDING_REQUEST);
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name +" wants to add you to his/her contactlist", ChatStyles.SYSTEM);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name +" wants to add you to his/her contactlist", ChatStyles.SYSTEM,true);
             } else if (input.startsWith("setcontactstatus")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1contact  2status
                 ContactStatuses status = null;
+                String name = tmp[1];
                 int statuscode = Integer.valueOf(tmp[2]);
-                switch(statuscode){ //0 offline  * 1 chatting   * 2 inroom   * 3 playing
+                status = ContactStatuses.values()[statuscode];
+                /*switch(statuscode){ //0 offline  * 1 chatting   * 2 inroom   * 3 playing
                     case 0:
                         status = ContactStatuses.OFFLINE;
                         break;
@@ -374,8 +376,27 @@ public class CommandHandler {
                         break;
                     default: status = ContactStatuses.OFFLINE;
                         break;
-                }
-                 Globals.getContactList().setStatus(tmp[1], status);
+                }*/
+                 Globals.getContactList().setStatus(name, status);
+                 //notifications                 
+                 switch(status){
+                     case OFFLINE:
+                         if(Settings.getContactStatusChangeSoundNotification()){
+                             //TODO play sound
+                         }
+                         if(Settings.getContactStatusChangeTextNotification()){
+                             Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name +" is offline", ChatStyles.SYSTEM,false);
+                         }
+                         break;
+                     case CHATTING: 
+                         if(Settings.getContactStatusChangeSoundNotification()){
+                             //TODO play sound
+                         }
+                         if(Settings.getContactStatusChangeTextNotification()){
+                             Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name +" is online", ChatStyles.SYSTEM,false);
+                         }
+                         break;
+                 }
             } else if (input.startsWith("acceptedrequest")) {
                 String name = input.substring(15);
                 Globals.getContactList().removePending(name);

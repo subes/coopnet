@@ -184,7 +184,7 @@ public class ClientFrame extends javax.swing.JFrame {
         privatechat.append(sender, message);
 
         if (!privatechat.isVisible()) {
-            printToVisibleChatbox(sender, message, ChatStyles.WHISPER_NOTIFICATION);
+            printToVisibleChatbox(sender, message, ChatStyles.WHISPER_NOTIFICATION,false);
         }
     }
 
@@ -633,15 +633,17 @@ public class ClientFrame extends javax.swing.JFrame {
      * <li> mode : defines the style of the printed text, can be system or chat or whisper
      * 
      */
-    public void printToVisibleChatbox(String name, String message, ChatStyles modeStyle) {
+    public void printToVisibleChatbox(String name, String message, ChatStyles modeStyle,boolean popupEnabled) {
         if (message.equals("Server is shutting down")) {
             mi_disconnect.doClick();
         }
 
         Component tc = tabpn_tabs.getSelectedComponent();
 
-        if (tc == null) {
-            JOptionPane.showMessageDialog(Globals.getClientFrame(), message, "Message", JOptionPane.INFORMATION_MESSAGE);
+        if (tc == null ) {
+            if(popupEnabled){
+                JOptionPane.showMessageDialog(Globals.getClientFrame(), message, "Message", JOptionPane.INFORMATION_MESSAGE);
+            }
         } else if (tc instanceof ChannelPanel) {
             ChannelPanel cp = (ChannelPanel) tc;
             cp.printMainChatMessage(name, message, modeStyle);
