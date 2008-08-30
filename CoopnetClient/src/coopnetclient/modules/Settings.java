@@ -118,7 +118,8 @@ public class Settings {
             quickPanelPostionisLeft = "QuickPanelPositionIsLeft",
             quickPanelDividerWidth = "QuckPanelDividerWidth",
             contactStatusChangeTextNotification = "ContactStatusChangeTextNotification",
-            contactStatusChangeSoundNotification = "ContactStatusChangeSoundNotification";
+            contactStatusChangeSoundNotification = "ContactStatusChangeSoundNotification",
+            quickPanelToggleBarWidth = "QuickPanelToggleBarWidth";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -159,6 +160,7 @@ public class Settings {
     private final static String def_WineComamnd = "wine";
     private final static int def_FileTransferPort = 2300;
     private final static int def_QuickPanelDividerWidth = 5;
+    private final static int def_QuickPanelToggleBarWidth = 5;
     private final static boolean def_ContactStatusChangeTextNotification = true;
     private final static boolean def_ContactStatusChangeSoundNotification = true;
     private static Vector<String> favourites;
@@ -298,6 +300,15 @@ public class Settings {
         writeSetting(quickPanelPostionisLeft, String.valueOf(status));
     }
     
+    
+    public static int getQuickPanelToggleBarWidth() {
+        return readInteger(quickPanelToggleBarWidth, def_QuickPanelToggleBarWidth);
+    }
+    
+    public static void setQuickPanelToggleBarWidth(int width) {
+        writeSetting(quickPanelToggleBarWidth, String.valueOf(width));
+    }
+            
     public static int getQuickPanelDividerWidth() {
         return readInteger(quickPanelDividerWidth, def_QuickPanelDividerWidth);
     }

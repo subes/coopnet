@@ -34,6 +34,7 @@ import coopnetclient.frames.clientframe.tabs.FileTransferSendPanel;
 import coopnetclient.modules.FileDownloader;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -55,6 +56,8 @@ public class ClientFrame extends javax.swing.JFrame {
     public ClientFrame() {
         pnl_contactList = new coopnetclient.frames.clientframe.QuickPanel(Globals.getContactList());
         initComponents();
+        pnl_toggleQuickBarLeft.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth()  ,10 ));
+        pnl_toggleQuickBarRight.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth()  ,10 ));
         setQuickPanelPosition(Settings.getQuickPanelPostionisLeft());
         pnl_contactList.setVisible(false);
         slp_mainSplitPanel.setDividerSize(0);

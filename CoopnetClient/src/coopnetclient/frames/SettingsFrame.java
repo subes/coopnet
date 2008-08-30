@@ -51,6 +51,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         }
         cmb_QuickPanelPosition.setSelectedIndex( Settings.getQuickPanelPostionisLeft() ?0:1);
         spn_DividerWidth.setValue(Settings.getQuickPanelDividerWidth());
+        spn_ToggleButtonWidth.setValue(Settings.getQuickPanelToggleBarWidth());
         
         cb_TextNotification.setSelected(Settings.getContactStatusChangeTextNotification());
         cb_SoundNotification.setSelected(Settings.getContactStatusChangeSoundNotification());
@@ -189,6 +190,8 @@ public class SettingsFrame extends javax.swing.JFrame {
         cmb_QuickPanelPosition = new javax.swing.JComboBox();
         lbl_DividerWidth = new javax.swing.JLabel();
         spn_DividerWidth = new javax.swing.JSpinner();
+        lbl_ToggleButtonWidth = new javax.swing.JLabel();
+        spn_ToggleButtonWidth = new javax.swing.JSpinner();
         lbl_noteText1 = new javax.swing.JLabel();
         lbl_note1 = new javax.swing.JLabel();
         pnl_ContactList = new javax.swing.JPanel();
@@ -659,6 +662,11 @@ public class SettingsFrame extends javax.swing.JFrame {
         spn_DividerWidth.setModel(new javax.swing.SpinnerNumberModel(5, 0, 100, 1));
         spn_DividerWidth.setEditor(new javax.swing.JSpinner.NumberEditor(spn_DividerWidth, ""));
 
+        lbl_ToggleButtonWidth.setText("Togglebutton width:");
+
+        spn_ToggleButtonWidth.setModel(new javax.swing.SpinnerNumberModel(5, 0, 100, 1));
+        spn_ToggleButtonWidth.setEditor(new javax.swing.JSpinner.NumberEditor(spn_ToggleButtonWidth, ""));
+
         javax.swing.GroupLayout pnl_GeneralLayout = new javax.swing.GroupLayout(pnl_General);
         pnl_General.setLayout(pnl_GeneralLayout);
         pnl_GeneralLayout.setHorizontalGroup(
@@ -669,15 +677,19 @@ public class SettingsFrame extends javax.swing.JFrame {
                     .addGroup(pnl_GeneralLayout.createSequentialGroup()
                         .addComponent(lbl_quickpanelposition)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmb_QuickPanelPosition, 0, 206, Short.MAX_VALUE))
+                        .addComponent(cmb_QuickPanelPosition, 0, 175, Short.MAX_VALUE))
                     .addGroup(pnl_GeneralLayout.createSequentialGroup()
                         .addComponent(lbl_DividerWidth)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spn_DividerWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(spn_DividerWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnl_GeneralLayout.createSequentialGroup()
+                        .addComponent(lbl_ToggleButtonWidth)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spn_ToggleButtonWidth, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
-        pnl_GeneralLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lbl_DividerWidth, lbl_quickpanelposition});
+        pnl_GeneralLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lbl_DividerWidth, lbl_ToggleButtonWidth, lbl_quickpanelposition});
 
         pnl_GeneralLayout.setVerticalGroup(
             pnl_GeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -689,6 +701,10 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addGroup(pnl_GeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_DividerWidth)
                     .addComponent(spn_DividerWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl_GeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_ToggleButtonWidth)
+                    .addComponent(spn_ToggleButtonWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -726,36 +742,39 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addComponent(cb_TextNotification)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cb_SoundNotification)
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnl_QuckPanelLayout = new javax.swing.GroupLayout(pnl_QuckPanel);
         pnl_QuckPanel.setLayout(pnl_QuckPanelLayout);
         pnl_QuckPanelLayout.setHorizontalGroup(
             pnl_QuckPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_QuckPanelLayout.createSequentialGroup()
+            .addGroup(pnl_QuckPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnl_QuckPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(pnl_ContactList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnl_General, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl_QuckPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_note1)
-                    .addComponent(lbl_noteText1))
-                .addGap(72, 72, 72))
+                    .addGroup(pnl_QuckPanelLayout.createSequentialGroup()
+                        .addComponent(pnl_ContactList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(pnl_QuckPanelLayout.createSequentialGroup()
+                        .addComponent(pnl_General, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(pnl_QuckPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_note1)
+                            .addComponent(lbl_noteText1))
+                        .addGap(72, 72, 72))))
         );
         pnl_QuckPanelLayout.setVerticalGroup(
             pnl_QuckPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_QuckPanelLayout.createSequentialGroup()
                 .addGroup(pnl_QuckPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl_QuckPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(pnl_General, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnl_QuckPanelLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(lbl_note1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl_noteText1)))
+                        .addComponent(lbl_noteText1))
+                    .addGroup(pnl_QuckPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(pnl_General, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnl_ContactList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -912,6 +931,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
 
             Settings.setQuickPanelPostionisLeft(cmb_QuickPanelPosition.getSelectedIndex() == 0);
             Settings.setQuickPanelDividerWidth(Integer.valueOf(spn_DividerWidth.getValue().toString()));
+            Settings.setQuickPanelToggleBarWidth(Integer.valueOf(spn_ToggleButtonWidth.getValue().toString()));
             
             Settings.setContactStatusChangeTextNotification(cb_TextNotification.isSelected());
             Settings.setContactStatusChangeSoundNotification(cb_SoundNotification.isSelected());
@@ -1011,6 +1031,7 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     private javax.swing.JComboBox cmb_style;
     private javax.swing.JLabel lbl_DividerWidth;
     private javax.swing.JLabel lbl_StatusChangeNotification;
+    private javax.swing.JLabel lbl_ToggleButtonWidth;
     private javax.swing.JLabel lbl_background;
     private javax.swing.JLabel lbl_dplayEnv;
     private javax.swing.JLabel lbl_foreground;
@@ -1047,6 +1068,7 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     private javax.swing.JPanel pnl_textColors;
     private javax.swing.JPanel pnl_textStyle;
     private javax.swing.JSpinner spn_DividerWidth;
+    private javax.swing.JSpinner spn_ToggleButtonWidth;
     private javax.swing.JTabbedPane tabpn_settings;
     private javax.swing.JTextField tf_dplayEnv;
     private javax.swing.JTextField tf_playerMessagesSize;
