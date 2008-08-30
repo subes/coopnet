@@ -95,19 +95,20 @@ public class CommandHandler {
                 TabOrganizer.closeLoginPanel();
                 Client.send(Protocol.SetSleep(Settings.getSleepEnabled()), null);
             } else if (input.startsWith("no such user")) {
-                JOptionPane.showMessageDialog(null, "No such user!", "Alert", JOptionPane.ERROR_MESSAGE);
+                TabOrganizer.getLoginPanel().showError("Error: "+input);                
             } else if (input.startsWith("incorrect passsword!try again")) {
-                JOptionPane.showMessageDialog(null, "Incorrect password!", "Alert", JOptionPane.ERROR_MESSAGE);
+                TabOrganizer.getLoginPanel().showError("Error: "+input);   
             } else if (input.startsWith("Already logged in!")) {
-                JOptionPane.showMessageDialog(null, "Already logged in", "Alert", JOptionPane.ERROR_MESSAGE);
+                TabOrganizer.getLoginPanel().showError("Error: "+input);   
             } else if (input.startsWith("OK_REGISTER")) {
+                TabOrganizer.getLoginPanel().showError("Registration succesfull!");   
                 JOptionPane.showMessageDialog(null, "<html><b>Thank you for registering!</b>\n" +
                         "If you want to be able to do password recovery in the future,\n" +
                         "please fill in a valid E-Mail address in your player profile.\n" +
                         "\n" +
                         "You may login now.", "Successfully registered", JOptionPane.INFORMATION_MESSAGE);
             } else if (input.startsWith("name is already used")) {
-                JOptionPane.showMessageDialog(null, "Name is already used!", "Alert", JOptionPane.ERROR_MESSAGE);
+                TabOrganizer.getLoginPanel().showError("Error: "+input);   
             }
 
         } else {//logged-in commands
@@ -131,7 +132,7 @@ public class CommandHandler {
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp + " sent you a nudge!", ChatStyles.SYSTEM);
                 SoundPlayer.playNudgeSound();
             } else if (input.startsWith("error")) {
-                JOptionPane.showMessageDialog(null, input.substring(6), "ERROR", JOptionPane.ERROR_MESSAGE);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(6), ChatStyles.SYSTEM);
             } else if (input.startsWith("gamedataurl ")) {
                 String tmp = input.substring(12);
                 gameDataUrl = tmp;

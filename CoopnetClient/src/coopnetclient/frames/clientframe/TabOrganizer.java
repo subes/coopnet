@@ -292,6 +292,10 @@ public class TabOrganizer {
         tabHolder.remove(loginPanel);
         loginPanel = null;
     }
+    
+    public static LoginPanel getLoginPanel(){
+        return loginPanel;
+    }
 
     public static void openFileTransferSendPanel(String reciever, File file) {
         FileTransferSendPanel panel = new FileTransferSendPanel(reciever, file);
