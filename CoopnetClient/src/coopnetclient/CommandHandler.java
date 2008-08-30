@@ -361,23 +361,7 @@ public class CommandHandler {
                 String name = tmp[1];
                 int statuscode = Integer.valueOf(tmp[2]);
                 status = ContactStatuses.values()[statuscode];
-                /*switch(statuscode){ //0 offline  * 1 chatting   * 2 inroom   * 3 playing
-                    case 0:
-                        status = ContactStatuses.OFFLINE;
-                        break;
-                    case 1:
-                        status = ContactStatuses.CHATTING;
-                        break;
-                    case 2:
-                        status = ContactStatuses.IN_ROOM;
-                        break;
-                    case 3:   
-                        status = ContactStatuses.PLAYING;
-                        break;
-                    default: status = ContactStatuses.OFFLINE;
-                        break;
-                }*/
-                 Globals.getContactList().setStatus(name, status);
+                Globals.getContactList().setStatus(name, status);
                  //notifications                 
                  switch(status){
                      case OFFLINE:
