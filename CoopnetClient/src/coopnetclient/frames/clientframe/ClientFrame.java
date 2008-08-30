@@ -196,7 +196,7 @@ public class ClientFrame extends javax.swing.JFrame {
         //update name in the main tab
         TabOrganizer.getChannelPanel(channel).updatePlayerName(oldname, newname);
         //update name in the room tab
-        if (TabOrganizer.getRoomPanel() != null && TabOrganizer.getRoomPanel().gameName.equals(channel)) {
+        if (TabOrganizer.getRoomPanel() != null ) {
             TabOrganizer.getRoomPanel().updatePlayerName(oldname, newname);
         }
         //update the pm tab title too
@@ -578,7 +578,7 @@ public class ClientFrame extends javax.swing.JFrame {
                 "\n\n\n<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
                 "<i>Thank you for choosing Coopnet!</i></html>\n ";
 
-        JOptionPane.showMessageDialog(null, aboutMessage, "About Coopnet", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(Globals.getClientFrame(), aboutMessage, "About Coopnet", JOptionPane.PLAIN_MESSAGE);
 
 }//GEN-LAST:event_mi_aboutActionPerformed
 
@@ -641,7 +641,7 @@ public class ClientFrame extends javax.swing.JFrame {
         Component tc = tabpn_tabs.getSelectedComponent();
 
         if (tc == null) {
-            JOptionPane.showMessageDialog(null, message, "Message", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(Globals.getClientFrame(), message, "Message", JOptionPane.INFORMATION_MESSAGE);
         } else if (tc instanceof ChannelPanel) {
             ChannelPanel cp = (ChannelPanel) tc;
             cp.printMainChatMessage(name, message, modeStyle);

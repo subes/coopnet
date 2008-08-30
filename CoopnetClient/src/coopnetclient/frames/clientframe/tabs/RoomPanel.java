@@ -194,8 +194,9 @@ public class RoomPanel extends javax.swing.JPanel {
 
     public void updatePlayerName(String oldname, String newname) {
         roomStatusListCR.updateName(oldname, newname);
-        users.removeElement(oldname);
-        users.add(newname);
+        if(users.removeElement(oldname)){
+            users.add(newname);
+        }
     }
     
     public void unReadyPlayer(String playerName){

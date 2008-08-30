@@ -25,14 +25,12 @@ import coopnetclient.modules.Settings;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.util.Vector;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.border.Border;
 
 
 /**
@@ -43,7 +41,7 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
     private Vector<String> readylist = new Vector<String>();
     private Vector<String> playinglist = new Vector<String>();
     
-    public static ImageIcon selectionIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/selection.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    private static Border selectionBorder = BorderFactory.createLineBorder(Colorizer.getSelectionColor() , 2);
 
     public RoomStatusListCellRenderer() {
         setOpaque(true);
@@ -59,6 +57,9 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
         if (playinglist.remove(oldname)) {
             playinglist.add(newname);
         }
+        if (readylist.remove(oldname)) {
+            readylist.add(newname);
+        }        
         Globals.getClientFrame().repaint();
     }
 
@@ -114,11 +115,9 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
         }
         if (isSelected && !(value.toString().equals(Globals.getThisPlayer_loginName()))) {
             setText("<html><pre>&nbsp;" + value.toString() + "</pre></html>");
-            //setIcon(selectionIcon);
-            setBorder(BorderFactory.createLineBorder(Colorizer.getSelectionColor() , 2));
+            setBorder(selectionBorder);
 
         } else {
-            setIcon(null);
             setText("<html><pre>&nbsp;" + value.toString() + "</pre></html>");
         }
         

@@ -322,9 +322,14 @@ public class CommandHandler {
             //a player changed its name, msut update in player list and room list
             if (input.startsWith("updatename ")) {
                 String[] tmp = input.substring(11).split(Protocol.INFORMATION_DELIMITER);      // 0 oldname 1 new name
-                Globals.getClientFrame().printMainChatMessage(currentchannel, "SYSTEM", tmp[0] + " is now known as " + tmp[1], ChatStyles.SYSTEM);
                 Globals.getClientFrame().updatePlayerName(currentchannel, tmp[0], tmp[1]);
-
+                //update global if this name changes
+                if(Globals.getThisPlayer_loginName().equals(tmp[0]) ){
+                    Globals.setThisPlayer_loginName(tmp[1]);
+                }else{
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp[0] + " is now known as " + tmp[1], ChatStyles.SYSTEM);
+                }
+                Globals.getContactList().updateName(tmp[0], tmp[1]);
                 Globals.getClientFrame().repaint();
             } else if (input.startsWith("SendingFile")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1sender  2file 3size 4 ip 5 port

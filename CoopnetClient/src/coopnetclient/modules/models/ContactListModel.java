@@ -86,6 +86,25 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         //groups.add(new Group(NO_GROUP));
     }
 
+    public void updateName(String oldname, String newName){
+        Group group = groupOfContact(oldname);
+        ContactStatuses status = null;
+        if (group != null) {
+            status = group.contacts.remove(oldname);
+            if(status != null){
+                group.contacts.put(newName,status);
+            }
+            if(group.offlinecontacts.remove(oldname)) {
+                group.offlinecontacts.add(newName);
+            }
+        }
+        status = pendingList.remove(oldname);
+        if(status != null){
+            pendingList.put(newName,status);
+        }
+        fireContentsChanged(this, 0, getSize());
+    }
+    
     public void buildFrom(String data) {
         clear();
         String[] rows = data.split("\n");
