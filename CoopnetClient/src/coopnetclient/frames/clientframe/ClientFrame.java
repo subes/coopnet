@@ -43,7 +43,7 @@ import javax.swing.border.Border;
 
 public class ClientFrame extends javax.swing.JFrame {
 
-    private static final int DIVIDERWIDTH = 5;
+    private static final int DIVIDERWIDTH = Settings.getQuickPanelDividerWidth();
     private static boolean quickPanelVIsibility = false;
     private static Integer lastdividerposition = null;
     private static boolean quickPanelOrientationIsLeft = true;

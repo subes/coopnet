@@ -115,7 +115,8 @@ public class Settings {
             channelChatVerticalSPPosition = "ChannelChatVerticalSPPosition",
             wineCommand="WineCommand",
             fileTransferPort="FiletransferPort",
-            quickPanelPostionisLeft = "QuickPanelPositionIsLeft";
+            quickPanelPostionisLeft = "QuickPanelPositionIsLeft",
+            quickPanelDividerWidth = "QuckPanelDividerWidth";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -154,7 +155,8 @@ public class Settings {
     private final static int def_ChannelChatHorizontalSPPosition = 369;
     private final static int def_ChannelChatVerticalSPPosition = 135;
     private final static String def_WineComamnd = "wine";
-    private final static int def_fileTransferPort = 2300;
+    private final static int def_FileTransferPort = 2300;
+    private final static int def_QuickPanelDividerWidth = 5;
     private static Vector<String> favourites;
 
     /**
@@ -291,6 +293,15 @@ public class Settings {
     public static void setQuickPanelPostionisLeft(boolean status) {
         writeSetting(quickPanelPostionisLeft, String.valueOf(status));
     }
+    
+    public static int getQuickPanelDividerWidth() {
+        return readInteger(quickPanelDividerWidth, def_QuickPanelDividerWidth);
+    }
+    
+    public static void setQuickPanelDividerWidth(int width) {
+        writeSetting(quickPanelDividerWidth, String.valueOf(width));
+    }
+    
     /**
      *  public getters and setters used by other classes
      */
@@ -399,7 +410,7 @@ public class Settings {
     }
      
       public static int getFiletTansferPort() {
-        return readInteger(fileTransferPort, def_fileTransferPort);
+        return readInteger(fileTransferPort, def_FileTransferPort);
     }
 
     public static void setFiletTansferPort(int port) {

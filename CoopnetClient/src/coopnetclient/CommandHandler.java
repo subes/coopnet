@@ -354,6 +354,7 @@ public class CommandHandler {
                 else if (input.startsWith("contactrequest ")) {
                 String name = input.substring(15);
                 Globals.getContactList().addContact(name, "", ContactStatuses.PENDING_REQUEST);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name +" wants to add you to his/her contactlist", ChatStyles.SYSTEM);
             } else if (input.startsWith("setcontactstatus")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1contact  2status
                 ContactStatuses status = null;
