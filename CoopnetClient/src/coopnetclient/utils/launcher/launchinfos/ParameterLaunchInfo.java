@@ -35,9 +35,9 @@ public class ParameterLaunchInfo extends LaunchInfo {
         binaryPath = GameDatabase.getLaunchPathWithExe(gameName, childName);
         
         if(isHost){
-            parameters = " \"" + GameDatabase.getHostPattern(gameName, childName) + "\"";
+            parameters = " " + GameDatabase.getHostPattern(gameName, childName) ;
         }else{
-            parameters = " \"" + GameDatabase.getJoinPattern(gameName, childName) + "\"";
+            parameters = " " + GameDatabase.getJoinPattern(gameName, childName) ;
         }
     }
     
