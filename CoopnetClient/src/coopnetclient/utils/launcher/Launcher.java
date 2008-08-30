@@ -93,7 +93,7 @@ public class Launcher {
             }
             
             if(!launchHandler.launch()){
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, there seems to be a problem with the setup of the game!", ChatStyles.SYSTEM,false);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, maybe the game is not setup properly or a process closed unexpectedly!", ChatStyles.SYSTEM,false);
             }
             
             Globals.setSleepModeStatus(false);
