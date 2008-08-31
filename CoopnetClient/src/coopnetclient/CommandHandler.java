@@ -155,6 +155,7 @@ public class CommandHandler {
                                     JOptionPane.showMessageDialog(null, "You have an outdated version of the gamedata, but couldn't update it!", "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
                                 } else {//succesfull
                                     GameDatabase.loadVersion();
+                                    GameDatabase.load("", GameDatabase.datafilepath);
                                 }
                             }catch(Exception e){
                                 ErrorHandler.handleException(e);
