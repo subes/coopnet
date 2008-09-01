@@ -244,7 +244,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 Globals.getClientFrame().setLaunchable(lst_games.getSelectedValue().toString(), true);
                 GameDatabase.saveLocalPaths();
             } else {
-                JOptionPane.showMessageDialog(null, "Please set the path correctly!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(Globals.getManageGamesFrame(), "Please set the path correctly!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0 && tf_installPath.getText().length() > 0) {
@@ -253,7 +253,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 Globals.getClientFrame().setLaunchable(lst_games.getSelectedValue().toString(), true);
                 GameDatabase.saveLocalPaths();
             } else {
-                JOptionPane.showMessageDialog(null, "Please set both paths correctly!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(Globals.getManageGamesFrame(), "Please set both paths correctly!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 

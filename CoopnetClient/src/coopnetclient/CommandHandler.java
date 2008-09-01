@@ -37,8 +37,6 @@ import javax.swing.JOptionPane;
  * 
  */
 public class CommandHandler {
-
-    private static String gameDataUrl;
     
     public static void execute(String input) {
         if (input == null) {
@@ -103,7 +101,7 @@ public class CommandHandler {
                 TabOrganizer.getLoginPanel().showError("Error: "+input);   
             } else if (input.startsWith("OK_REGISTER")) {
                 TabOrganizer.getLoginPanel().showError("Registration succesfull!");   
-                JOptionPane.showMessageDialog(null, "<html><b>Thank you for registering!</b>\n" +
+                JOptionPane.showMessageDialog(Globals.getClientFrame(), "<html><b>Thank you for registering!</b>\n" +
                         "If you want to be able to do password recovery in the future,\n" +
                         "please fill in a valid E-Mail address in your player profile.\n" +
                         "\n" +
@@ -134,35 +132,6 @@ public class CommandHandler {
                 SoundPlayer.playNudgeSound();
             } else if (input.startsWith("error")) {
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(6), ChatStyles.SYSTEM,true);
-            } else if (input.startsWith("gamedataurl ")) {
-                String tmp = input.substring(12);
-                gameDataUrl = tmp;
-            } else if (input.startsWith("lastgamedataversion ")) {
-                final int lastversion = new Integer(input.substring(20));
-                GameDatabase.loadVersion();
-                if (GameDatabase.version < lastversion) {
-                    System.out.println("downloading new gamedata");
-                    // download the file in the background
-                    new Thread() {
-
-                        @Override
-                        public void run() {
-                            try{
-                                boolean ret = false;
-                                ret = FileDownloader.downloadFile(gameDataUrl, GameDatabase.datafilepath);
-                                if (!ret) {
-                                    //give notice to user of failure
-                                    JOptionPane.showMessageDialog(null, "You have an outdated version of the gamedata, but couldn't update it!", "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
-                                } else {//succesfull
-                                    GameDatabase.loadVersion();
-                                    GameDatabase.load("", GameDatabase.datafilepath);
-                                }
-                            }catch(Exception e){
-                                ErrorHandler.handleException(e);
-                            }
-                        }
-                    }.start();
-                }
             } else 
             //mainchat command
             if (input.startsWith("main ")) {

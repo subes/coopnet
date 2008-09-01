@@ -44,7 +44,10 @@ public class Main {
                         i++;
                     }catch(NumberFormatException e){
                         System.out.println("ERROR: invalid value for <PORT>, number expected");
-                    }  
+                    }
+                    catch(java.lang.StringIndexOutOfBoundsException e){
+                        System.out.println("ERROR: invalid value for <PORT>, number expected");
+                    } 
                 }else{
                     System.out.println("ERROR: --server expects data in the form of \"127.0.0.1:6667\"");
                     printHelp();

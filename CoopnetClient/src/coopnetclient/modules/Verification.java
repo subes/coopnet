@@ -40,7 +40,7 @@ public class Verification {
 
     public static boolean verifyPassword(String password) {
         if (password.length() < 5 || password.length() > 30) {
-            JOptionPane.showMessageDialog(null, "Your password must have 5 to 30 characters.",
+            JOptionPane.showMessageDialog(Globals.getClientFrame(), "Your password must have 5 to 30 characters.",
                     "Registration error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -72,7 +72,7 @@ public class Verification {
         }
 
         if (valid == false) {
-            JOptionPane.showMessageDialog(null, "Your login name must have 5 to 30 characters.\n" +
+            JOptionPane.showMessageDialog(Globals.getClientFrame(), "Your login name must have 5 to 30 characters.\n" +
                     "The following characters are allowed:\n" +
                     "  A-Z a-z 0-9 " +
                     "@ ~ - _ = | " +

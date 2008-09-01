@@ -262,7 +262,7 @@ public class BugReportFrame extends javax.swing.JFrame {
     private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sendActionPerformed
 
         if(tf_shortDescription.getText().length() < 1 || ta_LongDescription.getText().length() < 1){
-            JOptionPane.showMessageDialog(null,
+            JOptionPane.showMessageDialog(Globals.getBugReportFrame(),
                         "Sorry, but please take some time to fill out the " +
                       "\nshort and detailed description fields." +
                       "\nWe can't guess what has happened if you don't tell us anything.",
@@ -279,14 +279,14 @@ public class BugReportFrame extends javax.swing.JFrame {
             }
 
             if(error){
-                JOptionPane.showMessageDialog(null,
+                JOptionPane.showMessageDialog(Globals.getBugReportFrame(),
                           "Sending bugreport failed!" +
                         "\nPlease verify that you are " +
                         "\nconnected to the internet " +
                         "\nand try again.",
                         "Error", JOptionPane.ERROR_MESSAGE);
             }else{
-                JOptionPane.showMessageDialog(null,
+                JOptionPane.showMessageDialog(Globals.getBugReportFrame(),
                         "Your bugreport was sent successfully,\nthank you for your help!",
                         "Success", JOptionPane.PLAIN_MESSAGE);
                 

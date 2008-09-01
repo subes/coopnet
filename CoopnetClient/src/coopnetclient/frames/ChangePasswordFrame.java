@@ -151,7 +151,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
         String tmp1=new String(tf_newPassword1.getPassword());
         String tmp2=new String(tf_newPassword2.getPassword());
         if(!(tmp1.equals(tmp2))   ){
-            JOptionPane.showMessageDialog(null, "Passwords don't match'", "Alert", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(Globals.getChangePasswordFrame(), "Passwords don't match'", "Alert", JOptionPane.INFORMATION_MESSAGE);
         }   
         else{
             if(Verification.verifyPassword(tmp1)){

@@ -24,6 +24,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.Colorizer;
+import coopnetclient.modules.FileDownloader;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
@@ -34,6 +35,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
 import java.util.Enumeration;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -107,6 +109,7 @@ public class Client {
                         TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
                         Settings.setFirstRun(false);
                     }
+                    checkAndUpdateGameData();
                 } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }
@@ -132,7 +135,7 @@ public class Client {
     public static void initInstantLaunch(final String game, final String mod, final String hostIP, final int maxPlayers, final boolean compatible, final boolean isHost) {
         Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                 "Initializing game ...",
-                ChatStyles.SYSTEM,false);
+                ChatStyles.SYSTEM, false);
 
         LaunchInfo launchInfo;
 
@@ -152,7 +155,7 @@ public class Client {
             Client.send(Protocol.closeRoom(), game);
             Client.send(Protocol.gameClosed(), game);
             TabOrganizer.getChannelPanel(game).enablebuttons();
-        }
+        }        
     }
 
     public static void instantLaunch(String channel) {
@@ -183,8 +186,8 @@ public class Client {
                 br.close();
                 br = null;
                 server = temp.toString().trim();
-                if(Globals.getDebug()){
-                    System.out.println("[L]\tServer address read: "+server);
+                if (Globals.getDebug()) {
+                    System.out.println("[L]\tServer address read: " + server);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -202,6 +205,46 @@ public class Client {
                 Globals.setServerIP(Settings.getLastValidServerIP());
                 Globals.setServerPort(Settings.getLastValidServerPort());
             }
+        }
+    }
+
+    public static void checkAndUpdateGameData() {
+        try {
+            final URL url = new URL("http://coopnet.sourceforge.net/gamedata");
+            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+            String readHeader;
+            readHeader = br.readLine();
+            br.close();
+            br = null;
+            final int lastversion = new Integer(readHeader.substring(8));
+            GameDatabase.loadVersion();
+            if (GameDatabase.version < lastversion) {
+                if (Globals.getDebug()) {
+                    System.out.println("downloading new gamedata");
+                }
+                // download the file in the background
+                new Thread() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            boolean ret = false;
+                            ret = FileDownloader.downloadFile(url.toExternalForm(), GameDatabase.datafilepath);
+                            if (!ret) {
+                                //give notice to user of failure
+                                JOptionPane.showMessageDialog(Globals.getClientFrame(), "You have an outdated version of the gamedata, but couldn't update it!", "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
+                            } else {//succesfull
+                                GameDatabase.loadVersion();
+                                GameDatabase.load("", GameDatabase.datafilepath);
+                            }
+                        } catch (Exception e) {
+                            ErrorHandler.handleException(e);
+                        }
+                    }
+                }.start();
+            }
+        } catch (Exception e) {
+            ErrorHandler.handleException(e);
         }
     }
 }

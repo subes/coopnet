@@ -992,7 +992,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             Globals.getClientFrame().updateMenu();
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Please verify that you have entered valid information!\nFor example:\n  Serverport and textsizes need to be non-decimal numbers.", "Wrong input", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Globals.getClientFrame(), "Please verify that you have entered valid information!\nFor example:\n  Serverport and textsizes need to be non-decimal numbers.", "Wrong input", JOptionPane.ERROR_MESSAGE);
             error = true;
         }
 

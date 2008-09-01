@@ -110,11 +110,11 @@ public class HandlerThread extends Thread {
                 try {
                     input = read();
                 } catch (Exception q) {
-                    JOptionPane.showMessageDialog(null, q, "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Globals.getClientFrame(), q, "ERROR", JOptionPane.ERROR_MESSAGE);
                     ErrorHandler.handleException(q);
                 }
                 if (input == null) {
-                    JOptionPane.showMessageDialog(null, "No response from server", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Globals.getClientFrame(), "No response from server", "ERROR", JOptionPane.ERROR_MESSAGE);
                 } else if (input.equals("OK_LOGIN")) {
                     Globals.setThisPlayer_loginName(name);
                     Globals.setLoggedInStatus(true);

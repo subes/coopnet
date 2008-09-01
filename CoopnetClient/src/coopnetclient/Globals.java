@@ -279,6 +279,10 @@ public class Globals {
             editProfileFrame = null;
         }
     }
+    
+    public static ChangePasswordFrame getChangePasswordFrame(){
+        return changePasswordFrame;
+    }
 
     public static void openChangePasswordFrame() {
         if (changePasswordFrame != null) {
@@ -449,6 +453,10 @@ public class Globals {
             settingsFrame = null;
         }
     }
+    
+    public static ManageGamesFrame getManageGamesFrame(){
+        return manageGamesFrame;
+    }
 
     public static void openManageGamesFrame() {
         if (manageGamesFrame != null) {
@@ -466,6 +474,10 @@ public class Globals {
         }
     }
 
+    public static BugReportFrame getBugReportFrame(){
+        return bugReportFrame;
+    }
+    
     public static void openBugReportFrame() {
         if (bugReportFrame != null) {
             bugReportFrame.setVisible(true);
