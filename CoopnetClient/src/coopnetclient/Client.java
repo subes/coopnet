@@ -29,7 +29,10 @@ import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -155,15 +158,13 @@ public class Client {
             Client.send(Protocol.closeRoom(), game);
             Client.send(Protocol.gameClosed(), game);
             TabOrganizer.getChannelPanel(game).enablebuttons();
-        }        
+        }
     }
 
     public static void instantLaunch(String channel) {
         if (Launcher.isInitialized()) {
             TabOrganizer.getChannelPanel(channel).disableButtons();
-
             Launcher.launch();
-
             Client.send(Protocol.gameClosed(), channel);
             TabOrganizer.getChannelPanel(channel).enablebuttons();
             Launcher.deInitialize();
@@ -209,42 +210,49 @@ public class Client {
     }
 
     public static void checkAndUpdateGameData() {
-        try {
-            final URL url = new URL("http://coopnet.sourceforge.net/gamedata");
-            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-            String readHeader;
-            readHeader = br.readLine();
-            br.close();
-            br = null;
-            final int lastversion = new Integer(readHeader.substring(8));
-            GameDatabase.loadVersion();
-            if (GameDatabase.version < lastversion) {
-                if (Globals.getDebug()) {
-                    System.out.println("downloading new gamedata");
-                }
-                // download the file in the background
-                new Thread() {
+        new Thread() {
 
-                    @Override
-                    public void run() {
-                        try {
-                            boolean ret = false;
-                            ret = FileDownloader.downloadFile(url.toExternalForm(), GameDatabase.datafilepath);
-                            if (!ret) {
-                                //give notice to user of failure
-                                JOptionPane.showMessageDialog(Globals.getClientFrame(), "You have an outdated version of the gamedata, but couldn't update it!", "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
-                            } else {//succesfull
-                                GameDatabase.loadVersion();
-                                GameDatabase.load("", GameDatabase.datafilepath);
-                            }
-                        } catch (Exception e) {
-                            ErrorHandler.handleException(e);
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("http://coopnet.sourceforge.net/gamedata");
+                    BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                    String readHeader;
+                    readHeader = br.readLine();
+                    int lastversion = new Integer(readHeader.substring(8));
+                    GameDatabase.loadVersion();
+                    if (GameDatabase.version < lastversion) {
+                        if (Globals.getDebug()) {
+                            System.out.println("downloading new gamedata");
                         }
+                        BufferedOutputStream bo = null;
+                        File destfile = new File(GameDatabase.datafilepath);
+                        if (!destfile.createNewFile()) {
+                            destfile.delete();
+                            destfile.createNewFile();
+                        }
+                        bo = new BufferedOutputStream(new FileOutputStream(destfile));
+                        //save version
+                        bo.write(readHeader.getBytes());
+                        //save the rest
+                        int readedbyte;
+                        while ((readedbyte = br.read()) != -1) {
+                            bo.write(readedbyte);
+                        }
+                        bo.flush();
+                        try {
+                            br.close();
+                            bo.close();
+                        } catch (Exception ex) {
+                        }
+                        GameDatabase.loadVersion();
+                        GameDatabase.load("", GameDatabase.datafilepath);
                     }
-                }.start();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(Globals.getClientFrame(), "You have an outdated version of the gamedata, but couldn't update it!", "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
+                    ErrorHandler.handleException(e);
+                }
             }
-        } catch (Exception e) {
-            ErrorHandler.handleException(e);
-        }
+        }.start();
     }
 }
