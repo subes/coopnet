@@ -33,7 +33,7 @@ public class ErrorPanel extends javax.swing.JPanel {
 
     //Message constants
     private final String connectionrefused = "<HTML><p style=\"text-align: center;\"><b>Unable to connect to the server!</b><BR>" +
-            "Please make sure you are connected to the internet and the server address and port in the settings are correct.<BR>" +
+            "Please make sure you are connected to the internet and Coopnet is allowed to access it.<BR>" +
             "If you still cannot connect, the server may be down for maintenance, please try again later.</p> ";
     private final String unknownerror = "<HTML><p style=\"text-align: center;\"><b>An unknown error occured!</b><BR>" +
             "Please help us fix this problem by sending a bug report.</p>";
