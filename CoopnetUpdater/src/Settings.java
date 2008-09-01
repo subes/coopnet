@@ -45,9 +45,6 @@ import java.util.Vector;
  *      - add entries to private fields (entry name and default value)
  *      - write setter and getter by using the read<TYPE>() and writeSetting() functions
  *
- *  TODO:
- *      set good default values, i forgot the right values
- *
  */
 public class Settings {
 

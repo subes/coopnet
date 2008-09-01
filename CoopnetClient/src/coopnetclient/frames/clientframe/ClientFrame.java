@@ -368,15 +368,14 @@ public class ClientFrame extends javax.swing.JFrame {
         pnl_toggleQuickBarRight.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         pnl_toggleQuickBarRight.setMinimumSize(new java.awt.Dimension(5, 10));
         pnl_toggleQuickBarRight.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                pnl_toggleQuickBarRightMouseEntered(evt);
-                pnl_toggleQuickBar1MouseEntered(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnl_toggleQuickBarRightMousePressed(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 pnl_toggleQuickBarRightMouseExited(evt);
             }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                pnl_toggleQuickBarRightMousePressed(evt);
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pnl_toggleQuickBarRightMouseEntered(evt);
             }
         });
 
@@ -808,10 +807,6 @@ private void pnl_toggleQuickBarRightMousePressed(java.awt.event.MouseEvent evt) 
         setQuickBarVisibility(quickPanelVIsibility);
     }
 }//GEN-LAST:event_pnl_toggleQuickBarRightMousePressed
-
-private void pnl_toggleQuickBar1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleQuickBar1MouseEntered
-// TODO add your handling code here:
-}//GEN-LAST:event_pnl_toggleQuickBar1MouseEntered
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu m_channels;

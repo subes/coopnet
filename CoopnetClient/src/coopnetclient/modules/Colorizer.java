@@ -43,7 +43,6 @@ import javax.swing.text.JTextComponent;
 /* TODO:
  *    - colorize Controlbuttons in the same manner as the scrollbar buttons
  *    - find out how to change the scrollbar of jcombobox
- *    - change implementation of joptionpanes, so they become colorizable JDialog
  */
 public class Colorizer {
 
