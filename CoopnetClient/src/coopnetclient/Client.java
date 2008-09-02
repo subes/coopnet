@@ -233,7 +233,7 @@ public class Client {
                         }
                         bo = new BufferedOutputStream(new FileOutputStream(destfile));
                         //save version
-                        bo.write(readHeader.getBytes());
+                        bo.write((readHeader+"\n").getBytes());
                         //save the rest
                         int readedbyte;
                         while ((readedbyte = br.read()) != -1) {
