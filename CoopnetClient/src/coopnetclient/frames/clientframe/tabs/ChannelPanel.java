@@ -34,6 +34,7 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.models.ChannelStatusListModel;
 import coopnetclient.modules.listeners.HyperlinkMouseListener;
 import java.awt.event.MouseEvent;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -64,6 +65,11 @@ public class ChannelPanel extends javax.swing.JPanel {
         tbl_roomList.setModel(rooms);
         tbl_roomList.setAutoCreateRowSorter(true);
         tbl_roomList.setRowHeight(35);
+        tbl_roomList.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        tbl_roomList.getColumnModel().getColumn(0).setPreferredWidth(150);
+        tbl_roomList.getColumnModel().getColumn(1).setPreferredWidth(800);
+        tbl_roomList.getColumnModel().getColumn(2).setPreferredWidth(300);
+        tbl_roomList.getColumnModel().getColumn(3).setPreferredWidth(150);
                 
         RoomPasswordPicTableCellRenderer picrend = new RoomPasswordPicTableCellRenderer();
         picrend.setHorizontalAlignment(SwingConstants.CENTER);

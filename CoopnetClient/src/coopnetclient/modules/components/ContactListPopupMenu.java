@@ -23,7 +23,7 @@ import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
-import coopnetclient.enums.ContactStatuses;
+import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.components.mutablelist.EditableJlist;
 import coopnetclient.modules.models.ContactListModel;
@@ -132,7 +132,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
 
     public void setGroupActionVisibility(boolean isVisible) {
         //create.setVisible(isVisible);
-        if(source.getSelectedValue().toString().equals(ContactListModel.NO_GROUP)){
+        if(playername.getText().equals(ContactListModel.NO_GROUP)){
             deleteGroup.setVisible(false);
             rename.setVisible(false);
         }else{
@@ -201,7 +201,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         } else if (command.equals("Open/Collapse")) {
             model.toggleGroupClosedStatus(subject);
         } else if (command.equals("Whisper...")) {
-            if (model.getStatus(subject) != ContactStatuses.OFFLINE) {
+            if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {
                 TabOrganizer.openPrivateChatPanel(subject, true);
             }
         } else if (command.equals("Nudge")) {
@@ -212,7 +212,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         else if (command.equals("Show profile...")) {
             Client.send(Protocol.requestProfile(subject), null);
         } else if (command.equals("Send file...")) {
-            if (model.getStatus(subject) != ContactStatuses.OFFLINE) {
+            if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {
 
                 new Thread() {
 

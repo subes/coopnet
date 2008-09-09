@@ -21,7 +21,7 @@ package coopnetclient.frames.clientframe;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
-import coopnetclient.enums.ContactStatuses;
+import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.components.ContactListPopupMenu;
@@ -193,7 +193,7 @@ private void lst_contactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-F
         if (model.getGroupNames().contains(selected)) {
             model.toggleGroupClosedStatus(selected);
         } else {
-            if (model.getStatus(selected) != ContactStatuses.OFFLINE) {
+            if (model.getStatus(selected) != ContactListElementTypes.OFFLINE) {
                 TabOrganizer.openPrivateChatPanel(selected, true);
             }
         }

@@ -51,13 +51,14 @@ public class ClientFrame extends javax.swing.JFrame {
     private static Border openQuickbarBorder = BorderFactory.createLoweredBevelBorder();
     private static Border closedQuickbarBorder = BorderFactory.createRaisedBevelBorder();
     private static QuickPanel pnl_contactList;
-    
+
     /** Creates new form ClientFrame */
     public ClientFrame() {
         pnl_contactList = new coopnetclient.frames.clientframe.QuickPanel(Globals.getContactList());
+        pnl_contactList.setPreferredSize(new Dimension(200,10));
         initComponents();
-        pnl_toggleQuickBarLeft.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth()  ,10 ));
-        pnl_toggleQuickBarRight.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth()  ,10 ));
+        pnl_toggleQuickBarLeft.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
+        pnl_toggleQuickBarRight.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         setQuickPanelPosition(Settings.getQuickPanelPostionisLeft());
         pnl_contactList.setVisible(false);
         slp_mainSplitPanel.setDividerSize(0);
@@ -83,6 +84,7 @@ public class ClientFrame extends javax.swing.JFrame {
         pack();
     }
     //Callback for Globals
+
     public void updateLoggedInStatus() {
         if (Globals.getLoggedInStatus()) {
             mi_profile.setEnabled(true);
@@ -187,7 +189,7 @@ public class ClientFrame extends javax.swing.JFrame {
         privatechat.append(sender, message);
 
         if (!privatechat.isVisible()) {
-            printToVisibleChatbox(sender, message, ChatStyles.WHISPER_NOTIFICATION,false);
+            printToVisibleChatbox(sender, message, ChatStyles.WHISPER_NOTIFICATION, false);
         }
     }
 
@@ -199,7 +201,7 @@ public class ClientFrame extends javax.swing.JFrame {
         //update name in the main tab
         TabOrganizer.getChannelPanel(channel).updatePlayerName(oldname, newname);
         //update name in the room tab
-        if (TabOrganizer.getRoomPanel() != null ) {
+        if (TabOrganizer.getRoomPanel() != null) {
             TabOrganizer.getRoomPanel().updatePlayerName(oldname, newname);
         }
         //update the pm tab title too
@@ -210,10 +212,10 @@ public class ClientFrame extends javax.swing.JFrame {
     private void setQuickBarVisibility(boolean visibility) {
         if (visibility) {
             if (lastdividerposition == null) {
-                if(quickPanelOrientationIsLeft){
+                if (quickPanelOrientationIsLeft) {
                     lastdividerposition = pnl_contactList.getPreferredSize().width;
-                }else{
-                    lastdividerposition = slp_mainSplitPanel.getWidth()  - pnl_contactList.getPreferredSize().width - DIVIDERWIDTH - slp_mainSplitPanel.getInsets().right;
+                } else {
+                    lastdividerposition = slp_mainSplitPanel.getWidth() - (pnl_contactList.getPreferredSize().width + DIVIDERWIDTH +  slp_mainSplitPanel.getInsets().right);
                 }
             }
             slp_mainSplitPanel.setDividerSize(DIVIDERWIDTH);
@@ -237,12 +239,12 @@ public class ClientFrame extends javax.swing.JFrame {
             slp_mainSplitPanel.setLeftComponent(pnl_contactList);
             slp_mainSplitPanel.setRightComponent(tabpn_tabs);
             slp_mainSplitPanel.setResizeWeight(0.0);
-            pnl_contactList.setTabAlignment(true);            
+            pnl_contactList.setTabAlignment(true);
             quickPanelOrientationIsLeft = true;
             pnl_toggleQuickBarLeft.setVisible(true);
             pnl_toggleQuickBarRight.setVisible(false);
         } else { //put to the right
-            slp_mainSplitPanel.setLeftComponent(tabpn_tabs);            
+            slp_mainSplitPanel.setLeftComponent(tabpn_tabs);
             slp_mainSplitPanel.setRightComponent(pnl_contactList);
             slp_mainSplitPanel.setResizeWeight(1.0);
             pnl_contactList.setTabAlignment(false);
@@ -251,7 +253,7 @@ public class ClientFrame extends javax.swing.JFrame {
             pnl_toggleQuickBarRight.setVisible(true);
         }
         slp_mainSplitPanel.revalidate();
-        slp_mainSplitPanel.resetToPreferredSizes();        
+        slp_mainSplitPanel.resetToPreferredSizes();
         this.pack();
         this.repaint();
     }
@@ -271,11 +273,14 @@ public class ClientFrame extends javax.swing.JFrame {
         pnl_toggleQuickBarRight = new javax.swing.JPanel();
         mbar = new javax.swing.JMenuBar();
         m_main = new javax.swing.JMenu();
-        mi_profile = new javax.swing.JMenuItem();
         mi_connect = new javax.swing.JMenuItem();
         mi_disconnect = new javax.swing.JMenuItem();
         mi_update = new javax.swing.JMenuItem();
         mi_quit = new javax.swing.JMenuItem();
+        jm_user = new javax.swing.JMenu();
+        mi_profile = new javax.swing.JMenuItem();
+        mi_Show_Contactlist = new javax.swing.JMenuItem();
+        jmi_showMuteBanList = new javax.swing.JMenuItem();
         m_channels = new javax.swing.JMenu();
         mi_channelList = new javax.swing.JMenuItem();
         mi_manageFavs = new javax.swing.JMenuItem();
@@ -402,14 +407,6 @@ public class ClientFrame extends javax.swing.JFrame {
 
         m_main.setText("Client");
 
-        mi_profile.setText("Edit profile");
-        mi_profile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_profileActionPerformed(evt);
-            }
-        });
-        m_main.add(mi_profile);
-
         mi_connect.setText("Connect");
         mi_connect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -443,6 +440,34 @@ public class ClientFrame extends javax.swing.JFrame {
         m_main.add(mi_quit);
 
         mbar.add(m_main);
+
+        jm_user.setText("User");
+
+        mi_profile.setText("Edit profile");
+        mi_profile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_profileActionPerformed(evt);
+            }
+        });
+        jm_user.add(mi_profile);
+
+        mi_Show_Contactlist.setText("Show Contactlist");
+        mi_Show_Contactlist.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_Show_ContactlistActionPerformed(evt);
+            }
+        });
+        jm_user.add(mi_Show_Contactlist);
+
+        jmi_showMuteBanList.setText("Show my mute/ban list");
+        jmi_showMuteBanList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_showMuteBanListActionPerformed(evt);
+            }
+        });
+        jm_user.add(jmi_showMuteBanList);
+
+        mbar.add(jm_user);
 
         m_channels.setText("Channels");
 
@@ -635,15 +660,15 @@ public class ClientFrame extends javax.swing.JFrame {
      * <li> mode : defines the style of the printed text, can be system or chat or whisper
      * 
      */
-    public void printToVisibleChatbox(String name, String message, ChatStyles modeStyle,boolean popupEnabled) {
+    public void printToVisibleChatbox(String name, String message, ChatStyles modeStyle, boolean popupEnabled) {
         if (message.equals("Server is shutting down")) {
             mi_disconnect.doClick();
         }
 
         Component tc = tabpn_tabs.getSelectedComponent();
 
-        if (tc == null ) {
-            if(popupEnabled){
+        if (tc == null) {
+            if (popupEnabled) {
                 JOptionPane.showMessageDialog(Globals.getClientFrame(), message, "Message", JOptionPane.INFORMATION_MESSAGE);
             }
         } else if (tc instanceof ChannelPanel) {
@@ -664,6 +689,7 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_Sounds.setSelected(Settings.getSoundEnabled());
     }
     //Only used by ClientFramePanelHandler!
+
     protected JTabbedPane getTabHolder() {
         return tabpn_tabs;
     }
@@ -721,12 +747,9 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_guideActionPerformed
 
 private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_updateActionPerformed
-    new  
+    new Thread() {
 
-          Thread() {
-
-             
-                   @Override
+        @Override
         public void run() {
             try {
                 int n = JOptionPane.showConfirmDialog(null,
@@ -784,9 +807,9 @@ private void pnl_toggleQuickBarLeftMousePressed(java.awt.event.MouseEvent evt) {
 private void pnl_toggleQuickBarRightMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleQuickBarRightMouseEntered
     if (Globals.getLoggedInStatus()) {
         if (Settings.getColorizeBody()) {
-             pnl_toggleQuickBarRight.setBackground(Settings.getSelectionColor());
+            pnl_toggleQuickBarRight.setBackground(Settings.getSelectionColor());
         } else {
-             pnl_toggleQuickBarRight.setBackground((Color) UIManager.get("List.selectionBackground"));
+            pnl_toggleQuickBarRight.setBackground((Color) UIManager.get("List.selectionBackground"));
         }
     }
 }//GEN-LAST:event_pnl_toggleQuickBarRightMouseEntered
@@ -794,9 +817,9 @@ private void pnl_toggleQuickBarRightMouseEntered(java.awt.event.MouseEvent evt) 
 private void pnl_toggleQuickBarRightMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleQuickBarRightMouseExited
     if (Globals.getLoggedInStatus()) {
         if (Settings.getColorizeBody()) {
-             pnl_toggleQuickBarRight.setBackground(Settings.getBackgroundColor());
+            pnl_toggleQuickBarRight.setBackground(Settings.getBackgroundColor());
         } else {
-             pnl_toggleQuickBarRight.setBackground((Color) UIManager.get("Panel.background"));
+            pnl_toggleQuickBarRight.setBackground((Color) UIManager.get("Panel.background"));
         }
     }
 }//GEN-LAST:event_pnl_toggleQuickBarRightMouseExited
@@ -808,12 +831,36 @@ private void pnl_toggleQuickBarRightMousePressed(java.awt.event.MouseEvent evt) 
     }
 }//GEN-LAST:event_pnl_toggleQuickBarRightMousePressed
 
+private void jmi_showMuteBanListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_showMuteBanListActionPerformed
+    if(Globals.getLoggedInStatus()){
+        Globals.openMuteBanTableFrame();
+    }
+}//GEN-LAST:event_jmi_showMuteBanListActionPerformed
+
+private void mi_Show_ContactlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_Show_ContactlistActionPerformed
+    if(Globals.getLoggedInStatus()){
+        quickPanelVIsibility = !quickPanelVIsibility;
+        setQuickBarVisibility(quickPanelVIsibility);
+        if(quickPanelVIsibility){
+            mi_Show_Contactlist.setText("Hide ContactList");
+        }
+        else{
+            mi_Show_Contactlist.setText("Show ContactList");
+        }
+    }else{
+        mi_Show_Contactlist.setText("Show ContactList");
+    }
+}//GEN-LAST:event_mi_Show_ContactlistActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jm_user;
+    private javax.swing.JMenuItem jmi_showMuteBanList;
     private javax.swing.JMenu m_channels;
     private javax.swing.JMenu m_help;
     private javax.swing.JMenu m_main;
     private javax.swing.JMenu m_options;
     private javax.swing.JMenuBar mbar;
+    private javax.swing.JMenuItem mi_Show_Contactlist;
     private javax.swing.JCheckBoxMenuItem mi_Sounds;
     private javax.swing.JMenuItem mi_about;
     private javax.swing.JMenuItem mi_addCurrentToFav;

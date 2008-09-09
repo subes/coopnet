@@ -20,7 +20,7 @@
 package coopnetclient;
 
 import coopnetclient.enums.ChatStyles;
-import coopnetclient.enums.ContactStatuses;
+import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Verification;
 import coopnetclient.modules.Settings;
@@ -28,8 +28,10 @@ import coopnetclient.modules.SoundPlayer;
 import coopnetclient.modules.FrameIconFlasher;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.FileDownloader;
+import coopnetclient.modules.MuteBanListModel;
 import coopnetclient.modules.models.ContactListModel;
 import coopnetclient.utils.launcher.TempGameSettings;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -125,6 +127,17 @@ public class CommandHandler {
                 String tmp = input.substring(12);
                 GameDatabase.load(tmp,GameDatabase.datafilepath);
                 TabOrganizer.openChannelPanel(tmp);
+            } else if (input.startsWith("setmutebanlist")) {
+                String[] muteAndBan = input.substring(11).split("\n");
+                String[] mutedUserNames = muteAndBan[0].split(Protocol.INFORMATION_DELIMITER);
+                String[] bannedUserNames = muteAndBan[1].split(Protocol.INFORMATION_DELIMITER);
+                MuteBanListModel model = Globals. getMuteBanList();
+                for(String username : mutedUserNames){
+                    model.mute(username);
+                }
+                for(String username : bannedUserNames){
+                    model.ban(username);
+                }
             } else if (input.startsWith("nudge ")) {
                 String tmp = input.substring(6);
                 new FrameIconFlasher(Globals.getClientFrame(), "data/icons/nudge.png", tmp + " sent you a nudge!");
@@ -324,14 +337,14 @@ public class CommandHandler {
             }// contact list commands
                 else if (input.startsWith("contactrequest ")) {
                 String name = input.substring(15);
-                Globals.getContactList().addContact(name, "", ContactStatuses.PENDING_REQUEST);
+                Globals.getContactList().addContact(name, "", ContactListElementTypes.PENDING_REQUEST);
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name +" wants to add you to his/her contactlist", ChatStyles.SYSTEM,true);
             } else if (input.startsWith("setcontactstatus")) {
                 String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1contact  2status
-                ContactStatuses status = null;
+                ContactListElementTypes status = null;
                 String name = tmp[1];
                 int statuscode = Integer.valueOf(tmp[2]);
-                status = ContactStatuses.values()[statuscode];
+                status = ContactListElementTypes.values()[statuscode];
                 Globals.getContactList().setStatus(name, status);
                  //notifications                 
                  switch(status){
@@ -355,7 +368,7 @@ public class CommandHandler {
             } else if (input.startsWith("acceptedrequest")) {
                 String name = input.substring(15);
                 Globals.getContactList().removePending(name);
-                Globals.getContactList().addContact(name, ContactListModel.NO_GROUP, ContactStatuses.OFFLINE);
+                Globals.getContactList().addContact(name, ContactListModel.NO_GROUP, ContactListElementTypes.OFFLINE);
             } else if (input.startsWith("refusedrequest")) {
                 String name = input.substring(14);
                 Globals.getContactList().removePending(name);

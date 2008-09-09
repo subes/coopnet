@@ -28,6 +28,7 @@ import coopnetclient.frames.FavouritesFrame;
 import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.frames.ManageGamesFrame;
 import coopnetclient.frames.JoinRoomPasswordFrame;
+import coopnetclient.frames.MuteBanTableFrame;
 import coopnetclient.frames.SettingsFrame;
 import coopnetclient.frames.ShowProfileFrame;
 import coopnetclient.frames.TextPreviewFrame;
@@ -35,6 +36,7 @@ import coopnetclient.modules.Settings;
 import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Colorizer;
+import coopnetclient.modules.MuteBanListModel;
 import coopnetclient.modules.models.ContactListModel;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Point;
@@ -71,6 +73,8 @@ public class Globals {
     private static BugReportFrame bugReportFrame;
     private static TextPreviewFrame textPreviewFrame;
     private static JFrame childFrame;
+    private static MuteBanTableFrame muteBanTableFrame = null;
+    private static MuteBanListModel muteBanList = new MuteBanListModel();
     /*******************************************************************/
     
 
@@ -89,7 +93,10 @@ public class Globals {
         if (debug) {
             System.out.println("[L]\tOperatingSystem: " + operatingSystem.toString());
         }
-
+    }
+    
+    public static MuteBanListModel getMuteBanList(){
+        return muteBanList;
     }
 
     public static void recolorFrames() {
@@ -110,7 +117,7 @@ public class Globals {
         Colorizer.colorize(bugReportFrame);
         Colorizer.colorize(textPreviewFrame);
     }
-    
+
     public static boolean getChildFrameExists(){
         return childFrame == null;
     }
@@ -258,6 +265,30 @@ public class Globals {
         }
     }
 
+    public static MuteBanTableFrame getMuteBanTableFrame(){
+        return muteBanTableFrame;
+    }
+    
+    public static void openMuteBanTableFrame() {
+        if (muteBanTableFrame != null) {
+            Point prevLocation = muteBanTableFrame.getLocation();
+            muteBanTableFrame.dispose();
+            muteBanTableFrame = null;
+            muteBanTableFrame = new MuteBanTableFrame();
+            setupFrame(muteBanTableFrame, prevLocation);
+        } else {
+            muteBanTableFrame = new MuteBanTableFrame();
+            setupFrame(muteBanTableFrame);
+        }
+    }
+
+    public static void closeMuteBanTableFrame() {
+        if (muteBanTableFrame != null) {
+            muteBanTableFrame.dispose();
+            muteBanTableFrame = null;
+        }
+    }
+    
     public static void openEditProfileFrame(String name, String ingamename, String email, String emailpublicity, String country, String webpage) {
         if (editProfileFrame != null) {
             Point prevLocation = editProfileFrame.getLocation();
