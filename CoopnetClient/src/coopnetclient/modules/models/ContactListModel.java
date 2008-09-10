@@ -216,8 +216,11 @@ public class ContactListModel extends AbstractListModel implements EditableListM
     }
 
     public void renameGroup(String groupName, String newName) {
-        groups.get(indexOfGroup(groupName)).name = newName;
-        fireContentsChanged(this, 0, getSize());
+        if(indexOfGroup(newName) == -1){
+            groups.get(indexOfGroup(groupName)).name = newName;
+            fireContentsChanged(this, 0, getSize());
+            Client.send(Protocol.renameGroup(groupName,newName), null);
+        }
     }
 
     public Collection getGroupNames() {
@@ -370,13 +373,12 @@ public class ContactListModel extends AbstractListModel implements EditableListM
     }
 
     @Override
-    public void setValueAt(Object value, int index) {     
+    public void setValueAt(Object value, int index) {
         int sizethisfar = pendingList.size();
         for (Group g : groups) {
             if ((sizethisfar + g.size()) > index) { //element is in this group
                 if ((index - sizethisfar) == 0) {   // is group's index
-                    Client.send(Protocol.renameGroup(g.name,value.toString()), null);
-                    g.name = value.toString();
+                    renameGroup(g.name , value.toString());
                     return;
                 }
             } else {
