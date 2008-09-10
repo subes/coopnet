@@ -55,7 +55,7 @@ public class ClientFrame extends javax.swing.JFrame {
     /** Creates new form ClientFrame */
     public ClientFrame() {
         pnl_contactList = new coopnetclient.frames.clientframe.QuickPanel(Globals.getContactList());
-        pnl_contactList.setPreferredSize(new Dimension(200,10));
+        pnl_contactList.setPreferredSize(new Dimension(200, 10));
         initComponents();
         pnl_toggleQuickBarLeft.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         pnl_toggleQuickBarRight.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
@@ -82,6 +82,9 @@ public class ClientFrame extends javax.swing.JFrame {
 
         updateMenu();
         pack();
+        if (Settings.getTrayIconEnabled()) {
+            Globals.addTrayIcon();
+        }
     }
     //Callback for Globals
 
@@ -215,7 +218,7 @@ public class ClientFrame extends javax.swing.JFrame {
                 if (quickPanelOrientationIsLeft) {
                     lastdividerposition = pnl_contactList.getPreferredSize().width;
                 } else {
-                    lastdividerposition = slp_mainSplitPanel.getWidth() - (pnl_contactList.getPreferredSize().width + DIVIDERWIDTH +  slp_mainSplitPanel.getInsets().right);
+                    lastdividerposition = slp_mainSplitPanel.getWidth() - (pnl_contactList.getPreferredSize().width + DIVIDERWIDTH + slp_mainSplitPanel.getInsets().right);
                 }
             }
             slp_mainSplitPanel.setDividerSize(DIVIDERWIDTH);
@@ -314,7 +317,6 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CoopnetClient "+ Globals.getClientVersion());
         setMinimumSize(new java.awt.Dimension(400, 300));
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -571,23 +573,26 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_profileActionPerformed
 
     private void mi_quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_quitActionPerformed
-        quit();
+        quit(true);
 }//GEN-LAST:event_mi_quitActionPerformed
 
-    public void quit() {
-        Client.send(Protocol.quit(), null);
-        Client.stopConnection();
-        //save sizes
-        coopnetclient.modules.Settings.setMainFrameMaximised(this.getExtendedState());
+    public void quit(boolean override) {
+        if (!override && Settings.getTrayIconEnabled()) {
+            this.setVisible(false);
+        } else {
+            Client.send(Protocol.quit(), null);
+            Client.stopConnection();
+            //save sizes
+            coopnetclient.modules.Settings.setMainFrameMaximised(this.getExtendedState());
 
-        if (this.getExtendedState() == javax.swing.JFrame.NORMAL) {
-            coopnetclient.modules.Settings.setMainFrameHeight(this.getHeight());
-            coopnetclient.modules.Settings.setMainFrameWidth(this.getWidth());
+            if (this.getExtendedState() == javax.swing.JFrame.NORMAL) {
+                coopnetclient.modules.Settings.setMainFrameHeight(this.getHeight());
+                coopnetclient.modules.Settings.setMainFrameWidth(this.getWidth());
+            }
+
+            System.exit(0);
         }
-
-        System.exit(0);
     }
-
     private void mi_clientSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_clientSettingsActionPerformed
         Globals.openSettingsFrame();
 }//GEN-LAST:event_mi_clientSettingsActionPerformed
@@ -718,7 +723,7 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_tabpn_tabsComponentRemoved
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        quit();
+        quit(false);
     }//GEN-LAST:event_formWindowClosing
 
     private void mi_SoundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_SoundsActionPerformed
@@ -761,7 +766,7 @@ private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                         FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", "./CoopnetUpdater.jar");
                         Runtime rt = Runtime.getRuntime();
                         rt.exec("java -jar CoopnetUpdater.jar");
-                        Globals.getClientFrame().quit();
+                        Globals.getClientFrame().quit(true);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -832,22 +837,21 @@ private void pnl_toggleQuickBarRightMousePressed(java.awt.event.MouseEvent evt) 
 }//GEN-LAST:event_pnl_toggleQuickBarRightMousePressed
 
 private void jmi_showMuteBanListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_showMuteBanListActionPerformed
-    if(Globals.getLoggedInStatus()){
+    if (Globals.getLoggedInStatus()) {
         Globals.openMuteBanTableFrame();
     }
 }//GEN-LAST:event_jmi_showMuteBanListActionPerformed
 
 private void mi_Show_ContactlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_Show_ContactlistActionPerformed
-    if(Globals.getLoggedInStatus()){
+    if (Globals.getLoggedInStatus()) {
         quickPanelVIsibility = !quickPanelVIsibility;
         setQuickBarVisibility(quickPanelVIsibility);
-        if(quickPanelVIsibility){
+        if (quickPanelVIsibility) {
             mi_Show_Contactlist.setText("Hide ContactList");
-        }
-        else{
+        } else {
             mi_Show_Contactlist.setText("Show ContactList");
         }
-    }else{
+    } else {
         mi_Show_Contactlist.setText("Show ContactList");
     }
 }//GEN-LAST:event_mi_Show_ContactlistActionPerformed

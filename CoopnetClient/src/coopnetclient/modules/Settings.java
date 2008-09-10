@@ -119,7 +119,8 @@ public class Settings {
             quickPanelDividerWidth = "QuckPanelDividerWidth",
             contactStatusChangeTextNotification = "ContactStatusChangeTextNotification",
             contactStatusChangeSoundNotification = "ContactStatusChangeSoundNotification",
-            quickPanelToggleBarWidth = "QuickPanelToggleBarWidth";
+            quickPanelToggleBarWidth = "QuickPanelToggleBarWidth",
+            trayIconEnabled = "TrayIcon";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -163,6 +164,7 @@ public class Settings {
     private final static int def_QuickPanelToggleBarWidth = 5;
     private final static boolean def_ContactStatusChangeTextNotification = true;
     private final static boolean def_ContactStatusChangeSoundNotification = true;
+    private final static boolean def_TrayIconEnabled = true;
     private static Vector<String> favourites;
 
     /**
@@ -290,7 +292,13 @@ public class Settings {
     }
 
     
-    
+    public static boolean getTrayIconEnabled() {
+        return readBoolean(trayIconEnabled, def_TrayIconEnabled);
+    }
+
+    public static void setTrayIconEnabled(boolean status) {
+        writeSetting(trayIconEnabled, String.valueOf(status));
+    }
             
     public static boolean getQuickPanelPostionisLeft() {
         return readBoolean(quickPanelPostionisLeft, def_QuickPanelPostionIsLeft);

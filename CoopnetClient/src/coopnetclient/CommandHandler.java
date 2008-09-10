@@ -76,7 +76,7 @@ public class CommandHandler {
                                     FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", "./CoopnetUpdater.jar");
                                     Runtime rt = Runtime.getRuntime();
                                     rt.exec("java -jar CoopnetUpdater.jar");
-                                    Globals.getClientFrame().quit();
+                                    Globals.getClientFrame().quit(true);
                                 } catch (Exception ex) {
                                     ex.printStackTrace();
                                 }

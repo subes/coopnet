@@ -37,9 +37,14 @@ import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Colorizer;
 import coopnetclient.modules.MuteBanListModel;
+import coopnetclient.modules.SystemTrayPopup;
 import coopnetclient.modules.models.ContactListModel;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Point;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class Globals {
@@ -75,8 +80,11 @@ public class Globals {
     private static JFrame childFrame;
     private static MuteBanTableFrame muteBanTableFrame = null;
     private static MuteBanListModel muteBanList = new MuteBanListModel();
+    private static SystemTray tray = SystemTray.getSystemTray();
+    private static TrayIcon trayIcon = null;
+    private static boolean trayAdded = false;
     /*******************************************************************/
-    
+
 
     static {
         //Detect OS
@@ -93,9 +101,55 @@ public class Globals {
         if (debug) {
             System.out.println("[L]\tOperatingSystem: " + operatingSystem.toString());
         }
+        //initialise and add trayicon if needed
+        ImageIcon normalIcon = new ImageIcon(
+                Toolkit.getDefaultToolkit().createImage(
+                "data/icons/coopnet.png"));
+        trayIcon = new TrayIcon(normalIcon.getImage(), "Coopnet client", new SystemTrayPopup());
+        trayIcon.setImageAutoSize(true);
+        trayIcon.addMouseListener(
+                new java.awt.event.MouseAdapter() {
+
+                    @Override
+                    public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    }
+
+                    @Override
+                    public void mouseExited(java.awt.event.MouseEvent evt) {
+                    }
+
+                    @Override
+                    public void mousePressed(java.awt.event.MouseEvent evt) {
+                        if (evt.getClickCount() >= 2) {
+                            Globals.getClientFrame().setVisible(true);
+                        }
+                    }
+                });
     }
-    
-    public static MuteBanListModel getMuteBanList(){
+
+    public static void addTrayIcon() {
+        try {
+            if (!trayAdded) {
+                tray.add(trayIcon);
+                trayAdded = true;
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public static void removeTrayIcon() {
+        try {
+            tray.remove(trayIcon);
+            trayAdded = false;
+        } catch (Exception e) {
+        }
+    }
+
+    public static TrayIcon getTrayIcon() {
+        return trayIcon;
+    }
+
+    public static MuteBanListModel getMuteBanList() {
         return muteBanList;
     }
 
@@ -118,28 +172,28 @@ public class Globals {
         Colorizer.colorize(textPreviewFrame);
     }
 
-    public static boolean getChildFrameExists(){
+    public static boolean getChildFrameExists() {
         return childFrame == null;
     }
-    
-    public static void setChildFrame(JFrame child){
-         childFrame = child;
+
+    public static void setChildFrame(JFrame child) {
+        childFrame = child;
     }
-    
-    public static boolean getPlayerListPopupIsUp(){
+
+    public static boolean getPlayerListPopupIsUp() {
         return playerListPopupIsUp;
     }
-    
-    public static void setPlayerListPopupIsUp(boolean isUp){
-         playerListPopupIsUp = isUp;
+
+    public static void setPlayerListPopupIsUp(boolean isUp) {
+        playerListPopupIsUp = isUp;
     }
-    
-    public static boolean getContactListPopupIsUp(){
+
+    public static boolean getContactListPopupIsUp() {
         return contactListPopupIsUp;
     }
-    
-    public static void setContactListPopupIsUp(boolean isUp){
-         contactListPopupIsUp = isUp;
+
+    public static void setContactListPopupIsUp(boolean isUp) {
+        contactListPopupIsUp = isUp;
     }
 
     public static void enableDebug() {
@@ -265,10 +319,10 @@ public class Globals {
         }
     }
 
-    public static MuteBanTableFrame getMuteBanTableFrame(){
+    public static MuteBanTableFrame getMuteBanTableFrame() {
         return muteBanTableFrame;
     }
-    
+
     public static void openMuteBanTableFrame() {
         if (muteBanTableFrame != null) {
             Point prevLocation = muteBanTableFrame.getLocation();
@@ -288,7 +342,7 @@ public class Globals {
             muteBanTableFrame = null;
         }
     }
-    
+
     public static void openEditProfileFrame(String name, String ingamename, String email, String emailpublicity, String country, String webpage) {
         if (editProfileFrame != null) {
             Point prevLocation = editProfileFrame.getLocation();
@@ -310,8 +364,8 @@ public class Globals {
             editProfileFrame = null;
         }
     }
-    
-    public static ChangePasswordFrame getChangePasswordFrame(){
+
+    public static ChangePasswordFrame getChangePasswordFrame() {
         return changePasswordFrame;
     }
 
@@ -372,13 +426,13 @@ public class Globals {
         }
     }
 
-    public static void closeJoinRoomPasswordFrame(){
+    public static void closeJoinRoomPasswordFrame() {
         if (roomJoinPasswordFrame != null) {
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
         }
     }
-    
+
     public static void openJoinRoomPasswordFrame(String channel, String roomHost) {
         if (createRoomFrame != null) {
             createRoomFrame.dispose();
@@ -484,8 +538,8 @@ public class Globals {
             settingsFrame = null;
         }
     }
-    
-    public static ManageGamesFrame getManageGamesFrame(){
+
+    public static ManageGamesFrame getManageGamesFrame() {
         return manageGamesFrame;
     }
 
@@ -505,10 +559,10 @@ public class Globals {
         }
     }
 
-    public static BugReportFrame getBugReportFrame(){
+    public static BugReportFrame getBugReportFrame() {
         return bugReportFrame;
     }
-    
+
     public static void openBugReportFrame() {
         if (bugReportFrame != null) {
             bugReportFrame.setVisible(true);
