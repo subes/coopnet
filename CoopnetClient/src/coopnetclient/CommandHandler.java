@@ -367,11 +367,10 @@ public class CommandHandler {
                  }
             } else if (input.startsWith("acceptedrequest")) {
                 String name = input.substring(15);
-                Globals.getContactList().removePending(name);
-                Globals.getContactList().addContact(name, ContactListModel.NO_GROUP, ContactListElementTypes.OFFLINE);
+                Globals.getContactList().setStatus(name,ContactListElementTypes.OFFLINE);
             } else if (input.startsWith("refusedrequest")) {
                 String name = input.substring(14);
-                Globals.getContactList().removePending(name);
+                Globals.getContactList().removecontact(name);
             } else if (input.startsWith("contactdata ")) {
                 String data = input.substring(12);
                 Globals.getContactList().buildFrom(data);

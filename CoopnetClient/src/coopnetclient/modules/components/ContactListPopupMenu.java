@@ -132,7 +132,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     }
 
     public void setGroupActionVisibility(boolean isVisible) {
-        if (playername.getText().equals(ContactListModel.NO_GROUP)) {
+        if (playername.getText().equals(ContactListModel.DEFAULT_GROUP)) {
             deleteGroup.setVisible(false);
             rename.setVisible(false);
         } else {

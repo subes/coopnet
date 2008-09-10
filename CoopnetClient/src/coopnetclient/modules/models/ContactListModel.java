@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.modules.models;
 
 import coopnetclient.Client;
@@ -37,7 +36,7 @@ import javax.swing.AbstractListModel;
  */
 public class ContactListModel extends AbstractListModel implements EditableListModel {
 
-    public static final String NO_GROUP = "Default Group";
+    public static final String DEFAULT_GROUP = "Default Group";
     private static boolean showoffline = true;
 
     public static class Group {
@@ -54,7 +53,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         }
 
         public int size() {
-            if(name.equals(NO_GROUP) && contacts.size() == 0 && offlinecontacts.size() == 0 ){
+            if (name.equals(DEFAULT_GROUP) && contacts.size() == 0 && offlinecontacts.size() == 0) {
                 return 0;
             }
             if (closed) {
@@ -86,57 +85,54 @@ public class ContactListModel extends AbstractListModel implements EditableListM
 
     public ContactListModel() {
         super();
-        //groups.add(new Group(NO_GROUP));
+    //groups.add(new Group(NO_GROUP));
     }
 
-    public void updateName(String oldname, String newName){
+    public void updateName(String oldname, String newName) {
         Group group = groupOfContact(oldname);
         ContactListElementTypes status = null;
         if (group != null) {
             status = group.contacts.remove(oldname);
-            if(status != null){
-                group.contacts.put(newName,status);
+            if (status != null) {
+                group.contacts.put(newName, status);
             }
-            if(group.offlinecontacts.remove(oldname)) {
+            if (group.offlinecontacts.remove(oldname)) {
                 group.offlinecontacts.add(newName);
             }
         }
         status = pendingList.remove(oldname);
-        if(status != null){
-            pendingList.put(newName,status);
+        if (status != null) {
+            pendingList.put(newName, status);
         }
         fireContentsChanged(this, 0, getSize());
     }
-    
+
     public void buildFrom(String data) {
         clear();
         String currentname = null;
         Integer currentstatusindex = null;
         String[] rows = data.split("\n");
         int currentrow = 0;
-        for(String row : rows){            
+        for (String row : rows) {
             String[] fields = row.split(Protocol.INFORMATION_DELIMITER);
-            if(currentrow == 0){
-                for(int i = 1; i < fields.length; i++){
+            if (currentrow == 0) {
+                for (int i = 1; i < fields.length; i++) {
                     addContact(fields[i], "", ContactListElementTypes.PENDING_REQUEST);
                 }
-            }else if(currentrow == 1){
-                for(int i = 1; i < fields.length; i++){
-                    addContact(fields[i], "", ContactListElementTypes.PENDING_CONTACT);
-                }
-            } else{
-                addGroup(fields[0]);                
-                for(int i = 1; i < fields.length; i++){
-                    currentname = fields[i].substring(1);                    
-                    currentstatusindex = Integer.valueOf(fields[i].substring(0,1)  );
+            } else {
+                addGroup(fields[0]);
+                for (int i = 1; i < fields.length; i++) {
+                    currentname = fields[i].substring(1);
+                    currentstatusindex = Integer.valueOf(fields[i].substring(0, 1));
                     addContact(currentname, fields[0], ContactListElementTypes.values()[currentstatusindex]);
                 }
             }
-            currentrow ++;
+            currentrow++;
         }
         fireContentsChanged(this, 0, getSize());
     }
     // ListModel methods
+
     @Override
     public int getSize() {
         // Return the model size
@@ -193,33 +189,33 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         return null;
     }
 
-    public void createNewGroup(String name){
+    public void createNewGroup(String name) {
         addGroup(name);
         Client.send(Protocol.createGroup(name), null);
         fireContentsChanged(this, 0, getSize());
     }
-    
+
     public void addGroup(String groupName) {
         groups.add(new Group(groupName));
         fireContentsChanged(this, 0, getSize());
     }
 
     public void removeGroup(String groupName) {
-        Group nogroup = groups.get( indexOfGroup(NO_GROUP));
+        Group nogroup = groups.get(indexOfGroup(DEFAULT_GROUP));
         int idx = indexOfGroup(groupName);
-        if(idx > -1 && !groups.get(idx).name.equals(NO_GROUP)){
+        if (idx > -1 && !groups.get(idx).name.equals(DEFAULT_GROUP)) {
             nogroup.contacts.putAll(groups.get(idx).contacts);
             nogroup.offlinecontacts.addAll(groups.get(idx).offlinecontacts);
             groups.remove(idx);
             fireContentsChanged(this, 0, getSize());
-        }        
+        }
     }
 
     public void renameGroup(String groupName, String newName) {
-        if(indexOfGroup(newName) == -1){
+        if (indexOfGroup(newName) == -1) {
             groups.get(indexOfGroup(groupName)).name = newName;
             fireContentsChanged(this, 0, getSize());
-            Client.send(Protocol.renameGroup(groupName,newName), null);
+            Client.send(Protocol.renameGroup(groupName, newName), null);
         }
     }
 
@@ -241,13 +237,15 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         fireContentsChanged(this, 0, getSize());
     }
     //other methods
+
     public void addContact(String contactname, String groupName, ContactListElementTypes status) {
         switch (status) {
             case PENDING_REQUEST:
                 pendingList.put(contactname, ContactListElementTypes.PENDING_REQUEST);
                 break;
             case PENDING_CONTACT:
-                pendingList.put(contactname, ContactListElementTypes.PENDING_CONTACT);
+                groups.get(indexOfGroup(DEFAULT_GROUP)).contacts.
+                        put(contactname, ContactListElementTypes.PENDING_CONTACT);
                 break;
             case OFFLINE:
                 groups.get(indexOfGroup(groupName)).offlinecontacts.add(contactname);
@@ -261,7 +259,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
 
     public void removecontact(String contactName) {
         Group source = groupOfContact(contactName);
-        if (source != null ) {
+        if (source != null) {
             source.contacts.remove(contactName);
             source.offlinecontacts.remove(contactName);
             fireContentsChanged(this, 0, getSize());
@@ -279,7 +277,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         source.offlinecontacts.remove(contactName);
         addContact(contactName, tartgetGroup, status);
         fireContentsChanged(this, 0, getSize());
-        Client.send(Protocol.moveToGroup(contactName,tartgetGroup), null);
+        Client.send(Protocol.moveToGroup(contactName, tartgetGroup), null);
         fireContentsChanged(this, 0, getSize());
     }
 
@@ -292,7 +290,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         //if it was pending
         Group group = null;
         if (pendingList.containsKey(contactName)) {
-            group = groups.get(indexOfGroup(NO_GROUP));
+            group = groups.get(indexOfGroup(DEFAULT_GROUP));
             if (status == ContactListElementTypes.OFFLINE) {
                 group.offlinecontacts.add(contactName);
                 pendingList.remove(contactName);
@@ -302,12 +300,12 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         } else {
             group = groupOfContact(contactName);
         }
-        if(group == null){
+        if (group == null) {
             return;
         }
         if (group.offlinecontacts.contains(contactName)) {//was offline
             group.contacts.put(contactName, status);
-            group.offlinecontacts.remove(contactName);            
+            group.offlinecontacts.remove(contactName);
         } else {//was online and valid contact
             group.contacts.put(contactName, status);//override status
         }
@@ -342,7 +340,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
 
     public void clear() {
         pendingList.clear();
-        groups.clear(); 
+        groups.clear();
         //groups.add(new Group(NO_GROUP));
         fireContentsChanged(this, 0, getSize());
     }
@@ -378,7 +376,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         for (Group g : groups) {
             if ((sizethisfar + g.size()) > index) { //element is in this group
                 if ((index - sizethisfar) == 0) {   // is group's index
-                    renameGroup(g.name , value.toString());
+                    renameGroup(g.name, value.toString());
                     return;
                 }
             } else {
