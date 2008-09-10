@@ -20,6 +20,7 @@
 package coopnetclient;
 
 import coopnetclient.modules.Settings;
+import coopnetclient.modules.Verification;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
@@ -150,8 +151,8 @@ public class Protocol {
 
     public static String changePassword(String oldpassword, String newpassword) {
         return "changepassword " + INFORMATION_DELIMITER 
-                + oldpassword + INFORMATION_DELIMITER 
-                + newpassword + INFORMATION_DELIMITER 
+                + Verification.encryptPassword(oldpassword) + INFORMATION_DELIMITER 
+                + Verification.encryptPassword(newpassword) + INFORMATION_DELIMITER 
                 + ".";
     }
 
@@ -166,14 +167,13 @@ public class Protocol {
     public static String login(String name, String password) {
         return "login" + INFORMATION_DELIMITER 
                 + name + INFORMATION_DELIMITER 
-                + password + INFORMATION_DELIMITER;
+                + Verification.encryptPassword(password) + INFORMATION_DELIMITER;
     }
 
     public static String register(String name, String password) {
         return "newplayer" + INFORMATION_DELIMITER 
                 + name + INFORMATION_DELIMITER 
-                + password + INFORMATION_DELIMITER 
-                + name + INFORMATION_DELIMITER;
+                + Verification.encryptPassword(password) + INFORMATION_DELIMITER;
     }
 
     public static String mainChat(String message) {
