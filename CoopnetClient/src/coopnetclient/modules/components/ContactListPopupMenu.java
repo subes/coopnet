@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.modules.components;
 
 import coopnetclient.Client;
@@ -86,7 +85,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(new JSeparator());
         this.add(accept);
         this.add(refuse);
-        this.add(deleteContact) ;
+        this.add(deleteContact);
         this.add(new JSeparator());
         this.add(nudge);
         this.add(showProfile);
@@ -124,18 +123,19 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         showProfile.setVisible(isVisible);
         whisper.setVisible(isVisible);
         sendfile.setVisible(isVisible);
+        invite.setVisible(isVisible);
     }
+
     public void setPendingActionVisibility(boolean isVisible) {
         accept.setVisible(isVisible);
         refuse.setVisible(isVisible);
     }
 
     public void setGroupActionVisibility(boolean isVisible) {
-        //create.setVisible(isVisible);
-        if(playername.getText().equals(ContactListModel.NO_GROUP)){
+        if (playername.getText().equals(ContactListModel.NO_GROUP)) {
             deleteGroup.setVisible(false);
             rename.setVisible(false);
-        }else{
+        } else {
             deleteGroup.setVisible(isVisible);
             rename.setVisible(isVisible);
         }
@@ -143,11 +143,11 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     }
 
     @Override
-    public void setVisible(boolean visible){
+    public void setVisible(boolean visible) {
         super.setVisible(visible);
         Globals.setContactListPopupIsUp(visible);
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -160,9 +160,9 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
 
         final String subject = playername.getText();//(String) source.getSelectedValue();
 //Remove Contact
-        if (command.equals("Accept")) {            
+        if (command.equals("Accept")) {
             Client.send(Protocol.acceptRequest(subject), null);
-            model.removePending(subject);            
+            model.removePending(subject);
         } else if (command.equals("Refuse")) {
             model.removePending(subject);
             Client.send(Protocol.refuseRequest(subject), null);
@@ -205,11 +205,10 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                 TabOrganizer.openPrivateChatPanel(subject, true);
             }
         } else if (command.equals("Nudge")) {
-            Client.send(Protocol.nudge(subject), null);            
+            Client.send(Protocol.nudge(subject), null);
         } else if (command.equals("Invite to room")) {
             Client.send(Protocol.sendInvite(subject), null);
-        }         
-        else if (command.equals("Show profile...")) {
+        } else if (command.equals("Show profile...")) {
             Client.send(Protocol.requestProfile(subject), null);
         } else if (command.equals("Send file...")) {
             if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {
@@ -245,37 +244,46 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
 
     @Override
     public void show(Component invoker, int x, int y) {
-        if (source == null || source.getSelectedValue() == null) {
+        if (source == null) {
             return;
         } else {
-            refreshMoveToMenu();
-            //HIDE UNNECESSARY ITEMS
-            ContactListModel model = (ContactListModel) source.getModel();
-            switch (model.getStatus(source.getSelectedValue().toString())) {
-                case GROUPNAME_CLOSED:
-                case GROUPNAME_OPEN:
-                    setPendingActionVisibility(false);
-                    setGroupActionVisibility(true);
-                    setContactActionVisibility(false);
-                    break;
-                case PENDING_CONTACT:
-                    setPendingActionVisibility(false);
-                    setGroupActionVisibility(false);
-                    setContactActionVisibility(false);
-                    break;
-                case PENDING_REQUEST:
-                    setPendingActionVisibility(true);
-                    setGroupActionVisibility(false);
-                    setContactActionVisibility(false);
-                    break;
-                default:
-                    setPendingActionVisibility(false);
-                    setGroupActionVisibility(false);
-                    setContactActionVisibility(true);
-                    break;
+            if (source.getSelectedValue() == null) {
+                setPendingActionVisibility(false);
+                setGroupActionVisibility(false);
+                setContactActionVisibility(false);
+                refreshMoveToMenu();
+                playername.setText("No selection");
+                super.show(invoker, x, y);
+            } else {
+                refreshMoveToMenu();
+                //HIDE UNNECESSARY ITEMS
+                ContactListModel model = (ContactListModel) source.getModel();
+                switch (model.getStatus(source.getSelectedValue().toString())) {
+                    case GROUPNAME_CLOSED:
+                    case GROUPNAME_OPEN:
+                        setPendingActionVisibility(false);
+                        setGroupActionVisibility(true);
+                        setContactActionVisibility(false);
+                        break;
+                    case PENDING_CONTACT:
+                        setPendingActionVisibility(false);
+                        setGroupActionVisibility(false);
+                        setContactActionVisibility(false);
+                        break;
+                    case PENDING_REQUEST:
+                        setPendingActionVisibility(true);
+                        setGroupActionVisibility(false);
+                        setContactActionVisibility(false);
+                        break;
+                    default:
+                        setPendingActionVisibility(false);
+                        setGroupActionVisibility(false);
+                        setContactActionVisibility(true);
+                        break;
+                }
+                playername.setText((String) source.getSelectedValue());
+                super.show(invoker, x, y);
             }
-            playername.setText((String) source.getSelectedValue());
-            super.show(invoker, x, y);
         }
     }
 }

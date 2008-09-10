@@ -167,7 +167,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
                 }
             }
         }
-        return "ERROR";
+        return null;
     }
 
     private int indexOfGroup(String groupname) {
