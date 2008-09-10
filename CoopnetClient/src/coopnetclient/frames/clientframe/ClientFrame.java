@@ -35,6 +35,7 @@ import coopnetclient.modules.FileDownloader;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.SystemTray;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -577,7 +578,7 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_quitActionPerformed
 
     public void quit(boolean override) {
-        if (!override && Settings.getTrayIconEnabled()) {
+        if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled()) {
             this.setVisible(false);
         } else {
             Client.send(Protocol.quit(), null);

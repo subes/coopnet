@@ -22,6 +22,7 @@ package coopnetclient.modules;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import java.awt.Image;
+import java.awt.SystemTray;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 
@@ -56,7 +57,7 @@ public class FrameIconFlasher extends Thread {
             while (!parent.isActive()) {
                 parent.setIconImage(flashIcon);
                 parent.setTitle(flashTitle);
-                if(Settings.getTrayIconEnabled()){
+                if(SystemTray.isSupported() && Settings.getTrayIconEnabled()){
                     Globals.getTrayIcon().setImage(flashIcon);
                 }
                 try {
@@ -65,7 +66,7 @@ public class FrameIconFlasher extends Thread {
                 }
                 parent.setIconImage(prevIcon);
                 parent.setTitle(prevTitle);
-                if(Settings.getTrayIconEnabled()){
+                if(SystemTray.isSupported() && Settings.getTrayIconEnabled()){
                     Globals.getTrayIcon().setImage(prevIcon);
                 }
                 try {

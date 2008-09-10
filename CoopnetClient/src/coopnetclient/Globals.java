@@ -80,7 +80,7 @@ public class Globals {
     private static JFrame childFrame;
     private static MuteBanTableFrame muteBanTableFrame = null;
     private static MuteBanListModel muteBanList = new MuteBanListModel();
-    private static SystemTray tray = SystemTray.getSystemTray();
+    private static SystemTray tray = null;
     private static TrayIcon trayIcon = null;
     private static boolean trayAdded = false;
     /*******************************************************************/
@@ -102,34 +102,37 @@ public class Globals {
             System.out.println("[L]\tOperatingSystem: " + operatingSystem.toString());
         }
         //initialise and add trayicon if needed
-        ImageIcon normalIcon = new ImageIcon(
-                Toolkit.getDefaultToolkit().createImage(
-                "data/icons/coopnet.png"));
-        trayIcon = new TrayIcon(normalIcon.getImage(), "Coopnet client", new SystemTrayPopup());
-        trayIcon.setImageAutoSize(true);
-        trayIcon.addMouseListener(
-                new java.awt.event.MouseAdapter() {
+        if (SystemTray.isSupported()) {
+            tray = SystemTray.getSystemTray();
+            ImageIcon normalIcon = new ImageIcon(
+                    Toolkit.getDefaultToolkit().createImage(
+                    "data/icons/coopnet.png"));
+            trayIcon = new TrayIcon(normalIcon.getImage(), "Coopnet client", new SystemTrayPopup());
+            trayIcon.setImageAutoSize(true);
+            trayIcon.addMouseListener(
+                    new java.awt.event.MouseAdapter() {
 
-                    @Override
-                    public void mouseEntered(java.awt.event.MouseEvent evt) {
-                    }
-
-                    @Override
-                    public void mouseExited(java.awt.event.MouseEvent evt) {
-                    }
-
-                    @Override
-                    public void mousePressed(java.awt.event.MouseEvent evt) {
-                        if (evt.getClickCount() >= 2) {
-                            Globals.getClientFrame().setVisible(true);
+                        @Override
+                        public void mouseEntered(java.awt.event.MouseEvent evt) {
                         }
-                    }
-                });
+
+                        @Override
+                        public void mouseExited(java.awt.event.MouseEvent evt) {
+                        }
+
+                        @Override
+                        public void mousePressed(java.awt.event.MouseEvent evt) {
+                            if (evt.getClickCount() >= 2) {
+                                Globals.getClientFrame().setVisible(true);
+                            }
+                        }
+                    });
+        }
     }
 
     public static void addTrayIcon() {
         try {
-            if (!trayAdded) {
+            if (SystemTray.isSupported() && !trayAdded) {
                 tray.add(trayIcon);
                 trayAdded = true;
             }
@@ -138,10 +141,12 @@ public class Globals {
     }
 
     public static void removeTrayIcon() {
-        try {
-            tray.remove(trayIcon);
-            trayAdded = false;
-        } catch (Exception e) {
+        if (SystemTray.isSupported()) {
+            try {
+                tray.remove(trayIcon);
+                trayAdded = false;
+            } catch (Exception e) {
+            }
         }
     }
 
