@@ -31,6 +31,7 @@ import coopnetclient.modules.Settings;
 import java.awt.GraphicsEnvironment;
 import javax.swing.JOptionPane;
 import coopnetclient.modules.listeners.ColorChooserButtonActionListener;
+import java.awt.SystemTray;
 import java.io.File;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -69,8 +70,12 @@ public class SettingsFrame extends javax.swing.JFrame {
 
         cb_sounds.setSelected(coopnetclient.modules.Settings.getSoundEnabled());
         cb_sleepMode.setSelected(coopnetclient.modules.Settings.getSleepEnabled());
-        cb_TrayIconEnabled.setSelected(coopnetclient.modules.Settings.getTrayIconEnabled());
-
+        if(SystemTray.isSupported()){
+            cb_TrayIconEnabled.setSelected(coopnetclient.modules.Settings.getTrayIconEnabled());
+        }
+        else{
+            cb_TrayIconEnabled.setVisible(false);
+        }
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         String fontNames[] = ge.getAvailableFontFamilyNames();
         cmb_playerNamesType.setModel(new javax.swing.DefaultComboBoxModel(fontNames));
