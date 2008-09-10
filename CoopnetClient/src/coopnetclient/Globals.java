@@ -50,19 +50,23 @@ import javax.swing.JFrame;
 public class Globals {
 
     //Constants
-    public static final int JDPLAY_MAXSEARCHRETRIES = 10;    //Set via static{}
+    public static final int JDPLAY_MAXSEARCHRETRIES = 10;    
+    //Set via static{}
     private static OperatingSystems operatingSystem;
-    private static String lastOpenedDir;    //Preset value
+    private static String lastOpenedDir;    
+    //Preset value
     private static boolean debug = false;
     private static final String clientVersion = "0.97.0";
     private static boolean loggedInStatus = false;
     private static boolean sleepModeStatus = false;
     private static boolean contactListPopupIsUp = false;
-    private static boolean playerListPopupIsUp = false;    //First set when known
+    private static boolean playerListPopupIsUp = false;    
+    //First set when known
     private static String thisPlayer_loginName;
     private static String thisPlayer_inGameName;
     private static String serverIP;
-    private static int serverPort;    //Objects
+    private static int serverPort;    
+    //Objects
     private static ClientFrame clientFrame;
     private static ContactListModel contacts = new ContactListModel();
     private static ChangePasswordFrame changePasswordFrame;
@@ -77,7 +81,6 @@ public class Globals {
     private static CreateRoomFrame createRoomFrame;
     private static BugReportFrame bugReportFrame;
     private static TextPreviewFrame textPreviewFrame;
-    private static JFrame childFrame;
     private static MuteBanTableFrame muteBanTableFrame = null;
     private static MuteBanListModel muteBanList = new MuteBanListModel();
     private static SystemTray tray = null;
@@ -175,14 +178,6 @@ public class Globals {
 
         Colorizer.colorize(bugReportFrame);
         Colorizer.colorize(textPreviewFrame);
-    }
-
-    public static boolean getChildFrameExists() {
-        return childFrame == null;
-    }
-
-    public static void setChildFrame(JFrame child) {
-        childFrame = child;
     }
 
     public static boolean getPlayerListPopupIsUp() {
