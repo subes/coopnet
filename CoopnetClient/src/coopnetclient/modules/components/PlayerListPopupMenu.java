@@ -25,6 +25,7 @@ import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.modules.models.ContactListModel;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -115,7 +116,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         } else if (command.equals("Mute")) {
             Client.send(Protocol.mute(subject), null);
         } else if (command.equals("Add to Contacts")) {
-            Globals.getContactList().addContact(subject, "", ContactListElementTypes.PENDING_CONTACT);
+            Globals.getContactList().addContact(subject, ContactListModel.DEFAULT_GROUP, ContactListElementTypes.PENDING_CONTACT);
             Client.send(Protocol.RequestContact(subject), null);
         } else if (command.equals("UnMute")) {
             Client.send(Protocol.unmute(subject), null);

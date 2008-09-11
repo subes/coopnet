@@ -29,9 +29,7 @@ import coopnetclient.modules.FrameIconFlasher;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.FileDownloader;
 import coopnetclient.modules.MuteBanListModel;
-import coopnetclient.modules.models.ContactListModel;
 import coopnetclient.utils.launcher.TempGameSettings;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
