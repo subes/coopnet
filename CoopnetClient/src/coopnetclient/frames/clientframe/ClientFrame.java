@@ -46,7 +46,7 @@ import javax.swing.border.Border;
 public class ClientFrame extends javax.swing.JFrame {
 
     private static final int DIVIDERWIDTH = Settings.getQuickPanelDividerWidth();
-    private static boolean quickPanelVIsibility = false;
+    private static boolean quickPanelVisibility = false;
     private static Integer lastdividerposition = null;
     private static boolean quickPanelOrientationIsLeft = true;
     private static Border openQuickbarBorder = BorderFactory.createLoweredBevelBorder();
@@ -621,6 +621,8 @@ public class ClientFrame extends javax.swing.JFrame {
 
     public void disconnect() {
         setQuickBarVisibility(false);
+        lastdividerposition = null;
+        quickPanelVisibility = false;
 
         Client.send(Protocol.quit(), null);
         Client.stopConnection();
@@ -805,8 +807,8 @@ private void pnl_toggleQuickBarLeftMouseExited(java.awt.event.MouseEvent evt) {/
 
 private void pnl_toggleQuickBarLeftMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleQuickBarLeftMousePressed
     if (Globals.getLoggedInStatus()) {
-        quickPanelVIsibility = !quickPanelVIsibility;
-        setQuickBarVisibility(quickPanelVIsibility);
+        quickPanelVisibility = !quickPanelVisibility;
+        setQuickBarVisibility(quickPanelVisibility);
     }
 }//GEN-LAST:event_pnl_toggleQuickBarLeftMousePressed
 
@@ -832,8 +834,8 @@ private void pnl_toggleQuickBarRightMouseExited(java.awt.event.MouseEvent evt) {
 
 private void pnl_toggleQuickBarRightMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleQuickBarRightMousePressed
     if (Globals.getLoggedInStatus()) {
-        quickPanelVIsibility = !quickPanelVIsibility;
-        setQuickBarVisibility(quickPanelVIsibility);
+        quickPanelVisibility = !quickPanelVisibility;
+        setQuickBarVisibility(quickPanelVisibility);
     }
 }//GEN-LAST:event_pnl_toggleQuickBarRightMousePressed
 
@@ -845,9 +847,9 @@ private void jmi_showMuteBanListActionPerformed(java.awt.event.ActionEvent evt) 
 
 private void mi_Show_ContactlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_Show_ContactlistActionPerformed
     if (Globals.getLoggedInStatus()) {
-        quickPanelVIsibility = !quickPanelVIsibility;
-        setQuickBarVisibility(quickPanelVIsibility);
-        if (quickPanelVIsibility) {
+        quickPanelVisibility = !quickPanelVisibility;
+        setQuickBarVisibility(quickPanelVisibility);
+        if (quickPanelVisibility) {
             mi_Show_Contactlist.setText("Hide ContactList");
         } else {
             mi_Show_Contactlist.setText("Show ContactList");

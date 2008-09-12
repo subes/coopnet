@@ -24,7 +24,6 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.Colorizer;
-import coopnetclient.modules.FileDownloader;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
@@ -111,8 +110,7 @@ public class Client {
                     if (Settings.getFirstRun()) {
                         TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
                         Settings.setFirstRun(false);
-                    }
-                    checkAndUpdateGameData();
+                    }                    
                 } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }
