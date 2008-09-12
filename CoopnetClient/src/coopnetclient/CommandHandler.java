@@ -93,10 +93,8 @@ public class CommandHandler {
                 Globals.setLoggedInStatus(true);
                 TabOrganizer.closeLoginPanel();
                 Client.send(Protocol.SetSleep(Settings.getSleepEnabled()), null);
-            } else if (input.startsWith("no such user")) {
-                TabOrganizer.getLoginPanel().showError("Error: "+input);                
-            } else if (input.startsWith("incorrect passsword!try again")) {
-                TabOrganizer.getLoginPanel().showError("Error: "+input);   
+            } else if (input.startsWith("incorrect login!try again")) {
+                TabOrganizer.getLoginPanel().showError("Wrong username/password, please try again!");
             } else if (input.startsWith("Already logged in!")) {
                 TabOrganizer.getLoginPanel().showError("Error: "+input);   
             } else if (input.startsWith("OK_REGISTER")) {

@@ -123,9 +123,9 @@ public class LoginPanel extends javax.swing.JPanel {
 
         pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Login"));
         pnl_input.setFocusable(false);
-        pnl_input.setMaximumSize(new java.awt.Dimension(270, 170));
-        pnl_input.setMinimumSize(new java.awt.Dimension(270, 170));
-        pnl_input.setPreferredSize(new java.awt.Dimension(270, 170));
+        pnl_input.setMaximumSize(new java.awt.Dimension(300, 170));
+        pnl_input.setMinimumSize(new java.awt.Dimension(300, 170));
+        pnl_input.setPreferredSize(new java.awt.Dimension(300, 170));
         pnl_input.setLayout(new java.awt.GridBagLayout());
 
         lbl_name.setText("Name:");
@@ -134,8 +134,8 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 10);
         pnl_input.add(lbl_name, gridBagConstraints);
 
         lbl_password.setText("Password:");
@@ -144,8 +144,8 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 10);
         pnl_input.add(lbl_password, gridBagConstraints);
 
         tf_name.setNextFocusableComponent(pf_password);
@@ -158,7 +158,7 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         pnl_input.add(tf_name, gridBagConstraints);
 
         pf_password.setNextFocusableComponent(cb_autoLogin);
@@ -171,7 +171,7 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         pnl_input.add(pf_password, gridBagConstraints);
 
         btn_login.setText("Login");
@@ -184,8 +184,8 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
         pnl_input.add(btn_login, gridBagConstraints);
 
         btn_register.setText("Register me");
@@ -199,7 +199,7 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
         pnl_input.add(btn_register, gridBagConstraints);
 
         cb_autoLogin.setText("Log me in automatically");
@@ -208,7 +208,7 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         pnl_input.add(cb_autoLogin, gridBagConstraints);
 
         lbl_loginError.setText(" ");
@@ -217,6 +217,7 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
         pnl_input.add(lbl_loginError, gridBagConstraints);
 
         add(pnl_input);
