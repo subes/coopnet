@@ -40,7 +40,7 @@ public class ErrorPanel extends javax.swing.JPanel {
     private final String connectionreset = "<HTML><p style=\"text-align: center;\"><b>Connection with the server was lost!</b><BR></p>";
     private final String unknownIO = "<HTML><p style=\"text-align: center;\"><b>An unknown IO error occured!</b><BR></p>";
     
-    public ErrorPanel(int mode, Exception e) {
+    public ErrorPanel(int mode, Exception exception) {
         initComponents();
         
         coopnetclient.modules.Colorizer.colorize(this);
@@ -67,7 +67,7 @@ public class ErrorPanel extends javax.swing.JPanel {
         }
         
         if(btn_report.isVisible()){
-            this.exception = e;
+            this.exception = exception;
             this.trafficLog = coopnetclient.TrafficLogger.getEndOfLog();
         }
     }
