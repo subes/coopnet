@@ -53,7 +53,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         }
 
         public int size() {
-            if (name.equals(DEFAULT_GROUP) && contacts.size() == 0 && offlinecontacts.size() == 0) {
+            if (name.equals(DEFAULT_GROUP) && contacts.size() == 0 && (offlinecontacts.size() == 0  || !showOffline)  ) {
                 return 0;
             }
             if (closed) {
@@ -305,13 +305,19 @@ public class ContactListModel extends AbstractListModel implements EditableListM
             group = groupOfContact(contactName);
         }
         if (group == null) {
+            Client.send(Protocol.refreshContacts(showOffline), null);
             return;
         }
         if (group.offlinecontacts.contains(contactName)) {//was offline
             group.contacts.put(contactName, status);
             group.offlinecontacts.remove(contactName);
         } else {//was online and valid contact
-            group.contacts.put(contactName, status);//override status
+            if (status == ContactListElementTypes.OFFLINE) {
+                group.offlinecontacts.add(contactName);
+                group.contacts.remove(contactName);
+            } else {
+                group.contacts.put(contactName, status);//override status
+            }
         }
         fireContentsChanged(this, 0, getSize());
     }

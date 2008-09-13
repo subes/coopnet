@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.modules.components;
 
 import coopnetclient.Client;
@@ -40,10 +39,11 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
     public static final int HOST_MODE = 0;
     public static final int GENERAL_MODE = 1;
-    
     private JList source;
     private JMenuItem playername;
     private JMenuItem invite;
+    private JMenuItem mute_unmute;
+    private JMenuItem ban_unban;
 
     /**
     if mode is "host" u get kick
@@ -56,11 +56,11 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         playername = new JMenuItem();
         playername.setEnabled(false);
         this.add(playername);
-        
+
         this.add(new JSeparator());
         this.add(makeMenuItem("Nudge"));
         invite = makeMenuItem("Invite to room");
-        this.add(invite);        
+        this.add(invite);
         this.add(makeMenuItem("Whisper..."));
         this.add(makeMenuItem("Send file..."));
         this.add(makeMenuItem("Add to Contacts"));
@@ -70,13 +70,12 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         if (mode == HOST_MODE) {
             this.add(makeMenuItem("Kick"));
         }
-        this.add(makeMenuItem("Ban"));
-        this.add(makeMenuItem("UnBan"));
-        this.add(makeMenuItem("Mute"));
-        this.add(makeMenuItem("UnMute"));
-        
+        mute_unmute = makeMenuItem("Mute");
+        ban_unban = makeMenuItem("Ban");
+        this.add(mute_unmute);
+        this.add(ban_unban);
         this.add(new JSeparator());
-        
+
         this.add(makeMenuItem("Show profile..."));
     }
 
@@ -85,9 +84,9 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         item.addActionListener(this);
         return item;
     }
-    
+
     @Override
-    public void setVisible(boolean visible){
+    public void setVisible(boolean visible) {
         super.setVisible(visible);
         Globals.setPlayerListPopupIsUp(visible);
     }
@@ -100,18 +99,20 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         if (source == null) {
             return;
         }
-        final String subject =playername.getText(); 
+        final String subject = playername.getText();
         if (subject == null) {
             return;
         }
         if (command.equals("Kick")) {
             Client.send(Protocol.kick(subject), null);
         } else if (command.equals("Ban")) {
+            Globals.getMuteBanList().ban(subject);
             Client.send(Protocol.kick(subject), null);
             Client.send(Protocol.ban(subject), null);
         } else if (command.equals("UnBan")) {
             Client.send(Protocol.unban(subject), null);
         } else if (command.equals("Mute")) {
+            Globals.getMuteBanList().mute(subject);
             Client.send(Protocol.mute(subject), null);
         } else if (command.equals("Add to Contacts")) {
             Globals.getContactList().addContact(subject, ContactListModel.DEFAULT_GROUP, ContactListElementTypes.PENDING_CONTACT);
@@ -132,7 +133,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
                 @Override
                 public void run() {
-                    try{
+                    try {
                         File inputfile = null;
 
                         FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
@@ -141,12 +142,12 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
                         if (returnVal == FileChooser.SELECT_ACTION) {
                             inputfile = mfc.getSelectedFile();
                             if (inputfile != null) {
-                                Client.send(Protocol.Sendfile(subject, inputfile.getName(), inputfile.length() + "" , coopnetclient.modules.Settings.getFiletTansferPort()+""), null);
+                                Client.send(Protocol.Sendfile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.modules.Settings.getFiletTansferPort() + ""), null);
                                 TabOrganizer.openFileTransferSendPanel(subject, inputfile);
                                 Globals.setLastOpenedDir(inputfile.getParent());
                             }
                         }
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         ErrorHandler.handleException(e);
                     }
                 }
@@ -162,10 +163,29 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         } else {
             playername.setText((String) source.getSelectedValue());
         }
-        if(TabOrganizer.getRoomPanel() == null){
+        if (TabOrganizer.getRoomPanel() == null) {
             invite.setVisible(false);
-        }else{
+        } else {
             invite.setVisible(true);
+        }
+        if (Globals.getMuteBanList().getMuteBanStatus(playername.getText()) == null) {
+            mute_unmute.setText("Mute");
+            ban_unban.setText("Ban");
+        } else {
+            switch (Globals.getMuteBanList().getMuteBanStatus(playername.getText())) {
+                case BANNED:
+                    mute_unmute.setText("Mute");
+                    ban_unban.setText("UnBan");
+                    break;
+                case MUTED:
+                    mute_unmute.setText("UnMute");
+                    ban_unban.setText("Ban");
+                    break;
+                case BOTH:
+                    mute_unmute.setText("UnMute");
+                    ban_unban.setText("UnBan");
+                    break;
+            }
         }
     }
 }

@@ -124,8 +124,8 @@ public class CommandHandler {
                 GameDatabase.load(tmp,GameDatabase.datafilepath);
                 TabOrganizer.openChannelPanel(tmp);
             } else if (input.startsWith("setmutebanlist")) {
-                String[] muteAndBan = input.substring(11).split("\n");
-                String[] mutedUserNames = muteAndBan[0].split(Protocol.INFORMATION_DELIMITER);
+                String[] muteAndBan = input.substring(14).split("\n");
+                String[] mutedUserNames = muteAndBan.length>0 ? muteAndBan[0].split(Protocol.INFORMATION_DELIMITER) : new String[]{};
                 String[] bannedUserNames = muteAndBan.length>1 ?  muteAndBan[1].split(Protocol.INFORMATION_DELIMITER) : new String[]{};
                 MuteBanListModel model = Globals. getMuteBanList();
                 for(String username : mutedUserNames){
