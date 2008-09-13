@@ -57,6 +57,8 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem deleteGroup;
     private JMenuItem rename;
     private JMenuItem toggle;
+    private JMenuItem mute_unmute;
+    private JMenuItem ban_unban;
 
     public ContactListPopupMenu(EditableJlist source) {
         super();
@@ -80,6 +82,8 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         hideOffline.addActionListener(this);
         toggle = makeMenuItem("Open/Collapse");
         invite = makeMenuItem("Invite to room");
+        mute_unmute = makeMenuItem("Mute");
+        ban_unban = makeMenuItem("Ban");
 
         this.add(playername);
         this.add(new JSeparator());
@@ -93,6 +97,8 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(whisper);
         this.add(sendfile);
         this.add(invite);
+        this.add(mute_unmute);
+        this.add(ban_unban);
         this.add(new JSeparator());
         this.add(hideOffline);
         this.add(create);
@@ -123,9 +129,9 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         showProfile.setVisible(isVisible);
         whisper.setVisible(isVisible);
         sendfile.setVisible(isVisible);
-        if(TabOrganizer.getRoomPanel() == null){
+        if (TabOrganizer.getRoomPanel() == null) {
             invite.setVisible(false);
-        }else{
+        } else {
             invite.setVisible(isVisible);
         }
     }
@@ -219,6 +225,23 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             Client.send(Protocol.sendInvite(subject), null);
         } else if (command.equals("Show profile...")) {
             Client.send(Protocol.requestProfile(subject), null);
+        } else if (command.equals("Ban")) {
+            Globals.getMuteBanList().ban(subject);
+            Client.send(Protocol.kick(subject), null);
+            Client.send(Protocol.ban(subject), null);
+            Globals.updateMuteBanTableFrame();
+        } else if (command.equals("UnBan")) {
+            Globals.getMuteBanList().unBan(subject);
+            Client.send(Protocol.unban(subject), null);
+            Globals.updateMuteBanTableFrame();
+        } else if (command.equals("Mute")) {
+            Globals.getMuteBanList().mute(subject);
+            Client.send(Protocol.mute(subject), null);
+            Globals.updateMuteBanTableFrame();
+        } else if (command.equals("UnMute")) {
+            Globals.getMuteBanList().unMute(subject);
+            Client.send(Protocol.unmute(subject), null);
+            Globals.updateMuteBanTableFrame();
         } else if (command.equals("Send file...")) {
             if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {
 
@@ -294,6 +317,25 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                         setGroupActionVisibility(false);
                         setContactActionVisibility(true);
                         break;
+                }
+                if (Globals.getMuteBanList().getMuteBanStatus(playername.getText()) == null) {
+                    mute_unmute.setText("Mute");
+                    ban_unban.setText("Ban");
+                } else {
+                    switch (Globals.getMuteBanList().getMuteBanStatus(playername.getText())) {
+                        case BANNED:
+                            mute_unmute.setText("Mute");
+                            ban_unban.setText("UnBan");
+                            break;
+                        case MUTED:
+                            mute_unmute.setText("UnMute");
+                            ban_unban.setText("Ban");
+                            break;
+                        case BOTH:
+                            mute_unmute.setText("UnMute");
+                            ban_unban.setText("UnBan");
+                            break;
+                    }
                 }
                 super.show(invoker, x, y);
             }

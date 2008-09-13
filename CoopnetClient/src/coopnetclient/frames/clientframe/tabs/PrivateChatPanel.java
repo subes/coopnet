@@ -16,11 +16,13 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.clientframe.tabs;
 
+import coopnetclient.Client;
 import coopnetclient.Globals;
+import coopnetclient.Protocol;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.enums.MuteBanStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.listeners.ChatInputKeyListener;
 import coopnetclient.modules.listeners.HyperlinkMouseListener;
@@ -28,13 +30,22 @@ import javax.swing.text.StyledDocument;
 
 public class PrivateChatPanel extends javax.swing.JPanel {
 
+    private String partner;
+
     /** Creates new form PrivateChatPanel */
     public PrivateChatPanel(String partner) {
+        this.partner = partner;
         initComponents();
         coopnetclient.modules.Colorizer.colorize(this);
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(2, partner));
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
+        MuteBanStatuses status = Globals.getMuteBanList().getMuteBanStatus(partner);
+        if (status == null) {
+            jb_MuteBan.setText("Mute");
+        } else if( status == MuteBanStatuses.MUTED ) {
+            jb_MuteBan.setText("UnMute");
+        }
     }
 
     @Override
@@ -62,7 +73,7 @@ public class PrivateChatPanel extends javax.swing.JPanel {
 
     public void append(String sender, String message) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
-        coopnetclient.modules.ColoredChatHandler.addColoredText(sender, 
+        coopnetclient.modules.ColoredChatHandler.addColoredText(sender,
                 message, ChatStyles.WHISPER,
                 doc, scrl_chatOutput, tp_chatOutput);
     }
@@ -81,6 +92,7 @@ public class PrivateChatPanel extends javax.swing.JPanel {
         tp_chatOutput = new javax.swing.JTextPane();
         scrl_chatInput = new javax.swing.JScrollPane();
         tp_chatInput = new javax.swing.JTextPane();
+        jb_MuteBan = new javax.swing.JButton();
 
         setFocusable(false);
         setPreferredSize(new java.awt.Dimension(350, 400));
@@ -123,19 +135,30 @@ public class PrivateChatPanel extends javax.swing.JPanel {
 
         sp_chatVertical.setRightComponent(scrl_chatInput);
 
+        jb_MuteBan.setText("Mute");
+        jb_MuteBan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jb_MuteBanActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(sp_chatVertical, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(208, 208, 208)
+                .addComponent(jb_MuteBan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_close))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(btn_close)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_close)
+                    .addComponent(jb_MuteBan))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sp_chatVertical, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
         );
@@ -152,8 +175,24 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
         tp_chatInput.requestFocus();
     }
 }//GEN-LAST:event_tp_chatOutputKeyTyped
+
+private void jb_MuteBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_MuteBanActionPerformed
+    if (jb_MuteBan.getText().equals("Mute")) {
+            Globals.getMuteBanList().mute(partner);
+            Client.send(Protocol.mute(partner), null);
+            Globals.updateMuteBanTableFrame();
+            jb_MuteBan.setText("UnMute");
+        } else if (jb_MuteBan.getText().equals("UnMute")) {
+            Globals.getMuteBanList().unMute(partner);
+            Client.send(Protocol.unmute(partner), null);
+            Globals.updateMuteBanTableFrame();
+            jb_MuteBan.setText("Mute");
+        } 
+}//GEN-LAST:event_jb_MuteBanActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_close;
+    private javax.swing.JButton jb_MuteBan;
     private javax.swing.JScrollPane scrl_chatInput;
     private javax.swing.JScrollPane scrl_chatOutput;
     private javax.swing.JSplitPane sp_chatVertical;

@@ -133,23 +133,33 @@ public class MuteBanTableFrame extends javax.swing.JFrame {
 
     private void jb_UnMuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_UnMuteActionPerformed
         int viewRow = tbl_UserTable.getSelectedRow();
-        int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
-        String subject = tablemodel.getValueAt( selected , 0).toString();  
-        Client.send(Protocol.unmute(subject), null);
+        if (viewRow > -1) {
+            int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
+            String subject = tablemodel.getValueAt(selected, 0).toString();
+            Client.send(Protocol.unmute(subject), null);
+            Globals.getMuteBanList().unMute(subject);
+            updateTable();
+        }
     }//GEN-LAST:event_jb_UnMuteActionPerformed
 
     private void jb_UnBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_UnBanActionPerformed
         int viewRow = tbl_UserTable.getSelectedRow();
-        int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
-        String subject = tablemodel.getValueAt( selected , 0).toString();  
-        Client.send(Protocol.unban(subject), null);
+        if (viewRow > -1) {
+            int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
+            String subject = tablemodel.getValueAt(selected, 0).toString();
+            Client.send(Protocol.unban(subject), null);
+            Globals.getMuteBanList().unBan(subject);
+            updateTable();
+        }
     }//GEN-LAST:event_jb_UnBanActionPerformed
 
     private void jb_Show_ProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_Show_ProfileActionPerformed
         int viewRow = tbl_UserTable.getSelectedRow();
-        int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
-        String subject = tablemodel.getValueAt( selected , 0).toString();  
-        Client.send(Protocol.requestProfile(subject), null);
+        if (viewRow > -1) {
+            int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
+            String subject = tablemodel.getValueAt(selected, 0).toString();
+            Client.send(Protocol.requestProfile(subject), null);
+        }
     }//GEN-LAST:event_jb_Show_ProfileActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

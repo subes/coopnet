@@ -111,18 +111,22 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             Globals.getMuteBanList().ban(subject);
             Client.send(Protocol.kick(subject), null);
             Client.send(Protocol.ban(subject), null);
+            Globals.updateMuteBanTableFrame();
         } else if (command.equals("UnBan")) {
             Globals.getMuteBanList().unBan(subject);
             Client.send(Protocol.unban(subject), null);
+            Globals.updateMuteBanTableFrame();
         } else if (command.equals("Mute")) {
             Globals.getMuteBanList().mute(subject);
             Client.send(Protocol.mute(subject), null);
+            Globals.updateMuteBanTableFrame();
         } else if (command.equals("Add to Contacts")) {
             Globals.getContactList().addContact(subject, ContactListModel.DEFAULT_GROUP, ContactListElementTypes.PENDING_CONTACT);
             Client.send(Protocol.RequestContact(subject), null);
         } else if (command.equals("UnMute")) {
             Globals.getMuteBanList().unMute(subject);
             Client.send(Protocol.unmute(subject), null);
+            Globals.updateMuteBanTableFrame();
         } else if (command.equals("Whisper...")) {
             TabOrganizer.openPrivateChatPanel(subject, true);
         } else if (command.equals("Show profile...")) {
@@ -161,6 +165,13 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
     @Override
     public void show(Component invoker, int x, int y) {
+        if (source == null || source.getSelectedValue() == null || source.getSelectedValue().equals(Globals.getThisPlayer_loginName())) {
+            setVisible(false);
+            return;
+        } else {
+            playername.setText((String) source.getSelectedValue());
+        }
+        
         if(Globals.getContactList().contains( playername.getText() )){
             addContact.setVisible(false);
         }else{
@@ -172,12 +183,6 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             invite.setVisible(true);
         }        
         
-        if (source == null || source.getSelectedValue() == null || source.getSelectedValue().equals(Globals.getThisPlayer_loginName())) {
-            setVisible(false);
-        } else {
-            playername.setText((String) source.getSelectedValue());
-        }
-
         if (Globals.getMuteBanList().getMuteBanStatus(playername.getText()) == null) {
             mute_unmute.setText("Mute");
             ban_unban.setText("Ban");
