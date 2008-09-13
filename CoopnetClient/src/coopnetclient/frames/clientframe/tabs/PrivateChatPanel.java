@@ -24,6 +24,7 @@ import coopnetclient.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.MuteBanStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.modules.MuteBanListModel;
 import coopnetclient.modules.listeners.ChatInputKeyListener;
 import coopnetclient.modules.listeners.HyperlinkMouseListener;
 import javax.swing.text.StyledDocument;
@@ -40,7 +41,7 @@ public class PrivateChatPanel extends javax.swing.JPanel {
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(2, partner));
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
-        MuteBanStatuses status = Globals.getMuteBanList().getMuteBanStatus(partner);
+        MuteBanStatuses status = MuteBanListModel.getMuteBanStatus(partner);
         if (status == null) {
             jb_MuteBan.setText("Mute");
         } else if( status == MuteBanStatuses.MUTED ) {
@@ -178,12 +179,12 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
 
 private void jb_MuteBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_MuteBanActionPerformed
     if (jb_MuteBan.getText().equals("Mute")) {
-            Globals.getMuteBanList().mute(partner);
+            MuteBanListModel.mute(partner);
             Client.send(Protocol.mute(partner), null);
             Globals.updateMuteBanTableFrame();
             jb_MuteBan.setText("UnMute");
         } else if (jb_MuteBan.getText().equals("UnMute")) {
-            Globals.getMuteBanList().unMute(partner);
+            MuteBanListModel.unMute(partner);
             Client.send(Protocol.unmute(partner), null);
             Globals.updateMuteBanTableFrame();
             jb_MuteBan.setText("Mute");
