@@ -164,7 +164,7 @@ public class Settings {
     private final static int def_QuickPanelToggleBarWidth = 5;
     private final static boolean def_ContactStatusChangeTextNotification = true;
     private final static boolean def_ContactStatusChangeSoundNotification = true;
-    private final static boolean def_TrayIconEnabled = true;
+    private final static boolean def_TrayIconEnabled = false;
     private static Vector<String> favourites;
 
     /**
