@@ -44,6 +44,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem invite;
     private JMenuItem mute_unmute;
     private JMenuItem ban_unban;
+    private JMenuItem addContact;
 
     /**
     if mode is "host" u get kick
@@ -63,7 +64,8 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(invite);
         this.add(makeMenuItem("Whisper..."));
         this.add(makeMenuItem("Send file..."));
-        this.add(makeMenuItem("Add to Contacts"));
+        addContact = makeMenuItem("Add to Contacts");
+        this.add(addContact);
 
         this.add(new JSeparator());
 
@@ -159,17 +161,23 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
     @Override
     public void show(Component invoker, int x, int y) {
-        super.show(invoker, x, y);
-        if (source == null || source.getSelectedValue() == null || source.getSelectedValue().equals(Globals.getThisPlayer_loginName())) {
-            setVisible(false);
-        } else {
-            playername.setText((String) source.getSelectedValue());
+        if(Globals.getContactList().contains( playername.getText() )){
+            addContact.setVisible(false);
+        }else{
+            addContact.setVisible(true);
         }
         if (TabOrganizer.getRoomPanel() == null) {
             invite.setVisible(false);
         } else {
             invite.setVisible(true);
+        }        
+        
+        if (source == null || source.getSelectedValue() == null || source.getSelectedValue().equals(Globals.getThisPlayer_loginName())) {
+            setVisible(false);
+        } else {
+            playername.setText((String) source.getSelectedValue());
         }
+
         if (Globals.getMuteBanList().getMuteBanStatus(playername.getText()) == null) {
             mute_unmute.setText("Mute");
             ban_unban.setText("Ban");
@@ -189,5 +197,6 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
                     break;
             }
         }
+        super.show(invoker, x, y);
     }
 }

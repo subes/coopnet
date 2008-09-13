@@ -86,20 +86,20 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(accept);
         this.add(refuse);
         this.add(deleteContact);
+        this.add(moveto);
         this.add(new JSeparator());
         this.add(nudge);
         this.add(showProfile);
         this.add(whisper);
         this.add(sendfile);
         this.add(invite);
-        this.add(refresh);
-        this.add(moveto);
         this.add(new JSeparator());
         this.add(hideOffline);
         this.add(create);
         this.add(deleteGroup);
         this.add(rename);
         this.add(toggle);
+        this.add(refresh);
     }
 
     private JMenuItem makeMenuItem(String label) {
@@ -265,10 +265,15 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                 super.show(invoker, x, y);
             } else {
                 refreshMoveToMenu();
+                playername.setText((String) source.getSelectedValue());
                 //HIDE UNNECESSARY ITEMS
                 ContactListModel model = (ContactListModel) source.getModel();
                 switch (model.getStatus(source.getSelectedValue().toString())) {
                     case GROUPNAME_CLOSED:
+                        setPendingActionVisibility(false);
+                        setGroupActionVisibility(true);
+                        setContactActionVisibility(false);
+                        break;
                     case GROUPNAME_OPEN:
                         setPendingActionVisibility(false);
                         setGroupActionVisibility(true);
@@ -290,7 +295,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                         setContactActionVisibility(true);
                         break;
                 }
-                playername.setText((String) source.getSelectedValue());
                 super.show(invoker, x, y);
             }
         }
