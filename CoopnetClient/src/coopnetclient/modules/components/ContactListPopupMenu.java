@@ -76,7 +76,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         deleteGroup = makeMenuItem("Delete Group");
         deleteContact = makeMenuItem("Remove Contact");
         rename = makeMenuItem("Rename Group");
-        hideOffline = new JCheckBoxMenuItem("Hide offline contacts");
+        hideOffline = new JCheckBoxMenuItem("Hide offline contacts", true);
         hideOffline.addActionListener(this);
         toggle = makeMenuItem("Open/Collapse");
         invite = makeMenuItem("Invite to room");
@@ -123,7 +123,11 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         showProfile.setVisible(isVisible);
         whisper.setVisible(isVisible);
         sendfile.setVisible(isVisible);
-        invite.setVisible(isVisible);
+        if(TabOrganizer.getRoomPanel() == null){
+            invite.setVisible(false);
+        }else{
+            invite.setVisible(isVisible);
+        }
     }
 
     public void setPendingActionVisibility(boolean isVisible) {
@@ -155,7 +159,12 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         ContactListModel model = ((ContactListModel) source.getModel());
 
         if (command.equals("Hide offline contacts")) {
-            model.toggleShowOfflineStatus();
+            if (!model.isOfflineShown()) {
+                model.toggleShowOfflineStatus();
+                Client.send(Protocol.refreshContacts(model.isOfflineShown()), null);
+            } else {
+                model.toggleShowOfflineStatus();
+            }
         }
 
         final String subject = playername.getText();//(String) source.getSelectedValue();
@@ -190,7 +199,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             model.removeGroup(subject);
             Client.send(Protocol.deleteGroup(subject), null);
         } else if (command.equals("Refresh list")) {
-            Client.send(Protocol.refreshContacts(), null);
+            Client.send(Protocol.refreshContacts(model.isOfflineShown()), null);
         } else if (command.equals("Rename Group")) {
             System.out.println("rename:" + source.getSelectedIndex());
             source.editCellAt(source.getSelectedIndex(), e);

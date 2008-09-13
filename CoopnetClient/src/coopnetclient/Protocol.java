@@ -82,8 +82,8 @@ public class Protocol {
         return "movetogroup" + contact + INFORMATION_DELIMITER +newgroupName;
     }
     
-    public static String refreshContacts() {
-        return "resendcontacts";
+    public static String refreshContacts(boolean showOffline) {
+        return "resendcontacts" + ( showOffline ? "1" : "0" ) ;
     }
     
     public static String AcceptTransfer(String sender, String filename, long firstByteToSend) {

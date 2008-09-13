@@ -110,7 +110,8 @@ public class Client {
                     if (Settings.getFirstRun()) {
                         TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
                         Settings.setFirstRun(false);
-                    }                    
+                    }      
+                    checkAndUpdateGameData();
                 } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }
@@ -212,9 +213,16 @@ public class Client {
 
             @Override
             public void run() {
+                BufferedReader br = null;
                 try {
-                    URL url = new URL("http://coopnet.sourceforge.net/gamedata");
-                    BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                    try{
+                        URL url = new URL("http://coopnet.sourceforge.net/gamedata");
+                        br = new BufferedReader(new InputStreamReader(url.openStream()));
+                    }
+                    catch(java.net.UnknownHostException e){
+                        return;
+                    }
+                    
                     String readHeader;
                     readHeader = br.readLine();
                     int lastversion = new Integer(readHeader.substring(8));

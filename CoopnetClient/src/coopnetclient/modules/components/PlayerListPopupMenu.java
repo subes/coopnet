@@ -43,6 +43,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
     
     private JList source;
     private JMenuItem playername;
+    private JMenuItem invite;
 
     /**
     if mode is "host" u get kick
@@ -57,13 +58,15 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(playername);
         
         this.add(new JSeparator());
-        
-        this.add(makeMenuItem("Invite to room"));
         this.add(makeMenuItem("Nudge"));
+        invite = makeMenuItem("Invite to room");
+        this.add(invite);        
         this.add(makeMenuItem("Whisper..."));
         this.add(makeMenuItem("Send file..."));
-         this.add(makeMenuItem("Add to Contacts"));
+        this.add(makeMenuItem("Add to Contacts"));
+
         this.add(new JSeparator());
+
         if (mode == HOST_MODE) {
             this.add(makeMenuItem("Kick"));
         }
@@ -92,17 +95,12 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        //Globals.setplayerListPopupIsUp(false); 
-        
         String command = e.getActionCommand();
-
-        //JList source = null;
-        //source =(JList) e.getSource();
 
         if (source == null) {
             return;
         }
-        final String subject =playername.getText(); //(String) source.getSelectedValue();
+        final String subject =playername.getText(); 
         if (subject == null) {
             return;
         }
@@ -163,6 +161,11 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             setVisible(false);
         } else {
             playername.setText((String) source.getSelectedValue());
+        }
+        if(TabOrganizer.getRoomPanel() == null){
+            invite.setVisible(false);
+        }else{
+            invite.setVisible(true);
         }
     }
 }

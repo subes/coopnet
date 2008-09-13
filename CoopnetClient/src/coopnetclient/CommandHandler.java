@@ -126,7 +126,7 @@ public class CommandHandler {
             } else if (input.startsWith("setmutebanlist")) {
                 String[] muteAndBan = input.substring(11).split("\n");
                 String[] mutedUserNames = muteAndBan[0].split(Protocol.INFORMATION_DELIMITER);
-                String[] bannedUserNames = muteAndBan[1].split(Protocol.INFORMATION_DELIMITER);
+                String[] bannedUserNames = muteAndBan.length>1 ?  muteAndBan[1].split(Protocol.INFORMATION_DELIMITER) : new String[]{};
                 MuteBanListModel model = Globals. getMuteBanList();
                 for(String username : mutedUserNames){
                     model.mute(username);

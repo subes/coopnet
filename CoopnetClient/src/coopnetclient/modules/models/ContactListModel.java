@@ -37,7 +37,7 @@ import javax.swing.AbstractListModel;
 public class ContactListModel extends AbstractListModel implements EditableListModel {
 
     public static final String DEFAULT_GROUP = "Default Group";
-    private static boolean showoffline = true;
+    private static boolean showOffline = false;
 
     public static class Group {
 
@@ -59,7 +59,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
             if (closed) {
                 return 1;
             } else {
-                return (1 + contacts.size() + (showoffline ? offlinecontacts.size() : 0));
+                return (1 + contacts.size() + (showOffline ? offlinecontacts.size() : 0));
             }
         }
 
@@ -233,8 +233,12 @@ public class ContactListModel extends AbstractListModel implements EditableListM
     }
 
     public void toggleShowOfflineStatus() {
-        showoffline = !showoffline;
+        showOffline = !showOffline;
         fireContentsChanged(this, 0, getSize());
+    }
+    
+    public boolean isOfflineShown(){
+        return showOffline;
     }
     //other methods
 
