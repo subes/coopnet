@@ -21,7 +21,7 @@ package coopnetclient.modules;
 import coopnetclient.enums.MuteBanStatuses;
 import java.util.HashMap;
 
-public class MuteBanListModel {
+public class MuteBanList {
 
     private static HashMap<String, MuteBanStatuses> muteBanList = new HashMap<String, MuteBanStatuses>();
 

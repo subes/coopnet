@@ -28,7 +28,7 @@ import coopnetclient.frames.FavouritesFrame;
 import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.frames.ManageGamesFrame;
 import coopnetclient.frames.JoinRoomPasswordFrame;
-import coopnetclient.frames.MuteBanTableFrame;
+import coopnetclient.frames.MuteBanListFrame;
 import coopnetclient.frames.SettingsFrame;
 import coopnetclient.frames.ShowProfileFrame;
 import coopnetclient.frames.TextPreviewFrame;
@@ -36,7 +36,7 @@ import coopnetclient.modules.Settings;
 import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Colorizer;
-import coopnetclient.modules.MuteBanListModel;
+import coopnetclient.modules.MuteBanList;
 import coopnetclient.modules.SystemTrayPopup;
 import coopnetclient.modules.models.ContactListModel;
 import coopnetclient.utils.launcher.Launcher;
@@ -81,7 +81,7 @@ public class Globals {
     private static CreateRoomFrame createRoomFrame;
     private static BugReportFrame bugReportFrame;
     private static TextPreviewFrame textPreviewFrame;
-    private static MuteBanTableFrame muteBanTableFrame = null;
+    private static MuteBanListFrame muteBanTableFrame = null;
     private static SystemTray tray = null;
     private static TrayIcon trayIcon = null;
     private static boolean trayAdded = false;
@@ -314,7 +314,7 @@ public class Globals {
         }
     }
 
-    public static MuteBanTableFrame getMuteBanTableFrame() {
+    public static MuteBanListFrame getMuteBanTableFrame() {
         return muteBanTableFrame;
     }
 
@@ -323,10 +323,10 @@ public class Globals {
             Point prevLocation = muteBanTableFrame.getLocation();
             muteBanTableFrame.dispose();
             muteBanTableFrame = null;
-            muteBanTableFrame = new MuteBanTableFrame();
+            muteBanTableFrame = new MuteBanListFrame();
             setupFrame(muteBanTableFrame, prevLocation);
         } else {
-            muteBanTableFrame = new MuteBanTableFrame();
+            muteBanTableFrame = new MuteBanListFrame();
             setupFrame(muteBanTableFrame);
         }
     }

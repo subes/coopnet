@@ -28,7 +28,7 @@ import coopnetclient.modules.SoundPlayer;
 import coopnetclient.modules.FrameIconFlasher;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.modules.FileDownloader;
-import coopnetclient.modules.MuteBanListModel;
+import coopnetclient.modules.MuteBanList;
 import coopnetclient.utils.launcher.TempGameSettings;
 import javax.swing.JOptionPane;
 
@@ -128,10 +128,10 @@ public class CommandHandler {
                 String[] mutedUserNames = muteAndBan.length>0 ? muteAndBan[0].split(Protocol.INFORMATION_DELIMITER) : new String[]{};
                 String[] bannedUserNames = muteAndBan.length>1 ?  muteAndBan[1].split(Protocol.INFORMATION_DELIMITER) : new String[]{};
                 for(String username : mutedUserNames){
-                    MuteBanListModel.mute(username);
+                    MuteBanList.mute(username);
                 }
                 for(String username : bannedUserNames){
-                    MuteBanListModel.ban(username);
+                    MuteBanList.ban(username);
                 }
             } else if (input.startsWith("nudge ")) {
                 String tmp = input.substring(6);

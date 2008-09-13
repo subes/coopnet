@@ -21,16 +21,16 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
-import coopnetclient.modules.MuteBanListModel;
+import coopnetclient.modules.MuteBanList;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-public class MuteBanTableFrame extends javax.swing.JFrame {
+public class MuteBanListFrame extends javax.swing.JFrame {
 
     private static CustomeTableModel tablemodel ;
     
     /** Creates new form MuteBanList */
-    public MuteBanTableFrame() {
+    public MuteBanListFrame() {
         tablemodel =new CustomeTableModel();  
         initComponents();
         tbl_UserTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
@@ -109,7 +109,7 @@ public class MuteBanTableFrame extends javax.swing.JFrame {
                 .addComponent(jb_UnBan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jb_Show_Profile)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -138,7 +138,7 @@ public class MuteBanTableFrame extends javax.swing.JFrame {
             int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
             String subject = tablemodel.getValueAt(selected, 0).toString();
             Client.send(Protocol.unmute(subject), null);
-            MuteBanListModel.unMute(subject);
+            MuteBanList.unMute(subject);
             updateTable();
         }
     }//GEN-LAST:event_jb_UnMuteActionPerformed
@@ -149,7 +149,7 @@ public class MuteBanTableFrame extends javax.swing.JFrame {
             int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
             String subject = tablemodel.getValueAt(selected, 0).toString();
             Client.send(Protocol.unban(subject), null);
-            MuteBanListModel.unBan(subject);
+            MuteBanList.unBan(subject);
             updateTable();
         }
     }//GEN-LAST:event_jb_UnBanActionPerformed
@@ -186,7 +186,7 @@ public class MuteBanTableFrame extends javax.swing.JFrame {
         
         @Override
         public int getRowCount() {
-            return MuteBanListModel.size();
+            return MuteBanList.size();
         }
 
         @Override
@@ -197,9 +197,9 @@ public class MuteBanTableFrame extends javax.swing.JFrame {
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             if(columnIndex == 0){
-                return MuteBanListModel.getElementAt(rowIndex);
+                return MuteBanList.getElementAt(rowIndex);
             }else{
-                return MuteBanListModel.getMuteBanStatus((MuteBanListModel.getElementAt(rowIndex)));
+                return MuteBanList.getMuteBanStatus((MuteBanList.getElementAt(rowIndex)));
             }
         }
 

@@ -24,7 +24,7 @@ import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.modules.MuteBanListModel;
+import coopnetclient.modules.MuteBanList;
 import coopnetclient.modules.components.mutablelist.EditableJlist;
 import coopnetclient.modules.models.ContactListModel;
 import coopnetclient.utils.filechooser.FileChooser;
@@ -227,20 +227,20 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         } else if (command.equals("Show profile...")) {
             Client.send(Protocol.requestProfile(subject), null);
         } else if (command.equals("Ban")) {
-            MuteBanListModel.ban(subject);
+            MuteBanList.ban(subject);
             Client.send(Protocol.kick(subject), null);
             Client.send(Protocol.ban(subject), null);
             Globals.updateMuteBanTableFrame();
         } else if (command.equals("UnBan")) {
-            MuteBanListModel.unBan(subject);
+            MuteBanList.unBan(subject);
             Client.send(Protocol.unban(subject), null);
             Globals.updateMuteBanTableFrame();
         } else if (command.equals("Mute")) {
-            MuteBanListModel.mute(subject);
+            MuteBanList.mute(subject);
             Client.send(Protocol.mute(subject), null);
             Globals.updateMuteBanTableFrame();
         } else if (command.equals("UnMute")) {
-            MuteBanListModel.unMute(subject);
+            MuteBanList.unMute(subject);
             Client.send(Protocol.unmute(subject), null);
             Globals.updateMuteBanTableFrame();
         } else if (command.equals("Send file...")) {
@@ -319,11 +319,11 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                         setContactActionVisibility(true);
                         break;
                 }
-                if (MuteBanListModel.getMuteBanStatus(playername.getText()) == null) {
+                if (MuteBanList.getMuteBanStatus(playername.getText()) == null) {
                     mute_unmute.setText("Mute");
                     ban_unban.setText("Ban");
                 } else {
-                    switch (MuteBanListModel.getMuteBanStatus(playername.getText())) {
+                    switch (MuteBanList.getMuteBanStatus(playername.getText())) {
                         case BANNED:
                             mute_unmute.setText("Mute");
                             ban_unban.setText("UnBan");
