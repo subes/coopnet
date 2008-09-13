@@ -110,6 +110,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             Client.send(Protocol.kick(subject), null);
             Client.send(Protocol.ban(subject), null);
         } else if (command.equals("UnBan")) {
+            Globals.getMuteBanList().unBan(subject);
             Client.send(Protocol.unban(subject), null);
         } else if (command.equals("Mute")) {
             Globals.getMuteBanList().mute(subject);
@@ -118,6 +119,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             Globals.getContactList().addContact(subject, ContactListModel.DEFAULT_GROUP, ContactListElementTypes.PENDING_CONTACT);
             Client.send(Protocol.RequestContact(subject), null);
         } else if (command.equals("UnMute")) {
+            Globals.getMuteBanList().unMute(subject);
             Client.send(Protocol.unmute(subject), null);
         } else if (command.equals("Whisper...")) {
             TabOrganizer.openPrivateChatPanel(subject, true);

@@ -246,11 +246,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         switch (status) {
             case PENDING_REQUEST:
                 pendingList.put(contactname, ContactListElementTypes.PENDING_REQUEST);
-                break;
-            case PENDING_CONTACT:
-                groups.get(indexOfGroup(DEFAULT_GROUP)).contacts.
-                        put(contactname, ContactListElementTypes.PENDING_CONTACT);
-                break;
+                break;            
             case OFFLINE:
                 groups.get(indexOfGroup(groupName)).offlinecontacts.add(contactname);
                 break;

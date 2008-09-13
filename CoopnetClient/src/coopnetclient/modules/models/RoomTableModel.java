@@ -156,9 +156,9 @@ public class RoomTableModel extends DefaultTableModel {
                 else
                 return rooms.get(row).getType();
             case 1:
-                return rooms.get(row).getHostName();
-            case 2:
                 return rooms.get(row).getName();
+            case 2:
+                return rooms.get(row).getHostName();
             case 3:
                 return rooms.get(row).getLimitString();
         }
