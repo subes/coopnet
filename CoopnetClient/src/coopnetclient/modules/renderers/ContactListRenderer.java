@@ -87,7 +87,6 @@ public class ContactListRenderer extends JLabel implements ListCellRenderer {
                 break;
             case PENDING_CONTACT:
                 setIcon(pendingContactIcon);
-                setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
                 break;
             case PLAYING:
                 setIcon(gameIcon);
