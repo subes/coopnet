@@ -97,7 +97,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
             tf_SettingName.setText(gs.getName());
             cmb_SettingType.setSelectedIndex(gs.getType().ordinal());
             cmb_SettingTypeActionPerformed(null);
-            if (gs.getType() == SettingTypes.CHOISE) {
+            if (gs.getType() == SettingTypes.CHOICE) {
                 choisemodel = new ChoiseListModel(gs);
                 jl_MultiChoises.setModel(choisemodel);
                 choisemodel.refresh();
@@ -111,7 +111,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
                 jl_MultiChoises.revalidate();
                 jl_MultiChoises.repaint();
             }
-            if (gs.getType() == SettingTypes.CHOISE) {
+            if (gs.getType() == SettingTypes.CHOICE) {
                 loadNumberProperties();
             }
         }
@@ -758,7 +758,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void cmb_SettingTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_SettingTypeActionPerformed
-    setChoiseFieldsEnabled(cmb_SettingType.getSelectedIndex() == SettingTypes.CHOISE.ordinal());
+    setChoiseFieldsEnabled(cmb_SettingType.getSelectedIndex() == SettingTypes.CHOICE.ordinal());
     setNumberFieldsEnabled(cmb_SettingType.getSelectedIndex() == SettingTypes.NUMBER.ordinal());
 }//GEN-LAST:event_cmb_SettingTypeActionPerformed
 
@@ -812,7 +812,7 @@ private void btn_SaveSettingActionPerformed(java.awt.event.ActionEvent evt) {//G
         gs.setKeyWord(tf_KeyWord.getText());
         gs.setType(SettingTypes.values()[cmb_SettingType.getSelectedIndex()]);
         jl_MultiChoises.repaint();
-        if (cmb_SettingType.getSelectedIndex() == SettingTypes.CHOISE.ordinal()) {
+        if (cmb_SettingType.getSelectedIndex() == SettingTypes.CHOICE.ordinal()) {
             saveChoiseProperties();
         }
         if (cmb_SettingType.getSelectedIndex() == SettingTypes.NUMBER.ordinal()) {

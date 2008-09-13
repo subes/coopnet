@@ -21,6 +21,7 @@ package coopnetclient.enums;
 
 public enum SettingTypes {
     TEXT,
-    CHOISE,
+    CHOICE,
     NUMBER
+
 }

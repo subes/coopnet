@@ -21,6 +21,7 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.Protocol;
+import coopnetclient.modules.MuteBanListModel;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
@@ -185,7 +186,7 @@ public class MuteBanTableFrame extends javax.swing.JFrame {
         
         @Override
         public int getRowCount() {
-            return Globals.getMuteBanList().size();
+            return MuteBanListModel.size();
         }
 
         @Override
@@ -196,9 +197,9 @@ public class MuteBanTableFrame extends javax.swing.JFrame {
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
             if(columnIndex == 0){
-                return Globals.getMuteBanList().getElementAt(rowIndex);
+                return MuteBanListModel.getElementAt(rowIndex);
             }else{
-                return Globals.getMuteBanList().getMuteBanStatus((Globals.getMuteBanList().getElementAt(rowIndex)));
+                return MuteBanListModel.getMuteBanStatus((MuteBanListModel.getElementAt(rowIndex)));
             }
         }
 

@@ -23,30 +23,26 @@ import java.util.HashMap;
 
 public class MuteBanListModel {
 
-    private HashMap<String, MuteBanStatuses> muteBanList = new HashMap<String, MuteBanStatuses>();
+    private static HashMap<String, MuteBanStatuses> muteBanList = new HashMap<String, MuteBanStatuses>();
 
-    public MuteBanListModel(){
-        super();
-    }
-
-    public String getElementAt(int index){
+    public static String getElementAt(int index){
         return muteBanList.keySet().toArray()[index].toString();
     }
 
-    public MuteBanStatuses getMuteBanStatus(String name) {
+    public static MuteBanStatuses getMuteBanStatus(String name) {
         MuteBanStatuses status = muteBanList.get(name);
         return status;
     }
 
-    public void clear() {
+    public static void clear() {
         muteBanList.clear();
     }
 
-    public int size() {
+    public static int size() {
         return muteBanList.size();
     }
 
-    public void mute(String name) {
+    public static void mute(String name) {
         MuteBanStatuses status = muteBanList.get(name);
         if (status == null) {
             muteBanList.put(name, MuteBanStatuses.MUTED);
@@ -57,7 +53,7 @@ public class MuteBanListModel {
         }
     }
 
-    public void ban(String name) {
+    public static void ban(String name) {
         MuteBanStatuses status = muteBanList.get(name);
         if (status == null) {
             muteBanList.put(name, MuteBanStatuses.BANNED);
@@ -68,7 +64,7 @@ public class MuteBanListModel {
         }
     }
 
-    public void unMute(String name) {
+    public static void unMute(String name) {
         MuteBanStatuses status = muteBanList.get(name);
         if (status == null) {
             return;
@@ -83,7 +79,7 @@ public class MuteBanListModel {
         }
     }
 
-    public void unBan(String name) {
+    public static void unBan(String name) {
         MuteBanStatuses status = muteBanList.get(name);
         if (status == null) {
             return;

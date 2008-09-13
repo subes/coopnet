@@ -82,7 +82,6 @@ public class Globals {
     private static BugReportFrame bugReportFrame;
     private static TextPreviewFrame textPreviewFrame;
     private static MuteBanTableFrame muteBanTableFrame = null;
-    private static MuteBanListModel muteBanList = new MuteBanListModel();
     private static SystemTray tray = null;
     private static TrayIcon trayIcon = null;
     private static boolean trayAdded = false;
@@ -155,10 +154,6 @@ public class Globals {
 
     public static TrayIcon getTrayIcon() {
         return trayIcon;
-    }
-
-    public static MuteBanListModel getMuteBanList() {
-        return muteBanList;
     }
 
     public static void recolorFrames() {

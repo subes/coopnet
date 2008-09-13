@@ -110,7 +110,7 @@ public class GameSetting {
                 currentValue = value;
                 break;
             }
-            case CHOISE: {
+            case CHOICE: {
                 currentValue = comboboxValues.get(comboboxSelectNames.indexOf(value));
                 break;
             }
@@ -155,7 +155,7 @@ public class GameSetting {
                 + keyWord + GameDatabase.SETTING_DELIMITER
                 +defaultValue ;
         switch (type) {            
-            case CHOISE: {
+            case CHOICE: {
                 for(int i= 0; i< comboboxSelectNames.size();i++){
                     tmp += GameDatabase.SETTING_DELIMITER 
                             + comboboxSelectNames.get(i) + "=" + comboboxValues.get(i);

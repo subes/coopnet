@@ -540,7 +540,7 @@ public class GameDatabase {
 
         GameSetting setting = new GameSetting(shared, name, SettingTypes.valueOf(parts[1]), parts[2], (parts.length > 3 ? parts[3] : ""));
         switch (SettingTypes.valueOf(parts[1])) {
-            case CHOISE: {
+            case CHOICE: {
                 ArrayList<String> names = new ArrayList<String>();
                 ArrayList<String> values = new ArrayList<String>();
                 for (int i = 4; i < parts.length; i++) {

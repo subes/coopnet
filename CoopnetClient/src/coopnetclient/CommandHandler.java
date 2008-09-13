@@ -127,12 +127,11 @@ public class CommandHandler {
                 String[] muteAndBan = input.substring(14).split("\n");
                 String[] mutedUserNames = muteAndBan.length>0 ? muteAndBan[0].split(Protocol.INFORMATION_DELIMITER) : new String[]{};
                 String[] bannedUserNames = muteAndBan.length>1 ?  muteAndBan[1].split(Protocol.INFORMATION_DELIMITER) : new String[]{};
-                MuteBanListModel model = Globals. getMuteBanList();
                 for(String username : mutedUserNames){
-                    model.mute(username);
+                    MuteBanListModel.mute(username);
                 }
                 for(String username : bannedUserNames){
-                    model.ban(username);
+                    MuteBanListModel.ban(username);
                 }
             } else if (input.startsWith("nudge ")) {
                 String tmp = input.substring(6);

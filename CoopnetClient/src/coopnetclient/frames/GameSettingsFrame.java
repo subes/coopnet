@@ -146,7 +146,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                     }
                     break;
                 }
-                case CHOISE: {
+                case CHOICE: {
                     input = new JComboBox(gs.getComboboxSelectNames().toArray());
                     if (gs.getDefaultValue() != null && gs.getDefaultValue().length() > 0) {
                         int idx = -1;
