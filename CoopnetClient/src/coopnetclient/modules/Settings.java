@@ -104,7 +104,7 @@ public class Settings {
             colorizeBody = "ColorizeBody",  
             colorizeText = "ColorizeText",  
             lastLoginName = "LastLoginName",  
-            lastLoginPassword = "Color",  
+            lastLoginPassword = "Style",  
             userMessageColor = "UserMessageColor",  
             SoundEnabled = "SoundEnabled",  
             TimeStamps = "TimeStamps",  
