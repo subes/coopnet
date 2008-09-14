@@ -24,6 +24,7 @@ import coopnetclient.Globals;
 import coopnetclient.Protocol;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.Verification;
+import javax.swing.JOptionPane;
 
 public class EditProfileFrame extends javax.swing.JFrame {
 
@@ -171,15 +172,15 @@ public class EditProfileFrame extends javax.swing.JFrame {
                     .addComponent(lbl_country)
                     .addComponent(lbl_website))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmb_country, javax.swing.GroupLayout.Alignment.TRAILING, 0, 456, Short.MAX_VALUE)
-                    .addComponent(tf_inGameName, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
-                    .addComponent(tf_emailAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
-                    .addGroup(pnl_inputLayout.createSequentialGroup()
+                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tf_website, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                    .addComponent(cmb_country, 0, 456, Short.MAX_VALUE)
+                    .addComponent(tf_inGameName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                    .addComponent(tf_emailAddress, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_inputLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tf_loginName, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE))
-                    .addComponent(cb_emailIsPublic)
-                    .addComponent(tf_website, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE))
+                    .addComponent(cb_emailIsPublic, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap())
         );
         pnl_inputLayout.setVerticalGroup(
@@ -205,7 +206,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
                 .addGap(11, 11, 11)
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_website)
-                    .addComponent(tf_website, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tf_website, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -226,7 +227,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
                 .addComponent(btn_save)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 292, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 357, Short.MAX_VALUE)
                 .addComponent(btn_changePassword)
                 .addContainerGap())
             .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -243,7 +244,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
                             .addComponent(btn_cancel)
                             .addComponent(btn_changePassword)))
                     .addComponent(btn_save))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -255,18 +256,35 @@ public class EditProfileFrame extends javax.swing.JFrame {
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         
         if(!Verification.verifyLoginName(tf_loginName.getText())){
+            JOptionPane.showMessageDialog(Globals.getClientFrame(), "Your login name must have 5 to 30 characters.\n" +
+                    "The following characters are allowed:\n" +
+                    "  A-Z a-z 0-9 " +
+                    "@ ~ - _ = | " +
+                    "<> () [] {}", "Verification error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(!Verification.verifyEMail(tf_emailAddress.getText())){
+            JOptionPane.showMessageDialog(Globals.getClientFrame(), "Your E-Mail is too long!", "Verification error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(!Verification.verifyCountry(cmb_country.getSelectedItem().toString())){
+            JOptionPane.showMessageDialog(Globals.getClientFrame(), "Your Country is too long!", "Verification error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(!Verification.verifyIngameName(tf_inGameName.getText())){
+            JOptionPane.showMessageDialog(Globals.getClientFrame(), "Your InGame name must have 1 to 30 characters!", "Verification error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(!Verification.verifyWebsite(tf_website.getText())){
+            JOptionPane.showMessageDialog(Globals.getClientFrame(), "Your Website is too long!", "Verification error!", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         //sending data
-        if (tf_emailAddress.getText().length() > 0) {
-            Client.send(Protocol.setEmail(tf_emailAddress.getText()), null);
-        }
+        Client.send(Protocol.setEmail(tf_emailAddress.getText()), null);
         Client.send(Protocol.setEmailPublicity(cb_emailIsPublic.isSelected()), null);
         Client.send(Protocol.setCountry((cmb_country.getSelectedIndex() == 0) ? "" : cmb_country.getSelectedItem().toString()), null);
-        if (tf_website.getText().length() > 0) {
-            Client.send(Protocol.setWebPage(tf_website.getText()), null);
-        }
+        Client.send(Protocol.setWebPage(tf_website.getText()), null);
         Client.send(Protocol.setGameName(tf_inGameName.getText()), null);
         Client.send(Protocol.changeName(tf_loginName.getText()), null);
         

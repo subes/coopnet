@@ -31,7 +31,7 @@
               <Component id="btn_save" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_cancel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="292" max="32767" attributes="0"/>
+              <EmptySpace pref="357" max="32767" attributes="0"/>
               <Component id="btn_changePassword" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -53,7 +53,7 @@
                   </Group>
                   <Component id="btn_save" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="19" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -100,7 +100,8 @@
                       <Component id="lbl_website" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="tf_website" pref="456" max="32767" attributes="1"/>
                       <Component id="cmb_country" alignment="1" pref="456" max="32767" attributes="1"/>
                       <Component id="tf_inGameName" alignment="0" pref="456" max="32767" attributes="1"/>
                       <Component id="tf_emailAddress" alignment="0" pref="456" max="32767" attributes="1"/>
@@ -109,7 +110,6 @@
                           <Component id="tf_loginName" pref="456" max="32767" attributes="1"/>
                       </Group>
                       <Component id="cb_emailIsPublic" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="tf_website" alignment="1" pref="456" max="32767" attributes="1"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -142,7 +142,7 @@
                   <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lbl_website" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="tf_website" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="tf_website" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>

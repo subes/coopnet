@@ -19,9 +19,7 @@
 
 package coopnetclient.modules;
 
-import coopnetclient.*;
-import java.security.MessageDigest;
-import javax.swing.JOptionPane;
+import coopnetclient.Globals;
 
 public class Verification {
 
@@ -41,8 +39,6 @@ public class Verification {
 
     public static boolean verifyPassword(String password) {
         if (password.length() < 5 || password.length() > 30) {
-            JOptionPane.showMessageDialog(Globals.getClientFrame(), "Your password must have 5 to 30 characters.",
-                    "Registration error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -51,10 +47,8 @@ public class Verification {
 
     public static boolean verifyLoginName(String loginName) {
 
-        boolean valid = true;
-
         if (loginName.length() < 5 || loginName.length() > 30) {
-            valid = false;
+            return false;
         }
 
         for (int i = 0; i < loginName.length(); i++) {
@@ -68,17 +62,8 @@ public class Verification {
                     || cur == 45 || cur == 95 // - _
                     || cur == 91 || cur == 93 // [ ]
                     )) {
-                valid = false;
+                return false;
             }
-        }
-
-        if (valid == false) {
-            JOptionPane.showMessageDialog(Globals.getClientFrame(), "Your login name must have 5 to 30 characters.\n" +
-                    "The following characters are allowed:\n" +
-                    "  A-Z a-z 0-9 " +
-                    "@ ~ - _ = | " +
-                    "<> () [] {}", "Registration error", JOptionPane.ERROR_MESSAGE);
-            return false;
         }
 
         return true;

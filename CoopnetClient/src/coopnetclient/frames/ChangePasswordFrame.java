@@ -158,6 +158,9 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                 Client.send(Protocol.changePassword(new String(tf_oldPassword.getPassword()), tmp2),null);
                 Settings.setAutoLogin(false);
                 Settings.setLastLoginPassword("");
+            }else{
+                JOptionPane.showMessageDialog(Globals.getClientFrame(), "Your password must have 5 to 30 characters.",
+                    "Registration error", JOptionPane.ERROR_MESSAGE);
             }
         }
 }//GEN-LAST:event_btn_saveActionPerformed

@@ -25,6 +25,7 @@ import coopnetclient.Protocol;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.Verification;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 public class LoginPanel extends javax.swing.JPanel {
 
@@ -73,13 +74,28 @@ public class LoginPanel extends javax.swing.JPanel {
         String name = tf_name.getText();
         String passw = new String(pf_password.getPassword());
 
+        if(!Verification.verifyLoginName(name)){
+            JOptionPane.showMessageDialog(Globals.getClientFrame(), "Your login name must have 5 to 30 characters.\n" +
+                    "The following characters are allowed:\n" +
+                    "  A-Z a-z 0-9 " +
+                    "@ ~ - _ = | " +
+                    "<> () [] {}", "Registration error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if(!Verification.verifyPassword(passw)){
+            JOptionPane.showMessageDialog(Globals.getClientFrame(), "Your password must have 5 to 30 characters.",
+                    "Registration error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         if (Verification.verifyLoginName(name) && Verification.verifyPassword(passw)) {
             Client.send(Protocol.register(tf_name.getText(), passw), null);
         }
     }
     
-    public void showError(String msg){
-        lbl_loginError.setForeground(Color.red);
+    public void showError(String msg, Color clr){
+        lbl_loginError.setForeground(clr);
         lbl_loginError.setText(msg);
     }
 
@@ -184,7 +200,7 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
         pnl_input.add(btn_login, gridBagConstraints);
 
@@ -211,6 +227,7 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
         pnl_input.add(cb_autoLogin, gridBagConstraints);
 
+        lbl_loginError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_loginError.setText(" ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
