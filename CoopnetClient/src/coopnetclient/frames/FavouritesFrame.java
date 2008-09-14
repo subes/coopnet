@@ -19,13 +19,10 @@
 
 package coopnetclient.frames;
 
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.Settings;
-import coopnetclient.utils.Colorizer;
 import coopnetclient.frames.models.SortedListModel;
-import java.util.Vector;
 import javax.swing.DefaultListModel;
 
 public class FavouritesFrame extends javax.swing.JFrame {

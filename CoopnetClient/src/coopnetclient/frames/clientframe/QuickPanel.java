@@ -98,7 +98,7 @@ public class QuickPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         tp_quickPanel = new javax.swing.JTabbedPane();
-        scrl_contactList = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         lst_contactList = new coopnetclient.frames.components.mutablelist.EditableJlist();
         pnl_favouritesList = new javax.swing.JPanel();
         scrl_favouritesList = new javax.swing.JScrollPane();
@@ -112,8 +112,6 @@ public class QuickPanel extends javax.swing.JPanel {
         tp_quickPanel.setDoubleBuffered(true);
         tp_quickPanel.setFocusable(false);
 
-        scrl_contactList.setFocusable(false);
-
         lst_contactList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -122,8 +120,8 @@ public class QuickPanel extends javax.swing.JPanel {
         lst_contactList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lst_contactList.setFocusable(false);
         lst_contactList.setMaximumSize(null);
-        lst_contactList.setMinimumSize(null);
-        lst_contactList.setPreferredSize(new java.awt.Dimension(150, 200));
+        lst_contactList.setMinimumSize(new java.awt.Dimension(50, 10));
+        lst_contactList.setPreferredSize(null);
         lst_contactList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lst_contactListMouseClicked(evt);
@@ -137,9 +135,9 @@ public class QuickPanel extends javax.swing.JPanel {
                 lst_contactListMouseMoved(evt);
             }
         });
-        scrl_contactList.setViewportView(lst_contactList);
+        jScrollPane1.setViewportView(lst_contactList);
 
-        tp_quickPanel.addTab("", ContactListIcon, scrl_contactList, "Contact List");
+        tp_quickPanel.addTab("", jScrollPane1);
 
         lst_favouritesList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -166,7 +164,7 @@ public class QuickPanel extends javax.swing.JPanel {
         pnl_favouritesList.setLayout(pnl_favouritesListLayout);
         pnl_favouritesListLayout.setHorizontalGroup(
             pnl_favouritesListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrl_favouritesList, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+            .addComponent(scrl_favouritesList, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
         );
         pnl_favouritesListLayout.setVerticalGroup(
             pnl_favouritesListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,10 +228,10 @@ private void lst_favouritesListMouseExited(java.awt.event.MouseEvent evt) {//GEN
 }//GEN-LAST:event_lst_favouritesListMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
     private coopnetclient.frames.components.mutablelist.EditableJlist lst_contactList;
     private javax.swing.JList lst_favouritesList;
     private javax.swing.JPanel pnl_favouritesList;
-    private javax.swing.JScrollPane scrl_contactList;
     private javax.swing.JScrollPane scrl_favouritesList;
     private javax.swing.JTabbedPane tp_quickPanel;
     // End of variables declaration//GEN-END:variables

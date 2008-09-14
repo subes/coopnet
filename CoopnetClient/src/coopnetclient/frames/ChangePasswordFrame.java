@@ -24,7 +24,7 @@ import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.Verification;
-import javax.swing.JOptionPane;
+import java.awt.Color;
 
 public class ChangePasswordFrame extends javax.swing.JFrame {
     
@@ -50,6 +50,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
         tf_oldPassword = new javax.swing.JPasswordField();
         btn_save = new javax.swing.JButton();
         btn_cancel = new javax.swing.JButton();
+        lbl_Error = new javax.swing.JLabel();
 
         setTitle("Change password");
         setResizable(false);
@@ -121,27 +122,35 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
             }
         });
 
+        lbl_Error.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_save)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
                 .addContainerGap(358, Short.MAX_VALUE))
-            .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_Error, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnl_input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_Error)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_save)
                     .addComponent(btn_cancel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -151,16 +160,16 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
         String tmp1=new String(tf_newPassword1.getPassword());
         String tmp2=new String(tf_newPassword2.getPassword());
         if(!(tmp1.equals(tmp2))   ){
-            JOptionPane.showMessageDialog(Globals.getChangePasswordFrame(), "Passwords don't match'", "Alert", JOptionPane.INFORMATION_MESSAGE);
+            showError("Passwords don't match'",Color.red);            
         }   
         else{
             if(Verification.verifyPassword(tmp1)){
                 Client.send(Protocol.changePassword(new String(tf_oldPassword.getPassword()), tmp2));
                 Settings.setAutoLogin(false);
                 Settings.setLastLoginPassword("");
+                showError(" ",Color.red);
             }else{
-                JOptionPane.showMessageDialog(Globals.getClientFrame(), "Your password must have 5 to 30 characters.",
-                    "Registration error", JOptionPane.ERROR_MESSAGE);
+                showError("Your password must have 5 to 30 characters!",Color.red);                
             }
         }
 }//GEN-LAST:event_btn_saveActionPerformed
@@ -172,10 +181,16 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Globals.closeChangePasswordFrame();
     }//GEN-LAST:event_formWindowClosing
-   
+
+    private void showError(String message, Color color){
+        lbl_Error.setForeground(color);
+        lbl_Error.setText(message);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_save;
+    private javax.swing.JLabel lbl_Error;
     private javax.swing.JLabel lbl_newPassword1;
     private javax.swing.JLabel lbl_newPassword2;
     private javax.swing.JLabel lbl_oldPassword;

@@ -14,6 +14,7 @@
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
@@ -26,43 +27,49 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="lbl_filter" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="tf_filter" pref="492" max="32767" attributes="0"/>
-                  </Group>
-                  <Component id="lbl_games" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="scrl_games" alignment="1" pref="536" max="32767" attributes="1"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lbl_installPath" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbl_path" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="tf_path" pref="371" max="32767" attributes="1"/>
+                          <Component id="lbl_Error" alignment="0" pref="536" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="lbl_filter" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btn_browsePath" min="-2" max="-2" attributes="0"/>
+                              <Component id="tf_filter" pref="504" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="lbl_games" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="scrl_games" alignment="1" pref="536" max="32767" attributes="1"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lbl_installPath" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_path" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="tf_path" pref="378" max="32767" attributes="1"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="btn_browsePath" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="tf_installPath" pref="378" max="32767" attributes="1"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="btn_browseInstallPath" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="tf_installPath" pref="371" max="32767" attributes="1"/>
+                              <Component id="btn_save" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btn_browseInstallPath" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lbl_note" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lbl_noteText" min="-2" max="-2" attributes="0"/>
+                              <Component id="btn_close" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="btn_save" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
+                      <Component id="lbl_note" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btn_close" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl_noteText" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -93,6 +100,8 @@
                   <Component id="tf_installPath" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_browseInstallPath" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lbl_Error" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lbl_note" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -197,6 +206,11 @@
     <Component class="javax.swing.JLabel" name="lbl_note">
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Note:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_Error">
+      <Properties>
+        <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
     </Component>
   </SubComponents>
