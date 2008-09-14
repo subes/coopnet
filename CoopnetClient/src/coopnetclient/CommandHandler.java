@@ -49,8 +49,8 @@ public class CommandHandler {
         }
 
         //Heartbeat
-        if (input.equals(Protocol.HEARTBEAT_REQUEST)) {
-            Client.send(Protocol.HEARTBEAT_RESPONSE, null);
+        if (input.equals(Protocol.HEARTBEAT)) {
+            Client.send(Protocol.HEARTBEAT, null);
         }
 
         if (input.equals("updateURL ")) {

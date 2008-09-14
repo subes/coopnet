@@ -68,7 +68,7 @@ public class Main {
         System.out.println( "\nCoopnetClient usage:\n" +
                             "    java -jar CoopnetClient.jar [--server <IP>:<PORT>] [--debug]\n" +
                             "\n" +
-                            "    --server   specify the ip and port of the server to connect to\n" +
+                            "    --server   ip and port of the server to connect to\n" +
                             "    --debug    print debug messages during operation\n" +
                             "    --help     print this help and exit\n");
         

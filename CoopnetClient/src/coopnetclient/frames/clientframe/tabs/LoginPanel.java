@@ -73,7 +73,7 @@ public class LoginPanel extends javax.swing.JPanel {
         String name = tf_name.getText();
         String passw = new String(pf_password.getPassword());
 
-        if (Verification.verifyUsername(name) && Verification.verifyPassword(passw)) {
+        if (Verification.verifyLoginName(name) && Verification.verifyPassword(passw)) {
             Client.send(Protocol.register(tf_name.getText(), passw), null);
         }
     }

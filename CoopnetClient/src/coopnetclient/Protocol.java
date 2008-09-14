@@ -38,8 +38,7 @@ public class Protocol {
     public static byte[] ENCODED_MESSAGE_DELIMITER;
     
     //Heartbeat characters
-    public static final String HEARTBEAT_REQUEST = "\u2661";
-    public static final String HEARTBEAT_RESPONSE = "\u2665";
+    public static final String HEARTBEAT = "\u2665";
     
     static{
         try{

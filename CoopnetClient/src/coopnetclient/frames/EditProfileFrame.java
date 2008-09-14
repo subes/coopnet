@@ -254,7 +254,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         
-        if(!Verification.verifyUsername(tf_loginName.getText())){
+        if(!Verification.verifyLoginName(tf_loginName.getText())){
             return;
         }
 

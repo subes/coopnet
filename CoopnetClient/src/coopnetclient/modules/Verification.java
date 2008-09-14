@@ -49,16 +49,16 @@ public class Verification {
         return true;
     }
 
-    public static boolean verifyUsername(String username) {
+    public static boolean verifyLoginName(String loginName) {
 
         boolean valid = true;
 
-        if (username.length() < 5 || username.length() > 30) {
+        if (loginName.length() < 5 || loginName.length() > 30) {
             valid = false;
         }
 
-        for (int i = 0; i < username.length(); i++) {
-            int cur = Integer.valueOf(username.charAt(i));
+        for (int i = 0; i < loginName.length(); i++) {
+            int cur = Integer.valueOf(loginName.charAt(i));
 
             if (!(cur >= 64 && cur <= 90 // @ A-Z 
                     || cur >= 97 && cur <= 126 // a-z { | } ~
