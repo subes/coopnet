@@ -19,7 +19,7 @@
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.protocol.ClientProtocolCommands;
+import coopnetclient.enums.ClientProtocolCommands;
 
 public class Main {
     

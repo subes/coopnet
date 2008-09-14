@@ -21,7 +21,7 @@ package coopnetclient.protocol.out;
 
 import coopnetclient.protocol.*;
 import coopnetclient.*;
-import coopnetclient.protocol.ClientProtocolCommands;
+import coopnetclient.enums.ClientProtocolCommands;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.nio.CharBuffer;

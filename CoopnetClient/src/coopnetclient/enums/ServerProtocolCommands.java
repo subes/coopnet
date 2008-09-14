@@ -19,7 +19,7 @@
 
 package coopnetclient.enums;
 
-public enum LogTypes {
-    IN,
-    OUT
+public enum ServerProtocolCommands { 
+    CONTACT_REQUEST,
+    SET_CONTACTSTATUS,
 }
