@@ -33,7 +33,6 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class HandlerThread extends Thread {
@@ -108,11 +107,11 @@ public class HandlerThread extends Thread {
                 try {
                     input = read();
                 } catch (Exception q) {
-                    JOptionPane.showMessageDialog(Globals.getClientFrame(), q, "ERROR", JOptionPane.ERROR_MESSAGE);
+                    //JOptionPane.showMessageDialog(Globals.getClientFrame(), q, "ERROR", JOptionPane.ERROR_MESSAGE);
                     ErrorHandler.handleException(q);
                 }
                 if (input == null) {
-                    JOptionPane.showMessageDialog(Globals.getClientFrame(), "No response from server", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    //JOptionPane.showMessageDialog(Globals.getClientFrame(), "No response from server", "ERROR", JOptionPane.ERROR_MESSAGE);
                 } else if (input.equals("OK_LOGIN")) {
                     Globals.setThisPlayer_loginName(Settings.getLastLoginName());
                     Globals.setLoggedInStatus(true);
