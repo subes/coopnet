@@ -21,9 +21,9 @@ package coopnetclient.frames;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.protocol.Protocol;
-import coopnetclient.modules.Settings;
-import coopnetclient.modules.Verification;
+import coopnetclient.protocol.out.Protocol;
+import coopnetclient.utils.Settings;
+import coopnetclient.utils.Verification;
 import javax.swing.JOptionPane;
 
 public class ChangePasswordFrame extends javax.swing.JFrame {
@@ -155,7 +155,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
         }   
         else{
             if(Verification.verifyPassword(tmp1)){
-                Client.send(Protocol.changePassword(new String(tf_oldPassword.getPassword()), tmp2),null);
+                Client.send(Protocol.changePassword(new String(tf_oldPassword.getPassword()), tmp2));
                 Settings.setAutoLogin(false);
                 Settings.setLastLoginPassword("");
             }else{

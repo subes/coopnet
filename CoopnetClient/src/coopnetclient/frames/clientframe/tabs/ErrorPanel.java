@@ -43,7 +43,7 @@ public class ErrorPanel extends javax.swing.JPanel {
     public ErrorPanel(int mode, Exception exception) {
         initComponents();
         
-        coopnetclient.modules.Colorizer.colorize(this);
+        coopnetclient.utils.Colorizer.colorize(this);
         switch (mode) {
             case UNKNOWN_MODE: {
                 lbl_errortext.setText(unknownerror);

@@ -20,13 +20,13 @@ package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.protocol.Protocol;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.MuteBanStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.modules.MuteBanList;
-import coopnetclient.modules.listeners.ChatInputKeyListener;
-import coopnetclient.modules.listeners.HyperlinkMouseListener;
+import coopnetclient.utils.MuteBanList;
+import coopnetclient.frames.listeners.ChatInputKeyListener;
+import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import javax.swing.text.StyledDocument;
 
 public class PrivateChatPanel extends javax.swing.JPanel {
@@ -37,7 +37,7 @@ public class PrivateChatPanel extends javax.swing.JPanel {
     public PrivateChatPanel(String partner) {
         this.partner = partner;
         initComponents();
-        coopnetclient.modules.Colorizer.colorize(this);
+        coopnetclient.utils.Colorizer.colorize(this);
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(2, partner));
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
@@ -55,8 +55,8 @@ public class PrivateChatPanel extends javax.swing.JPanel {
     }
 
     public void customCodeForColorizer() {
-        if (coopnetclient.modules.Settings.getColorizeText()) {
-            tp_chatInput.setForeground(coopnetclient.modules.Settings.getUserMessageColor());
+        if (coopnetclient.utils.Settings.getColorizeText()) {
+            tp_chatInput.setForeground(coopnetclient.utils.Settings.getUserMessageColor());
         }
 
         //Fix color of current/next input
@@ -67,14 +67,14 @@ public class PrivateChatPanel extends javax.swing.JPanel {
             tp_chatInput.setText("");
         }
 
-        if (coopnetclient.modules.Settings.getColorizeBody()) {
-            tp_chatOutput.setBackground(coopnetclient.modules.Settings.getBackgroundColor());
+        if (coopnetclient.utils.Settings.getColorizeBody()) {
+            tp_chatOutput.setBackground(coopnetclient.utils.Settings.getBackgroundColor());
         }
     }
 
     public void append(String sender, String message) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
-        coopnetclient.modules.ColoredChatHandler.addColoredText(sender,
+        coopnetclient.utils.ColoredChatHandler.addColoredText(sender,
                 message, ChatStyles.WHISPER,
                 doc, scrl_chatOutput, tp_chatOutput);
     }
@@ -180,12 +180,12 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
 private void jb_MuteBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_MuteBanActionPerformed
     if (jb_MuteBan.getText().equals("Mute")) {
             MuteBanList.mute(partner);
-            Client.send(Protocol.mute(partner), null);
+            Client.send(Protocol.mute(partner));
             Globals.updateMuteBanTableFrame();
             jb_MuteBan.setText("UnMute");
         } else if (jb_MuteBan.getText().equals("UnMute")) {
             MuteBanList.unMute(partner);
-            Client.send(Protocol.unmute(partner), null);
+            Client.send(Protocol.unmute(partner));
             Globals.updateMuteBanTableFrame();
             jb_MuteBan.setText("Mute");
         } 

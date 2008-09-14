@@ -22,8 +22,8 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.protocol.Protocol;
-import coopnetclient.modules.models.SortedListModel;
+import coopnetclient.protocol.out.Protocol;
+import coopnetclient.frames.models.SortedListModel;
 import java.awt.event.MouseEvent;
 
 public class ChannelListFrame extends javax.swing.JFrame {
@@ -137,7 +137,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jb_joinChannelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_joinChannelButtonActionPerformed
-        Client.send(Protocol.JoinChannel((String) lst_channelList.getSelectedValue()), null);
+        Client.send(Protocol.JoinChannel((String) lst_channelList.getSelectedValue()));
         Globals.closeChannelListFrame();
 }//GEN-LAST:event_jb_joinChannelButtonActionPerformed
 

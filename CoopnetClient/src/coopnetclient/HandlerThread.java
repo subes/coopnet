@@ -19,10 +19,10 @@
 
 package coopnetclient;
 
-import coopnetclient.protocol.Protocol;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.modules.Settings;
-import coopnetclient.modules.SwingWorker;
+import coopnetclient.utils.Settings;
+import coopnetclient.utils.SwingWorker;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -97,11 +97,11 @@ public class HandlerThread extends Thread {
             sender.start();
 
             //login
-            if (coopnetclient.modules.Settings.getAutoLogin()) {
-                Client.send(Protocol.login(), null);
-                String s = coopnetclient.modules.Settings.getHomeChannel();
+            if (coopnetclient.utils.Settings.getAutoLogin()) {
+                Client.send(Protocol.login());
+                String s = coopnetclient.utils.Settings.getHomeChannel();
                 if (s.length() > 0) {
-                    Client.send(Protocol.JoinChannel(s), null);
+                    Client.send(Protocol.JoinChannel(s));
                 }
 
                 String input = null;
@@ -117,7 +117,7 @@ public class HandlerThread extends Thread {
                     Globals.setThisPlayer_loginName(Settings.getLastLoginName());
                     Globals.setLoggedInStatus(true);
                     TabOrganizer.closeLoginPanel();
-                    Client.send(Protocol.SetSleep(Settings.getSleepEnabled()), null);
+                    Client.send(Protocol.SetSleep(Settings.getSleepEnabled()));
                 } else {
                     TabOrganizer.openLoginPanel();
                 }

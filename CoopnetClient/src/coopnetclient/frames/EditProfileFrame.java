@@ -21,9 +21,9 @@ package coopnetclient.frames;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.protocol.Protocol;
-import coopnetclient.modules.Settings;
-import coopnetclient.modules.Verification;
+import coopnetclient.protocol.out.Protocol;
+import coopnetclient.utils.Settings;
+import coopnetclient.utils.Verification;
 import javax.swing.JOptionPane;
 
 public class EditProfileFrame extends javax.swing.JFrame {
@@ -281,12 +281,12 @@ public class EditProfileFrame extends javax.swing.JFrame {
         }
 
         //sending data
-        Client.send(Protocol.setEmail(tf_emailAddress.getText()), null);
-        Client.send(Protocol.setEmailPublicity(cb_emailIsPublic.isSelected()), null);
-        Client.send(Protocol.setCountry((cmb_country.getSelectedIndex() == 0) ? "" : cmb_country.getSelectedItem().toString()), null);
-        Client.send(Protocol.setWebPage(tf_website.getText()), null);
-        Client.send(Protocol.setGameName(tf_inGameName.getText()), null);
-        Client.send(Protocol.changeName(tf_loginName.getText()), null);
+        Client.send(Protocol.setEmail(tf_emailAddress.getText()));
+        Client.send(Protocol.setEmailPublicity(cb_emailIsPublic.isSelected()));
+        Client.send(Protocol.setCountry((cmb_country.getSelectedIndex() == 0) ? "" : cmb_country.getSelectedItem().toString()));
+        Client.send(Protocol.setWebPage(tf_website.getText()));
+        Client.send(Protocol.setGameName(tf_inGameName.getText()));
+        Client.send(Protocol.changeName(tf_loginName.getText()));
         
         Settings.setLastLoginName(tf_loginName.getText());
         

@@ -20,7 +20,7 @@
 package coopnetclient.utils.gamedatabase;
 
 import coopnetclient.Client;
-import coopnetclient.protocol.Protocol;
+import coopnetclient.protocol.out.Protocol;
 import java.util.ArrayList;
 import coopnetclient.enums.SettingTypes;
 
@@ -120,7 +120,7 @@ public class GameSetting {
             }            
         }
         if(shared && broadcast){
-            Client.send(Protocol.SendSetting(visibleName, value), null);
+            Client.send(Protocol.SendSetting(visibleName, value));
         }
     }
     

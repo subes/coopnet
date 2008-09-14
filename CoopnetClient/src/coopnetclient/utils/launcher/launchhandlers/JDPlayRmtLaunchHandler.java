@@ -23,7 +23,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
-import coopnetclient.modules.Settings;
+import coopnetclient.utils.Settings;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

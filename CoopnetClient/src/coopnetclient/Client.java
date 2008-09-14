@@ -18,13 +18,14 @@
  */
 package coopnetclient;
 
-import coopnetclient.protocol.Protocol;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.modules.Settings;
+import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.modules.Colorizer;
+import coopnetclient.utils.Colorizer;
+import coopnetclient.protocol.ClientProtocolCommands;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
@@ -54,8 +55,13 @@ public class Client {
      */
     public static void send(String command, String channel) {
         if (channel != null && channel.length() > 0) {
-            command = "on " + GameDatabase.IDofGame(channel) + ":" + command;
+            send(Protocol.on(command, channel));
         }
+        
+        
+    }
+    
+    public static void send(String command){
         if (handlerThread != null) {
             command += Protocol.MESSAGE_DELIMITER;
             handlerThread.addToOutQueue(command);

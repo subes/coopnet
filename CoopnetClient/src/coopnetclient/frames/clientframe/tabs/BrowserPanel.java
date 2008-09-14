@@ -20,7 +20,7 @@
 package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.modules.Colorizer;
+import coopnetclient.utils.Colorizer;
 import java.io.IOException;
 
 public class BrowserPanel extends javax.swing.JPanel {

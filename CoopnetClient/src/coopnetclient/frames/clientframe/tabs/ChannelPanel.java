@@ -21,18 +21,18 @@ package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.modules.listeners.ChatInputKeyListener;
-import coopnetclient.modules.renderers.RoomPasswordPicTableCellRenderer;
-import coopnetclient.modules.renderers.UsersInRoomTableCellRenderer;
-import coopnetclient.modules.models.RoomTableModel;
-import coopnetclient.modules.components.PlayerListPopupMenu;
-import coopnetclient.protocol.Protocol;
+import coopnetclient.frames.listeners.ChatInputKeyListener;
+import coopnetclient.frames.renderers.RoomPasswordPicTableCellRenderer;
+import coopnetclient.frames.renderers.UsersInRoomTableCellRenderer;
+import coopnetclient.frames.models.RoomTableModel;
+import coopnetclient.frames.components.PlayerListPopupMenu;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.modules.renderers.ChannelStatusListCellRenderer;
+import coopnetclient.frames.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.modules.models.ChannelStatusListModel;
-import coopnetclient.modules.listeners.HyperlinkMouseListener;
+import coopnetclient.frames.models.ChannelStatusListModel;
+import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import java.awt.event.MouseEvent;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -56,7 +56,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         ID = GameDatabase.IDofGame(name);
         initComponents();
         btn_leaveChannel1.setVisible(false);
-        coopnetclient.modules.Colorizer.colorize(this);
+        coopnetclient.utils.Colorizer.colorize(this);
 
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
 
@@ -127,8 +127,8 @@ public class ChannelPanel extends javax.swing.JPanel {
     }
 
     public void customCodeForColorizer() {
-        if (coopnetclient.modules.Settings.getColorizeText()) {
-            tp_chatInput.setForeground(coopnetclient.modules.Settings.getUserMessageColor());
+        if (coopnetclient.utils.Settings.getColorizeText()) {
+            tp_chatInput.setForeground(coopnetclient.utils.Settings.getUserMessageColor());
         }
 
         //Fix color of current/next input
@@ -139,8 +139,8 @@ public class ChannelPanel extends javax.swing.JPanel {
             tp_chatInput.setText("");
         }
 
-        if (coopnetclient.modules.Settings.getColorizeBody()) {
-            tp_chatOutput.setBackground(coopnetclient.modules.Settings.getBackgroundColor());
+        if (coopnetclient.utils.Settings.getColorizeBody()) {
+            tp_chatOutput.setBackground(coopnetclient.utils.Settings.getBackgroundColor());
         }
     }
 
@@ -182,7 +182,7 @@ public class ChannelPanel extends javax.swing.JPanel {
     public void printMainChatMessage(String name, String message, ChatStyles modeStyle) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
 
-        coopnetclient.modules.ColoredChatHandler.addColoredText(name, message, modeStyle, doc, scrl_chatOutput, tp_chatOutput);
+        coopnetclient.utils.ColoredChatHandler.addColoredText(name, message, modeStyle, doc, scrl_chatOutput, tp_chatOutput);
     }
 
     public void removePlayerFromChannel(String playername) {

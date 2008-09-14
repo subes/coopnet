@@ -24,14 +24,14 @@ import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.tabs.ChannelPanel;
 import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
 import coopnetclient.frames.clientframe.tabs.RoomPanel;
-import coopnetclient.protocol.Protocol;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.clientframe.QuickPanel;
-import coopnetclient.modules.Settings;
-import coopnetclient.modules.components.FavMenuItem;
+import coopnetclient.utils.Settings;
+import coopnetclient.frames.components.FavMenuItem;
 import coopnetclient.frames.clientframe.tabs.FileTransferRecievePanel;
 import coopnetclient.frames.clientframe.tabs.FileTransferSendPanel;
-import coopnetclient.modules.FileDownloader;
+import coopnetclient.utils.FileDownloader;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -570,7 +570,7 @@ public class ClientFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void mi_profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_profileActionPerformed
-        Client.send(Protocol.editProfile(), null);
+        Client.send(Protocol.editProfile());
 }//GEN-LAST:event_mi_profileActionPerformed
 
     private void mi_quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_quitActionPerformed
@@ -581,14 +581,14 @@ public class ClientFrame extends javax.swing.JFrame {
         if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled()) {
             this.setVisible(false);
         } else {
-            Client.send(Protocol.quit(), null);
+            Client.send(Protocol.quit());
             Client.stopConnection();
             //save sizes
-            coopnetclient.modules.Settings.setMainFrameMaximised(this.getExtendedState());
+            coopnetclient.utils.Settings.setMainFrameMaximised(this.getExtendedState());
 
             if (this.getExtendedState() == javax.swing.JFrame.NORMAL) {
-                coopnetclient.modules.Settings.setMainFrameHeight(this.getHeight());
-                coopnetclient.modules.Settings.setMainFrameWidth(this.getWidth());
+                coopnetclient.utils.Settings.setMainFrameHeight(this.getHeight());
+                coopnetclient.utils.Settings.setMainFrameWidth(this.getWidth());
             }
 
             System.exit(0);
@@ -624,7 +624,7 @@ public class ClientFrame extends javax.swing.JFrame {
         lastdividerposition = null;
         quickPanelVisibility = false;
 
-        Client.send(Protocol.quit(), null);
+        Client.send(Protocol.quit());
         Client.stopConnection();
         TabOrganizer.closeAllTabs();
 
@@ -730,7 +730,7 @@ public class ClientFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void mi_SoundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_SoundsActionPerformed
-        coopnetclient.modules.Settings.setSoundEnabled(mi_Sounds.isSelected());
+        coopnetclient.utils.Settings.setSoundEnabled(mi_Sounds.isSelected());
 }//GEN-LAST:event_mi_SoundsActionPerformed
 
     private void mi_manageFavsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_manageFavsActionPerformed

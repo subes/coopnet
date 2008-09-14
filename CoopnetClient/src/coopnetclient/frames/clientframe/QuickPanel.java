@@ -20,14 +20,14 @@ package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.protocol.Protocol;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.modules.Settings;
-import coopnetclient.modules.components.ContactListPopupMenu;
-import coopnetclient.modules.components.mutablelist.DefaultListCellEditor;
-import coopnetclient.modules.models.ContactListModel;
-import coopnetclient.modules.renderers.ContactListRenderer;
+import coopnetclient.utils.Settings;
+import coopnetclient.frames.components.ContactListPopupMenu;
+import coopnetclient.frames.components.mutablelist.DefaultListCellEditor;
+import coopnetclient.frames.models.ContactListModel;
+import coopnetclient.frames.renderers.ContactListRenderer;
 import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.util.Vector;
@@ -99,7 +99,7 @@ public class QuickPanel extends javax.swing.JPanel {
 
         tp_quickPanel = new javax.swing.JTabbedPane();
         scrl_contactList = new javax.swing.JScrollPane();
-        lst_contactList = new coopnetclient.modules.components.mutablelist.EditableJlist();
+        lst_contactList = new coopnetclient.nullcomponents.mutablelist.EditableJlist();
         pnl_favouritesList = new javax.swing.JPanel();
         scrl_favouritesList = new javax.swing.JScrollPane();
         lst_favouritesList = new javax.swing.JList();
@@ -204,7 +204,7 @@ private void lst_contactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-F
 }//GEN-LAST:event_lst_contactListMouseClicked
 
 private void lst_favouritesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_favouritesListMouseClicked
-    Client.send(Protocol.JoinChannel(lst_favouritesList.getSelectedValue().toString()), null);
+    Client.send(Protocol.JoinChannel(lst_favouritesList.getSelectedValue().toString()));
 }//GEN-LAST:event_lst_favouritesListMouseClicked
 
 private void lst_contactListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseMoved
@@ -230,7 +230,7 @@ private void lst_favouritesListMouseExited(java.awt.event.MouseEvent evt) {//GEN
 }//GEN-LAST:event_lst_favouritesListMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private coopnetclient.modules.components.mutablelist.EditableJlist lst_contactList;
+    private coopnetclient.nullcomponents.mutablelist.EditableJlist lst_contactList;
     private javax.swing.JList lst_favouritesList;
     private javax.swing.JPanel pnl_favouritesList;
     private javax.swing.JScrollPane scrl_contactList;

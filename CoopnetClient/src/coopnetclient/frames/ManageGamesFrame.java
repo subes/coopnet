@@ -23,7 +23,7 @@ import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.modules.models.SortedListModel;
+import coopnetclient.frames.models.SortedListModel;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.io.File;
 import javax.swing.JOptionPane;

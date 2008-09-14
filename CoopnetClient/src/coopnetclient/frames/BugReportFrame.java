@@ -22,7 +22,7 @@ package coopnetclient.frames;
 import bugreportmailsender.BugReportMailSender;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.modules.Colorizer;
+import coopnetclient.utils.Colorizer;
 import java.util.Date;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;

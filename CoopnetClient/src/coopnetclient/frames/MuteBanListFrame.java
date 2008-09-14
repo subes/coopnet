@@ -20,8 +20,8 @@ package coopnetclient.frames;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.protocol.Protocol;
-import coopnetclient.modules.MuteBanList;
+import coopnetclient.protocol.out.Protocol;
+import coopnetclient.utils.MuteBanList;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
@@ -137,7 +137,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         if (viewRow > -1) {
             int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
             String subject = tablemodel.getValueAt(selected, 0).toString();
-            Client.send(Protocol.unmute(subject), null);
+            Client.send(Protocol.unmute(subject));
             MuteBanList.unMute(subject);
             updateTable();
         }
@@ -148,7 +148,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         if (viewRow > -1) {
             int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
             String subject = tablemodel.getValueAt(selected, 0).toString();
-            Client.send(Protocol.unban(subject), null);
+            Client.send(Protocol.unban(subject));
             MuteBanList.unBan(subject);
             updateTable();
         }
@@ -159,7 +159,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         if (viewRow > -1) {
             int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
             String subject = tablemodel.getValueAt(selected, 0).toString();
-            Client.send(Protocol.requestProfile(subject), null);
+            Client.send(Protocol.requestProfile(subject));
         }
     }//GEN-LAST:event_jb_Show_ProfileActionPerformed
 

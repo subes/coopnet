@@ -21,7 +21,7 @@ package coopnetclient.frames;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.protocol.Protocol;
+import coopnetclient.protocol.out.Protocol;
 import java.awt.Color;
 
 public class JoinRoomPasswordFrame extends javax.swing.JFrame {
@@ -156,7 +156,7 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         if (host_name != null) {
             Client.send(Protocol.joinRoom(host_name, passw),channel);
         }else if(ID != null){
-            Client.send(Protocol.joinRoomByID(ID, passw),null);
+            Client.send(Protocol.joinRoomByID(ID, passw));
         }
         hideWrongPasswordNotification();
     }//GEN-LAST:event_join

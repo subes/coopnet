@@ -22,9 +22,9 @@ package coopnetclient.frames.clientframe.tabs;
 import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
-import coopnetclient.protocol.Protocol;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.modules.Settings;
+import coopnetclient.utils.Settings;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Desktop;
 import java.io.BufferedInputStream;
@@ -67,7 +67,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
         lbl_fileValue.setText(filename);
         lbl_senderValue.setText(sender);
         tf_savePath.setText(Settings.getRecieveDestination());
-        coopnetclient.modules.Colorizer.colorize(this);
+        coopnetclient.utils.Colorizer.colorize(this);
 
         int i = 0;
         while (size > 1024) {
@@ -217,7 +217,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                     } catch (Exception e) {
                         if (e instanceof java.net.BindException) {
                             serverSocket.close();
-                            Client.send(Protocol.turnTransferAround(sender, filename), null);
+                            Client.send(Protocol.turnTransferAround(sender, filename));
                             Thread.sleep(500);
                             startDownloadingRetry();
                             return;
@@ -627,7 +627,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
     private void btn_acceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_acceptActionPerformed
         if (btn_accept.getText().equals("Accept")) {
             startDownloading();
-            Client.send(Protocol.AcceptTransfer(sender, filename, firstByteToSend), null);
+            Client.send(Protocol.AcceptTransfer(sender, filename, firstByteToSend));
             btn_accept.setText("Open file");
             btn_accept.setEnabled(false);
             btn_refuse.setText("Cancel");
@@ -647,7 +647,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
 
 private void btn_refuseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refuseActionPerformed
     if (btn_refuse.getText().equals("Refuse")) {
-        Client.send(Protocol.RefuseTransfer(sender, filename), null);
+        Client.send(Protocol.RefuseTransfer(sender, filename));
         TabOrganizer.closeFileTransferReceivePanel(this);
     } else if (btn_refuse.getText().equals("Cancel")) {
         running = false;

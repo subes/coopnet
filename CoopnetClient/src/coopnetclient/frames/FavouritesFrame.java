@@ -22,9 +22,9 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.modules.Settings;
-import coopnetclient.modules.Colorizer;
-import coopnetclient.modules.models.SortedListModel;
+import coopnetclient.utils.Settings;
+import coopnetclient.utils.Colorizer;
+import coopnetclient.frames.models.SortedListModel;
 import java.util.Vector;
 import javax.swing.DefaultListModel;
 

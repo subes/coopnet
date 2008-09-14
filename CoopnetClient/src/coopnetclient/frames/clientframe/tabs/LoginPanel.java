@@ -21,9 +21,9 @@ package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.protocol.Protocol;
-import coopnetclient.modules.Settings;
-import coopnetclient.modules.Verification;
+import coopnetclient.protocol.out.Protocol;
+import coopnetclient.utils.Settings;
+import coopnetclient.utils.Verification;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
@@ -33,9 +33,9 @@ public class LoginPanel extends javax.swing.JPanel {
     public LoginPanel() {
 
         initComponents();
-        tf_name.setText(coopnetclient.modules.Settings.getLastLoginName());
-        cb_autoLogin.setSelected(coopnetclient.modules.Settings.getAutoLogin());
-        coopnetclient.modules.Colorizer.colorize(this);
+        tf_name.setText(coopnetclient.utils.Settings.getLastLoginName());
+        cb_autoLogin.setSelected(coopnetclient.utils.Settings.getAutoLogin());
+        coopnetclient.utils.Colorizer.colorize(this);
     }
 
     @Override
@@ -46,26 +46,26 @@ public class LoginPanel extends javax.swing.JPanel {
     private void login() {
         if (tf_name.getText().length() > 0) {
             String passw = new String(pf_password.getPassword());
-            Client.send(Protocol.login(tf_name.getText(), passw), null);
+            Client.send(Protocol.login(tf_name.getText(), passw));
 
             Globals.setThisPlayer_loginName(tf_name.getText());
-            coopnetclient.modules.Settings.setLastLoginName(tf_name.getText());
-            coopnetclient.modules.Settings.setAutoLogin(cb_autoLogin.isSelected());
+            coopnetclient.utils.Settings.setLastLoginName(tf_name.getText());
+            coopnetclient.utils.Settings.setAutoLogin(cb_autoLogin.isSelected());
 
-            if (coopnetclient.modules.Settings.getAutoLogin()) {
-                coopnetclient.modules.Settings.setLastLoginPassword(String.copyValueOf(pf_password.getPassword()));
+            if (coopnetclient.utils.Settings.getAutoLogin()) {
+                coopnetclient.utils.Settings.setLastLoginPassword(String.copyValueOf(pf_password.getPassword()));
             } else {
-                coopnetclient.modules.Settings.setLastLoginPassword("");
+                coopnetclient.utils.Settings.setLastLoginPassword("");
             }
             
             try{
                 Thread.sleep(100);
             }catch(InterruptedException ex){}
 
-            Client.send(Protocol.SetSleep(Settings.getSleepEnabled()), null);
-            String s = coopnetclient.modules.Settings.getHomeChannel();
+            Client.send(Protocol.SetSleep(Settings.getSleepEnabled()));
+            String s = coopnetclient.utils.Settings.getHomeChannel();
             if (s.length() > 0) {
-                Client.send(Protocol.JoinChannel(s), null);
+                Client.send(Protocol.JoinChannel(s));
             }
         }
     }
@@ -90,7 +90,7 @@ public class LoginPanel extends javax.swing.JPanel {
         }
         
         if (Verification.verifyLoginName(name) && Verification.verifyPassword(passw)) {
-            Client.send(Protocol.register(tf_name.getText(), passw), null);
+            Client.send(Protocol.register(tf_name.getText(), passw));
         }
     }
     

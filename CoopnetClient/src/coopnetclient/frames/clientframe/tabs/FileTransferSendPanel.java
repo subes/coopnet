@@ -20,9 +20,9 @@
 package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Client;
-import coopnetclient.protocol.Protocol;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.modules.Settings;
+import coopnetclient.utils.Settings;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -73,7 +73,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
         if (i == 3) {
             lbl_sizeValue.setText(lbl_sizeValue.getText() + " GB");
         }
-        coopnetclient.modules.Colorizer.colorize(this);
+        coopnetclient.utils.Colorizer.colorize(this);
     }
 
     public String getReciever() {
@@ -146,7 +146,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                     } catch (Exception e) {
                         e.printStackTrace();
                         socket.close();
-                        Client.send(Protocol.turnTransferAround(reciever, filename), null);
+                        Client.send(Protocol.turnTransferAround(reciever, filename));
                         Thread.sleep(500);
                         startSendingRetry();
                         return;
@@ -464,7 +464,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         if (btn_cancel.getText().equals("Cancel")) {
             sending = false;
-            Client.send(Protocol.cancelTransfer(lbl_recieverValue.getText(), lbl_fileValue.getText()), null);
+            Client.send(Protocol.cancelTransfer(lbl_recieverValue.getText(), lbl_fileValue.getText()));
             TabOrganizer.closeFileTransferSendPanel(this);
         } else {
             TabOrganizer.closeFileTransferSendPanel(this);
