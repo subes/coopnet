@@ -164,7 +164,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
         }   
         else{
             if(Verification.verifyPassword(tmp1)){
-                Client.send(Protocol.changePassword(new String(tf_oldPassword.getPassword()), tmp2));
+                Protocol.changePassword(new String(tf_oldPassword.getPassword()), tmp2);
                 Settings.setAutoLogin(false);
                 Settings.setLastLoginPassword("");
                 showError(" ",Color.red);

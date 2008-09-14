@@ -25,6 +25,7 @@ import coopnetclient.*;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.SoundPlayer;
@@ -42,7 +43,7 @@ import javax.swing.JOptionPane;
  */
 public class CommandHandler {
     
-    public static void execute(String input) {
+    public static void execute(String input) {        
         if (input == null) {
             return;
         }
@@ -54,7 +55,7 @@ public class CommandHandler {
 
         //Heartbeat
         if (input.equals(Protocol.HEARTBEAT)) {
-            Client.send(Protocol.HEARTBEAT);
+            Client.send(new Message(Protocol.HEARTBEAT));
         }else{
             if (input.equals("updateURL ")) {
                 String url = input.substring(10);
@@ -95,7 +96,7 @@ public class CommandHandler {
                     //logged in, start the client
                     Globals.setLoggedInStatus(true);
                     TabOrganizer.closeLoginPanel();
-                    Client.send(Protocol.SetSleep(Settings.getSleepEnabled()));
+                    Protocol.setSleep(Settings.getSleepEnabled());
                 } else if (input.startsWith("incorrect login!try again")) {
                     TabOrganizer.getLoginPanel().showError("Wrong username/password, please try again!", Color.red);
                 } else if (input.startsWith("Already logged in!")) {

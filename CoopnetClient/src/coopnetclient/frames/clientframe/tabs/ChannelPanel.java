@@ -489,7 +489,7 @@ public class ChannelPanel extends javax.swing.JPanel {
             String tmp = null;
             tmp = rooms.getSelectedHostName();
             if (tmp != null) {
-                Client.send(Protocol.joinRoom(tmp, ""), this.name);
+                Protocol.joinRoom(this.name, tmp, "");
             }
         } catch (Exception g) {
             g.printStackTrace();
@@ -497,7 +497,7 @@ public class ChannelPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_join
 
     private void refresh(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refresh
-        Client.send(Protocol.refresh(), this.name);
+        Protocol.refreshRoomsAndPlayers(this.name);
         rooms.clear();
         users.refresh();
         Globals.setSleepModeStatus(false);
@@ -551,7 +551,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_tp_chatOutputFocusLost
 
     private void btn_leaveChannelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveChannelActionPerformed
-        Client.send(Protocol.leaveChannel(), this.name);
+        Protocol.leaveChannel(this.name);
         TabOrganizer.closeChannelPanel(this);
         if(ID.equals("TST")){
             TabOrganizer.closeGameDataEditor();

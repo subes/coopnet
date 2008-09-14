@@ -570,7 +570,7 @@ public class ClientFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void mi_profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_profileActionPerformed
-        Client.send(Protocol.editProfile());
+        Protocol.editProfile();
 }//GEN-LAST:event_mi_profileActionPerformed
 
     private void mi_quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_quitActionPerformed
@@ -581,7 +581,7 @@ public class ClientFrame extends javax.swing.JFrame {
         if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled()) {
             this.setVisible(false);
         } else {
-            Client.send(Protocol.quit());
+            Protocol.quit();
             Client.stopConnection();
             //save sizes
             coopnetclient.utils.Settings.setMainFrameMaximised(this.getExtendedState());
@@ -624,7 +624,7 @@ public class ClientFrame extends javax.swing.JFrame {
         lastdividerposition = null;
         quickPanelVisibility = false;
 
-        Client.send(Protocol.quit());
+        Protocol.quit();
         Client.stopConnection();
         TabOrganizer.closeAllTabs();
 

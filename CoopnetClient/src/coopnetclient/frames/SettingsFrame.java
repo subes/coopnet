@@ -973,7 +973,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
 
             if (cb_sleepMode.isSelected() != coopnetclient.utils.Settings.getSleepEnabled()) {
                 Settings.setSleepenabled(cb_sleepMode.isSelected());
-                Client.send(Protocol.SetSleep(cb_sleepMode.isSelected()));
+                Protocol.setSleep(cb_sleepMode.isSelected());
             }
             Settings.setRecieveDestination(tf_receiveDir.getText());
             Settings.setHomeChannel(cmb_homeChannel.getSelectedItem().toString());

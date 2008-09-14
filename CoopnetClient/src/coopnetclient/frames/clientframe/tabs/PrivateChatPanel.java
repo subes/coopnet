@@ -180,12 +180,12 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
 private void jb_MuteBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_MuteBanActionPerformed
     if (jb_MuteBan.getText().equals("Mute")) {
             MuteBanList.mute(partner);
-            Client.send(Protocol.mute(partner));
+            Protocol.mute(partner);
             Globals.updateMuteBanTableFrame();
             jb_MuteBan.setText("UnMute");
         } else if (jb_MuteBan.getText().equals("UnMute")) {
             MuteBanList.unMute(partner);
-            Client.send(Protocol.unmute(partner));
+            Protocol.unMute(partner);
             Globals.updateMuteBanTableFrame();
             jb_MuteBan.setText("Mute");
         } 

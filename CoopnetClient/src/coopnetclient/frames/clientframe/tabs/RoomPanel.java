@@ -228,7 +228,7 @@ public class RoomPanel extends javax.swing.JPanel {
             public void run() {
                 try{                 
                     Launcher.launch();
-                    Client.send(Protocol.gameClosed(), gameName);
+                    Protocol.gameClosed(gameName);
                 }catch(Exception e){
                     ErrorHandler.handleException(e);
                 }
@@ -410,20 +410,20 @@ public class RoomPanel extends javax.swing.JPanel {
 
     private void btn_close(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_close
         if (isHost) {
-            Client.send(Protocol.closeRoom(), gameName);
+            Protocol.closeRoom();
         } else {
-            Client.send(Protocol.leaveRoom(), gameName);
+            Protocol.leaveRoom();
         }
 }//GEN-LAST:event_btn_close
 
     private void clickedbtn_launch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_launch
         if (isHost) {
-            Client.send(Protocol.Launch());
+            Protocol.launch();
         }
 }//GEN-LAST:event_clickedbtn_launch
 
     private void clickedbtn_ready(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_ready
-        Client.send(Protocol.flipReadystatus());
+        Protocol.flipReadystatus();
         if (btn_ready.getText().equals("Ready")) {
             btn_ready.setText("Unready");
             btn_launch.setEnabled(true);

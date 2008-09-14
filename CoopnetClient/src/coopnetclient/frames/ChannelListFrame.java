@@ -137,7 +137,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jb_joinChannelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_joinChannelButtonActionPerformed
-        Client.send(Protocol.JoinChannel((String) lst_channelList.getSelectedValue()));
+        Protocol.joinChannel((String) lst_channelList.getSelectedValue());
         Globals.closeChannelListFrame();
 }//GEN-LAST:event_jb_joinChannelButtonActionPerformed
 

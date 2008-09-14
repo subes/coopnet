@@ -146,7 +146,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                     } catch (Exception e) {
                         e.printStackTrace();
                         socket.close();
-                        Client.send(Protocol.turnTransferAround(reciever, filename));
+                        Protocol.turnTransferAround(reciever, filename);
                         Thread.sleep(500);
                         startSendingRetry();
                         return;
@@ -464,7 +464,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         if (btn_cancel.getText().equals("Cancel")) {
             sending = false;
-            Client.send(Protocol.cancelTransfer(lbl_recieverValue.getText(), lbl_fileValue.getText()));
+            Protocol.cancelTransfer(lbl_recieverValue.getText(), lbl_fileValue.getText());
             TabOrganizer.closeFileTransferSendPanel(this);
         } else {
             TabOrganizer.closeFileTransferSendPanel(this);

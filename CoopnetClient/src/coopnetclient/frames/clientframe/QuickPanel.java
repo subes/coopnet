@@ -202,7 +202,7 @@ private void lst_contactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-F
 }//GEN-LAST:event_lst_contactListMouseClicked
 
 private void lst_favouritesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_favouritesListMouseClicked
-    Client.send(Protocol.JoinChannel(lst_favouritesList.getSelectedValue().toString()));
+    Protocol.joinChannel(lst_favouritesList.getSelectedValue().toString());
 }//GEN-LAST:event_lst_favouritesListMouseClicked
 
 private void lst_contactListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseMoved

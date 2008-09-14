@@ -78,8 +78,8 @@ public class HyperlinkMouseListener extends MouseAdapter {
 
     public static void openURL(String address) {
         if(address.startsWith("room://")){
-            Client.send(Protocol.joinRoomByID(address.substring(7), ""));
-            return ;
+            Protocol.joinRoomByID(address.substring(7), "");
+            return;
         }
         try {
             Desktop desktop = null;

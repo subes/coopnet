@@ -154,9 +154,9 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
     private void join(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_join
         String passw = new String(pf_roomPassword.getPassword());
         if (host_name != null) {
-            Client.send(Protocol.joinRoom(host_name, passw),channel);
+            Protocol.joinRoom(channel,host_name, passw);
         }else if(ID != null){
-            Client.send(Protocol.joinRoomByID(ID, passw));
+            Protocol.joinRoomByID(ID, passw);
         }
         hideWrongPasswordNotification();
     }//GEN-LAST:event_join

@@ -120,7 +120,7 @@ public class GameSetting {
             }            
         }
         if(shared && broadcast){
-            Client.send(Protocol.SendSetting(visibleName, value));
+            Protocol.sendSetting(visibleName, value);
         }
     }
     

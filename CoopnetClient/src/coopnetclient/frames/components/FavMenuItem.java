@@ -37,7 +37,7 @@ public class FavMenuItem extends JMenuItem {
         addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                Client.send(Protocol.JoinChannel(e.getSource().toString()));
+                Protocol.joinChannel(e.getSource().toString());
             }
         });
     }

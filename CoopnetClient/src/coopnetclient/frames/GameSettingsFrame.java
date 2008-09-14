@@ -301,7 +301,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         e.printStackTrace();
     }
     if (btn_save.getText().equals("Launch")) {
-        Client.send(Protocol.createRoom(roomname, modindex + "", password, maxPlayers + "", compatible, true), gamename);
+        Protocol.createRoom(gamename, roomname, modindex, password, maxPlayers, compatible, true);
         Globals.closeRoomCreationFrame();
         new Thread() {
             @Override

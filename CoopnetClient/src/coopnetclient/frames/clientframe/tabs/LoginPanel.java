@@ -45,7 +45,7 @@ public class LoginPanel extends javax.swing.JPanel {
     private void login() {
         if (tf_name.getText().length() > 0) {
             String passw = new String(pf_password.getPassword());
-            Client.send(Protocol.login(tf_name.getText(), passw));
+            Protocol.login(tf_name.getText(), passw);
 
             Globals.setThisPlayer_loginName(tf_name.getText());
             coopnetclient.utils.Settings.setLastLoginName(tf_name.getText());
@@ -61,10 +61,10 @@ public class LoginPanel extends javax.swing.JPanel {
                 Thread.sleep(100);
             }catch(InterruptedException ex){}
 
-            Client.send(Protocol.SetSleep(Settings.getSleepEnabled()));
+            Protocol.setSleep(Settings.getSleepEnabled());
             String s = coopnetclient.utils.Settings.getHomeChannel();
             if (s.length() > 0) {
-                Client.send(Protocol.JoinChannel(s));
+                Protocol.joinChannel(s);
             }
         }
     }
@@ -84,7 +84,7 @@ public class LoginPanel extends javax.swing.JPanel {
         }
         
         if (Verification.verifyLoginName(name) && Verification.verifyPassword(passw)) {
-            Client.send(Protocol.register(tf_name.getText(), passw));
+            Protocol.register(tf_name.getText(), passw);
         }
         showError(" ",Color.red);
     }

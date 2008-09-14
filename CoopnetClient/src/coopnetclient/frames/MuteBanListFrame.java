@@ -152,7 +152,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         if (viewRow > -1) {
             int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
             String subject = tablemodel.getValueAt(selected, 0).toString();
-            Client.send(Protocol.unmute(subject));
+            Protocol.unMute(subject);
             MuteBanList.unMute(subject);
             updateTable();
         //jb_UnMute.setEnabled(false);
@@ -164,7 +164,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         if (viewRow > -1) {
             int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
             String subject = tablemodel.getValueAt(selected, 0).toString();
-            Client.send(Protocol.unban(subject));
+            Protocol.unBan(subject);
             MuteBanList.unBan(subject);
             updateTable();
         //jb_UnBan.setEnabled(false);
@@ -176,7 +176,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         if (viewRow > -1) {
             int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
             String subject = tablemodel.getValueAt(selected, 0).toString();
-            Client.send(Protocol.requestProfile(subject));
+            Protocol.requestProfile(subject);
         }
     }//GEN-LAST:event_jb_Show_ProfileActionPerformed
 

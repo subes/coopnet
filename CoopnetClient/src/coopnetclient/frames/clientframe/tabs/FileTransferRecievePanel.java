@@ -217,7 +217,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                     } catch (Exception e) {
                         if (e instanceof java.net.BindException) {
                             serverSocket.close();
-                            Client.send(Protocol.turnTransferAround(sender, filename));
+                            Protocol.turnTransferAround(sender, filename);
                             Thread.sleep(500);
                             startDownloadingRetry();
                             return;
@@ -627,7 +627,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
     private void btn_acceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_acceptActionPerformed
         if (btn_accept.getText().equals("Accept")) {
             startDownloading();
-            Client.send(Protocol.AcceptTransfer(sender, filename, firstByteToSend));
+            Protocol.acceptTransfer(sender, filename, firstByteToSend);
             btn_accept.setText("Open file");
             btn_accept.setEnabled(false);
             btn_refuse.setText("Cancel");
@@ -647,7 +647,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
 
 private void btn_refuseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refuseActionPerformed
     if (btn_refuse.getText().equals("Refuse")) {
-        Client.send(Protocol.RefuseTransfer(sender, filename));
+        Protocol.refuseTransfer(sender, filename);
         TabOrganizer.closeFileTransferReceivePanel(this);
     } else if (btn_refuse.getText().equals("Cancel")) {
         running = false;

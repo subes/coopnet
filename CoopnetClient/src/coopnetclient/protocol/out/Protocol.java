@@ -52,279 +52,224 @@ public class Protocol {
         }
     }
     
-    public static String RequestContact(String contactname) {
-        return ClientProtocolCommands.SEND_REQUEST.toString() + INFORMATION_DELIMITER
-                 + contactname;
+    public static void RequestContact(String contactName) {
+        new Message(ClientProtocolCommands.SEND_REQUEST, contactName);
     }
     
-    public static String acceptRequest(String contactname) {
-        return ClientProtocolCommands.ACCEPT_REQUEST.toString() + INFORMATION_DELIMITER
-                 + contactname;
+    public static void acceptRequest(String contactName) {
+        new Message(ClientProtocolCommands.ACCEPT_REQUEST, contactName);
     }
     
-    public static String refuseRequest(String contactname) {
-        return ClientProtocolCommands.REFUSE_REQUEST.toString() + INFORMATION_DELIMITER
-                 + contactname;
+    public static void refuseRequest(String contactName) {
+        new Message(ClientProtocolCommands.REFUSE_REQUEST, contactName);
     }
     
-    public static String createGroup(String groupName) {
-        return ClientProtocolCommands.MAKE_GROUP.toString() + INFORMATION_DELIMITER
-                 + groupName;
+    public static void createGroup(String groupName) {
+        new Message(ClientProtocolCommands.CREATE_GROUP, groupName);
     }
 
-    public static String removeContact(String contactname) {
-        return ClientProtocolCommands.DELETE_CONTACT.toString() + INFORMATION_DELIMITER
-                 + contactname;
+    public static void removeContact(String contactName) {
+        new Message(ClientProtocolCommands.DELETE_CONTACT, contactName);
     }
     
-    public static String renameGroup(String groupName,String newgroupName) {
-        return ClientProtocolCommands.RENAME_GROUP.toString() + INFORMATION_DELIMITER
-                 + groupName + INFORMATION_DELIMITER 
-                 + newgroupName;
+    public static void renameGroup(String groupName,String newGroupName) {
+        String[] info = {groupName, newGroupName};
+        new Message(ClientProtocolCommands.RENAME_GROUP, info);
     }
     
-    public static String deleteGroup(String groupName) {
-        return ClientProtocolCommands.DELETE_GROUP.toString() + INFORMATION_DELIMITER
-                 + groupName;
+    public static void deleteGroup(String groupName) {
+        new Message(ClientProtocolCommands.DELETE_GROUP, groupName);
     }
     
-    public static String moveToGroup(String contact,String newgroupName) {
-        return ClientProtocolCommands.MOVE_TO_GROUP.toString() + INFORMATION_DELIMITER
-                 + contact + INFORMATION_DELIMITER 
-                 + newgroupName;
+    public static void moveToGroup(String contact,String newGroupName) {
+        String[] info = {contact, newGroupName};
+        new Message(ClientProtocolCommands.MOVE_TO_GROUP, info);
     }
     
-    public static String refreshContacts(boolean showOffline) {
-        return ClientProtocolCommands.RESEND_CONTACTS.toString() + INFORMATION_DELIMITER
-                 + ( showOffline ? "1" : "0" ) ;
+    public static void refreshContacts(boolean showOffline) {
+        new Message(ClientProtocolCommands.REFRESH_CONTACTS, String.valueOf(showOffline));
     }
     
-    public static String AcceptTransfer(String sender, String filename, long firstByteToSend) {
-        return ClientProtocolCommands.ACCEPT_FILE.toString() + INFORMATION_DELIMITER 
-                + sender + INFORMATION_DELIMITER 
-                + filename + INFORMATION_DELIMITER 
-                + Settings.getFiletTansferPort() + INFORMATION_DELIMITER 
-                + firstByteToSend;
+    public static void acceptTransfer(String sender, String fileName, long firstByteToSend) {
+        String[] info = {sender, fileName, String.valueOf(Settings.getFiletTansferPort()), String.valueOf(firstByteToSend)};
+        new Message(ClientProtocolCommands.ACCEPT_FILE, info);
     }
 
-    public static String RefuseTransfer(String sender, String filename) {
-        return ClientProtocolCommands.REFUSE_FILE.toString() + INFORMATION_DELIMITER 
-                + sender + INFORMATION_DELIMITER 
-                + filename;
+    public static void refuseTransfer(String sender, String fileName) {
+        String[] info = {sender, fileName};
+        new Message(ClientProtocolCommands.REFUSE_FILE, info);
     }
 
-    public static String cancelTransfer(String sender, String filename) {
-        return ClientProtocolCommands.CANCEL_FILE.toString()+ INFORMATION_DELIMITER
-                + sender + INFORMATION_DELIMITER
-                + filename;
+    public static void cancelTransfer(String sender, String fileName) {
+        String[] info = {sender, fileName};
+        new Message(ClientProtocolCommands.CANCEL_FILE, info);
     }
 
-    public static String createRoom(String name, String modIndex, String password, String limit, boolean compatible, boolean instantLaunch) {
-        return ClientProtocolCommands.CREATE_ROOM.toString() + INFORMATION_DELIMITER 
-                + name + INFORMATION_DELIMITER 
-                + password + INFORMATION_DELIMITER 
-                + limit + INFORMATION_DELIMITER 
-                + (compatible ? "1" : "0") + INFORMATION_DELIMITER 
-                + (instantLaunch ? "1" : "0") + INFORMATION_DELIMITER 
-                + Client.getHamachiAddress() + INFORMATION_DELIMITER 
-                + modIndex ;
+    public static void createRoom(String channel, String name, int modIndex, String password, int maxPlayers, boolean compatible, boolean instantLaunch) {
+        String[] info = {channel, name, password, String.valueOf(maxPlayers), String.valueOf(compatible), String.valueOf(instantLaunch), Client.getHamachiAddress(), String.valueOf(modIndex)};
+        new Message(ClientProtocolCommands.CREATE_ROOM, info);
     }
 
-    public static String SendSetting(String name,String value) {
-        return ClientProtocolCommands.SET_GAMESETTING.toString() + INFORMATION_DELIMITER
-                 + name + INFORMATION_DELIMITER 
-                 + value;
+    public static void sendSetting(String name,String value) {
+        String[] info = {name, value};
+        new Message(ClientProtocolCommands.SET_GAMESETTING, info);
     }
 
-    public static String SetSleep(boolean enabled) {
-        return ClientProtocolCommands.SET_SLEEP.toString() + INFORMATION_DELIMITER
-                 + enabled;
+    public static void setSleep(boolean enabled) {
+        new Message(ClientProtocolCommands.SET_SLEEP, String.valueOf(enabled));
     }
 
-    public static String joinRoom(String hostname, String password) {
-        return ClientProtocolCommands.JOIN_ROOM.toString() + INFORMATION_DELIMITER
-                 + hostname + INFORMATION_DELIMITER 
-                 + password;
+    public static void joinRoom(String channel, String hostname, String password) {
+        String[] info = {channel, hostname, password};
+        new Message(ClientProtocolCommands.JOIN_ROOM, info);
     }
     
-    public static String joinRoomByID(String ID, String password) {
-        return ClientProtocolCommands.JOIN_ROOM_BY_ID.toString() + INFORMATION_DELIMITER
-                 + ID + INFORMATION_DELIMITER 
-                 + password;
+    public static void joinRoomByID(String ID, String password) {
+        String[] info = {ID, password};
+        new Message(ClientProtocolCommands.JOIN_ROOM_BY_ID, info);
     }
 
-    public static String refresh() {
-        return ClientProtocolCommands.REFRESH.toString();
+    public static void refreshRoomsAndPlayers(String channel) {
+        new Message(ClientProtocolCommands.REFRESH_ROOMS_AND_PLAYERS, channel);
     }
 
-    public static String ChannelList() {
-        return ClientProtocolCommands.LIST_CHANNELS.toString();
+    public static void channelList() {
+        new Message(ClientProtocolCommands.LIST_CHANNELS);
     }
 
-    public static String JoinChannel(String channelname) {
-        return ClientProtocolCommands.JOIN_CHANNEL.toString() + INFORMATION_DELIMITER
-                 + GameDatabase.IDofGame(channelname);
+    public static void joinChannel(String channelname) {
+        new Message(ClientProtocolCommands.JOIN_CHANNEL, GameDatabase.IDofGame(channelname));
     }
 
-    public static String leaveChannel() {
-        return ClientProtocolCommands.LEAVE_CHANNEL.toString();
+    public static void leaveChannel(String channel) {
+        new Message(ClientProtocolCommands.LEAVE_CHANNEL, channel);
     }
 
-    public static String changePassword(String oldpassword, String newpassword) {
-        return ClientProtocolCommands.CHANGE_PASSWORD + INFORMATION_DELIMITER 
-                + PasswordEncrypter.encryptPassword(oldpassword) + INFORMATION_DELIMITER 
-                + PasswordEncrypter.encryptPassword(newpassword);
+    public static void changePassword(String oldpassword, String newpassword) {
+        String[] info = {PasswordEncrypter.encryptPassword(oldpassword), PasswordEncrypter.encryptPassword(newpassword)};
+        new Message(ClientProtocolCommands.CHANGE_PASSWORD);
     }
 
-    public static String editProfile() {
-        return ClientProtocolCommands.EDIT_PROFILE.toString();
+    public static void editProfile() {
+        new Message(ClientProtocolCommands.EDIT_PROFILE);
     }
 
-    public static String quit() {
-        return ClientProtocolCommands.QUIT.toString();
+    public static void quit() {
+        new Message(ClientProtocolCommands.QUIT);
     }
 
-    public static String login(String name, String password) {
-        return ClientProtocolCommands.LOGIN + INFORMATION_DELIMITER 
-                + name + INFORMATION_DELIMITER 
-                + PasswordEncrypter.encryptPassword(password);
+    public static void login(String name, String password) {
+        String[] info = {name, PasswordEncrypter.encryptPassword(password)};
+        new Message(ClientProtocolCommands.LOGIN, info);
     }
     
-    public static String login() {
-        return ClientProtocolCommands.LOGIN + INFORMATION_DELIMITER 
-                + Settings.getLastLoginName() + INFORMATION_DELIMITER 
-                + Settings.getLastLoginPassword();
+    public static void autoLogin() {
+        String[] info = {Settings.getLastLoginName(), Settings.getLastLoginPassword()};
+        new Message(ClientProtocolCommands.LOGIN, info);
     }
 
-    public static String register(String name, String password) {
-        return ClientProtocolCommands.NEW_PLAYER + INFORMATION_DELIMITER 
-                + name + INFORMATION_DELIMITER 
-                + PasswordEncrypter.encryptPassword(password);
+    public static void register(String name, String password) {
+        String[] info = {name, PasswordEncrypter.encryptPassword(password)};
+        new Message(ClientProtocolCommands.NEW_PLAYER, info);
     }
 
-    public static String mainChat(String message) {
-        return ClientProtocolCommands.CHAT_MAIN.toString() + INFORMATION_DELIMITER
-                 + message;
+    public static void mainChat(String channel, String message) {
+        String[] info = {channel, message};
+        new Message(ClientProtocolCommands.CHAT_MAIN, info);
     }
 
-    public static String roomChat(String message) {
-        return ClientProtocolCommands.CHAT_ROOM.toString() + INFORMATION_DELIMITER
-                 + message;
+    public static void roomChat(String message) {
+        new Message(ClientProtocolCommands.CHAT_ROOM, message);
     }
 
-    public static String privatechat(String message, String sendto) {
-        return ClientProtocolCommands.WHISPER + INFORMATION_DELIMITER 
-                + sendto + INFORMATION_DELIMITER 
-                + message;
+    public static void privateChat(String message, String sendTo) {
+        String[] info = {sendTo, message};
+        new Message(ClientProtocolCommands.WHISPER, info);
     }
 
-    public static String kick(String playername) {
-        return ClientProtocolCommands.KICK.toString() + INFORMATION_DELIMITER
-                 + playername;
+    public static void kick(String playerName) {
+        new Message(ClientProtocolCommands.KICK, playerName);
     }
 
-    public static String ban(String playername) {
-        return ClientProtocolCommands.BAN.toString() + INFORMATION_DELIMITER
-                 + playername;
+    public static void sendInvite(String subject) {
+        new Message(ClientProtocolCommands.INVITE_USER, subject);
     }
 
-    public static String sendInvite(String subject) {
-        return ClientProtocolCommands.INVITE_USER.toString() + INFORMATION_DELIMITER
-                + subject;
+    public static void turnTransferAround(String playerName, String fileName) {
+        String[] info = {playerName, fileName};
+        new Message(ClientProtocolCommands.TURN_AROUND_FILE, info);
     }
 
-    public static String turnTransferAround(String username,String filename) {
-        return ClientProtocolCommands.TURN_AROUND  + INFORMATION_DELIMITER 
-                + username + INFORMATION_DELIMITER 
-                + filename ;
-    }
-
-    public static String unban(String playername) {
-        return ClientProtocolCommands.UNBAN.toString() + INFORMATION_DELIMITER
-                 + playername;
-    }
-
-    public static String mute(String playername) {
-        return ClientProtocolCommands.MUTE.toString() + INFORMATION_DELIMITER
-                 + playername;
-    }
-
-    public static String unmute(String playername) {
-        return ClientProtocolCommands.UNMUTE.toString() + INFORMATION_DELIMITER
-                 + playername;
-    }
-
-    public static String requestProfile(String playername) {
-        return ClientProtocolCommands.REQUEST_PROFILE.toString() + INFORMATION_DELIMITER
-                 + playername;
-    }
-
-    public static String nudge(String playername) {
-        return ClientProtocolCommands.NUDGE.toString() + INFORMATION_DELIMITER
-                 + playername;
-    }
-
-    public static String setEmail(String email) {
-        return ClientProtocolCommands.SET_EMAIL.toString() + INFORMATION_DELIMITER
-                 + email;
-    }
-
-    public static String setEmailPublicity(boolean ispublic) {
-        return ClientProtocolCommands.SET_EMAIL_IS_PUBLIC.toString() + INFORMATION_DELIMITER
-                 + ispublic;
-    }
-
-    public static String setCountry(String country) {
-        return ClientProtocolCommands.SET_COUNTRY.toString() + INFORMATION_DELIMITER
-                 + country;
-    }
-
-    public static String setWebPage(String webpage) {
-        return ClientProtocolCommands.SET_WEBSITE.toString() + INFORMATION_DELIMITER
-                 + webpage;
-    }
-
-    public static String setGameName(String gamename) {
-        return ClientProtocolCommands.SET_INGAMENAME.toString() + INFORMATION_DELIMITER
-                 + gamename;
-    }
-
-    public static String changeName(String name) {
-        return ClientProtocolCommands.SET_LOGINNAME.toString() + INFORMATION_DELIMITER
-                + name;
-    }
-
-    public static String gameClosed() {
-        return ClientProtocolCommands.GAME_CLOSED.toString();
-    }
-
-    public static String closeRoom() {
-        return ClientProtocolCommands.CLOSE.toString();
-    }
-
-    public static String leaveRoom() {
-        return ClientProtocolCommands.LEAVE_ROOM.toString();
-    }
-
-    public static String Launch() {
-        return ClientProtocolCommands.LAUNCH.toString();
-    }
-
-    public static String flipReadystatus() {
-        return ClientProtocolCommands.FLIP_READY.toString();
-    }
-
-    public static String Sendfile(String reciever, String filename, String sizeinbytes,String port) {
-        return ClientProtocolCommands.SEND_FILE.toString() + INFORMATION_DELIMITER 
-                + reciever + INFORMATION_DELIMITER 
-                + filename + INFORMATION_DELIMITER 
-                + sizeinbytes+ INFORMATION_DELIMITER                 
-                + port;
+    public static void ban(String playerNname) {
+        new Message(ClientProtocolCommands.BAN, playerNname);
     }
     
-    public static String on(String command, String channel){
-        return ClientProtocolCommands.ON + Protocol.INFORMATION_DELIMITER 
-                    + GameDatabase.IDofGame(channel) + Protocol.INFORMATION_DELIMITER 
-                    + command;
+    public static void unBan(String playerName) {
+        new Message(ClientProtocolCommands.UNBAN, playerName);
+    }
+
+    public static void mute(String playerName) {
+        new Message(ClientProtocolCommands.MUTE, playerName);
+    }
+
+    public static void unMute(String playerName) {
+        new Message(ClientProtocolCommands.UNMUTE, playerName);
+    }
+
+    public static void requestProfile(String playerName) {
+        new Message(ClientProtocolCommands.REQUEST_PROFILE, playerName);
+    }
+
+    public static void nudge(String playerName) {
+        new Message(ClientProtocolCommands.NUDGE, playerName);
+    }
+
+    public static void setEmail(String email) {
+        new Message(ClientProtocolCommands.SET_EMAIL, email);
+    }
+
+    public static void setEmailPublicity(boolean isPublic) {
+        new Message(ClientProtocolCommands.SET_EMAIL_IS_PUBLIC, String.valueOf(isPublic));
+    }
+
+    public static void setCountry(String country) {
+        new Message(ClientProtocolCommands.SET_COUNTRY, country);
+    }
+
+    public static void setWebsite(String website) {
+        new Message(ClientProtocolCommands.SET_WEBSITE, website);
+    }
+
+    public static void setGameName(String ingameName) {
+        new Message(ClientProtocolCommands.SET_INGAMENAME, ingameName);
+    }
+
+    public static void setLoginName(String loginName) {
+        new Message(ClientProtocolCommands.SET_LOGINNAME, loginName);
+    }
+
+    public static void gameClosed(String channel) {
+        new Message(ClientProtocolCommands.GAME_CLOSED, channel);
+    }
+
+    public static void closeRoom() {
+        new Message(ClientProtocolCommands.CLOSE_ROOM);
+    }
+
+    public static void leaveRoom() {
+        new Message(ClientProtocolCommands.LEAVE_ROOM);
+    }
+
+    public static void launch() {
+        new Message(ClientProtocolCommands.LAUNCH);
+    }
+
+    public static void flipReadystatus() {
+        new Message(ClientProtocolCommands.FLIP_READY);
+    }
+
+    public static void sendfile(String reciever, String fileName, String sizeInBytes,String port) {
+        String[] info = {reciever, fileName, sizeInBytes, port};
+        new Message(ClientProtocolCommands.SEND_FILE, info);
     }
 }

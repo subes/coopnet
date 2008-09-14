@@ -97,10 +97,10 @@ public class HandlerThread extends Thread {
 
             //login
             if (coopnetclient.utils.Settings.getAutoLogin()) {
-                Client.send(Protocol.login());
+                Protocol.autoLogin();
                 String s = coopnetclient.utils.Settings.getHomeChannel();
                 if (s.length() > 0) {
-                    Client.send(Protocol.JoinChannel(s));
+                    Protocol.joinChannel(s);
                 }
 
                 String input = null;
@@ -116,7 +116,7 @@ public class HandlerThread extends Thread {
                     Globals.setThisPlayer_loginName(Settings.getLastLoginName());
                     Globals.setLoggedInStatus(true);
                     TabOrganizer.closeLoginPanel();
-                    Client.send(Protocol.SetSleep(Settings.getSleepEnabled()));
+                    Protocol.setSleep(Settings.getSleepEnabled());
                 } else {
                     TabOrganizer.openLoginPanel();
                 }

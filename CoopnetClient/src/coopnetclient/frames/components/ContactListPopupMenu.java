@@ -168,7 +168,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         if (command.equals("Hide offline contacts")) {
             if (!model.isOfflineShown()) {
                 model.toggleShowOfflineStatus();
-                Client.send(Protocol.refreshContacts(model.isOfflineShown()));
+                Protocol.refreshContacts(model.isOfflineShown());
             } else {
                 model.toggleShowOfflineStatus();
             }
@@ -177,14 +177,14 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         final String subject = playername.getText();//(String) source.getSelectedValue();
 //Remove Contact
         if (command.equals("Accept")) {
-            Client.send(Protocol.acceptRequest(subject));
+            Protocol.acceptRequest(subject);
             model.removePending(subject);
         } else if (command.equals("Refuse")) {
             model.removePending(subject);
-            Client.send(Protocol.refuseRequest(subject));
+            Protocol.refuseRequest(subject);
         } else if (command.equals("Remove Contact")) {
             model.removecontact(subject);
-            Client.send(Protocol.removeContact(subject));
+            Protocol.removeContact(subject);
         } else if (command.equals("Create new Group...")) {
             Collection groups = model.getGroupNames();
             if (groups.contains("New Group")) {
@@ -204,9 +204,9 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             }
         } else if (command.equals("Delete Group")) {
             model.removeGroup(subject);
-            Client.send(Protocol.deleteGroup(subject));
+            Protocol.deleteGroup(subject);
         } else if (command.equals("Refresh list")) {
-            Client.send(Protocol.refreshContacts(model.isOfflineShown()));
+            Protocol.refreshContacts(model.isOfflineShown());
         } else if (command.equals("Rename Group")) {
             System.out.println("rename:" + source.getSelectedIndex());
             source.editCellAt(source.getSelectedIndex(), e);
@@ -221,27 +221,27 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                 TabOrganizer.openPrivateChatPanel(subject, true);
             }
         } else if (command.equals("Nudge")) {
-            Client.send(Protocol.nudge(subject));
+            Protocol.nudge(subject);
         } else if (command.equals("Invite to room")) {
-            Client.send(Protocol.sendInvite(subject));
+            Protocol.sendInvite(subject);
         } else if (command.equals("Show profile...")) {
-            Client.send(Protocol.requestProfile(subject));
+            Protocol.requestProfile(subject);
         } else if (command.equals("Ban")) {
             MuteBanList.ban(subject);
-            Client.send(Protocol.kick(subject));
-            Client.send(Protocol.ban(subject));
+            Protocol.kick(subject);
+            Protocol.ban(subject);
             Globals.updateMuteBanTableFrame();
         } else if (command.equals("UnBan")) {
             MuteBanList.unBan(subject);
-            Client.send(Protocol.unban(subject));
+            Protocol.unBan(subject);
             Globals.updateMuteBanTableFrame();
         } else if (command.equals("Mute")) {
             MuteBanList.mute(subject);
-            Client.send(Protocol.mute(subject));
+            Protocol.mute(subject);
             Globals.updateMuteBanTableFrame();
         } else if (command.equals("UnMute")) {
             MuteBanList.unMute(subject);
-            Client.send(Protocol.unmute(subject));
+            Protocol.unMute(subject);
             Globals.updateMuteBanTableFrame();
         } else if (command.equals("Send file...")) {
             if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {
@@ -259,7 +259,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                             if (returnVal == FileChooser.SELECT_ACTION) {
                                 inputfile = mfc.getSelectedFile();
                                 if (inputfile != null) {
-                                    Client.send(Protocol.Sendfile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + ""));
+                                    Protocol.sendfile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
                                     TabOrganizer.openFileTransferSendPanel(subject, inputfile);
                                     Globals.setLastOpenedDir(inputfile.getParent());
                                 }

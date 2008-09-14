@@ -81,9 +81,9 @@ public class ChatInputKeyListener implements KeyListener {
                 }
 
                 if (this.mode == CHANNEL_CHAT_MODE) { //main chat
-                    Client.send(Protocol.mainChat(command), prefix);
+                    Protocol.mainChat(prefix, command);
                 } else if (this.mode == ROOM_CHAT_MODE) { //room chat
-                    Client.send(Protocol.roomChat(command), prefix);
+                    Protocol.roomChat(command);
                 } else if (this.mode == PRIVATE_CHAT_MODE) { // private chat
 
                     PrivateChatPanel privatechat = TabOrganizer.getPrivateChatPanel(prefix);
@@ -91,7 +91,7 @@ public class ChatInputKeyListener implements KeyListener {
                     if (privatechat != null) {
                         privatechat.append(Globals.getThisPlayer_loginName(), command);
                     }
-                    Client.send(Protocol.privatechat(command, prefix));
+                    Protocol.privateChat(command, prefix);
                 }
                 source.setText("");
             }

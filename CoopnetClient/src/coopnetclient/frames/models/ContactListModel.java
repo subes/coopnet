@@ -191,7 +191,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
 
     public void createNewGroup(String name) {
         addGroup(name);
-        Client.send(Protocol.createGroup(name));
+        Protocol.createGroup(name);
         fireContentsChanged(this, 0, getSize());
     }
 
@@ -215,7 +215,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         if (indexOfGroup(newName) == -1) {
             groups.get(indexOfGroup(groupName)).name = newName;
             fireContentsChanged(this, 0, getSize());
-            Client.send(Protocol.renameGroup(groupName, newName));
+            Protocol.renameGroup(groupName, newName);
         }
     }
 
@@ -277,7 +277,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         source.offlinecontacts.remove(contactName);
         addContact(contactName, tartgetGroup, status);
         fireContentsChanged(this, 0, getSize());
-        Client.send(Protocol.moveToGroup(contactName, tartgetGroup));
+        Protocol.moveToGroup(contactName, tartgetGroup);
         fireContentsChanged(this, 0, getSize());
     }
 
@@ -301,7 +301,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
             group = groupOfContact(contactName);
         }
         if (group == null) {
-            Client.send(Protocol.refreshContacts(showOffline));
+            Protocol.refreshContacts(showOffline);
             return;
         }
         if (group.offlinecontacts.contains(contactName)) {//was offline

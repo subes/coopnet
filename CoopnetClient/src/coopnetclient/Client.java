@@ -27,6 +27,7 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.FileDownloader;
 import coopnetclient.utils.Verification;
+import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
@@ -50,19 +51,18 @@ import javax.swing.SwingUtilities;
 public class Client {
 
     private static HandlerThread handlerThread;
-
-    /**
-     * Sends the command to the server
-     */
-    public static void send(String command, String channel) {
-        if (channel != null && channel.length() > 0) {
-            send(Protocol.on(command, channel));
+    
+    public static void send(Message message){
+        if (handlerThread != null) {
+            handlerThread.addToOutQueue(message.getMessage());
         }
-
-
+        TrafficLogger.append("OUT: " + message.getMessage());
+        if (Globals.getDebug()) {
+            System.out.println("[T]\tOUT: " + message.getMessage());
+        }
     }
-
-    public static void send(String command) {
+    /*
+    public static void send(String command){
         if (handlerThread != null) {
             command += Protocol.MESSAGE_DELIMITER;
             handlerThread.addToOutQueue(command);
@@ -71,7 +71,7 @@ public class Client {
         if (Globals.getDebug()) {
             System.out.println("[T]\tOUT: " + command);
         }
-    }
+    }*/
 
     public static String getHamachiAddress() {
         String ip = "";
@@ -163,8 +163,8 @@ public class Client {
         Launcher.initialize(launchInfo);
 
         if (!Launcher.isInitialized()) {
-            Client.send(Protocol.closeRoom(), game);
-            Client.send(Protocol.gameClosed(), game);
+            Protocol.closeRoom();
+            Protocol.gameClosed(game);
             TabOrganizer.getChannelPanel(game).enablebuttons();
         }
     }
@@ -173,7 +173,7 @@ public class Client {
         if (Launcher.isInitialized()) {
             TabOrganizer.getChannelPanel(channel).disableButtons();
             Launcher.launch();
-            Client.send(Protocol.gameClosed(), channel);
+            Protocol.gameClosed(channel);
             TabOrganizer.getChannelPanel(channel).enablebuttons();
             Launcher.deInitialize();
         }
