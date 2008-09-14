@@ -19,11 +19,11 @@
 
 package coopnetclient.frames.renderers;
 
+import coopnetclient.frames.models.RoomTableModel;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableCellRenderer;
-import static coopnetclient.models.RoomTableModel.*;
 
 public class RoomPasswordPicTableCellRenderer extends DefaultTableCellRenderer{
     
@@ -45,32 +45,32 @@ public class RoomPasswordPicTableCellRenderer extends DefaultTableCellRenderer{
         int intvalue = (Integer)value;
         
         switch(intvalue){
-           case NORMAL_UNPASSWORDED_ROOM:
+           case RoomTableModel.NORMAL_UNPASSWORDED_ROOM:
                 setIcon(normalOpenRoomIcon);
                 setToolTipText("Lobby is not password protected");  
                 break;   
                 
-           case NORMAL_UNPASSWORDED_ROOM_LAUNCHED:
+           case RoomTableModel.NORMAL_UNPASSWORDED_ROOM_LAUNCHED:
                 setIcon(normalOpenRoomLaunchedIcon);
                 setToolTipText("Lobby is launched");  
                 break;
                 
-           case NORMAL_PASSWORDED_ROOM:
+           case RoomTableModel.NORMAL_PASSWORDED_ROOM:
                 setIcon(normalPasswordedRoomIcon);
                 setToolTipText("Password protected lobby");  
                 break;
                 
-           case NORMAL_PASSWORDED_ROOM_LAUNCHED:
+           case RoomTableModel.NORMAL_PASSWORDED_ROOM_LAUNCHED:
                 setIcon(normalPasswordedRoomLaucnhedIcon);
                 setToolTipText("Lobby is password protected and launched");  
                 break;
                 
-           case INSTANT_UNPASSWORDED_ROOM:
+           case RoomTableModel.INSTANT_UNPASSWORDED_ROOM:
                 setIcon(instantOpenRoomIcon);
                 setToolTipText("<html>Not password protected instant-launch-room <br>(directly launches game for every player joining the room)");  
                 break;
                 
-           case INSTANT_PASSWORDED_ROOM:
+           case RoomTableModel.INSTANT_PASSWORDED_ROOM:
                 setIcon(instantPasswordedRoomIcon);
                 setToolTipText("<html>Password protected instant-launch-room <br>(directly launches game for every player joining the room)");  
                 break;

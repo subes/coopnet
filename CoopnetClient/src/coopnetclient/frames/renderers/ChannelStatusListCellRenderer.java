@@ -20,8 +20,8 @@
 package coopnetclient.frames.renderers;
 
 import coopnetclient.Globals;
+import coopnetclient.frames.models.ChannelStatusListModel;
 import coopnetclient.utils.Settings;
-import coopnetclient.models.ChannelStatusListModel;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;

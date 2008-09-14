@@ -19,8 +19,8 @@
 
 package coopnetclient.frames.renderers;
 
+import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.utils.Settings;
-import coopnetclient.models.ContactListModel;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;

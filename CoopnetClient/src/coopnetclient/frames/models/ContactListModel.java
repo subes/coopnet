@@ -21,7 +21,7 @@ package coopnetclient.frames.models;
 import coopnetclient.Client;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
-import coopnetclient.components.mutablelist.EditableListModel;
+import coopnetclient.frames.components.mutablelist.EditableListModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
