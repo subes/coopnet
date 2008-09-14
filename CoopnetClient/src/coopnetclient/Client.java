@@ -25,7 +25,8 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.Colorizer;
-import coopnetclient.protocol.ClientProtocolCommands;
+import coopnetclient.utils.FileDownloader;
+import coopnetclient.utils.Verification;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
@@ -57,11 +58,11 @@ public class Client {
         if (channel != null && channel.length() > 0) {
             send(Protocol.on(command, channel));
         }
-        
-        
+
+
     }
-    
-    public static void send(String command){
+
+    public static void send(String command) {
         if (handlerThread != null) {
             command += Protocol.MESSAGE_DELIMITER;
             handlerThread.addToOutQueue(command);
@@ -117,8 +118,9 @@ public class Client {
                     if (Settings.getFirstRun()) {
                         TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
                         Settings.setFirstRun(false);
-                    }      
+                    }
                     checkAndUpdateGameData();
+                    checkAndUpdateClient();
                 } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }
@@ -222,14 +224,13 @@ public class Client {
             public void run() {
                 BufferedReader br = null;
                 try {
-                    try{
+                    try {
                         URL url = new URL("http://coopnet.sourceforge.net/gamedata");
                         br = new BufferedReader(new InputStreamReader(url.openStream()));
-                    }
-                    catch(java.net.UnknownHostException e){
+                    } catch (java.net.UnknownHostException e) {
                         return;
                     }
-                    
+
                     String readHeader;
                     readHeader = br.readLine();
                     int lastversion = new Integer(readHeader.substring(8));
@@ -246,7 +247,7 @@ public class Client {
                         }
                         bo = new BufferedOutputStream(new FileOutputStream(destfile));
                         //save version
-                        bo.write((readHeader+"\n").getBytes());
+                        bo.write((readHeader + "\n").getBytes());
                         //save the rest
                         int readedbyte;
                         while ((readedbyte = br.read()) != -1) {
@@ -264,6 +265,51 @@ public class Client {
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(Globals.getClientFrame(), "You have an outdated version of the gamedata, but couldn't update it!", "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
                     ErrorHandler.handleException(e);
+                }
+            }
+        }.start();
+    }
+
+    public static void checkAndUpdateClient() {
+        new Thread() {
+
+            @Override
+            public void run() {
+                URL url;
+                BufferedReader br = null;
+                try {
+                    url = new URL("http://coopnet.sourceforge.net/lastclientversion");
+                    br = new BufferedReader(new InputStreamReader(url.openStream()));
+                    String version = br.readLine();
+                    if (!Verification.verifyClientVersion(version)) {
+                        new Thread() {
+
+                            @Override
+                            public void run() {
+                                try {
+                                    int n = JOptionPane.showConfirmDialog(null,
+                                            "<html>You have an outdated version of the client!<br>" +
+                                            "Would you like to update now?<br>(The client will close and update itself)",
+                                            "Client outdated", JOptionPane.YES_NO_OPTION);
+                                    if (n == JOptionPane.YES_OPTION) {
+                                        try {
+                                            FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", "./CoopnetUpdater.jar");
+                                            Runtime rt = Runtime.getRuntime();
+                                            rt.exec("java -jar CoopnetUpdater.jar");
+                                            Globals.getClientFrame().quit(true);
+                                        } catch (Exception ex) {
+                                            ex.printStackTrace();
+                                        }
+                                    }
+                                } catch (Exception e) {
+                                    ErrorHandler.handleException(e);
+                                }
+                            }
+                        }.start();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
                 }
             }
         }.start();
