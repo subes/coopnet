@@ -22,7 +22,7 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;

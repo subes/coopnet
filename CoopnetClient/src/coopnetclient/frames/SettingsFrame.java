@@ -24,7 +24,7 @@ import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.modules.Colorizer;
 import coopnetclient.modules.Settings;

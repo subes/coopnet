@@ -20,7 +20,7 @@ package coopnetclient.frames;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import coopnetclient.modules.MuteBanList;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;

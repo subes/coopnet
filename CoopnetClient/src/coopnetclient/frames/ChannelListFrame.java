@@ -22,7 +22,7 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import coopnetclient.modules.models.SortedListModel;
 import java.awt.event.MouseEvent;
 

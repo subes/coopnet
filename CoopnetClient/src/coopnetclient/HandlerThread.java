@@ -19,6 +19,7 @@
 
 package coopnetclient;
 
+import coopnetclient.protocol.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Settings;
 import coopnetclient.modules.SwingWorker;

@@ -20,7 +20,7 @@
 package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Client;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Settings;
 import java.io.BufferedInputStream;

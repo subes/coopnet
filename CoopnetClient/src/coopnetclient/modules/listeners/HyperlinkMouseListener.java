@@ -21,7 +21,7 @@ package coopnetclient.modules.listeners;
 
 import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import java.awt.Desktop;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;

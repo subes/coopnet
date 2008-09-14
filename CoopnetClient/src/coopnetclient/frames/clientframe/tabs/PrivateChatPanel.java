@@ -20,7 +20,7 @@ package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.MuteBanStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;

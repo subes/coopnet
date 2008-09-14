@@ -20,7 +20,7 @@ package coopnetclient.frames.clientframe;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.Settings;

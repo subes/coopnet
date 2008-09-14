@@ -25,7 +25,7 @@ import coopnetclient.Globals;
 import coopnetclient.modules.listeners.ChatInputKeyListener;
 import coopnetclient.modules.components.PlayerListPopupMenu;
 import coopnetclient.modules.models.SortedListModel;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.TabOrganizer;

@@ -20,7 +20,7 @@
 package coopnetclient.utils.gamedatabase;
 
 import coopnetclient.Client;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import java.util.ArrayList;
 import coopnetclient.enums.SettingTypes;
 

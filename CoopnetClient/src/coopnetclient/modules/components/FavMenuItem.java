@@ -20,7 +20,7 @@
 package coopnetclient.modules.components;
 
 import coopnetclient.Client;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;

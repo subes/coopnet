@@ -17,8 +17,9 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient;
+package coopnetclient.protocol;
 
+import coopnetclient.*;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;

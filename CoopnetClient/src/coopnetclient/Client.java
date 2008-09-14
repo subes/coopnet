@@ -18,6 +18,7 @@
  */
 package coopnetclient;
 
+import coopnetclient.protocol.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.TabOrganizer;

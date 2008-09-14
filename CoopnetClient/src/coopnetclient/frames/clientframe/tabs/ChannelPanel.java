@@ -26,7 +26,7 @@ import coopnetclient.modules.renderers.RoomPasswordPicTableCellRenderer;
 import coopnetclient.modules.renderers.UsersInRoomTableCellRenderer;
 import coopnetclient.modules.models.RoomTableModel;
 import coopnetclient.modules.components.PlayerListPopupMenu;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.renderers.ChannelStatusListCellRenderer;

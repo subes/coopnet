@@ -17,10 +17,11 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient;
+package coopnetclient.protocol;
 
+import coopnetclient.*;
+import coopnetclient.enums.ProtocolCommands;
 import coopnetclient.modules.Settings;
-import coopnetclient.modules.Verification;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
@@ -51,43 +52,54 @@ public class Protocol {
     }
     
     public static String RequestContact(String contactname) {
-        return "sendrequest" + contactname;
+        return ProtocolCommands.SEND_REQUEST.toString() + INFORMATION_DELIMITER
+                 + contactname;
     }
     
     public static String acceptRequest(String contactname) {
-        return "acceptrequest" + contactname;
+        return ProtocolCommands.ACCEPT_REQUEST.toString() + INFORMATION_DELIMITER
+                 + contactname;
     }
     
     public static String refuseRequest(String contactname) {
-        return "refuserequest" + contactname;
+        return ProtocolCommands.REFUSE_REQUEST.toString() + INFORMATION_DELIMITER
+                 + contactname;
     }
     
     public static String createGroup(String groupName) {
-        return "makegroup" + groupName;
+        return ProtocolCommands.MAKE_GROUP.toString() + INFORMATION_DELIMITER
+                 + groupName;
     }
 
     public static String removeContact(String contactname) {
-        return "deletecontact" + contactname;
+        return ProtocolCommands.DELETE_CONTACT.toString() + INFORMATION_DELIMITER
+                 + contactname;
     }
     
     public static String renameGroup(String groupName,String newgroupName) {
-        return "renamegroup" + groupName + INFORMATION_DELIMITER +newgroupName;
+        return ProtocolCommands.RENAME_GROUP.toString() + INFORMATION_DELIMITER
+                 + groupName + INFORMATION_DELIMITER 
+                 + newgroupName;
     }
     
     public static String deleteGroup(String groupName) {
-        return "deletegroup" + groupName;
+        return ProtocolCommands.DELETE_GROUP.toString() + INFORMATION_DELIMITER
+                 + groupName;
     }
     
     public static String moveToGroup(String contact,String newgroupName) {
-        return "movetogroup" + contact + INFORMATION_DELIMITER +newgroupName;
+        return ProtocolCommands.MOVE_TO_GROUP.toString() + INFORMATION_DELIMITER
+                 + contact + INFORMATION_DELIMITER 
+                 + newgroupName;
     }
     
     public static String refreshContacts(boolean showOffline) {
-        return "resendcontacts" + ( showOffline ? "1" : "0" ) ;
+        return ProtocolCommands.RESEND_CONTACTS.toString() + INFORMATION_DELIMITER
+                 + ( showOffline ? "1" : "0" ) ;
     }
     
     public static String AcceptTransfer(String sender, String filename, long firstByteToSend) {
-        return "AcceptFile" + INFORMATION_DELIMITER 
+        return ProtocolCommands.ACCEPT_FILE.toString() + INFORMATION_DELIMITER 
                 + sender + INFORMATION_DELIMITER 
                 + filename + INFORMATION_DELIMITER 
                 + Settings.getFiletTansferPort() + INFORMATION_DELIMITER 
@@ -95,19 +107,19 @@ public class Protocol {
     }
 
     public static String RefuseTransfer(String sender, String filename) {
-        return "RefuseFile" + INFORMATION_DELIMITER 
+        return ProtocolCommands.REFUSE_FILE.toString() + INFORMATION_DELIMITER 
                 + sender + INFORMATION_DELIMITER 
                 + filename;
     }
 
     public static String cancelTransfer(String sender, String filename) {
-        return "CancelFile" + INFORMATION_DELIMITER
+        return ProtocolCommands.CANCEL_FILE.toString()+ INFORMATION_DELIMITER
                 + sender + INFORMATION_DELIMITER
                 + filename;
     }
 
     public static String createRoom(String name, String modIndex, String password, String limit, boolean compatible, boolean instantLaunch) {
-        return "create" + INFORMATION_DELIMITER 
+        return ProtocolCommands.CREATE_ROOM.toString() + INFORMATION_DELIMITER 
                 + name + INFORMATION_DELIMITER 
                 + password + INFORMATION_DELIMITER 
                 + limit + INFORMATION_DELIMITER 
@@ -118,169 +130,194 @@ public class Protocol {
     }
 
     public static String SendSetting(String name,String value) {
-        return "setgamesetting" + name + INFORMATION_DELIMITER + value;
+        return ProtocolCommands.SET_GAMESETTING.toString() + INFORMATION_DELIMITER
+                 + name + INFORMATION_DELIMITER 
+                 + value;
     }
 
     public static String SetSleep(boolean enabled) {
-        return "setsleep " + String.valueOf(enabled);
+        return ProtocolCommands.SET_SLEEP.toString() + INFORMATION_DELIMITER
+                 + enabled;
     }
 
     public static String joinRoom(String hostname, String password) {
-        return "join " + hostname + INFORMATION_DELIMITER + password;
+        return ProtocolCommands.JOIN_ROOM.toString() + INFORMATION_DELIMITER
+                 + hostname + INFORMATION_DELIMITER 
+                 + password;
     }
     
     public static String joinRoomByID(String ID, String password) {
-        return "joinID" + ID + INFORMATION_DELIMITER + password;
+        return ProtocolCommands.JOIN_ROOM_BY_ID.toString() + INFORMATION_DELIMITER
+                 + ID + INFORMATION_DELIMITER 
+                 + password;
     }
 
     public static String refresh() {
-        return "refresh";
+        return ProtocolCommands.REFRESH.toString();
     }
 
     public static String ChannelList() {
-        return "listchannels";
+        return ProtocolCommands.LIST_CHANNELS.toString();
     }
 
     public static String JoinChannel(String channelname) {
-        return "joinchannel " + GameDatabase.IDofGame(channelname);
+        return ProtocolCommands.JOIN_CHANNEL.toString() + INFORMATION_DELIMITER
+                 + GameDatabase.IDofGame(channelname);
     }
 
     public static String leaveChannel() {
-        return "leavechannel";
+        return ProtocolCommands.LEAVE_CHANNEL.toString();
     }
 
     public static String changePassword(String oldpassword, String newpassword) {
-        return "changepassword " + INFORMATION_DELIMITER 
+        return ProtocolCommands.CHANGE_PASSWORD + INFORMATION_DELIMITER 
                 + PasswordEncrypter.encryptPassword(oldpassword) + INFORMATION_DELIMITER 
-                + PasswordEncrypter.encryptPassword(newpassword) + INFORMATION_DELIMITER 
-                + ".";
+                + PasswordEncrypter.encryptPassword(newpassword);
     }
 
     public static String editProfile() {
-        return "editprofile";
+        return ProtocolCommands.EDIT_PROFILE.toString();
     }
 
     public static String quit() {
-        return "quit";
+        return ProtocolCommands.QUIT.toString();
     }
 
     public static String login(String name, String password) {
-        return "login" + INFORMATION_DELIMITER 
+        return ProtocolCommands.LOGIN + INFORMATION_DELIMITER 
                 + name + INFORMATION_DELIMITER 
-                + PasswordEncrypter.encryptPassword(password) + INFORMATION_DELIMITER;
+                + PasswordEncrypter.encryptPassword(password);
     }
     
     public static String login() {
-        return "login" + INFORMATION_DELIMITER 
+        return ProtocolCommands.LOGIN + INFORMATION_DELIMITER 
                 + Settings.getLastLoginName() + INFORMATION_DELIMITER 
-                + Settings.getLastLoginPassword() + INFORMATION_DELIMITER;
+                + Settings.getLastLoginPassword();
     }
 
     public static String register(String name, String password) {
-        return "newplayer" + INFORMATION_DELIMITER 
+        return ProtocolCommands.NEW_PLAYER + INFORMATION_DELIMITER 
                 + name + INFORMATION_DELIMITER 
-                + PasswordEncrypter.encryptPassword(password) + INFORMATION_DELIMITER;
+                + PasswordEncrypter.encryptPassword(password);
     }
 
     public static String mainChat(String message) {
-        return "msay " + message;
+        return ProtocolCommands.CHAT_MAIN.toString() + INFORMATION_DELIMITER
+                 + message;
     }
 
     public static String roomChat(String message) {
-        return "rsay " + message;
+        return ProtocolCommands.CHAT_ROOM.toString() + INFORMATION_DELIMITER
+                 + message;
     }
 
     public static String privatechat(String message, String sendto) {
-        return "whisper" + INFORMATION_DELIMITER 
+        return ProtocolCommands.WHISPER + INFORMATION_DELIMITER 
                 + sendto + INFORMATION_DELIMITER 
                 + message;
     }
 
     public static String kick(String playername) {
-        return "kick " + playername;
+        return ProtocolCommands.KICK.toString() + INFORMATION_DELIMITER
+                 + playername;
     }
 
     public static String ban(String playername) {
-        return "ban " + playername;
+        return ProtocolCommands.BAN.toString() + INFORMATION_DELIMITER
+                 + playername;
     }
 
     public static String sendInvite(String subject) {
-        return "inviteuser"+subject;
+        return ProtocolCommands.INVITE_USER.toString() + INFORMATION_DELIMITER
+                + subject;
     }
 
     public static String turnTransferAround(String username,String filename) {
-        return "TurnAround"  + INFORMATION_DELIMITER +username + INFORMATION_DELIMITER + filename ;
+        return ProtocolCommands.TURN_AROUND  + INFORMATION_DELIMITER 
+                + username + INFORMATION_DELIMITER 
+                + filename ;
     }
 
     public static String unban(String playername) {
-        return "unban " + playername;
+        return ProtocolCommands.UNBAN.toString() + INFORMATION_DELIMITER
+                 + playername;
     }
 
     public static String mute(String playername) {
-        return "mute " + playername;
+        return ProtocolCommands.MUTE.toString() + INFORMATION_DELIMITER
+                 + playername;
     }
 
     public static String unmute(String playername) {
-        return "unmute " + playername;
+        return ProtocolCommands.UNMUTE.toString() + INFORMATION_DELIMITER
+                 + playername;
     }
 
     public static String requestProfile(String playername) {
-        return "requestprofile " + playername;
+        return ProtocolCommands.REQUEST_PROFILE.toString() + INFORMATION_DELIMITER
+                 + playername;
     }
 
     public static String nudge(String playername) {
-        return "nudge " + playername;
+        return ProtocolCommands.NUDGE.toString() + INFORMATION_DELIMITER
+                 + playername;
     }
 
     public static String setEmail(String email) {
-        return "setemail " + email;
+        return ProtocolCommands.SET_EMAIL.toString() + INFORMATION_DELIMITER
+                 + email;
     }
 
     public static String setEmailPublicity(boolean ispublic) {
-        return "setemailpublicity " + (ispublic ? "true" : "false");
+        return ProtocolCommands.SET_EMAIL_IS_PUBLIC.toString() + INFORMATION_DELIMITER
+                 + ispublic;
     }
 
     public static String setCountry(String country) {
-        return "setcountry " + country;
+        return ProtocolCommands.SET_COUNTRY.toString() + INFORMATION_DELIMITER
+                 + country;
     }
 
     public static String setWebPage(String webpage) {
-        return "setwebpage " + webpage;
+        return ProtocolCommands.SET_WEBSITE.toString() + INFORMATION_DELIMITER
+                 + webpage;
     }
 
     public static String setGameName(String gamename) {
-        return "setgamename " + gamename;
+        return ProtocolCommands.SET_INGAMENAME.toString() + INFORMATION_DELIMITER
+                 + gamename;
     }
 
     public static String changeName(String name) {
-        return "changename " + name;
+        return ProtocolCommands.SET_LOGINNAME.toString() + INFORMATION_DELIMITER
+                + name;
     }
 
     public static String gameClosed() {
-        return "gameclosed";
+        return ProtocolCommands.GAME_CLOSED.toString();
     }
 
     public static String closeRoom() {
-        return "close";
+        return ProtocolCommands.CLOSE.toString();
     }
 
     public static String leaveRoom() {
-        return "leave ";
+        return ProtocolCommands.LEAVE_ROOM.toString();
     }
 
     public static String Launch() {
-        return "gogogo";
+        return ProtocolCommands.LAUNCH.toString();
     }
 
     public static String flipReadystatus() {
-        return "flipready";
+        return ProtocolCommands.FLIP_READY.toString();
     }
 
     public static String Sendfile(String reciever, String filename, String sizeinbytes,String port) {
-        return "SendFile" + INFORMATION_DELIMITER 
+        return ProtocolCommands.SEND_FILE.toString() + INFORMATION_DELIMITER 
                 + reciever + INFORMATION_DELIMITER 
                 + filename + INFORMATION_DELIMITER 
                 + sizeinbytes+ INFORMATION_DELIMITER                 
-                +port;
+                + port;
     }
 }

@@ -24,7 +24,7 @@ import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.tabs.ChannelPanel;
 import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
 import coopnetclient.frames.clientframe.tabs.RoomPanel;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.clientframe.QuickPanel;
 import coopnetclient.modules.Settings;

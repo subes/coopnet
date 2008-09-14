@@ -21,7 +21,7 @@ package coopnetclient.frames;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import java.awt.Color;
 
 public class JoinRoomPasswordFrame extends javax.swing.JFrame {

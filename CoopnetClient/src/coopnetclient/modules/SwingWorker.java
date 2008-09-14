@@ -19,7 +19,7 @@
 
 package coopnetclient.modules;
 
-import coopnetclient.CommandHandler;
+import coopnetclient.protocol.CommandHandler;
 import coopnetclient.ErrorHandler;
 
 public class SwingWorker implements Runnable {

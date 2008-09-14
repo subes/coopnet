@@ -19,7 +19,7 @@
 package coopnetclient.modules.models;
 
 import coopnetclient.Client;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.modules.components.mutablelist.EditableListModel;
 import java.util.ArrayList;

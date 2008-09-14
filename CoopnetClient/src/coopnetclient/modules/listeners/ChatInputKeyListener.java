@@ -22,7 +22,7 @@ package coopnetclient.modules.listeners;
 import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.Protocol;
+import coopnetclient.protocol.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.modules.ColoredChatHandler;
