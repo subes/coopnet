@@ -32,6 +32,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
+import passwordencrypter.PasswordEncrypter;
 
 /**
  * stores/loads the clients settings
@@ -653,11 +654,11 @@ public class Settings {
 
     //lastLoginPassword
     public static String getLastLoginPassword() {
-        return decodePassword(readString(lastLoginPassword, def_lastLoginPassword));
+        return PasswordEncrypter.decodePassword(readString(lastLoginPassword, def_lastLoginPassword));
     }
 
     public static void setLastLoginPassword(String pw) {
-        writeSetting(lastLoginPassword, encodePassword(pw));
+        writeSetting(lastLoginPassword, PasswordEncrypter.encodePassword(PasswordEncrypter.encryptPassword(pw)));
     }
 
     public static Color getTitledBorderColor() {
@@ -725,38 +726,5 @@ public class Settings {
         }
     }
 
-    /**
-     * encodes the password
-     */
-    private static String encodePassword(String input) {
-        String tmp = "";
-        for (char c : input.toCharArray()) {
-            if (c == '\n') {
-                break;
-            }
-            int i = c;
-            i += 1000;
-            char ch = (char) i;
-            tmp += ch;
-        }
-        return tmp;
-    }
-
-    /**
-     * decodes the password
-     */
-    private static String decodePassword(String input) {
-        String tmp = "";
-
-        for (char c : input.toCharArray()) {
-            if (c == '\n') {
-                break;
-            }
-            int i = c;
-            i -= 1000;
-            char ch = (char) i;
-            tmp += ch;
-        }
-        return tmp;
-    }
+    
 }

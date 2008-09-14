@@ -26,6 +26,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
+import passwordencrypter.PasswordEncrypter;
 
 public class Protocol {
     
@@ -150,8 +151,8 @@ public class Protocol {
 
     public static String changePassword(String oldpassword, String newpassword) {
         return "changepassword " + INFORMATION_DELIMITER 
-                + Verification.encryptPassword(oldpassword) + INFORMATION_DELIMITER 
-                + Verification.encryptPassword(newpassword) + INFORMATION_DELIMITER 
+                + PasswordEncrypter.encryptPassword(oldpassword) + INFORMATION_DELIMITER 
+                + PasswordEncrypter.encryptPassword(newpassword) + INFORMATION_DELIMITER 
                 + ".";
     }
 
@@ -166,13 +167,19 @@ public class Protocol {
     public static String login(String name, String password) {
         return "login" + INFORMATION_DELIMITER 
                 + name + INFORMATION_DELIMITER 
-                + Verification.encryptPassword(password) + INFORMATION_DELIMITER;
+                + PasswordEncrypter.encryptPassword(password) + INFORMATION_DELIMITER;
+    }
+    
+    public static String login() {
+        return "login" + INFORMATION_DELIMITER 
+                + Settings.getLastLoginName() + INFORMATION_DELIMITER 
+                + Settings.getLastLoginPassword() + INFORMATION_DELIMITER;
     }
 
     public static String register(String name, String password) {
         return "newplayer" + INFORMATION_DELIMITER 
                 + name + INFORMATION_DELIMITER 
-                + Verification.encryptPassword(password) + INFORMATION_DELIMITER;
+                + PasswordEncrypter.encryptPassword(password) + INFORMATION_DELIMITER;
     }
 
     public static String mainChat(String message) {

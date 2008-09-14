@@ -97,10 +97,7 @@ public class HandlerThread extends Thread {
 
             //login
             if (coopnetclient.modules.Settings.getAutoLogin()) {
-                String name = coopnetclient.modules.Settings.getLastLoginName();
-                String passw = coopnetclient.modules.Settings.getLastLoginPassword();
-
-                Client.send(Protocol.login(name, passw), null);
+                Client.send(Protocol.login(), null);
                 String s = coopnetclient.modules.Settings.getHomeChannel();
                 if (s.length() > 0) {
                     Client.send(Protocol.JoinChannel(s), null);
@@ -116,7 +113,7 @@ public class HandlerThread extends Thread {
                 if (input == null) {
                     JOptionPane.showMessageDialog(Globals.getClientFrame(), "No response from server", "ERROR", JOptionPane.ERROR_MESSAGE);
                 } else if (input.equals("OK_LOGIN")) {
-                    Globals.setThisPlayer_loginName(name);
+                    Globals.setThisPlayer_loginName(Settings.getLastLoginName());
                     Globals.setLoggedInStatus(true);
                     TabOrganizer.closeLoginPanel();
                     Client.send(Protocol.SetSleep(Settings.getSleepEnabled()), null);

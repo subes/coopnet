@@ -84,31 +84,43 @@ public class Verification {
         return true;
     }
     
-    public static String encryptPassword(String password) {
-        try {
-            //Generate hashcode (MD5/SHA1/SHA-256/SHA-512)
-            MessageDigest digest = java.security.MessageDigest.getInstance("SHA1");
-            digest.update(password.getBytes("UTF-8"));
-            byte[] hash = digest.digest();
-
-            //Convert hashcode to HexString
-            StringBuffer buf = new StringBuffer();
-            for (int i = 0; i < hash.length; i++) {
-                int halfbyte = (hash[i] >>> 4) & 0x0F;
-                int two_halfs = 0;
-                do {
-                    if ((0 <= halfbyte) && (halfbyte <= 9)) {
-                        buf.append((char) ('0' + halfbyte));
-                    } else {
-                        buf.append((char) ('a' + (halfbyte - 10)));
-                    }
-                    halfbyte = hash[i] & 0x0F;
-                } while (two_halfs++ < 1);
-            }
-
-            return buf.toString();
-        } catch (Exception e) {}
+    public static boolean verifyIngameName(String ingameName){
+        if(ingameName.length() < 1 || ingameName.length() > 30){
+            return false;
+        }
         
-        return null;
+        return true;
+    }
+    
+    public static boolean verifyEMail(String email){
+        if(email.length() > 320){
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public static boolean verifyWebsite(String website){
+        if(website.length() > 320){
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public static boolean verifyCountry(String country){
+        if(country.length() > 60){
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public static boolean verifyGroupName(String groupName){
+        if(groupName.length() < 1 || groupName.length() > 30){
+            return false;
+        }
+        
+        return true;
     }
 }
