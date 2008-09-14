@@ -36,7 +36,6 @@ import coopnetclient.utils.Settings;
 import coopnetclient.frames.clientframe.ClientFrame;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Colorizer;
-import coopnetclient.utils.MuteBanList;
 import coopnetclient.utils.SystemTrayPopup;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.utils.launcher.Launcher;

@@ -35,7 +35,7 @@
               <Component id="jb_Show_Profile" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="68" max="32767" attributes="0"/>
           </Group>
-          <Component id="jScrollPane1" alignment="0" pref="328" max="32767" attributes="0"/>
+          <Component id="jScrollPane1" alignment="0" pref="386" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -71,6 +71,9 @@
             <Property name="fillsViewportHeight" type="boolean" value="true"/>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="caretPositionChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="tbl_UserTableCaretPositionChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -85,6 +88,7 @@
     <Component class="javax.swing.JButton" name="jb_UnMute">
       <Properties>
         <Property name="text" type="java.lang.String" value="UnMute"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jb_UnMuteActionPerformed"/>
@@ -93,6 +97,7 @@
     <Component class="javax.swing.JButton" name="jb_UnBan">
       <Properties>
         <Property name="text" type="java.lang.String" value="UnBan"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jb_UnBanActionPerformed"/>

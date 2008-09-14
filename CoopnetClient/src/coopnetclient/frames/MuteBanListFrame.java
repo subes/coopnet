@@ -20,25 +20,31 @@ package coopnetclient.frames;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
+import coopnetclient.enums.MuteBanStatuses;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.MuteBanList;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
 public class MuteBanListFrame extends javax.swing.JFrame {
 
-    private static CustomeTableModel tablemodel ;
-    
+    private static CustomeTableModel tablemodel;
+
     /** Creates new form MuteBanList */
     public MuteBanListFrame() {
-        tablemodel =new CustomeTableModel();  
+        tablemodel = new CustomeTableModel();
         initComponents();
         tbl_UserTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
         tbl_UserTable.getColumnModel().getColumn(0).setPreferredWidth(1000);
         tbl_UserTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+        SelectionListener listener = new SelectionListener(tbl_UserTable);
+        tbl_UserTable.getSelectionModel().addListSelectionListener(listener);
+        tbl_UserTable.getColumnModel().getSelectionModel().addListSelectionListener(listener);
     }
-    
-    public void updateTable(){
+
+    public void updateTable() {
         tablemodel.update();
     }
 
@@ -66,6 +72,13 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         tbl_UserTable.setModel(tablemodel);
         tbl_UserTable.setFillsViewportHeight(true);
         tbl_UserTable.setFocusable(false);
+        tbl_UserTable.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                tbl_UserTableCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
         jScrollPane1.setViewportView(tbl_UserTable);
 
         jb_Close.setText("Close");
@@ -76,6 +89,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         });
 
         jb_UnMute.setText("UnMute");
+        jb_UnMute.setEnabled(false);
         jb_UnMute.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jb_UnMuteActionPerformed(evt);
@@ -83,6 +97,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         });
 
         jb_UnBan.setText("UnBan");
+        jb_UnBan.setEnabled(false);
         jb_UnBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jb_UnBanActionPerformed(evt);
@@ -110,7 +125,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jb_Show_Profile)
                 .addContainerGap(68, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,6 +155,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
             Client.send(Protocol.unmute(subject));
             MuteBanList.unMute(subject);
             updateTable();
+        //jb_UnMute.setEnabled(false);
         }
     }//GEN-LAST:event_jb_UnMuteActionPerformed
 
@@ -151,6 +167,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
             Client.send(Protocol.unban(subject));
             MuteBanList.unBan(subject);
             updateTable();
+        //jb_UnBan.setEnabled(false);
         }
     }//GEN-LAST:event_jb_UnBanActionPerformed
 
@@ -163,6 +180,9 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jb_Show_ProfileActionPerformed
 
+    private void tbl_UserTableCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_tbl_UserTableCaretPositionChanged
+    }//GEN-LAST:event_tbl_UserTableCaretPositionChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jb_Close;
@@ -172,18 +192,18 @@ public class MuteBanListFrame extends javax.swing.JFrame {
     private javax.swing.JTable tbl_UserTable;
     // End of variables declaration//GEN-END:variables
 
-    private class CustomeTableModel extends AbstractTableModel{
+    private class CustomeTableModel extends AbstractTableModel {
 
         @Override
         public String getColumnName(int column) {
-            return column == 0? "Name" : "Status" ;
+            return column == 0 ? "Name" : "Status";
         }
 
         @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
             return false;
         }
-        
+
         @Override
         public int getRowCount() {
             return MuteBanList.size();
@@ -196,16 +216,46 @@ public class MuteBanListFrame extends javax.swing.JFrame {
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            if(columnIndex == 0){
+            if (columnIndex == 0) {
                 return MuteBanList.getElementAt(rowIndex);
-            }else{
+            } else {
                 return MuteBanList.getMuteBanStatus((MuteBanList.getElementAt(rowIndex)));
             }
         }
 
-        public void update(){
+        public void update() {
             fireTableDataChanged();
         }
-        
+    }
+
+    private class SelectionListener implements ListSelectionListener {
+
+        JTable table;
+
+        SelectionListener(JTable table) {
+            this.table = table;
+        }
+
+        public void valueChanged(ListSelectionEvent e) {
+            int viewRow = tbl_UserTable.getSelectedRow();
+            if (viewRow > -1) {
+                int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
+                String status = tablemodel.getValueAt(selected, 1).toString();
+                if (status.equals(MuteBanStatuses.BANNED.toString())) {
+                    jb_UnBan.setEnabled(true);
+                    jb_UnMute.setEnabled(false);
+                } else if (status.equals(MuteBanStatuses.MUTED.toString())) {
+                    jb_UnBan.setEnabled(false);
+                    jb_UnMute.setEnabled(true);
+                } else {
+                    jb_UnBan.setEnabled(true);
+                    jb_UnMute.setEnabled(true);
+                }
+            }
+            else{
+                 jb_UnBan.setEnabled(false);
+                 jb_UnMute.setEnabled(false);
+            }
+        }
     }
 }
