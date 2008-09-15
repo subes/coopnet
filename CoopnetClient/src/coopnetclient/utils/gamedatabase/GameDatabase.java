@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.utils.gamedatabase;
 
 import coopnetclient.*;
@@ -46,9 +45,10 @@ public class GameDatabase {
     private static HashMap<String, String> localexecutablepath; //shud point to the exe/binary
     private static HashMap<String, String> localinstallpath; //shud point to the game basedir
     private static ArrayList<String> isexperimental;
-    private static ArrayList<Game> gameData;
+    protected static ArrayList<Game> gameData;
     public static int version = 0;
-    
+
+
     static {
         if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
             try {
@@ -94,7 +94,7 @@ public class GameDatabase {
         IDtoGameName.put("TST", "GameTest channel");
     }
 
-    private static int indexOfGame(String gamename) {
+    protected static int indexOfGame(String gamename) {
         if (gamename == null) {
             return -1;
         }
@@ -165,7 +165,7 @@ public class GameDatabase {
     public static boolean getNoSpacesFlag(String gamename, String modname) {
         return gameData.get(indexOfGame(gamename)).getNoSpacesFlag(modname);
     }
-    
+
     public static void setGameSettings(String gamename, String modname, ArrayList<GameSetting> settings) {
         gameData.get(indexOfGame(gamename)).setGameSettings(modname, settings);
     }
@@ -375,7 +375,7 @@ public class GameDatabase {
                 testdata.setGameName(gamename);
                 testdata.setLaunchMethod(LaunchMethods.PARAMETER.toString());
                 int idx = indexOfGame(gamename);
-                if(idx > -1){
+                if (idx > -1) {
                     gameData.remove(idx);
                 }
                 gameData.add(testdata);
