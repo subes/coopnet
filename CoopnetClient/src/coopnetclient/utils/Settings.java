@@ -85,7 +85,6 @@ public class Settings {
             sleepEnabled="SleepModeEnabled" , 
             firstRun = "FirstRun",  
             homeChannel = "HomeChannel",
-            updateURL = "UpdateURL",  
             autoLogin = "AutoLogin",  
             debugMode = "DebugMode", 
             selectedLookAndFeel = "SelectedLAF",
@@ -443,10 +442,6 @@ public class Settings {
 
     public static void setLastValidServerPort(int port) {
         writeSetting(lastValidServerPort, String.valueOf(port));
-    }
-
-     public static void setUpdateURL(String url) {
-        writeSetting(updateURL, url);
     }
      
       public static int getFiletTansferPort() {

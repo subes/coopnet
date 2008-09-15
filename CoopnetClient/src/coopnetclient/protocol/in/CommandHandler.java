@@ -24,6 +24,7 @@ import coopnetclient.protocol.*;
 import coopnetclient.*;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ContactListElementTypes;
+import coopnetclient.enums.ServerProtocolCommands;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.Verification;
@@ -57,41 +58,7 @@ public class CommandHandler {
         if (input.equals(Protocol.HEARTBEAT)) {
             Client.send(new Message(Protocol.HEARTBEAT));
         }else{
-            if (input.equals("updateURL ")) {
-                String url = input.substring(10);
-                Settings.setUpdateURL(url);
-            }
-
-            if (input.startsWith("lastversion ")) {
-                if (!Verification.verifyClientVersion(input.substring(12))) {
-                    new Thread() {
-
-                        @Override
-                        public void run() {
-                            try{
-                                int n = JOptionPane.showConfirmDialog(null,
-                                        "<html>You have an outdated version of the client!<br>" +
-                                        "Would you like to update now?<br>(The client will close and update itself)",
-                                        "Client outdated", JOptionPane.YES_NO_OPTION);
-                                if (n == JOptionPane.YES_OPTION) {
-                                    try {
-                                        FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", "./CoopnetUpdater.jar");
-                                        Runtime rt = Runtime.getRuntime();
-                                        rt.exec("java -jar CoopnetUpdater.jar");
-                                        Globals.getClientFrame().quit(true);
-                                    } catch (Exception ex) {
-                                        ex.printStackTrace();
-                                    }
-                                }
-                            }catch(Exception e){
-                                ErrorHandler.handleException(e);
-                            }
-                        }
-                    }.start();
-                }
-            }
-
-            if (!Globals.getLoggedInStatus()) {
+             if (!Globals.getLoggedInStatus()) {
                 if (input.startsWith("OK_LOGIN")) {
                     //logged in, start the client
                     Globals.setLoggedInStatus(true);
@@ -114,20 +81,20 @@ public class CommandHandler {
 
             } else {//logged-in commands
 
-                if (input.startsWith("on ")) {
+                if (input.startsWith(ServerProtocolCommands.ON_CHANNEL)) {
                     currentchannel = input.substring(3, 6);
                     currentchannel = GameDatabase.getGameName(currentchannel); //decode ID
                     input = input.substring(7);
                 }
 
-                if (input.startsWith("setgamesetting")) {
+                if (input.startsWith(ServerProtocolCommands.SET_GAMESETTING)) {
                     String[] setting = input.substring(14).split(Protocol.INFORMATION_DELIMITER);
                     TempGameSettings.setGameSetting(setting[0],setting[1],false);                
-                } else if (input.startsWith("joinchannel ")) {
+                } else if (input.startsWith(ServerProtocolCommands.JOIN_CHANNEL)) {
                     String tmp = input.substring(12);
                     GameDatabase.load(tmp,GameDatabase.datafilepath);
                     TabOrganizer.openChannelPanel(tmp);
-                } else if (input.startsWith("setmutebanlist")) {
+                } else if (input.startsWith(ServerProtocolCommands.MUTE_BAN_LIST)) {
                     String[] muteAndBan = input.substring(14).split("\n");
                     String[] mutedUserNames = muteAndBan.length>0 ? muteAndBan[0].split(Protocol.INFORMATION_DELIMITER) : new String[]{};
                     String[] bannedUserNames = muteAndBan.length>1 ?  muteAndBan[1].split(Protocol.INFORMATION_DELIMITER) : new String[]{};
@@ -137,7 +104,7 @@ public class CommandHandler {
                     for(String username : bannedUserNames){
                         MuteBanList.ban(username);
                     }
-                } else if (input.startsWith("nudge ")) {
+                } else if (input.startsWith(ServerProtocolCommands.NUDGE)) {
                     String tmp = input.substring(6);
                     new FrameIconFlasher(Globals.getClientFrame(), "data/icons/nudge.png", tmp + " sent you a nudge!");
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp + " sent you a nudge!", ChatStyles.SYSTEM,false);
@@ -146,7 +113,7 @@ public class CommandHandler {
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(6), ChatStyles.SYSTEM,true);
                 } else 
                 //mainchat command
-                if (input.startsWith("main ")) {
+                if (input.startsWith(ServerProtocolCommands.CHAT_MAIN)) {
                     String[] tmp = input.substring(5).split(Protocol.INFORMATION_DELIMITER);
                     if (tmp.length == 1) {
                         return;
@@ -157,11 +124,11 @@ public class CommandHandler {
                     }
                 } else 
                 //adds a palyer to the playerlist in main window
-                if (input.startsWith("addtoplayers")) {
+                if (input.startsWith(ServerProtocolCommands.ADD_TO_PLAYERS)) {
                     Globals.getClientFrame().addPlayerToChannel(currentchannel, input.substring(13));
                 } else 
                 //prints message to the room-chat
-                if (input.startsWith("room ")) {
+                if (input.startsWith(ServerProtocolCommands.CHAT_ROOM)) {
                     String[] tmp = input.substring(5).split(Protocol.INFORMATION_DELIMITER);
                     TabOrganizer.getRoomPanel().chat(tmp[0], tmp[1], ChatStyles.USER);
                 } else 
@@ -170,11 +137,11 @@ public class CommandHandler {
                     String[] tmp = input.split(Protocol.INFORMATION_DELIMITER); // ip,compatibility,hamachiip, maxplayers, modindex, hostname
                     TabOrganizer.openRoomPanel(false, currentchannel, tmp[5], tmp[1], tmp[2].equals("true"), tmp[3], new Integer(tmp[4]), tmp[6]);
                 } else 
-                if (input.startsWith("requestpassword")) {
+                if (input.startsWith(ServerProtocolCommands.REQUEST_PASSWORD)) {
                     String ID = input.split(Protocol.INFORMATION_DELIMITER)[1];
                     Globals.openJoinRoomPasswordFrame(ID);
                 } else 
-                if (input.startsWith("wrongroompassword")) {                
+                if (input.startsWith(ServerProtocolCommands.WRONG_ROOM_PASSWORD)) {                
                     Globals.showWrongPasswordNotification();
                 } else 
                 //the server accepted the room creation request, must create a new room tab in server mode
@@ -200,7 +167,7 @@ public class CommandHandler {
 
                 } else 
                 //been kicked of the current room, must delete room tab
-                if (input.startsWith("kicked")) {
+                if (input.startsWith(ServerProtocolCommands.KICKED)) {
                     TabOrganizer.closeRoomPanel();
                     Globals.getClientFrame().printMainChatMessage(currentchannel, "SYSTEM", "You have been kicked by the host!", ChatStyles.SYSTEM);
                 } else 
@@ -221,16 +188,16 @@ public class CommandHandler {
                     }
                 } else 
                 //remove a user from the player list in main window
-                if (input.startsWith("logoff")) {
+                if (input.startsWith(ServerProtocolCommands.LOG_OFF)) {
                     Globals.getClientFrame().removePlayerFromChannel(currentchannel, input.substring(7));
                 } else 
                 //show a private message
-                if (input.startsWith("private ")) {
+                if (input.startsWith(ServerProtocolCommands.CHAT_PRIVATE)) {
                     String[] tmp = input.substring(8).split(Protocol.INFORMATION_DELIMITER);//0. sender 1.message
                     Globals.getClientFrame().printPrivateChatMessage(tmp[0], tmp[1]);
                 } else 
                 //print a message from the server
-                if (input.startsWith("echo ")) {
+                if (input.startsWith(ServerProtocolCommands.ECHO)) {
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(5), ChatStyles.SYSTEM,true);
                 } else 
                 //set players(name in parameter) ready status to not ready
@@ -246,7 +213,7 @@ public class CommandHandler {
                     TabOrganizer.getRoomPanel().setPlaying(input.substring(8));
                 } else 
                 //set the players(name in parameter) status to not playing
-                if (input.startsWith("gameclosed ")) {
+                if (input.startsWith(ServerProtocolCommands.GAME_CLOSED)) {
                     if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().gameClosed(input.substring(11));
                     }
@@ -295,7 +262,7 @@ public class CommandHandler {
                     Globals.getClientFrame().addPlayerToRoom(currentchannel, tmp[0], tmp[1]);
                 } else 
                 //remove player in parameter from the player-list of the room in parameter (shows as tooltiptext)
-                if (input.startsWith("leftroom ")) {
+                if (input.startsWith(ServerProtocolCommands.LEFT_ROOM)) {
                     String[] tmp = input.substring(9).split(Protocol.INFORMATION_DELIMITER); //0 rooms hosts name 1 playername
                     Globals.getClientFrame().removePlayerFromRoom(currentchannel, tmp[0], tmp[1]);
                 } else 
@@ -315,30 +282,30 @@ public class CommandHandler {
                     }
                     Globals.getContactList().updateName(tmp[0], tmp[1]);
                     Globals.getClientFrame().repaint();
-                } else if (input.startsWith("SendingFile")) {
+                } else if (input.startsWith(ServerProtocolCommands.SENDING_FILE)) {
                     String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1sender  2file 3size 4 ip 5 port
                     TabOrganizer.openFileTransferReceivePanel(tmp[1], tmp[3], tmp[2],tmp[4],tmp[5]);
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp[1] + " wants to send you a file!", ChatStyles.SYSTEM,false);
-                } else if (input.startsWith("AcceptedFile")) {
+                } else if (input.startsWith(ServerProtocolCommands.ACCEPTED_FILE)) {
                     String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//0command 1reciever  2filename 3 ip 4 port 5 firstbyte
                     Globals.getClientFrame().startSending(tmp[3], tmp[1], tmp[2], tmp[4], new Long(tmp[5]));
-                } else if (input.startsWith("RefusedFile")) {
+                } else if (input.startsWith(ServerProtocolCommands.REFUSED_FILE)) {
                     String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1reciever  2filename
                     Globals.getClientFrame().refusedTransfer(tmp[1], tmp[2]);
-                } else if (input.startsWith("CancelledFile")) {
+                } else if (input.startsWith(ServerProtocolCommands.CANCELED_FILE)) {
                     String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1sender  2filename
                     Globals.getClientFrame().cancelledTransfer(tmp[1], tmp[2]);
                 } else
                     //turn around transfer connection direction
-                    if (input.startsWith("TurnAround")) {
+                    if (input.startsWith(ServerProtocolCommands.TURN_AROUND_FILE)) {
                     String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1sender  2filename
                     Globals.getClientFrame().turnAroundTransfer(tmp[1], tmp[2]);
                 }// contact list commands
-                    else if (input.startsWith("contactrequest ")) {
+                    else if (input.startsWith(ServerProtocolCommands.CONTACT_REQUEST)) {
                     String name = input.substring(15);
                     Globals.getContactList().addContact(name, "", ContactListElementTypes.PENDING_REQUEST);
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name +" wants to add you to his/her contactlist", ChatStyles.SYSTEM,true);
-                } else if (input.startsWith("setcontactstatus")) {
+                } else if (input.startsWith(ServerProtocolCommands.SET_CONTACTSTATUS)) {
                     String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1contact  2status
                     ContactListElementTypes status = null;
                     String name = tmp[1];
@@ -364,18 +331,18 @@ public class CommandHandler {
                              }
                              break;
                      }
-                } else if (input.startsWith("acceptedrequest")) {
+                } else if (input.startsWith(ServerProtocolCommands.ACCEPTED_REQUEST)) {
                     String name = input.substring(15);
                     Globals.getContactList().setStatus(name,ContactListElementTypes.OFFLINE);
-                } else if (input.startsWith("refusedrequest")) {
+                } else if (input.startsWith(ServerProtocolCommands.REFUSED_REQUEST)) {
                     String name = input.substring(14);
                     Globals.getContactList().removecontact(name);
-                } else if (input.startsWith("contactdata ")) {
+                } else if (input.startsWith(ServerProtocolCommands.CONTACT_LIST)) {
                     String data = input.substring(12);
                     Globals.getContactList().buildFrom(data);
                 }             
                     else 
-                    if(input.startsWith("ILaunch")){
+                    if(input.startsWith(ServerProtocolCommands.INSTANT_LAUNCH)){
                         final String tmp[] = input.substring(7).split(Protocol.INFORMATION_DELIMITER);
                         new Thread(){
                             public void run(){

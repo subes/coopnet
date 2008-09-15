@@ -55,7 +55,7 @@ public class Globals {
     private static String lastOpenedDir;    
     //Preset value
     private static boolean debug = false;
-    private static final String clientVersion = "0.97.0";
+    private static final String clientVersion = "0.98.0";
     private static boolean loggedInStatus = false;
     private static boolean sleepModeStatus = false;
     private static boolean contactListPopupIsUp = false;

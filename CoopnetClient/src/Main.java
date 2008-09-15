@@ -66,7 +66,7 @@ public class Main {
     }
     
     private static void printHelp(){
-        System.out.println( "\nCoopnetClient usage:\n" +
+        System.out.println( "\nCoopnetClient "+Globals.getClientVersion()+" usage:\n" +
                             "    java -jar CoopnetClient.jar [--server <IP>:<PORT>] [--debug]\n" +
                             "\n" +
                             "    --server   ip and port of the server to connect to\n" +
