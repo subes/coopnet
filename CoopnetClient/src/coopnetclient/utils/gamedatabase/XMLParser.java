@@ -40,10 +40,6 @@ public class XMLParser extends DefaultHandler {
     public XMLParser(String gamename, String datafilepath) {
         this.gameName = gamename;
         loadFrom = datafilepath;
-        int idx = GameDatabase.indexOfGame(gamename);
-        if (idx > -1) {
-            GameDatabase.gameData.remove(idx);
-        }
     }
 
     public void parseGameData() {
