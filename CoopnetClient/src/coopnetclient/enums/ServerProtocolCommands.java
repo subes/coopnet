@@ -38,7 +38,7 @@ public enum ServerProtocolCommands {
     SET_GAMESETTING,
     TURN_AROUND_FILE,
     JOIN_CHANNEL,
-    LOG_OFF,
+    LEFT_CHANNEL,
     ADD_TO_PLAYERS,
     ON_CHANNEL,
     CHAT_PRIVATE,
@@ -46,7 +46,7 @@ public enum ServerProtocolCommands {
     NUDGE,
     KICKED,
     LEFT_ROOM,
-    ECHO,
+    SERVER_SHUTTING_DOWN,
     NOT_READY_STATUS,
     READY_STATUS,
     ROOM_PLAYING_STATUS,
@@ -71,36 +71,10 @@ public enum ServerProtocolCommands {
     LEAVE_ROOM,
     CLOSE_ROOM,
     REMOVE_ROOM,
-    REMOVE_MEMBER_FROM_ROOM
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    REMOVE_MEMBER_FROM_ROOM,
+    ECHO_BANNED,
+    ECHO_UNBANNED,
+    ECHO_MUTED,
+    ECHO_UNMUTED,
+    ECHO_NO_SUCH_PLAYER,
 }

@@ -188,7 +188,7 @@ public class CommandHandler {
                     }
                 } else 
                 //remove a user from the player list in main window
-                if (input.startsWith(ServerProtocolCommands.LOG_OFF)) {
+                if (input.startsWith(ServerProtocolCommands.LEFT_CHANNEL)) {
                     Globals.getClientFrame().removePlayerFromChannel(currentchannel, input.substring(7));
                 } else 
                 //show a private message
@@ -197,9 +197,18 @@ public class CommandHandler {
                     Globals.getClientFrame().printPrivateChatMessage(tmp[0], tmp[1]);
                 } else 
                 //print a message from the server
-                if (input.startsWith(ServerProtocolCommands.ECHO)) {
+                if (input.startsWith(ServerProtocolCommands.SERVER_SHUTTING_DOWN)) {
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(5), ChatStyles.SYSTEM,true);
                 } else 
+                if (input.startsWith(ServerProtocolCommands.ECHO_NO_SUCH_PLAYER)) {
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(5), ChatStyles.SYSTEM,true);
+                } else
+                    /*
+                        ECHO_BANNED,
+                        ECHO_UNBANNED,
+                        ECHO_MUTED,
+                        ECHO_UNMUTED,
+                     * */
                 //set players(name in parameter) ready status to not ready
                 if (input.startsWith(ServerProtocolCommands.NOT_READY_STATUS)) {
                     TabOrganizer.getRoomPanel().unReadyPlayer(input.substring(8));
