@@ -59,23 +59,23 @@ public class CommandHandler {
             Client.send(new Message(Protocol.HEARTBEAT));
         }else{
              if (!Globals.getLoggedInStatus()) {
-                if (input.startsWith("OK_LOGIN")) {
+                if (input.startsWith(ServerProtocolCommands.OK_LOGIN)) {
                     //logged in, start the client
                     Globals.setLoggedInStatus(true);
                     TabOrganizer.closeLoginPanel();
                     Protocol.setSleep(Settings.getSleepEnabled());
-                } else if (input.startsWith("incorrect login!try again")) {
+                } else if (input.startsWith(ServerProtocolCommands.LOGIN_INCORRECT)) {
                     TabOrganizer.getLoginPanel().showError("Wrong username/password, please try again!", Color.red);
                 } else if (input.startsWith("Already logged in!")) {
                     TabOrganizer.getLoginPanel().showError("Error: "+input, Color.red);   
-                } else if (input.startsWith("OK_REGISTER")) {
+                } else if (input.startsWith(ServerProtocolCommands.OK_REGISTER)) {
                     TabOrganizer.getLoginPanel().showError("Registration successful!", Color.green.darker());   
                     JOptionPane.showMessageDialog(Globals.getClientFrame(), "<html><b>Thank you for registering!</b>\n" +
                             "If you want to be able to do password recovery in the future,\n" +
                             "please fill in a valid E-Mail address in your player profile.\n" +
                             "\n" +
                             "You may login now.", "Successfully registered", JOptionPane.INFORMATION_MESSAGE);
-                } else if (input.startsWith("Loginname is already used!")) {
+                } else if (input.startsWith(ServerProtocolCommands.LOGINNAME_IN_USE)) {
                     TabOrganizer.getLoginPanel().showError("Error: "+input, Color.red);   
                 }
 
@@ -109,7 +109,7 @@ public class CommandHandler {
                     new FrameIconFlasher(Globals.getClientFrame(), "data/icons/nudge.png", tmp + " sent you a nudge!");
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp + " sent you a nudge!", ChatStyles.SYSTEM,false);
                     SoundPlayer.playNudgeSound();
-                } else if (input.startsWith("error")) {
+                } else if (input.startsWith(ServerProtocolCommands.ERROR)) {
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(6), ChatStyles.SYSTEM,true);
                 } else 
                 //mainchat command
@@ -133,7 +133,7 @@ public class CommandHandler {
                     TabOrganizer.getRoomPanel().chat(tmp[0], tmp[1], ChatStyles.USER);
                 } else 
                 //the server accepted the join request, must create a new room tab now in client mode
-                if (input.startsWith("join ")) {
+                if (input.startsWith(ServerProtocolCommands.JOIN_ROOM)) {
                     String[] tmp = input.split(Protocol.INFORMATION_DELIMITER); // ip,compatibility,hamachiip, maxplayers, modindex, hostname
                     TabOrganizer.openRoomPanel(false, currentchannel, tmp[5], tmp[1], tmp[2].equals("true"), tmp[3], new Integer(tmp[4]), tmp[6]);
                 } else 
@@ -145,7 +145,7 @@ public class CommandHandler {
                     Globals.showWrongPasswordNotification();
                 } else 
                 //the server accepted the room creation request, must create a new room tab in server mode
-                if (input.startsWith("create ")) {
+                if (input.startsWith(ServerProtocolCommands.CREATE_ROOM)) {
                     String[] tmp = input.substring(7).split(Protocol.INFORMATION_DELIMITER);
                     boolean compatible = Boolean.valueOf(tmp[1]);
                     int maxplayers = Integer.valueOf(tmp[2]);
@@ -153,15 +153,15 @@ public class CommandHandler {
                     TabOrganizer.openRoomPanel(true, currentchannel, modindex, "", compatible, "", maxplayers, Globals.getThisPlayer_loginName());
                 } else 
                 //server accepted leave request, must delete room tab
-                if (input.startsWith("leave")) {
+                if (input.startsWith(ServerProtocolCommands.LEAVE_ROOM)) {
                     TabOrganizer.closeRoomPanel();
                 } else 
                 //the owner of the room closed it, must remove from room list
-                if (input.startsWith("removeroom")) {
+                if (input.startsWith(ServerProtocolCommands.REMOVE_ROOM)) {
                     Globals.getClientFrame().removeRoomFromTable(currentchannel, input.substring(11));
                 } else             
                 //the currently joined room was closed, must delete room tab
-                if (input.startsWith("close")) {
+                if (input.startsWith(ServerProtocolCommands.CLOSE_ROOM)) {
                     TabOrganizer.closeRoomPanel();
                     Globals.getClientFrame().printMainChatMessage(currentchannel, "SYSTEM", "The Room has been closed!", ChatStyles.SYSTEM);
 
@@ -172,15 +172,15 @@ public class CommandHandler {
                     Globals.getClientFrame().printMainChatMessage(currentchannel, "SYSTEM", "You have been kicked by the host!", ChatStyles.SYSTEM);
                 } else 
                 //add a player to the rooms player list
-                if (input.startsWith("addmember ")) {
+                if (input.startsWith(ServerProtocolCommands.ADD_MEMBER_TO_ROOM)) {
                     TabOrganizer.getRoomPanel().addmember(input.substring(10));
                 } else 
                 // remove a player from the rooms player list
-                if (input.startsWith("removemember")) {
+                if (input.startsWith(ServerProtocolCommands.REMOVE_MEMBER_FROM_ROOM)) {
                     TabOrganizer.getRoomPanel().removeMember(input.substring(13));
                 } else 
                 //add a new room to the room list
-                if (input.startsWith("addroom")) {
+                if (input.startsWith(ServerProtocolCommands.ADD_ROOM)) {
                     String[] tmp = input.split(Protocol.INFORMATION_DELIMITER);//0adroom  1roomname 2hostname 3maxplayers 4type
                     Globals.getClientFrame().addRoomToTable(currentchannel, tmp[1], tmp[2], new Integer(tmp[3]), new Integer(tmp[4]));
                     if (Globals.getSleepModeStatus()) {
@@ -201,15 +201,15 @@ public class CommandHandler {
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(5), ChatStyles.SYSTEM,true);
                 } else 
                 //set players(name in parameter) ready status to not ready
-                if (input.startsWith("unready ")) {
+                if (input.startsWith(ServerProtocolCommands.NOT_READY_STATUS)) {
                     TabOrganizer.getRoomPanel().unReadyPlayer(input.substring(8));
                 } else 
                 //set players(name in parameter) ready status to ready
-                if (input.startsWith("ready ")) {
+                if (input.startsWith(ServerProtocolCommands.READY_STATUS)) {
                     TabOrganizer.getRoomPanel().readyPlayer(input.substring(6));
                 } else 
                 //set players(name in parameter) status to playing
-                if (input.startsWith("playing ")) {
+                if (input.startsWith(ServerProtocolCommands.ROOM_PLAYING_STATUS)) {
                     TabOrganizer.getRoomPanel().setPlaying(input.substring(8));
                 } else 
                 //set the players(name in parameter) status to not playing
@@ -221,43 +221,43 @@ public class CommandHandler {
                     Globals.getClientFrame().repaint();
                 } else 
                 //launch the game if not running already
-                if (input.startsWith("launch")) {
+                if (input.startsWith(ServerProtocolCommands.LAUNCH)) {
                     TabOrganizer.getRoomPanel().launch();
                 } else 
-                if (input.startsWith("setplayingstatus ")) {
+                if (input.startsWith(ServerProtocolCommands.CHANNEL_PLAYING_STATUS)) {
                     String host = input.substring(17);
                     Globals.getClientFrame().setPlayingStatus(currentchannel, host);
                 } else 
                 //confirmation message from the server. the password was changed successfully
-                if (input.startsWith("passwordchanged")) {
+                if (input.startsWith(ServerProtocolCommands.PASSWORD_CHANGED)) {
                     Globals.closeChangePasswordFrame();
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Password changed!", ChatStyles.SYSTEM,false);
                 } else 
                 //confirmation message from the server. the name was changed successfully(if changed)
-                if (input.startsWith("profilesaved")) {
+                if (input.startsWith(ServerProtocolCommands.PROFILE_SAVED)) {
                     Globals.closeEditProfileFrame();
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Profile saved!", ChatStyles.SYSTEM,false);
                 } else 
                 //show the profile-editing window with the data in parameters
-                if (input.startsWith("editprofile")) {
+                if (input.startsWith(ServerProtocolCommands.EDIT_PROFILE)) {
                     String[] tmp = input.split(Protocol.INFORMATION_DELIMITER); //0 showprofile 1 name 2 ingamename 3 email 4 ispublic 5 country 6 webpage
-                    Globals.openEditProfileFrame(tmp[1].substring(6),
-                            tmp[2].substring(10),
-                            tmp[3].substring(7),
-                            tmp[4].substring(8),
-                            tmp[5].substring(9),
-                            tmp[6].substring(9));
+                    Globals.openEditProfileFrame(tmp[1],
+                            tmp[2],
+                            tmp[3],
+                            tmp[4],
+                            tmp[5],
+                            tmp[6]);
                 } else 
                 //show the profile view window with the data in parameters
-                if (input.startsWith("showprofile")) {
+                if (input.startsWith(ServerProtocolCommands.SHOW_PROFILE)) {
                     String[] tmp = input.split(Protocol.INFORMATION_DELIMITER); //0 showprofile 1 name 2 email 3 country 4 webpage
-                    Globals.openShowProfileFrame(tmp[1].substring(6),
-                            tmp[2].substring(7),
-                            tmp[3].substring(9),
-                            tmp[4].substring(9));
+                    Globals.openShowProfileFrame(tmp[1],
+                            tmp[2],
+                            tmp[3],
+                            tmp[4]);
                 } else 
                 //add the player in parameter to the player-list of the room in parameter (shows as tooltiptext)
-                if (input.startsWith("joined ")) {
+                if (input.startsWith(ServerProtocolCommands.JOINED_ROOM)) {
                     String[] tmp = input.substring(7).split(Protocol.INFORMATION_DELIMITER); //0 rooms hosts name 1 playername
                     Globals.getClientFrame().addPlayerToRoom(currentchannel, tmp[0], tmp[1]);
                 } else 
@@ -267,11 +267,11 @@ public class CommandHandler {
                     Globals.getClientFrame().removePlayerFromRoom(currentchannel, tmp[0], tmp[1]);
                 } else 
                 //set the players in-game name
-                if (input.startsWith("gamename ")) {
+                if (input.startsWith(ServerProtocolCommands.INGAMENAME)) {
                     Globals.setThisPlayer_inGameName(input.substring(9));
                 } else 
                 //a player changed its name, msut update in player list and room list
-                if (input.startsWith("updatename ")) {
+                if (input.startsWith(ServerProtocolCommands.UPDATE_PLAYERNAME)) {
                     String[] tmp = input.substring(11).split(Protocol.INFORMATION_DELIMITER);      // 0 oldname 1 new name
                     Globals.getClientFrame().updatePlayerName(currentchannel, tmp[0], tmp[1]);
                     //update global if this name changes
@@ -301,7 +301,7 @@ public class CommandHandler {
                     String tmp[] = input.split(Protocol.INFORMATION_DELIMITER);//command 1sender  2filename
                     Globals.getClientFrame().turnAroundTransfer(tmp[1], tmp[2]);
                 }// contact list commands
-                    else if (input.startsWith(ServerProtocolCommands.CONTACT_REQUEST)) {
+                    else if (input.startsWith(ServerProtocolCommands.CONTACT_REQUESTED)) {
                     String name = input.substring(15);
                     Globals.getContactList().addContact(name, "", ContactListElementTypes.PENDING_REQUEST);
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name +" wants to add you to his/her contactlist", ChatStyles.SYSTEM,true);
@@ -331,10 +331,10 @@ public class CommandHandler {
                              }
                              break;
                      }
-                } else if (input.startsWith(ServerProtocolCommands.ACCEPTED_REQUEST)) {
+                } else if (input.startsWith(ServerProtocolCommands.ACCEPTED_CONTACT_REQUEST)) {
                     String name = input.substring(15);
                     Globals.getContactList().setStatus(name,ContactListElementTypes.OFFLINE);
-                } else if (input.startsWith(ServerProtocolCommands.REFUSED_REQUEST)) {
+                } else if (input.startsWith(ServerProtocolCommands.REFUSED_CONTACT_REQUEST)) {
                     String name = input.substring(14);
                     Globals.getContactList().removecontact(name);
                 } else if (input.startsWith(ServerProtocolCommands.CONTACT_LIST)) {

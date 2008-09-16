@@ -20,9 +20,9 @@
 package coopnetclient.enums;
 
 public enum ClientProtocolCommands {
-    SEND_REQUEST,
-    ACCEPT_REQUEST,
-    REFUSE_REQUEST,
+    SEND_CONTACT_REQUEST,
+    ACCEPT_CONTACT_REQUEST,
+    REFUSE_CONTACT_REQUEST,
     CREATE_GROUP,
     DELETE_CONTACT,
     RENAME_GROUP,

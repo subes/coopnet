@@ -53,15 +53,15 @@ public class Protocol {
     }
     
     public static void RequestContact(String contactName) {
-        new Message(ClientProtocolCommands.SEND_REQUEST, contactName);
+        new Message(ClientProtocolCommands.SEND_CONTACT_REQUEST, contactName);
     }
     
     public static void acceptRequest(String contactName) {
-        new Message(ClientProtocolCommands.ACCEPT_REQUEST, contactName);
+        new Message(ClientProtocolCommands.ACCEPT_CONTACT_REQUEST, contactName);
     }
     
     public static void refuseRequest(String contactName) {
-        new Message(ClientProtocolCommands.REFUSE_REQUEST, contactName);
+        new Message(ClientProtocolCommands.REFUSE_CONTACT_REQUEST, contactName);
     }
     
     public static void createGroup(String groupName) {
