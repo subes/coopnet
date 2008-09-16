@@ -53,6 +53,10 @@ public class Client {
     private static HandlerThread handlerThread;
     
     public static void send(Message message){
+        if(message.isSent()){
+            throw new IllegalArgumentException("A Message can only be sent once! They send themselves!");
+        }
+        
         if (handlerThread != null) {
             handlerThread.addToOutQueue(message.getMessage());
         }
@@ -61,17 +65,6 @@ public class Client {
             System.out.println("[T]\tOUT: " + message.getMessage());
         }
     }
-    /*
-    public static void send(String command){
-        if (handlerThread != null) {
-            command += Protocol.MESSAGE_DELIMITER;
-            handlerThread.addToOutQueue(command);
-        }
-        TrafficLogger.append("OUT: " + command);
-        if (Globals.getDebug()) {
-            System.out.println("[T]\tOUT: " + command);
-        }
-    }*/
 
     public static String getHamachiAddress() {
         String ip = "";

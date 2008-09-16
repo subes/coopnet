@@ -56,7 +56,7 @@ public class CommandHandler {
 
         //Heartbeat
         if (input.equals(Protocol.HEARTBEAT)) {
-            Client.send(new Message(Protocol.HEARTBEAT));
+            new Message(Protocol.HEARTBEAT);
         }else{
              if (!Globals.getLoggedInStatus()) {
                 if (input.startsWith(ServerProtocolCommands.OK_LOGIN)) {

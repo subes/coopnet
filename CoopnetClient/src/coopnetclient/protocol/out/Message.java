@@ -25,34 +25,53 @@ import coopnetclient.enums.ClientProtocolCommands;
 
 public class Message {
 
+    private boolean isSent = false;
     private String message;
     
     public Message(String message){
-        StringBuilder sb = new StringBuilder(message);
-        sb.append(Protocol.MESSAGE_DELIMITER);
+        if(!message.equals(Protocol.HEARTBEAT)){
+            throw new IllegalArgumentException("This constructor is reserved for HEARTBEAT! Use commands instead!");
+        }
         
-        this.message = sb.toString();
+        initialize(message);
         
         Client.send(this);
+        isSent = true;
     }
     
     public Message(ClientProtocolCommands command){
-        StringBuilder sb = new StringBuilder(command.ordinal());
-        sb.append(Protocol.MESSAGE_DELIMITER);
-        
-        this.message = sb.toString();
+        initialize(command);
         
         Client.send(this);
+        isSent = true;
     }
     
     public Message(ClientProtocolCommands command, String information){
         initialize(command, information);
+        
         Client.send(this);
+        isSent = true;
     }
     
     public Message(ClientProtocolCommands command, String[] information){
         initialize(command, information);
+        
         Client.send(this);
+        isSent = true;
+    }
+    
+    private void initialize(String message){
+        StringBuilder sb = new StringBuilder(message);
+        sb.append(Protocol.MESSAGE_DELIMITER);
+        
+        this.message = sb.toString();
+    }
+    
+    private void initialize(ClientProtocolCommands command){
+        StringBuilder sb = new StringBuilder(command.ordinal());
+        sb.append(Protocol.MESSAGE_DELIMITER);
+        
+        this.message = sb.toString();
     }
     
     private void initialize(ClientProtocolCommands command, String information){
@@ -81,4 +100,7 @@ public class Message {
         return message;
     }
     
+    public boolean isSent(){
+        return isSent;
+    }
 }
