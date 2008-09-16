@@ -41,10 +41,10 @@ public class GameDatabase {
     private static boolean registryOK = false;
     protected static final String SETTING_DELIMITER_PATTERN = "\\^";
     protected static final String SETTING_DELIMITER = "^";    //fields
-    private static HashMap<String, String> IDtoGameName;     // key is the ID    
+    protected static HashMap<String, String> IDtoGameName;     // key is the ID    
     private static HashMap<String, String> localexecutablepath; //shud point to the exe/binary
     private static HashMap<String, String> localinstallpath; //shud point to the game basedir
-    private static ArrayList<String> isexperimental;
+    protected static ArrayList<String> isexperimental;
     protected static ArrayList<Game> gameData;
     public static int version = 0;
 

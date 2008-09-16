@@ -114,6 +114,19 @@ public class Game {
         }
     }
 
+    protected void setFieldValue(String field, String modname, String value){
+        if (modname != null) {
+            Game mod = getMod(modname);
+            if (mod != null) {
+                mod.fields.put(field, value);
+            } else {
+               fields.put(field, value);
+            }
+        } else {
+            fields.put(field, value);
+        }
+    }
+
     /**
      * used for gamename 
      * and modname for mods
