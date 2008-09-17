@@ -110,6 +110,11 @@ public class CommandHandler {
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", tmp + " sent you a nudge!", ChatStyles.SYSTEM,false);
                     SoundPlayer.playNudgeSound();
                 } else if (input.startsWith(ServerProtocolCommands.ERROR)) {
+                    ERROR_YOU_ARE_BANNED,
+                    ERROR_ROOM_IS_FULL,
+                    ERROR_ROOM_DOES_NOT_EXIST,
+                    ERROR_LOGINNAME_IS_ALREADY_USED,
+                    ERROR_INCORRECT_PASSWORD
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", input.substring(6), ChatStyles.SYSTEM,true);
                 } else 
                 //mainchat command
