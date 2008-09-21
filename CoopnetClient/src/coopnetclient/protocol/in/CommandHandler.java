@@ -71,11 +71,6 @@ public class CommandHandler {
             System.out.println("[T]\tIN: " + input);
             }*/
 
-            if (command.equals(Protocol.HEARTBEAT)) {
-                new Message(Protocol.HEARTBEAT);
-                return;
-            }
-
             if (!Globals.getLoggedInStatus()) {//not-logged-in commands
                 switch (command) {
                     case OK_LOGIN:

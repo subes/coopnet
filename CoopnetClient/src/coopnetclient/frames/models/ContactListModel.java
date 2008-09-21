@@ -53,7 +53,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         }
 
         public int size() {
-            if (name.equals(DEFAULT_GROUP) && contacts.size() == 0 && (offlinecontacts.size() == 0  || !showOffline)  ) {
+            if (name.equals(DEFAULT_GROUP) && contacts.size() == 0 && (offlinecontacts.size() == 0 || !showOffline)) {
                 return 0;
             }
             if (closed) {
@@ -108,32 +108,28 @@ public class ContactListModel extends AbstractListModel implements EditableListM
     }
 
     public void buildFrom(String[] data) {
-        //TODO fix this shit
         clear();
         String currentname = null;
         Integer currentstatusindex = null;
-        String[] rows = null;//data.split("\n");
-        int currentrow = 0;
-        for (String row : rows) {
-            String[] fields = row.split(Protocol.INFORMATION_DELIMITER);
-            if (currentrow == 0) {
-                for (int i = 1; i < fields.length; i++) {
-                    addContact(fields[i], "", ContactListElementTypes.PENDING_REQUEST);
-                }
-            } else {
-                addGroup(fields[0]);
-                for (int i = 1; i < fields.length; i++) {
-                    currentname = fields[i].substring(1);
-                    currentstatusindex = Integer.valueOf(fields[i].substring(0, 1));
-                    addContact(currentname, fields[0], ContactListElementTypes.values()[currentstatusindex]);
-                }
+        int index = 0;
+        for (; index < data.length && !data[index].equals("\n"); index++) {
+            addContact(data[index], "", ContactListElementTypes.PENDING_REQUEST);
+        }
+        index++;
+        while (index < data.length) {
+            String groupname = data[index];
+            addGroup(groupname);
+            index++;
+            for (; index < data.length; index++) {
+                currentname = data[index].substring(1);
+                currentstatusindex = Integer.valueOf(data[index].substring(0, 1));
+                addContact(currentname, groupname, ContactListElementTypes.values()[currentstatusindex]);
             }
-            currentrow++;
+            index++;
         }
         fireContentsChanged(this, 0, getSize());
     }
     // ListModel methods
-
     @Override
     public int getSize() {
         // Return the model size
@@ -237,17 +233,16 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         showOffline = !showOffline;
         fireContentsChanged(this, 0, getSize());
     }
-    
-    public boolean isOfflineShown(){
+
+    public boolean isOfflineShown() {
         return showOffline;
     }
     //other methods
-
     public void addContact(String contactname, String groupName, ContactListElementTypes status) {
         switch (status) {
             case PENDING_REQUEST:
                 pendingList.put(contactname, ContactListElementTypes.PENDING_REQUEST);
-                break;            
+                break;
             case OFFLINE:
                 groups.get(indexOfGroup(groupName)).offlinecontacts.add(contactname);
                 break;
