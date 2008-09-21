@@ -44,15 +44,50 @@ import javax.swing.JOptionPane;
  */
 public class CommandHandler {
     
-    public static void execute(String input) {        
-        if (input == null) {
+    public static void execute(String[] data) {   
+        
+        //Answer heartbeat
+        if (data[0].equals(Protocol.HEARTBEAT)) {
+            new Message(Protocol.HEARTBEAT);
+            //TODO log heartbeat
             return;
         }
-        String currentchannel = null;
+        
+        try{
+            ServerProtocolCommands command = null;
+            try{
+                command = ServerProtocolCommands.values()[Integer.parseInt(data[0])];
+            } catch(Exception e){
+                //No Command, do something with this message -> maybe show errorpanel?
+                //-- server shouldnt send noncommands now anyway, 
+                //commands are printed as useful text messages in the client by the commandhandler
+                return;
+            }
+            
+            String[] information = new String[data.length-1];
+            System.arraycopy(data, 1, information, 0, information.length);    
+
+            //Logger.logInTraffic(command, information); TODO implement logging
+            
+            switch(command){
+                //case ...
+                        
+                default:
+                    //Unknown command, print some error
+            }
+            
+        }catch(Exception e){
+            //TODO print error in a errorpane
+            e.printStackTrace();
+        }
+        
+        //String currentchannel = null; //TODO see usage of this variable to determine where currentchannel information is needed
+        
+        /* //TODO trafficlogger has to be merged into logger!
         TrafficLogger.append("IN: " + input); // does nothing if its not initialized
         if (Globals.getDebug()) {
             System.out.println("[T]\tIN: " + input);
-        }
+        }*/
 
         //Heartbeat
         if (input.equals(Protocol.HEARTBEAT)) {

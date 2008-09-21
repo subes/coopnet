@@ -33,7 +33,9 @@ public class SwingWorker implements Runnable {
     @Override
     public void run() {
         try {
-            CommandHandler.execute(command);
+            String[] com = command.split(Protocol.INFORMATION_DELIMITER);
+            
+            CommandHandler.execute(com);
         } catch (Exception e) {
             ErrorHandler.handleException(e);
         }
