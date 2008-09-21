@@ -24,38 +24,91 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.ClientProtocolCommands;
 import coopnetclient.enums.ServerProtocolCommands;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Logger {
 
-    public static void logInTraffic(ClientProtocolCommands command, String[] information){
-        if(Globals.getDebug()){
-            logTraffic(LogTypes.IN, command.toString(), information);
+    private static ArrayList<String> log = new ArrayList<String>();
+    private static final int TAIL_LENGTH = 50;
+    
+    public static String getEndOfLog(){
+        String ret = new String();
+        for(int i = 0; i < log.size(); i++){
+            ret += log.get(i) + "\n";
         }
+        return ret;
     }
     
-    public static void logOutTraffic(ServerProtocolCommands command, String[] information){
-        if(Globals.getDebug()){
-            logTraffic(LogTypes.OUT, command.toString(), information);
-        }
-    }
-    
-    private static void logTraffic(LogTypes type, String command, String[] information){
-        String message = command + " ";
-        for( int i = 0; i < information.length; i++){
-            if(i != 0){
-                message += "|";
+    public static void logInTraffic(ServerProtocolCommands command, String[] information){
+        String message = command.toString() + " ";
+        if(information.length != 0){
+            message += "[";
+            for( int i = 0; i < information.length; i++){
+                if(i != 0){
+                    message += "|";
+                }
+                message += information[i];
             }
-            message += information[i];
+            message += "]"; 
         }
-        log(type, message);
+        log(LogTypes.IN, message);
+    }
+    
+    public static void logInTraffic(String[] data){
+        String message = data[0] + " ";
+        if(data.length != 1){
+            message += "[";
+            for( int i = 1; i < data.length; i++){
+                if(i != 1){
+                    message += "|";
+                }
+                message += data[i];
+            }
+            message += "]";
+        }
+        log(LogTypes.IN, message);
+    }
+    
+    public static void logOutTraffic(String logString){
+        log(LogTypes.OUT, logString);
     }
     
     public static void log(LogTypes type, String message){
-        if(Globals.getDebug()){
-            SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss.SSS");
-            System.out.println(date.format(new Date())+"\t"+type.toString()+":\t"+message);
+        SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss.SSS");
+        String entry = date.format(new Date()) + "\t" + type.toString() + ":\t" + message;
+        
+        if(log.size() == TAIL_LENGTH){
+            log.remove(0);
         }
+        
+        log.add(entry);
+        
+        if(Globals.getDebug()){
+            System.out.println(entry);
+        }
+    }
+    
+    public static void logException(Exception exception){
+        String message = "\n\t" + exception.getClass().toString() + ": " + exception.getMessage();
+        
+        StackTraceElement[] trace = exception.getStackTrace();
+        for(int i = 0; i < trace.length; i++){
+            message += "\n\t\tat "+trace[i].toString();
+        }
+        
+        Throwable cause = exception.getCause();
+        while(cause != null){
+            message += "\n\tCaused by - " + cause.getClass().toString() + ": " + cause.getMessage();
+            trace = cause.getStackTrace();
+            for(int i = 0; i < trace.length; i++){
+                message += "\n\t\tat "+trace[i].toString();
+            }
+            
+            cause = cause.getCause();
+        }
+        
+        log(LogTypes.ERROR, message);
     }
 }
 

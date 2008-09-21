@@ -28,6 +28,7 @@ import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.FileDownloader;
 import coopnetclient.utils.Verification;
 import coopnetclient.protocol.out.Message;
+import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
@@ -57,12 +58,10 @@ public class Client {
             throw new IllegalArgumentException("A Message can only be sent once! They send themselves!");
         }
         
+        Logger.logOutTraffic(message.getLogString());
+        
         if (handlerThread != null) {
             handlerThread.addToOutQueue(message.getMessage());
-        }
-        TrafficLogger.append("OUT: " + message.getMessage());
-        if (Globals.getDebug()) {
-            System.out.println("[T]\tOUT: " + message.getMessage());
         }
     }
 

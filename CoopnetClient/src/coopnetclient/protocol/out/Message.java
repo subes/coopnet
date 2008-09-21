@@ -27,6 +27,7 @@ public class Message {
 
     private boolean isSent = false;
     private String message;
+    private String logString;
     
     public Message(String message){
         if(!message.equals(Protocol.HEARTBEAT)){
@@ -65,26 +66,40 @@ public class Message {
         sb.append(Protocol.MESSAGE_DELIMITER);
         
         this.message = sb.toString();
+        
+        //Prepare LogString
+        this.logString = message;
     }
     
     private void initialize(ClientProtocolCommands command){
-        StringBuilder sb = new StringBuilder(command.ordinal());
+        StringBuilder sb = new StringBuilder(String.valueOf(command.ordinal()));
         sb.append(Protocol.MESSAGE_DELIMITER);
         
         this.message = sb.toString();
+        
+        //Prepare LogString
+        this.logString = command.toString();
     }
     
     private void initialize(ClientProtocolCommands command, String information){
-        StringBuilder sb = new StringBuilder(command.ordinal());
+        StringBuilder sb = new StringBuilder(String.valueOf(command.ordinal()));
         sb.append(Protocol.INFORMATION_DELIMITER);
         sb.append(information);
         sb.append(Protocol.MESSAGE_DELIMITER);
         
         this.message = sb.toString();
+        
+        //Prepare LogString
+        sb = new StringBuilder(command.toString());
+        sb.append(" [");
+        sb.append(information);
+        sb.append("]");
+        
+        this.logString =  sb.toString();
     }
     
     private void initialize(ClientProtocolCommands command, String[] information){
-        StringBuilder sb = new StringBuilder(command.ordinal());
+        StringBuilder sb = new StringBuilder(String.valueOf(command.ordinal()));
         
         for(int i = 0; i < information.length; i++){
             sb.append(Protocol.INFORMATION_DELIMITER);
@@ -94,6 +109,19 @@ public class Message {
         sb.append(Protocol.MESSAGE_DELIMITER);
         
         this.message = sb.toString();
+        
+        //Prepare LogString
+        sb = new StringBuilder(command.toString());
+        sb.append(" [");
+        for(int i = 0; i < information.length; i++){
+            if(i != 0){
+                sb.append("|");
+            }
+            sb.append(information[i]);
+        }
+        sb.append("]");
+
+        this.logString = sb.toString();
     }
     
     public String getMessage(){
@@ -102,5 +130,9 @@ public class Message {
     
     public boolean isSent(){
         return isSent;
+    }
+    
+    public String getLogString(){
+        return logString;
     }
 }

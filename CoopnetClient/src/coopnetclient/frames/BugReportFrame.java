@@ -80,12 +80,16 @@ public class BugReportFrame extends javax.swing.JFrame {
         
         if(exc != null){
             //Stacktrace
-            report += "\nStacktrace: ";
+            report += "\nException that caused this report: ";
             report += "\n\t"+exc.getClass().toString()+": "+exc.getMessage();
 
             StackTraceElement[] trace = exc.getStackTrace();
             for(int i = 0; i < trace.length; i++){
                 report += "\n\t\tat "+trace[i].toString();
+            }
+            
+            if(exc.getCause() != null){
+                report += "\nThis exception has a cause, look at the log snippet to see it.";
             }
 
             //Log

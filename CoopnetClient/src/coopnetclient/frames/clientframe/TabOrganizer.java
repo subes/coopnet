@@ -22,6 +22,7 @@ package coopnetclient.frames.clientframe;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.enums.ErrorPanelStyle;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.tabs.BrowserPanel;
 import coopnetclient.frames.clientframe.tabs.ChannelPanel;
@@ -248,7 +249,7 @@ public class TabOrganizer {
         browserPanel = null;
     }
 
-    public static void openErrorPanel(int mode, Exception e) {
+    public static void openErrorPanel(ErrorPanelStyle mode, Exception e) {
         if (errorPanel == null || errorPanel.hasException() == false && e != null) {
             errorPanel = new ErrorPanel(mode, e);
             tabHolder.addTab("Error", errorPanel);

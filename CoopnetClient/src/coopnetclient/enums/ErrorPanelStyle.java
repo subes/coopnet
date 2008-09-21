@@ -17,29 +17,12 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient;
+package coopnetclient.enums;
 
-public class TrafficLogger {
-
-    private static String log = "";
-    private static final int taillength = 20;
+public enum ErrorPanelStyle {
+    UNKNOWN,
+    UNKNOWN_IO,
+    CONNECTION_REFUSED,
+    CONNECTION_RESET
     
-
-    public static String getEndOfLog() {
-        String st = "";
-        String[] tmp = log.split("\n");
-        int i = 0;
-        i = tmp.length;
-        if (i < taillength) {
-            return log;
-        }
-        for (int j = i - taillength; j <= i - 1; j++) {
-            st += tmp[j] + "\n";
-        }
-        return st;
-    }
-
-    public static void append(String message) {
-        log = getEndOfLog() + message + "\n";
-    }
 }

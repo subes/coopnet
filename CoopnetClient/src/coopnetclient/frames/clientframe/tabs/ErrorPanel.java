@@ -20,47 +20,44 @@
 package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Globals;
+import coopnetclient.enums.ErrorPanelStyle;
+import coopnetclient.utils.Logger;
 
 public class ErrorPanel extends javax.swing.JPanel {
-
-    public static final int UNKNOWN_MODE = 0;
-    public static final int CONNECTION_REFUSED_MODE = 1;
-    public static final int CONNECTION_RESET_MODE = 2;
-    public static final int UNKNOWN_IO_MODE = 3;
     
     private Exception exception;
     private String trafficLog;
 
     //Message constants
-    private final String connectionrefused = "<HTML><p style=\"text-align: center;\"><b>Unable to connect to the server!</b><BR>" +
+    private static final String CONNECTION_REFUSED = "<HTML><p style=\"text-align: center;\"><b>Unable to connect to the server!</b><BR>" +
             "Please make sure you are connected to the internet and Coopnet is allowed to access it.<BR>" +
             "If you still cannot connect, the server may be down for maintenance, please try again later.</p> ";
-    private final String unknownerror = "<HTML><p style=\"text-align: center;\"><b>An unknown error occured!</b><BR>" +
+    private static final String UNKNOWN = "<HTML><p style=\"text-align: center;\"><b>An unknown error occured!</b><BR>" +
             "Please help us fix this problem by sending a bug report.</p>";
-    private final String connectionreset = "<HTML><p style=\"text-align: center;\"><b>Connection with the server was lost!</b><BR></p>";
-    private final String unknownIO = "<HTML><p style=\"text-align: center;\"><b>An unknown IO error occured!</b><BR></p>";
+    private static final String CONNECTION_RESET = "<HTML><p style=\"text-align: center;\"><b>Connection with the server was lost!</b><BR></p>";
+    private static final String UNKNOWN_IO = "<HTML><p style=\"text-align: center;\"><b>An unknown IO error occured!</b><BR></p>";
     
-    public ErrorPanel(int mode, Exception exception) {
+    public ErrorPanel(ErrorPanelStyle mode, Exception exception) {
         initComponents();
         
         coopnetclient.utils.Colorizer.colorize(this);
         switch (mode) {
-            case UNKNOWN_MODE: {
-                lbl_errortext.setText(unknownerror);
+            case UNKNOWN: {
+                lbl_errortext.setText(UNKNOWN);
                 break;
             }
-            case CONNECTION_REFUSED_MODE: {
-                lbl_errortext.setText(connectionrefused);
+            case CONNECTION_REFUSED: {
+                lbl_errortext.setText(CONNECTION_REFUSED);
                 btn_report.setVisible(false);
                 break;
             }
-            case CONNECTION_RESET_MODE: {
-                lbl_errortext.setText(connectionreset);
+            case CONNECTION_RESET: {
+                lbl_errortext.setText(CONNECTION_RESET);
                 btn_report.setVisible(false);
                 break;
             }
-            case UNKNOWN_IO_MODE: {
-                lbl_errortext.setText(unknownIO + exception.getMessage());
+            case UNKNOWN_IO: {
+                lbl_errortext.setText(UNKNOWN_IO + exception.getMessage());
                 btn_report.setVisible(false);
                 break;
             }
@@ -68,7 +65,7 @@ public class ErrorPanel extends javax.swing.JPanel {
         
         if(btn_report.isVisible()){
             this.exception = exception;
-            this.trafficLog = coopnetclient.TrafficLogger.getEndOfLog();
+            this.trafficLog = Logger.getEndOfLog();
         }
     }
     

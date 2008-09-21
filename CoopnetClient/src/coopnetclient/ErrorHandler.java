@@ -19,7 +19,9 @@
 
 package coopnetclient;
 
+import coopnetclient.enums.ErrorPanelStyle;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.utils.Logger;
 import java.io.IOException;
 
 public class ErrorHandler {
@@ -29,36 +31,32 @@ public class ErrorHandler {
             return;
         }
         
-        //exc.printStackTrace();
+        //From now on we want to log any exception!
+        Logger.logException(exc);
         
         if(exc instanceof java.nio.channels.AsynchronousCloseException){
             return;
         }
         
         if (exc.getMessage() == null) {
-            TabOrganizer.openErrorPanel(coopnetclient.frames.clientframe.tabs.ErrorPanel.UNKNOWN_MODE, exc);
-            exc.printStackTrace();
+            TabOrganizer.openErrorPanel(ErrorPanelStyle.UNKNOWN, exc);
             return;
         }
-        //Print at least a CATCH notification
-        System.err.println("CATCH: " + exc.getMessage());
+        
         if (exc instanceof IOException) {
             if (exc.getMessage().equals("socket closed")) {
                 return; // do nothing, happens when disconnecting
             }
 
             if (exc.getMessage().contains("Connection refused") || exc.getMessage().contains("timed out")) {
-                TabOrganizer.openErrorPanel(coopnetclient.frames.clientframe.tabs.ErrorPanel.CONNECTION_REFUSED_MODE, exc);
+                TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_REFUSED, exc);
             } else if (exc.getMessage().equals("Connection reset")) {
-                TabOrganizer.openErrorPanel(coopnetclient.frames.clientframe.tabs.ErrorPanel.CONNECTION_RESET_MODE, exc);
+                TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, exc);
             } else {
-                TabOrganizer.openErrorPanel(coopnetclient.frames.clientframe.tabs.ErrorPanel.UNKNOWN_IO_MODE, exc);
-                exc.printStackTrace();
+                TabOrganizer.openErrorPanel(ErrorPanelStyle.UNKNOWN_IO, exc);
             }
         } else { // regular errors
-            TabOrganizer.openErrorPanel(coopnetclient.frames.clientframe.tabs.ErrorPanel.UNKNOWN_MODE, exc);
-            //Here we really want a stacktrace
-            exc.printStackTrace();
+            TabOrganizer.openErrorPanel(ErrorPanelStyle.UNKNOWN, exc);
         }
 
     }
