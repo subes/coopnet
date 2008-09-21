@@ -107,11 +107,12 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         fireContentsChanged(this, 0, getSize());
     }
 
-    public void buildFrom(String data) {
+    public void buildFrom(String[] data) {
+        //TODO fix this shit
         clear();
         String currentname = null;
         Integer currentstatusindex = null;
-        String[] rows = data.split("\n");
+        String[] rows = null;//data.split("\n");
         int currentrow = 0;
         for (String row : rows) {
             String[] fields = row.split(Protocol.INFORMATION_DELIMITER);

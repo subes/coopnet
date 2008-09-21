@@ -21,6 +21,7 @@ package coopnetclient.utils;
 
 import coopnetclient.protocol.in.CommandHandler;
 import coopnetclient.ErrorHandler;
+import coopnetclient.protocol.out.Protocol;
 
 public class SwingWorker implements Runnable {
 
