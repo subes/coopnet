@@ -50,7 +50,7 @@ public class ErrorHandler {
 
             if (exc.getMessage().contains("Connection refused") || exc.getMessage().contains("timed out")) {
                 TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_REFUSED, exc);
-            } else if (exc.getMessage().equals("Connection reset")) {
+            } else if ( exc instanceof java.nio.channels.ClosedChannelException || exc.getMessage().equals("Connection reset")) {
                 TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, exc);
             } else {
                 TabOrganizer.openErrorPanel(ErrorPanelStyle.UNKNOWN_IO, exc);

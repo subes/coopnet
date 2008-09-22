@@ -112,7 +112,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         String currentname = null;
         Integer currentstatusindex = null;
         int index = 0;
-        for (; index < data.length && !data[index].equals("\n"); index++) {
+        for (; index < data.length && !(data[index].length() == 0); index++) {
             addContact(data[index], "", ContactListElementTypes.PENDING_REQUEST);
         }
         index++;

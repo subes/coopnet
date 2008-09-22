@@ -84,7 +84,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         userrend.setHorizontalAlignment(SwingConstants.CENTER);
         col.setCellRenderer(userrend);
 
-        tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.CHANNEL_CHAT_MODE, this.name));
+        tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.CHANNEL_CHAT_MODE, this.ID));
 
         mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
         lst_userList.setComponentPopupMenu(mypopup);

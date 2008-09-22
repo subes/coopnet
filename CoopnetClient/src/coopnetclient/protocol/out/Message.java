@@ -56,7 +56,6 @@ public class Message {
     
     public Message(ClientProtocolCommands command, String[] information){
         initialize(command, information);
-        
         Client.send(this);
         isSent = true;
     }

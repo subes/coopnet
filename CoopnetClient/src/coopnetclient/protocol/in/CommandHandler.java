@@ -45,7 +45,7 @@ public class CommandHandler {
 
     public static void execute(String[] data) {
         ServerProtocolCommands command = null;
-        
+
         //Answer heartbeat
         if (data[0].equals(Protocol.HEARTBEAT)) {
             Logger.logInTraffic(data);
@@ -73,6 +73,10 @@ public class CommandHandler {
                     Globals.setLoggedInStatus(true);
                     TabOrganizer.closeLoginPanel();
                     Protocol.setSleep(Settings.getSleepEnabled());
+                    String s = coopnetclient.utils.Settings.getHomeChannel();
+                    if (s.length() > 0) {
+                        Protocol.joinChannel(s);
+                    }
                     break;
                 case LOGIN_INCORRECT:
                     TabOrganizer.getLoginPanel().showError("Wrong username/password, please try again!", Color.red);
@@ -109,8 +113,8 @@ public class CommandHandler {
                     TempGameSettings.setGameSetting(information[0], information[1], false);
                     break;
                 case JOIN_CHANNEL:
-                    GameDatabase.load(information[0], GameDatabase.datafilepath);
-                    TabOrganizer.openChannelPanel(information[0]);
+                    GameDatabase.load(GameDatabase.getGameName(information[0]), GameDatabase.datafilepath);
+                    TabOrganizer.openChannelPanel(GameDatabase.getGameName(information[0]));
                     break;
                 case JOIN_ROOM:
                     TabOrganizer.openRoomPanel(false,
@@ -124,7 +128,7 @@ public class CommandHandler {
                     break;
                 case MUTE_BAN_LIST:
                     int i = 0;
-                    for (; i < information.length && !information[i].equals("\n"); i++) {
+                    for (; i < information.length && !information[i].equals(""); i++) {
                         MuteBanList.mute(information[i]);
                     }
                     i++;
@@ -338,6 +342,7 @@ public class CommandHandler {
                     System.arraycopy(information, 0, tmp, 0, tmp.length);
                     tmp[0] = GameDatabase.getGameName(information[0]);
                     new Thread() {
+
                         @Override
                         public void run() {
                             Client.initInstantLaunch(tmp[0], GameDatabase.getModByIndex(tmp[0], new Integer(tmp[1])), tmp[2], new Integer(tmp[3]), tmp[4].equals("true"), false);

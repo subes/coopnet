@@ -59,13 +59,7 @@ public class LoginPanel extends javax.swing.JPanel {
             
             try{
                 Thread.sleep(100);
-            }catch(InterruptedException ex){}
-
-            Protocol.setSleep(Settings.getSleepEnabled());
-            String s = coopnetclient.utils.Settings.getHomeChannel();
-            if (s.length() > 0) {
-                Protocol.joinChannel(s);
-            }
+            }catch(InterruptedException ex){}            
         }
     }
 

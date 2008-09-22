@@ -273,7 +273,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             Globals.closeRoomCreationFrame();
         } else if (btn_create.getText().equals("Launch")) {
             //simple instantlaunch
-            Protocol.createRoom(channel, channel, modindex, passw, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(), true);
+            Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(), true);
             Globals.closeRoomCreationFrame();
             new Thread() {
                 @Override

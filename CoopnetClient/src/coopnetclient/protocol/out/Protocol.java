@@ -105,8 +105,8 @@ public class Protocol {
         new Message(ClientProtocolCommands.CANCEL_FILE, info);
     }
 
-    public static void createRoom(String channel, String name, int modIndex, String password, int maxPlayers, boolean compatible, boolean instantLaunch) {
-        String[] info = {channel, name, password, String.valueOf(maxPlayers), String.valueOf(compatible), String.valueOf(instantLaunch), Client.getHamachiAddress(), String.valueOf(modIndex)};
+    public static void createRoom(String channelName, String name, int modIndex, String password, int maxPlayers, boolean compatible, boolean instantLaunch) {
+        String[] info = {GameDatabase.IDofGame(channelName), name, password, String.valueOf(maxPlayers), String.valueOf(compatible), String.valueOf(instantLaunch), Client.getHamachiAddress(), String.valueOf(modIndex)};
         new Message(ClientProtocolCommands.CREATE_ROOM, info);
     }
 
@@ -119,8 +119,8 @@ public class Protocol {
         new Message(ClientProtocolCommands.SET_SLEEP, String.valueOf(enabled));
     }
 
-    public static void joinRoom(String channel, String hostname, String password) {
-        String[] info = {channel, hostname, password};
+    public static void joinRoom(String channelName, String hostname, String password) {
+        String[] info = {GameDatabase.IDofGame(channelName), hostname, password};
         new Message(ClientProtocolCommands.JOIN_ROOM, info);
     }
     
@@ -129,20 +129,20 @@ public class Protocol {
         new Message(ClientProtocolCommands.JOIN_ROOM_BY_ID, info);
     }
 
-    public static void refreshRoomsAndPlayers(String channel) {
-        new Message(ClientProtocolCommands.REFRESH_ROOMS_AND_PLAYERS, channel);
+    public static void refreshRoomsAndPlayers(String channelName) {
+        new Message(ClientProtocolCommands.REFRESH_ROOMS_AND_PLAYERS, GameDatabase.IDofGame(channelName));
     }
 
     public static void channelList() {
         new Message(ClientProtocolCommands.LIST_CHANNELS);
     }
 
-    public static void joinChannel(String channelname) {
-        new Message(ClientProtocolCommands.JOIN_CHANNEL, GameDatabase.IDofGame(channelname));
+    public static void joinChannel(String channelName) {
+        new Message(ClientProtocolCommands.JOIN_CHANNEL, GameDatabase.IDofGame(channelName));
     }
 
-    public static void leaveChannel(String channel) {
-        new Message(ClientProtocolCommands.LEAVE_CHANNEL, channel);
+    public static void leaveChannel(String channelName) {
+        new Message(ClientProtocolCommands.LEAVE_CHANNEL, GameDatabase.IDofGame(channelName));
     }
 
     public static void changePassword(String oldpassword, String newpassword) {
@@ -173,8 +173,8 @@ public class Protocol {
         new Message(ClientProtocolCommands.NEW_PLAYER, info);
     }
 
-    public static void mainChat(String channel, String message) {
-        String[] info = {channel, message};
+    public static void mainChat(String channelName, String message) {
+        String[] info = {GameDatabase.IDofGame(channelName), message};
         new Message(ClientProtocolCommands.CHAT_MAIN, info);
     }
 
@@ -248,8 +248,8 @@ public class Protocol {
         new Message(ClientProtocolCommands.SET_LOGINNAME, loginName);
     }
 
-    public static void gameClosed(String channel) {
-        new Message(ClientProtocolCommands.GAME_CLOSED, channel);
+    public static void gameClosed(String channelName) {
+        new Message(ClientProtocolCommands.GAME_CLOSED, GameDatabase.IDofGame(channelName));
     }
 
     public static void closeRoom() {

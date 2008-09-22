@@ -18,7 +18,6 @@
  */
 package coopnetclient.frames.clientframe;
 
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
@@ -137,7 +136,7 @@ public class QuickPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(lst_contactList);
 
-        tp_quickPanel.addTab("", jScrollPane1);
+        tp_quickPanel.addTab("", ContactListIcon, jScrollPane1);
 
         lst_favouritesList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };

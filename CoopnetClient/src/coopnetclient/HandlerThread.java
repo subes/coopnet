@@ -296,7 +296,7 @@ public class HandlerThread extends Thread {
                 }
             } catch (Exception e) {
                 System.out.println("Failed to send: " + rawdata);
-                e.printStackTrace();
+                ErrorHandler.handleException(e);
             }        
         return true;
         }

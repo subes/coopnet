@@ -45,7 +45,7 @@ public class ChatInputKeyListener implements KeyListener {
      * 2 - private  <br>
      */
     public ChatInputKeyListener(int mode, String prefix) {
-        this.prefix = prefix; // players name in private chat or channel name
+        this.prefix = prefix; // players name in private chat or channel ID
         this.mode = mode;
     }
 
