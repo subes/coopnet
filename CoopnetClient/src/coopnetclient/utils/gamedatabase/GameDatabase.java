@@ -356,6 +356,7 @@ public class GameDatabase {
             version = new Integer(parts[1]);
         } catch (IOException ex) {
             //ex.printStackTrace();
+            version = 0;
             System.out.println("Could not load gamedatabase");
             return;
         }
