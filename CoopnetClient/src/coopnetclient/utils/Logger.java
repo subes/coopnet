@@ -75,40 +75,53 @@ public class Logger {
     }
     
     public static void log(LogTypes type, String message){
-        SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss.SSS");
-        String entry = date.format(new Date()) + "\t" + type.toString() + ":\t" + message;
-        
-        if(log.size() == TAIL_LENGTH){
-            log.remove(0);
-        }
-        
-        log.add(entry);
+        String entry = getHeader(type) + message;
         
         if(Globals.getDebug()){
-            System.out.println(entry);
+            if(type == LogTypes.ERROR){
+                System.err.println(entry);
+            }else{
+                System.out.println(entry);
+            }
         }
+        append(entry);
     }
     
-    public static void logException(Exception exception){
-        String message = "\n\t" + exception.getClass().toString() + ": " + exception.getMessage();
-        
+    public static void log(Exception exception){
+        String entry = "\n" + exception.getClass().toString() + ": " + exception.getMessage();
+
         StackTraceElement[] trace = exception.getStackTrace();
         for(int i = 0; i < trace.length; i++){
-            message += "\n\t\tat "+trace[i].toString();
+            entry += "\n\tat "+trace[i].toString();
         }
         
         Throwable cause = exception.getCause();
         while(cause != null){
-            message += "\n\tCaused by - " + cause.getClass().toString() + ": " + cause.getMessage();
+            entry += "\nCaused by - " + cause.getClass().toString() + ": " + cause.getMessage();
             trace = cause.getStackTrace();
             for(int i = 0; i < trace.length; i++){
-                message += "\n\t\tat "+trace[i].toString();
+                entry += "\n\tat "+trace[i].toString();
             }
             
             cause = cause.getCause();
         }
         
-        log(LogTypes.ERROR, message);
+        log(LogTypes.ERROR, entry);
+    }
+    
+    private static void append(String entry){
+        if(log.size() == TAIL_LENGTH){
+            log.remove(0);
+        }
+        
+        log.add(entry);
+    }
+    
+    private static String getHeader(LogTypes type){
+        SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss.SSS");
+        String entry = date.format(new Date()) + "\t" + type + ":\t";
+        
+        return entry;
     }
 }
 

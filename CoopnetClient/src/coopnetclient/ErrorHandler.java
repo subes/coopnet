@@ -32,7 +32,7 @@ public class ErrorHandler {
         }
         
         //From now on we want to log any exception!
-        Logger.logException(exc);
+        Logger.log(exc);
         
         if(exc instanceof java.nio.channels.AsynchronousCloseException){
             return;
