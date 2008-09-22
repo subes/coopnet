@@ -217,15 +217,18 @@ public class Client {
                 BufferedReader br = null;
                 try {
                     try {
-                        URL url = new URL("http://coopnet.sourceforge.net/gamedata");
+                        URL url = new URL("http://coopnet.sourceforge.net/gamedata.xml");
                         br = new BufferedReader(new InputStreamReader(url.openStream()));
                     } catch (java.net.UnknownHostException e) {
                         return;
+                    } catch (java.io.FileNotFoundException e) {
+                        return;
                     }
-
-                    String readHeader;
-                    readHeader = br.readLine();
-                    int lastversion = new Integer(readHeader.substring(8));
+                    int lastversion = 0;
+                    String readHeader1 = br.readLine();
+                    String readHeader2 = br.readLine();
+                    String[] parts = readHeader2.split(" ");
+                    lastversion = new Integer(parts[1]);
                     GameDatabase.loadVersion();
                     if (GameDatabase.version < lastversion) {
                         if (Globals.getDebug()) {
@@ -239,7 +242,8 @@ public class Client {
                         }
                         bo = new BufferedOutputStream(new FileOutputStream(destfile));
                         //save version
-                        bo.write((readHeader + "\n").getBytes());
+                        bo.write((readHeader1 + "\n").getBytes());
+                        bo.write((readHeader2 + "\n").getBytes());
                         //save the rest
                         int readedbyte;
                         while ((readedbyte = br.read()) != -1) {

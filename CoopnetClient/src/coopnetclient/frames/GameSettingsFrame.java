@@ -132,7 +132,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                 }
                 case NUMBER: {
                     int def = 0;
-                    def= Integer.valueOf(gs.getDefaultValue()==null?"0":gs.getDefaultValue());
+                    def= Integer.valueOf((gs.getDefaultValue()==null||gs.getDefaultValue().length() == 0)?"0":gs.getDefaultValue());
                     int min = Integer.valueOf(gs.getMinValue());
                     int max = Integer.valueOf(gs.getMaxValue());
                     if(min <= max && min <= def && def <= max){

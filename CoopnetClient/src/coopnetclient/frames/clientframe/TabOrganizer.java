@@ -39,6 +39,7 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Component;
 import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -350,7 +351,11 @@ public class TabOrganizer {
     public static void closeGameDataEditor() {
         tabHolder.remove(gamedataeditor);
         gamedataeditor = null;
-        GameDatabase.saveTestData();
+        try {
+            GameDatabase.saveTestData();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /*******************************************************************/

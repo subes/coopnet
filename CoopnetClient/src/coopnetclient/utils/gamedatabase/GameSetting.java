@@ -16,15 +16,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.utils.gamedatabase;
 
-import coopnetclient.Client;
 import coopnetclient.protocol.out.Protocol;
 import java.util.ArrayList;
 import coopnetclient.enums.SettingTypes;
 
-public class GameSetting {   
+public class GameSetting {
+
     private String visibleName; //text of the label left to setting
     private SettingTypes type;       //setting tpye
     private String keyWord; //the keyword to replace in callString
@@ -44,67 +43,67 @@ public class GameSetting {
         this.defaultValue = defaultValue;
     }
 
-    public String getName(){
+    public String getName() {
         return visibleName;
     }
-    
-    public void setName(String name){
+
+    public void setName(String name) {
         visibleName = name;
     }
-    
-    public String getKeyWord(){
+
+    public String getKeyWord() {
         return keyWord;
     }
-    
-    public void setKeyWord(String keyword){
-        this.keyWord = keyword;                
+
+    public void setKeyWord(String keyword) {
+        this.keyWord = keyword;
     }
-    
-    public String getDefaultValue(){
+
+    public String getDefaultValue() {
         return defaultValue;
     }
-    
-    public void setDefaultValue(String value){
+
+    public void setDefaultValue(String value) {
         this.defaultValue = value;
     }
-    
-    public SettingTypes getType(){
+
+    public SettingTypes getType() {
         return type;
     }
-    
-    public void setType(SettingTypes type){
+
+    public void setType(SettingTypes type) {
         this.type = type;
     }
-    
-    public int getMinValue(){
+
+    public int getMinValue() {
         return minValue;
     }
-    
-    public void setMinValue(int value){
+
+    public void setMinValue(int value) {
         this.minValue = value;
     }
-    
-    public int getMaxValue(){
+
+    public int getMaxValue() {
         return maxValue;
     }
-    
-    public void setMaxValue(int value){
+
+    public void setMaxValue(int value) {
         this.maxValue = value;
     }
-    
-    public boolean isShared(){
+
+    public boolean isShared() {
         return shared;
     }
-    
-    public void setShared(boolean val){
+
+    public void setShared(boolean val) {
         shared = val;
     }
-    
-    public void reset(){
+
+    public void reset() {
         currentValue = "";
     }
-    
-    public void setValue(String value,boolean broadcast) {
+
+    public void setValue(String value, boolean broadcast) {
         switch (type) {
             case TEXT: {
                 currentValue = value;
@@ -117,56 +116,73 @@ public class GameSetting {
             case NUMBER: {
                 currentValue = value;
                 break;
-            }            
+            }
         }
-        if(shared && broadcast){
+        if (shared && broadcast) {
             Protocol.sendSetting(visibleName, value);
         }
     }
-    
-    public String getValue(){
+
+    public String getValue() {
         return currentValue;
     }
 
     public void setComboboxSelectNames(ArrayList<String> names) {
         comboboxSelectNames = new ArrayList<String>(names);
     }
-    
-    public ArrayList<String> getComboboxSelectNames(){
+
+    public ArrayList<String> getComboboxSelectNames() {
         return comboboxSelectNames;
     }
 
     public void setComboboxValues(ArrayList<String> values) {
         comboboxValues = new ArrayList<String>(values);
     }
-    
-    public ArrayList<String> getComboboxValues(){
+
+    public ArrayList<String> getComboboxValues() {
         return comboboxValues;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return visibleName;
     }
-    
-    protected String getStorageString(){
-        String tmp = (shared?"shared":"") + visibleName + GameDatabase.SETTING_DELIMITER
-                + type.toString() + GameDatabase.SETTING_DELIMITER
-                + keyWord + GameDatabase.SETTING_DELIMITER
-                +defaultValue ;
-        switch (type) {            
+
+    protected String getStorageString() {
+        String tmp = "";
+        switch (type) {
             case CHOICE: {
-                for(int i= 0; i< comboboxSelectNames.size();i++){
-                    tmp += GameDatabase.SETTING_DELIMITER 
-                            + comboboxSelectNames.get(i) + "=" + comboboxValues.get(i);
+                tmp += "<ChoiceSetting>";
+                tmp += "<SettingName>" + visibleName + "</SettingName>";
+                tmp += "<SettingType>" + type + "</SettingType>";
+                tmp += "<KeyWord>" + keyWord + "</KeyWord>";
+                for (int i = 0; i < comboboxSelectNames.size(); i++) {
+                    tmp += "<ChoiceItem><ChoiceDisplayName>" + comboboxSelectNames.get(i) + "</ChoiceDisplayName><ChoiceRealValue>" + comboboxValues.get(i) + "</ChoiceRealValue></ChoiceItem>";
                 }
+                tmp += "</ChoiceSetting>";
                 break;
             }
             case NUMBER: {
-                tmp += GameDatabase.SETTING_DELIMITER + minValue 
-                      +GameDatabase.SETTING_DELIMITER +maxValue;
+                tmp += "<NumberSetting>";
+                tmp += "<SettingName>" + visibleName + "</SettingName>";
+                tmp += "<SettingType>" + type + "</SettingType>";
+                tmp += "<KeyWord>" + keyWord + "</KeyWord>";
+                if (minValue > Integer.MIN_VALUE) {
+                    tmp += "<SettingMinValue>" + minValue + "</SettingMinValue>";
+                }
+                if (maxValue < Integer.MAX_VALUE) {
+                    tmp += "<SettingMaxValue>" + maxValue + "</SettingMaxValue>";
+                }
+                tmp += "</NumberSetting>";
                 break;
-            }            
+            }
+            case TEXT:
+                tmp += "<TextSetting>";
+                tmp += "<SettingName>" + visibleName + "</SettingName>";
+                tmp += "<SettingType>" + type + "</SettingType>";
+                tmp += "<KeyWord>" + keyWord + "</KeyWord>";
+                tmp += "</TextSetting>";
+                break;
         }
         return tmp;
     }

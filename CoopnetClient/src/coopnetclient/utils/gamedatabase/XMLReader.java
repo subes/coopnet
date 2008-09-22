@@ -1,7 +1,9 @@
 package coopnetclient.utils.gamedatabase;
 
 import coopnetclient.enums.SettingTypes;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -10,7 +12,7 @@ import org.xml.sax.SAXException;
 
 import org.xml.sax.helpers.DefaultHandler;
 
-public class XMLParser extends DefaultHandler {
+public class XMLReader extends DefaultHandler {
 
     private String gameName;
     private String loadFrom;
@@ -37,20 +39,17 @@ public class XMLParser extends DefaultHandler {
     private boolean beta = false;
     private boolean inMod = false;
 
-    public XMLParser(String gamename, String datafilepath) {
-        this.gameName = gamename;
-        loadFrom = datafilepath;
+    public XMLReader() {
+        super();
     }
 
-    public void parseGameData() {
+    public void parseGameData(String gamename, String datafilepath) throws ParserConfigurationException, SAXException, IOException {
+        this.gameName = gamename;
+        loadFrom = datafilepath;
         //get a factory
         SAXParserFactory spf = SAXParserFactory.newInstance();
-        try {
             SAXParser sp = spf.newSAXParser();
             sp.parse(loadFrom, this);
-        } catch (Exception se) {
-            se.printStackTrace();
-        }
     }
 
     //Event Handlers
@@ -63,9 +62,6 @@ public class XMLParser extends DefaultHandler {
             tmpGame.setInstantLauncable(false);
             beta = false;
             inMod = false;
-        } else if (qName.equalsIgnoreCase("ChoiceItem")) {
-            names = new ArrayList<String>();
-            values = new ArrayList<String>();
         } else if (qName.equalsIgnoreCase("Mod")) {
             tmpMod = new Game();
             inMod = true;
@@ -77,6 +73,8 @@ public class XMLParser extends DefaultHandler {
             tmpSettingDefVal = "";
             tmpSettingMinVal = Integer.MIN_VALUE + "";
             tmpSettingMaxVal = Integer.MAX_VALUE + "";
+            names = new ArrayList<String>();
+            values = new ArrayList<String>();
         }
     }
 
@@ -167,6 +165,8 @@ public class XMLParser extends DefaultHandler {
             tmpSettingMinVal = tempVal;
         } else if (qName.equalsIgnoreCase("SettingMaxValue")) {
             tmpSettingMaxVal = tempVal;
+        }else if (qName.equalsIgnoreCase("SettingType")) {
+            tmpSettingType = SettingTypes.valueOf(tempVal);
         }
     }
 }

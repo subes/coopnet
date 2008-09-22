@@ -23,7 +23,6 @@ import com.ice.jni.registry.Registry;
 import com.ice.jni.registry.RegistryKey;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.OperatingSystems;
-import coopnetclient.enums.SettingTypes;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -35,8 +34,8 @@ import java.util.HashMap;
 
 public class GameDatabase {
 
-    public static final String datafilepath = "data/gamedata";
-    public static final String testdatafilepath = "data/testgamedata";
+    public static final String datafilepath = "data/newGameData.xml";
+    public static final String testdatafilepath = "data/testgamedata.xml";
     private static final String lpfilepath = "data/localpaths";
     private static boolean registryOK = false;
     protected static final String SETTING_DELIMITER_PATTERN = "\\^";
@@ -47,7 +46,8 @@ public class GameDatabase {
     protected static ArrayList<String> isexperimental;
     protected static ArrayList<Game> gameData;
     public static int version = 0;
-
+    private static XMLReader xmlReader = new XMLReader();
+    
 
     static {
         if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
@@ -350,7 +350,10 @@ public class GameDatabase {
         }
         //read version
         try {
-            version = new Integer(br.readLine().substring(8));
+            // looks like: <!--Version 10 -->
+            br.readLine();
+            String[] parts = br.readLine().split(" ");
+            version = new Integer(parts[1]);
         } catch (IOException ex) {
             //ex.printStackTrace();
             System.out.println("Could not load gamedatabase");
@@ -359,234 +362,64 @@ public class GameDatabase {
     }
 
     public static synchronized void load(String gamename, String datafilepath) {
-        Game currentgame = new Game();
-        Game currentmod = new Game();
-        boolean beta = false;
-        String _ID = null;
-        System.out.println("game database loading");
-        BufferedReader br = null;
-
         try {
-            br = new BufferedReader(new FileReader(datafilepath));
-        } catch (FileNotFoundException ex) {
-            //ex.printStackTrace();
-            if (gamename != null && IDofGame(gamename).equals("TST")) {//put default testdata if not found
-                Game testdata = new Game();
-                testdata.setGameName(gamename);
-                testdata.setLaunchMethod(LaunchMethods.PARAMETER.toString());
-                int idx = indexOfGame(gamename);
-                if (idx > -1) {
-                    gameData.remove(idx);
+            xmlReader.parseGameData(gamename, datafilepath);
+            System.out.println("game database loaded");  
+        }catch(java.io.FileNotFoundException e){
+            if(datafilepath.equals(testdatafilepath)){
+                //make new default testdata
+                //...
+                Game defdata = new Game();
+                defdata.setGameName("GameTest channel");
+                defdata.setLaunchMethod("PARAMETER");
+                gameData.add(defdata);
+                //save it
+                try{
+                    saveTestData();
+                }catch(IOException ex ){
+                    return ;
                 }
-                gameData.add(testdata);
-            }
-            System.out.println("Could not load gamedatabase");
-            return;
-        }
-
-        //reading data
-        Boolean done = false;
-        String input;
-        int state = 0;
-        while (!done) {
-            try {
-                input = br.readLine();
-                if (input == null) {
-                    done = true;
-                    continue;
-                }
-            } catch (IOException ex) {
-                //ex.printStackTrace();
-                System.out.println("Could not load gamedatabase");
-                return;
-            }
-            switch (state) {
-
-                case 0: {//start, waiting for '{'
-
-                    if (input.startsWith("VERSION ")) {
-                        version = Integer.valueOf(input.substring(8));
-                    } else if (input.equals("{")) {
-                        state = 1;
-                        //reset values
-                        currentgame = new Game();
-                        beta = false;
-                        _ID = null;
-                        continue;
-                    }
-                    break;
-                }
-
-                case 1: {//reading data
-
-                    if (input.equals("MODS:[")) {
-                        state = 2;
-                        currentmod = new Game();
-                        continue;
-                    } else if (input.equals("SETTINGS:(")) {
-                        state = 3;
-                        continue;
-                    } else if (input.startsWith("beta")) {
-                        beta = true;
-                    } else if (input.startsWith("ID=")) {
-                        _ID = input.substring(3);
-                    } else if (input.startsWith("}")) {
-                        //store data if needed
-                        IDtoGameName.put(_ID, currentgame.getGameName());
-                        if (gamename == null || currentgame.getGameName().equals(gamename)) {
-                            if (indexOfGame(currentgame.getGameName()) > -1) { //remove old data
-                                gameData.remove(indexOfGame(currentgame.getGameName()));
-                            }
-                            gameData.add(currentgame);
-                            if (beta) {
-                                isexperimental.add(currentgame.getGameName());
-                            }
-                        }
-                        //game read, reset
-                        state = 0;
-                    } else {
-                        BuildGameData(currentgame, input);
-                    }
-                    break;
-                }
-                case 2: {//read mods
-                    if (input.equals("]")) {
-                        currentgame.addMod(currentmod);
-                        currentmod = null;
-                        state = 1;
-                        continue;
-                    } else if (input.equals("SETTINGS:(")) {
-                        state = 4;
-                        continue;
-                    } else {
-                        BuildGameData(currentmod, input);
-                    }
-                    break;
-                }
-                case 3: {//read settings
-                    if (input.equals(")")) {
-                        state = 1;
-                        continue;
-                    } else {
-                        buildSettingData(currentgame, input);
-                    }
-                    break;
-                }
-                case 4: {//read settings for mods
-                    if (input.equals(")")) {
-                        state = 2;
-                        continue;
-                    } else {
-                        buildSettingData(currentmod, input);
-                    }
-                    break;
-                }
+                //retry loading
+                load(gamename, datafilepath);
             }
         }
-        try {
-            br.close();
-        } catch (Exception e) {
+        catch (Exception e) {
+            System.out.println("game database loading failed!");
+            e.printStackTrace();
         }
-        System.out.println("game database loaded");
     }
 
-    public static void saveTestData() {
+    public static void saveTestData() throws IOException {
         PrintWriter pw = null;
-        try {
-            pw = new PrintWriter(new FileWriter(testdatafilepath));
-        } catch (Exception ex) {
-            System.out.println("Could not save testdata");
-        }
+        pw = new PrintWriter(new FileWriter(testdatafilepath));
         for (Game game : gameData) {
             if (game.getGameName().equals(GameDatabase.getGameName("TST"))) {
                 //start
-                pw.println("{");
-                pw.println("NAME=" + game.getGameName());
-                pw.println("ID=TST");
+                pw.println("<?xml version=\"1.0\"?><GameDataBase><GameData>");
+                pw.println("<GameName>GameTest channel</GameName>");
+                pw.println("<ChannelID>TST</ChannelID>");
                 //print fields:
                 for (String key : game.fields.keySet()) {
                     if (game.fields.get(key).length() > 0) {
-                        pw.println(key + "=" + game.fields.get(key));
+                        pw.println("<Property><PropertyName>" + key + "</PropertyName><PropertyValue>" + game.fields.get(key) + "</PropertyValue></Property>");
                     }
                 }
-                //print settings
-                pw.println("SETTINGS:(");
-                for (GameSetting gs : game.settings) {
-                    pw.println(gs.getStorageString());
+                if (game.settings.size() > 0) {
+                    pw.print("<Settings>");
+                    //print settings
+                    for (GameSetting gs : game.settings) {
+                        pw.println(gs.getStorageString());
+                    }                    
+                    pw.print("</Settings>");
                 }
-                //settings end
-                pw.println(")");
-
                 //end
-                pw.println("}");
+                pw.println("</GameData></GameDataBase>");
             //break;
             }
         }
         pw.flush();
         pw.close();
         System.out.println("tesdata saved");
-    }
-
-    private static void buildSettingData(Game currentdata, String input) {
-        String[] parts = input.split(SETTING_DELIMITER_PATTERN);
-        String name;
-        boolean shared = false;
-        if (parts[0].startsWith("shared:")) {
-            name = parts[0].substring(7);
-            shared = true;
-        } else {
-            name = parts[0];
-        }
-
-        GameSetting setting = new GameSetting(shared, name, SettingTypes.valueOf(parts[1]), parts[2], (parts.length > 3 ? parts[3] : ""));
-        switch (SettingTypes.valueOf(parts[1])) {
-            case CHOICE: {
-                ArrayList<String> names = new ArrayList<String>();
-                ArrayList<String> values = new ArrayList<String>();
-                for (int i = 4; i < parts.length; i++) {
-                    String key = parts[i].substring(0, parts[i].indexOf("="));
-                    String value = parts[i].substring(parts[i].indexOf("=") + 1);
-                    names.add(key);
-                    values.add(value);
-                }
-                setting.setComboboxSelectNames(names);
-                setting.setComboboxValues(values);
-                break;
-            }
-            case NUMBER: {
-                if (parts.length > 5) {
-                    setting.setMinValue(Integer.valueOf(parts[4]));
-                    setting.setMaxValue(Integer.valueOf(parts[5]));
-                }
-                break;
-            }
-        }
-        currentdata.addSetting(setting);
-    }
-
-    private static Game BuildGameData(Game currentdata, String input) {
-        if (input.startsWith("NAME=")) {
-            currentdata.setGameName(input.substring(5));
-        } else if (input.startsWith("LAUNCHMETHOD=")) {
-            currentdata.setLaunchMethod(input.substring(13));
-        } else if (input.startsWith("GUID=")) {
-            currentdata.setGuid(input.substring(5));
-        } else if (input.startsWith("LAUNCHPATTERN=")) {
-            currentdata.setHostPattern(input.substring(14));
-        } else if (input.startsWith("JOINPATTERN=")) {
-            currentdata.setJoinPattern(input.substring(12));
-        } else if (input.startsWith("REGENTRY=")) {
-            currentdata.setRegEntry(input.substring(9));
-        } else if (input.startsWith("EXE=")) {
-            currentdata.setRelativeExePath(input.substring(4));
-        } else if (input.startsWith("MAPPATH=")) {
-            currentdata.setMapPath(input.substring(8));
-        } else if (input.startsWith("MAPEXT=")) {
-            currentdata.setMapExtension(input.substring(7));
-        } else if (input.startsWith("InstantLaunchable")) {
-            currentdata.setInstantLauncable(true);
-        }
-        return currentdata;
     }
 
     public static void loadLocalPaths() {

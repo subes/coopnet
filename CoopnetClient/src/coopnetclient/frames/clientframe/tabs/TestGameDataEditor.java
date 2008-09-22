@@ -25,6 +25,7 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
 
@@ -181,7 +182,11 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         testdata.setRegEntry(tf_RegKey.getText());
         testdata.setRelativeExePath(tf_RelativeExePath.getText());
         testdata.setGameSettings(null, settings);
-        GameDatabase.saveTestData();
+        try {
+            GameDatabase.saveTestData();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private static class SettingsListModel extends AbstractListModel {
