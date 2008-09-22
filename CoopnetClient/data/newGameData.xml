@@ -1,0 +1,511 @@
+<?xml version="1.0"?>
+<!--Version 10 -->
+<!DOCTYPE GameDataBase [
+<!ELEMENT GameDataBase (GameData)*>
+<!ELEMENT GameData (GameName, ChannelID, LaunchMethod, (InstantLaunch)?, (Beta)?, (Property)*, (Settings)?, (Mod)*)>
+<!ELEMENT GameName (CDATA)>
+<!ELEMENT ChannelID (CDATA)>
+<!ELEMENT LaunchMethod (CDATA)>
+<!ELEMENT InstantLaunch (EMPTY)>
+<!ELEMENT Beta (EMPTY)>
+<!ELEMENT Property (PropertyName,PropertyValue)>
+<!ELEMENT Settings ((ChoiceSetting|TextSetting|NumberSetting)*)>
+<!ELEMENT ChoiceSetting (SettingName, SettingType, KeyWord, (IsSharedSetting)?, (SettingDefaultValue)?,(ChoiceItem)*)>
+<!ELEMENT TextSetting (SettingName, SettingType, KeyWord, (IsSharedSetting)?, (SettingDefaultValue)?)>
+<!ELEMENT NumberSetting (SettingName, SettingType, KeyWord, (IsSharedSetting)?, (SettingDefaultValue)?, SettingMinValue, SettingMaxValue)>
+<!ELEMENT ChoiceItem (ChoiceDisplayName,ChoiceRealValue)>
+<!ELEMENT SettingName (CDATA)>
+<!ELEMENT SettingType (CDATA)>
+<!ELEMENT KeyWord (CDATA)>
+<!ELEMENT IsSharedSetting (EMPTY)>
+<!ELEMENT SettingDefaultValue (CDATA)>
+<!ELEMENT SettingMinValue (CDATA)>
+<!ELEMENT SettingMaxValue (CDATA)>
+<!ELEMENT ChoiceDisplayName (CDATA)>
+<!ELEMENT ChoiceRealValue (CDATA)>
+<!ELEMENT Mod (GameName, (Property)*, (Settings)?)>
+]>
+<GameDataBase>
+    <GameData>
+        <GameName>Fallout Tactics</GameName>
+        <ChannelID>FOT</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Age of Empires 2</GameName>
+        <ChannelID>AE2</ChannelID>
+        <LaunchMethod>DIRECTPLAY_FORCED_COMPATIBILITY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{FB69A260-5031-11d3-A2D4-006097BA6550}</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Heroes of Might and Magic III</GameName>
+        <ChannelID>HM3</ChannelID>
+        <LaunchMethod>DIRECTPLAY_FORCED_COMPATIBILITY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{8b743aa0-53b2-11d2-808a-00600895fb43}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\Software\Microsoft\DirectPlay\Applications\Heroes of Might and Magic III\path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Heroes of Might and Magic III: Armageddon's Blade</GameName>
+        <ChannelID>HMA</ChannelID>
+        <LaunchMethod>DIRECTPLAY_FORCED_COMPATIBILITY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{19BD0A20-5B10-11D3-B7C6-005004B1F94B}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\Software\Microsoft\DirectPlay\Applications\Heroes of Might and Magic III: Armageddons Blade\path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Age of Empires II: The Conquerors Expansion</GameName>
+        <ChannelID>100</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{5DE93F3F-FC90-4ee1-AE5A-63DAFA055950}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\Software\Microsoft\DirectPlay\Applications\Age of Empires II - The Conquerors Expansion\path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Age of Empires</GameName>
+        <ChannelID>101</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{3422E982-1A89-11d1-B093-00A024C74776}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\DirectPlay\Applications\Age of Empires\Path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Age of Empires: The Rise of Rome</GameName>
+        <ChannelID>102</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{8701C5C1-337B-11d2-839B-00609707F508}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Age of Empires Expansion\1.0\EXE Path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Age of Wonders: Shadow Magic</GameName>
+        <ChannelID>103</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{C1B39B54-D152-49F0-8937-AF0D847668A4}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_CURRENT_USER\Software\Triumph Studios\Age of Wonders Shadow Magic\General\Root Directory</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>MechWarrior 4 Vengeance</GameName>
+        <ChannelID>104</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{D5FF7895-8113-479F-BBD5-D395E551D0A8}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\Software\Microsoft\DirectPlay\Applications\MechWarrior Vengeance\path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>MechWarrior Mercenaries</GameName>
+        <ChannelID>105</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{41FD0FA2-2942-4DC4-B4C5-73D2C55F4C94}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\MechWarrior Mercenaries\EXE Path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Flight Simulator 2004</GameName>
+        <ChannelID>106</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{0808caa5-e62c-4691-8957-5d4524b922da}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\9.0\EXE Path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Jedi Knight</GameName>
+        <ChannelID>107</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{BF0613C0-DE79-11d0-99C9-00A02476AD4B}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\LucasArts Entertainment Company LLC\Star Wars JK II Jedi Outcast\1.0\Install Path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Star Wars Galactic Battlegrounds</GameName>
+        <ChannelID>108</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{EA5DE8EF-D2DE-4046-8585-87895AD7CC4B}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\Software\Microsoft\DirectPlay\Applications\Star Wars Galactic Battlegrounds\path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Star Wars Galactic Battlegrounds - Clone Campaigns</GameName>
+        <ChannelID>109</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{95883290-2B70-459A-A5EE-7957E5991902}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\LucasArts Entertainment Company LLC\Star Wars Galactic Battlegrounds: Clone Campaigns\1.0\Install Path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Imperial Glory</GameName>
+        <ChannelID>110</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{984F1F04-F9B9-4249-B94C-7D4444C95192}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\pyro studios\imperial glory\game\Path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Baldur's Gate</GameName>
+        <ChannelID>111</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{B7C674E0-BD3A-11d1-B7C2-000021B56039}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\BGMain2.exe\Path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Risk II</GameName>
+        <ChannelID>112</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{FA868461-5093-11D2-A073-000C09595CC3}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\DEEPRED\GAMES\RISKII\PATH</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Midtown Madness</GameName>
+        <ChannelID>113</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{6C9983A7-C037-11d2-A8DA-00A0C970AF5D}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\Software\Microsoft\DirectPlay\Applications\Midtown Madness\Path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Midtown Madness 2</GameName>
+        <ChannelID>114</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{46F6DDE2-0886-11d3-A8DA-00A0C970AF5D}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\Software\Microsoft\DirectPlay\Applications\Midtown Madness 2\path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Monster Truck Madness 2</GameName>
+        <ChannelID>115</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{6cd1c6e0-96fb-11d1-a268-00a02f29c995}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Monster Truck Madness\2.0\InstalledPath</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Motocross Madness 2</GameName>
+        <ChannelID>116</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{184dbbc1-ff39-11cf-b112-00A0C90AEAB6}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\Software\Microsoft\DirectPlay\Applications\Motocross Madness 2\path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>MechWarrior 3</GameName>
+        <ChannelID>117</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{9F878D00-6CBB-11D1-9ABD-0060089877F0}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\MicroProse\MechWarrior 3\1.0\Program</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>MechWarrior 4 Black Knight</GameName>
+        <ChannelID>118</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{6C63E49C-8BFC-44d4-A4E5-2E55472A93D3}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\MechWarrior Black Knight\EXE Path</PropertyValue>
+        </Property>
+    </GameData>
+    <GameData>
+        <GameName>Unreal Tournament</GameName>
+        <InstantLaunch/>
+        <ChannelID>UT1</ChannelID>
+        <LaunchMethod>PARAMETER</LaunchMethod>
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue> Unreal://{MAP}?game=Botpack.{GAMEMODE}?Name={NAME}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?Listen?port={PORT}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue> Unreal://{HOSTIP}/Index.unr?Name={NAME}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\Unreal Technology\Installed Apps\UnrealTournament\Folder</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>EXE</PropertyName>
+            <PropertyValue>System\UnrealTournament.exe</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPPATH</PropertyName>
+            <PropertyValue>Maps</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPEXT</PropertyName>
+            <PropertyValue>UNR</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>NOSPACES</PropertyName>
+            <PropertyValue>true</PropertyValue>
+        </Property>
+        <Settings>
+            <ChoiceSetting>
+                <SettingName>GameMode</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>GAMEMODE</KeyWord>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Capture the Flag</ChoiceDisplayName>
+                    <ChoiceRealValue>CTFGame</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Deathmatch</ChoiceDisplayName>
+                    <ChoiceRealValue>DeathMatchPlus</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Domination</ChoiceDisplayName>
+                    <ChoiceRealValue>Domination</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Assault</ChoiceDisplayName>
+                    <ChoiceRealValue>Assault</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>LastManStanding</ChoiceDisplayName>
+                    <ChoiceRealValue>LastManStanding</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>TDarkMatch</ChoiceDisplayName>
+                    <ChoiceRealValue>TDarkMatch</ChoiceRealValue>
+                </ChoiceItem>
+            </ChoiceSetting>
+            <NumberSetting>
+                <SettingName>timelimit</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>TIMELIMIT</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>maxplayers</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>MAXPLAYERS</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>port</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
+                <SettingDefaultValue>7777</SettingDefaultValue>
+            </NumberSetting>
+        </Settings>
+    </GameData>
+    <GameData>
+        <GameName>Unreal Tournament 2004</GameName>
+        <InstantLaunch/>
+        <Beta/>
+        <ChannelID>UT4</ChannelID>
+        <LaunchMethod>PARAMETER</LaunchMethod>
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue>server {MAP}?Listen?Name={NAME}?game={GAMEMODE}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?NumBots={BOTS}?GoalScore={GOALSCORE} -port={PORT}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue>{HOSTIP}:{PORT}/?Name={NAME}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\Unreal Technology\Installed Apps\UT2004\Folder</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>EXE</PropertyName>
+            <PropertyValue>\System\UT2004.exe</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPPATH</PropertyName>
+            <PropertyValue>\Maps\</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPEXT</PropertyName>
+            <PropertyValue>ut2</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>NOSPACES</PropertyName>
+            <PropertyValue>true</PropertyValue>
+        </Property>
+        <Settings>
+            <ChoiceSetting>
+                <SettingName>GameMode</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>GAMEMODE</KeyWord>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Capture the Flag</ChoiceDisplayName>
+                    <ChoiceRealValue>XGame.xCTFGame</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Deathmatch</ChoiceDisplayName>
+                    <ChoiceRealValue>XGame.xDeathMatch</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Bombing Run</ChoiceDisplayName>
+                    <ChoiceRealValue>XGame.xBombingRun</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>DoubleDomination</ChoiceDisplayName>
+                    <ChoiceRealValue>xGame.xDoubleDom</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Invasion</ChoiceDisplayName>
+                    <ChoiceRealValue>SkaarjPack.Invasion</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Team Deathmatch</ChoiceDisplayName>
+                    <ChoiceRealValue>XGame.xTeamGame</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Assault</ChoiceDisplayName>
+                    <ChoiceRealValue>UT2k4Assault.ASGameInfoX</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>LastManStanding</ChoiceDisplayName>
+                    <ChoiceRealValue>BonusPack.xLastManStandingGame</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Mutant</ChoiceDisplayName>
+                    <ChoiceRealValue>xMutantGame</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Onslaught</ChoiceDisplayName>
+                    <ChoiceRealValue>Onslaught.ONSOnslaughtGame</ChoiceRealValue>
+                </ChoiceItem>
+            </ChoiceSetting>
+            <NumberSetting>
+                <SettingName>timelimit</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>TIMELIMIT</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>maxplayers</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>MAXPLAYERS</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>bots</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>BOTS</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>goalscore</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>GOALSCORE</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>port</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
+                <SettingDefaultValue>7777</SettingDefaultValue>
+            </NumberSetting>
+        </Settings>
+    </GameData>
+</GameDataBase>

@@ -1,7 +1,0 @@
-{
-NAME=GameTest channel
-ID=TST
-LAUNCHMETHOD=PARAMETER
-SETTINGS:(
-)
-}
