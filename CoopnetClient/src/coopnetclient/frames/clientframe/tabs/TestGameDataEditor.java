@@ -34,12 +34,12 @@ public class TestGameDataEditor extends javax.swing.JPanel {
     private Game testdata = GameDatabase.getGameData(GameDatabase.getGameName("TST"));
     private ArrayList<GameSetting> settings;
     private SettingsListModel settingsmodel;
-    private ChoiseListModel choisemodel = new ChoiseListModel();
+    private ChoiceListModel choicemodel = new ChoiceListModel();
 
     /** Creates new form TestGameDataEditor */
     public TestGameDataEditor() {
         initComponents();
-        setChoiseFieldsEnabled(false);
+        setChoiceFieldsEnabled(false);
         setNumberFieldsEnabled(false);
         LoadGameData();
         //add actionlisteners
@@ -52,6 +52,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         settings = testdata.getGameSettings(null);
         settingsmodel = new SettingsListModel(settings);
         jl_Settings.setModel(settingsmodel);
+        jl_MultiChoises.setModel(choicemodel);
     }
 
     private void setNumberFieldsEnabled(boolean enabled) {
@@ -99,16 +100,16 @@ public class TestGameDataEditor extends javax.swing.JPanel {
             cmb_SettingType.setSelectedIndex(gs.getType().ordinal());
             cmb_SettingTypeActionPerformed(null);
             if (gs.getType() == SettingTypes.CHOICE) {
-                choisemodel = new ChoiseListModel(gs);
-                jl_MultiChoises.setModel(choisemodel);
-                choisemodel.refresh();
+                choicemodel = new ChoiceListModel(gs);
+                jl_MultiChoises.setModel(choicemodel);
+                choicemodel.refresh();
                 jl_MultiChoises.revalidate();
                 jl_MultiChoises.repaint();
-                loadChoiseProperties();
+                loadChoiceProperties();
             } else {
-                choisemodel = new ChoiseListModel();
-                jl_MultiChoises.setModel(choisemodel);
-                choisemodel.refresh();
+                choicemodel = new ChoiceListModel();
+                jl_MultiChoises.setModel(choicemodel);
+                choicemodel.refresh();
                 jl_MultiChoises.revalidate();
                 jl_MultiChoises.repaint();
             }
@@ -118,41 +119,41 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         }
     }
 
-    private void setChoiseFieldsEnabled(boolean enabled) {
+    private void setChoiceFieldsEnabled(boolean enabled) {
         jl_MultiChoises.setEnabled(enabled);
-        btn_AddChoise.setEnabled(enabled);
-        btn_RemoveChoise.setEnabled(enabled);
-        btn_SaveChoise.setEnabled(enabled);
-        tf_ChoiseName.setEnabled(enabled);
-        tf_ChoiseValue.setEnabled(enabled);
+        btn_AddChoice.setEnabled(enabled);
+        btn_RemoveChoice.setEnabled(enabled);
+        btn_SaveChoice.setEnabled(enabled);
+        tf_ChoiceName.setEnabled(enabled);
+        tf_ChoiceValue.setEnabled(enabled);
         if (enabled) {
-            loadChoiseProperties();
+            loadChoiceProperties();
         }
     }
 
-    private void loadChoiseProperties() {
+    private void loadChoiceProperties() {
         GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
         if (gs != null) {
             if (jl_MultiChoises.getSelectedIndex() > -1) {
-                tf_ChoiseName.setText(gs.getComboboxSelectNames().get(jl_MultiChoises.getSelectedIndex()));
-                tf_ChoiseValue.setText(gs.getComboboxValues().get(jl_MultiChoises.getSelectedIndex()));
+                tf_ChoiceName.setText(gs.getComboboxSelectNames().get(jl_MultiChoises.getSelectedIndex()));
+                tf_ChoiceValue.setText(gs.getComboboxValues().get(jl_MultiChoises.getSelectedIndex()));
             }
         }
     }
 
-    private void saveChoiseProperties() {
+    private void saveChoiceProperties() {
         GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
         if (gs != null) {
-            gs.setComboboxSelectNames(choisemodel.names);
-            gs.setComboboxValues(choisemodel.values);
+            gs.setComboboxSelectNames(choicemodel.names);
+            gs.setComboboxValues(choicemodel.values);
         }
     }
 
-    private void updateChoiseProperties() {
+    private void updateChoiceProperties() {
         GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
         if (gs != null && jl_MultiChoises.getSelectedIndex() > -1) {
-            tf_ChoiseName.setText(gs.getComboboxSelectNames().get(jl_MultiChoises.getSelectedIndex()));
-            tf_ChoiseValue.setText(gs.getComboboxValues().get(jl_MultiChoises.getSelectedIndex()));
+            tf_ChoiceName.setText(gs.getComboboxSelectNames().get(jl_MultiChoises.getSelectedIndex()));
+            tf_ChoiceValue.setText(gs.getComboboxValues().get(jl_MultiChoises.getSelectedIndex()));
         }
     }
 
@@ -232,17 +233,17 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         }
     }
 
-    private static class ChoiseListModel extends AbstractListModel {
+    private static class ChoiceListModel extends AbstractListModel {
 
         ArrayList<String> names;
         ArrayList<String> values;
 
-        public ChoiseListModel() {
+        public ChoiceListModel() {
             this.names = new ArrayList<String>();
             this.values = new ArrayList<String>();
         }
 
-        public ChoiseListModel(GameSetting data) {
+        public ChoiceListModel(GameSetting data) {
             this.names = data.getComboboxSelectNames();
             this.values = data.getComboboxValues();
         }
@@ -315,15 +316,15 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         tf_KeyWord = new javax.swing.JTextField();
         lbl_DefValue = new javax.swing.JLabel();
         tf_DefaultValue = new javax.swing.JTextField();
-        lbl_ChoiseProperties = new javax.swing.JLabel();
+        lbl_ChoiceProperties = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jl_MultiChoises = new javax.swing.JList();
-        btn_AddChoise = new javax.swing.JButton();
-        btn_RemoveChoise = new javax.swing.JButton();
-        lbl_ChoiseName = new javax.swing.JLabel();
-        tf_ChoiseName = new javax.swing.JTextField();
-        lbl_ChoiseValue = new javax.swing.JLabel();
-        tf_ChoiseValue = new javax.swing.JTextField();
+        btn_AddChoice = new javax.swing.JButton();
+        btn_RemoveChoice = new javax.swing.JButton();
+        lbl_ChoiceName = new javax.swing.JLabel();
+        tf_ChoiceName = new javax.swing.JTextField();
+        lbl_ChoiceValue = new javax.swing.JLabel();
+        tf_ChoiceValue = new javax.swing.JTextField();
         lbl_wiki = new javax.swing.JLabel();
         lbl_Number = new javax.swing.JLabel();
         lbl_min = new javax.swing.JLabel();
@@ -331,7 +332,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         tf_MaxValue = new javax.swing.JTextField();
         btn_SaveSetting = new javax.swing.JButton();
-        btn_SaveChoise = new javax.swing.JButton();
+        btn_SaveChoice = new javax.swing.JButton();
         cb_isShared = new javax.swing.JCheckBox();
 
         setLayout(new java.awt.GridBagLayout());
@@ -585,14 +586,14 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(tf_DefaultValue, gridBagConstraints);
 
-        lbl_ChoiseProperties.setText("Multiple choise properties:");
+        lbl_ChoiceProperties.setText("Multiple choice properties:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 21;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lbl_ChoiseProperties, gridBagConstraints);
+        add(lbl_ChoiceProperties, gridBagConstraints);
 
         jl_MultiChoises.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jl_MultiChoises.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -611,13 +612,13 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jScrollPane2, gridBagConstraints);
 
-        btn_AddChoise.setText("Add");
-        btn_AddChoise.setMaximumSize(new java.awt.Dimension(80, 25));
-        btn_AddChoise.setMinimumSize(new java.awt.Dimension(80, 25));
-        btn_AddChoise.setPreferredSize(new java.awt.Dimension(80, 25));
-        btn_AddChoise.addActionListener(new java.awt.event.ActionListener() {
+        btn_AddChoice.setText("Add");
+        btn_AddChoice.setMaximumSize(new java.awt.Dimension(80, 25));
+        btn_AddChoice.setMinimumSize(new java.awt.Dimension(80, 25));
+        btn_AddChoice.setPreferredSize(new java.awt.Dimension(80, 25));
+        btn_AddChoice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_AddChoiseActionPerformed(evt);
+                btn_AddChoiceActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -625,15 +626,15 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         gridBagConstraints.gridy = 22;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(btn_AddChoise, gridBagConstraints);
+        add(btn_AddChoice, gridBagConstraints);
 
-        btn_RemoveChoise.setText("Remove");
-        btn_RemoveChoise.setMaximumSize(new java.awt.Dimension(80, 25));
-        btn_RemoveChoise.setMinimumSize(new java.awt.Dimension(80, 25));
-        btn_RemoveChoise.setPreferredSize(new java.awt.Dimension(80, 25));
-        btn_RemoveChoise.addActionListener(new java.awt.event.ActionListener() {
+        btn_RemoveChoice.setText("Remove");
+        btn_RemoveChoice.setMaximumSize(new java.awt.Dimension(80, 25));
+        btn_RemoveChoice.setMinimumSize(new java.awt.Dimension(80, 25));
+        btn_RemoveChoice.setPreferredSize(new java.awt.Dimension(80, 25));
+        btn_RemoveChoice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_RemoveChoiseActionPerformed(evt);
+                btn_RemoveChoiceActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -641,41 +642,41 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         gridBagConstraints.gridy = 24;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(btn_RemoveChoise, gridBagConstraints);
+        add(btn_RemoveChoice, gridBagConstraints);
 
-        lbl_ChoiseName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbl_ChoiseName.setText("Choise name:");
+        lbl_ChoiceName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbl_ChoiceName.setText("Choice name:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 25;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lbl_ChoiseName, gridBagConstraints);
+        add(lbl_ChoiceName, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 26;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(tf_ChoiseName, gridBagConstraints);
+        add(tf_ChoiceName, gridBagConstraints);
 
-        lbl_ChoiseValue.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbl_ChoiseValue.setText("Choise value:");
+        lbl_ChoiceValue.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbl_ChoiceValue.setText("Choice value:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 25;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lbl_ChoiseValue, gridBagConstraints);
+        add(lbl_ChoiceValue, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 26;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(tf_ChoiseValue, gridBagConstraints);
+        add(tf_ChoiceValue, gridBagConstraints);
 
         lbl_wiki.setText("For detailed information and examples please visit our wiki on sourceforge.org!");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -738,13 +739,13 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btn_SaveSetting, gridBagConstraints);
 
-        btn_SaveChoise.setText("Update");
-        btn_SaveChoise.setMaximumSize(new java.awt.Dimension(80, 25));
-        btn_SaveChoise.setMinimumSize(new java.awt.Dimension(80, 25));
-        btn_SaveChoise.setPreferredSize(new java.awt.Dimension(80, 25));
-        btn_SaveChoise.addActionListener(new java.awt.event.ActionListener() {
+        btn_SaveChoice.setText("Update");
+        btn_SaveChoice.setMaximumSize(new java.awt.Dimension(80, 25));
+        btn_SaveChoice.setMinimumSize(new java.awt.Dimension(80, 25));
+        btn_SaveChoice.setPreferredSize(new java.awt.Dimension(80, 25));
+        btn_SaveChoice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_SaveChoiseActionPerformed(evt);
+                btn_SaveChoiceActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -752,7 +753,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         gridBagConstraints.gridy = 23;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(btn_SaveChoise, gridBagConstraints);
+        add(btn_SaveChoice, gridBagConstraints);
 
         cb_isShared.setText("Shared setting");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -763,7 +764,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void cmb_SettingTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_SettingTypeActionPerformed
-    setChoiseFieldsEnabled(cmb_SettingType.getSelectedIndex() == SettingTypes.CHOICE.ordinal());
+    setChoiceFieldsEnabled(cmb_SettingType.getSelectedIndex() == SettingTypes.CHOICE.ordinal());
     setNumberFieldsEnabled(cmb_SettingType.getSelectedIndex() == SettingTypes.NUMBER.ordinal());
 }//GEN-LAST:event_cmb_SettingTypeActionPerformed
 
@@ -772,7 +773,7 @@ private void jl_SettingsValueChanged(javax.swing.event.ListSelectionEvent evt) {
 }//GEN-LAST:event_jl_SettingsValueChanged
 
 private void jl_MultiChoisesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jl_MultiChoisesValueChanged
-    updateChoiseProperties();
+    updateChoiceProperties();
 }//GEN-LAST:event_jl_MultiChoisesValueChanged
 
 private void btn_AddSettingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AddSettingActionPerformed
@@ -791,22 +792,24 @@ private void btn_RemoveSettingActionPerformed(java.awt.event.ActionEvent evt) {/
     }
 }//GEN-LAST:event_btn_RemoveSettingActionPerformed
 
-private void btn_AddChoiseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AddChoiseActionPerformed
+private void btn_AddChoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AddChoiceActionPerformed
     GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
     if (gs != null) {
-        choisemodel.addChoise(tf_ChoiseName.getText(), tf_ChoiseValue.getText());
-        choisemodel.refresh();
+        choicemodel.addChoise(tf_ChoiceName.getText(), tf_ChoiceValue.getText());
+        choicemodel.refresh();
         saveGameData();
+        jl_Settings.setSelectedIndex(choicemodel.getSize());
+        jl_Settings.repaint();
     }
-}//GEN-LAST:event_btn_AddChoiseActionPerformed
+}//GEN-LAST:event_btn_AddChoiceActionPerformed
 
-private void btn_RemoveChoiseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RemoveChoiseActionPerformed
+private void btn_RemoveChoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RemoveChoiceActionPerformed
     GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
     if (gs != null && jl_MultiChoises.getSelectedIndex() > -1) {
-        choisemodel.removeChoise(jl_MultiChoises.getSelectedIndex());
+        choicemodel.removeChoise(jl_MultiChoises.getSelectedIndex());
         saveGameData();
     }
-}//GEN-LAST:event_btn_RemoveChoiseActionPerformed
+}//GEN-LAST:event_btn_RemoveChoiceActionPerformed
 
 private void btn_SaveSettingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SaveSettingActionPerformed
     GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
@@ -818,7 +821,7 @@ private void btn_SaveSettingActionPerformed(java.awt.event.ActionEvent evt) {//G
         gs.setType(SettingTypes.values()[cmb_SettingType.getSelectedIndex()]);
         jl_MultiChoises.repaint();
         if (cmb_SettingType.getSelectedIndex() == SettingTypes.CHOICE.ordinal()) {
-            saveChoiseProperties();
+            saveChoiceProperties();
         }
         if (cmb_SettingType.getSelectedIndex() == SettingTypes.NUMBER.ordinal()) {
             saveNumberProperties();
@@ -828,21 +831,21 @@ private void btn_SaveSettingActionPerformed(java.awt.event.ActionEvent evt) {//G
     }
 }//GEN-LAST:event_btn_SaveSettingActionPerformed
 
-private void btn_SaveChoiseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SaveChoiseActionPerformed
+private void btn_SaveChoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SaveChoiceActionPerformed
     GameSetting gs = (GameSetting) jl_Settings.getSelectedValue();
     if (gs != null && jl_MultiChoises.getSelectedIndex() > -1) {
-        choisemodel.overrideChoise(tf_ChoiseName.getText(), tf_ChoiseValue.getText(), jl_MultiChoises.getSelectedIndex());
-        choisemodel.refresh();
-        saveChoiseProperties();
+        choicemodel.overrideChoise(tf_ChoiceName.getText(), tf_ChoiceValue.getText(), jl_MultiChoises.getSelectedIndex());
+        choicemodel.refresh();
+        saveChoiceProperties();
         saveGameData();
     }
-}//GEN-LAST:event_btn_SaveChoiseActionPerformed
+}//GEN-LAST:event_btn_SaveChoiceActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_AddChoise;
+    private javax.swing.JButton btn_AddChoice;
     private javax.swing.JButton btn_AddSetting;
-    private javax.swing.JButton btn_RemoveChoise;
+    private javax.swing.JButton btn_RemoveChoice;
     private javax.swing.JButton btn_RemoveSetting;
-    private javax.swing.JButton btn_SaveChoise;
+    private javax.swing.JButton btn_SaveChoice;
     private javax.swing.JButton btn_SaveSetting;
     private javax.swing.JCheckBox cb_isShared;
     private javax.swing.JComboBox cmb_SettingType;
@@ -851,9 +854,9 @@ private void btn_SaveChoiseActionPerformed(java.awt.event.ActionEvent evt) {//GE
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList jl_MultiChoises;
     private javax.swing.JList jl_Settings;
-    private javax.swing.JLabel lbl_ChoiseName;
-    private javax.swing.JLabel lbl_ChoiseProperties;
-    private javax.swing.JLabel lbl_ChoiseValue;
+    private javax.swing.JLabel lbl_ChoiceName;
+    private javax.swing.JLabel lbl_ChoiceProperties;
+    private javax.swing.JLabel lbl_ChoiceValue;
     private javax.swing.JLabel lbl_DefValue;
     private javax.swing.JLabel lbl_KeyWord;
     private javax.swing.JLabel lbl_Number;
@@ -868,8 +871,8 @@ private void btn_SaveChoiseActionPerformed(java.awt.event.ActionEvent evt) {//GE
     private javax.swing.JLabel lbl_min;
     private javax.swing.JLabel lbl_settings;
     private javax.swing.JLabel lbl_wiki;
-    private javax.swing.JTextField tf_ChoiseName;
-    private javax.swing.JTextField tf_ChoiseValue;
+    private javax.swing.JTextField tf_ChoiceName;
+    private javax.swing.JTextField tf_ChoiceValue;
     private javax.swing.JTextField tf_DefaultValue;
     private javax.swing.JTextField tf_HostPattern;
     private javax.swing.JTextField tf_JoinPattern;
