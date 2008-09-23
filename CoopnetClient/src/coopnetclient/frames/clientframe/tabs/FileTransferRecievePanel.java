@@ -19,7 +19,6 @@
 
 package coopnetclient.frames.clientframe.tabs;
 
-import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
@@ -32,7 +31,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -273,7 +271,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                         }
                     }
                     bo.flush();
-                    if ((recievedBytes + firstByteToSend-1) == totalsize) {
+                    if ((recievedBytes + firstByteToSend - ( resuming? 1:0 ) ) == totalsize) {
                         SwingUtilities.invokeLater(
                                 new Runnable() {
 
