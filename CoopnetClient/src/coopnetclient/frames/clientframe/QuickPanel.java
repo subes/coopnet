@@ -103,21 +103,6 @@ public class QuickPanel extends javax.swing.JPanel {
         pnl_favouritesList = new javax.swing.JPanel();
         scrl_favouritesList = new javax.swing.JScrollPane();
         lst_favouritesList = new javax.swing.JList();
-        pnl_Events = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
-        jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
-        jLabel3 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
 
         setFocusable(false);
         setPreferredSize(new java.awt.Dimension(200, 200));
@@ -179,7 +164,7 @@ public class QuickPanel extends javax.swing.JPanel {
         pnl_favouritesList.setLayout(pnl_favouritesListLayout);
         pnl_favouritesListLayout.setHorizontalGroup(
             pnl_favouritesListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrl_favouritesList, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+            .addComponent(scrl_favouritesList, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
         );
         pnl_favouritesListLayout.setVerticalGroup(
             pnl_favouritesListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,122 +173,11 @@ public class QuickPanel extends javax.swing.JPanel {
 
         tp_quickPanel.addTab("", FavouritesIcon, pnl_favouritesList);
 
-        pnl_Events.setLayout(new java.awt.GridBagLayout());
-
-        jButton1.setText("post new event");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnl_Events.add(jButton1, gridBagConstraints);
-
-        jScrollPane2.setViewportView(jTree1);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.3;
-        pnl_Events.add(jScrollPane2, gridBagConstraints);
-
-        jLabel1.setText(" Lookahead:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnl_Events.add(jLabel1, gridBagConstraints);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1 day", "1 week", "1 month", "infinite" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnl_Events.add(jComboBox1, gridBagConstraints);
-
-        jLabel2.setText(" Description:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        pnl_Events.add(jLabel2, gridBagConstraints);
-
-        jButton2.setText("Refresh List");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnl_Events.add(jButton2, gridBagConstraints);
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Posted by : Mr.Awesome\nTakes place on \n2009.02.15. 21:00 (local time)\n\nDescription:\nbla bal bla\ncome play!\n\n\nSigned up:\ndude1, dude2, guy5, noob");
-        jTextArea1.setMinimumSize(null);
-        jTextArea1.setPreferredSize(null);
-        jScrollPane3.setViewportView(jTextArea1);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.3;
-        pnl_Events.add(jScrollPane3, gridBagConstraints);
-
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "<html> dude1 <br><pre>    Cool!", "<html> dude2 <br><pre>    Count me in", "<html> guy 1 <br><pre>    iam gona kick ur asses!", "<html> dude6 <br> <pre>   dont forget to call the others!" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jList1.setMaximumSize(null);
-        jList1.setMinimumSize(null);
-        jList1.setPreferredSize(null);
-        jScrollPane4.setViewportView(jList1);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.3;
-        pnl_Events.add(jScrollPane4, gridBagConstraints);
-
-        jLabel3.setText("Comments:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnl_Events.add(jLabel3, gridBagConstraints);
-
-        jButton3.setText("Sign up");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        pnl_Events.add(jButton3, gridBagConstraints);
-
-        jButton4.setText("Post a comment");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        pnl_Events.add(jButton4, gridBagConstraints);
-
-        tp_quickPanel.addTab("tab3", pnl_Events);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tp_quickPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, Short.MAX_VALUE)
+            .addComponent(tp_quickPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,24 +228,9 @@ private void lst_favouritesListMouseExited(java.awt.event.MouseEvent evt) {//GEN
 }//GEN-LAST:event_lst_favouritesListMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTree jTree1;
     private coopnetclient.frames.components.mutablelist.EditableJlist lst_contactList;
     private javax.swing.JList lst_favouritesList;
-    private javax.swing.JPanel pnl_Events;
     private javax.swing.JPanel pnl_favouritesList;
     private javax.swing.JScrollPane scrl_favouritesList;
     private javax.swing.JTabbedPane tp_quickPanel;
