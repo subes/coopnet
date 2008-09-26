@@ -19,6 +19,8 @@
 
 package coopnetclient;
 
+import coopnetclient.enums.ErrorPanelStyle;
+import coopnetclient.enums.ServerProtocolCommands;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
@@ -49,6 +51,8 @@ public class HandlerThread extends Thread {
     private ByteBuffer attachment = null;
     private Thread sender;
     private Vector<String> outQueue = new Vector<String>();
+    private long lastMessageReadAt = System.currentTimeMillis();
+    private static int TIMEOUT = 600000;
 
     protected void addToOutQueue(String element) {
         outQueue.add(element);
@@ -87,6 +91,11 @@ public class HandlerThread extends Thread {
                                 sleep(10);
                             } catch (InterruptedException ex) {}
                             doSend();
+                            if((System.currentTimeMillis() - lastMessageReadAt) > TIMEOUT ){
+                                //connection is most probably lost
+                                Client.disconnect();
+                                TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, null);
+                            } 
                         }
                     } catch (Exception e) {
                        ErrorHandler.handleException(e);
@@ -107,12 +116,11 @@ public class HandlerThread extends Thread {
                 try {
                     input = read();
                 } catch (Exception q) {
-                    //JOptionPane.showMessageDialog(Globals.getClientFrame(), q, "ERROR", JOptionPane.ERROR_MESSAGE);
                     ErrorHandler.handleException(q);
                 }
                 if (input == null) {
-                    //JOptionPane.showMessageDialog(Globals.getClientFrame(), "No response from server", "ERROR", JOptionPane.ERROR_MESSAGE);
-                } else if (input.equals("OK_LOGIN")) {
+                    TabOrganizer.openLoginPanel();                    
+                } else if ( ServerProtocolCommands.valueOf(input)== ServerProtocolCommands.OK_LOGIN ) {
                     Globals.setThisPlayer_loginName(Settings.getLastLoginName());
                     Globals.setLoggedInStatus(true);
                     TabOrganizer.closeLoginPanel();
@@ -127,6 +135,7 @@ public class HandlerThread extends Thread {
             String input = "";
             while (running) {
                 input = read();
+                lastMessageReadAt = System.currentTimeMillis();
                 //execute command
                 SwingUtilities.invokeLater(new SwingWorker(input));
                 input = "";
@@ -135,7 +144,7 @@ public class HandlerThread extends Thread {
             System.out.println("handlerthread stopped");
         } catch (Exception e) {
             //disconnect
-            Globals.getClientFrame().disconnect();
+            Client.disconnect();
             //ErrorHandler decides if there is a need for the stacktrace, 
             //this helps looking at the log of a bugreport
             //handle excptions
@@ -144,7 +153,6 @@ public class HandlerThread extends Thread {
         if(Globals.getDebug()){
             System.out.println("[L]\tHandlerThreads main loop ended");
         }
-        
     }
 
     private String process(ByteBuffer packet) {
@@ -261,7 +269,7 @@ public class HandlerThread extends Thread {
         readBuffer.clear();
         if (socketChannel.read(readBuffer) == -1) {
             running = false;
-            throw new IOException("Connection terminated by the client.");
+            throw new IOException("Connection lost");
         }
         readBuffer.flip();
 

@@ -33,6 +33,7 @@ import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
+import java.awt.SystemTray;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -133,6 +134,35 @@ public class Client {
             handlerThread.stopThread();
         }
         handlerThread = null;
+    }
+    
+    public static void disconnect() {
+        Globals.getClientFrame().updateFrameOnDisconnect();
+        Protocol.quit();
+        Client.stopConnection();
+        TabOrganizer.closeAllTabs();
+        Globals.closeChannelListFrame();
+        Globals.closeChangePasswordFrame();
+        Globals.closeShowProfileFrame();
+        Globals.closeEditProfileFrame();
+    }
+    
+    public static void quit(boolean override) {
+        if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled()) {
+            Globals.getClientFrame().setVisible(false);
+        } else {
+            Protocol.quit();
+            Client.stopConnection();
+            //save sizes
+            coopnetclient.utils.Settings.setMainFrameMaximised(Globals.getClientFrame().getExtendedState());
+
+            if (Globals.getClientFrame().getExtendedState() == javax.swing.JFrame.NORMAL) {
+                coopnetclient.utils.Settings.setMainFrameHeight(Globals.getClientFrame().getHeight());
+                coopnetclient.utils.Settings.setMainFrameWidth(Globals.getClientFrame().getWidth());
+            }
+
+            System.exit(0);
+        }
     }
 
     public static void initInstantLaunch(final String game, final String mod, final String hostIP, final int maxPlayers, final boolean compatible, final boolean isHost) {
@@ -292,7 +322,7 @@ public class Client {
                                             FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", "./CoopnetUpdater.jar");
                                             Runtime rt = Runtime.getRuntime();
                                             rt.exec("java -jar CoopnetUpdater.jar");
-                                            Globals.getClientFrame().quit(true);
+                                            quit(true);
                                         } catch (Exception ex) {
                                             ex.printStackTrace();
                                         }

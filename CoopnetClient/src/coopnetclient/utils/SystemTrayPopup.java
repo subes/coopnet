@@ -20,6 +20,7 @@
 
 package coopnetclient.utils;
 
+import coopnetclient.Client;
 import coopnetclient.Globals;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
@@ -41,7 +42,7 @@ public class SystemTrayPopup extends PopupMenu{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Globals.getClientFrame().quit(true);
+            Client.quit(true);
         }
     };
     private static ActionListener showListener = new ActionListener() {

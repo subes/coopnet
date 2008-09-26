@@ -38,6 +38,11 @@ public class ErrorHandler {
             return;
         }
         
+        if ( exc instanceof java.nio.channels.ClosedChannelException ){
+            TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, exc);
+            return;
+        }
+        
         if (exc.getMessage() == null) {
             TabOrganizer.openErrorPanel(ErrorPanelStyle.UNKNOWN, exc);
             return;
@@ -50,7 +55,7 @@ public class ErrorHandler {
 
             if (exc.getMessage().contains("Connection refused") || exc.getMessage().contains("timed out")) {
                 TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_REFUSED, exc);
-            } else if ( exc instanceof java.nio.channels.ClosedChannelException || exc.getMessage().equals("Connection reset")) {
+            } else if (exc.getMessage().contains("Connection reset") || exc.getMessage().contains("Connection lost")) {
                 TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, exc);
             } else {
                 TabOrganizer.openErrorPanel(ErrorPanelStyle.UNKNOWN_IO, exc);

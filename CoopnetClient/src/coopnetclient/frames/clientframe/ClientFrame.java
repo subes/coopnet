@@ -35,7 +35,6 @@ import coopnetclient.utils.FileDownloader;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.SystemTray;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -577,26 +576,10 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_profileActionPerformed
 
     private void mi_quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_quitActionPerformed
-        quit(true);
+        Client.quit(true);
 }//GEN-LAST:event_mi_quitActionPerformed
 
-    public void quit(boolean override) {
-        if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled()) {
-            this.setVisible(false);
-        } else {
-            Protocol.quit();
-            Client.stopConnection();
-            //save sizes
-            coopnetclient.utils.Settings.setMainFrameMaximised(this.getExtendedState());
-
-            if (this.getExtendedState() == javax.swing.JFrame.NORMAL) {
-                coopnetclient.utils.Settings.setMainFrameHeight(this.getHeight());
-                coopnetclient.utils.Settings.setMainFrameWidth(this.getWidth());
-            }
-
-            System.exit(0);
-        }
-    }
+    
     private void mi_clientSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_clientSettingsActionPerformed
         Globals.openSettingsFrame();
 }//GEN-LAST:event_mi_clientSettingsActionPerformed
@@ -619,27 +602,19 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_aboutActionPerformed
 
     private void mi_disconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_disconnectActionPerformed
-        disconnect();
+        Client.disconnect();
 }//GEN-LAST:event_mi_disconnectActionPerformed
 
-    public void disconnect() {
+    
+    
+    public void updateFrameOnDisconnect(){
         setQuickBarVisibility(false);
         lastdividerposition = null;
         quickPanelVisibility = false;
-
-        Protocol.quit();
-        Client.stopConnection();
-        TabOrganizer.closeAllTabs();
-
         mi_disconnect.setEnabled(false);
         mi_profile.setEnabled(false);
         mi_connect.setEnabled(true);
         mi_channelList.setEnabled(false);
-
-        Globals.closeChannelListFrame();
-        Globals.closeChangePasswordFrame();
-        Globals.closeShowProfileFrame();
-        Globals.closeEditProfileFrame();
     }
 
     private void clearFavourites() {
@@ -729,7 +704,7 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_tabpn_tabsComponentRemoved
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        quit(false);
+        Client.quit(false);
     }//GEN-LAST:event_formWindowClosing
 
     private void mi_SoundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_SoundsActionPerformed
@@ -772,7 +747,7 @@ private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                         FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", "./CoopnetUpdater.jar");
                         Runtime rt = Runtime.getRuntime();
                         rt.exec("java -jar CoopnetUpdater.jar");
-                        Globals.getClientFrame().quit(true);
+                        Client.quit(true);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
