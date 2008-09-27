@@ -19,15 +19,15 @@
 
 package coopnetclient.frames.clientframe.tabs;
 
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.utils.Settings;
 import coopnetclient.utils.Verification;
 import java.awt.Color;
 
 public class LoginPanel extends javax.swing.JPanel {
 
+    private static String infoText = "<html>Your login name and password must have 5 to 30 characters.<br>In login name the following characters are allowed:<br> A-Z a-z 0-9 @ ~ - _ = | <> () [] {}";
+    
     /** Creates new form LoginPanel */
     public LoginPanel() {
 
@@ -68,12 +68,14 @@ public class LoginPanel extends javax.swing.JPanel {
         String passw = new String(pf_password.getPassword());
 
         if(!Verification.verifyLoginName(name)){
-            showError("Invalid login name!",Color.red);            
+            showError("Invalid login name!",Color.red);    
+            lbl_Info.setText(infoText);
             return;
         }
         
         if(!Verification.verifyPassword(passw)){
             showError("Invalid password!",Color.red);
+            lbl_Info.setText(infoText);
             return;
         }
         
@@ -108,7 +110,7 @@ public class LoginPanel extends javax.swing.JPanel {
         cb_autoLogin = new javax.swing.JCheckBox();
         lbl_loginError = new javax.swing.JLabel();
         pnl_bottom = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbl_Info = new javax.swing.JLabel();
 
         setFocusable(false);
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
@@ -123,7 +125,7 @@ public class LoginPanel extends javax.swing.JPanel {
         );
         pnl_topLayout.setVerticalGroup(
             pnl_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 88, Short.MAX_VALUE)
+            .addGap(0, 55, Short.MAX_VALUE)
         );
 
         add(pnl_top);
@@ -233,20 +235,23 @@ public class LoginPanel extends javax.swing.JPanel {
 
         pnl_bottom.setFocusable(false);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("<html>Your login name and password must have 5 to 30 characters.<br>In login name the following characters are allowed:<br> A-Z a-z 0-9 @ ~ - _ = | <> () [] {}");
-        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        lbl_Info.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        lbl_Info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_Info.setText("<html><pre> <br> <br>");
+        lbl_Info.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        lbl_Info.setFocusable(false);
 
         javax.swing.GroupLayout pnl_bottomLayout = new javax.swing.GroupLayout(pnl_bottom);
         pnl_bottom.setLayout(pnl_bottomLayout);
         pnl_bottomLayout.setHorizontalGroup(
             pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+            .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
         );
         pnl_bottomLayout.setVerticalGroup(
             pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+            .addGroup(pnl_bottomLayout.createSequentialGroup()
+                .addComponent(lbl_Info)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         add(pnl_bottom);
@@ -270,7 +275,7 @@ public class LoginPanel extends javax.swing.JPanel {
     private javax.swing.JButton btn_login;
     private javax.swing.JButton btn_register;
     private javax.swing.JCheckBox cb_autoLogin;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lbl_Info;
     private javax.swing.JLabel lbl_loginError;
     private javax.swing.JLabel lbl_name;
     private javax.swing.JLabel lbl_password;
