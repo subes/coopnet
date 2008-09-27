@@ -307,6 +307,7 @@ public class CommandHandler {
                 case CONTACT_REQUESTED:
                     Globals.getContactList().addContact(information[0], "", ContactListElementTypes.PENDING_REQUEST);
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " wants to add you to his/her contactlist", ChatStyles.SYSTEM, true);
+                    Globals.getClientFrame().flashQuickPanelToggler();
                     break;
                 case SET_CONTACTSTATUS:
                     ContactListElementTypes status = null;
