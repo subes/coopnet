@@ -350,6 +350,8 @@ public class CommandHandler {
                         }
                     }.start();
                     break;
+                case VERIFICATION_ERROR:
+                    break;
                 default:
                     Logger.log(LogTypes.ERROR, "Server sent a command which wasn't handled!");
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Unknown command recieved! Please make sure you use the latest client!", ChatStyles.SYSTEM, true);

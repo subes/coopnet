@@ -343,7 +343,7 @@ public class Globals {
         }
     }
 
-    public static void openEditProfileFrame(String name, String ingamename, String email, String emailpublicity, String country, String webpage) {
+    public static void openEditProfileFrame(String name, String ingamename, String email, String country, String webpage, String emailpublicity ) {
         if (editProfileFrame != null) {
             Point prevLocation = editProfileFrame.getLocation();
             closeChangePasswordFrame();
