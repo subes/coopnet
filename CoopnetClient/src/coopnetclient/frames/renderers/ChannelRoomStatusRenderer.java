@@ -25,7 +25,7 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class RoomPasswordPicTableCellRenderer extends DefaultTableCellRenderer{
+public class ChannelRoomStatusRenderer extends DefaultTableCellRenderer{
     
     /**
      * this renders the picture in the room list showing if its public or password protected
@@ -37,7 +37,7 @@ public class RoomPasswordPicTableCellRenderer extends DefaultTableCellRenderer{
     private static ImageIcon instantOpenRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/roomtype/instantlaunch.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH));
     private static ImageIcon instantPasswordedRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/roomtype/instantlaunch_private.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH));
     /** Creates a new instance of MyPasswordrenderer */
-    public RoomPasswordPicTableCellRenderer() {
+    public ChannelRoomStatusRenderer() {
     }
     
     @Override

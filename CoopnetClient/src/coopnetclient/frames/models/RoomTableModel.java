@@ -38,7 +38,7 @@ public class RoomTableModel extends DefaultTableModel {
     public static final int INSTANT_PASSWORDED_ROOM = 3;
     
 
-    private static class  Room {
+    private class  Room {
 
         private int type;
         private String name;
@@ -57,7 +57,7 @@ public class RoomTableModel extends DefaultTableModel {
         }
 
         public boolean isLaunched(){
-            return launched;
+            return userdatamodel.isPlaying(hostName);
         }
         
         public void setLaunched(boolean state){
@@ -106,6 +106,7 @@ public class RoomTableModel extends DefaultTableModel {
     private String[] columnNames = {"Type", "Name", "Host", "Players"};
     private ArrayList<Room> rooms;
     private javax.swing.JTable parent;
+    private ChannelStatusListModel userdatamodel;
     
 
     {
@@ -113,9 +114,10 @@ public class RoomTableModel extends DefaultTableModel {
     }
 
     /** Creates a new instance of MyTableModel */
-    public RoomTableModel(javax.swing.JTable parent) {
+    public RoomTableModel(javax.swing.JTable parent,ChannelStatusListModel userdatamodel) {
         super();
         this.parent = parent;
+        this.userdatamodel = userdatamodel;
     }
 
     public int indexOf(String hostName) {

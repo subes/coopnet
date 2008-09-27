@@ -19,10 +19,9 @@
 
 package coopnetclient.frames.clientframe.tabs;
 
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.frames.listeners.ChatInputKeyListener;
-import coopnetclient.frames.renderers.RoomPasswordPicTableCellRenderer;
+import coopnetclient.frames.renderers.ChannelRoomStatusRenderer;
 import coopnetclient.frames.renderers.UsersInRoomTableCellRenderer;
 import coopnetclient.frames.models.RoomTableModel;
 import coopnetclient.frames.components.PlayerListPopupMenu;
@@ -43,17 +42,19 @@ import javax.swing.text.StyledDocument;
 public class ChannelPanel extends javax.swing.JPanel {
 
     public String ID;
-    private ChannelStatusListModel users = new ChannelStatusListModel();
+    private ChannelStatusListModel users;
     private RoomTableModel rooms;
     private PlayerListPopupMenu mypopup;
     public String name;
     public boolean isLaunchable = false;
-    private ChannelStatusListCellRenderer renderer = new ChannelStatusListCellRenderer(users);
+    private ChannelStatusListCellRenderer renderer;
 
     /** Creates new form ChannelPanel */
     public ChannelPanel(String name) {
         this.name = name;
         ID = GameDatabase.IDofGame(name);
+        users = new ChannelStatusListModel();
+        renderer = new ChannelStatusListCellRenderer(users);
         initComponents();
         btn_leaveChannel1.setVisible(false);
         coopnetclient.utils.Colorizer.colorize(this);
@@ -61,7 +62,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
 
         //Table
-        rooms = new RoomTableModel(tbl_roomList);
+        rooms = new RoomTableModel(tbl_roomList,users);
         tbl_roomList.setModel(rooms);
         tbl_roomList.setAutoCreateRowSorter(true);
         tbl_roomList.setRowHeight(35);
@@ -71,7 +72,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         tbl_roomList.getColumnModel().getColumn(2).setPreferredWidth(300);
         tbl_roomList.getColumnModel().getColumn(3).setPreferredWidth(150);
                 
-        RoomPasswordPicTableCellRenderer picrend = new RoomPasswordPicTableCellRenderer();
+        ChannelRoomStatusRenderer picrend = new ChannelRoomStatusRenderer();
         picrend.setHorizontalAlignment(SwingConstants.CENTER);
         tbl_roomList.setDefaultRenderer(Integer.class, picrend);
         

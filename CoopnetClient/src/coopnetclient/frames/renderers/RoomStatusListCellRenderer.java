@@ -47,7 +47,7 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
     public RoomStatusListCellRenderer() {
         setOpaque(true);
     }
-    
+        
     public void removePlayer(String playerName){
         readylist.remove(playerName);
         playinglist.remove(playerName);

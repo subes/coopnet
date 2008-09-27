@@ -96,6 +96,9 @@ public class CommandHandler {
         } else {//logged-in commands
             switch (command) {
                 case CHAT_MAIN:
+                    if(information.length < 2){
+                        return;
+                    }
                     Globals.getClientFrame().printMainChatMessage(
                             GameDatabase.getGameName(information[0]) //aka currentchannel
                             , information[1], information[2], ChatStyles.USER);
@@ -104,6 +107,9 @@ public class CommandHandler {
                     }
                     break;
                 case CHAT_ROOM:
+                    if(information.length < 2){
+                        return;
+                    }
                     TabOrganizer.getRoomPanel().chat(information[0], information[1], ChatStyles.USER);
                     break;
                 case ADD_TO_PLAYERS:
