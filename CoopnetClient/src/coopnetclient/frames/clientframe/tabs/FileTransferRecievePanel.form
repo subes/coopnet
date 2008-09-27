@@ -36,15 +36,15 @@
                           <Component id="lbl_size" alignment="0" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="tf_savePath" pref="408" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btn_browseSavePath" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <Component id="lbl_senderValue" alignment="0" pref="483" max="32767" attributes="1"/>
                           <Component id="lbl_fileValue" alignment="0" pref="483" max="32767" attributes="1"/>
                           <Component id="lbl_sizeValue" alignment="0" pref="483" max="32767" attributes="1"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="tf_savePath" pref="404" max="32767" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="btn_browseSavePath" min="-2" max="-2" attributes="0"/>
-                          </Group>
                           <Component id="cb_Resume" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -191,11 +191,6 @@
         <Property name="text" type="java.lang.String" value="Save to:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="tf_savePath">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="path"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="btn_browseSavePath">
       <Properties>
         <Property name="text" type="java.lang.String" value="Browse"/>
@@ -228,6 +223,12 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cb_ResumeActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_savePath">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_savePathActionPerformed"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tf_savePathFocusLost"/>
       </Events>
     </Component>
   </SubComponents>

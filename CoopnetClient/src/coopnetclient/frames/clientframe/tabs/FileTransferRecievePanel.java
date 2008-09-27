@@ -24,6 +24,7 @@ import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
+import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Desktop;
 import java.io.BufferedInputStream;
@@ -472,12 +473,12 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
         lbl_statusValue = new javax.swing.JLabel();
         btn_accept = new javax.swing.JButton();
         lbl_savePath = new javax.swing.JLabel();
-        tf_savePath = new javax.swing.JTextField();
         btn_browseSavePath = new javax.swing.JButton();
         lbl_note = new javax.swing.JLabel();
         lbl_timeLeft = new javax.swing.JLabel();
         lbl_timeLeftValue = new javax.swing.JLabel();
         cb_Resume = new javax.swing.JCheckBox();
+        tf_savePath = new coopnetclient.frames.components.AdvancedJTextField();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder("Recieve File"));
         setMaximumSize(null);
@@ -516,8 +517,6 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
 
         lbl_savePath.setText("Save to:");
 
-        tf_savePath.setText("path");
-
         btn_browseSavePath.setText("Browse");
         btn_browseSavePath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -539,6 +538,17 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
             }
         });
 
+        tf_savePath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf_savePathActionPerformed(evt);
+            }
+        });
+        tf_savePath.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tf_savePathFocusLost(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -553,31 +563,31 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                             .addComponent(lbl_sender, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
                             .addComponent(lbl_size, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_senderValue, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
-                            .addComponent(lbl_fileValue, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
-                            .addComponent(lbl_sizeValue, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(tf_savePath, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tf_savePath, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_browseSavePath))
-                            .addComponent(cb_Resume)))
-                    .addComponent(lbl_note, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
-                    .addComponent(pgb_progress, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+                            .addComponent(lbl_senderValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                            .addComponent(lbl_fileValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                            .addComponent(lbl_sizeValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                            .addComponent(cb_Resume, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addComponent(lbl_note, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
+                    .addComponent(pgb_progress, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbl_progress)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 387, Short.MAX_VALUE)
                         .addComponent(lbl_timeLeftValue)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbl_timeLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btn_accept)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 356, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 411, Short.MAX_VALUE)
                         .addComponent(btn_refuse))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl_status, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                        .addComponent(lbl_status, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl_statusValue, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)))
+                        .addComponent(lbl_statusValue, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -618,7 +628,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                     .addComponent(btn_accept))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_note)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -688,6 +698,19 @@ private void cb_ResumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     }
     cb_Resume.setSelected(resuming);//set new status
 }//GEN-LAST:event_cb_ResumeActionPerformed
+
+private void tf_savePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_savePathActionPerformed
+    if(!Verification.verifyDirectory(tf_savePath.getText())){
+        tf_savePath.showErrorMessage("Invalid directory!");
+    }
+}//GEN-LAST:event_tf_savePathActionPerformed
+
+private void tf_savePathFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_savePathFocusLost
+    if(!Verification.verifyDirectory(tf_savePath.getText())){
+        tf_savePath.showErrorMessage("Invalid directory!");
+    }
+}//GEN-LAST:event_tf_savePathFocusLost
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_accept;
     private javax.swing.JButton btn_browseSavePath;
@@ -707,6 +730,6 @@ private void cb_ResumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JLabel lbl_timeLeft;
     private javax.swing.JLabel lbl_timeLeftValue;
     private javax.swing.JProgressBar pgb_progress;
-    private javax.swing.JTextField tf_savePath;
+    private coopnetclient.frames.components.AdvancedJTextField tf_savePath;
     // End of variables declaration//GEN-END:variables
 }

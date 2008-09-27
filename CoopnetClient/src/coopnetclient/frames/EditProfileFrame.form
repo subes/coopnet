@@ -32,24 +32,17 @@
               <Component id="btn_save" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_cancel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="357" max="32767" attributes="0"/>
+              <EmptySpace pref="264" max="32767" attributes="0"/>
               <Component id="btn_changePassword" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="lbl_Error" pref="610" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="pnl_input" min="-2" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <Component id="pnl_input" pref="185" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lbl_Error" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="btn_cancel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -57,7 +50,7 @@
                   </Group>
                   <Component id="btn_save" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -104,16 +97,13 @@
                       <Component id="lbl_website" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="tf_website" pref="521" max="32767" attributes="1"/>
-                      <Component id="cmb_country" alignment="1" pref="521" max="32767" attributes="1"/>
-                      <Component id="tf_inGameName" alignment="0" pref="521" max="32767" attributes="1"/>
-                      <Component id="tf_emailAddress" alignment="0" pref="521" max="32767" attributes="1"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="tf_loginName" pref="521" max="32767" attributes="1"/>
-                      </Group>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="tf_website" alignment="0" pref="428" max="32767" attributes="0"/>
                       <Component id="cb_emailIsPublic" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="cmb_country" alignment="1" pref="428" max="32767" attributes="1"/>
+                      <Component id="tf_loginName" alignment="0" pref="428" max="32767" attributes="0"/>
+                      <Component id="tf_inGameName" alignment="0" pref="428" max="32767" attributes="0"/>
+                      <Component id="tf_emailAddress" alignment="0" pref="428" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -138,17 +128,17 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="cb_emailIsPublic" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="10" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lbl_country" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cmb_country" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lbl_website" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tf_website" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -180,29 +170,6 @@
             <Property name="text" type="java.lang.String" value="Website:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="tf_loginName">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Your login name and password must have 5 to 30 characters.&lt;br&gt;In login name the following characters are allowed:&lt;br&gt; A-Z a-z 0-9 @ ~ - _ = | &lt;&gt; () [] {}"/>
-            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="tf_inGameName"/>
-            </Property>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="tf_inGameName">
-          <Properties>
-            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="tf_emailAddress"/>
-            </Property>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="tf_emailAddress">
-          <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Only used to send password reminders and such, no spam or advertisement"/>
-            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="cb_emailIsPublic"/>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JCheckBox" name="cb_emailIsPublic">
           <Properties>
             <Property name="text" type="java.lang.String" value="E-Mail is publicly visible"/>
@@ -221,12 +188,13 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="tf_website">
-          <Properties>
-            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="btn_save"/>
-            </Property>
-          </Properties>
+        <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_loginName">
+        </Component>
+        <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_inGameName">
+        </Component>
+        <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_emailAddress">
+        </Component>
+        <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_website">
         </Component>
       </SubComponents>
     </Container>
@@ -240,11 +208,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancel"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lbl_Error">
-      <Properties>
-        <Property name="text" type="java.lang.String" value=" "/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

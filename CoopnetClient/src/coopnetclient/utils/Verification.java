@@ -20,6 +20,7 @@
 package coopnetclient.utils;
 
 import coopnetclient.Globals;
+import java.io.File;
 
 public class Verification {
 
@@ -107,5 +108,23 @@ public class Verification {
         }
         
         return true;
+    }
+    
+    public static boolean verifyDirectory(String DIRName){
+        File dir = new File(DIRName);
+        if(dir.isDirectory() && dir.exists()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public static boolean verifyFile(String FileName){
+        File file = new File(FileName);
+        if(file.isFile() && file.exists()){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

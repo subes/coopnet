@@ -26,7 +26,7 @@ import java.awt.Color;
 
 public class LoginPanel extends javax.swing.JPanel {
 
-    private static String infoText = "<html>Your login name and password must have 5 to 30 characters.<br>In login name the following characters are allowed:<br> A-Z a-z 0-9 @ ~ - _ = | <> () [] {}";
+    private static String infoText = "<html>Your login name and password must have atleast 5 to 30 characters.<br>In login name the following characters are allowed:<br> A-Z a-z 0-9 @ ~ - _ = | <> () [] {}";
     
     /** Creates new form LoginPanel */
     public LoginPanel() {
@@ -68,7 +68,7 @@ public class LoginPanel extends javax.swing.JPanel {
         String passw = new String(pf_password.getPassword());
 
         if(!Verification.verifyLoginName(name)){
-            showError("Invalid login name!",Color.red);    
+            showError("Invalid login name!",Color.red);
             lbl_Info.setText(infoText);
             return;
         }
@@ -103,12 +103,12 @@ public class LoginPanel extends javax.swing.JPanel {
         pnl_input = new javax.swing.JPanel();
         lbl_name = new javax.swing.JLabel();
         lbl_password = new javax.swing.JLabel();
-        tf_name = new javax.swing.JTextField();
         pf_password = new javax.swing.JPasswordField();
         btn_login = new javax.swing.JButton();
         btn_register = new javax.swing.JButton();
         cb_autoLogin = new javax.swing.JCheckBox();
         lbl_loginError = new javax.swing.JLabel();
+        tf_name = new coopnetclient.frames.components.AdvancedJTextField();
         pnl_bottom = new javax.swing.JPanel();
         lbl_Info = new javax.swing.JLabel();
 
@@ -156,19 +156,6 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 10);
         pnl_input.add(lbl_password, gridBagConstraints);
-
-        tf_name.setNextFocusableComponent(pf_password);
-        tf_name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_nameActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
-        pnl_input.add(tf_name, gridBagConstraints);
 
         pf_password.setNextFocusableComponent(cb_autoLogin);
         pf_password.addActionListener(new java.awt.event.ActionListener() {
@@ -230,12 +217,18 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         pnl_input.add(lbl_loginError, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
+        pnl_input.add(tf_name, gridBagConstraints);
 
         add(pnl_input);
 
         pnl_bottom.setFocusable(false);
 
-        lbl_Info.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        lbl_Info.setFont(new java.awt.Font("Tahoma", 0, 10));
         lbl_Info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_Info.setText("<html><pre> <br> <br>");
         lbl_Info.setVerticalAlignment(javax.swing.SwingConstants.TOP);
@@ -260,10 +253,6 @@ public class LoginPanel extends javax.swing.JPanel {
         login();
 }//GEN-LAST:event_btn_loginActionPerformed
 
-    private void tf_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_nameActionPerformed
-        btn_login.doClick();
-}//GEN-LAST:event_tf_nameActionPerformed
-
     private void pf_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pf_passwordActionPerformed
         btn_login.doClick();
 }//GEN-LAST:event_pf_passwordActionPerformed
@@ -283,6 +272,6 @@ public class LoginPanel extends javax.swing.JPanel {
     private javax.swing.JPanel pnl_bottom;
     private javax.swing.JPanel pnl_input;
     private javax.swing.JPanel pnl_top;
-    private javax.swing.JTextField tf_name;
+    private coopnetclient.frames.components.AdvancedJTextField tf_name;
     // End of variables declaration//GEN-END:variables
 }

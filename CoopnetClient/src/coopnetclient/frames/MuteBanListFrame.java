@@ -18,7 +18,6 @@
  */
 package coopnetclient.frames;
 
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.enums.MuteBanStatuses;
 import coopnetclient.protocol.out.Protocol;

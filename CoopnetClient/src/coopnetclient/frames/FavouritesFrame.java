@@ -98,7 +98,7 @@ public class FavouritesFrame extends javax.swing.JFrame {
             }
         });
 
-        sp_lists.setDividerLocation(210);
+        sp_lists.setDividerLocation(250);
         sp_lists.setResizeWeight(0.5);
 
         lbl_channels.setText("Channels:");
@@ -113,10 +113,10 @@ public class FavouritesFrame extends javax.swing.JFrame {
             .addGroup(pnl_channelsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_channelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrl_channels, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                    .addComponent(scrl_channels, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
                     .addGroup(pnl_channelsLayout.createSequentialGroup()
                         .addComponent(lbl_channels)
-                        .addContainerGap(151, Short.MAX_VALUE))))
+                        .addContainerGap(191, Short.MAX_VALUE))))
         );
         pnl_channelsLayout.setVerticalGroup(
             pnl_channelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,7 +141,7 @@ public class FavouritesFrame extends javax.swing.JFrame {
             .addGroup(pnl_favouritesLayout.createSequentialGroup()
                 .addGroup(pnl_favouritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbl_favourites)
-                    .addComponent(scrl_favourites, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE))
+                    .addComponent(scrl_favourites, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnl_favouritesLayout.setVerticalGroup(
@@ -165,16 +165,16 @@ public class FavouritesFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE))
+                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_close)))
                 .addContainerGap())
-            .addComponent(sp_lists, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+            .addComponent(sp_lists, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_add)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
                 .addComponent(btn_remove)
                 .addContainerGap())
         );

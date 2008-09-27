@@ -24,6 +24,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
+import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Color;
 import java.io.File;
@@ -61,18 +62,17 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         scrl_games = new javax.swing.JScrollPane();
         lst_games = new javax.swing.JList();
         btn_save = new javax.swing.JButton();
-        tf_path = new javax.swing.JTextField();
         lbl_path = new javax.swing.JLabel();
         btn_browsePath = new javax.swing.JButton();
         btn_close = new javax.swing.JButton();
         lbl_noteText = new javax.swing.JLabel();
         lbl_installPath = new javax.swing.JLabel();
-        tf_installPath = new javax.swing.JTextField();
         btn_browseInstallPath = new javax.swing.JButton();
         tf_filter = new javax.swing.JTextField();
         lbl_filter = new javax.swing.JLabel();
         lbl_note = new javax.swing.JLabel();
-        lbl_Error = new javax.swing.JLabel();
+        tf_path = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_installPath = new coopnetclient.frames.components.AdvancedJTextField();
 
         setTitle("Manage games");
         setResizable(false);
@@ -136,47 +136,39 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
         lbl_note.setText("<html><b>Note:");
 
-        lbl_Error.setText(" ");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_Error, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lbl_filter)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE))
-                            .addComponent(lbl_games)
-                            .addComponent(scrl_games, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl_installPath)
-                                    .addComponent(lbl_path))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(tf_path, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btn_browsePath))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(tf_installPath, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btn_browseInstallPath))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_save)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_close))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(95, 95, 95)
-                        .addComponent(lbl_note)
+                        .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl_noteText)))
+                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE))
+                    .addComponent(lbl_games)
+                    .addComponent(scrl_games, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_installPath)
+                            .addComponent(lbl_path))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tf_installPath, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                            .addComponent(tf_path, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbl_note)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbl_noteText)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_browseInstallPath, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btn_browsePath, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_save)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_close)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -196,13 +188,12 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                     .addComponent(btn_browsePath)
                     .addComponent(tf_path, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_installPath)
-                    .addComponent(tf_installPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_browseInstallPath))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_Error)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbl_installPath)
+                        .addComponent(btn_browseInstallPath))
+                    .addComponent(tf_installPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_note)
                     .addComponent(lbl_noteText))
@@ -248,22 +239,33 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
-            if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0) {
+            if (lst_games.getSelectedValue() != null 
+                    && tf_path.getText().length() > 0
+                    && Verification.verifyDirectory(tf_path.getText())) {
                 GameDatabase.setLocalExecutablePath(lst_games.getSelectedValue().toString(), tf_path.getText());
                 GameDatabase.setLocalInstallPath(lst_games.getSelectedValue().toString(), tf_installPath.getText());
                 Globals.getClientFrame().setLaunchable(lst_games.getSelectedValue().toString(), true);
                 GameDatabase.saveLocalPaths();
             } else {
-                showError("Please set the path correctly!",Color.red);
+                tf_path.showErrorMessage("Please set the path correctly!");
             }
         } else {
-            if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0 && tf_installPath.getText().length() > 0) {
+            if (lst_games.getSelectedValue() != null 
+                    && tf_path.getText().length() > 0 
+                    && tf_installPath.getText().length() > 0
+                    && Verification.verifyDirectory(tf_path.getText())
+                    && Verification.verifyDirectory(tf_installPath.getText())) {
                 GameDatabase.setLocalExecutablePath(lst_games.getSelectedValue().toString(), tf_path.getText());
                 GameDatabase.setLocalInstallPath(lst_games.getSelectedValue().toString(), tf_installPath.getText());
                 Globals.getClientFrame().setLaunchable(lst_games.getSelectedValue().toString(), true);
                 GameDatabase.saveLocalPaths();
             } else {
-                showError("Please set both paths correctly!",Color.red);
+                if(tf_path.getText().length()<1){
+                    tf_path.showErrorMessage("Please set the path correctly!");
+                }
+                if(tf_installPath.getText().length()<1){
+                    tf_installPath.showErrorMessage("Please set the path correctly!");
+                }
             }
         }
 
@@ -312,17 +314,11 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     Globals.closeManageGamesFrame();
 }//GEN-LAST:event_formWindowClosing
 
-public void showError(String msg, Color clr){
-        lbl_Error.setForeground(clr);
-        lbl_Error.setText(msg);
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_browseInstallPath;
     private javax.swing.JButton btn_browsePath;
     private javax.swing.JButton btn_close;
     private javax.swing.JButton btn_save;
-    private javax.swing.JLabel lbl_Error;
     private javax.swing.JLabel lbl_filter;
     private javax.swing.JLabel lbl_games;
     private javax.swing.JLabel lbl_installPath;
@@ -332,8 +328,8 @@ public void showError(String msg, Color clr){
     private javax.swing.JList lst_games;
     private javax.swing.JScrollPane scrl_games;
     private javax.swing.JTextField tf_filter;
-    private javax.swing.JTextField tf_installPath;
-    private javax.swing.JTextField tf_path;
+    private coopnetclient.frames.components.AdvancedJTextField tf_installPath;
+    private coopnetclient.frames.components.AdvancedJTextField tf_path;
     // End of variables declaration//GEN-END:variables
 
 }

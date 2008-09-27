@@ -109,7 +109,7 @@
     </Component>
     <Container class="javax.swing.JSplitPane" name="sp_lists">
       <Properties>
-        <Property name="dividerLocation" type="int" value="210"/>
+        <Property name="dividerLocation" type="int" value="250"/>
         <Property name="resizeWeight" type="double" value="0.5"/>
       </Properties>
 
@@ -128,10 +128,10 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="scrl_channels" alignment="1" pref="199" max="32767" attributes="1"/>
+                          <Component id="scrl_channels" alignment="1" pref="239" max="32767" attributes="1"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lbl_channels" min="-2" max="-2" attributes="1"/>
-                              <EmptySpace pref="151" max="32767" attributes="0"/>
+                              <EmptySpace pref="191" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -185,7 +185,7 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lbl_favourites" min="-2" max="-2" attributes="0"/>
-                          <Component id="scrl_favourites" alignment="0" pref="277" max="32767" attributes="1"/>
+                          <Component id="scrl_favourites" alignment="0" pref="237" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>

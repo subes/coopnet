@@ -19,7 +19,6 @@
 
 package coopnetclient.frames;
 
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Settings;
@@ -100,14 +99,13 @@ public class EditProfileFrame extends javax.swing.JFrame {
         lbl_emailAddress = new javax.swing.JLabel();
         lbl_country = new javax.swing.JLabel();
         lbl_website = new javax.swing.JLabel();
-        tf_loginName = new javax.swing.JTextField();
-        tf_inGameName = new javax.swing.JTextField();
-        tf_emailAddress = new javax.swing.JTextField();
         cb_emailIsPublic = new javax.swing.JCheckBox();
         cmb_country = new javax.swing.JComboBox();
-        tf_website = new javax.swing.JTextField();
+        tf_loginName = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_inGameName = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_emailAddress = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_website = new coopnetclient.frames.components.AdvancedJTextField();
         btn_cancel = new javax.swing.JButton();
-        lbl_Error = new javax.swing.JLabel();
 
         setTitle("Edit profile");
         setResizable(false);
@@ -145,21 +143,11 @@ public class EditProfileFrame extends javax.swing.JFrame {
 
         lbl_website.setText("Website:");
 
-        tf_loginName.setToolTipText("<html>Your login name and password must have 5 to 30 characters.<br>In login name the following characters are allowed:<br> A-Z a-z 0-9 @ ~ - _ = | <> () [] {}");
-        tf_loginName.setNextFocusableComponent(tf_inGameName);
-
-        tf_inGameName.setNextFocusableComponent(tf_emailAddress);
-
-        tf_emailAddress.setToolTipText("Only used to send password reminders and such, no spam or advertisement");
-        tf_emailAddress.setNextFocusableComponent(cb_emailIsPublic);
-
         cb_emailIsPublic.setText("E-Mail is publicly visible");
         cb_emailIsPublic.setNextFocusableComponent(cmb_country);
 
         cmb_country.setModel(new javax.swing.DefaultComboBoxModel(CountryList));
         cmb_country.setNextFocusableComponent(tf_website);
-
-        tf_website.setNextFocusableComponent(btn_save);
 
         javax.swing.GroupLayout pnl_inputLayout = new javax.swing.GroupLayout(pnl_input);
         pnl_input.setLayout(pnl_inputLayout);
@@ -174,15 +162,13 @@ public class EditProfileFrame extends javax.swing.JFrame {
                     .addComponent(lbl_country)
                     .addComponent(lbl_website))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(tf_website, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
-                    .addComponent(cmb_country, 0, 521, Short.MAX_VALUE)
-                    .addComponent(tf_inGameName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
-                    .addComponent(tf_emailAddress, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_inputLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_loginName, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE))
-                    .addComponent(cb_emailIsPublic, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tf_website, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+                    .addComponent(cb_emailIsPublic)
+                    .addComponent(cmb_country, javax.swing.GroupLayout.Alignment.TRAILING, 0, 428, Short.MAX_VALUE)
+                    .addComponent(tf_loginName, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+                    .addComponent(tf_inGameName, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+                    .addComponent(tf_emailAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnl_inputLayout.setVerticalGroup(
@@ -201,15 +187,15 @@ public class EditProfileFrame extends javax.swing.JFrame {
                     .addComponent(tf_emailAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cb_emailIsPublic)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_country)
                     .addComponent(cmb_country, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_website)
                     .addComponent(tf_website, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(16, 16, 16))
         );
 
         btn_cancel.setText("Cancel");
@@ -219,8 +205,6 @@ public class EditProfileFrame extends javax.swing.JFrame {
                 cancel(evt);
             }
         });
-
-        lbl_Error.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -232,21 +216,15 @@ public class EditProfileFrame extends javax.swing.JFrame {
                 .addComponent(btn_save)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 357, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
                 .addComponent(btn_changePassword)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbl_Error, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pnl_input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_Error)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_cancel)
@@ -262,22 +240,21 @@ public class EditProfileFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_changepassword
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
-        showError(" ",Color.red);
         if(!Verification.verifyLoginName(tf_loginName.getText())){
-            showError("Invalid login name!",Color.red);
+            tf_loginName.showErrorMessage("Invalid login name!");
             return;
         }
         if(!Verification.verifyEMail(tf_emailAddress.getText())){
-            showError( "Your E-Mail is too long!",Color.red);
+            tf_emailAddress.showErrorMessage( "Your E-Mail is too long!");
             return;
         }
         
         if(!Verification.verifyIngameName(tf_inGameName.getText())){
-            showError("Your InGame name must have 1 to 30 characters!",Color.red);
+            tf_inGameName.showErrorMessage("Your InGame name must have 1 to 30 characters!");
             return;
         }
         if(!Verification.verifyWebsite(tf_website.getText())){
-            showError("Your Website is too long!",Color.red);
+            tf_website.showErrorMessage("Your Website address is too long!");
             return;
         }
 
@@ -301,28 +278,22 @@ public class EditProfileFrame extends javax.swing.JFrame {
         Globals.closeEditProfileFrame();
     }//GEN-LAST:event_formWindowClosing
 
-    public void showError(String msg, Color clr){
-        lbl_Error.setForeground(clr);
-        lbl_Error.setText(msg);
-    }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_changePassword;
     private javax.swing.JButton btn_save;
     private javax.swing.JCheckBox cb_emailIsPublic;
     private javax.swing.JComboBox cmb_country;
-    private javax.swing.JLabel lbl_Error;
     private javax.swing.JLabel lbl_country;
     private javax.swing.JLabel lbl_emailAddress;
     private javax.swing.JLabel lbl_inGameName;
     private javax.swing.JLabel lbl_loginName;
     private javax.swing.JLabel lbl_website;
     private javax.swing.JPanel pnl_input;
-    private javax.swing.JTextField tf_emailAddress;
-    private javax.swing.JTextField tf_inGameName;
-    private javax.swing.JTextField tf_loginName;
-    private javax.swing.JTextField tf_website;
+    private coopnetclient.frames.components.AdvancedJTextField tf_emailAddress;
+    private coopnetclient.frames.components.AdvancedJTextField tf_inGameName;
+    private coopnetclient.frames.components.AdvancedJTextField tf_loginName;
+    private coopnetclient.frames.components.AdvancedJTextField tf_website;
     // End of variables declaration//GEN-END:variables
 
 }
