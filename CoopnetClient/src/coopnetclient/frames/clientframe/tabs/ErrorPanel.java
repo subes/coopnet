@@ -34,7 +34,7 @@ public class ErrorPanel extends javax.swing.JPanel {
             "If you still cannot connect, the server may be down for maintenance, please try again later.</p> ";
     private static final String UNKNOWN = "<HTML><p style=\"text-align: center;\"><b>An unknown error occured!</b><BR>" +
             "Please help us fix this problem by sending a bug report.</p>";
-    private static final String CONNECTION_RESET = "<HTML><p style=\"text-align: center;\"><b>Connection with the server was lost!</b><BR></p>";
+    private static final String CONNECTION_RESET = "<HTML><p style=\"text-align: center;\"><b>Connection to the server was lost!</b><BR></p>";
     private static final String UNKNOWN_IO = "<HTML><p style=\"text-align: center;\"><b>An unknown IO error occured!</b><BR></p>";
     
     public ErrorPanel(ErrorPanelStyle mode, Exception exception) {
