@@ -72,10 +72,10 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         tbl_UserTable.setFillsViewportHeight(true);
         tbl_UserTable.setFocusable(false);
         tbl_UserTable.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 tbl_UserTableCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
         jScrollPane1.setViewportView(tbl_UserTable);
@@ -104,6 +104,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         });
 
         jb_Show_Profile.setText("Show Profile");
+        jb_Show_Profile.setEnabled(false);
         jb_Show_Profile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jb_Show_ProfileActionPerformed(evt);
@@ -123,7 +124,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
                 .addComponent(jb_UnBan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jb_Show_Profile)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -250,10 +251,13 @@ public class MuteBanListFrame extends javax.swing.JFrame {
                     jb_UnBan.setEnabled(true);
                     jb_UnMute.setEnabled(true);
                 }
+                
+                jb_Show_Profile.setEnabled(true);
             }
             else{
                  jb_UnBan.setEnabled(false);
                  jb_UnMute.setEnabled(false);
+                 jb_Show_Profile.setEnabled(false);
             }
         }
     }

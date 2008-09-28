@@ -33,7 +33,7 @@
               <Component id="jb_UnBan" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jb_Show_Profile" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="68" max="32767" attributes="0"/>
+              <EmptySpace pref="126" max="32767" attributes="0"/>
           </Group>
           <Component id="jScrollPane1" alignment="0" pref="386" max="32767" attributes="0"/>
       </Group>
@@ -106,6 +106,7 @@
     <Component class="javax.swing.JButton" name="jb_Show_Profile">
       <Properties>
         <Property name="text" type="java.lang.String" value="Show Profile"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jb_Show_ProfileActionPerformed"/>
