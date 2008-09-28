@@ -55,7 +55,7 @@ public class ErrorHandler {
 
             if (exc.getMessage().contains("Connection refused") || exc.getMessage().contains("timed out")) {
                 TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_REFUSED, exc);
-            } else if (exc.getMessage().contains("Connection reset") || exc.getMessage().contains("Connection lost")) {
+            } else if (exc.getMessage().contains("Connection reset") || exc.getMessage().contains("Connection lost") || exc.getMessage().contains("forcibly closed by the remote host") ) {
                 TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, exc);
             } else {
                 TabOrganizer.openErrorPanel(ErrorPanelStyle.UNKNOWN_IO, exc);

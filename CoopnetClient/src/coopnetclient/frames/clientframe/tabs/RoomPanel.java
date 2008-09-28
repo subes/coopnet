@@ -19,7 +19,6 @@
 
 package coopnetclient.frames.clientframe.tabs;
 
-import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.frames.listeners.ChatInputKeyListener;
@@ -216,9 +215,13 @@ public class RoomPanel extends javax.swing.JPanel {
     public void gameClosed(String playerName){
         roomStatusListCR.gameClosed(playerName);
     }
+    
+    public void PressLaunch(){
+        btn_launch.doClick();
+    }
 
     public void launch() {
-        if (Launcher.isPlaying()) {
+        if (Launcher.isPlaying() ) {
             return;
         }
 

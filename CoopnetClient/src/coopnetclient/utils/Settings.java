@@ -22,6 +22,7 @@ package coopnetclient.utils;
 import coopnetclient.*;
 import coopnetclient.enums.OperatingSystems;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -121,8 +122,8 @@ public class Settings {
             contactStatusChangeSoundNotification = "ContactStatusChangeSoundNotification",
             quickPanelToggleBarWidth = "QuickPanelToggleBarWidth",
             trayIconEnabled = "TrayIcon",
-            hotKeyMask = "HotKeyMask",
-            hotKey = "HotKey";
+            launchHotKeyMask = "HotKeyMask",
+            launchHotKey = "HotKey";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -168,8 +169,8 @@ public class Settings {
     private final static boolean def_ContactStatusChangeSoundNotification = true;
     private final static boolean def_TrayIconEnabled = false;
     private static Vector<String> favourites;
-    private final static int def_HotKeyMask = 0;
-    private final static int def_HotKey = 'l'; // letter L
+    private final static int def_LaunchHotKeyMask = KeyEvent.CTRL_DOWN_MASK;
+    private final static int def_LaunchHotKey = KeyEvent.VK_L;
 
     /**
      * store the settings in options file
@@ -296,20 +297,20 @@ public class Settings {
     }
 
     
-     public static int getHotKey() {
-        return readInteger(hotKey, def_HotKey);
+     public static int getLaunchHotKey() {
+        return readInteger(launchHotKey, def_LaunchHotKey);
     }
     
-    public static void setHotKey(int key) {
-        writeSetting(hotKey, String.valueOf(key));
+    public static void setLaunchHotKey(int key) {
+        writeSetting(launchHotKey, String.valueOf(key));
     }
     
-    public static int getHotKeyMask() {
-        return readInteger(hotKeyMask, def_HotKeyMask);
+    public static int getLaunchHotKeyMask() {
+        return readInteger(launchHotKeyMask, def_LaunchHotKeyMask);
     }
     
-    public static void setHotKeymask(int keyMask) {
-        writeSetting(hotKeyMask, String.valueOf(keyMask));
+    public static void setLaunchHotKeymask(int keyMask) {
+        writeSetting(launchHotKeyMask, String.valueOf(keyMask));
     }
     
     public static boolean getTrayIconEnabled() {
