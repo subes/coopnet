@@ -120,7 +120,9 @@ public class Settings {
             contactStatusChangeTextNotification = "ContactStatusChangeTextNotification",
             contactStatusChangeSoundNotification = "ContactStatusChangeSoundNotification",
             quickPanelToggleBarWidth = "QuickPanelToggleBarWidth",
-            trayIconEnabled = "TrayIcon";
+            trayIconEnabled = "TrayIcon",
+            hotKeyMask = "HotKeyMask",
+            hotKey = "HotKey";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -166,6 +168,8 @@ public class Settings {
     private final static boolean def_ContactStatusChangeSoundNotification = true;
     private final static boolean def_TrayIconEnabled = false;
     private static Vector<String> favourites;
+    private final static int def_HotKeyMask = 0;
+    private final static int def_HotKey = 'l'; // letter L
 
     /**
      * store the settings in options file
@@ -291,6 +295,22 @@ public class Settings {
         save();
     }
 
+    
+     public static int getHotKey() {
+        return readInteger(hotKey, def_HotKey);
+    }
+    
+    public static void setHotKey(int key) {
+        writeSetting(hotKey, String.valueOf(key));
+    }
+    
+    public static int getHotKeyMask() {
+        return readInteger(hotKeyMask, def_HotKeyMask);
+    }
+    
+    public static void setHotKeymask(int keyMask) {
+        writeSetting(hotKeyMask, String.valueOf(keyMask));
+    }
     
     public static boolean getTrayIconEnabled() {
         return readBoolean(trayIconEnabled, def_TrayIconEnabled);
