@@ -19,15 +19,17 @@
 
 package coopnetclient.frames.components;
 
+import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.Settings;
 import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.regex.Pattern;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 public class KeyGrabberTextField extends JTextField implements FocusListener, KeyListener {
 
@@ -58,7 +60,7 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
             setText("Hit a combination of keys ...");
         }else{
             if(key != KeyEvent.VK_UNDEFINED){
-                setText(KeyEvent.getKeyModifiersText(modifiers)+"+"+KeyEvent.getKeyText(key));
+                setText(""+KeyEvent.getKeyModifiersText(modifiers)+"+"+KeyEvent.getKeyText(key));
             }else{
                 setText("Disabled");
             }
@@ -68,19 +70,28 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
 
     public void focusGained(FocusEvent e) {
         if (Settings.getColorizeBody()) {
-            setBackground(Settings.getSelectionColor());
+            setBackground(Colorizer.getSelectionColor());
+            setForeground(Colorizer.getForegroundColor());
         } else {
             setBackground((Color) UIManager.get("List.selectionBackground"));
+            setForeground((Color) UIManager.get("List.selectionForeground"));
         }
+        
+        getCaret().setSelectionVisible(false);
+        getCaret().setVisible(false);
+        
         printText();
     }
 
     public void focusLost(FocusEvent e) {
         if (Settings.getColorizeBody()) {
-            setBackground(Settings.getBackgroundColor());
+            setBackground(Colorizer.getTextfieldBackgroundColor());
+            setForeground(Colorizer.getForegroundColor());
         } else {
             setBackground((Color) UIManager.get("TextArea.background"));
+            setForeground((Color) UIManager.get("TextArea.foreground"));
         }
+        
         printText();
     }
 

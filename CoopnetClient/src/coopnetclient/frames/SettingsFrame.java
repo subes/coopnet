@@ -999,14 +999,14 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
     
     private void addKeyGrabberUnfocusMouseListener(){
         MouseListener ml = new MouseListener() {
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e) {}
+            public void mousePressed(MouseEvent e) {
                 if(getFocusOwner() instanceof KeyGrabberTextField){
                     Component owner = getFocusOwner();
                     owner.setFocusable(false);
                     owner.setFocusable(true);
                 }
             }
-            public void mousePressed(MouseEvent e) {}
             public void mouseReleased(MouseEvent e) {}
             public void mouseEntered(MouseEvent e) {}
             public void mouseExited(MouseEvent e) {}
@@ -1095,6 +1095,8 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
                 }
             });
         }
+        
+        requestFocus(); //somehow clientframe steals focus
     }
 
 private void cb_nativeStyleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_nativeStyleActionPerformed
