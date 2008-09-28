@@ -22,22 +22,24 @@ import com.melloware.jintellitype.HotkeyListener;
 import com.melloware.jintellitype.JIntellitype;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.protocol.out.Protocol;
+import java.awt.event.KeyEvent;
 
-public class HotKeyControll implements HotkeyListener {
+public class HotKeyControl implements HotkeyListener {
 
     private static int ACTION_LAUNCH = 1;
-    private static HotKeyControll controllerObject = new HotKeyControll();
+    private static HotKeyControl controllerObject = new HotKeyControl();
 
-    private HotKeyControll() {
+    private HotKeyControl() {
         super();
     }
 
     public static void bindKeys() {
         switch (Globals.getOperatingSystem()) {
             case WINDOWS:
-                JIntellitype.getInstance().registerSwingHotKey(ACTION_LAUNCH, Settings.getLaunchHotKeyMask(), Settings.getLaunchHotKey());
-                JIntellitype.getInstance().addHotKeyListener(controllerObject);
+                if(Settings.getLaunchHotKey() != KeyEvent.VK_UNDEFINED){
+                    JIntellitype.getInstance().registerSwingHotKey(ACTION_LAUNCH, Settings.getLaunchHotKeyMask(), Settings.getLaunchHotKey());
+                    JIntellitype.getInstance().addHotKeyListener(controllerObject);
+                }
                 break;
             case LINUX:
                 break;

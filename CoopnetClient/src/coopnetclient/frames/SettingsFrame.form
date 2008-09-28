@@ -33,7 +33,7 @@
               <Component id="btn_save" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_cancel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="370" max="32767" attributes="0"/>
+              <EmptySpace pref="422" max="32767" attributes="0"/>
           </Group>
           <Component id="tabpn_settings" alignment="0" pref="579" max="32767" attributes="0"/>
       </Group>
@@ -94,13 +94,14 @@
                               <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                               <Component id="lbl_dplayEnvNote" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cb_sounds" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cb_TrayIconEnabled" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="cb_sounds" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cb_TrayIconEnabled" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace pref="78" max="32767" attributes="0"/>
+                              <Component id="pnl_hotkeys" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -122,10 +123,15 @@
                       </Group>
                       <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                       <Component id="lbl_dplayEnvNote" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="123" max="32767" attributes="0"/>
-                      <Component id="cb_TrayIconEnabled" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="cb_sounds" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="51" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="cb_TrayIconEnabled" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cb_sounds" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="pnl_hotkeys" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -161,7 +167,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lbl_dplayEnvNote">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Note:&lt;/b&gt; Changes to the DirectPlay enviroment take effect after restarting Coopnet."/>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Changes to the DirectPlay enviroment take effect after restarting Coopnet."/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="cb_TrayIconEnabled">
@@ -169,6 +175,69 @@
                 <Property name="text" type="java.lang.String" value="TrayIcon"/>
               </Properties>
             </Component>
+            <Container class="javax.swing.JPanel" name="pnl_hotkeys">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="Hotkeys"/>
+                  </Border>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="lbl_launchKey" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="tf_launchKey" pref="286" max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="lbl_hotkeyNoteText" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="lbl_launchKey" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="tf_launchKey" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="lbl_hotkeyNoteText" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="lbl_launchKey">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Launch room:"/>
+                  </Properties>
+                </Component>
+                <Component class="coopnetclient.frames.components.KeyGrabberTextField" name="tf_launchKey">
+                  <Properties>
+                    <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="btn_apply"/>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lbl_hotkeyNoteText">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Click anywhere to cancel assignment,&lt;br&gt;press backspace to disable the hotkey."/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnl_network">
@@ -196,7 +265,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="tf_receiveDir" pref="359" max="32767" attributes="0"/>
+                                      <Component id="tf_receiveDir" pref="340" max="32767" attributes="0"/>
                                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                                       <Component id="btn_browseReceiveDir" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -222,7 +291,7 @@
                           <Component id="lbl_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tf_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="196" max="32767" attributes="0"/>
+                      <EmptySpace pref="179" max="32767" attributes="0"/>
                       <Component id="cb_sleepMode" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cb_autoLogin" min="-2" max="-2" attributes="0"/>
@@ -342,7 +411,7 @@
                                                   <Component id="tf_playerMessagesSize" min="-2" pref="25" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
                                               </Group>
-                                              <Component id="cmb_playerMessagesType" pref="251" max="32767" attributes="0"/>
+                                              <Component id="cmb_playerMessagesType" pref="203" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
@@ -353,7 +422,7 @@
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="tf_playerNamesSize" min="-2" pref="24" max="-2" attributes="0"/>
-                                              <Component id="cmb_playerNamesType" pref="251" max="32767" attributes="0"/>
+                                              <Component id="cmb_playerNamesType" pref="203" max="32767" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
@@ -391,7 +460,7 @@
                               <Component id="lbl_playerMessagesSize" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="tf_playerMessagesSize" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="36" max="32767" attributes="0"/>
+                          <EmptySpace pref="51" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -522,7 +591,7 @@
                               <Component id="btn_whisperMessages" min="-2" pref="18" max="-2" attributes="0"/>
                               <Component id="lbl_whisperMessages" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="26" max="32767" attributes="0"/>
+                          <EmptySpace pref="41" max="32767" attributes="0"/>
                           <Component id="cb_colorizeText" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -618,9 +687,7 @@
                               <Component id="pnl_bodyColors" min="-2" max="-2" attributes="1"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
-                              <Component id="lbl_note" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
                               <Component id="lbl_noteText" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -636,11 +703,8 @@
                           <Component id="pnl_bodyColors" min="-2" max="-2" attributes="1"/>
                           <Component id="pnl_lookAndFeel" min="-2" max="-2" attributes="1"/>
                       </Group>
-                      <EmptySpace pref="75" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lbl_note" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbl_noteText" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <EmptySpace pref="60" max="32767" attributes="0"/>
+                      <Component id="lbl_noteText" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -789,7 +853,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="lbl_style" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cmb_style" pref="212" max="32767" attributes="0"/>
+                                  <Component id="cmb_style" pref="189" max="32767" attributes="0"/>
                               </Group>
                               <Component id="cb_nativeStyle" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -804,7 +868,7 @@
                               <Component id="lbl_style" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="cmb_style" alignment="3" min="-2" pref="19" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="16" max="32767" attributes="0"/>
                           <Component id="cb_nativeStyle" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -841,12 +905,7 @@
             </Container>
             <Component class="javax.swing.JLabel" name="lbl_noteText">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;Custom body colors are only supported by the &quot;Metal&quot; style.&lt;br&gt;To enable a new style Coopnet has to be restarted.&lt;/html&gt;"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lbl_note">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Note:"/>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Custom body colors are only supported by the &quot;Metal&quot; style.&lt;br&gt;To enable a new style, Coopnet has to be restarted.&lt;/html&gt;"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -865,16 +924,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="pnl_General" min="-2" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="pnl_ContactList" max="32767" attributes="1"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="126" max="-2" attributes="0"/>
-                              <Component id="lbl_note1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                               <Component id="lbl_noteText1" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -890,12 +947,9 @@
                           <Component id="pnl_General" min="-2" max="-2" attributes="0"/>
                           <Component id="pnl_ContactList" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lbl_note1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbl_noteText1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="108" max="32767" attributes="0"/>
+                      <EmptySpace pref="55" max="32767" attributes="0"/>
+                      <Component id="lbl_noteText1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -953,7 +1007,7 @@
                               <Component id="lbl_ToggleButtonWidth" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="spn_ToggleButtonWidth" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="17" max="32767" attributes="0"/>
+                          <EmptySpace pref="22" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1008,12 +1062,7 @@
             </Container>
             <Component class="javax.swing.JLabel" name="lbl_noteText1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;Changes to general settings take effect&lt;br&gt;after restarting Coopnet.&lt;/html&gt;"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lbl_note1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Note:"/>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Changes to general settings take effect after restarting Coopnet.&lt;/html&gt;"/>
               </Properties>
             </Component>
             <Container class="javax.swing.JPanel" name="pnl_ContactList">
@@ -1039,7 +1088,7 @@
                               </Group>
                               <Component id="lbl_StatusChangeNotification" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="109" max="32767" attributes="0"/>
+                          <EmptySpace pref="47" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1052,7 +1101,7 @@
                               <Component id="cb_TextNotification" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="cb_SoundNotification" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="27" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

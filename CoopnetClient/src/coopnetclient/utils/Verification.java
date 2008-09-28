@@ -39,35 +39,15 @@ public class Verification {
     }
 
     public static boolean verifyPassword(String password) {
-        if (password.length() < 5 || password.length() > 30) {
+        if (password.length() < 5) {
             return false;
         }
 
         return true;
     }
 
-    public static boolean verifyLoginName(String loginName) {
-
-        if (loginName.length() < 5 || loginName.length() > 30) {
-            return false;
-        }
-
-        for (int i = 0; i < loginName.length(); i++) {
-            int cur = Integer.valueOf(loginName.charAt(i));
-
-            if (!(cur >= 64 && cur <= 90 // @ A-Z 
-                    || cur >= 97 && cur <= 126 // a-z { | } ~
-                    || cur >= 48 && cur <= 57 // 0-9
-                    || cur >= 60 && cur <= 62 // < = >
-                    || cur == 40 || cur == 41 // ( )
-                    || cur == 45 || cur == 95 // - _
-                    || cur == 91 || cur == 93 // [ ]
-                    )) {
-                return false;
-            }
-        }
-
-        return true;
+    public static boolean verifyLoginName(String loginName) {        
+        return loginName.matches("\\p{Graph}{5,30}");
     }
     
     public static boolean verifyIngameName(String ingameName){

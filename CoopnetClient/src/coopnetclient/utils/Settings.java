@@ -63,8 +63,10 @@ public class Settings {
     static {
         if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS){
             optionsDir = System.getenv("APPDATA")+"/Coopnet";
+            def_recievedest = System.getenv("HOMEPATH");
         }else{
             optionsDir = System.getenv("HOME")+"/.coopnet";
+            def_recievedest = System.getenv("HOME");
         }
 		
         favouritesFile = optionsDir+"/favourites";
@@ -143,7 +145,7 @@ public class Settings {
     private final static Color def_userMessageColor = Color.BLACK;
     private final static Color def_SelectionColor = new Color(200,200,200);
     private final static String def_nameStyle = "Monospaced";
-    private final static String def_recievedest = "./RecievedFiles/";
+    private final static String def_recievedest;
     private final static int def_nameSize = 12;
     private final static String def_messageStyle = "Monospaced";
     private final static String def_homeChannel = "Welcome";
@@ -169,7 +171,7 @@ public class Settings {
     private final static boolean def_ContactStatusChangeSoundNotification = true;
     private final static boolean def_TrayIconEnabled = false;
     private static Vector<String> favourites;
-    private final static int def_LaunchHotKeyMask = KeyEvent.CTRL_DOWN_MASK;
+    private final static int def_LaunchHotKeyMask = KeyEvent.CTRL_MASK | KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_MASK | KeyEvent.SHIFT_DOWN_MASK;
     private final static int def_LaunchHotKey = KeyEvent.VK_L;
 
     /**

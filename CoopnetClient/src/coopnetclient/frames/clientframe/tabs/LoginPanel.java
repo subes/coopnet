@@ -26,7 +26,7 @@ import java.awt.Color;
 
 public class LoginPanel extends javax.swing.JPanel {
 
-    private static String infoText = "<html>Your login name and password must have atleast 5 to 30 characters.<br>In login name the following characters are allowed:<br> A-Z a-z 0-9 @ ~ - _ = | <> () [] {}";
+    private static String infoText = "<html>Your login name must consist of 5 to 30 characters.<br>Your password must be 5 characters or longer.<br>Login name is restricted to the following characters:<br> [A-Z] [a-z] [0-9] !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
     
     /** Creates new form LoginPanel */
     public LoginPanel() {
