@@ -28,8 +28,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
 
 public class KeyGrabberTextField extends JTextField implements FocusListener, KeyListener {
 
@@ -96,13 +94,7 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
     }
 
     public void keyTyped(KeyEvent e) {
-        if(e.getModifiers() != 0){
-            modifiers = e.getModifiers();
-            setFocusable(false);
-            setFocusable(true);
-        }
         e.consume();
-        printText();
     }
 
     public void keyPressed(KeyEvent e) {
@@ -116,8 +108,13 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
                     && e.getKeyCode() != KeyEvent.VK_CONTROL
                     && e.getKeyCode() != KeyEvent.VK_META
                     && e.getKeyCode() != KeyEvent.VK_ALT
-                    && e.getKeyCode() != KeyEvent.VK_ALT_GRAPH){
+                    && e.getKeyCode() != KeyEvent.VK_ALT_GRAPH
+                    && e.getModifiers() != 0){
                 key = e.getKeyCode();
+                modifiers = e.getModifiers();
+                setFocusable(false);
+                setFocusable(true);
+                printText();
             }
         }
         e.consume();
