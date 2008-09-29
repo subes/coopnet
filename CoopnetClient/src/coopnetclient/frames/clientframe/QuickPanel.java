@@ -95,7 +95,6 @@ public class QuickPanel extends javax.swing.JPanel {
     //@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         tp_quickPanel = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -111,6 +110,9 @@ public class QuickPanel extends javax.swing.JPanel {
         tp_quickPanel.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         tp_quickPanel.setDoubleBuffered(true);
         tp_quickPanel.setFocusable(false);
+        tp_quickPanel.setMinimumSize(new java.awt.Dimension(0, 0));
+
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(0, 0));
 
         lst_contactList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -120,7 +122,6 @@ public class QuickPanel extends javax.swing.JPanel {
         lst_contactList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         lst_contactList.setFocusable(false);
         lst_contactList.setMaximumSize(null);
-        lst_contactList.setMinimumSize(new java.awt.Dimension(50, 10));
         lst_contactList.setPreferredSize(null);
         lst_contactList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

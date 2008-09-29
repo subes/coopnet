@@ -58,7 +58,7 @@ public class ClientFrame extends javax.swing.JFrame {
     public ClientFrame() {
         pnl_contactList = new coopnetclient.frames.clientframe.QuickPanel(Globals.getContactList());
         pnl_contactList.setPreferredSize(new Dimension(200, 10));
-        initComponents();
+        initComponents();       
         pnl_toggleQuickBarLeft.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         pnl_toggleQuickBarRight.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         setQuickPanelPosition(Settings.getQuickPanelPostionisLeft());
@@ -81,7 +81,7 @@ public class ClientFrame extends javax.swing.JFrame {
         if (status == JFrame.MAXIMIZED_BOTH) {
             this.setExtendedState(status);
         }
-
+     
         updateMenu();
         pack();
         if (Settings.getTrayIconEnabled()) {
@@ -268,11 +268,13 @@ public class ClientFrame extends javax.swing.JFrame {
                     lastdividerposition = slp_mainSplitPanel.getWidth() - (pnl_contactList.getPreferredSize().width + DIVIDERWIDTH + slp_mainSplitPanel.getInsets().right);
                 }
             }
+            pnl_contactList.setSize( lastdividerposition - DIVIDERWIDTH ,pnl_contactList.getHeight() );
             slp_mainSplitPanel.setDividerSize(DIVIDERWIDTH);
             slp_mainSplitPanel.setDividerLocation(lastdividerposition);
             pnl_toggleQuickBarLeft.setBorder(openQuickbarBorder);
             pnl_toggleQuickBarRight.setBorder(openQuickbarBorder);
         } else {
+            pnl_contactList.setSize( 0,pnl_contactList.getHeight() );
             lastdividerposition = slp_mainSplitPanel.getDividerLocation();
             slp_mainSplitPanel.setDividerSize(0);
             pnl_toggleQuickBarLeft.setBorder(closedQuickbarBorder);
@@ -310,6 +312,7 @@ public class ClientFrame extends javax.swing.JFrame {
             pnl_toggleQuickBarRight.setVisible(true);
             slp_mainSplitPanel.setDividerLocation(slp_mainSplitPanel.getWidth());
         }
+        pnl_contactList.setSize( 0,pnl_contactList.getHeight() );
         slp_mainSplitPanel.revalidate();
         slp_mainSplitPanel.resetToPreferredSizes();
         this.pack();
