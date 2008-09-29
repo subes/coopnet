@@ -92,11 +92,14 @@ public class CommandHandler {
                 case LOGINNAME_IN_USE:
                     TabOrganizer.getLoginPanel().showError("Error: login name already in use!", Color.red);
                     break;
+                case CRIPPLED_SERVER_MODE:
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "<html>The server is runnign in crippled mode<br> logging in and registering is not possible!", ChatStyles.SYSTEM, true);
+                    break;
             }
         } else {//logged-in commands
             switch (command) {
                 case CHAT_MAIN:
-                    if(information.length < 2){
+                    if (information.length < 2) {
                         return;
                     }
                     Globals.getClientFrame().printMainChatMessage(
@@ -107,7 +110,7 @@ public class CommandHandler {
                     }
                     break;
                 case CHAT_ROOM:
-                    if(information.length < 2){
+                    if (information.length < 2) {
                         return;
                     }
                     TabOrganizer.getRoomPanel().chat(information[0], information[1], ChatStyles.USER);
@@ -311,9 +314,11 @@ public class CommandHandler {
                     break;
                 case SET_CONTACTSTATUS:
                     ContactListElementTypes status = null;
+                    ContactListElementTypes previousstatus = null;
                     String name = information[0];
                     int statuscode = Integer.valueOf(information[1]);
                     status = ContactListElementTypes.values()[statuscode];
+                    previousstatus = Globals.getContactList().getStatus(name);
                     Globals.getContactList().setStatus(name, status);
                     //notifications                 
                     switch (status) {
@@ -329,7 +334,7 @@ public class CommandHandler {
                             if (Settings.getContactStatusChangeSoundNotification()) {
                                 //TODO play sound
                             }
-                            if (Settings.getContactStatusChangeTextNotification()) {
+                            if (Settings.getContactStatusChangeTextNotification() && previousstatus == ContactListElementTypes.OFFLINE ) {
                                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name + " is online", ChatStyles.SYSTEM, false);
                             }
                             break;
@@ -358,6 +363,9 @@ public class CommandHandler {
                     }.start();
                     break;
                 case VERIFICATION_ERROR:
+                    break;
+                case CRIPPLED_SERVER_MODE:
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "The server is runnign in crippled mode,viewing and editing permanent data is not possible!", ChatStyles.SYSTEM, true);
                     break;
                 default:
                     Logger.log(LogTypes.ERROR, "Server sent a command which wasn't handled!");

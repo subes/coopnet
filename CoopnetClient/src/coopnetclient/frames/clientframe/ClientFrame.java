@@ -31,6 +31,7 @@ import coopnetclient.utils.Settings;
 import coopnetclient.frames.components.FavMenuItem;
 import coopnetclient.frames.clientframe.tabs.FileTransferRecievePanel;
 import coopnetclient.frames.clientframe.tabs.FileTransferSendPanel;
+import coopnetclient.frames.clientframe.tabs.LoginPanel;
 import coopnetclient.utils.FileDownloader;
 import java.awt.Color;
 import java.awt.Component;
@@ -693,7 +694,7 @@ public class ClientFrame extends javax.swing.JFrame {
 
         Component tc = tabpn_tabs.getSelectedComponent();
 
-        if (tc == null) {
+        if (tc == null ||tc instanceof LoginPanel) {
             if (popupEnabled) {
                 JOptionPane.showMessageDialog(Globals.getClientFrame(), message, "Message", JOptionPane.INFORMATION_MESSAGE);
             }
