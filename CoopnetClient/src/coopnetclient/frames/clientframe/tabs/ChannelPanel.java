@@ -92,9 +92,6 @@ public class ChannelPanel extends javax.swing.JPanel {
         
         disableButtons();
         enablebuttons();
-        if(ID.equals("TST")){
-            TabOrganizer.openGameDataEditor();
-        }
     }
 
     public void gameClosed(String playername) {
@@ -552,11 +549,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_tp_chatOutputFocusLost
 
     private void btn_leaveChannelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveChannelActionPerformed
-        Protocol.leaveChannel(this.name);
         TabOrganizer.closeChannelPanel(this);
-        if(ID.equals("TST")){
-            TabOrganizer.closeGameDataEditor();
-        }
 }//GEN-LAST:event_btn_leaveChannelActionPerformed
 
 private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tp_chatOutputKeyTyped

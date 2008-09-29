@@ -22,6 +22,7 @@ package coopnetclient.protocol.out;
 import coopnetclient.protocol.*;
 import coopnetclient.*;
 import coopnetclient.enums.ClientProtocolCommands;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.nio.CharBuffer;
@@ -138,7 +139,11 @@ public class Protocol {
     }
 
     public static void joinChannel(String channelName) {
-        new Message(ClientProtocolCommands.JOIN_CHANNEL, GameDatabase.IDofGame(channelName));
+        if(TabOrganizer.getChannelPanel(channelName) == null){
+            new Message(ClientProtocolCommands.JOIN_CHANNEL, GameDatabase.IDofGame(channelName));
+        }else{
+            TabOrganizer.openChannelPanel(channelName);
+        }
     }
 
     public static void leaveChannel(String channelName) {

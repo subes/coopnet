@@ -35,6 +35,7 @@ import coopnetclient.frames.clientframe.tabs.RoomPanel;
 import coopnetclient.frames.clientframe.tabs.TestGameDataEditor;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Component;
@@ -66,11 +67,22 @@ public class TabOrganizer {
     }
 
     public static void openChannelPanel(String channelname) {
+        
         int index = -1;
         index = tabHolder.indexOfTab(channelname);
         if (index != -1) {
             tabHolder.setSelectedIndex(index);
             return;
+        }
+        
+        if(!Settings.getMultiChannel()){
+            if(channelPanels.size() > 1){
+                closeAllButLastChannelPanel();
+            }
+            
+            if(channelPanels.size() == 1){
+                closeChannelPanel(channelPanels.firstElement());
+            }
         }
         
         ChannelPanel currentchannel = new ChannelPanel(channelname);
@@ -101,6 +113,10 @@ public class TabOrganizer {
 
         Globals.getClientFrame().repaint();
         tabHolder.setSelectedComponent(currentchannel);
+        
+        if(currentchannel.ID.equals("TST")){
+            TabOrganizer.openGameDataEditor();
+        }
     }
 
     public static void closeChannelPanel(String channelName) {
@@ -108,25 +124,49 @@ public class TabOrganizer {
     }
 
     public static void closeChannelPanel(ChannelPanel which) {
+        if(which.ID.equals("TST")){
+            closeGameDataEditor();
+        }
+        
+        Protocol.leaveChannel(which.name);
         channelPanels.remove(which);
         tabHolder.remove(which);
     }
+    
+    public static void closeAllButLastChannelPanel(){
+        if(channelPanels.size() > 1){
+            ChannelPanel selectedChannel = null;
+            if(tabHolder.getSelectedComponent() instanceof ChannelPanel){
+                selectedChannel = (ChannelPanel) tabHolder.getSelectedComponent();
+            }
+            
+            if(selectedChannel != null){
+                //Closes all but the selected channel; used by settingsframe
+                for(int i = 0; i < channelPanels.size(); i++){
+                    while(channelPanels.size() > 1){
+                        if(channelPanels.firstElement() == selectedChannel){
+                            //close next one
+                            closeChannelPanel(channelPanels.get(1));
+                        }else{
+                            closeChannelPanel(channelPanels.firstElement());
+                        }
+                    }
+                }
+            }else{
+                //Closes all but the last channel; used by settingsframe
+                for(int i = channelPanels.size()-2; i >= 0; i--){
+                    closeChannelPanel(channelPanels.get(i));
+                }
+            }
+        }
+    }
 
     public static ChannelPanel getChannelPanel(String channelName) {
-        int index = -1;
-        index = tabHolder.indexOfTab(channelName);
+        int index = tabHolder.indexOfTab(channelName);
         if (index != -1) {
             return (ChannelPanel) tabHolder.getComponentAt(index);
         } else {
-            if (tabHolder.getComponentCount() != 0) {
-                if (tabHolder.getComponentAt(0) instanceof ChannelPanel) {
-                    return (ChannelPanel) tabHolder.getComponentAt(0);
-                } else {
-                    return null;
-                }
-            } else {
-                return null;
-            }
+            return null;
         }
     }
 

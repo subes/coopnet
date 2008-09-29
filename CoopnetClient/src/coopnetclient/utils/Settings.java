@@ -125,7 +125,8 @@ public class Settings {
             quickPanelToggleBarWidth = "QuickPanelToggleBarWidth",
             trayIconEnabled = "TrayIcon",
             launchHotKeyMask = "HotKeyMask",
-            launchHotKey = "HotKey";
+            launchHotKey = "HotKey",
+            multiChannel = "MultiChannel";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -173,6 +174,7 @@ public class Settings {
     private static Vector<String> favourites;
     private final static int def_LaunchHotKeyMask = KeyEvent.CTRL_MASK | KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_MASK | KeyEvent.SHIFT_DOWN_MASK;
     private final static int def_LaunchHotKey = KeyEvent.VK_L;
+    private final static boolean def_multiChannel = true;
 
     /**
      * store the settings in options file
@@ -678,13 +680,13 @@ public class Settings {
     public static void setLastLoginPassword(String pw) {
         writeSetting(lastLoginPassword, PasswordEncrypter.encodePassword(PasswordEncrypter.encryptPassword(pw)));
     }
-
-    public static Color getTitledBorderColor() {
-        if (readBoolean(colorizeBody, def_colorizeBody)) {
-            return getForegroundColor();
-        } else {
-            return Color.BLACK;
-        }
+    
+    public static void setMultiChannel(boolean enabled){
+        writeSetting(multiChannel, String.valueOf(enabled));
+    }
+    
+    public static boolean getMultiChannel(){
+        return readBoolean(multiChannel, def_multiChannel);
     }
 
     public static void addFavourite(String channel) {

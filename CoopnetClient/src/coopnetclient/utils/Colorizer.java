@@ -128,12 +128,11 @@ public class Colorizer {
     //Calculating colors (only use from settings frame)
     public static void initColors() {
 
-        if (coopnetclient.utils.Settings.getColorizeBody()) {
+        if (Settings.getColorizeBody()) {
             bgColor = coopnetclient.utils.Settings.getBackgroundColor();
             fgColor = coopnetclient.utils.Settings.getForegroundColor();
-            selectionColor = coopnetclient.utils.Settings.getSelectionColor();
-            borderColor = coopnetclient.utils.Settings.getTitledBorderColor();
-        //System.out.println("coloring");
+            selectionColor = coopnetclient.utils.Settings.getSelectionColor();            
+            borderColor = coopnetclient.utils.Settings.getForegroundColor();
         } else {
             bgColor = null;
             fgColor = null;

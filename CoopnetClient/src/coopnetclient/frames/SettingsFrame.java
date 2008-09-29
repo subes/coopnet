@@ -25,6 +25,7 @@ import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.OperatingSystems;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.components.KeyGrabberTextField;
 import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.Settings;
@@ -103,8 +104,8 @@ public class SettingsFrame extends javax.swing.JFrame {
             styles[i] = infos[i].getName();
         }
         cmb_style.setModel(new javax.swing.DefaultComboBoxModel(styles));
-        cmb_style.setSelectedItem(coopnetclient.utils.Settings.getSelectedLookAndFeel());
-        cb_nativeStyle.setSelected(coopnetclient.utils.Settings.getUseNativeLookAndFeel());
+        cmb_style.setSelectedItem(Settings.getSelectedLookAndFeel());
+        cb_nativeStyle.setSelected(Settings.getUseNativeLookAndFeel());
         
         //add action listener to color buttons
         colorizeColorButtons();
@@ -117,6 +118,8 @@ public class SettingsFrame extends javax.swing.JFrame {
         btn_userMessages.addActionListener(new ColorChooserButtonActionListener(btn_userMessages));
         btn_selection.addActionListener(new ColorChooserButtonActionListener(btn_selection));
 
+        cb_multiChannel.setSelected(Settings.getMultiChannel());
+        
         //Toggle buttons corresponding to checkboxes
         toggleItemsOf_cb_NativeStyle();
         toggleItemsOf_cb_ColorizeBody();
@@ -159,6 +162,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         lbl_launchKey = new javax.swing.JLabel();
         tf_launchKey = new coopnetclient.frames.components.KeyGrabberTextField();
         lbl_hotkeyNoteText = new javax.swing.JLabel();
+        cb_multiChannel = new javax.swing.JCheckBox();
         pnl_network = new javax.swing.JPanel();
         cb_autoLogin = new javax.swing.JCheckBox();
         lbl_transferPort = new javax.swing.JLabel();
@@ -276,8 +280,10 @@ public class SettingsFrame extends javax.swing.JFrame {
                     .addComponent(tf_launchKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbl_hotkeyNoteText)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
+
+        cb_multiChannel.setText("Open channels as new tabs");
 
         javax.swing.GroupLayout pnl_generalLayout = new javax.swing.GroupLayout(pnl_general);
         pnl_general.setLayout(pnl_generalLayout);
@@ -286,17 +292,6 @@ public class SettingsFrame extends javax.swing.JFrame {
             .addGroup(pnl_generalLayout.createSequentialGroup()
                 .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl_generalLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnl_generalLayout.createSequentialGroup()
-                                .addComponent(lbl_dplayEnv)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tf_dplayEnv, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_generalLayout.createSequentialGroup()
-                                .addComponent(lbl_homeChannel, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmb_homeChannel, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(pnl_generalLayout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addComponent(lbl_dplayEnvNote))
                     .addGroup(pnl_generalLayout.createSequentialGroup()
@@ -304,13 +299,26 @@ public class SettingsFrame extends javax.swing.JFrame {
                         .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cb_sounds)
                             .addComponent(cb_TrayIconEnabled))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                        .addComponent(pnl_hotkeys, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                        .addComponent(pnl_hotkeys, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnl_generalLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lbl_dplayEnv)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tf_dplayEnv, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnl_generalLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnl_generalLayout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(cb_multiChannel))
+                            .addGroup(pnl_generalLayout.createSequentialGroup()
+                                .addComponent(lbl_homeChannel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmb_homeChannel, 0, 512, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addContainerGap())
         );
-
-        pnl_generalLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lbl_dplayEnv, lbl_homeChannel});
-
         pnl_generalLayout.setVerticalGroup(
             pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_generalLayout.createSequentialGroup()
@@ -318,13 +326,15 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_homeChannel)
                     .addComponent(cmb_homeChannel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cb_multiChannel)
+                .addGap(29, 29, 29)
                 .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_dplayEnv)
                     .addComponent(tf_dplayEnv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_dplayEnvNote)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnl_generalLayout.createSequentialGroup()
                         .addComponent(cb_TrayIconEnabled)
@@ -378,7 +388,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnl_networkLayout.createSequentialGroup()
-                                .addComponent(tf_receiveDir, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                                .addComponent(tf_receiveDir, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btn_browseReceiveDir))
                             .addComponent(tf_transferPort, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -443,7 +453,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                                     .addGroup(pnl_textStyleLayout.createSequentialGroup()
                                         .addComponent(tf_playerMessagesSize, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(100, 100, 100))
-                                    .addComponent(cmb_playerMessagesType, 0, 203, Short.MAX_VALUE)))
+                                    .addComponent(cmb_playerMessagesType, 0, 249, Short.MAX_VALUE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_textStyleLayout.createSequentialGroup()
                                 .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lbl_playerNamesType)
@@ -451,7 +461,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(tf_playerNamesSize, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cmb_playerNamesType, 0, 203, Short.MAX_VALUE))
+                                    .addComponent(cmb_playerNamesType, 0, 249, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addContainerGap())
@@ -478,7 +488,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_playerMessagesSize)
                     .addComponent(tf_playerMessagesSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         pnl_textColors.setBorder(javax.swing.BorderFactory.createTitledBorder("Text colors"));
@@ -556,7 +566,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addGroup(pnl_textColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_whisperMessages, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_whisperMessages))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(cb_colorizeText)
                 .addContainerGap())
         );
@@ -684,7 +694,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                     .addGroup(pnl_lookAndFeelLayout.createSequentialGroup()
                         .addComponent(lbl_style)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmb_style, 0, 189, Short.MAX_VALUE))
+                        .addComponent(cmb_style, 0, 235, Short.MAX_VALUE))
                     .addComponent(cb_nativeStyle))
                 .addContainerGap())
         );
@@ -694,7 +704,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addGroup(pnl_lookAndFeelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_style)
                     .addComponent(cmb_style, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(cb_nativeStyle)
                 .addContainerGap())
         );
@@ -785,7 +795,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addGroup(pnl_GeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_ToggleButtonWidth)
                     .addComponent(spn_ToggleButtonWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         lbl_noteText1.setText("<html><table><tr><td><b>Note:</b></td><td>Changes to general settings take effect after restarting Coopnet.</html>");
@@ -812,7 +822,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cb_SoundNotification))
                     .addComponent(lbl_StatusChangeNotification))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
         pnl_ContactListLayout.setVerticalGroup(
             pnl_ContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -822,7 +832,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addGroup(pnl_ContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cb_TextNotification)
                     .addComponent(cb_SoundNotification))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnl_QuckPanelLayout = new javax.swing.GroupLayout(pnl_QuckPanel);
@@ -848,7 +858,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addGroup(pnl_QuckPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnl_General, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pnl_ContactList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addComponent(lbl_noteText1)
                 .addGap(88, 88, 88))
         );
@@ -887,8 +897,8 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addComponent(btn_save)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addContainerGap(422, Short.MAX_VALUE))
-            .addComponent(tabpn_settings, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
+                .addContainerGap(468, Short.MAX_VALUE))
+            .addComponent(tabpn_settings, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1073,6 +1083,11 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             Settings.setMessageStyle(cmb_playerMessagesType.getSelectedItem().toString());
             Settings.setMessageSize(Integer.parseInt(tf_playerMessagesSize.getText()));
             
+            Settings.setMultiChannel(cb_multiChannel.isSelected());
+            if(!cb_multiChannel.isSelected()){
+                TabOrganizer.closeAllButLastChannelPanel();
+            }
+            
             Globals.getClientFrame().updateMenu();
             HotKeyControl.reBind();
 
@@ -1138,6 +1153,7 @@ private void tf_receiveDirFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:
     private javax.swing.JCheckBox cb_autoLogin;
     private javax.swing.JCheckBox cb_colorizeBody;
     private javax.swing.JCheckBox cb_colorizeText;
+    private javax.swing.JCheckBox cb_multiChannel;
     private javax.swing.JCheckBox cb_nativeStyle;
     private javax.swing.JCheckBox cb_sleepMode;
     private javax.swing.JCheckBox cb_sounds;
