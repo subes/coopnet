@@ -62,7 +62,7 @@ public class ClientFrame extends javax.swing.JFrame {
         pnl_toggleQuickBarLeft.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         pnl_toggleQuickBarRight.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         setQuickPanelPosition(Settings.getQuickPanelPostionisLeft());
-        pnl_contactList.setVisible(false);
+        //pnl_contactList.setVisible(false);
         slp_mainSplitPanel.setDividerSize(0);
 
         mi_disconnect.setEnabled(true);
@@ -277,8 +277,14 @@ public class ClientFrame extends javax.swing.JFrame {
             slp_mainSplitPanel.setDividerSize(0);
             pnl_toggleQuickBarLeft.setBorder(closedQuickbarBorder);
             pnl_toggleQuickBarRight.setBorder(closedQuickbarBorder);
+            if (quickPanelOrientationIsLeft) {
+                slp_mainSplitPanel.setDividerLocation(0);
+            } else {
+                slp_mainSplitPanel.setDividerLocation(slp_mainSplitPanel.getWidth());
+            }
+
         }
-        pnl_contactList.setVisible(visibility);
+    //pnl_contactList.setVisible(visibility);
     }
 
     /**
@@ -293,6 +299,7 @@ public class ClientFrame extends javax.swing.JFrame {
             quickPanelOrientationIsLeft = true;
             pnl_toggleQuickBarLeft.setVisible(true);
             pnl_toggleQuickBarRight.setVisible(false);
+            slp_mainSplitPanel.setDividerLocation(0);
         } else { //put to the right
             slp_mainSplitPanel.setLeftComponent(tabpn_tabs);
             slp_mainSplitPanel.setRightComponent(pnl_contactList);
@@ -301,6 +308,7 @@ public class ClientFrame extends javax.swing.JFrame {
             quickPanelOrientationIsLeft = false;
             pnl_toggleQuickBarLeft.setVisible(false);
             pnl_toggleQuickBarRight.setVisible(true);
+            slp_mainSplitPanel.setDividerLocation(slp_mainSplitPanel.getWidth());
         }
         slp_mainSplitPanel.revalidate();
         slp_mainSplitPanel.resetToPreferredSizes();
@@ -694,7 +702,7 @@ public class ClientFrame extends javax.swing.JFrame {
 
         Component tc = tabpn_tabs.getSelectedComponent();
 
-        if (tc == null ||tc instanceof LoginPanel) {
+        if (tc == null || tc instanceof LoginPanel) {
             if (popupEnabled) {
                 JOptionPane.showMessageDialog(Globals.getClientFrame(), message, "Message", JOptionPane.INFORMATION_MESSAGE);
             }
