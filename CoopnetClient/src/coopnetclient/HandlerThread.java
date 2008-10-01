@@ -135,6 +135,9 @@ public class HandlerThread extends Thread {
             String input = "";
             while (running) {
                 input = read();
+                if(input == null){
+                    continue;
+                }
                 lastMessageReadAt = System.currentTimeMillis();
                 //execute command
                 SwingUtilities.invokeLater(new SwingWorker(input));
