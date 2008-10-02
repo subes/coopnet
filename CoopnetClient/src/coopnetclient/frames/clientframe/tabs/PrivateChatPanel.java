@@ -113,6 +113,11 @@ public class PrivateChatPanel extends javax.swing.JPanel {
         sp_chatVertical.setFocusable(false);
 
         scrl_chatOutput.setFocusable(false);
+        scrl_chatOutput.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                scrl_chatOutputComponentResized(evt);
+            }
+        });
 
         tp_chatOutput.setEditable(false);
         tp_chatOutput.setFocusCycleRoot(false);
@@ -190,6 +195,16 @@ private void jb_MuteBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             jb_MuteBan.setText("Mute");
         } 
 }//GEN-LAST:event_jb_MuteBanActionPerformed
+
+private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_scrl_chatOutputComponentResized
+    int start, end;
+    start = tp_chatOutput.getSelectionStart();
+    end = tp_chatOutput.getSelectionEnd();
+    tp_chatOutput.setSelectionStart(start-1);
+    tp_chatOutput.setSelectionEnd(end-1);
+    tp_chatOutput.setSelectionStart(start);
+    tp_chatOutput.setSelectionEnd(end);
+}//GEN-LAST:event_scrl_chatOutputComponentResized
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_close;

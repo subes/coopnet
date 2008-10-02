@@ -271,6 +271,11 @@ public class ChannelPanel extends javax.swing.JPanel {
         scrl_chatOutput.setPreferredSize(new java.awt.Dimension(150, 150));
         scrl_chatOutput.setRequestFocusEnabled(false);
         scrl_chatOutput.setVerifyInputWhenFocusTarget(false);
+        scrl_chatOutput.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                scrl_chatOutputComponentResized(evt);
+            }
+        });
 
         tp_chatOutput.setEditable(false);
         tp_chatOutput.setAutoscrolls(false);
@@ -445,7 +450,7 @@ public class ChannelPanel extends javax.swing.JPanel {
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_refresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(btn_leaveChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(scrl_roomList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
@@ -579,6 +584,16 @@ private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST
         lst_userList.clearSelection();
     }
 }//GEN-LAST:event_lst_userListMouseExited
+
+private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_scrl_chatOutputComponentResized
+    int start, end;
+    start = tp_chatOutput.getSelectionStart();
+    end = tp_chatOutput.getSelectionEnd();
+    tp_chatOutput.setSelectionStart(start-1);
+    tp_chatOutput.setSelectionEnd(end-1);
+    tp_chatOutput.setSelectionStart(start);
+    tp_chatOutput.setSelectionEnd(end);
+}//GEN-LAST:event_scrl_chatOutputComponentResized
 
     public int getChannelChatHorizontalposition() {
         return sp_chatHorizontal.getDividerLocation();

@@ -329,6 +329,11 @@ public class RoomPanel extends javax.swing.JPanel {
         sp_chatVertical.setMinimumSize(new java.awt.Dimension(22, 49));
 
         scrl_chatOutput.setFocusable(false);
+        scrl_chatOutput.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                scrl_chatOutputComponentResized(evt);
+            }
+        });
 
         tp_chatOutput.setEditable(false);
         tp_chatOutput.setMinimumSize(new java.awt.Dimension(6, 24));
@@ -506,6 +511,16 @@ private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST
         lst_userList.clearSelection();
     }
 }//GEN-LAST:event_lst_userListMouseExited
+
+private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_scrl_chatOutputComponentResized
+    int start, end;
+    start = tp_chatOutput.getSelectionStart();
+    end = tp_chatOutput.getSelectionEnd();
+    tp_chatOutput.setSelectionStart(start-1);
+    tp_chatOutput.setSelectionEnd(end-1);
+    tp_chatOutput.setSelectionStart(start);
+    tp_chatOutput.setSelectionEnd(end);
+}//GEN-LAST:event_scrl_chatOutputComponentResized
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_close;
