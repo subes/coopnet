@@ -359,10 +359,15 @@ public class Globals {
 
     public static void closeEditProfileFrame() {
         if (editProfileFrame != null) {
+            editProfileFrame.preClose();
             closeChangePasswordFrame();
             editProfileFrame.dispose();
             editProfileFrame = null;
         }
+    }
+    
+    public static EditProfileFrame getEditProfileFrame(){
+        return editProfileFrame;
     }
 
     public static ChangePasswordFrame getChangePasswordFrame() {

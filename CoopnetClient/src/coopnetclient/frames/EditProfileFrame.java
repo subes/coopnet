@@ -23,7 +23,6 @@ import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.Verification;
-import java.awt.Color;
 
 public class EditProfileFrame extends javax.swing.JFrame {
 
@@ -81,6 +80,14 @@ public class EditProfileFrame extends javax.swing.JFrame {
             }
         }
         return 0;
+    }
+    
+    public void loginAlreadyUsed(){
+        tf_loginName.showErrorMessage("Name already used!");
+    }
+    
+    public void preClose(){
+        Settings.setLastLoginName(tf_loginName.getText());
     }
 
     /** This method is called from within the constructor to
@@ -259,15 +266,12 @@ public class EditProfileFrame extends javax.swing.JFrame {
         }
 
         //sending data
-        Protocol.setEmail(tf_emailAddress.getText());
-        Protocol.setEmailPublicity(cb_emailIsPublic.isSelected());
-        Protocol.setCountry((cmb_country.getSelectedIndex() == 0) ? "" : cmb_country.getSelectedItem().toString());
-        Protocol.setWebsite(tf_website.getText());
-        Protocol.setGameName(tf_inGameName.getText());
-        Protocol.setLoginName(tf_loginName.getText());
-        
-        Settings.setLastLoginName(tf_loginName.getText());
-        
+        Protocol.saveProfile(tf_loginName.getText(),
+                tf_inGameName.getText(),
+                tf_emailAddress.getText(),
+                (cmb_country.getSelectedIndex() == 0) ? "" : cmb_country.getSelectedItem().toString(),
+                tf_website.getText(),
+                cb_emailIsPublic.isSelected());         
 }//GEN-LAST:event_btn_saveActionPerformed
 
     private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel

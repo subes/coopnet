@@ -83,7 +83,7 @@ public class ContactListRenderer extends JLabel implements ListCellRenderer {
                 break;
             case PENDING_REQUEST:
                 setIcon(pendingRequestIcon);
-                setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
                 break;
             case PENDING_CONTACT:
                 setIcon(pendingContactIcon);
@@ -95,12 +95,12 @@ public class ContactListRenderer extends JLabel implements ListCellRenderer {
                 setIcon(offlineIcon);
                 break;
             case GROUPNAME_OPEN:
-                setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
                 setIcon(UIManager.getIcon("Tree.expandedIcon"));
                 setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
                 break;
             case GROUPNAME_CLOSED:
-                setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
                 setIcon(UIManager.getIcon("Tree.collapsedIcon"));
                 setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
                 break;

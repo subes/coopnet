@@ -70,4 +70,5 @@ public enum ClientProtocolCommands {
     LAUNCH,
     FLIP_READY,
     SEND_FILE,
+    SAVE_PROFILE
 }

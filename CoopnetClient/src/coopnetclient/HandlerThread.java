@@ -95,7 +95,7 @@ public class HandlerThread extends Thread {
                                 //connection is most probably lost
                                 Client.disconnect();
                                 TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, null);
-                            } 
+                            }
                         }
                     } catch (Exception e) {
                        ErrorHandler.handleException(e);

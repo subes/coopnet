@@ -730,6 +730,18 @@ public class ClientFrame extends javax.swing.JFrame {
     protected JTabbedPane getTabHolder() {
         return tabpn_tabs;
     }
+    
+    public void updateContactlistTogglerMenuItem(){
+        if (Globals.getLoggedInStatus()) {        
+        if (quickPanelVisibility) {
+            mi_Show_Contactlist.setText("Hide ContactList");
+        } else {
+            mi_Show_Contactlist.setText("Show ContactList");
+        }
+    } else {
+        mi_Show_Contactlist.setText("Show ContactList");
+    }
+    }
 
     private void mi_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_connectActionPerformed
         TabOrganizer.closeAllTabs();
@@ -839,6 +851,7 @@ private void pnl_toggleQuickBarLeftMousePressed(java.awt.event.MouseEvent evt) {
         quickPanelVisibility = !quickPanelVisibility;
         setQuickBarVisibility(quickPanelVisibility);
         quickPanelFlashing = false;
+        updateContactlistTogglerMenuItem();
     }
 }//GEN-LAST:event_pnl_toggleQuickBarLeftMousePressed
 
@@ -867,6 +880,7 @@ private void pnl_toggleQuickBarRightMousePressed(java.awt.event.MouseEvent evt) 
         quickPanelVisibility = !quickPanelVisibility;
         setQuickBarVisibility(quickPanelVisibility);
         quickPanelFlashing = false;
+        updateContactlistTogglerMenuItem();
     }
 }//GEN-LAST:event_pnl_toggleQuickBarRightMousePressed
 
@@ -880,11 +894,7 @@ private void mi_Show_ContactlistActionPerformed(java.awt.event.ActionEvent evt) 
     if (Globals.getLoggedInStatus()) {
         quickPanelVisibility = !quickPanelVisibility;
         setQuickBarVisibility(quickPanelVisibility);
-        if (quickPanelVisibility) {
-            mi_Show_Contactlist.setText("Hide ContactList");
-        } else {
-            mi_Show_Contactlist.setText("Show ContactList");
-        }
+        updateContactlistTogglerMenuItem();
     } else {
         mi_Show_Contactlist.setText("Show ContactList");
     }

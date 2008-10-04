@@ -19,7 +19,6 @@
 
 package coopnetclient.frames;
 
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Settings;

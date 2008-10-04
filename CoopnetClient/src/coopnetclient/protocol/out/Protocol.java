@@ -152,13 +152,18 @@ public class Protocol {
 
     public static void changePassword(String oldpassword, String newpassword) {
         String[] info = {PasswordEncrypter.encryptPassword(oldpassword), PasswordEncrypter.encryptPassword(newpassword)};
-        new Message(ClientProtocolCommands.CHANGE_PASSWORD);
+        new Message(ClientProtocolCommands.CHANGE_PASSWORD,info);
     }
 
     public static void editProfile() {
         new Message(ClientProtocolCommands.EDIT_PROFILE);
     }
 
+    public static void saveProfile(String loginName, String ingameName, String email, String country, String website, boolean emailIsPublic ) {
+        String[] info = { loginName, ingameName,  email,  country,  website,  emailIsPublic+"" };
+        new Message(ClientProtocolCommands.SAVE_PROFILE,info);
+    }
+    
     public static void quit() {
         new Message(ClientProtocolCommands.QUIT);
     }

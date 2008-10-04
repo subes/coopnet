@@ -159,6 +159,9 @@ public class CommandHandler {
                 case ERROR_ROOM_DOES_NOT_EXIST:
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "The room doesn't exist", ChatStyles.SYSTEM, true);
                     break;
+                case ERROR_LOGINNAME_IS_ALREADY_USED:
+                    Globals.getEditProfileFrame().loginAlreadyUsed();
+                    break;
                 case REQUEST_PASSWORD:
                     Globals.openJoinRoomPasswordFrame(information[0]);
                     break;
@@ -209,7 +212,7 @@ public class CommandHandler {
                     Globals.getClientFrame().removePlayerFromChannel(GameDatabase.getGameName(information[0]), information[1]);
                     break;
                 case CHAT_PRIVATE:
-                    Globals.getClientFrame().printPrivateChatMessage(information[0], information[0]);
+                    Globals.getClientFrame().printPrivateChatMessage(information[0], information[1]);
                     break;
                 case SERVER_SHUTTING_DOWN:
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "The server is shutting down!", ChatStyles.SYSTEM, true);
