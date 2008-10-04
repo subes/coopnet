@@ -125,12 +125,12 @@ public class LoginPanel extends javax.swing.JPanel {
         );
         pnl_topLayout.setVerticalGroup(
             pnl_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 55, Short.MAX_VALUE)
+            .addGap(0, 53, Short.MAX_VALUE)
         );
 
         add(pnl_top);
 
-        pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Login"));
+        pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Log in"));
         pnl_input.setFocusable(false);
         pnl_input.setMaximumSize(new java.awt.Dimension(300, 300));
         pnl_input.setMinimumSize(new java.awt.Dimension(300, 170));
@@ -244,7 +244,7 @@ public class LoginPanel extends javax.swing.JPanel {
             pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_bottomLayout.createSequentialGroup()
                 .addComponent(lbl_Info)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         add(pnl_bottom);
