@@ -47,7 +47,7 @@ public class Verification {
     }
 
     public static boolean verifyLoginName(String loginName) {        
-        return loginName.matches("\\p{Graph}{5,30}");
+        return loginName.matches("\\p{Graph}{3,30}");
     }
     
     public static boolean verifyIngameName(String ingameName){

@@ -248,20 +248,20 @@ public class EditProfileFrame extends javax.swing.JFrame {
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         if(!Verification.verifyLoginName(tf_loginName.getText())){
-            tf_loginName.showErrorMessage("Invalid login name!");
+            tf_loginName.showErrorMessage("Must be 3-30 characters, only ASCII allowed!");
             return;
         }
         if(!Verification.verifyEMail(tf_emailAddress.getText())){
-            tf_emailAddress.showErrorMessage( "Your E-Mail is too long!");
+            tf_emailAddress.showErrorMessage("Value too long!");
             return;
         }
         
         if(!Verification.verifyIngameName(tf_inGameName.getText())){
-            tf_inGameName.showErrorMessage("Your InGame name must have 1 to 30 characters!");
+            tf_inGameName.showErrorMessage("Must be 1 to 30 characters!");
             return;
         }
         if(!Verification.verifyWebsite(tf_website.getText())){
-            tf_website.showErrorMessage("Your Website address is too long!");
+            tf_website.showErrorMessage("Value too long!");
             return;
         }
 
