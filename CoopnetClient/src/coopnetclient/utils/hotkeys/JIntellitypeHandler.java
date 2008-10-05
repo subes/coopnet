@@ -23,6 +23,10 @@ import com.melloware.jintellitype.HotkeyListener;
 import com.melloware.jintellitype.JIntellitype;
 
 public class JIntellitypeHandler extends HotkeyHandler implements HotkeyListener{
+
+    public JIntellitypeHandler() {
+        JIntellitype.getInstance().addHotKeyListener(this);
+    }
     
     @Override
     public void registerHotkey(int id, int mask, int key) {

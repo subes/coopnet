@@ -24,6 +24,10 @@ import jxgrabkey.JXGrabKey;
 
 public class JXGrabKeyHandler extends HotkeyHandler implements HotkeyListener{
 
+    public JXGrabKeyHandler() {
+        JXGrabKey.getInstance().addHotkeyListener(this);
+    }
+    
     @Override
     public void registerHotkey(int id, int mask, int key) {
         JXGrabKey.getInstance().registerHotkey(id, mask, key);

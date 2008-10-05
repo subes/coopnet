@@ -49,7 +49,7 @@ public class Launcher {
     
     public static void initialize(LaunchInfo launchInfo){
         
-         TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getChildName());
+        TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getChildName());
         
         if(launchInfo instanceof DirectPlayLaunchInfo){
             if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS){
@@ -75,7 +75,7 @@ public class Launcher {
         }
     }
     
-    public static void launch(){
+    public static void launch(){        
         if(isPlaying()){
             throw new IllegalStateException("Another game has been launched already!");
         }

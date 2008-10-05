@@ -106,8 +106,7 @@ public class Client {
 
                     try {
                         sleep(100);
-                    } catch (Exception e) {
-                    }
+                    } catch (Exception e) {}
 
                     if (Settings.getFirstRun()) {
                         TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");

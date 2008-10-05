@@ -216,7 +216,7 @@ public class RoomPanel extends javax.swing.JPanel {
         roomStatusListCR.gameClosed(playerName);
     }
     
-    public void PressLaunch(){
+    public void pressLaunch(){
         btn_launch.doClick();
     }
 
@@ -429,6 +429,18 @@ public class RoomPanel extends javax.swing.JPanel {
     private void clickedbtn_launch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_launch
         if (isHost) {
             Protocol.launch();
+            new Thread(){
+                @Override
+                public void run() {
+                    try {
+                        btn_launch.setEnabled(false);
+                        sleep(1000);
+                        if(btn_ready.isEnabled()){
+                            btn_launch.setEnabled(true);
+                        }
+                    } catch (InterruptedException ex) {}
+                } 
+            }.start();
         }
 }//GEN-LAST:event_clickedbtn_launch
 

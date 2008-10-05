@@ -172,7 +172,7 @@ public class Settings {
     private final static boolean def_ContactStatusChangeSoundNotification = true;
     private final static boolean def_TrayIconEnabled = false;
     private static Vector<String> favourites;
-    private final static int def_LaunchHotKeyMask = KeyEvent.CTRL_MASK | KeyEvent.CTRL_DOWN_MASK | KeyEvent.SHIFT_MASK | KeyEvent.SHIFT_DOWN_MASK;
+    private final static int def_LaunchHotKeyMask = KeyEvent.CTRL_MASK | KeyEvent.CTRL_DOWN_MASK;
     private final static int def_LaunchHotKey = KeyEvent.VK_L;
     private final static boolean def_multiChannel = true;
 

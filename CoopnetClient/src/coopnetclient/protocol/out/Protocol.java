@@ -25,6 +25,7 @@ import coopnetclient.enums.ClientProtocolCommands;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.utils.launcher.Launcher;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;

@@ -19,9 +19,10 @@
 
 package coopnetclient.utils.hotkeys;
 
-import coopnetclient.utils.*;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.utils.Settings;
+import coopnetclient.utils.launcher.Launcher;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
@@ -67,8 +68,8 @@ public class Hotkeys {
 
     protected static void onHotkey(int id) {
         if (id == ACTION_LAUNCH) {
-            if (TabOrganizer.getRoomPanel() != null ) {
-               TabOrganizer.getRoomPanel().PressLaunch();
+            if (TabOrganizer.getRoomPanel() != null) {
+               TabOrganizer.getRoomPanel().pressLaunch();
             }
         }
     }
