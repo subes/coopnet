@@ -16,44 +16,44 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-package coopnetclient.utils;
 
-import com.melloware.jintellitype.HotkeyListener;
-import com.melloware.jintellitype.JIntellitype;
+package coopnetclient.utils.hotkeys;
+
+import coopnetclient.utils.*;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
-public class HotKeyControl implements HotkeyListener {
+public class Hotkeys {
 
     private static int ACTION_LAUNCH = 1;
-    private static HotKeyControl controllerObject = new HotKeyControl();
-
-    private HotKeyControl() {
-        super();
-    }
-
-    public static void bindKeys() {
+    private static HotkeyHandler handler;
+    
+    static{
         switch (Globals.getOperatingSystem()) {
             case WINDOWS:
-                if(Settings.getLaunchHotKey() != KeyEvent.VK_UNDEFINED){
-                    JIntellitype.getInstance().registerSwingHotKey(ACTION_LAUNCH, Settings.getLaunchHotKeyMask(), Settings.getLaunchHotKey());
-                    JIntellitype.getInstance().addHotKeyListener(controllerObject);
-                }
+                System.loadLibrary("lib/JIntellitype");
+                handler = new JIntellitypeHandler();
                 break;
             case LINUX:
+                File curDir = new File(".");
+                System.load(curDir.getAbsolutePath()+"/lib/libJXGrabKey.so");
+                handler = new JXGrabKeyHandler();
                 break;
+        }
+    }
+
+    private Hotkeys() {}
+
+    public static void bindKeys() {
+        if(Settings.getLaunchHotKey() != KeyEvent.VK_UNDEFINED){
+            handler.registerHotkey(ACTION_LAUNCH, Settings.getLaunchHotKeyMask(), Settings.getLaunchHotKey());
         }
     }
 
     public static void unbindKeys() {
-        switch (Globals.getOperatingSystem()) {
-            case WINDOWS:
-                JIntellitype.getInstance().unregisterHotKey(ACTION_LAUNCH);
-                break;
-            case LINUX:
-                break;
-        }
+        handler.unregisterHotkey(ACTION_LAUNCH);
     }
 
     public static void reBind() {
@@ -62,20 +62,11 @@ public class HotKeyControl implements HotkeyListener {
     }
 
     public static void cleanUp() {
-        switch (Globals.getOperatingSystem()) {
-            case WINDOWS:
-                JIntellitype.getInstance().cleanUp();
-                break;
-            case LINUX:
-                break;
-        }
+        handler.cleanUp();
     }
 
-    @Override
-    public void onHotKey(int arg0) {
-        //System.out.println("hotkey event recieved:" +arg0);
-        //launch action
-        if (arg0 == ACTION_LAUNCH) {
+    protected static void onHotkey(int id) {
+        if (id == ACTION_LAUNCH) {
             if (TabOrganizer.getRoomPanel() != null ) {
                TabOrganizer.getRoomPanel().PressLaunch();
             }

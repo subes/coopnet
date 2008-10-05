@@ -34,12 +34,10 @@ import java.util.HashMap;
 
 public class GameDatabase {
 
-    public static final String datafilepath = "data/newGameData.xml";
+    public static final String datafilepath = "data/gamedata.xml";
     public static final String testdatafilepath = "data/testgamedata.xml";
     private static final String lpfilepath = "data/localpaths";
     private static boolean registryOK = false;
-    protected static final String SETTING_DELIMITER_PATTERN = "\\^";
-    protected static final String SETTING_DELIMITER = "^";    //fields
     protected static HashMap<String, String> IDtoGameName;     // key is the ID    
     private static HashMap<String, String> localexecutablepath; //shud point to the exe/binary
     private static HashMap<String, String> localinstallpath; //shud point to the game basedir

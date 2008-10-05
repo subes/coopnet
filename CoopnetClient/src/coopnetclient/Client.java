@@ -28,7 +28,7 @@ import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.FileDownloader;
 import coopnetclient.utils.Verification;
 import coopnetclient.protocol.out.Message;
-import coopnetclient.utils.HotKeyControl;
+import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
@@ -115,7 +115,7 @@ public class Client {
                     }
                     checkAndUpdateGameData();
                     checkAndUpdateClient();
-                    HotKeyControl.bindKeys();
+                    Hotkeys.bindKeys();
                 } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }
@@ -163,7 +163,7 @@ public class Client {
                 coopnetclient.utils.Settings.setMainFrameWidth(Globals.getClientFrame().getWidth());
             }
 
-            HotKeyControl.cleanUp();
+            Hotkeys.cleanUp();
             System.exit(0);
         }
     }

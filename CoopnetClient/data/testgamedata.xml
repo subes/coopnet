@@ -1,7 +1,0 @@
-<?xml version="1.0"?><GameDataBase><GameData>
-<GameName>GameTest channel</GameName>
-<ChannelID>TST</ChannelID>
-<Property><PropertyName>JOINPATTERN</PropertyName><PropertyValue>gay</PropertyValue></Property>
-<Property><PropertyName>LAUNCHMETHOD</PropertyName><PropertyValue>PARAMETER</PropertyValue></Property>
-<Property><PropertyName>LAUNCHPATTERN</PropertyName><PropertyValue>wtf fi</PropertyValue></Property>
-</GameData></GameDataBase>

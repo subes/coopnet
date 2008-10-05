@@ -33,7 +33,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import coopnetclient.frames.listeners.ColorChooserButtonActionListener;
-import coopnetclient.utils.HotKeyControl;
+import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.Verification;
 import java.awt.Component;
 import java.awt.SystemTray;
@@ -1089,7 +1089,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             }
             
             Globals.getClientFrame().updateMenu();
-            HotKeyControl.reBind();
+            Hotkeys.reBind();
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(Globals.getClientFrame(), "Please verify that you have entered valid information!\nFor example:\n  Serverport and textsizes need to be non-decimal numbers.", "Wrong input", JOptionPane.ERROR_MESSAGE);
