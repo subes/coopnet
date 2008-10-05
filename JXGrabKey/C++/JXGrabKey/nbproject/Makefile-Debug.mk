@@ -49,7 +49,7 @@ dist/Debug/GNU-Linux-x86/libJXGrabKey.so: ${OBJECTFILES}
 
 ${OBJECTDIR}/src/JXGrabKey.o: src/JXGrabKey.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
-	$(COMPILE.cc) -g -I/usr/lib/jvm/java-6-sun/include -I/usr/lib/jvm/java-6-sun/include/linux -fPIC  -o ${OBJECTDIR}/src/JXGrabKey.o src/JXGrabKey.cpp
+	$(COMPILE.cc) -O2 -I/usr/lib/jvm/java-6-sun/include -I/usr/lib/jvm/java-6-sun/include/linux -fPIC  -o ${OBJECTDIR}/src/JXGrabKey.o src/JXGrabKey.cpp
 
 # Subprojects
 .build-subprojects:

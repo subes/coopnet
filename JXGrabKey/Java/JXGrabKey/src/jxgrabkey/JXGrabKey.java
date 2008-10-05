@@ -18,10 +18,20 @@
 
 package jxgrabkey;
 
+import java.awt.event.InputEvent;
 import java.util.ArrayList;
 
 public class JXGrabKey {
 
+    public static final int X11_SHIFT_MASK = 1 << 0;
+    public static final int X11_LOCK_MASK = 1 << 1;
+    public static final int X11_CONTROL_MASK = 1 << 2;
+    public static final int X11_MOD1_MASK = 1 << 3;
+    public static final int X11_MOD2_MASK = 1 << 4;
+    public static final int X11_MOD3_MASK = 1 << 5;
+    public static final int X11_MOD4_MASK = 1 << 6;
+    public static final int X11_MOD5_MASK = 1 << 7;
+    
     private static JXGrabKey instance;
     private static ArrayList<HotkeyListener> listeners;
     
@@ -61,6 +71,25 @@ public class JXGrabKey {
     
     public void registerSwingHotkey(int id, int mask, int key){
         
+        int x11Mask = 0;
+        
+        if ((mask & InputEvent.SHIFT_MASK) != 0) {
+            x11Mask |= X11_SHIFT_MASK;
+        }
+        if ((mask & InputEvent.ALT_MASK) != 0) {
+            x11Mask |= X11_MOD1_MASK;
+        }
+        if ((mask & InputEvent.CTRL_MASK) != 0) {
+            x11Mask |= X11_CONTROL_MASK;
+        }
+        if ((mask & InputEvent.META_MASK) != 0) {
+            x11Mask |= X11_MOD2_MASK;
+        }
+        if ((mask & InputEvent.ALT_GRAPH_MASK) != 0) {
+            x11Mask |= X11_MOD5_MASK;
+        }
+        
+        registerHotkey(id, x11Mask, key);
     }
     
     public native void unregisterHotKey(int id);

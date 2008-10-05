@@ -39,6 +39,7 @@
           </includeDirectories>
         </cCompilerTool>
         <ccCompilerTool>
+          <developmentMode>5</developmentMode>
           <includeDirectories>
             <directoryPath>/usr/lib/jvm/java-6-sun/include</directoryPath>
             <directoryPath>/usr/lib/jvm/java-6-sun/include/linux</directoryPath>
