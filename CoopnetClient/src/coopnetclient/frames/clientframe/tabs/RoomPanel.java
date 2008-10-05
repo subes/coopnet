@@ -262,7 +262,7 @@ public class RoomPanel extends javax.swing.JPanel {
 
         setFocusable(false);
         setNextFocusableComponent(tp_chatInput);
-        setPreferredSize(new java.awt.Dimension(350, 400));
+        setPreferredSize(null);
         setRequestFocusEnabled(false);
 
         btn_ready.setText("Ready");
@@ -291,6 +291,7 @@ public class RoomPanel extends javax.swing.JPanel {
             }
         });
 
+        sp_chatHorizontal.setBorder(null);
         sp_chatHorizontal.setDividerSize(3);
         sp_chatHorizontal.setResizeWeight(1.0);
         sp_chatHorizontal.setFocusable(false);
@@ -322,6 +323,7 @@ public class RoomPanel extends javax.swing.JPanel {
 
         sp_chatHorizontal.setRightComponent(scrl_userList);
 
+        sp_chatVertical.setBorder(null);
         sp_chatVertical.setDividerSize(3);
         sp_chatVertical.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         sp_chatVertical.setResizeWeight(1.0);

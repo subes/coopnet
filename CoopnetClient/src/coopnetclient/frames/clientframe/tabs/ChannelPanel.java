@@ -253,11 +253,13 @@ public class ChannelPanel extends javax.swing.JPanel {
         sp_vertical.setFocusable(false);
         sp_vertical.setOneTouchExpandable(true);
 
+        sp_chatHorizontal.setBorder(null);
         sp_chatHorizontal.setDividerSize(3);
         sp_chatHorizontal.setResizeWeight(1.0);
         sp_chatHorizontal.setFocusable(false);
         sp_chatHorizontal.setPreferredSize(new java.awt.Dimension(200, 100));
 
+        sp_chatVertical.setBorder(null);
         sp_chatVertical.setDividerSize(3);
         sp_chatVertical.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         sp_chatVertical.setResizeWeight(1.0);

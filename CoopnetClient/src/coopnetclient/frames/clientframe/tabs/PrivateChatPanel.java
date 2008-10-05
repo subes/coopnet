@@ -96,7 +96,7 @@ public class PrivateChatPanel extends javax.swing.JPanel {
         jb_MuteBan = new javax.swing.JButton();
 
         setFocusable(false);
-        setPreferredSize(new java.awt.Dimension(350, 400));
+        setPreferredSize(null);
 
         btn_close.setText("Close");
         btn_close.setAlignmentX(0.5F);
@@ -107,6 +107,7 @@ public class PrivateChatPanel extends javax.swing.JPanel {
             }
         });
 
+        sp_chatVertical.setBorder(null);
         sp_chatVertical.setDividerSize(3);
         sp_chatVertical.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         sp_chatVertical.setResizeWeight(1.0);
@@ -152,7 +153,7 @@ public class PrivateChatPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sp_chatVertical, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+            .addComponent(sp_chatVertical, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(208, 208, 208)
                 .addComponent(jb_MuteBan)
