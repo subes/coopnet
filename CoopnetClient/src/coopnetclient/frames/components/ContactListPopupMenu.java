@@ -46,6 +46,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem accept;
     private JMenuItem refuse;
     private JMenuItem deleteContact;
+    private JSeparator sep_contact;
     private JMenuItem nudge;
     private JMenuItem showProfile;
     private JMenuItem whisper;
@@ -53,6 +54,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem invite;
     private JMenuItem refresh;
     private JMenu moveto;
+    private JSeparator sep_group;
     private JCheckBoxMenuItem hideOffline;
     private JMenuItem create;
     private JMenuItem deleteGroup;
@@ -69,6 +71,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         playerName.setEnabled(false);
         accept = makeMenuItem("Accept");
         refuse = makeMenuItem("Refuse");
+        sep_contact = new JSeparator();
         nudge = makeMenuItem("Nudge");
         showProfile = makeMenuItem("Show profile...");
         whisper = makeMenuItem("Whisper...");
@@ -79,6 +82,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         deleteGroup = makeMenuItem("Delete Group");
         deleteContact = makeMenuItem("Remove Contact");
         rename = makeMenuItem("Rename Group");
+        sep_group = new JSeparator();
         hideOffline = new JCheckBoxMenuItem("Hide offline contacts", true);
         hideOffline.addActionListener(this);
         toggle = makeMenuItem("Open/Collapse");
@@ -92,7 +96,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(refuse);
         this.add(deleteContact);
         this.add(moveto);
-        this.add(new JSeparator());
+        this.add(sep_contact);
         this.add(nudge);
         this.add(showProfile);
         this.add(whisper);
@@ -100,7 +104,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(invite);
         this.add(mute_UnMute);
         this.add(ban_UnBan);
-        this.add(new JSeparator());
+        this.add(sep_group);
         this.add(hideOffline);
         this.add(create);
         this.add(deleteGroup);
@@ -123,9 +127,12 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     }
 
     public void setContactActionVisibility(boolean isVisible) {
+        sep_contact.setVisible(isVisible);
         moveto.setVisible(isVisible);
         deleteContact.setVisible(isVisible);
         deleteContact.setVisible(isVisible);
+        mute_UnMute.setVisible(isVisible);
+        ban_UnBan.setVisible(isVisible);
         nudge.setVisible(isVisible);
         showProfile.setVisible(isVisible);
         whisper.setVisible(isVisible);
@@ -135,6 +142,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         } else {
             invite.setVisible(isVisible);
         }
+        sep_group.setVisible(isVisible);
     }
 
     public void setPendingActionVisibility(boolean isVisible) {
