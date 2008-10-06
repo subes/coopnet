@@ -93,8 +93,10 @@ public class HandlerThread extends Thread {
                             doSend();
                             if((System.currentTimeMillis() - lastMessageReadAt) > TIMEOUT ){
                                 //connection is most probably lost
-                                Client.disconnect();
-                                TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, null);
+                                if(Globals.getConnectionStatus()){
+                                    Client.disconnect();
+                                    TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, null);
+                                }
                             }
                         }
                     } catch (Exception e) {
@@ -147,11 +149,13 @@ public class HandlerThread extends Thread {
             System.out.println("handlerthread stopped");
         } catch (Exception e) {
             //disconnect
-            Client.disconnect();
-            //ErrorHandler decides if there is a need for the stacktrace, 
-            //this helps looking at the log of a bugreport
-            //handle excptions
-            ErrorHandler.handleException(e);
+            if(Globals.getConnectionStatus()){
+                Client.disconnect();
+                //ErrorHandler decides if there is a need for the stacktrace, 
+                //this helps looking at the log of a bugreport
+                //handle excptions
+                ErrorHandler.handleException(e);
+            }
         }
         if(Globals.getDebug()){
             System.out.println("[L]\tHandlerThreads main loop ended");

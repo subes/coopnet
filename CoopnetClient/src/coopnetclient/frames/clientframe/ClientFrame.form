@@ -31,20 +31,13 @@
             <Property name="text" type="java.lang.String" value="Client"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="mi_connect">
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="mi_connection">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Connect"/>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Connection"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_connectActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mi_disconnect">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Disconnect"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_disconnectActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_connectionActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_update">
@@ -68,30 +61,31 @@
         <Menu class="javax.swing.JMenu" name="jm_user">
           <Properties>
             <Property name="text" type="java.lang.String" value="User"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mi_profile">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Edit profile"/>
+                <Property name="text" type="java.lang.String" value="Edit Profile"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_profileActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mi_Show_Contactlist">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Show Contactlist"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_Show_ContactlistActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmi_showMuteBanList">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Show my mute/ban list"/>
+                <Property name="text" type="java.lang.String" value="Edit Mute/Ban List"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_showMuteBanListActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="mi_showQuickbar">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Show Quickbar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_showQuickbarActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -99,11 +93,12 @@
         <Menu class="javax.swing.JMenu" name="m_channels">
           <Properties>
             <Property name="text" type="java.lang.String" value="Channels"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mi_channelList">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Channel list"/>
+                <Property name="text" type="java.lang.String" value="Channel List"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_channelListActionPerformed"/>
@@ -119,7 +114,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_addCurrentToFav">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Add current to Favourites"/>
+                <Property name="text" type="java.lang.String" value="Add Current to Favourites"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_addCurrentToFavActionPerformed"/>
@@ -142,8 +137,8 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mi_clientSettings">
               <Properties>
+                <Property name="text" type="java.lang.String" value="Edit Settings"/>
                 <Property name="actionCommand" type="java.lang.String" value="Client settings"/>
-                <Property name="label" type="java.lang.String" value="Client settings"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_clientSettingsActionPerformed"/>

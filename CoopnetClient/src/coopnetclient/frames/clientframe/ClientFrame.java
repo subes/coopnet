@@ -65,11 +65,6 @@ public class ClientFrame extends javax.swing.JFrame {
         //pnl_contactList.setVisible(false);
         slp_mainSplitPanel.setDividerSize(0);
 
-        mi_disconnect.setEnabled(true);
-        mi_connect.setEnabled(false);
-        mi_profile.setEnabled(false);
-        mi_channelList.setEnabled(false);
-
         refreshFavourites();
 
         //load the size from options
@@ -89,13 +84,15 @@ public class ClientFrame extends javax.swing.JFrame {
         }
     }
     //Callback for Globals
-    public void updateLoggedInStatus() {
-        if (Globals.getLoggedInStatus()) {
-            mi_profile.setEnabled(true);
-            mi_channelList.setEnabled(true);
-        } else {
-            mi_profile.setEnabled(false);
+    public void updateStatus() {        
+        if(Globals.getLoggedInStatus() == false){
+            setQuickBarVisibility(false);
+            lastdividerposition = null;
         }
+        
+        jm_user.setEnabled(Globals.getLoggedInStatus());
+        m_channels.setEnabled(Globals.getLoggedInStatus());
+        mi_connection.setSelected(Globals.getConnectionStatus());
     }
 
     public void flashQuickPanelToggler() {
@@ -334,14 +331,13 @@ public class ClientFrame extends javax.swing.JFrame {
         pnl_toggleQuickBarRight = new javax.swing.JPanel();
         mbar = new javax.swing.JMenuBar();
         m_main = new javax.swing.JMenu();
-        mi_connect = new javax.swing.JMenuItem();
-        mi_disconnect = new javax.swing.JMenuItem();
+        mi_connection = new javax.swing.JCheckBoxMenuItem();
         mi_update = new javax.swing.JMenuItem();
         mi_quit = new javax.swing.JMenuItem();
         jm_user = new javax.swing.JMenu();
         mi_profile = new javax.swing.JMenuItem();
-        mi_Show_Contactlist = new javax.swing.JMenuItem();
         jmi_showMuteBanList = new javax.swing.JMenuItem();
+        mi_showQuickbar = new javax.swing.JCheckBoxMenuItem();
         m_channels = new javax.swing.JMenu();
         mi_channelList = new javax.swing.JMenuItem();
         mi_manageFavs = new javax.swing.JMenuItem();
@@ -467,21 +463,14 @@ public class ClientFrame extends javax.swing.JFrame {
 
         m_main.setText("Client");
 
-        mi_connect.setText("Connect");
-        mi_connect.addActionListener(new java.awt.event.ActionListener() {
+        mi_connection.setSelected(true);
+        mi_connection.setText("Connection");
+        mi_connection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_connectActionPerformed(evt);
+                mi_connectionActionPerformed(evt);
             }
         });
-        m_main.add(mi_connect);
-
-        mi_disconnect.setText("Disconnect");
-        mi_disconnect.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_disconnectActionPerformed(evt);
-            }
-        });
-        m_main.add(mi_disconnect);
+        m_main.add(mi_connection);
 
         mi_update.setText("Update Client");
         mi_update.addActionListener(new java.awt.event.ActionListener() {
@@ -502,8 +491,9 @@ public class ClientFrame extends javax.swing.JFrame {
         mbar.add(m_main);
 
         jm_user.setText("User");
+        jm_user.setEnabled(false);
 
-        mi_profile.setText("Edit profile");
+        mi_profile.setText("Edit Profile");
         mi_profile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_profileActionPerformed(evt);
@@ -511,15 +501,7 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         jm_user.add(mi_profile);
 
-        mi_Show_Contactlist.setText("Show Contactlist");
-        mi_Show_Contactlist.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_Show_ContactlistActionPerformed(evt);
-            }
-        });
-        jm_user.add(mi_Show_Contactlist);
-
-        jmi_showMuteBanList.setText("Show my mute/ban list");
+        jmi_showMuteBanList.setText("Edit Mute/Ban List");
         jmi_showMuteBanList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jmi_showMuteBanListActionPerformed(evt);
@@ -527,11 +509,20 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         jm_user.add(jmi_showMuteBanList);
 
+        mi_showQuickbar.setText("Show Quickbar");
+        mi_showQuickbar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_showQuickbarActionPerformed(evt);
+            }
+        });
+        jm_user.add(mi_showQuickbar);
+
         mbar.add(jm_user);
 
         m_channels.setText("Channels");
+        m_channels.setEnabled(false);
 
-        mi_channelList.setText("Channel list");
+        mi_channelList.setText("Channel List");
         mi_channelList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_channelListActionPerformed(evt);
@@ -547,7 +538,7 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_channels.add(mi_manageFavs);
 
-        mi_addCurrentToFav.setText("Add current to Favourites");
+        mi_addCurrentToFav.setText("Add Current to Favourites");
         mi_addCurrentToFav.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_addCurrentToFavActionPerformed(evt);
@@ -564,8 +555,8 @@ public class ClientFrame extends javax.swing.JFrame {
 
         m_options.setText("Options");
 
+        mi_clientSettings.setText("Edit Settings");
         mi_clientSettings.setActionCommand("Client settings");
-        mi_clientSettings.setLabel("Client settings");
         mi_clientSettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_clientSettingsActionPerformed(evt);
@@ -655,20 +646,6 @@ public class ClientFrame extends javax.swing.JFrame {
 
 }//GEN-LAST:event_mi_aboutActionPerformed
 
-    private void mi_disconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_disconnectActionPerformed
-        Client.disconnect();
-}//GEN-LAST:event_mi_disconnectActionPerformed
-
-    public void updateFrameOnDisconnect() {
-        setQuickBarVisibility(false);
-        lastdividerposition = null;
-        quickPanelVisibility = false;
-        mi_disconnect.setEnabled(false);
-        mi_profile.setEnabled(false);
-        mi_connect.setEnabled(true);
-        mi_channelList.setEnabled(false);
-    }
-
     private void clearFavourites() {
         for (Component mi : m_channels.getMenuComponents()) {
             if (mi instanceof FavMenuItem) {
@@ -700,7 +677,7 @@ public class ClientFrame extends javax.swing.JFrame {
      */
     public void printToVisibleChatbox(String name, String message, ChatStyles modeStyle, boolean popupEnabled) {
         if (message.equals("Server is shutting down")) {
-            mi_disconnect.doClick();
+            mi_connection.setSelected(false);
         }
 
         Component tc = tabpn_tabs.getSelectedComponent();
@@ -731,24 +708,7 @@ public class ClientFrame extends javax.swing.JFrame {
         return tabpn_tabs;
     }
     
-    public void updateContactlistTogglerMenuItem(){
-        if (Globals.getLoggedInStatus()) {        
-        if (quickPanelVisibility) {
-            mi_Show_Contactlist.setText("Hide ContactList");
-        } else {
-            mi_Show_Contactlist.setText("Show ContactList");
-        }
-    } else {
-        mi_Show_Contactlist.setText("Show ContactList");
-    }
-    }
-
-    private void mi_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_connectActionPerformed
-        TabOrganizer.closeAllTabs();
-        mi_disconnect.setEnabled(true);
-        mi_connect.setEnabled(false);
-        Client.startConnection();
-}//GEN-LAST:event_mi_connectActionPerformed
+    
 
     private void mi_channelListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_channelListActionPerformed
         Globals.openChannelListFrame();
@@ -851,7 +811,6 @@ private void pnl_toggleQuickBarLeftMousePressed(java.awt.event.MouseEvent evt) {
         quickPanelVisibility = !quickPanelVisibility;
         setQuickBarVisibility(quickPanelVisibility);
         quickPanelFlashing = false;
-        updateContactlistTogglerMenuItem();
     }
 }//GEN-LAST:event_pnl_toggleQuickBarLeftMousePressed
 
@@ -880,7 +839,6 @@ private void pnl_toggleQuickBarRightMousePressed(java.awt.event.MouseEvent evt) 
         quickPanelVisibility = !quickPanelVisibility;
         setQuickBarVisibility(quickPanelVisibility);
         quickPanelFlashing = false;
-        updateContactlistTogglerMenuItem();
     }
 }//GEN-LAST:event_pnl_toggleQuickBarRightMousePressed
 
@@ -890,15 +848,19 @@ private void jmi_showMuteBanListActionPerformed(java.awt.event.ActionEvent evt) 
     }
 }//GEN-LAST:event_jmi_showMuteBanListActionPerformed
 
-private void mi_Show_ContactlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_Show_ContactlistActionPerformed
-    if (Globals.getLoggedInStatus()) {
-        quickPanelVisibility = !quickPanelVisibility;
-        setQuickBarVisibility(quickPanelVisibility);
-        updateContactlistTogglerMenuItem();
-    } else {
-        mi_Show_Contactlist.setText("Show ContactList");
+private void mi_showQuickbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_showQuickbarActionPerformed
+    setQuickBarVisibility(mi_showQuickbar.isSelected());
+}//GEN-LAST:event_mi_showQuickbarActionPerformed
+
+private void mi_connectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_connectionActionPerformed
+    if(mi_connection.isSelected()){
+        TabOrganizer.closeAllTabs();
+        Client.startConnection();
+    }else{
+        Client.disconnect();
     }
-}//GEN-LAST:event_mi_Show_ContactlistActionPerformed
+}//GEN-LAST:event_mi_connectionActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jm_user;
     private javax.swing.JMenuItem jmi_showMuteBanList;
@@ -907,15 +869,13 @@ private void mi_Show_ContactlistActionPerformed(java.awt.event.ActionEvent evt) 
     private javax.swing.JMenu m_main;
     private javax.swing.JMenu m_options;
     private javax.swing.JMenuBar mbar;
-    private javax.swing.JMenuItem mi_Show_Contactlist;
     private javax.swing.JCheckBoxMenuItem mi_Sounds;
     private javax.swing.JMenuItem mi_about;
     private javax.swing.JMenuItem mi_addCurrentToFav;
     private javax.swing.JMenuItem mi_bugReport;
     private javax.swing.JMenuItem mi_channelList;
     private javax.swing.JMenuItem mi_clientSettings;
-    private javax.swing.JMenuItem mi_connect;
-    private javax.swing.JMenuItem mi_disconnect;
+    private javax.swing.JCheckBoxMenuItem mi_connection;
     private javax.swing.JMenuItem mi_favourites;
     private javax.swing.JMenuItem mi_guide;
     private javax.swing.JMenuItem mi_manageFavs;
@@ -923,6 +883,7 @@ private void mi_Show_ContactlistActionPerformed(java.awt.event.ActionEvent evt) 
     private javax.swing.JMenuItem mi_profile;
     private javax.swing.JMenuItem mi_quit;
     private javax.swing.JSeparator mi_seperator;
+    private javax.swing.JCheckBoxMenuItem mi_showQuickbar;
     private javax.swing.JMenuItem mi_update;
     private javax.swing.JPanel pnl_toggleQuickBarLeft;
     private javax.swing.JPanel pnl_toggleQuickBarRight;

@@ -56,6 +56,7 @@ public class Globals {
     //Preset value
     private static boolean debug = false;
     private static final String clientVersion = "0.98.0";
+    private static boolean connectionStatus = false;
     private static boolean loggedInStatus = false;
     private static boolean sleepModeStatus = false;
     private static boolean contactListPopupIsUp = false;
@@ -205,10 +206,19 @@ public class Globals {
     public static ContactListModel getContactList() {
         return contacts;
     }
+    
+    public static void setConnectionStatus(boolean value) {
+        connectionStatus = value;
+        getClientFrame().updateStatus();
+    }
+
+    public static boolean getConnectionStatus() {
+        return connectionStatus;
+    }
 
     public static void setLoggedInStatus(boolean value) {
         loggedInStatus = value;
-        getClientFrame().updateLoggedInStatus();
+        getClientFrame().updateStatus();
     }
 
     public static boolean getLoggedInStatus() {

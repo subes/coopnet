@@ -124,11 +124,20 @@ public class Client {
     }
 
     public static void startConnection() {
+        Globals.setConnectionStatus(true);
         handlerThread = new HandlerThread();
         handlerThread.start();
     }
 
     public static void stopConnection() {
+        
+        Protocol.quit();
+        Globals.setConnectionStatus(false);
+        
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException ex) {}
+        
         Globals.setLoggedInStatus(false);
 
         if (handlerThread != null) {
@@ -138,8 +147,6 @@ public class Client {
     }
     
     public static void disconnect() {
-        Globals.getClientFrame().updateFrameOnDisconnect();
-        Protocol.quit();
         Client.stopConnection();
         TabOrganizer.closeAllTabs();
         Globals.closeChannelListFrame();
@@ -152,7 +159,6 @@ public class Client {
         if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled()) {
             Globals.getClientFrame().setVisible(false);
         } else {
-            Protocol.quit();
             Client.stopConnection();
             //save sizes
             coopnetclient.utils.Settings.setMainFrameMaximised(Globals.getClientFrame().getExtendedState());
