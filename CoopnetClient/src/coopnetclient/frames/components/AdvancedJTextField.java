@@ -11,7 +11,7 @@ public class AdvancedJTextField extends JTextField {
     private Color errorColor = Color.RED;
     private String lastValue = "";
     private Color foreGround;
-    private boolean errorshowing = false;
+    private boolean errorShowing = false;
 
     public AdvancedJTextField() {
         this.addFocusListener(focusAdapter);
@@ -25,16 +25,16 @@ public class AdvancedJTextField extends JTextField {
 
     @Override
     public String getText(){
-        return errorshowing? lastValue : super.getText();
+        return errorShowing? lastValue : super.getText();
     }
     
     public void showErrorMessage(String errorMessage) {
-        if (!errorshowing) {
+        if (!errorShowing) {
             lastValue = getText();
             foreGround = getForeground();
             setForeground(errorColor);
             setText(errorMessage);
-            errorshowing = true;
+            errorShowing = true;
             repaint();
         }
         else{
@@ -46,10 +46,10 @@ public class AdvancedJTextField extends JTextField {
 
         @Override
         public void focusGained(java.awt.event.FocusEvent evt) {
-            if (errorshowing) {
+            if (errorShowing) {
                 setForeground(foreGround);
                 setText(lastValue);
-                errorshowing = false;
+                errorShowing = false;
                 repaint();
             }
         }
@@ -62,10 +62,10 @@ public class AdvancedJTextField extends JTextField {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            if (errorshowing) {
+            if (errorShowing) {
                 setForeground(foreGround);
                 setText(lastValue);
-                errorshowing = false;
+                errorShowing = false;
                 repaint();
             }
         }

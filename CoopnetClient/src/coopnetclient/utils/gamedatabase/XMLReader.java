@@ -94,7 +94,7 @@ public class XMLReader extends DefaultHandler {
                 }
                 GameDatabase.gameData.add(tmpGame);
                 if (beta) {
-                    GameDatabase.isexperimental.add(tmpGame.getGameName());
+                    GameDatabase.isExperimental.add(tmpGame.getGameName());
                 }
             }
         } else if (qName.equalsIgnoreCase("Mod")) {

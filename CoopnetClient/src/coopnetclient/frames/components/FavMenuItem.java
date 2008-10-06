@@ -19,7 +19,6 @@
 
 package coopnetclient.frames.components;
 
-import coopnetclient.Client;
 import coopnetclient.protocol.out.Protocol;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

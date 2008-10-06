@@ -43,21 +43,21 @@ public class ErrorPanel extends javax.swing.JPanel {
         coopnetclient.utils.Colorizer.colorize(this);
         switch (mode) {
             case UNKNOWN: {
-                lbl_errortext.setText(UNKNOWN);
+                lbl_errorText.setText(UNKNOWN);
                 break;
             }
             case CONNECTION_REFUSED: {
-                lbl_errortext.setText(CONNECTION_REFUSED);
+                lbl_errorText.setText(CONNECTION_REFUSED);
                 btn_report.setVisible(false);
                 break;
             }
             case CONNECTION_RESET: {
-                lbl_errortext.setText(CONNECTION_RESET);
+                lbl_errorText.setText(CONNECTION_RESET);
                 btn_report.setVisible(false);
                 break;
             }
             case UNKNOWN_IO: {
-                lbl_errortext.setText(UNKNOWN_IO + exception.getMessage());
+                lbl_errorText.setText(UNKNOWN_IO + exception.getMessage());
                 btn_report.setVisible(false);
                 break;
             }
@@ -85,19 +85,19 @@ public class ErrorPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lbl_errortext = new javax.swing.JLabel();
+        lbl_errorText = new javax.swing.JLabel();
         pnl_button = new javax.swing.JPanel();
         btn_report = new javax.swing.JButton();
 
-        lbl_errortext.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_errortext.setText("<html><p style=\"text-align: center\"><b>Error header!</b><br>Error description, error description, error description.</p></html>");
-        lbl_errortext.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        lbl_errortext.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        lbl_errortext.setIconTextGap(0);
-        lbl_errortext.setMaximumSize(new java.awt.Dimension(1000, 1000));
-        lbl_errortext.setMinimumSize(new java.awt.Dimension(100, 100));
-        lbl_errortext.setName("text"); // NOI18N
-        lbl_errortext.setPreferredSize(new java.awt.Dimension(100, 100));
+        lbl_errorText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_errorText.setText("<html><p style=\"text-align: center\"><b>Error header!</b><br>Error description, error description, error description.</p></html>");
+        lbl_errorText.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        lbl_errorText.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lbl_errorText.setIconTextGap(0);
+        lbl_errorText.setMaximumSize(new java.awt.Dimension(1000, 1000));
+        lbl_errorText.setMinimumSize(new java.awt.Dimension(100, 100));
+        lbl_errorText.setName("text"); // NOI18N
+        lbl_errorText.setPreferredSize(new java.awt.Dimension(100, 100));
 
         pnl_button.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 1, 10));
 
@@ -117,13 +117,13 @@ public class ErrorPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbl_errortext, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+            .addComponent(lbl_errorText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
             .addComponent(pnl_button, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(lbl_errortext, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbl_errorText, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnl_button, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
         );
@@ -134,7 +134,7 @@ public class ErrorPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_btn_reportActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_report;
-    private javax.swing.JLabel lbl_errortext;
+    private javax.swing.JLabel lbl_errorText;
     private javax.swing.JPanel pnl_button;
     // End of variables declaration//GEN-END:variables
     

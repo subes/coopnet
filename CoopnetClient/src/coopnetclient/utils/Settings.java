@@ -155,25 +155,25 @@ public class Settings {
     private final static boolean def_colorizeText = true;
     private final static String def_lastLoginName = "";
     private final static String def_lastLoginPassword = "";
-    private final static boolean def_SoundEnabled = true;
-    private final static boolean def_TimeStamps = false;
-    private final static boolean def_QuickPanelPostionIsLeft = true;
-    private final static int def_MainFrameMaximised = javax.swing.JFrame.NORMAL;
-    private final static int def_MainFrameWidth = 465;
-    private final static int def_MainFrameHeight = 400;
-    private final static int def_ChannelVerticalSPPosition = 150;
-    private final static int def_ChannelChatHorizontalSPPosition = 369;
-    private final static int def_ChannelChatVerticalSPPosition = 135;
-    private final static String def_WineComamnd = "wine";
-    private final static int def_FileTransferPort = 2300;
-    private final static int def_QuickPanelDividerWidth = 5;
-    private final static int def_QuickPanelToggleBarWidth = 5;
-    private final static boolean def_ContactStatusChangeTextNotification = true;
-    private final static boolean def_ContactStatusChangeSoundNotification = true;
-    private final static boolean def_TrayIconEnabled = false;
+    private final static boolean def_soundEnabled = true;
+    private final static boolean def_timeStamps = false;
+    private final static boolean def_quickPanelPostionIsLeft = true;
+    private final static int def_mainFrameMaximised = javax.swing.JFrame.NORMAL;
+    private final static int def_mainFrameWidth = 465;
+    private final static int def_mainFrameHeight = 400;
+    private final static int def_channelVerticalSPPosition = 150;
+    private final static int def_channelChatHorizontalSPPosition = 369;
+    private final static int def_channelChatVerticalSPPosition = 135;
+    private final static String def_wineComamnd = "wine";
+    private final static int def_fileTransferPort = 2300;
+    private final static int def_quickPanelDividerWidth = 5;
+    private final static int def_quickPanelToggleBarWidth = 5;
+    private final static boolean def_contactStatusChangeTextNotification = true;
+    private final static boolean def_contactStatusChangeSoundNotification = true;
+    private final static boolean def_trayIconEnabled = false;
     private static Vector<String> favourites;
-    private final static int def_LaunchHotKeyMask = KeyEvent.CTRL_MASK | KeyEvent.CTRL_DOWN_MASK;
-    private final static int def_LaunchHotKey = KeyEvent.VK_L;
+    private final static int def_launchHotKeyMask = KeyEvent.CTRL_MASK | KeyEvent.CTRL_DOWN_MASK;
+    private final static int def_launchHotKey = KeyEvent.VK_L;
     private final static boolean def_multiChannel = true;
 
     /**
@@ -302,7 +302,7 @@ public class Settings {
 
     
      public static int getLaunchHotKey() {
-        return readInteger(launchHotKey, def_LaunchHotKey);
+        return readInteger(launchHotKey, def_launchHotKey);
     }
     
     public static void setLaunchHotKey(int key) {
@@ -310,7 +310,7 @@ public class Settings {
     }
     
     public static int getLaunchHotKeyMask() {
-        return readInteger(launchHotKeyMask, def_LaunchHotKeyMask);
+        return readInteger(launchHotKeyMask, def_launchHotKeyMask);
     }
     
     public static void setLaunchHotKeymask(int keyMask) {
@@ -318,7 +318,7 @@ public class Settings {
     }
     
     public static boolean getTrayIconEnabled() {
-        return readBoolean(trayIconEnabled, def_TrayIconEnabled);
+        return readBoolean(trayIconEnabled, def_trayIconEnabled);
     }
 
     public static void setTrayIconEnabled(boolean status) {
@@ -326,7 +326,7 @@ public class Settings {
     }
             
     public static boolean getQuickPanelPostionisLeft() {
-        return readBoolean(quickPanelPostionisLeft, def_QuickPanelPostionIsLeft);
+        return readBoolean(quickPanelPostionisLeft, def_quickPanelPostionIsLeft);
     }
 
     public static void setQuickPanelPostionisLeft(boolean status) {
@@ -335,7 +335,7 @@ public class Settings {
     
     
     public static int getQuickPanelToggleBarWidth() {
-        return readInteger(quickPanelToggleBarWidth, def_QuickPanelToggleBarWidth);
+        return readInteger(quickPanelToggleBarWidth, def_quickPanelToggleBarWidth);
     }
     
     public static void setQuickPanelToggleBarWidth(int width) {
@@ -343,7 +343,7 @@ public class Settings {
     }
             
     public static int getQuickPanelDividerWidth() {
-        return readInteger(quickPanelDividerWidth, def_QuickPanelDividerWidth);
+        return readInteger(quickPanelDividerWidth, def_quickPanelDividerWidth);
     }
     
     public static void setQuickPanelDividerWidth(int width) {
@@ -351,7 +351,7 @@ public class Settings {
     }
     
     public static boolean getContactStatusChangeTextNotification() {
-        return readBoolean(contactStatusChangeTextNotification, def_ContactStatusChangeTextNotification);
+        return readBoolean(contactStatusChangeTextNotification, def_contactStatusChangeTextNotification);
     }
 
     public static void setContactStatusChangeTextNotification(boolean status) {
@@ -359,7 +359,7 @@ public class Settings {
     }
     
     public static boolean getContactStatusChangeSoundNotification() {
-        return readBoolean(contactStatusChangeSoundNotification, def_ContactStatusChangeSoundNotification);
+        return readBoolean(contactStatusChangeSoundNotification, def_contactStatusChangeSoundNotification);
     }
 
     public static void setContactStatusChangeSoundNotification(boolean status) {
@@ -386,7 +386,7 @@ public class Settings {
     }
 
     public static int getMainFrameMaximised() {
-        return readInteger(mainFrameMaximised, def_MainFrameMaximised);
+        return readInteger(mainFrameMaximised, def_mainFrameMaximised);
     }
 
     public static void setMainFrameMaximised(int status) {
@@ -394,7 +394,7 @@ public class Settings {
     }
 
     public static int getMainFrameWidth() {
-        return readInteger(mainFrameWidth, def_MainFrameWidth);
+        return readInteger(mainFrameWidth, def_mainFrameWidth);
     }
 
     public static void setMainFrameWidth(int width) {
@@ -402,7 +402,7 @@ public class Settings {
     }
 
     public static int getMainFrameHeight() {
-        return readInteger(mainFrameHeight, def_MainFrameHeight);
+        return readInteger(mainFrameHeight, def_mainFrameHeight);
     }
 
     public static void setMainFrameHeight(int height) {
@@ -410,7 +410,7 @@ public class Settings {
     }
 
     public static int getChannelVerticalSPPosition() {
-        return readInteger(channelVerticalSPPosition, def_ChannelVerticalSPPosition);
+        return readInteger(channelVerticalSPPosition, def_channelVerticalSPPosition);
     }
 
     public static void setChannelVerticalSPPosition(int position) {
@@ -418,7 +418,7 @@ public class Settings {
     }
 
     public static int getChannelChatHorizontalSPPosition() {
-        return readInteger(channelChatHorizontalSPPosition, def_ChannelChatHorizontalSPPosition);
+        return readInteger(channelChatHorizontalSPPosition, def_channelChatHorizontalSPPosition);
     }
 
     public static void setChannelChatHorizontalSPPosition(int position) {
@@ -426,7 +426,7 @@ public class Settings {
     }
 
     public static int getChannelChatVerticalSPPosition() {
-        return readInteger(channelChatVerticalSPPosition, def_ChannelChatVerticalSPPosition);
+        return readInteger(channelChatVerticalSPPosition, def_channelChatVerticalSPPosition);
     }
 
     public static void setChannelChatVerticalSPPosition(int position) {
@@ -435,7 +435,7 @@ public class Settings {
 
     //sound options
     public static boolean getSoundEnabled() {
-        return readBoolean(SoundEnabled, def_SoundEnabled);
+        return readBoolean(SoundEnabled, def_soundEnabled);
     }
 
     public static void setSoundEnabled(boolean bool) {
@@ -444,7 +444,7 @@ public class Settings {
 
     //timestamps
     public static boolean getTimeStampEnabled() {
-        return readBoolean(TimeStamps, def_TimeStamps);
+        return readBoolean(TimeStamps, def_timeStamps);
     }
 
     public static void setTimeStampEnabled(boolean bool) {
@@ -470,7 +470,7 @@ public class Settings {
     }
      
       public static int getFiletTansferPort() {
-        return readInteger(fileTransferPort, def_FileTransferPort);
+        return readInteger(fileTransferPort, def_fileTransferPort);
     }
 
     public static void setFiletTansferPort(int port) {
@@ -656,7 +656,7 @@ public class Settings {
     }
     
     public static String getWineCommand() {
-        return readString(wineCommand, def_WineComamnd);
+        return readString(wineCommand, def_wineComamnd);
     }
 
     public static void setWineCommand(String path) {

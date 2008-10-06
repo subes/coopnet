@@ -42,14 +42,14 @@ import javax.swing.JSeparator;
 public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
 
     private EditableJlist source;
-    private JMenuItem playername;
+    private JMenuItem playerName;
     private JMenuItem accept;
     private JMenuItem refuse;
     private JMenuItem deleteContact;
     private JMenuItem nudge;
     private JMenuItem showProfile;
     private JMenuItem whisper;
-    private JMenuItem sendfile;
+    private JMenuItem sendFile;
     private JMenuItem invite;
     private JMenuItem refresh;
     private JMenu moveto;
@@ -58,21 +58,21 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem deleteGroup;
     private JMenuItem rename;
     private JMenuItem toggle;
-    private JMenuItem mute_unmute;
-    private JMenuItem ban_unban;
+    private JMenuItem mute_UnMute;    
+    private JMenuItem ban_UnBan;
 
     public ContactListPopupMenu(EditableJlist source) {
         super();
         this.source = source;
 
-        playername = new JMenuItem();
-        playername.setEnabled(false);
+        playerName = new JMenuItem();
+        playerName.setEnabled(false);
         accept = makeMenuItem("Accept");
         refuse = makeMenuItem("Refuse");
         nudge = makeMenuItem("Nudge");
         showProfile = makeMenuItem("Show profile...");
         whisper = makeMenuItem("Whisper...");
-        sendfile = makeMenuItem("Send file...");
+        sendFile = makeMenuItem("Send file...");
         refresh = makeMenuItem("Refresh list");
         moveto = new JMenu("Move to Group:");
         create = makeMenuItem("Create new Group...");
@@ -83,10 +83,10 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         hideOffline.addActionListener(this);
         toggle = makeMenuItem("Open/Collapse");
         invite = makeMenuItem("Invite to room");
-        mute_unmute = makeMenuItem("Mute");
-        ban_unban = makeMenuItem("Ban");
+        mute_UnMute = makeMenuItem("Mute");
+        ban_UnBan = makeMenuItem("Ban");
 
-        this.add(playername);
+        this.add(playerName);
         this.add(new JSeparator());
         this.add(accept);
         this.add(refuse);
@@ -96,10 +96,10 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(nudge);
         this.add(showProfile);
         this.add(whisper);
-        this.add(sendfile);
+        this.add(sendFile);
         this.add(invite);
-        this.add(mute_unmute);
-        this.add(ban_unban);
+        this.add(mute_UnMute);
+        this.add(ban_UnBan);
         this.add(new JSeparator());
         this.add(hideOffline);
         this.add(create);
@@ -129,7 +129,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         nudge.setVisible(isVisible);
         showProfile.setVisible(isVisible);
         whisper.setVisible(isVisible);
-        sendfile.setVisible(isVisible);
+        sendFile.setVisible(isVisible);
         if (TabOrganizer.getRoomPanel() == null) {
             invite.setVisible(false);
         } else {
@@ -143,7 +143,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     }
 
     public void setGroupActionVisibility(boolean isVisible) {
-        if (playername.getText().equals(ContactListModel.DEFAULT_GROUP)) {
+        if (playerName.getText().equals(ContactListModel.DEFAULT_GROUP)) {
             deleteGroup.setVisible(false);
             rename.setVisible(false);
         } else {
@@ -174,7 +174,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             }
         }
 
-        final String subject = playername.getText();//(String) source.getSelectedValue();
+        final String subject = playerName.getText();//(String) source.getSelectedValue();
 //Remove Contact
         if (command.equals("Accept")) {
             Protocol.acceptRequest(subject);
@@ -183,7 +183,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             model.removePending(subject);
             Protocol.refuseRequest(subject);
         } else if (command.equals("Remove Contact")) {
-            model.removecontact(subject);
+            model.removeContact(subject);
             Protocol.removeContact(subject);
         } else if (command.equals("Create new Group...")) {
             Collection groups = model.getGroupNames();
@@ -259,7 +259,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                             if (returnVal == FileChooser.SELECT_ACTION) {
                                 inputfile = mfc.getSelectedFile();
                                 if (inputfile != null) {
-                                    Protocol.sendfile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
+                                    Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
                                     TabOrganizer.openFileTransferSendPanel(subject, inputfile);
                                     Globals.setLastOpenedDir(inputfile.getParent());
                                 }
@@ -285,11 +285,11 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                 setGroupActionVisibility(false);
                 setContactActionVisibility(false);
                 refreshMoveToMenu();
-                playername.setText("No selection");
+                playerName.setText("No selection");
                 super.show(invoker, x, y);
             } else {
                 refreshMoveToMenu();
-                playername.setText((String) source.getSelectedValue());
+                playerName.setText((String) source.getSelectedValue());
                 //HIDE UNNECESSARY ITEMS
                 ContactListModel model = (ContactListModel) source.getModel();
                 switch (model.getStatus(source.getSelectedValue().toString())) {
@@ -319,22 +319,22 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                         setContactActionVisibility(true);
                         break;
                 }
-                if (MuteBanList.getMuteBanStatus(playername.getText()) == null) {
-                    mute_unmute.setText("Mute");
-                    ban_unban.setText("Ban");
+                if (MuteBanList.getMuteBanStatus(playerName.getText()) == null) {
+                    mute_UnMute.setText("Mute");
+                    ban_UnBan.setText("Ban");
                 } else {
-                    switch (MuteBanList.getMuteBanStatus(playername.getText())) {
+                    switch (MuteBanList.getMuteBanStatus(playerName.getText())) {
                         case BANNED:
-                            mute_unmute.setText("Mute");
-                            ban_unban.setText("UnBan");
+                            mute_UnMute.setText("Mute");
+                            ban_UnBan.setText("UnBan");
                             break;
                         case MUTED:
-                            mute_unmute.setText("UnMute");
-                            ban_unban.setText("Ban");
+                            mute_UnMute.setText("UnMute");
+                            ban_UnBan.setText("Ban");
                             break;
                         case BOTH:
-                            mute_unmute.setText("UnMute");
-                            ban_unban.setText("UnBan");
+                            mute_UnMute.setText("UnMute");
+                            ban_UnBan.setText("UnBan");
                             break;
                     }
                 }

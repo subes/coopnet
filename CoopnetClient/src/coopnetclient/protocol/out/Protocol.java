@@ -279,7 +279,7 @@ public class Protocol {
         new Message(ClientProtocolCommands.FLIP_READY);
     }
 
-    public static void sendfile(String reciever, String fileName, String sizeInBytes,String port) {
+    public static void sendFile(String reciever, String fileName, String sizeInBytes,String port) {
         String[] info = {reciever, fileName, sizeInBytes, port};
         new Message(ClientProtocolCommands.SEND_FILE, info);
     }

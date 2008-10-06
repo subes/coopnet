@@ -39,8 +39,8 @@ import javax.swing.border.Border;
  */
 public class RoomStatusListCellRenderer extends JLabel implements ListCellRenderer {
 
-    private Vector<String> readylist = new Vector<String>();
-    private Vector<String> playinglist = new Vector<String>();
+    private Vector<String> readyList = new Vector<String>();
+    private Vector<String> playingList = new Vector<String>();
     
     private static Border selectionBorder = BorderFactory.createLineBorder(Colorizer.getSelectionColor() , 2);
 
@@ -49,52 +49,52 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
     }
         
     public void removePlayer(String playerName){
-        readylist.remove(playerName);
-        playinglist.remove(playerName);
+        readyList.remove(playerName);
+        playingList.remove(playerName);
         Globals.getClientFrame().repaint();
     }
 
     public void updateName(String oldname, String newname) {
-        if (playinglist.remove(oldname)) {
-            playinglist.add(newname);
+        if (playingList.remove(oldname)) {
+            playingList.add(newname);
         }
-        if (readylist.remove(oldname)) {
-            readylist.add(newname);
+        if (readyList.remove(oldname)) {
+            readyList.add(newname);
         }        
         Globals.getClientFrame().repaint();
     }
 
     public void setPlaying(String playername) {
-        if (!playinglist.contains(playername)) {
-            playinglist.add(playername);
+        if (!playingList.contains(playername)) {
+            playingList.add(playername);
         }
         Globals.getClientFrame().repaint();
     }
 
     public void readyPlayer(String playername) {
-        if (!readylist.contains(playername)) {
-            readylist.add(playername);
+        if (!readyList.contains(playername)) {
+            readyList.add(playername);
         }
         Globals.getClientFrame().repaint();
     }
 
     public void unReadyPlayer(String playername) {
-        readylist.remove(playername);
-        playinglist.remove(playername);
+        readyList.remove(playername);
+        playingList.remove(playername);
         Globals.getClientFrame().repaint();
     }
 
     public void launch() {
-        for (String playername : readylist) {
-            if (!playinglist.contains(playername)) {
-                playinglist.add(playername);
+        for (String playername : readyList) {
+            if (!playingList.contains(playername)) {
+                playingList.add(playername);
             }
         }
         Globals.getClientFrame().repaint();
     }
 
     public void gameClosed(String playername) {
-        playinglist.remove(playername);
+        playingList.remove(playername);
         Globals.getClientFrame().repaint();
     }
 
@@ -105,8 +105,8 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
         setForeground(Color.black);
         setBorder(null);
         //set background color
-        if (readylist.contains(value.toString())) {
-            if (playinglist.contains(value.toString())) {
+        if (readyList.contains(value.toString())) {
+            if (playingList.contains(value.toString())) {
                 setBackground(Color.yellow);
             } else {
                 setBackground(Color.green);

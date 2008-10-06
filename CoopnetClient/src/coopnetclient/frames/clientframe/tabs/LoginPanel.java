@@ -69,13 +69,13 @@ public class LoginPanel extends javax.swing.JPanel {
 
         if(!Verification.verifyLoginName(name)){
             showError("Invalid login name!",Color.red);
-            lbl_Info.setText(infoText);
+            lbl_info.setText(infoText);
             return;
         }
         
         if(!Verification.verifyPassword(passw)){
             showError("Invalid password!",Color.red);
-            lbl_Info.setText(infoText);
+            lbl_info.setText(infoText);
             return;
         }
         
@@ -110,7 +110,7 @@ public class LoginPanel extends javax.swing.JPanel {
         lbl_loginError = new javax.swing.JLabel();
         tf_name = new coopnetclient.frames.components.AdvancedJTextField();
         pnl_bottom = new javax.swing.JPanel();
-        lbl_Info = new javax.swing.JLabel();
+        lbl_info = new javax.swing.JLabel();
 
         setFocusable(false);
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
@@ -125,7 +125,7 @@ public class LoginPanel extends javax.swing.JPanel {
         );
         pnl_topLayout.setVerticalGroup(
             pnl_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 53, Short.MAX_VALUE)
+            .addGap(0, 51, Short.MAX_VALUE)
         );
 
         add(pnl_top);
@@ -228,23 +228,23 @@ public class LoginPanel extends javax.swing.JPanel {
 
         pnl_bottom.setFocusable(false);
 
-        lbl_Info.setFont(new java.awt.Font("Tahoma", 0, 10));
-        lbl_Info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_Info.setText("<html><pre> <br> <br>");
-        lbl_Info.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        lbl_Info.setFocusable(false);
+        lbl_info.setFont(new java.awt.Font("Tahoma", 0, 10));
+        lbl_info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_info.setText("<html><pre> <br> <br>");
+        lbl_info.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        lbl_info.setFocusable(false);
 
         javax.swing.GroupLayout pnl_bottomLayout = new javax.swing.GroupLayout(pnl_bottom);
         pnl_bottom.setLayout(pnl_bottomLayout);
         pnl_bottomLayout.setHorizontalGroup(
             pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+            .addComponent(lbl_info, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
         );
         pnl_bottomLayout.setVerticalGroup(
             pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_bottomLayout.createSequentialGroup()
-                .addComponent(lbl_Info)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addComponent(lbl_info)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         add(pnl_bottom);
@@ -264,7 +264,7 @@ public class LoginPanel extends javax.swing.JPanel {
     private javax.swing.JButton btn_login;
     private javax.swing.JButton btn_register;
     private javax.swing.JCheckBox cb_autoLogin;
-    private javax.swing.JLabel lbl_Info;
+    private javax.swing.JLabel lbl_info;
     private javax.swing.JLabel lbl_loginError;
     private javax.swing.JLabel lbl_name;
     private javax.swing.JLabel lbl_password;

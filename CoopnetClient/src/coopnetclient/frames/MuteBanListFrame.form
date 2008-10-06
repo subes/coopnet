@@ -26,28 +26,28 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jb_Close" min="-2" max="-2" attributes="0"/>
+              <Component id="btn_close" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jb_UnMute" min="-2" max="-2" attributes="0"/>
+              <Component id="btn_unMute" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jb_UnBan" min="-2" max="-2" attributes="0"/>
+              <Component id="btn_unBan" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jb_Show_Profile" min="-2" max="-2" attributes="0"/>
+              <Component id="btn_showProfile" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="126" max="32767" attributes="0"/>
           </Group>
-          <Component id="jScrollPane1" alignment="0" pref="386" max="32767" attributes="0"/>
+          <Component id="scrl_table" alignment="0" pref="444" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <Component id="jScrollPane1" pref="255" max="32767" attributes="0"/>
+              <Component id="scrl_table" pref="255" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jb_Close" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jb_UnMute" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jb_UnBan" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jb_Show_Profile" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_close" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_unMute" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_unBan" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_showProfile" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -55,7 +55,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+    <Container class="javax.swing.JScrollPane" name="scrl_table">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
@@ -77,39 +77,39 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jb_Close">
+    <Component class="javax.swing.JButton" name="btn_close">
       <Properties>
         <Property name="text" type="java.lang.String" value="Close"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jb_CloseActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_closeActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jb_UnMute">
+    <Component class="javax.swing.JButton" name="btn_unMute">
       <Properties>
         <Property name="text" type="java.lang.String" value="UnMute"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jb_UnMuteActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_unMuteActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jb_UnBan">
+    <Component class="javax.swing.JButton" name="btn_unBan">
       <Properties>
         <Property name="text" type="java.lang.String" value="UnBan"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jb_UnBanActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_unBanActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jb_Show_Profile">
+    <Component class="javax.swing.JButton" name="btn_showProfile">
       <Properties>
         <Property name="text" type="java.lang.String" value="Show Profile"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jb_Show_ProfileActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_showProfileActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

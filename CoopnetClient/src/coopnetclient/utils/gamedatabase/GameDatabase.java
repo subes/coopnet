@@ -34,14 +34,14 @@ import java.util.HashMap;
 
 public class GameDatabase {
 
-    public static final String datafilepath = "data/gamedata.xml";
-    public static final String testdatafilepath = "data/testgamedata.xml";
-    private static final String lpfilepath = "data/localpaths";
+    public static final String dataFilePath = "data/gamedata.xml";
+    public static final String testDataFilePath = "data/testgamedata.xml";
+    private static final String localPathsFilePath = "data/localpaths";
     private static boolean registryOK = false;
     protected static HashMap<String, String> IDtoGameName;     // key is the ID    
-    private static HashMap<String, String> localexecutablepath; //shud point to the exe/binary
-    private static HashMap<String, String> localinstallpath; //shud point to the game basedir
-    protected static ArrayList<String> isexperimental;
+    private static HashMap<String, String> localExecutablePath; //shud point to the exe/binary
+    private static HashMap<String, String> localInstallPath; //shud point to the game basedir
+    protected static ArrayList<String> isExperimental;
     protected static ArrayList<Game> gameData;
     public static int version = 0;
     private static XMLReader xmlReader = new XMLReader();
@@ -62,31 +62,31 @@ public class GameDatabase {
         }
 
         IDtoGameName = new HashMap<String, String>();
-        localexecutablepath = new HashMap<String, String>();
-        localinstallpath = new HashMap<String, String>();
-        isexperimental = new ArrayList<String>();
+        localExecutablePath = new HashMap<String, String>();
+        localInstallPath = new HashMap<String, String>();
+        isExperimental = new ArrayList<String>();
         gameData = new ArrayList<Game>();
-        load("", datafilepath);
+        load("", dataFilePath);
         loadLocalPaths();
         IDtoGameName.put("WLC", "Welcome");
         IDtoGameName.put("TST", "GameTest channel");
-        load("GameTest channel", testdatafilepath);
+        load("GameTest channel", testDataFilePath);
     }
 
     public static boolean isBeta(String channelname) {
-        return isexperimental.contains(channelname);
+        return isExperimental.contains(channelname);
     }
 
     public static boolean isInstantLaunchable(String gamename) {
-        return gameData.get(indexOfGame(gamename)).isInstantLaunchable(lpfilepath);
+        return gameData.get(indexOfGame(gamename)).isInstantLaunchable(localPathsFilePath);
     }
 
     public static void reset() {
         version = 0;
-        localexecutablepath = new HashMap<String, String>();
-        localinstallpath = new HashMap<String, String>();
+        localExecutablePath = new HashMap<String, String>();
+        localInstallPath = new HashMap<String, String>();
         IDtoGameName = new HashMap<String, String>();
-        isexperimental = new ArrayList<String>();
+        isExperimental = new ArrayList<String>();
         gameData = new ArrayList<Game>();
         IDtoGameName.put("WLC", "Welcome");
         IDtoGameName.put("TST", "GameTest channel");
@@ -201,19 +201,19 @@ public class GameDatabase {
     }
 
     public static String getLocalExecutablePath(String gamename) {
-        return localexecutablepath.get(gamename);
+        return localExecutablePath.get(gamename);
     }
 
     public static String getLocalInstallPath(String gamename) {
-        return localinstallpath.get(gamename);
+        return localInstallPath.get(gamename);
     }
 
     public static void setLocalExecutablePath(String gamename, String path) {
-        localexecutablepath.put(gamename, path);
+        localExecutablePath.put(gamename, path);
     }
 
     public static void setLocalInstallPath(String gamename, String path) {
-        localinstallpath.put(gamename, path);
+        localInstallPath.put(gamename, path);
     }
 
     public static Object[] gameNames() {
@@ -340,7 +340,7 @@ public class GameDatabase {
     public static void loadVersion() {
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader(datafilepath));
+            br = new BufferedReader(new FileReader(dataFilePath));
         } catch (FileNotFoundException ex) {
             //ex.printStackTrace();            
             System.out.println("Could not load gamedatabase");
@@ -365,7 +365,7 @@ public class GameDatabase {
             xmlReader.parseGameData(gamename, datafilepath);
             System.out.println("game database loaded");  
         }catch(java.io.FileNotFoundException e){
-            if(datafilepath.equals(testdatafilepath)){
+            if(datafilepath.equals(testDataFilePath)){
                 //make new default testdata
                 //...
                 Game defdata = new Game();
@@ -390,7 +390,7 @@ public class GameDatabase {
 
     public static void saveTestData() throws IOException {
         PrintWriter pw = null;
-        pw = new PrintWriter(new FileWriter(testdatafilepath));
+        pw = new PrintWriter(new FileWriter(testDataFilePath));
         for (Game game : gameData) {
             if (game.getGameName().equals(GameDatabase.getGameName("TST"))) {
                 //start
@@ -425,7 +425,7 @@ public class GameDatabase {
         BufferedReader br = null;
 
         try {
-            br = new BufferedReader(new FileReader(lpfilepath));
+            br = new BufferedReader(new FileReader(localPathsFilePath));
 
         } catch (FileNotFoundException ex) {
             System.out.println("Could not load localpaths");
@@ -449,9 +449,9 @@ public class GameDatabase {
             String tmp[] = input.split("=");
             if (tmp.length > 1) {
                 String tmp2[] = tmp[1].split(";");
-                localexecutablepath.put(tmp[0], tmp2[0]);
+                localExecutablePath.put(tmp[0], tmp2[0]);
                 if (tmp2.length > 1) {
-                    localinstallpath.put(tmp[0], tmp2[1]);
+                    localInstallPath.put(tmp[0], tmp2[1]);
                 }
             }
         }
@@ -465,13 +465,13 @@ public class GameDatabase {
     public static void saveLocalPaths() {
         PrintWriter pw = null;
         try {
-            pw = new PrintWriter(new FileWriter(lpfilepath));
+            pw = new PrintWriter(new FileWriter(localPathsFilePath));
         } catch (Exception ex) {
             System.out.println("Could not save gamedatabase");
         }
-        for (String gamename : localexecutablepath.keySet()) {
-            String execpath = localexecutablepath.get(gamename);
-            String installpath = localinstallpath.get(gamename);
+        for (String gamename : localExecutablePath.keySet()) {
+            String execpath = localExecutablePath.get(gamename);
+            String installpath = localInstallPath.get(gamename);
             if (execpath.length() > 0) {
                 pw.println(gamename + "=" + execpath + ";" + installpath);
                 pw.flush();

@@ -122,7 +122,7 @@ public class CommandHandler {
                     TempGameSettings.setGameSetting(information[0], information[1], false);
                     break;
                 case JOIN_CHANNEL:
-                    GameDatabase.load(GameDatabase.getGameName(information[0]), GameDatabase.datafilepath);
+                    GameDatabase.load(GameDatabase.getGameName(information[0]), GameDatabase.dataFilePath);
                     TabOrganizer.openChannelPanel(GameDatabase.getGameName(information[0]));
                     break;
                 case JOIN_ROOM:
@@ -347,7 +347,7 @@ public class CommandHandler {
                     Globals.getContactList().setStatus(information[0], ContactListElementTypes.OFFLINE);
                     break;
                 case REFUSED_CONTACT_REQUEST:
-                    Globals.getContactList().removecontact(information[0]);
+                    Globals.getContactList().removeContact(information[0]);
                     break;
                 case CONTACT_LIST:
                     Globals.getContactList().buildFrom(information);

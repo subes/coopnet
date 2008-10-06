@@ -66,6 +66,7 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
     }
 
 
+    @Override
     public void focusGained(FocusEvent e) {
         if (Settings.getColorizeBody()) {
             setBackground(Colorizer.getSelectionColor());
@@ -81,6 +82,7 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
         printText();
     }
 
+    @Override
     public void focusLost(FocusEvent e) {
         if (Settings.getColorizeBody()) {
             setBackground(Colorizer.getTextfieldBackgroundColor());
@@ -93,13 +95,15 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
         printText();
     }
 
+    @Override
     public void keyTyped(KeyEvent e) {
         e.consume();
     }
 
+    @Override
     public void keyPressed(KeyEvent e) {
-        if(e.getModifiers() == 0 && e.getKeyCode() == e.VK_BACK_SPACE){
-            key = e.VK_UNDEFINED;
+        if(e.getModifiers() == 0 && e.getKeyCode() == KeyEvent.VK_BACK_SPACE){
+            key = KeyEvent.VK_UNDEFINED;
             modifiers = 0;
             setFocusable(false);
             setFocusable(true);
@@ -120,6 +124,7 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
         e.consume();
     }
 
+    @Override
     public void keyReleased(KeyEvent e) {
         e.consume();
     }

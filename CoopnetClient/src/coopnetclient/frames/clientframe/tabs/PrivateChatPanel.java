@@ -43,9 +43,9 @@ public class PrivateChatPanel extends javax.swing.JPanel {
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
         MuteBanStatuses status = MuteBanList.getMuteBanStatus(partner);
         if (status == null) {
-            jb_MuteBan.setText("Mute");
+            btn_mute.setText("Mute");
         } else if( status == MuteBanStatuses.MUTED ) {
-            jb_MuteBan.setText("UnMute");
+            btn_mute.setText("UnMute");
         }
     }
 
@@ -93,10 +93,9 @@ public class PrivateChatPanel extends javax.swing.JPanel {
         tp_chatOutput = new javax.swing.JTextPane();
         scrl_chatInput = new javax.swing.JScrollPane();
         tp_chatInput = new javax.swing.JTextPane();
-        jb_MuteBan = new javax.swing.JButton();
+        btn_mute = new javax.swing.JButton();
 
         setFocusable(false);
-        setPreferredSize(null);
 
         btn_close.setText("Close");
         btn_close.setAlignmentX(0.5F);
@@ -142,10 +141,10 @@ public class PrivateChatPanel extends javax.swing.JPanel {
 
         sp_chatVertical.setRightComponent(scrl_chatInput);
 
-        jb_MuteBan.setText("Mute");
-        jb_MuteBan.addActionListener(new java.awt.event.ActionListener() {
+        btn_mute.setText("Mute");
+        btn_mute.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jb_MuteBanActionPerformed(evt);
+                btn_muteActionPerformed(evt);
             }
         });
 
@@ -156,7 +155,7 @@ public class PrivateChatPanel extends javax.swing.JPanel {
             .addComponent(sp_chatVertical, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(208, 208, 208)
-                .addComponent(jb_MuteBan)
+                .addComponent(btn_mute)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_close))
         );
@@ -165,7 +164,7 @@ public class PrivateChatPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_close)
-                    .addComponent(jb_MuteBan))
+                    .addComponent(btn_mute))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sp_chatVertical, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
         );
@@ -183,19 +182,19 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
     }
 }//GEN-LAST:event_tp_chatOutputKeyTyped
 
-private void jb_MuteBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_MuteBanActionPerformed
-    if (jb_MuteBan.getText().equals("Mute")) {
+private void btn_muteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_muteActionPerformed
+    if (btn_mute.getText().equals("Mute")) {
             MuteBanList.mute(partner);
             Protocol.mute(partner);
             Globals.updateMuteBanTableFrame();
-            jb_MuteBan.setText("UnMute");
-        } else if (jb_MuteBan.getText().equals("UnMute")) {
+            btn_mute.setText("UnMute");
+        } else if (btn_mute.getText().equals("UnMute")) {
             MuteBanList.unMute(partner);
             Protocol.unMute(partner);
             Globals.updateMuteBanTableFrame();
-            jb_MuteBan.setText("Mute");
+            btn_mute.setText("Mute");
         } 
-}//GEN-LAST:event_jb_MuteBanActionPerformed
+}//GEN-LAST:event_btn_muteActionPerformed
 
 private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_scrl_chatOutputComponentResized
     int start, end;
@@ -209,7 +208,7 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_close;
-    private javax.swing.JButton jb_MuteBan;
+    private javax.swing.JButton btn_mute;
     private javax.swing.JScrollPane scrl_chatInput;
     private javax.swing.JScrollPane scrl_chatOutput;
     private javax.swing.JSplitPane sp_chatVertical;

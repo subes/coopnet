@@ -21,7 +21,6 @@ package coopnetclient.utils;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
-import coopnetclient.enums.ClientProtocolCommands;
 import coopnetclient.enums.ServerProtocolCommands;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

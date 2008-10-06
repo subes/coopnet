@@ -29,24 +29,24 @@ import javax.swing.AbstractListModel;
  */
 public class ChannelStatusListModel extends AbstractListModel {
 
-    private TreeSet chattinglist = new TreeSet();
-    private TreeSet inroomlist = new TreeSet();
-    private TreeSet playinglist = new TreeSet();
-    private Vector<String> leftroom = new Vector<String>(); //left room while playing
+    private TreeSet chattingList = new TreeSet();
+    private TreeSet inRoomList = new TreeSet();
+    private TreeSet playingList = new TreeSet();
+    private Vector<String> leftRoom = new Vector<String>(); //left room while playing
 
     public ChannelStatusListModel() {
     }
 
     private void removeplayer(String playername) {
-        chattinglist.remove(playername);
-        playinglist.remove(playername);
-        inroomlist.remove(playername);
-        leftroom.remove(playername);
+        chattingList.remove(playername);
+        playingList.remove(playername);
+        inRoomList.remove(playername);
+        leftRoom.remove(playername);
     }
 
     public void playerEnteredChannel(String playername) {
-        if (!chattinglist.contains(playername)) {
-            chattinglist.add(playername);
+        if (!chattingList.contains(playername)) {
+            chattingList.add(playername);
         }
         fireContentsChanged(this, 0, getSize());
     }
@@ -57,48 +57,48 @@ public class ChannelStatusListModel extends AbstractListModel {
     }
 
     public void playerEnteredRoom(String playername) {
-        if (playinglist.contains(playername)) {
-            if (leftroom.contains(playername)) {
-                leftroom.remove(playername);
+        if (playingList.contains(playername)) {
+            if (leftRoom.contains(playername)) {
+                leftRoom.remove(playername);
                 fireContentsChanged(this, 0, getSize());
                 return;
             }
         } else {
-            inroomlist.add(playername);
-            chattinglist.remove(playername);
+            inRoomList.add(playername);
+            chattingList.remove(playername);
         }
         fireContentsChanged(this, 0, getSize());
     }
 
     public void playerLeftRoom(String playername) {
-        if (playinglist.contains(playername)) {
-            leftroom.add(playername);
+        if (playingList.contains(playername)) {
+            leftRoom.add(playername);
         } else {
-            if (inroomlist.remove(playername)) {
-                chattinglist.add(playername);
+            if (inRoomList.remove(playername)) {
+                chattingList.add(playername);
             }
         }
         fireContentsChanged(this, 0, getSize());
     }
 
     public void playerLaunchedGame(String playername) {
-        if (inroomlist.remove(playername)) {
-            playinglist.add(playername);
+        if (inRoomList.remove(playername)) {
+            playingList.add(playername);
         }
         fireContentsChanged(this, 0, getSize());
     }
 
     public void playerClosedGame(String playername) {
-        if (playinglist.contains(playername)) {
-            if (leftroom.contains(playername)) {
-                playinglist.remove(playername);
-                leftroom.remove(playername);
-                chattinglist.add(playername);
+        if (playingList.contains(playername)) {
+            if (leftRoom.contains(playername)) {
+                playingList.remove(playername);
+                leftRoom.remove(playername);
+                chattingList.add(playername);
                 fireContentsChanged(this, 0, getSize());
                 return;
             } else {
-                inroomlist.add(playername);
-                playinglist.remove(playername);
+                inRoomList.add(playername);
+                playingList.remove(playername);
             }
         } else {
         }
@@ -106,22 +106,22 @@ public class ChannelStatusListModel extends AbstractListModel {
     }
 
     public boolean isInRoom(Object value) {
-        return inroomlist.contains(value);
+        return inRoomList.contains(value);
     }
 
     public boolean isPlaying(Object value) {
-        return playinglist.contains(value);
+        return playingList.contains(value);
     }
 
-    public void updatename(String oldname, String playername) {
-        if (chattinglist.remove(oldname)) {
-            chattinglist.add(playername);
+    public void updateName(String oldname, String playername) {
+        if (chattingList.remove(oldname)) {
+            chattingList.add(playername);
         }
-        if (playinglist.remove(oldname)) {
-            playinglist.add(playername);
+        if (playingList.remove(oldname)) {
+            playingList.add(playername);
         }
-        if (inroomlist.remove(oldname)) {
-            inroomlist.add(playername);
+        if (inRoomList.remove(oldname)) {
+            inRoomList.add(playername);
         }
     }
 
@@ -129,20 +129,20 @@ public class ChannelStatusListModel extends AbstractListModel {
     @Override
     public int getSize() {
         // Return the model size
-        return chattinglist.size() + inroomlist.size() + playinglist.size();
+        return chattingList.size() + inRoomList.size() + playingList.size();
     }
 
     @Override
     public Object getElementAt(int index) {
         // Return the appropriate element
-        if (index < chattinglist.size()) {
-            return chattinglist.toArray()[index];
-        } else if (index < chattinglist.size() + inroomlist.size()) {
-            index -= chattinglist.size();
-            return inroomlist.toArray()[index];
+        if (index < chattingList.size()) {
+            return chattingList.toArray()[index];
+        } else if (index < chattingList.size() + inRoomList.size()) {
+            index -= chattingList.size();
+            return inRoomList.toArray()[index];
         } else {
-            index -= chattinglist.size() + inroomlist.size();
-            return playinglist.toArray()[index];
+            index -= chattingList.size() + inRoomList.size();
+            return playingList.toArray()[index];
         }
     }
 
@@ -154,38 +154,38 @@ public class ChannelStatusListModel extends AbstractListModel {
     }
 
     public void refresh() {
-        chattinglist.addAll(inroomlist);
+        chattingList.addAll(inRoomList);
         //chattinglist.addAll(playinglist);
-        inroomlist.clear();
+        inRoomList.clear();
         //playinglist.clear();
-        leftroom.clear();
+        leftRoom.clear();
         fireContentsChanged(this, 0, getSize());
     }
 
     public void clear() {
-        chattinglist.clear();
-        inroomlist.clear();
-        playinglist.clear();
-        leftroom.clear();
+        chattingList.clear();
+        inRoomList.clear();
+        playingList.clear();
+        leftRoom.clear();
         fireContentsChanged(this, 0, getSize());
     }
 
     public boolean contains(Object element) {
-        return chattinglist.contains(element) || inroomlist.contains(element) || playinglist.contains(element);
+        return chattingList.contains(element) || inRoomList.contains(element) || playingList.contains(element);
     }
 
     public Object firstElement() {
         // Return the appropriate element
-        return chattinglist.first();
+        return chattingList.first();
     }
 
     public Iterator iterator() {
-        return chattinglist.iterator();
+        return chattingList.iterator();
     }
 
     public Object lastElement() {
         // Return the appropriate element
-        return playinglist.last();
+        return playingList.last();
     }
 
     public boolean removeElement(Object element) {

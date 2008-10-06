@@ -379,7 +379,7 @@ public class TabOrganizer {
     }
 
     public static void openGameDataEditor() {
-        GameDatabase.load(null, GameDatabase.testdatafilepath);
+        GameDatabase.load(null, GameDatabase.testDataFilePath);
         if (gamedataeditor == null) {
             gamedataeditor = new JScrollPane(new TestGameDataEditor());
             tabHolder.add("TestGameData Editor", gamedataeditor);

@@ -56,12 +56,12 @@ public class MuteBanListFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrl_table = new javax.swing.JScrollPane();
         tbl_UserTable = new javax.swing.JTable();
-        jb_Close = new javax.swing.JButton();
-        jb_UnMute = new javax.swing.JButton();
-        jb_UnBan = new javax.swing.JButton();
-        jb_Show_Profile = new javax.swing.JButton();
+        btn_close = new javax.swing.JButton();
+        btn_unMute = new javax.swing.JButton();
+        btn_unBan = new javax.swing.JButton();
+        btn_showProfile = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Mute/Ban List");
@@ -72,42 +72,42 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         tbl_UserTable.setFillsViewportHeight(true);
         tbl_UserTable.setFocusable(false);
         tbl_UserTable.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 tbl_UserTableCaretPositionChanged(evt);
             }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
         });
-        jScrollPane1.setViewportView(tbl_UserTable);
+        scrl_table.setViewportView(tbl_UserTable);
 
-        jb_Close.setText("Close");
-        jb_Close.addActionListener(new java.awt.event.ActionListener() {
+        btn_close.setText("Close");
+        btn_close.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jb_CloseActionPerformed(evt);
+                btn_closeActionPerformed(evt);
             }
         });
 
-        jb_UnMute.setText("UnMute");
-        jb_UnMute.setEnabled(false);
-        jb_UnMute.addActionListener(new java.awt.event.ActionListener() {
+        btn_unMute.setText("UnMute");
+        btn_unMute.setEnabled(false);
+        btn_unMute.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jb_UnMuteActionPerformed(evt);
+                btn_unMuteActionPerformed(evt);
             }
         });
 
-        jb_UnBan.setText("UnBan");
-        jb_UnBan.setEnabled(false);
-        jb_UnBan.addActionListener(new java.awt.event.ActionListener() {
+        btn_unBan.setText("UnBan");
+        btn_unBan.setEnabled(false);
+        btn_unBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jb_UnBanActionPerformed(evt);
+                btn_unBanActionPerformed(evt);
             }
         });
 
-        jb_Show_Profile.setText("Show Profile");
-        jb_Show_Profile.setEnabled(false);
-        jb_Show_Profile.addActionListener(new java.awt.event.ActionListener() {
+        btn_showProfile.setText("Show Profile");
+        btn_showProfile.setEnabled(false);
+        btn_showProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jb_Show_ProfileActionPerformed(evt);
+                btn_showProfileActionPerformed(evt);
             }
         });
 
@@ -117,37 +117,37 @@ public class MuteBanListFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jb_Close)
+                .addComponent(btn_close)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jb_UnMute)
+                .addComponent(btn_unMute)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jb_UnBan)
+                .addComponent(btn_unBan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jb_Show_Profile)
+                .addComponent(btn_showProfile)
                 .addContainerGap(126, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+            .addComponent(scrl_table, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+                .addComponent(scrl_table, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jb_Close)
-                    .addComponent(jb_UnMute)
-                    .addComponent(jb_UnBan)
-                    .addComponent(jb_Show_Profile))
+                    .addComponent(btn_close)
+                    .addComponent(btn_unMute)
+                    .addComponent(btn_unBan)
+                    .addComponent(btn_showProfile))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jb_CloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_CloseActionPerformed
+    private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
         Globals.closeMuteBanTableFrame();
-    }//GEN-LAST:event_jb_CloseActionPerformed
+}//GEN-LAST:event_btn_closeActionPerformed
 
-    private void jb_UnMuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_UnMuteActionPerformed
+    private void btn_unMuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_unMuteActionPerformed
         int viewRow = tbl_UserTable.getSelectedRow();
         if (viewRow > -1) {
             int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
@@ -157,9 +157,9 @@ public class MuteBanListFrame extends javax.swing.JFrame {
             updateTable();
         //jb_UnMute.setEnabled(false);
         }
-    }//GEN-LAST:event_jb_UnMuteActionPerformed
+}//GEN-LAST:event_btn_unMuteActionPerformed
 
-    private void jb_UnBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_UnBanActionPerformed
+    private void btn_unBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_unBanActionPerformed
         int viewRow = tbl_UserTable.getSelectedRow();
         if (viewRow > -1) {
             int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
@@ -169,26 +169,26 @@ public class MuteBanListFrame extends javax.swing.JFrame {
             updateTable();
         //jb_UnBan.setEnabled(false);
         }
-    }//GEN-LAST:event_jb_UnBanActionPerformed
+}//GEN-LAST:event_btn_unBanActionPerformed
 
-    private void jb_Show_ProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_Show_ProfileActionPerformed
+    private void btn_showProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_showProfileActionPerformed
         int viewRow = tbl_UserTable.getSelectedRow();
         if (viewRow > -1) {
             int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
             String subject = tablemodel.getValueAt(selected, 0).toString();
             Protocol.requestProfile(subject);
         }
-    }//GEN-LAST:event_jb_Show_ProfileActionPerformed
+}//GEN-LAST:event_btn_showProfileActionPerformed
 
     private void tbl_UserTableCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_tbl_UserTableCaretPositionChanged
     }//GEN-LAST:event_tbl_UserTableCaretPositionChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jb_Close;
-    private javax.swing.JButton jb_Show_Profile;
-    private javax.swing.JButton jb_UnBan;
-    private javax.swing.JButton jb_UnMute;
+    private javax.swing.JButton btn_close;
+    private javax.swing.JButton btn_showProfile;
+    private javax.swing.JButton btn_unBan;
+    private javax.swing.JButton btn_unMute;
+    private javax.swing.JScrollPane scrl_table;
     private javax.swing.JTable tbl_UserTable;
     // End of variables declaration//GEN-END:variables
 
@@ -236,28 +236,29 @@ public class MuteBanListFrame extends javax.swing.JFrame {
             this.table = table;
         }
 
+        @Override
         public void valueChanged(ListSelectionEvent e) {
             int viewRow = tbl_UserTable.getSelectedRow();
             if (viewRow > -1) {
                 int selected = tbl_UserTable.convertRowIndexToModel(viewRow);
                 String status = tablemodel.getValueAt(selected, 1).toString();
                 if (status.equals(MuteBanStatuses.BANNED.toString())) {
-                    jb_UnBan.setEnabled(true);
-                    jb_UnMute.setEnabled(false);
+                    btn_unBan.setEnabled(true);
+                    btn_unMute.setEnabled(false);
                 } else if (status.equals(MuteBanStatuses.MUTED.toString())) {
-                    jb_UnBan.setEnabled(false);
-                    jb_UnMute.setEnabled(true);
+                    btn_unBan.setEnabled(false);
+                    btn_unMute.setEnabled(true);
                 } else {
-                    jb_UnBan.setEnabled(true);
-                    jb_UnMute.setEnabled(true);
+                    btn_unBan.setEnabled(true);
+                    btn_unMute.setEnabled(true);
                 }
                 
-                jb_Show_Profile.setEnabled(true);
+                btn_showProfile.setEnabled(true);
             }
             else{
-                 jb_UnBan.setEnabled(false);
-                 jb_UnMute.setEnabled(false);
-                 jb_Show_Profile.setEnabled(false);
+                 btn_unBan.setEnabled(false);
+                 btn_unMute.setEnabled(false);
+                 btn_showProfile.setEnabled(false);
             }
         }
     }

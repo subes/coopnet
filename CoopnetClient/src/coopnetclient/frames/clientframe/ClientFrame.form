@@ -58,7 +58,7 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jm_user">
+        <Menu class="javax.swing.JMenu" name="m_user">
           <Properties>
             <Property name="text" type="java.lang.String" value="User"/>
             <Property name="enabled" type="boolean" value="false"/>
@@ -72,12 +72,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_profileActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmi_showMuteBanList">
+            <MenuItem class="javax.swing.JMenuItem" name="mi_showMuteBanList">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Edit Mute/Ban List"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmi_showMuteBanListActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_showMuteBanListActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="mi_showQuickbar">

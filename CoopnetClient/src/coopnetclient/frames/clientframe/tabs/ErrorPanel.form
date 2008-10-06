@@ -16,14 +16,14 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="lbl_errortext" alignment="1" pref="345" max="32767" attributes="0"/>
+          <Component id="lbl_errorText" alignment="1" pref="345" max="32767" attributes="0"/>
           <Component id="pnl_button" alignment="0" pref="345" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="lbl_errortext" min="-2" pref="164" max="-2" attributes="0"/>
+              <Component id="lbl_errorText" min="-2" pref="164" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="pnl_button" pref="113" max="32767" attributes="0"/>
           </Group>
@@ -31,7 +31,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="lbl_errortext">
+    <Component class="javax.swing.JLabel" name="lbl_errorText">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;p style=&quot;text-align: center&quot;&gt;&lt;b&gt;Error header!&lt;/b&gt;&lt;br&gt;Error description, error description, error description.&lt;/p&gt;&lt;/html&gt;"/>

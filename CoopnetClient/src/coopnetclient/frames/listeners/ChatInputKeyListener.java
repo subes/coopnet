@@ -20,12 +20,10 @@
 package coopnetclient.frames.listeners;
 
 import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.utils.ColoredChatHandler;
 import java.awt.event.*;
 import javax.swing.*;
 

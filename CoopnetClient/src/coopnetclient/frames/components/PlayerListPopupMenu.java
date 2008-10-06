@@ -18,7 +18,6 @@
  */
 package coopnetclient.frames.components;
 
-import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
@@ -41,10 +40,10 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
     public static final int HOST_MODE = 0;
     public static final int GENERAL_MODE = 1;
     private JList source;
-    private JMenuItem playername;
+    private JMenuItem playerName;
     private JMenuItem invite;
-    private JMenuItem mute_unmute;
-    private JMenuItem ban_unban;
+    private JMenuItem mute_UnMute;
+    private JMenuItem ban_UnBan;
     private JMenuItem addContact;
 
     /**
@@ -55,9 +54,9 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         super();
         this.source = source;
 
-        playername = new JMenuItem();
-        playername.setEnabled(false);
-        this.add(playername);
+        playerName = new JMenuItem();
+        playerName.setEnabled(false);
+        this.add(playerName);
 
         this.add(new JSeparator());
         this.add(makeMenuItem("Nudge"));
@@ -73,10 +72,10 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         if (mode == HOST_MODE) {
             this.add(makeMenuItem("Kick"));
         }
-        mute_unmute = makeMenuItem("Mute");
-        ban_unban = makeMenuItem("Ban");
-        this.add(mute_unmute);
-        this.add(ban_unban);
+        mute_UnMute = makeMenuItem("Mute");
+        ban_UnBan = makeMenuItem("Ban");
+        this.add(mute_UnMute);
+        this.add(ban_UnBan);
         this.add(new JSeparator());
 
         this.add(makeMenuItem("Show profile..."));
@@ -102,7 +101,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         if (source == null) {
             return;
         }
-        final String subject = playername.getText();
+        final String subject = playerName.getText();
         if (subject == null) {
             return;
         }
@@ -151,7 +150,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
                         if (returnVal == FileChooser.SELECT_ACTION) {
                             inputfile = mfc.getSelectedFile();
                             if (inputfile != null) {
-                                Protocol.sendfile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
+                                Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
                                 TabOrganizer.openFileTransferSendPanel(subject, inputfile);
                                 Globals.setLastOpenedDir(inputfile.getParent());
                             }
@@ -170,10 +169,10 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             setVisible(false);
             return;
         } else {
-            playername.setText((String) source.getSelectedValue());
+            playerName.setText((String) source.getSelectedValue());
         }
         
-        if(Globals.getContactList().contains( playername.getText() )){
+        if(Globals.getContactList().contains( playerName.getText() )){
             addContact.setVisible(false);
         }else{
             addContact.setVisible(true);
@@ -184,22 +183,22 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             invite.setVisible(true);
         }        
         
-        if (MuteBanList.getMuteBanStatus(playername.getText()) == null) {
-            mute_unmute.setText("Mute");
-            ban_unban.setText("Ban");
+        if (MuteBanList.getMuteBanStatus(playerName.getText()) == null) {
+            mute_UnMute.setText("Mute");
+            ban_UnBan.setText("Ban");
         } else {
-            switch (MuteBanList.getMuteBanStatus(playername.getText())) {
+            switch (MuteBanList.getMuteBanStatus(playerName.getText())) {
                 case BANNED:
-                    mute_unmute.setText("Mute");
-                    ban_unban.setText("UnBan");
+                    mute_UnMute.setText("Mute");
+                    ban_UnBan.setText("UnBan");
                     break;
                 case MUTED:
-                    mute_unmute.setText("UnMute");
-                    ban_unban.setText("Ban");
+                    mute_UnMute.setText("UnMute");
+                    ban_UnBan.setText("Ban");
                     break;
                 case BOTH:
-                    mute_unmute.setText("UnMute");
-                    ban_unban.setText("UnBan");
+                    mute_UnMute.setText("UnMute");
+                    ban_UnBan.setText("UnBan");
                     break;
             }
         }

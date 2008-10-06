@@ -43,7 +43,7 @@ public class RoomTableModel extends DefaultTableModel {
         private int type;
         private String name;
         private String hostName;
-        private int maxplayers;
+        private int maxPlayers;
         private boolean launched;
         private ArrayList<String> playersInRoom = new ArrayList<String>();
 
@@ -51,13 +51,13 @@ public class RoomTableModel extends DefaultTableModel {
             this.type = type;
             this.name = name;
             this.hostName = hostName;
-            this.maxplayers = maxplayers;
+            this.maxPlayers = maxplayers;
             this.launched= false;
             playersInRoom.add(hostName);
         }
 
         public boolean isLaunched(){
-            return userdatamodel.isPlaying(hostName);
+            return userDataModel.isPlaying(hostName);
         }
         
         public void setLaunched(boolean state){
@@ -77,7 +77,7 @@ public class RoomTableModel extends DefaultTableModel {
         }
 
         public String getLimitString() {
-            return playersInRoom.size() + "/" + maxplayers;
+            return playersInRoom.size() + "/" + maxPlayers;
         }
 
         public String getUserlist() {
@@ -106,7 +106,7 @@ public class RoomTableModel extends DefaultTableModel {
     private String[] columnNames = {"Type", "Name", "Host", "Players"};
     private ArrayList<Room> rooms;
     private javax.swing.JTable parent;
-    private ChannelStatusListModel userdatamodel;
+    private ChannelStatusListModel userDataModel;
     
 
     {
@@ -117,7 +117,7 @@ public class RoomTableModel extends DefaultTableModel {
     public RoomTableModel(javax.swing.JTable parent,ChannelStatusListModel userdatamodel) {
         super();
         this.parent = parent;
-        this.userdatamodel = userdatamodel;
+        this.userDataModel = userdatamodel;
     }
 
     public int indexOf(String hostName) {
@@ -222,7 +222,7 @@ public class RoomTableModel extends DefaultTableModel {
         return rooms.get(i).getName();
     }
 
-    public String getroomname(String hostName) {
+    public String getRoomName(String hostName) {
         int index = indexOf(hostName);
         if (index >= 0) {
             rooms.remove(index);

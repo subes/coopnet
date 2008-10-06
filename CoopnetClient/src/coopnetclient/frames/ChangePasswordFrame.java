@@ -49,7 +49,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
         tf_oldPassword = new javax.swing.JPasswordField();
         btn_save = new javax.swing.JButton();
         btn_cancel = new javax.swing.JButton();
-        lbl_Error = new javax.swing.JLabel();
+        lbl_error = new javax.swing.JLabel();
 
         setTitle("Change password");
         setResizable(false);
@@ -121,7 +121,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
             }
         });
 
-        lbl_Error.setText(" ");
+        lbl_error.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -136,7 +136,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                 .addContainerGap(358, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbl_Error, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                .addComponent(lbl_error, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -144,7 +144,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnl_input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_Error)
+                .addComponent(lbl_error)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_save)
@@ -182,14 +182,14 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void showError(String message, Color color){
-        lbl_Error.setForeground(color);
-        lbl_Error.setText(message);
+        lbl_error.setForeground(color);
+        lbl_error.setText(message);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_save;
-    private javax.swing.JLabel lbl_Error;
+    private javax.swing.JLabel lbl_error;
     private javax.swing.JLabel lbl_newPassword1;
     private javax.swing.JLabel lbl_newPassword2;
     private javax.swing.JLabel lbl_oldPassword;

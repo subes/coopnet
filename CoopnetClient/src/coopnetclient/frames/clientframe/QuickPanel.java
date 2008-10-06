@@ -97,7 +97,7 @@ public class QuickPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         tp_quickPanel = new javax.swing.JTabbedPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrl_contactlist = new javax.swing.JScrollPane();
         lst_contactList = new coopnetclient.frames.components.mutablelist.EditableJlist();
         pnl_favouritesList = new javax.swing.JPanel();
         scrl_favouritesList = new javax.swing.JScrollPane();
@@ -112,7 +112,7 @@ public class QuickPanel extends javax.swing.JPanel {
         tp_quickPanel.setFocusable(false);
         tp_quickPanel.setMinimumSize(new java.awt.Dimension(0, 0));
 
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(0, 0));
+        scrl_contactlist.setMinimumSize(new java.awt.Dimension(0, 0));
 
         lst_contactList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -136,9 +136,9 @@ public class QuickPanel extends javax.swing.JPanel {
                 lst_contactListMouseMoved(evt);
             }
         });
-        jScrollPane1.setViewportView(lst_contactList);
+        scrl_contactlist.setViewportView(lst_contactList);
 
-        tp_quickPanel.addTab("", ContactListIcon, jScrollPane1);
+        tp_quickPanel.addTab("", ContactListIcon, scrl_contactlist);
 
         lst_favouritesList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -229,10 +229,10 @@ private void lst_favouritesListMouseExited(java.awt.event.MouseEvent evt) {//GEN
 }//GEN-LAST:event_lst_favouritesListMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
     private coopnetclient.frames.components.mutablelist.EditableJlist lst_contactList;
     private javax.swing.JList lst_favouritesList;
     private javax.swing.JPanel pnl_favouritesList;
+    private javax.swing.JScrollPane scrl_contactlist;
     private javax.swing.JScrollPane scrl_favouritesList;
     private javax.swing.JTabbedPane tp_quickPanel;
     // End of variables declaration//GEN-END:variables

@@ -273,7 +273,7 @@ public class Client {
                             System.out.println("downloading new gamedata");
                         }
                         BufferedOutputStream bo = null;
-                        File destfile = new File(GameDatabase.datafilepath);
+                        File destfile = new File(GameDatabase.dataFilePath);
                         if (!destfile.createNewFile()) {
                             destfile.delete();
                             destfile.createNewFile();
@@ -294,7 +294,7 @@ public class Client {
                         } catch (Exception ex) {
                         }
                         GameDatabase.loadVersion();
-                        GameDatabase.load("", GameDatabase.datafilepath);
+                        GameDatabase.load("", GameDatabase.dataFilePath);
                     }
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(Globals.getClientFrame(), "You have an outdated version of the gamedata, but couldn't update it!", "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);

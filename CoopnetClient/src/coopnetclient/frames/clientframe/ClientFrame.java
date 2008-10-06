@@ -90,7 +90,7 @@ public class ClientFrame extends javax.swing.JFrame {
             lastdividerposition = null;
         }
         
-        jm_user.setEnabled(Globals.getLoggedInStatus());
+        m_user.setEnabled(Globals.getLoggedInStatus());
         m_channels.setEnabled(Globals.getLoggedInStatus());
         mi_connection.setSelected(Globals.getConnectionStatus());
     }
@@ -334,9 +334,9 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_connection = new javax.swing.JCheckBoxMenuItem();
         mi_update = new javax.swing.JMenuItem();
         mi_quit = new javax.swing.JMenuItem();
-        jm_user = new javax.swing.JMenu();
+        m_user = new javax.swing.JMenu();
         mi_profile = new javax.swing.JMenuItem();
-        jmi_showMuteBanList = new javax.swing.JMenuItem();
+        mi_showMuteBanList = new javax.swing.JMenuItem();
         mi_showQuickbar = new javax.swing.JCheckBoxMenuItem();
         m_channels = new javax.swing.JMenu();
         mi_channelList = new javax.swing.JMenuItem();
@@ -490,8 +490,8 @@ public class ClientFrame extends javax.swing.JFrame {
 
         mbar.add(m_main);
 
-        jm_user.setText("User");
-        jm_user.setEnabled(false);
+        m_user.setText("User");
+        m_user.setEnabled(false);
 
         mi_profile.setText("Edit Profile");
         mi_profile.addActionListener(new java.awt.event.ActionListener() {
@@ -499,15 +499,15 @@ public class ClientFrame extends javax.swing.JFrame {
                 mi_profileActionPerformed(evt);
             }
         });
-        jm_user.add(mi_profile);
+        m_user.add(mi_profile);
 
-        jmi_showMuteBanList.setText("Edit Mute/Ban List");
-        jmi_showMuteBanList.addActionListener(new java.awt.event.ActionListener() {
+        mi_showMuteBanList.setText("Edit Mute/Ban List");
+        mi_showMuteBanList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_showMuteBanListActionPerformed(evt);
+                mi_showMuteBanListActionPerformed(evt);
             }
         });
-        jm_user.add(jmi_showMuteBanList);
+        m_user.add(mi_showMuteBanList);
 
         mi_showQuickbar.setText("Show Quickbar");
         mi_showQuickbar.addActionListener(new java.awt.event.ActionListener() {
@@ -515,9 +515,9 @@ public class ClientFrame extends javax.swing.JFrame {
                 mi_showQuickbarActionPerformed(evt);
             }
         });
-        jm_user.add(mi_showQuickbar);
+        m_user.add(mi_showQuickbar);
 
-        mbar.add(jm_user);
+        mbar.add(m_user);
 
         m_channels.setText("Channels");
         m_channels.setEnabled(false);
@@ -842,11 +842,11 @@ private void pnl_toggleQuickBarRightMousePressed(java.awt.event.MouseEvent evt) 
     }
 }//GEN-LAST:event_pnl_toggleQuickBarRightMousePressed
 
-private void jmi_showMuteBanListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_showMuteBanListActionPerformed
+private void mi_showMuteBanListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_showMuteBanListActionPerformed
     if (Globals.getLoggedInStatus()) {
         Globals.openMuteBanTableFrame();
     }
-}//GEN-LAST:event_jmi_showMuteBanListActionPerformed
+}//GEN-LAST:event_mi_showMuteBanListActionPerformed
 
 private void mi_showQuickbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_showQuickbarActionPerformed
     setQuickBarVisibility(mi_showQuickbar.isSelected());
@@ -862,12 +862,11 @@ private void mi_connectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 }//GEN-LAST:event_mi_connectionActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jm_user;
-    private javax.swing.JMenuItem jmi_showMuteBanList;
     private javax.swing.JMenu m_channels;
     private javax.swing.JMenu m_help;
     private javax.swing.JMenu m_main;
     private javax.swing.JMenu m_options;
+    private javax.swing.JMenu m_user;
     private javax.swing.JMenuBar mbar;
     private javax.swing.JCheckBoxMenuItem mi_Sounds;
     private javax.swing.JMenuItem mi_about;
@@ -883,6 +882,7 @@ private void mi_connectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JMenuItem mi_profile;
     private javax.swing.JMenuItem mi_quit;
     private javax.swing.JSeparator mi_seperator;
+    private javax.swing.JMenuItem mi_showMuteBanList;
     private javax.swing.JCheckBoxMenuItem mi_showQuickbar;
     private javax.swing.JMenuItem mi_update;
     private javax.swing.JPanel pnl_toggleQuickBarLeft;

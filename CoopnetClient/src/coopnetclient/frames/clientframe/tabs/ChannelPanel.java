@@ -211,7 +211,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 
     public void updatePlayerName(String oldname, String newname) {
         rooms.updateName(oldname, newname);
-        users.updatename(oldname, newname);
+        users.updateName(oldname, newname);
         if (TabOrganizer.getRoomPanel() != null) {
             TabOrganizer.getRoomPanel().updatePlayerName(oldname, newname);
         }
@@ -233,7 +233,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         tp_chatOutput = new javax.swing.JTextPane();
         scrl_chatInput = new javax.swing.JScrollPane();
         tp_chatInput = new javax.swing.JTextPane();
-        jPanel1 = new javax.swing.JPanel();
+        pnl_userList = new javax.swing.JPanel();
         scrl_userList = new javax.swing.JScrollPane();
         lst_userList = new javax.swing.JList();
         btn_leaveChannel1 = new javax.swing.JButton();
@@ -312,7 +312,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 
         sp_chatHorizontal.setLeftComponent(sp_chatVertical);
 
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        pnl_userList.setLayout(new java.awt.GridBagLayout());
 
         scrl_userList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrl_userList.setFocusable(false);
@@ -347,7 +347,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        jPanel1.add(scrl_userList, gridBagConstraints);
+        pnl_userList.add(scrl_userList, gridBagConstraints);
 
         btn_leaveChannel1.setText("Leave");
         btn_leaveChannel1.setFocusable(false);
@@ -363,9 +363,9 @@ public class ChannelPanel extends javax.swing.JPanel {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
-        jPanel1.add(btn_leaveChannel1, gridBagConstraints);
+        pnl_userList.add(btn_leaveChannel1, gridBagConstraints);
 
-        sp_chatHorizontal.setRightComponent(jPanel1);
+        sp_chatHorizontal.setRightComponent(pnl_userList);
 
         sp_vertical.setBottomComponent(sp_chatHorizontal);
 
@@ -618,9 +618,9 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
     private javax.swing.JButton btn_leaveChannel;
     private javax.swing.JButton btn_leaveChannel1;
     private javax.swing.JButton btn_refresh;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JList lst_userList;
     private javax.swing.JPanel pnl_roomActions;
+    private javax.swing.JPanel pnl_userList;
     private javax.swing.JScrollPane scrl_chatInput;
     private javax.swing.JScrollPane scrl_chatOutput;
     private javax.swing.JScrollPane scrl_roomList;
