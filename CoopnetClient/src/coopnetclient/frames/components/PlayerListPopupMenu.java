@@ -108,25 +108,17 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         if (command.equals("Kick")) {
             Protocol.kick(subject);
         } else if (command.equals("Ban")) {
-            MuteBanList.ban(subject);
             Protocol.kick(subject);
             Protocol.ban(subject);
-            Globals.updateMuteBanTableFrame();
         } else if (command.equals("UnBan")) {
-            MuteBanList.unBan(subject);
             Protocol.unBan(subject);
-            Globals.updateMuteBanTableFrame();
         } else if (command.equals("Mute")) {
-            MuteBanList.mute(subject);
             Protocol.mute(subject);
-            Globals.updateMuteBanTableFrame();
         } else if (command.equals("Add to Contacts")) {
             Globals.getContactList().addContact(subject, ContactListModel.DEFAULT_GROUP, ContactListElementTypes.PENDING_CONTACT);
             Protocol.RequestContact(subject);
         } else if (command.equals("UnMute")) {
-            MuteBanList.unMute(subject);
             Protocol.unMute(subject);
-            Globals.updateMuteBanTableFrame();
         } else if (command.equals("Whisper...")) {
             TabOrganizer.openPrivateChatPanel(subject, true);
         } else if (command.equals("Show profile...")) {

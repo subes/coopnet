@@ -18,7 +18,9 @@
  */
 package coopnetclient.utils;
 
+import coopnetclient.Globals;
 import coopnetclient.enums.MuteBanStatuses;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import java.util.HashMap;
 
 public class MuteBanList {
@@ -51,6 +53,11 @@ public class MuteBanList {
                 muteBanList.put(name, MuteBanStatuses.BOTH);
             }
         }
+        
+        if(Globals.getMuteBanTableFrame() != null){
+            Globals.getMuteBanTableFrame().updateTable();
+        }
+        TabOrganizer.updateMuteBanStatus(name);
     }
 
     public static void ban(String name) {
@@ -62,6 +69,11 @@ public class MuteBanList {
                 muteBanList.put(name, MuteBanStatuses.BOTH);
             }
         }
+        
+        if(Globals.getMuteBanTableFrame() != null){
+            Globals.getMuteBanTableFrame().updateTable();
+        }
+        TabOrganizer.updateMuteBanStatus(name);
     }
 
     public static void unMute(String name) {
@@ -77,6 +89,11 @@ public class MuteBanList {
                 muteBanList.put(name, MuteBanStatuses.BANNED);
                 break;
         }
+        
+        if(Globals.getMuteBanTableFrame() != null){
+            Globals.getMuteBanTableFrame().updateTable();
+        }
+        TabOrganizer.updateMuteBanStatus(name);
     }
 
     public static void unBan(String name) {
@@ -92,5 +109,10 @@ public class MuteBanList {
                 muteBanList.put(name, MuteBanStatuses.MUTED);
                 break;
         }
+        
+        if(Globals.getMuteBanTableFrame() != null){
+            Globals.getMuteBanTableFrame().updateTable();
+        }
+        TabOrganizer.updateMuteBanStatus(name);
     }
 }

@@ -33,7 +33,7 @@
               <Component id="btn_unBan" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_showProfile" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="126" max="32767" attributes="0"/>
+              <EmptySpace pref="184" max="32767" attributes="0"/>
           </Group>
           <Component id="scrl_table" alignment="0" pref="444" max="32767" attributes="0"/>
       </Group>

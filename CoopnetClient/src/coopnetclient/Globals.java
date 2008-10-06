@@ -346,12 +346,6 @@ public class Globals {
             muteBanTableFrame = null;
         }
     }
-    
-    public static void updateMuteBanTableFrame() {
-        if (muteBanTableFrame != null) {
-            muteBanTableFrame.updateTable();
-        }
-    }
 
     public static void openEditProfileFrame(String name, String ingamename, String email, String country, String webpage, String emailpublicity ) {
         if (editProfileFrame != null) {

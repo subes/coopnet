@@ -248,6 +248,14 @@ public class TabOrganizer {
             }
         }
     }
+    
+    public static void updateMuteBanStatus(String username){
+        for(int i = 0; i < privateChatPanels.size(); i++){
+            if(privateChatPanels.get(i).getPartner().equals(username)){
+                privateChatPanels.get(i).updateMuteBanStatus();
+            }
+        }
+    }
 
     public static void closePrivateChatPanel(PrivateChatPanel which) {
         tabHolder.remove(which);

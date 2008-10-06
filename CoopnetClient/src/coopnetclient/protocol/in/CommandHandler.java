@@ -222,15 +222,19 @@ public class CommandHandler {
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Error:No such Player!", ChatStyles.SYSTEM, false);
                     break;
                 case ECHO_BANNED:
+                    MuteBanList.ban(information[0]);
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been banned!", ChatStyles.SYSTEM, false);
                     break;
                 case ECHO_UNBANNED:
+                    MuteBanList.unBan(information[0]);
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been unbanned!", ChatStyles.SYSTEM, false);
                     break;
                 case ECHO_MUTED:
+                    MuteBanList.mute(information[0]);
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been muted!", ChatStyles.SYSTEM, false);
                     break;
                 case ECHO_UNMUTED:
+                    MuteBanList.unMute(information[0]);
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been unmuted!", ChatStyles.SYSTEM, false);
                     break;
                 case NOT_READY_STATUS:

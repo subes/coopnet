@@ -41,6 +41,16 @@ public class PrivateChatPanel extends javax.swing.JPanel {
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(2, partner));
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
+        
+        updateMuteBanStatus();
+    }
+    
+    
+    public String getPartner(){
+        return partner;
+    }
+    
+    public void updateMuteBanStatus(){
         MuteBanStatuses status = MuteBanList.getMuteBanStatus(partner);
         if (status == null) {
             btn_mute.setText("Mute");
@@ -184,15 +194,9 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
 
 private void btn_muteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_muteActionPerformed
     if (btn_mute.getText().equals("Mute")) {
-            MuteBanList.mute(partner);
             Protocol.mute(partner);
-            Globals.updateMuteBanTableFrame();
-            btn_mute.setText("UnMute");
         } else if (btn_mute.getText().equals("UnMute")) {
-            MuteBanList.unMute(partner);
             Protocol.unMute(partner);
-            Globals.updateMuteBanTableFrame();
-            btn_mute.setText("Mute");
         } 
 }//GEN-LAST:event_btn_muteActionPerformed
 

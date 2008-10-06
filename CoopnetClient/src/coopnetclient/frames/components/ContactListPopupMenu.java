@@ -227,22 +227,14 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         } else if (command.equals("Show profile...")) {
             Protocol.requestProfile(subject);
         } else if (command.equals("Ban")) {
-            MuteBanList.ban(subject);
             Protocol.kick(subject);
             Protocol.ban(subject);
-            Globals.updateMuteBanTableFrame();
         } else if (command.equals("UnBan")) {
-            MuteBanList.unBan(subject);
             Protocol.unBan(subject);
-            Globals.updateMuteBanTableFrame();
         } else if (command.equals("Mute")) {
-            MuteBanList.mute(subject);
             Protocol.mute(subject);
-            Globals.updateMuteBanTableFrame();
         } else if (command.equals("UnMute")) {
-            MuteBanList.unMute(subject);
             Protocol.unMute(subject);
-            Globals.updateMuteBanTableFrame();
         } else if (command.equals("Send file...")) {
             if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {
 
