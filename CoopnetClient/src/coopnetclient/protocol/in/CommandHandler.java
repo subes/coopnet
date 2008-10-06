@@ -90,10 +90,10 @@ public class CommandHandler {
                             "You may login now.", "Successfully registered", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case LOGINNAME_IN_USE:
-                    TabOrganizer.getLoginPanel().showError("Error: login name already in use!", Color.red);
+                    TabOrganizer.getLoginPanel().showError("Login name is already in use!", Color.red);
                     break;
                 case CRIPPLED_SERVER_MODE:
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "<html>The server is runnign in crippled mode<br> logging in and registering is not possible!", ChatStyles.SYSTEM, true);
+                    JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nlogging in and registering is impossible!", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
                     break;
             }
         } else {//logged-in commands
@@ -215,7 +215,8 @@ public class CommandHandler {
                     Globals.getClientFrame().printPrivateChatMessage(information[0], information[1]);
                     break;
                 case SERVER_SHUTTING_DOWN:
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "The server is shutting down!", ChatStyles.SYSTEM, true);
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Server is shutting down!", ChatStyles.SYSTEM, true);
+                    Client.disconnect();
                     break;
                 case ECHO_NO_SUCH_PLAYER:
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Error:No such Player!", ChatStyles.SYSTEM, false);
@@ -368,7 +369,7 @@ public class CommandHandler {
                 case VERIFICATION_ERROR:
                     break;
                 case CRIPPLED_SERVER_MODE:
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "The server is runnign in crippled mode,viewing and editing permanent data is not possible!", ChatStyles.SYSTEM, true);
+                    JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nediting permanent data is impossible!", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
                     break;
                 default:
                     Logger.log(LogTypes.ERROR, "Server sent a command which wasn't handled!");

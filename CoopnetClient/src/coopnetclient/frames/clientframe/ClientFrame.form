@@ -31,10 +31,9 @@
             <Property name="text" type="java.lang.String" value="Client"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JCheckBoxMenuItem" name="mi_connection">
+            <MenuItem class="javax.swing.JMenuItem" name="mi_connection">
               <Properties>
-                <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Connection"/>
+                <Property name="text" type="java.lang.String" value="Disconnect"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_connectionActionPerformed"/>

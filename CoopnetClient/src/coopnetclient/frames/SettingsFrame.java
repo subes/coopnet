@@ -863,7 +863,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addGap(88, 88, 88))
         );
 
-        tabpn_settings.addTab("QuckPanel", pnl_QuckPanel);
+        tabpn_settings.addTab("Quckbar", pnl_QuckPanel);
 
         btn_save.setText("Save");
         btn_save.addActionListener(new java.awt.event.ActionListener() {

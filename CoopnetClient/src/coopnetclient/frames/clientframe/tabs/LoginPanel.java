@@ -35,6 +35,8 @@ public class LoginPanel extends javax.swing.JPanel {
         tf_name.setText(coopnetclient.utils.Settings.getLastLoginName());
         cb_autoLogin.setSelected(coopnetclient.utils.Settings.getAutoLogin());
         coopnetclient.utils.Colorizer.colorize(this);
+        
+        lbl_loginError.setText(" ");
     }
 
     @Override
@@ -43,16 +45,28 @@ public class LoginPanel extends javax.swing.JPanel {
     }
 
     private void login() {
+        String name = tf_name.getText();
+        String passw = new String(pf_password.getPassword());
+        
+        if(!Verification.verifyLoginName(name)){
+            showError("Wrong username/password, please try again!",Color.red);
+            return;
+        }
+        
+        if(!Verification.verifyPassword(passw)){
+            showError("Wrong username/password, please try again!",Color.red);
+            return;
+        }
+        
         if (tf_name.getText().length() > 0) {
-            String passw = new String(pf_password.getPassword());
-            Protocol.login(tf_name.getText(), passw);
+            Protocol.login(name, passw);
 
-            Globals.setThisPlayer_loginName(tf_name.getText());
-            coopnetclient.utils.Settings.setLastLoginName(tf_name.getText());
+            Globals.setThisPlayer_loginName(name);
+            coopnetclient.utils.Settings.setLastLoginName(name);
             coopnetclient.utils.Settings.setAutoLogin(cb_autoLogin.isSelected());
 
             if (coopnetclient.utils.Settings.getAutoLogin()) {
-                coopnetclient.utils.Settings.setLastLoginPassword(String.copyValueOf(pf_password.getPassword()));
+                coopnetclient.utils.Settings.setLastLoginPassword(passw);
             } else {
                 coopnetclient.utils.Settings.setLastLoginPassword("");
             }
@@ -61,6 +75,8 @@ public class LoginPanel extends javax.swing.JPanel {
                 Thread.sleep(100);
             }catch(InterruptedException ex){}            
         }
+        
+        showError(" ", Color.red);
     }
 
     private void register() {
@@ -82,6 +98,7 @@ public class LoginPanel extends javax.swing.JPanel {
         if (Verification.verifyLoginName(name) && Verification.verifyPassword(passw)) {
             Protocol.register(tf_name.getText(), passw);
         }
+        
         showError(" ",Color.red);
     }
     
@@ -125,7 +142,7 @@ public class LoginPanel extends javax.swing.JPanel {
         );
         pnl_topLayout.setVerticalGroup(
             pnl_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 51, Short.MAX_VALUE)
+            .addGap(0, 45, Short.MAX_VALUE)
         );
 
         add(pnl_top);
@@ -217,6 +234,12 @@ public class LoginPanel extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         pnl_input.add(lbl_loginError, gridBagConstraints);
+
+        tf_name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf_nameActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -244,7 +267,7 @@ public class LoginPanel extends javax.swing.JPanel {
             pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_bottomLayout.createSequentialGroup()
                 .addComponent(lbl_info)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         add(pnl_bottom);
@@ -260,6 +283,11 @@ public class LoginPanel extends javax.swing.JPanel {
     private void btn_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registerActionPerformed
         register();
 }//GEN-LAST:event_btn_registerActionPerformed
+
+    private void tf_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_nameActionPerformed
+        btn_login.doClick();
+    }//GEN-LAST:event_tf_nameActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_login;
     private javax.swing.JButton btn_register;

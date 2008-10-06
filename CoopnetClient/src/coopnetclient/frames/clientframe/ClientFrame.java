@@ -90,9 +90,14 @@ public class ClientFrame extends javax.swing.JFrame {
             lastdividerposition = null;
         }
         
+        if(!Globals.getConnectionStatus()){
+            mi_connection.setText("Connect");
+        }else{
+            mi_connection.setText("Disconnect");
+        }
+        
         m_user.setEnabled(Globals.getLoggedInStatus());
         m_channels.setEnabled(Globals.getLoggedInStatus());
-        mi_connection.setSelected(Globals.getConnectionStatus());
     }
 
     public void flashQuickPanelToggler() {
@@ -331,7 +336,7 @@ public class ClientFrame extends javax.swing.JFrame {
         pnl_toggleQuickBarRight = new javax.swing.JPanel();
         mbar = new javax.swing.JMenuBar();
         m_main = new javax.swing.JMenu();
-        mi_connection = new javax.swing.JCheckBoxMenuItem();
+        mi_connection = new javax.swing.JMenuItem();
         mi_update = new javax.swing.JMenuItem();
         mi_quit = new javax.swing.JMenuItem();
         m_user = new javax.swing.JMenu();
@@ -463,8 +468,7 @@ public class ClientFrame extends javax.swing.JFrame {
 
         m_main.setText("Client");
 
-        mi_connection.setSelected(true);
-        mi_connection.setText("Connection");
+        mi_connection.setText("Disconnect");
         mi_connection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_connectionActionPerformed(evt);
@@ -676,9 +680,6 @@ public class ClientFrame extends javax.swing.JFrame {
      * 
      */
     public void printToVisibleChatbox(String name, String message, ChatStyles modeStyle, boolean popupEnabled) {
-        if (message.equals("Server is shutting down")) {
-            mi_connection.setSelected(false);
-        }
 
         Component tc = tabpn_tabs.getSelectedComponent();
 
@@ -853,8 +854,7 @@ private void mi_showQuickbarActionPerformed(java.awt.event.ActionEvent evt) {//G
 }//GEN-LAST:event_mi_showQuickbarActionPerformed
 
 private void mi_connectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_connectionActionPerformed
-    if(mi_connection.isSelected()){
-        TabOrganizer.closeAllTabs();
+    if(!Globals.getConnectionStatus()){
         Client.startConnection();
     }else{
         Client.disconnect();
@@ -874,7 +874,7 @@ private void mi_connectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JMenuItem mi_bugReport;
     private javax.swing.JMenuItem mi_channelList;
     private javax.swing.JMenuItem mi_clientSettings;
-    private javax.swing.JCheckBoxMenuItem mi_connection;
+    private javax.swing.JMenuItem mi_connection;
     private javax.swing.JMenuItem mi_favourites;
     private javax.swing.JMenuItem mi_guide;
     private javax.swing.JMenuItem mi_manageFavs;

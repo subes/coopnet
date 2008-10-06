@@ -124,6 +124,7 @@ public class Client {
     }
 
     public static void startConnection() {
+        TabOrganizer.closeAllTabs();
         Globals.setConnectionStatus(true);
         handlerThread = new HandlerThread();
         handlerThread.start();
