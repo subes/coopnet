@@ -26,6 +26,7 @@ import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.ServerProtocolCommands;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.SoundPlayer;
@@ -373,6 +374,7 @@ public class CommandHandler {
                 case VERIFICATION_ERROR:
                     break;
                 case CRIPPLED_SERVER_MODE:
+                    Protocol.refreshContacts(Globals.getContactList().isOfflineShown());
                     JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nediting permanent data is impossible!", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
                     break;
                 default:

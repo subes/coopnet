@@ -29,6 +29,7 @@ import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.frames.renderers.ContactListRenderer;
 import java.awt.Cursor;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
@@ -187,7 +188,7 @@ public class QuickPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void lst_contactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseClicked
-    if (evt.getClickCount() == 2 && lst_contactList.getSelectedIndex() > -1) {
+    if (evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 2 && lst_contactList.getSelectedIndex() > -1) {
         if(lst_contactList.getSelectedValue() == null){
             return;
         }
@@ -203,7 +204,9 @@ private void lst_contactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-F
 }//GEN-LAST:event_lst_contactListMouseClicked
 
 private void lst_favouritesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_favouritesListMouseClicked
-    Protocol.joinChannel(lst_favouritesList.getSelectedValue().toString());
+    if(evt.getButton() == MouseEvent.BUTTON1){
+        Protocol.joinChannel(lst_favouritesList.getSelectedValue().toString());
+    }
 }//GEN-LAST:event_lst_favouritesListMouseClicked
 
 private void lst_contactListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseMoved
