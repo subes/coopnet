@@ -21,6 +21,7 @@ package coopnetclient.utils.filechooser;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.OperatingSystems;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -107,6 +108,9 @@ public class FileChooser extends javax.swing.JFrame {
                 cmb_places.addItem(currentdir);
             }
             cmb_places.addItem(System.getenv("USERPROFILE"));
+            //add desktop and my documents
+            cmb_places.addItem("Desktop");
+            cmb_places.addItem("Documents");
         }
         
         cmb_places.addItem("<html><b>- Roots -");
@@ -485,6 +489,12 @@ private void cb_showHiddenActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 }//GEN-LAST:event_cb_showHiddenActionPerformed
 
 private void cmb_placesPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cmb_placesPopupMenuWillBecomeInvisible
+    if(cmb_places.getSelectedItem().toString().equals("Desktop")){
+        openDirectory(new File(GameDatabase.readRegistry("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Desktop")));
+    }else
+        if(cmb_places.getSelectedItem().toString().equals("Documents")){
+        openDirectory(new File(GameDatabase.readRegistry("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Personal")));
+    }else
     if(cmb_places.getSelectedItem().toString().contains("/") || cmb_places.getSelectedItem().toString().contains("\\")){
         openDirectory(new File(cmb_places.getSelectedItem().toString()));
     }
