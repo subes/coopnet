@@ -22,7 +22,6 @@ package coopnetclient.utils.hotkeys;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
-import coopnetclient.utils.launcher.Launcher;
 import java.awt.event.KeyEvent;
 import java.io.File;
 

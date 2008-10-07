@@ -31,13 +31,16 @@ struct KeyStruct {
 
 Display *dpy;
 Window root;
-int isListening = false;
+bool isListening = false;
+bool error = false;
 vector<KeyStruct> keys;
 
 JNIEXPORT void JNICALL Java_jxgrabkey_JXGrabKey_clean
   (JNIEnv *_env, jobject _obj){
-    if(!isListening){
-        printf("ERROR: listen() is not running, aborting\n");
+    while(!isListening && !error){
+        sleep(10);
+    }
+    if(error){
         return;
     }
 
@@ -48,14 +51,16 @@ JNIEXPORT void JNICALL Java_jxgrabkey_JXGrabKey_clean
 
 JNIEXPORT void JNICALL Java_jxgrabkey_JXGrabKey_registerHotkey__III
   (JNIEnv *_env, jobject _obj, jint _id, jint _mask, jint _key){
-    if(!isListening){
-        printf("ERROR: listen() is not running, aborting\n");
+    while(!isListening && !error){
+        sleep(10);
+    }
+    if(error){
         return;
     }
     
     struct KeyStruct key;
     key.id = _id;
-    key.key = _key;
+    key.key = XKeysymToKeycode(dpy, _key);
     key.mask = _mask;
     
     keys.push_back(key);
@@ -65,6 +70,13 @@ JNIEXPORT void JNICALL Java_jxgrabkey_JXGrabKey_registerHotkey__III
 
 JNIEXPORT void JNICALL Java_jxgrabkey_JXGrabKey_unregisterHotKey
   (JNIEnv *_env, jobject _obj, jint _id){
+    while(!isListening && !error){
+        sleep(10);
+    }
+    if(error){
+        return;
+    }
+    
     for(int i = 0; i < keys.size(); i++){
         if(keys.at(i).id == _id){
             XUngrabKey(dpy, keys.at(i).key, keys.at(i).mask, root);
@@ -78,26 +90,29 @@ JNIEXPORT void JNICALL Java_jxgrabkey_JXGrabKey_listen
   (JNIEnv *_env, jobject _obj){    
     
     if(isListening){
-        printf("ERROR: already listening, aborting\n");
+        printf("WARNING: already listening, aborting\n");
         return;
     }
     
     jclass cls = _env->FindClass("jxgrabkey/JXGrabKey");
     if(cls == NULL){
-            printf("ERROR: cannot find class jxgrabkey.JXGrabKey\n");
-            return;
+        printf("ERROR: cannot find class jxgrabkey.JXGrabKey\n");
+        error = true;
+        return;
     }
     
     jmethodID mid = _env->GetStaticMethodID(cls, "fireKeyEvent", "(I)V" );
     if(mid ==0){
-            printf("ERROR: cannot find method fireKeyEvent(int)\n");
-            return;
+        printf("ERROR: cannot find method fireKeyEvent(int)\n");
+        error = true;
+        return;
     }
 
     dpy = XOpenDisplay(NULL);
     
     if(!dpy){
         printf("ERROR: cannot find method fireKeyEvent(int)\n");
+        error = true;
         return;
     }
 
@@ -115,8 +130,6 @@ JNIEXPORT void JNICALL Java_jxgrabkey_JXGrabKey_listen
             }
         }
     }
-
-    isListening = false;
     
     return;
 }

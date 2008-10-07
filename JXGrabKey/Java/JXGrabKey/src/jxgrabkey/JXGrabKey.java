@@ -41,6 +41,7 @@ public class JXGrabKey {
             @Override
             public void run() {
                 listen();
+                throw new IllegalStateException("JXGrabKey library stopped with listen()!");
             }
         }.start();
     }
@@ -89,7 +90,7 @@ public class JXGrabKey {
             x11Mask |= X11_MOD5_MASK;
         }
         
-        registerHotkey(id, x11Mask, key);
+        registerHotkey(id, x11Mask, X11KeysymDefinitions.SwingToX11Keysym(key));
     }
     
     public native void unregisterHotKey(int id);

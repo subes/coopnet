@@ -30,7 +30,7 @@ public class JXGrabKeyHandler extends HotkeyHandler implements HotkeyListener{
     
     @Override
     public void registerHotkey(int id, int mask, int key) {
-        JXGrabKey.getInstance().registerHotkey(id, mask, key);
+        JXGrabKey.getInstance().registerSwingHotkey(id, mask, key);
     }
 
     @Override
