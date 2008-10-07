@@ -22,10 +22,31 @@ package coopnetclient.utils;
 import coopnetclient.protocol.in.CommandHandler;
 import coopnetclient.ErrorHandler;
 import coopnetclient.protocol.out.Protocol;
+import java.util.ArrayList;
 
 public class SwingWorker implements Runnable {
 
     private String command;
+      private static StringBuilder sb = new StringBuilder();
+    private static ArrayList<String> array = new ArrayList<String>();
+
+    public static String[] getParts(String input) {
+        sb.delete(0, sb.length());
+        array.clear();
+        int index = 0;
+        while (index < input.length()) {
+            if (input.charAt(index) == Protocol.INFORMATION_DELIMITER.charAt(0)) {//start of new token, store old
+                array.add(sb.toString());
+                sb.delete(0, sb.length());
+            } else {
+                sb.append(input.charAt(index));
+            }
+            index++;
+        }
+        array.add(sb.toString());
+        String[] info = new String[array.size()];
+        return array.toArray(info);
+    }
 
     public SwingWorker(String command) {
         this.command = command;
@@ -34,8 +55,7 @@ public class SwingWorker implements Runnable {
     @Override
     public void run() {
         try {
-            String[] com = command.split(Protocol.INFORMATION_DELIMITER);
-            
+            String[] com = getParts(command);            
             CommandHandler.execute(com);
         } catch (Exception e) {
             ErrorHandler.handleException(e);

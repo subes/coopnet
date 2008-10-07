@@ -119,7 +119,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
             String groupname = data[index];
             addGroup(groupname);
             index++;
-            for (; index < data.length; index++) {
+            for (; index < data.length && !(data[index].length() == 0); index++) {
                 currentname = data[index].substring(1);
                 currentstatusindex = Integer.valueOf(data[index].substring(0, 1));
                 addContact(currentname, groupname, ContactListElementTypes.values()[currentstatusindex]);
