@@ -372,9 +372,33 @@ public class CommandHandler {
                     }.start();
                     break;
                 case VERIFICATION_ERROR:
-                    break;
+                    break;//do nothing, should never come anyways
                 case CRIPPLED_SERVER_MODE:
                     JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nediting permanent data is impossible!", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
+                    break;
+                case CONTACT_REQUEST_ACKNOWLEDGE:
+                    Globals.getContactList().addContact(information[0], ContactListModel.DEFAULT_GROUP, ContactListElementTypes.PENDING_CONTACT);
+                    break;
+                case CONTACT_ACCEPT_ACKNOWLEDGE:
+                    Globals.getContactList().removePending(information[0]);
+                    break;
+                case CONTACT_REFUSE_ACKNOWLEDGE:
+                     Globals.getContactList().removePending(information[0]);
+                    break;
+                case CONTACT_REMOVE_ACKNOWLEDGE:
+                    Globals.getContactList().removeContact(information[0]);
+                    break;
+                case GROUP_CREATE_ACKNOWLEDGE:
+                    Globals.getContactList().createNewGroup(information[0]);
+                    break;
+                case GROUP_DELETE_ACKNOWLEDGE:
+                    Globals.getContactList().removeGroup(information[0]);
+                    break;
+                case GROUP_RENAME_ACKNOWLEDGE:
+                    Globals.getContactList().renameGroup(information[0],information[1]);                    
+                    break;
+                case CONTACT_MOVE_ACKNOWLEDGE:
+                    Globals.getContactList().moveContact(information[0],information[1]);     
                     break;
                 default:
                     Logger.log(LogTypes.ERROR, "Server sent a command which wasn't handled!");

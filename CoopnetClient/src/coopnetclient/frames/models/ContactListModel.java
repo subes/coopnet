@@ -37,6 +37,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
 
     public static final String DEFAULT_GROUP = "Default Group";
     private static boolean showOffline = false;
+    public static boolean isNewGroup = false;
 
     public static class Group {
 
@@ -187,7 +188,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
 
     public void createNewGroup(String name) {
         addGroup(name);
-        Protocol.createGroup(name);
+        //dont send anything to server cuz user has to edit the name first
         fireContentsChanged(this, 0, getSize());
     }
 
@@ -210,8 +211,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
     public void renameGroup(String groupName, String newName) {
         if (indexOfGroup(newName) == -1) {
             groups.get(indexOfGroup(groupName)).name = newName;
-            fireContentsChanged(this, 0, getSize());
-            Protocol.renameGroup(groupName, newName);
+            fireContentsChanged(this, 0, getSize());            
         }
     }
 
@@ -271,8 +271,6 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         source.contacts.remove(contactName);
         source.offlineContacts.remove(contactName);
         addContact(contactName, tartgetGroup, status);
-        fireContentsChanged(this, 0, getSize());
-        Protocol.moveToGroup(contactName, tartgetGroup);
         fireContentsChanged(this, 0, getSize());
     }
 
@@ -377,7 +375,16 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         for (Group g : groups) {
             if ((sizethisfar + g.size()) > index) { //element is in this group
                 if ((index - sizethisfar) == 0) {   // is group's index
-                    renameGroup(g.name, value.toString());
+                    //
+                    if (isNewGroup) {
+                        isNewGroup = false;
+                        Protocol.createGroup(value.toString());
+                        removeGroup(g.name);//remove temporary data from model
+                    } else {
+                        if (indexOfGroup(value.toString()) == -1) {//dont send if the groupname is already used
+                            Protocol.renameGroup(g.name, value.toString());
+                        }
+                    }
                     return;
                 }
             } else {

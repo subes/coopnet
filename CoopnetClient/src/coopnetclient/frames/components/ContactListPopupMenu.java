@@ -18,7 +18,6 @@
  */
 package coopnetclient.frames.components;
 
-import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
@@ -186,12 +185,12 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
 //Remove Contact
         if (command.equals("Accept")) {
             Protocol.acceptRequest(subject);
-            model.removePending(subject);
+            //model.removePending(subject);
         } else if (command.equals("Refuse")) {
-            model.removePending(subject);
+            //model.removePending(subject);
             Protocol.refuseRequest(subject);
         } else if (command.equals("Remove Contact")) {
-            model.removeContact(subject);
+            //model.removeContact(subject);
             Protocol.removeContact(subject);
         } else if (command.equals("Create new Group...")) {
             Collection groups = model.getGroupNames();
@@ -201,8 +200,10 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                     i++;
                 }
                 //create newgroup i
+                ContactListModel.isNewGroup = true;
                 model.createNewGroup("New Group" + i);
-            } else {
+            } else { 
+                ContactListModel.isNewGroup = true;
                 model.createNewGroup("New Group");
             }
             source.editCellAt(model.getSize() - 1, e);
@@ -211,7 +212,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                 editorComp.requestFocus();
             }
         } else if (command.equals("Delete Group")) {
-            model.removeGroup(subject);
+            //model.removeGroup(subject);
             Protocol.deleteGroup(subject);
         } else if (command.equals("Refresh list")) {
             Protocol.refreshContacts(model.isOfflineShown());
@@ -270,8 +271,9 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                     }
                 }.start();
             }
-        } else if (model.getGroupNames().contains(command)) {
-            model.moveContact(subject, command);
+        } else if (model.getGroupNames().contains(command)) {//otherwise the action name is a groupname and the selected user must be moved there
+            //model.moveContact(subject, command);
+            Protocol.moveToGroup(subject, command);
         }
     }
 
