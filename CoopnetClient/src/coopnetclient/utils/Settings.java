@@ -21,6 +21,7 @@ package coopnetclient.utils;
 
 import coopnetclient.*;
 import coopnetclient.enums.OperatingSystems;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
@@ -63,7 +64,7 @@ public class Settings {
     static {
         if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS){
             optionsDir = System.getenv("APPDATA")+"/Coopnet";
-            def_recievedest = System.getenv("HOMEPATH");
+            def_recievedest = GameDatabase.readRegistry("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Desktop");
         }else{
             optionsDir = System.getenv("HOME")+"/.coopnet";
             def_recievedest = System.getenv("HOME");
