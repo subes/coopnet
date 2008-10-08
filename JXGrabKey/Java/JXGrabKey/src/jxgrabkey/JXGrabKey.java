@@ -19,10 +19,13 @@
 package jxgrabkey;
 
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class JXGrabKey {
 
+    private static boolean debug = false;
+    
     public static final int X11_SHIFT_MASK = 1 << 0;
     public static final int X11_LOCK_MASK = 1 << 1;
     public static final int X11_CONTROL_MASK = 1 << 2;
@@ -44,6 +47,9 @@ public class JXGrabKey {
                 throw new IllegalStateException("JXGrabKey library stopped with listen()!");
             }
         }.start();
+        try{
+            Thread.sleep(100);
+        }catch(InterruptedException e){}
     }
     
     public static JXGrabKey getInstance(){
@@ -72,6 +78,10 @@ public class JXGrabKey {
     
     public void registerSwingHotkey(int id, int mask, int key){
         
+        if(debug){
+            System.out.println("[JXGrabKey] ++ registerSwingHotkey()");
+        }
+        
         int x11Mask = 0;
         
         if ((mask & InputEvent.SHIFT_MASK) != 0) {
@@ -90,12 +100,33 @@ public class JXGrabKey {
             x11Mask |= X11_MOD5_MASK;
         }
         
-        registerHotkey(id, x11Mask, X11KeysymDefinitions.SwingToX11Keysym(key));
+        int keysym = X11KeysymDefinitions.SwingToX11Keysym(key);
+        
+        if(debug){
+            System.out.println("[JXGrabKey] registerSwingHotkey() - converted javaKeycode '"+KeyEvent.getKeyText(key)+"' (0x"+Integer.toHexString(key)+") to x11Keysym 0x"+Integer.toHexString(keysym));
+        }
+        
+        if(debug){
+            System.out.println("[JXGrabKey] registerSwingHotkey() - converted javaMask '"+KeyEvent.getKeyModifiersText(mask)+"' (0x"+Integer.toHexString(mask)+") to x11Mask 0x"+Integer.toHexString(x11Mask));
+        }
+        
+        registerHotkey(id, x11Mask, keysym);
+        
+        if(debug){
+            System.out.println("[JXGrabKey] -- registerSwingHotkey()");
+        }
     }
     
     public native void unregisterHotKey(int id);
     
     public native void listen();
+    
+    private static native void setDebug(boolean debug);
+    
+    public static void setDebugOutput(boolean enabled){
+        debug = enabled;
+        setDebug(enabled);
+    }
     
     public static void fireKeyEvent(int id){
         for(int i = 0; i < listeners.size(); i++){

@@ -19,12 +19,14 @@
 
 package coopnetclient.utils.hotkeys;
 
+import coopnetclient.Globals;
 import jxgrabkey.HotkeyListener;
 import jxgrabkey.JXGrabKey;
 
 public class JXGrabKeyHandler extends HotkeyHandler implements HotkeyListener{
 
     public JXGrabKeyHandler() {
+        JXGrabKey.setDebugOutput(Globals.getDebug());
         JXGrabKey.getInstance().addHotkeyListener(this);
     }
     

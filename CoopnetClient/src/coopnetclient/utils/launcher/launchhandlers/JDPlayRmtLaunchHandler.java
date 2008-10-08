@@ -197,7 +197,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
             }else{
                 return false;
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             closeJDPlay();
             printCommunicationError(e);
             return false;

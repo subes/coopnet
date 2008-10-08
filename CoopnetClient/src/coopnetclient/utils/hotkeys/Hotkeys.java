@@ -66,7 +66,6 @@ public class Hotkeys {
     }
 
     protected static void onHotkey(int id) {
-        System.out.println("Action "+id);
         if (id == ACTION_LAUNCH) {
             if (TabOrganizer.getRoomPanel() != null) {
                TabOrganizer.getRoomPanel().pressLaunch();

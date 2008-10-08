@@ -57,6 +57,16 @@ JNIEXPORT void JNICALL Java_jxgrabkey_JXGrabKey_unregisterHotKey
 JNIEXPORT void JNICALL Java_jxgrabkey_JXGrabKey_listen
   (JNIEnv *, jobject);
 
+/*
+ * Class:     jxgrabkey_JXGrabKey
+ * Method:    setDebug
+ * Signature: (Z)V
+ */
+JNIEXPORT void JNICALL Java_jxgrabkey_JXGrabKey_setDebug
+  (JNIEnv *, jobject, jboolean);
+
+const char* getErrorString(int);
+
 #ifdef __cplusplus
 }
 #endif
