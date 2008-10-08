@@ -374,7 +374,6 @@ public class CommandHandler {
                 case VERIFICATION_ERROR:
                     break;
                 case CRIPPLED_SERVER_MODE:
-                    Protocol.refreshContacts(Globals.getContactList().isOfflineShown());
                     JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nediting permanent data is impossible!", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
                     break;
                 default:

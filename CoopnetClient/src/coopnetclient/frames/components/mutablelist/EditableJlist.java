@@ -101,7 +101,9 @@ public class EditableJlist extends JList implements CellEditorListener {
             editingIndex = -1;
             editorComp = null;
 
-            repaint(cellRect);
+            if(cellRect != null){
+                repaint(cellRect);
+            }
         }
     }
 
