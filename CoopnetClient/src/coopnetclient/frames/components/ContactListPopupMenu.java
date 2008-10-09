@@ -72,20 +72,20 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         refuse = makeMenuItem("Refuse");
         sep_contact = new JSeparator();
         nudge = makeMenuItem("Nudge");
-        showProfile = makeMenuItem("Show profile...");
-        whisper = makeMenuItem("Whisper...");
-        sendFile = makeMenuItem("Send file...");
-        refresh = makeMenuItem("Refresh list");
-        moveto = new JMenu("Move to Group:");
-        create = makeMenuItem("Create new Group...");
+        showProfile = makeMenuItem("Show Profile");
+        whisper = makeMenuItem("Whisper");
+        sendFile = makeMenuItem("Send File");
+        refresh = makeMenuItem("Refresh List");
+        moveto = new JMenu("Move to Group");
+        create = makeMenuItem("Create new Group");
         deleteGroup = makeMenuItem("Delete Group");
         deleteContact = makeMenuItem("Remove Contact");
         rename = makeMenuItem("Rename Group");
         sep_group = new JSeparator();
-        hideOffline = new JCheckBoxMenuItem("Hide offline contacts", true);
+        hideOffline = new JCheckBoxMenuItem("Hide offline Contacts", true);
         hideOffline.addActionListener(this);
         toggle = makeMenuItem("Open/Collapse");
-        invite = makeMenuItem("Invite to room");
+        invite = makeMenuItem("Invite to Room");
         mute_UnMute = makeMenuItem("Mute");
         ban_UnBan = makeMenuItem("Ban");
 
@@ -119,9 +119,11 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     }
 
     public void refreshMoveToMenu() {
+        System.out.println("REFRESH");
         moveto.removeAll();
         for (Object group : ((ContactListModel) source.getModel()).getGroupNames()) {
             moveto.add(makeMenuItem(group.toString()));
+            System.out.println(group.toString());
         }
     }
 
@@ -172,7 +174,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         String command = e.getActionCommand();
         ContactListModel model = ((ContactListModel) source.getModel());
 
-        if (command.equals("Hide offline contacts")) {
+        if (command.equals("Hide offline Contacts")) {
             if (!model.isOfflineShown()) {
                 model.toggleShowOfflineStatus();
                 Protocol.refreshContacts(model.isOfflineShown());
@@ -192,7 +194,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         } else if (command.equals("Remove Contact")) {
             //model.removeContact(subject);
             Protocol.removeContact(subject);
-        } else if (command.equals("Create new Group...")) {
+        } else if (command.equals("Create new Group")) {
             Collection groups = model.getGroupNames();
             if (groups.contains("New Group")) {
                 int i = 1;
@@ -214,7 +216,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         } else if (command.equals("Delete Group")) {
             //model.removeGroup(subject);
             Protocol.deleteGroup(subject);
-        } else if (command.equals("Refresh list")) {
+        } else if (command.equals("Refresh List")) {
             Protocol.refreshContacts(model.isOfflineShown());
         } else if (command.equals("Rename Group")) {
             source.editCellAt(source.getSelectedIndex(), e);
@@ -224,15 +226,15 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             }
         } else if (command.equals("Open/Collapse")) {
             model.toggleGroupClosedStatus(subject);
-        } else if (command.equals("Whisper...")) {
+        } else if (command.equals("Whisper")) {
             if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {
                 TabOrganizer.openPrivateChatPanel(subject, true);
             }
         } else if (command.equals("Nudge")) {
             Protocol.nudge(subject);
-        } else if (command.equals("Invite to room")) {
+        } else if (command.equals("Invite to Room")) {
             Protocol.sendInvite(subject);
-        } else if (command.equals("Show profile...")) {
+        } else if (command.equals("Show Profile")) {
             Protocol.requestProfile(subject);
         } else if (command.equals("Ban")) {
             Protocol.kick(subject);
@@ -243,7 +245,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             Protocol.mute(subject);
         } else if (command.equals("UnMute")) {
             Protocol.unMute(subject);
-        } else if (command.equals("Send file...")) {
+        } else if (command.equals("Send File")) {
             if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {
 
                 new Thread() {
