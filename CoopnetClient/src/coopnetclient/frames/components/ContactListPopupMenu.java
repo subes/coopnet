@@ -217,7 +217,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         } else if (command.equals("Refresh list")) {
             Protocol.refreshContacts(model.isOfflineShown());
         } else if (command.equals("Rename Group")) {
-            System.out.println("rename:" + source.getSelectedIndex());
             source.editCellAt(source.getSelectedIndex(), e);
             Component editorComp = source.getEditorComponent();
             if (editorComp != null) {

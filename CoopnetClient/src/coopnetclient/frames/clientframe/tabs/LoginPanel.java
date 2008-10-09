@@ -147,7 +147,7 @@ public class LoginPanel extends javax.swing.JPanel {
 
         add(pnl_top);
 
-        pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Log in"));
+        pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Login"));
         pnl_input.setFocusable(false);
         pnl_input.setMaximumSize(new java.awt.Dimension(300, 300));
         pnl_input.setMinimumSize(new java.awt.Dimension(300, 170));
