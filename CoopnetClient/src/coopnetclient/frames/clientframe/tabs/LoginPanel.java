@@ -23,6 +23,8 @@ import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Verification;
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LoginPanel extends javax.swing.JPanel {
 
@@ -105,6 +107,26 @@ public class LoginPanel extends javax.swing.JPanel {
     public void showError(String msg, Color clr){
         lbl_loginError.setForeground(clr);
         lbl_loginError.setText(msg);
+    }
+    
+    private void disableButtons(){
+        if(btn_login.isEnabled()){
+            new Thread(){
+                @Override
+                public void run() {
+                    btn_login.setEnabled(false);
+                    btn_register.setEnabled(false);
+                    try {
+                        sleep(1000);                    
+                    } catch (InterruptedException ex) {}
+                    if(btn_login != null){
+                        btn_login.setEnabled(true);
+                        btn_register.setEnabled(true);
+                    }
+                }
+
+            }.start();
+        }
     }
 
     /** This method is called from within the constructor to
@@ -273,6 +295,7 @@ public class LoginPanel extends javax.swing.JPanel {
         add(pnl_bottom);
     }// </editor-fold>//GEN-END:initComponents
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
+        disableButtons();
         login();
 }//GEN-LAST:event_btn_loginActionPerformed
 
@@ -281,6 +304,7 @@ public class LoginPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_pf_passwordActionPerformed
 
     private void btn_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registerActionPerformed
+        disableButtons();
         register();
 }//GEN-LAST:event_btn_registerActionPerformed
 
