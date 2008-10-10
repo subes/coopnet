@@ -24,6 +24,7 @@ import coopnetclient.*;
 import coopnetclient.enums.ClientProtocolCommands;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
+import coopnetclient.utils.Verification;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.launcher.Launcher;
 import java.nio.CharBuffer;
@@ -67,7 +68,9 @@ public class Protocol {
     }
     
     public static void createGroup(String groupName) {
-        new Message(ClientProtocolCommands.CREATE_GROUP, groupName);
+        if(Verification.verifyGroupName(groupName) && !Globals.getContactList().getGroupNames().contains(groupName)){
+            new Message(ClientProtocolCommands.CREATE_GROUP, groupName);
+        }
     }
 
     public static void removeContact(String contactName) {
@@ -75,8 +78,10 @@ public class Protocol {
     }
     
     public static void renameGroup(String groupName,String newGroupName) {
-        String[] info = {groupName, newGroupName};
-        new Message(ClientProtocolCommands.RENAME_GROUP, info);
+        if(Verification.verifyGroupName(newGroupName) && !Globals.getContactList().getGroupNames().contains(newGroupName)){
+            String[] info = {groupName, newGroupName};
+            new Message(ClientProtocolCommands.RENAME_GROUP, info);
+        }
     }
     
     public static void deleteGroup(String groupName) {

@@ -41,10 +41,10 @@ public class ContactListModel extends AbstractListModel implements EditableListM
 
     public static class Group {
 
-        String name;
-        boolean closed = false;
-        HashMap<String, ContactListElementTypes> contacts;
-        TreeSet<String> offlineContacts;
+        private String name;
+        private boolean closed = false;
+        private HashMap<String, ContactListElementTypes> contacts;
+        private TreeSet<String> offlineContacts;
 
         public Group(String name) {
             this.name = name;
@@ -80,6 +80,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
             }
         }
     }
+    
     private HashMap<String, ContactListElementTypes> pendingList = new HashMap<String, ContactListElementTypes>();
     private ArrayList<Group> groups = new ArrayList<Group>();
 
@@ -191,6 +192,13 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         //dont send anything to server cuz user has to edit the name first
         fireContentsChanged(this, 0, getSize());
     }
+    
+    public void renameGroup(String groupName, String newName) {
+        if (indexOfGroup(newName) == -1) {
+            groups.get(indexOfGroup(groupName)).name = newName;
+            fireContentsChanged(this, 0, getSize());            
+        }
+    }
 
     public void addGroup(String groupName) {
         groups.add(new Group(groupName));
@@ -205,13 +213,6 @@ public class ContactListModel extends AbstractListModel implements EditableListM
             nogroup.offlineContacts.addAll(groups.get(idx).offlineContacts);
             groups.remove(idx);
             fireContentsChanged(this, 0, getSize());
-        }
-    }
-
-    public void renameGroup(String groupName, String newName) {
-        if (indexOfGroup(newName) == -1) {
-            groups.get(indexOfGroup(groupName)).name = newName;
-            fireContentsChanged(this, 0, getSize());            
         }
     }
 

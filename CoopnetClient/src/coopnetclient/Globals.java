@@ -68,7 +68,7 @@ public class Globals {
     private static int serverPort;    
     //Objects
     private static ClientFrame clientFrame;
-    private static ContactListModel contacts = new ContactListModel();
+    private static ContactListModel contactList = new ContactListModel();
     private static ChangePasswordFrame changePasswordFrame;
     private static ChannelListFrame channelListFrame;
     private static FavouritesFrame favouritesFrame;
@@ -204,7 +204,7 @@ public class Globals {
     }
 
     public static ContactListModel getContactList() {
-        return contacts;
+        return contactList;
     }
     
     public static void setConnectionStatus(boolean value) {
