@@ -119,7 +119,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     }
 
     public void refreshMoveToMenu() {
-        System.out.println("REFRESH");
         moveto.removeAll();
         for (Object group : ((ContactListModel) source.getModel()).getGroupNames()) {
             moveto.add(makeMenuItem(group.toString()));

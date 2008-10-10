@@ -55,7 +55,6 @@ public class QuickPanel extends javax.swing.JPanel {
         lst_contactList.setListCellEditor(new DefaultListCellEditor(new JTextField()));
         popup = new ContactListPopupMenu(lst_contactList);
         lst_contactList.setComponentPopupMenu(popup);
-        popup.refreshMoveToMenu();
         refreshFavourites();
         lst_favouritesList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     }

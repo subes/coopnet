@@ -160,7 +160,7 @@ JNIEXPORT void JNICALL Java_jxgrabkey_JXGrabKey_unregisterHotKey
             for (int screen = 0; screen < ScreenCount(dpy); screen++){
                 int ret = XUngrabKey(dpy, keys.at(i).key, keys.at(i).mask, RootWindow(dpy, screen));
                 if(debug){
-                    cout << "[JXGrabKey] registerHotkey() - XUngrabKey() returned '" << getErrorString(ret) << "' (" << std::dec << ret << ")" << endl;
+                    cout << "[JXGrabKey] unregisterHotkey() - XUngrabKey() returned '" << getErrorString(ret) << "' (" << std::dec << ret << ")" << endl;
                 }
             }
             keys.erase(keys.begin()+i);
