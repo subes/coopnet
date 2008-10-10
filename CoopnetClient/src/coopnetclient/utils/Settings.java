@@ -127,7 +127,8 @@ public class Settings {
             trayIconEnabled = "TrayIcon",
             launchHotKeyMask = "HotKeyMask",
             launchHotKey = "HotKey",
-            multiChannel = "MultiChannel";
+            multiChannel = "MultiChannel",
+            showOfflineContacts = "ShowOfflineContacts";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -176,6 +177,7 @@ public class Settings {
     private final static int def_launchHotKeyMask = KeyEvent.CTRL_MASK | KeyEvent.CTRL_DOWN_MASK;
     private final static int def_launchHotKey = KeyEvent.VK_L;
     private final static boolean def_multiChannel = true;
+    private final static boolean def_showOfflineContacts = false;
 
     /**
      * store the settings in options file
@@ -688,6 +690,14 @@ public class Settings {
     
     public static boolean getMultiChannel(){
         return readBoolean(multiChannel, def_multiChannel);
+    }
+    
+    public static void setShowOfflineContacts(boolean enabled){
+        writeSetting(showOfflineContacts, String.valueOf(enabled));
+    }
+    
+    public static boolean getShowOfflineContacts(){
+        return readBoolean(showOfflineContacts, def_showOfflineContacts);
     }
 
     public static void addFavourite(String channel) {

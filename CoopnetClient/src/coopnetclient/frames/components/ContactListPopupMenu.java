@@ -26,6 +26,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.components.mutablelist.EditableJlist;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.utils.MuteBanList;
+import coopnetclient.utils.Settings;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -82,7 +83,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         deleteContact = makeMenuItem("Remove Contact");
         rename = makeMenuItem("Rename Group");
         sep_group = new JSeparator();
-        hideOffline = new JCheckBoxMenuItem("Hide offline Contacts", true);
+        hideOffline = new JCheckBoxMenuItem("Hide offline Contacts", Settings.getShowOfflineContacts());
         hideOffline.addActionListener(this);
         toggle = makeMenuItem("Open/Collapse");
         invite = makeMenuItem("Invite to Room");
@@ -122,7 +123,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         moveto.removeAll();
         for (Object group : ((ContactListModel) source.getModel()).getGroupNames()) {
             moveto.add(makeMenuItem(group.toString()));
-            System.out.println(group.toString());
         }
     }
 
@@ -174,11 +174,13 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         ContactListModel model = ((ContactListModel) source.getModel());
 
         if (command.equals("Hide offline Contacts")) {
-            if (!model.isOfflineShown()) {
-                model.toggleShowOfflineStatus();
-                Protocol.refreshContacts(model.isOfflineShown());
+            if (!Settings.getShowOfflineContacts()) {
+                Settings.setShowOfflineContacts(true);
+                model.updateShowOfflineContacts();
+                Protocol.refreshContacts();
             } else {
-                model.toggleShowOfflineStatus();
+                Settings.setShowOfflineContacts(false);
+                model.updateShowOfflineContacts();
             }
         }
 
@@ -216,7 +218,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             //model.removeGroup(subject);
             Protocol.deleteGroup(subject);
         } else if (command.equals("Refresh List")) {
-            Protocol.refreshContacts(model.isOfflineShown());
+            Protocol.refreshContacts();
         } else if (command.equals("Rename Group")) {
             source.editCellAt(source.getSelectedIndex(), e);
             Component editorComp = source.getEditorComponent();

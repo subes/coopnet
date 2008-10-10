@@ -21,6 +21,7 @@ package coopnetclient.frames.models;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.components.mutablelist.EditableListModel;
+import coopnetclient.utils.Settings;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,7 +37,6 @@ import javax.swing.AbstractListModel;
 public class ContactListModel extends AbstractListModel implements EditableListModel {
 
     public static final String DEFAULT_GROUP = "Default Group";
-    private static boolean showOffline = false;
     public static boolean isNewGroup = false;
 
     public static class Group {
@@ -53,13 +53,13 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         }
 
         public int size() {
-            if (name.equals(DEFAULT_GROUP) && contacts.size() == 0 && (offlineContacts.size() == 0 || !showOffline)) {
+            if (name.equals(DEFAULT_GROUP) && contacts.size() == 0 && (offlineContacts.size() == 0 || !Settings.getShowOfflineContacts())) {
                 return 0;
             }
             if (closed) {
                 return 1;
             } else {
-                return (1 + contacts.size() + (showOffline ? offlineContacts.size() : 0));
+                return (1 + contacts.size() + (Settings.getShowOfflineContacts() ? offlineContacts.size() : 0));
             }
         }
 
@@ -228,14 +228,10 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         fireContentsChanged(this, 0, getSize());
     }
 
-    public void toggleShowOfflineStatus() {
-        showOffline = !showOffline;
+    public void updateShowOfflineContacts() {
         fireContentsChanged(this, 0, getSize());
     }
 
-    public boolean isOfflineShown() {
-        return showOffline;
-    }
     //other methods
     public void addContact(String contactname, String groupName, ContactListElementTypes status) {
         switch (status) {
@@ -294,7 +290,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
             group = groupOfContact(contactName);
         }
         if (group == null) {
-            Protocol.refreshContacts(showOffline);
+            Protocol.refreshContacts();
             return;
         }
         if (group.offlineContacts.contains(contactName)) {//was offline

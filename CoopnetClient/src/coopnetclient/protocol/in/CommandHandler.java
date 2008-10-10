@@ -74,6 +74,7 @@ public class CommandHandler {
                     Globals.setLoggedInStatus(true);
                     TabOrganizer.closeLoginPanel();
                     Protocol.setSleep(Settings.getSleepEnabled());
+                    Protocol.refreshContacts();
                     String s = coopnetclient.utils.Settings.getHomeChannel();
                     if (s.length() > 0) {
                         Protocol.joinChannel(s);

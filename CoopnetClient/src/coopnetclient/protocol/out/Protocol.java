@@ -88,8 +88,8 @@ public class Protocol {
         new Message(ClientProtocolCommands.MOVE_TO_GROUP, info);
     }
     
-    public static void refreshContacts(boolean showOffline) {
-        new Message(ClientProtocolCommands.REFRESH_CONTACTS, String.valueOf(showOffline));
+    public static void refreshContacts() {
+        new Message(ClientProtocolCommands.REFRESH_CONTACTS, String.valueOf(Settings.getShowOfflineContacts()));
     }
     
     public static void acceptTransfer(String sender, String fileName, long firstByteToSend) {
