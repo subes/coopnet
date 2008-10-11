@@ -130,13 +130,21 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         sep_contact.setVisible(isVisible);
         moveto.setVisible(isVisible);
         deleteContact.setVisible(isVisible);
-        deleteContact.setVisible(isVisible);
         mute_UnMute.setVisible(isVisible);
         ban_UnBan.setVisible(isVisible);
-        nudge.setVisible(isVisible);
+        
+        if(Globals.getContactList().getStatus(playerName.getText()) == ContactListElementTypes.OFFLINE){
+            nudge.setVisible(false);
+            whisper.setVisible(false);
+            sendFile.setVisible(false);
+        }else{
+            nudge.setVisible(isVisible);
+            whisper.setVisible(isVisible);
+            sendFile.setVisible(isVisible);
+        }
+        
         showProfile.setVisible(isVisible);
-        whisper.setVisible(isVisible);
-        sendFile.setVisible(isVisible);
+        
         if (TabOrganizer.getRoomPanel() == null) {
             invite.setVisible(false);
         } else {
