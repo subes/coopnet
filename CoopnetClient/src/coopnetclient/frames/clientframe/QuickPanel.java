@@ -187,14 +187,22 @@ public class QuickPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void lst_contactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseClicked
-    if (evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 2 && lst_contactList.getSelectedIndex() > -1) {
+    if (evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 1 && lst_contactList.getSelectedIndex() > -1) {
         if(lst_contactList.getSelectedValue() == null){
             return;
         }
         String selected = lst_contactList.getSelectedValue()+"";        
         if (model.getGroupNames().contains(selected)) {
             model.toggleGroupClosedStatus(selected);
-        } else {
+        }
+        
+        
+    }else{    
+        if (evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 2 && lst_contactList.getSelectedIndex() > -1) {
+            if(lst_contactList.getSelectedValue() == null){
+                return;
+            }
+            String selected = lst_contactList.getSelectedValue()+"";
             if (model.getStatus(selected) != ContactListElementTypes.OFFLINE) {
                 TabOrganizer.openPrivateChatPanel(selected, true);
             }
