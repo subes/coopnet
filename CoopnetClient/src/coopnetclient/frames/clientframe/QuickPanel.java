@@ -187,6 +187,10 @@ public class QuickPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void lst_contactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseClicked
+    if(!popup.isVisible()){
+        lst_contactList.setSelectedIndex(lst_contactList.locationToIndex(evt.getPoint()));
+    }
+    
     if (evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 1 && lst_contactList.getSelectedIndex() > -1) {
         if(popup.isClosing()){
             //Dont want to close/open a group accidentially!
@@ -214,25 +218,29 @@ private void lst_contactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-F
 }//GEN-LAST:event_lst_contactListMouseClicked
 
 private void lst_favouritesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_favouritesListMouseClicked
+    if(!popup.isVisible()){
+        lst_favouritesList.setSelectedIndex(lst_favouritesList.locationToIndex(evt.getPoint()));
+    }
+    
     if(evt.getButton() == MouseEvent.BUTTON1){
         Protocol.joinChannel(lst_favouritesList.getSelectedValue().toString());
     }
 }//GEN-LAST:event_lst_favouritesListMouseClicked
 
 private void lst_contactListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseMoved
-    if(!Globals.getContactListPopupIsUp()){
+    if(!popup.isVisible()){
         lst_contactList.setSelectedIndex(lst_contactList.locationToIndex(evt.getPoint()));
     }
 }//GEN-LAST:event_lst_contactListMouseMoved
 
 private void lst_favouritesListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_favouritesListMouseMoved
-     if(!Globals.getContactListPopupIsUp()){
+     if(!popup.isVisible()){
         lst_favouritesList.setSelectedIndex(lst_favouritesList.locationToIndex(evt.getPoint()));
      }
 }//GEN-LAST:event_lst_favouritesListMouseMoved
 
 private void lst_contactListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseExited
-    if(!Globals.getContactListPopupIsUp()){
+    if(!popup.isVisible()){
         lst_contactList.clearSelection();
     }    
 }//GEN-LAST:event_lst_contactListMouseExited

@@ -50,7 +50,7 @@ public class RoomPanel extends javax.swing.JPanel {
     private boolean isHost = false;
     private boolean compatible = true;
     private SortedListModel users;
-    private PlayerListPopupMenu mypopup;
+    private PlayerListPopupMenu popup;
     public String gameName;
     public String childName;
     public String hostName;
@@ -79,12 +79,12 @@ public class RoomPanel extends javax.swing.JPanel {
         initComponents();
         
         if (isHost) {
-            mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.HOST_MODE, lst_userList);
+            popup = new PlayerListPopupMenu(PlayerListPopupMenu.HOST_MODE, lst_userList);
             cb_useHamachi.setVisible(false);
         } else {
-            mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
+            popup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
         }
-        lst_userList.setComponentPopupMenu(mypopup);
+        lst_userList.setComponentPopupMenu(popup);
         
         roomStatusListCR = new RoomStatusListCellRenderer();
         lst_userList.setCellRenderer(roomStatusListCR);
@@ -459,13 +459,10 @@ public class RoomPanel extends javax.swing.JPanel {
 
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
         if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
-                lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
-            } else{
-                lst_userList.clearSelection();
-            }
-        if(evt.getButton() == MouseEvent.BUTTON3){           
-            lst_userList.getComponentPopupMenu().show(lst_userList, evt.getX(), evt.getY());
-        }else
+            lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+        } else{
+            lst_userList.clearSelection();
+        }
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
             String name = (String) lst_userList.getSelectedValue();
             if(name != null && !name.equals("") && !name.equals(Globals.getThisPlayer_loginName())){
@@ -511,7 +508,7 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
 }//GEN-LAST:event_tp_chatOutputKeyTyped
 
 private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
-    if(!Globals.getPlayerListPopupIsUp()){
+    if(!popup.isVisible()){
         if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
             lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
         }else{
@@ -521,7 +518,7 @@ private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:
 }//GEN-LAST:event_lst_userListMouseMoved
 
 private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseExited
-    if(!Globals.getPlayerListPopupIsUp()){
+    if(!popup.isVisible()){
         lst_userList.clearSelection();
     }
 }//GEN-LAST:event_lst_userListMouseExited

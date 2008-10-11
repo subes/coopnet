@@ -176,7 +176,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
-        Globals.setContactListPopupIsUp(visible);
         
         if(visible == false && isClosing == false){
             new Thread(){
@@ -188,7 +187,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                     } catch (InterruptedException ex) {}
                     isClosing = false;
                 }
-                
             }.start();
         }
     }

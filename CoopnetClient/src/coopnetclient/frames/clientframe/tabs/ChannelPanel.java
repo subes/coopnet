@@ -44,7 +44,7 @@ public class ChannelPanel extends javax.swing.JPanel {
     public String ID;
     private ChannelStatusListModel users;
     private RoomTableModel rooms;
-    private PlayerListPopupMenu mypopup;
+    private PlayerListPopupMenu popup;
     public String name;
     public boolean isLaunchable = false;
     private ChannelStatusListCellRenderer renderer;
@@ -87,8 +87,8 @@ public class ChannelPanel extends javax.swing.JPanel {
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.CHANNEL_CHAT_MODE, this.name));
 
-        mypopup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
-        lst_userList.setComponentPopupMenu(mypopup);
+        popup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
+        lst_userList.setComponentPopupMenu(popup);
         
         disableButtons();
         enablebuttons();
@@ -527,13 +527,10 @@ public class ChannelPanel extends javax.swing.JPanel {
 
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
         if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
-                lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
-            }else{
-                lst_userList.clearSelection();
-            }
-        if(evt.getButton() == MouseEvent.BUTTON3){
-            lst_userList.getComponentPopupMenu().show(lst_userList, evt.getX(), evt.getY());
-        }else
+            lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
+        }else{
+            lst_userList.clearSelection();
+        }
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
             String selectedname = (String) lst_userList.getSelectedValue();
             if(selectedname != null && !selectedname.equals("") && !selectedname.equals(Globals.getThisPlayer_loginName())){
@@ -572,7 +569,7 @@ private void btn_leaveChannel1ActionPerformed(java.awt.event.ActionEvent evt) {/
 }//GEN-LAST:event_btn_leaveChannel1ActionPerformed
 
 private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
-    if(!Globals.getPlayerListPopupIsUp()){
+    if(!popup.isVisible()){
         if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
             lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
         }else{
@@ -582,7 +579,7 @@ private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:
 }//GEN-LAST:event_lst_userListMouseMoved
 
 private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseExited
-    if(!Globals.getPlayerListPopupIsUp()){
+    if(!popup.isVisible()){
         lst_userList.clearSelection();
     }
 }//GEN-LAST:event_lst_userListMouseExited

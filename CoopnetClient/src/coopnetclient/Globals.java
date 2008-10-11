@@ -58,9 +58,7 @@ public class Globals {
     private static final String clientVersion = "0.98.0";
     private static boolean connectionStatus = false;
     private static boolean loggedInStatus = false;
-    private static boolean sleepModeStatus = false;
-    private static boolean contactListPopupIsUp = false;
-    private static boolean playerListPopupIsUp = false;    
+    private static boolean sleepModeStatus = false;  
     //First set when known
     private static String thisPlayer_loginName;
     private static String thisPlayer_inGameName;
@@ -173,22 +171,6 @@ public class Globals {
 
         Colorizer.colorize(bugReportFrame);
         Colorizer.colorize(textPreviewFrame);
-    }
-
-    public static boolean getPlayerListPopupIsUp() {
-        return playerListPopupIsUp;
-    }
-
-    public static void setPlayerListPopupIsUp(boolean isUp) {
-        playerListPopupIsUp = isUp;
-    }
-
-    public static boolean getContactListPopupIsUp() {
-        return contactListPopupIsUp;
-    }
-
-    public static void setContactListPopupIsUp(boolean isUp) {
-        contactListPopupIsUp = isUp;
     }
 
     public static void enableDebug() {
