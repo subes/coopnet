@@ -177,16 +177,13 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             Settings.setShowOfflineContacts(showOffline.isSelected());
         }
 
-        final String subject = playerName.getText();//(String) source.getSelectedValue();
-//Remove Contact
+        final String subject = playerName.getText();
+        
         if (command.equals("Accept")) {
-            Protocol.acceptRequest(subject);
-            //model.removePending(subject);
+            Protocol.acceptRequest(subject);            
         } else if (command.equals("Refuse")) {
-            //model.removePending(subject);
             Protocol.refuseRequest(subject);
         } else if (command.equals("Remove contact")) {
-            //model.removeContact(subject);
             Protocol.removeContact(subject);
         } else if (command.equals("Create new group")) {
             Collection groups = model.getGroupNames();
@@ -208,7 +205,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                 editorComp.requestFocus();
             }
         } else if (command.equals("Delete group")) {
-            //model.removeGroup(subject);
             Protocol.deleteGroup(subject);
         } else if (command.equals("Refresh list")) {
             Protocol.refreshContacts();
@@ -267,7 +263,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                 }.start();
             }
         } else if (model.getGroupNames().contains(command)) {//otherwise the action name is a groupname and the selected user must be moved there
-            //model.moveContact(subject, command);
             Protocol.moveToGroup(subject, command);
         }
     }
