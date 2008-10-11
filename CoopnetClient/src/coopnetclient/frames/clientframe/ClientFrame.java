@@ -261,7 +261,7 @@ public class ClientFrame extends javax.swing.JFrame {
         Globals.getContactList().updateName(oldname, newname);
     }
 
-    private void setQuickBarVisibility(boolean visibility) {
+    public void setQuickBarVisibility(boolean visibility) {
         if (visibility) {
             if (lastdividerposition == null) {
                 if (quickPanelOrientationIsLeft) {
@@ -270,13 +270,13 @@ public class ClientFrame extends javax.swing.JFrame {
                     lastdividerposition = slp_mainSplitPanel.getWidth() - (pnl_contactList.getPreferredSize().width + DIVIDERWIDTH + slp_mainSplitPanel.getInsets().right);
                 }
             }
-            pnl_contactList.setSize( lastdividerposition - DIVIDERWIDTH ,pnl_contactList.getHeight() );
+            //pnl_contactList.setSize( lastdividerposition - DIVIDERWIDTH ,pnl_contactList.getHeight() );
             slp_mainSplitPanel.setDividerSize(DIVIDERWIDTH);
             slp_mainSplitPanel.setDividerLocation(lastdividerposition);
             pnl_toggleQuickBarLeft.setBorder(openQuickbarBorder);
             pnl_toggleQuickBarRight.setBorder(openQuickbarBorder);
         } else {
-            pnl_contactList.setSize( 0,pnl_contactList.getHeight() );
+           // pnl_contactList.setSize( 0,pnl_contactList.getHeight() );
             lastdividerposition = slp_mainSplitPanel.getDividerLocation();
             slp_mainSplitPanel.setDividerSize(0);
             pnl_toggleQuickBarLeft.setBorder(closedQuickbarBorder);
@@ -288,7 +288,8 @@ public class ClientFrame extends javax.swing.JFrame {
             }
 
         }
-    //pnl_contactList.setVisible(visibility);
+        pnl_contactList.setVisible(visibility);
+        quickPanelVisibility = visibility;
     }
 
     /**
@@ -857,7 +858,8 @@ private void mi_connectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     if(!Globals.getConnectionStatus()){
         Client.startConnection();
     }else{
-        Client.disconnect();
+        setQuickBarVisibility(false);
+        Client.disconnect();        
     }
 }//GEN-LAST:event_mi_connectionActionPerformed
 
