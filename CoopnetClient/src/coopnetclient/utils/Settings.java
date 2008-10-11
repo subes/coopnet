@@ -21,6 +21,7 @@ package coopnetclient.utils;
 
 import coopnetclient.*;
 import coopnetclient.enums.OperatingSystems;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -693,7 +694,16 @@ public class Settings {
     }
     
     public static void setShowOfflineContacts(boolean enabled){
+        boolean refreshContacts = Settings.getShowOfflineContacts() == false && enabled == true;
+        
         writeSetting(showOfflineContacts, String.valueOf(enabled));
+        
+        if(refreshContacts){
+            Protocol.refreshContacts();
+        }else{
+            Globals.getContactList().updateShowOfflineContacts();
+        }
+        
     }
     
     public static boolean getShowOfflineContacts(){

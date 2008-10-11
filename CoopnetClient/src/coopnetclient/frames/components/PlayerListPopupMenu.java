@@ -58,11 +58,11 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
         this.add(new JSeparator());
         this.add(makeMenuItem("Nudge"));
-        invite = makeMenuItem("Invite to Room");
+        invite = makeMenuItem("Invite to room");
         this.add(invite);
         this.add(makeMenuItem("Whisper"));
-        this.add(makeMenuItem("Send File"));
-        addContact = makeMenuItem("Add to Contacts");
+        this.add(makeMenuItem("Send file"));
+        addContact = makeMenuItem("Add to contacts");
         this.add(addContact);
 
         this.add(new JSeparator());
@@ -76,7 +76,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(ban_UnBan);
         this.add(new JSeparator());
 
-        this.add(makeMenuItem("Show Profile"));
+        this.add(makeMenuItem("Show profile"));
     }
 
     private JMenuItem makeMenuItem(String label) {
@@ -112,20 +112,20 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             Protocol.unBan(subject);
         } else if (command.equals("Mute")) {
             Protocol.mute(subject);
-        } else if (command.equals("Add to Contacts")) {
+        } else if (command.equals("Add to contacts")) {
             //Globals.getContactList().addContact(subject, ContactListModel.DEFAULT_GROUP, ContactListElementTypes.PENDING_CONTACT);
             Protocol.RequestContact(subject);
         } else if (command.equals("UnMute")) {
             Protocol.unMute(subject);
         } else if (command.equals("Whisper")) {
             TabOrganizer.openPrivateChatPanel(subject, true);
-        } else if (command.equals("Show Profil")) {
+        } else if (command.equals("Show profile")) {
             Protocol.requestProfile(subject);
-        } else if (command.equals("Invite to Room")) {
+        } else if (command.equals("Invite to room")) {
             Protocol.sendInvite(subject);
         } else if (command.equals("Nudge")) {
             Protocol.nudge(subject);
-        } else if (command.equals("Send File")) {
+        } else if (command.equals("Send file")) {
 
             new Thread() {
 

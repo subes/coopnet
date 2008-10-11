@@ -41,7 +41,7 @@
               <Component id="btn_cancel" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="519" max="32767" attributes="0"/>
           </Group>
-          <Component id="tabpn_settings" alignment="0" pref="675" max="32767" attributes="0"/>
+          <Component id="tabpn_settings" alignment="0" pref="676" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -109,7 +109,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lbl_homeChannel" min="-2" max="-2" attributes="1"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="cmb_homeChannel" pref="550" max="32767" attributes="1"/>
+                                      <Component id="cmb_homeChannel" pref="551" max="32767" attributes="1"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="12" pref="12" max="12" attributes="0"/>
@@ -123,7 +123,7 @@
                                   <Component id="cb_sounds" min="-2" max="-2" attributes="0"/>
                                   <Component id="cb_TrayIconEnabled" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="171" max="32767" attributes="0"/>
+                              <EmptySpace pref="172" max="32767" attributes="0"/>
                               <Component id="pnl_hotkeys" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -152,7 +152,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="lbl_dplayEnvNote" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="26" max="32767" attributes="0"/>
+                      <EmptySpace pref="33" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="cb_TrayIconEnabled" min="-2" max="-2" attributes="0"/>
@@ -312,7 +312,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="tf_receiveDir" pref="436" max="32767" attributes="0"/>
+                                      <Component id="tf_receiveDir" pref="437" max="32767" attributes="0"/>
                                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                                       <Component id="btn_browseReceiveDir" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -338,7 +338,7 @@
                           <Component id="lbl_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tf_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="176" max="32767" attributes="0"/>
+                      <EmptySpace pref="179" max="32767" attributes="0"/>
                       <Component id="cb_sleepMode" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cb_autoLogin" min="-2" max="-2" attributes="0"/>
@@ -608,11 +608,11 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btn_whisperMessages" alignment="0" pref="130" max="32767" attributes="1"/>
-                                      <Component id="btn_otherUsernames" alignment="1" pref="130" max="32767" attributes="1"/>
-                                      <Component id="btn_yourUsername" alignment="1" pref="130" max="32767" attributes="1"/>
-                                      <Component id="btn_userMessages" alignment="1" pref="130" max="32767" attributes="1"/>
-                                      <Component id="btn_systemMessages" pref="130" max="32767" attributes="1"/>
+                                      <Component id="btn_whisperMessages" alignment="0" pref="131" max="32767" attributes="1"/>
+                                      <Component id="btn_otherUsernames" alignment="1" pref="131" max="32767" attributes="1"/>
+                                      <Component id="btn_yourUsername" alignment="1" pref="131" max="32767" attributes="1"/>
+                                      <Component id="btn_userMessages" alignment="1" pref="131" max="32767" attributes="1"/>
+                                      <Component id="btn_systemMessages" pref="131" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                               <Component id="cb_colorizeText" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -799,9 +799,9 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btn_foreground" alignment="0" pref="172" max="32767" attributes="1"/>
-                                      <Component id="btn_selection" pref="172" max="32767" attributes="1"/>
-                                      <Component id="btn_background" alignment="1" pref="172" max="32767" attributes="1"/>
+                                      <Component id="btn_foreground" alignment="0" pref="173" max="32767" attributes="1"/>
+                                      <Component id="btn_selection" pref="173" max="32767" attributes="1"/>
+                                      <Component id="btn_background" alignment="1" pref="173" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                               <Component id="cb_colorizeBody" alignment="0" min="-2" max="-2" attributes="1"/>
@@ -1125,30 +1125,33 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="cb_showOfflineContacts" min="-2" max="-2" attributes="0"/>
                               <Component id="lbl_StatusChangeNotification" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="12" pref="12" max="12" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="cb_SoundNotification" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cb_TextNotification" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="cb_TextNotification" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="cb_SoundNotification" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="62" max="32767" attributes="0"/>
+                          <EmptySpace pref="63" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
+                          <Component id="cb_showOfflineContacts" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="lbl_StatusChangeNotification" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cb_TextNotification" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cb_SoundNotification" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="cb_TextNotification" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cb_SoundNotification" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -1169,6 +1172,11 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Sound"/>
                     <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="cb_showOfflineContacts">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Show offline contacts"/>
                   </Properties>
                 </Component>
               </SubComponents>
