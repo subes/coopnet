@@ -188,6 +188,11 @@ public class QuickPanel extends javax.swing.JPanel {
 
 private void lst_contactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseClicked
     if (evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 1 && lst_contactList.getSelectedIndex() > -1) {
+        if(popup.isClosing()){
+            //Dont want to close/open a group accidentially!
+            return;
+        }
+        
         if(lst_contactList.getSelectedValue() == null){
             return;
         }
@@ -195,8 +200,6 @@ private void lst_contactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-F
         if (model.getGroupNames().contains(selected)) {
             model.toggleGroupClosedStatus(selected);
         }
-        
-        
     }else{    
         if (evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 2 && lst_contactList.getSelectedIndex() > -1) {
             if(lst_contactList.getSelectedValue() == null){

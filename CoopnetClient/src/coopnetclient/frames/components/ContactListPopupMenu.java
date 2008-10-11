@@ -33,6 +33,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -41,6 +43,8 @@ import javax.swing.JSeparator;
 
 public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
 
+    private boolean isClosing = false;
+    
     private EditableJlist source;
     private JMenuItem playerName;
     private JMenuItem accept;
@@ -59,7 +63,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem create;
     private JMenuItem deleteGroup;
     private JMenuItem rename;
-    private JMenuItem toggle;
     private JMenuItem mute_UnMute;    
     private JMenuItem ban_UnBan;
 
@@ -85,7 +88,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         sep_group = new JSeparator();
         showOffline = new JCheckBoxMenuItem("Show offline contacts", Settings.getShowOfflineContacts());
         showOffline.addActionListener(this);
-        toggle = makeMenuItem("Open/Collapse");
         invite = makeMenuItem("Invite to room");
         mute_UnMute = makeMenuItem("Mute");
         ban_UnBan = makeMenuItem("Ban");
@@ -109,7 +111,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(create);
         this.add(deleteGroup);
         this.add(rename);
-        this.add(toggle);
         this.add(refresh);
     }
 
@@ -124,6 +125,10 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         for (Object group : ((ContactListModel) source.getModel()).getGroupNames()) {
             moveto.add(makeMenuItem(group.toString()));
         }
+    }
+    
+    public boolean isClosing(){
+        return isClosing;
     }
 
     public void setContactActionVisibility(boolean isVisible) {
@@ -166,13 +171,26 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             deleteGroup.setVisible(isVisible);
             rename.setVisible(isVisible);
         }
-        toggle.setVisible(isVisible);
     }
 
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
         Globals.setContactListPopupIsUp(visible);
+        
+        if(visible == false && isClosing == false){
+            new Thread(){
+                @Override
+                public void run() {
+                    isClosing = true;
+                    try {
+                        sleep(100);
+                    } catch (InterruptedException ex) {}
+                    isClosing = false;
+                }
+                
+            }.start();
+        }
     }
 
     @Override
@@ -222,8 +240,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             if (editorComp != null) {
                 editorComp.requestFocus();
             }
-        } else if (command.equals("Open/Collapse")) {
-            model.toggleGroupClosedStatus(subject);
         } else if (command.equals("Whisper")) {
             if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {
                 TabOrganizer.openPrivateChatPanel(subject, true);
