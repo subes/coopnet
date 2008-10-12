@@ -334,7 +334,7 @@ public class CommandHandler {
                     switch (status) {
                         case OFFLINE:
                             if (Settings.getContactStatusChangeSoundNotification()) {
-                                //TODO play sound
+                                SoundPlayer.playLogoutSound();
                             }
                             if (Settings.getContactStatusChangeTextNotification()) {
                                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name + " is now offline", ChatStyles.SYSTEM, false);
@@ -342,7 +342,7 @@ public class CommandHandler {
                             break;
                         case CHATTING:
                             if (Settings.getContactStatusChangeSoundNotification()) {
-                                //TODO play sound
+                                SoundPlayer.playLoginSound();
                             }
                             if (Settings.getContactStatusChangeTextNotification() && previousstatus == ContactListElementTypes.OFFLINE ) {
                                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name + " is now online", ChatStyles.SYSTEM, false);

@@ -823,7 +823,6 @@ public class SettingsFrame extends javax.swing.JFrame {
         cb_TextNotification.setText("Text");
 
         cb_SoundNotification.setText("Sound");
-        cb_SoundNotification.setEnabled(false);
 
         cb_showOfflineContacts.setText("Show offline contacts");
 

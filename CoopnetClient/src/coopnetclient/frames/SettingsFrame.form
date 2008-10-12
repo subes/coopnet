@@ -1171,7 +1171,6 @@
                 <Component class="javax.swing.JCheckBox" name="cb_SoundNotification">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Sound"/>
-                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="cb_showOfflineContacts">

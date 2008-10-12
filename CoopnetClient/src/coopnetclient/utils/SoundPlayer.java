@@ -77,6 +77,14 @@ public class SoundPlayer {
     public static void playUnreadySound(){
         playSoundFile("data/sounds/unready.wav", true);
     }
+    
+    public static void playLoginSound(){
+        playSoundFile("data/sounds/login.wav", true);
+    }
+    
+    public static void playLogoutSound(){
+        playSoundFile("data/sounds/logout.wav", true);
+    }
 
     private static void playSoundFile(final String file, boolean forkThread) {
         if(!Settings.getSoundEnabled()){
