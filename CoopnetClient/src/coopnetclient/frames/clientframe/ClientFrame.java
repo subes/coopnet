@@ -235,7 +235,7 @@ public class ClientFrame extends javax.swing.JFrame {
             privatechat = TabOrganizer.getPrivateChatPanel(sender);
         }
 
-        privatechat.append(sender, message);
+        privatechat.append(sender, message, ChatStyles.WHISPER);
 
         if (!privatechat.isVisible()) {
             printToVisibleChatbox(sender, message, ChatStyles.WHISPER_NOTIFICATION, false);
@@ -694,6 +694,9 @@ public class ClientFrame extends javax.swing.JFrame {
         } else if (tc instanceof RoomPanel) {
             RoomPanel rp = (RoomPanel) tc;
             rp.chat(name, message, modeStyle);
+        } else if (tc instanceof PrivateChatPanel){
+            PrivateChatPanel pcp = (PrivateChatPanel) tc;
+            pcp.append(name, message, modeStyle);
         } else {
             ChannelPanel cp = TabOrganizer.getChannelPanel(0);
             if (cp != null) {

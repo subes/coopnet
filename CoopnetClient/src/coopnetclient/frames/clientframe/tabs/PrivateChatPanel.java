@@ -82,10 +82,10 @@ public class PrivateChatPanel extends javax.swing.JPanel {
         }
     }
 
-    public void append(String sender, String message) {
+    public void append(String sender, String message, ChatStyles style) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
         coopnetclient.utils.ColoredChatHandler.addColoredText(sender,
-                message, ChatStyles.WHISPER,
+                message, style,
                 doc, scrl_chatOutput, tp_chatOutput);
     }
 

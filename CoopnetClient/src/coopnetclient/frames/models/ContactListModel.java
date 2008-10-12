@@ -283,7 +283,6 @@ public class ContactListModel extends AbstractListModel implements EditableListM
             group = groups.get(indexOfGroup(DEFAULT_GROUP));
             if (status == ContactListElementTypes.OFFLINE) {
                 group.offlineContacts.add(contactName);
-                pendingList.remove(contactName);
             } else {
                 group.contacts.put(contactName, status);
             }

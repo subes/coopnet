@@ -87,7 +87,7 @@ public class ChatInputKeyListener implements KeyListener {
                     PrivateChatPanel privatechat = TabOrganizer.getPrivateChatPanel(prefix);
 
                     if (privatechat != null) {
-                        privatechat.append(Globals.getThisPlayer_loginName(), command);
+                        privatechat.append(Globals.getThisPlayer_loginName(), command, ChatStyles.WHISPER);
                     }
                     Protocol.privateChat(command, prefix);
                 }

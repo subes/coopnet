@@ -216,6 +216,9 @@ public class CommandHandler {
                 case CHAT_PRIVATE:
                     Globals.getClientFrame().printPrivateChatMessage(information[0], information[1]);
                     break;
+                case ERROR_WHISPER_TO_OFFLINE_USER:
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0]+" is currently offline, he won't receive your whisper messages", ChatStyles.SYSTEM, true);
+                    break;
                 case SERVER_SHUTTING_DOWN:
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Server is shutting down!", ChatStyles.SYSTEM, true);
                     Client.disconnect();
