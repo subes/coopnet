@@ -175,7 +175,7 @@ public class ContactListModel extends AbstractListModel implements EditableListM
         return -1;
     }
 
-    private Group groupOfContact(String contact) {
+    public Group groupOfContact(String contact) {
         for (Group g : groups) {
             if (g.contacts.keySet().contains(contact)) {
                 return g;

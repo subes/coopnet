@@ -324,7 +324,13 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                     setGroupActionVisibility(false);
                     setContactActionVisibility(false);
                     sep_contact.setVisible(true);
-                    acceptAndAdd.setVisible(false);
+                    
+                    if(model.groupOfContact(playerName.getText()) == null){
+                        acceptAndAdd.setVisible(true);
+                    }else{
+                        acceptAndAdd.setVisible(false);
+                    }
+                    
                     mute_UnMute.setVisible(true);
                     ban_UnBan.setVisible(true);
                     if(model.getStatus(playerName.getText()) != ContactListElementTypes.OFFLINE){

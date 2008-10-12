@@ -95,7 +95,7 @@ public class CommandHandler {
                     TabOrganizer.getLoginPanel().showError("Login name is already in use!", Color.red);
                     break;
                 case CRIPPLED_SERVER_MODE:
-                    JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nlogging in and registering is impossible!", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nlogging in and registering is impossible!\nPlease try again later.", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
                     break;
             }
         } else {//logged-in commands
@@ -382,7 +382,7 @@ public class CommandHandler {
                 case VERIFICATION_ERROR:
                     break;//do nothing, should never come anyways
                 case CRIPPLED_SERVER_MODE:
-                    JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nediting permanent data is impossible!", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nediting permanent data is impossible!\nPlease try again later.", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
                     break;
                 case CONTACT_REQUEST_ACKNOWLEDGE:
                     Globals.getContactList().addContact(information[0], ContactListModel.DEFAULT_GROUP, ContactListElementTypes.PENDING_CONTACT);
