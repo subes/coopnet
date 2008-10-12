@@ -310,7 +310,9 @@ public class ContactListModel extends AbstractListModel implements EditableListM
 
     public ContactListElementTypes getStatus(String itemName) {
         if (pendingList.containsKey(itemName)) {
-            return pendingList.get(itemName);
+            if(groupOfContact(itemName) == null){
+                return pendingList.get(itemName);
+            }
         }
         if (getGroupNames().contains(itemName)) {
             Group currentgroup = groups.get(indexOfGroup(itemName));
@@ -332,6 +334,47 @@ public class ContactListModel extends AbstractListModel implements EditableListM
             }
         }
         return null;
+    }
+    
+    public boolean isPending(int index){
+        if(pendingList.containsKey(getElementAt(index)) && getFirstGroupIndex() > index){
+            return true;
+        }
+        return false;
+    }
+    
+    public ArrayList<String> getMoveToGroups(String userName){
+        ArrayList<String> ret = new ArrayList<String>();
+        
+        Group groupOfContact = groupOfContact(userName);
+        
+        for(int i = 0; i < groups.size(); i++){
+            if(groups.get(i) != groupOfContact){
+                ret.add(groups.get(i).name);
+            }
+        }
+        
+        return ret;
+    }
+    
+    public int getFirstGroupIndex(){
+        for(int i = 0; i < getSize(); i++){
+            Object obj = getElementAt(i);
+            String itemName;
+            if(obj instanceof Group){
+                itemName = ((Group) obj).name;
+            }else{
+                itemName = (String) obj;
+            }
+            
+            for(int j = 0; j < groups.size(); j++){
+                if(groups.get(j).name.equals(itemName)){
+                    return i;
+                }
+            }
+        }
+        
+        return -1;
     }
 
     public void clear() {
@@ -375,8 +418,8 @@ public class ContactListModel extends AbstractListModel implements EditableListM
                     //
                     if (isNewGroup) {
                         isNewGroup = false;
-                        Protocol.createGroup(value.toString());
                         removeGroup(g.name);//remove temporary data from model
+                        Protocol.createGroup(value.toString());
                     } else {
                         if (indexOfGroup(value.toString()) == -1) {//dont send if the groupname is already used
                             Protocol.renameGroup(g.name, value.toString());

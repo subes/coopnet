@@ -74,6 +74,13 @@ public class ContactListRenderer extends JLabel implements ListCellRenderer {
         }
         setHorizontalAlignment(LEFT);
         setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        
+        if(index < model.getFirstGroupIndex()){
+            //Pendingrequests are always shown above a group!
+            setIcon(pendingRequestIcon);
+            return this;
+        }
+        
         switch (model.getStatus(value.toString())) {
             case CHATTING:
                 setIcon(chatIcon);

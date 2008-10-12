@@ -113,7 +113,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             Protocol.mute(subject);
         } else if (command.equals("Add to contacts")) {
             //Globals.getContactList().addContact(subject, ContactListModel.DEFAULT_GROUP, ContactListElementTypes.PENDING_CONTACT);
-            Protocol.RequestContact(subject);
+            Protocol.addToContacts(subject);
         } else if (command.equals("UnMute")) {
             Protocol.unMute(subject);
         } else if (command.equals("Whisper")) {

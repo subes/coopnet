@@ -55,7 +55,7 @@ public class Protocol {
         }
     }
     
-    public static void RequestContact(String contactName) {
+    public static void addToContacts(String contactName) {
         new Message(ClientProtocolCommands.SEND_CONTACT_REQUEST, contactName);
     }
     

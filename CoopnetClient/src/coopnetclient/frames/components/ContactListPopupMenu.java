@@ -32,9 +32,8 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -47,6 +46,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     
     private EditableJlist source;
     private JMenuItem playerName;
+    private JMenuItem acceptAndAdd;
     private JMenuItem accept;
     private JMenuItem refuse;
     private JMenuItem deleteContact;
@@ -73,6 +73,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         playerName = new JMenuItem();
         playerName.setEnabled(false);
         accept = makeMenuItem("Accept");
+        acceptAndAdd = makeMenuItem("Accept and add");
         refuse = makeMenuItem("Refuse");
         sep_contact = new JSeparator();
         nudge = makeMenuItem("Nudge");
@@ -95,22 +96,23 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(playerName);
         this.add(new JSeparator());
         this.add(accept);
+        this.add(acceptAndAdd);
         this.add(refuse);
         this.add(deleteContact);
         this.add(moveto);
         this.add(sep_contact);
         this.add(nudge);
-        this.add(showProfile);
         this.add(whisper);
         this.add(sendFile);
         this.add(invite);
         this.add(mute_UnMute);
         this.add(ban_UnBan);
+        this.add(showProfile);
+        this.add(deleteGroup);
+        this.add(rename);
         this.add(sep_group);
         this.add(showOffline);
         this.add(create);
-        this.add(deleteGroup);
-        this.add(rename);
         this.add(refresh);
     }
 
@@ -121,9 +123,15 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     }
 
     public void refreshMoveToMenu() {
-        moveto.removeAll();
-        for (Object group : ((ContactListModel) source.getModel()).getGroupNames()) {
-            moveto.add(makeMenuItem(group.toString()));
+        ArrayList<String> moveToGroups = Globals.getContactList().getMoveToGroups(playerName.getText());
+        
+        if(moveToGroups.size() == 0){
+            moveto.setVisible(false);
+        }else{
+            moveto.removeAll();
+            for (String groupName : moveToGroups) {
+                moveto.add(makeMenuItem(groupName));
+            }
         }
     }
     
@@ -140,8 +148,8 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         
         if(Globals.getContactList().getStatus(playerName.getText()) == ContactListElementTypes.OFFLINE){
             nudge.setVisible(false);
-            whisper.setVisible(false);
             sendFile.setVisible(false);
+            whisper.setVisible(false);
         }else{
             nudge.setVisible(isVisible);
             whisper.setVisible(isVisible);
@@ -160,6 +168,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
 
     public void setPendingActionVisibility(boolean isVisible) {
         accept.setVisible(isVisible);
+        acceptAndAdd.setVisible(isVisible);
         refuse.setVisible(isVisible);
     }
 
@@ -204,7 +213,10 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         final String subject = playerName.getText();
         
         if (command.equals("Accept")) {
-            Protocol.acceptRequest(subject);            
+            Protocol.acceptRequest(subject); 
+        } else if (command.equals("Accept and add")) {
+            Protocol.acceptRequest(subject);
+            Protocol.addToContacts(subject);
         } else if (command.equals("Refuse")) {
             Protocol.refuseRequest(subject);
         } else if (command.equals("Remove contact")) {
@@ -300,40 +312,66 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                 setPendingActionVisibility(false);
                 setGroupActionVisibility(false);
                 setContactActionVisibility(false);
-                refreshMoveToMenu();
                 playerName.setText("No selection");
                 super.show(invoker, x, y);
             } else {
-                refreshMoveToMenu();
                 playerName.setText((String) source.getSelectedValue());
                 //HIDE UNNECESSARY ITEMS
                 ContactListModel model = (ContactListModel) source.getModel();
-                switch (model.getStatus(source.getSelectedValue().toString())) {
-                    case GROUPNAME_CLOSED:
-                        setPendingActionVisibility(false);
-                        setGroupActionVisibility(true);
-                        setContactActionVisibility(false);
-                        break;
-                    case GROUPNAME_OPEN:
-                        setPendingActionVisibility(false);
-                        setGroupActionVisibility(true);
-                        setContactActionVisibility(false);
-                        break;
-                    case PENDING_CONTACT:
-                        setPendingActionVisibility(false);
-                        setGroupActionVisibility(false);
-                        setContactActionVisibility(false);
-                        break;
-                    case PENDING_REQUEST:
-                        setPendingActionVisibility(true);
-                        setGroupActionVisibility(false);
-                        setContactActionVisibility(false);
-                        break;
-                    default:
-                        setPendingActionVisibility(false);
-                        setGroupActionVisibility(false);
-                        setContactActionVisibility(true);
-                        break;
+                
+                if(model.getStatus(source.getSelectedValue().toString()) != ContactListElementTypes.PENDING_CONTACT && model.isPending(source.getSelectedIndex())){
+                    setPendingActionVisibility(true);
+                    setGroupActionVisibility(false);
+                    setContactActionVisibility(false);
+                    sep_contact.setVisible(true);
+                    acceptAndAdd.setVisible(false);
+                    mute_UnMute.setVisible(true);
+                    ban_UnBan.setVisible(true);
+                    if(model.getStatus(playerName.getText()) != ContactListElementTypes.OFFLINE){
+                        whisper.setVisible(true);
+                    }
+                    showProfile.setVisible(true);
+                    sep_group.setVisible(true);
+                }else{
+                    switch (model.getStatus(source.getSelectedValue().toString())) {
+                        case GROUPNAME_CLOSED:
+                            setPendingActionVisibility(false);
+                            setGroupActionVisibility(true);
+                            setContactActionVisibility(false);
+                            sep_group.setVisible(true);
+                            break;
+                        case GROUPNAME_OPEN:
+                            setPendingActionVisibility(false);
+                            setGroupActionVisibility(true);
+                            setContactActionVisibility(false);
+                            sep_group.setVisible(true);
+                            break;
+                        case PENDING_CONTACT:
+                            setPendingActionVisibility(false);
+                            setGroupActionVisibility(false);
+                            setContactActionVisibility(false);
+                            moveto.setVisible(true);
+                            deleteContact.setVisible(true);
+                            sep_contact.setVisible(true);
+                            mute_UnMute.setVisible(true);
+                            ban_UnBan.setVisible(true);
+                            whisper.setVisible(true);
+                            showProfile.setVisible(true);
+                            sep_group.setVisible(true);
+                            break;
+                        case PENDING_REQUEST:
+                            setPendingActionVisibility(true);
+                            setGroupActionVisibility(false);
+                            setContactActionVisibility(false);
+                            sep_group.setVisible(true);
+                            break;
+                        default:
+                            setPendingActionVisibility(false);
+                            setGroupActionVisibility(false);
+                            setContactActionVisibility(true);
+                            sep_group.setVisible(true);
+                            break;
+                    }
                 }
                 if (MuteBanList.getMuteBanStatus(playerName.getText()) == null) {
                     mute_UnMute.setText("Mute");
@@ -354,6 +392,8 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                             break;
                     }
                 }
+                
+                refreshMoveToMenu();
                 super.show(invoker, x, y);
             }
         }

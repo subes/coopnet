@@ -319,7 +319,7 @@ public class CommandHandler {
                     break;
                 case CONTACT_REQUESTED:
                     Globals.getContactList().addContact(information[0], "", ContactListElementTypes.PENDING_REQUEST);
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " wants to add you to his/her contactlist", ChatStyles.SYSTEM, true);
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " wants to add you to his/her contact list", ChatStyles.SYSTEM, true);
                     Globals.getClientFrame().flashQuickPanelToggler();
                     break;
                 case SET_CONTACTSTATUS:
@@ -337,7 +337,7 @@ public class CommandHandler {
                                 //TODO play sound
                             }
                             if (Settings.getContactStatusChangeTextNotification()) {
-                                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name + " is offline", ChatStyles.SYSTEM, false);
+                                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name + " is now offline", ChatStyles.SYSTEM, false);
                             }
                             break;
                         case CHATTING:
@@ -345,16 +345,20 @@ public class CommandHandler {
                                 //TODO play sound
                             }
                             if (Settings.getContactStatusChangeTextNotification() && previousstatus == ContactListElementTypes.OFFLINE ) {
-                                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name + " is online", ChatStyles.SYSTEM, false);
+                                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name + " is now online", ChatStyles.SYSTEM, false);
                             }
                             break;
                     }
                     break;
                 case ACCEPTED_CONTACT_REQUEST:
                     Globals.getContactList().setStatus(information[0], ContactListElementTypes.OFFLINE);
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " accepted your contact request", ChatStyles.SYSTEM, true);
+                    Globals.getClientFrame().flashQuickPanelToggler();
                     break;
                 case REFUSED_CONTACT_REQUEST:
                     Globals.getContactList().removeContact(information[0]);
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " refused your contact request", ChatStyles.SYSTEM, true);
+                    Globals.getClientFrame().flashQuickPanelToggler();
                     break;
                 case CONTACT_LIST:
                     Globals.getContactList().buildFrom(information);
