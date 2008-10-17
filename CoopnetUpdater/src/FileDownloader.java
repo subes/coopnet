@@ -35,7 +35,6 @@ public class FileDownloader {
 
         java.net.URL fileurl;
 
-        System.out.println("az url:"+url);
         fileurl = new java.net.URL(url);
 
         bi = new BufferedInputStream(fileurl.openStream());

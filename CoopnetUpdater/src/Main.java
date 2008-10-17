@@ -26,12 +26,12 @@ public class Main {
         try {
             mf = new MessageFrame();
             mf.setVisible(true);
-            String updateurl = Settings.getupdateURL();
+            String updateurl = "http://coopnet.sourceforge.net/latestClient.php";
             if (updateurl == null) {
                 throw new Exception("Can't find update URL!");
             }
             FileDownloader.downloadFile(updateurl, new File("./dist.zip").getCanonicalPath());
-            UnZipper.UnZip("./dist.zip", new File("..").getCanonicalPath());
+            UnZipper.UnZip("./dist.zip", new File(".").getCanonicalPath());
             new File("./dist.zip").delete();
             mf.setVisible(false);
             try {
