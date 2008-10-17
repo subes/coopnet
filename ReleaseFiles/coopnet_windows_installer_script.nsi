@@ -113,6 +113,7 @@ Section "Uninstall"
   ;remove all data
   RMDir  /r "$INSTDIR\lib"
   RMDir  /r "$INSTDIR\data"
+  RMDir  /r "$INSTDIR\UPDATER_TMP"
   ;remove install dir if possible
   RMDir "$INSTDIR"
   
