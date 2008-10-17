@@ -34,13 +34,13 @@ UninstPage instfiles
 Function .onInit
 ReadRegStr $0 HKLM "SOFTWARE\JavaSoft\Java Runtime Environment" CurrentVersion
 ${If} $0 == ""
-  MessageBox MB_OK "This software requires Java 1.6! Download it at www.java.com!"
+  MessageBox MB_OK "This software requires Java 1.6 or newer! Download it at http://www.java.com!"
 ${EndIf}
 ${If} $0 == "1.4"
-  MessageBox MB_OK "This software requires Java 1.6! Download it at www.java.com!"
+  MessageBox MB_OK "This software requires Java 1.6 or newer! Download it at http://www.java.com!"
 ${EndIf}
 ${If} $0 == "1.5"
-  MessageBox MB_OK "This software requires Java 1.6! Download it at www.java.com!"
+  MessageBox MB_OK "This software requires Java 1.6 or newer! Download it at http://www.java.com!"
 ${EndIf}
 FunctionEnd
 
