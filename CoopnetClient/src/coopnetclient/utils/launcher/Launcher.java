@@ -99,7 +99,7 @@ public class Launcher {
             Globals.setSleepModeStatus(false);
             
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
-                            "Game closed ...", 
+                            "Game closed.", 
                             ChatStyles.SYSTEM,false);
             
             isPlaying = false;
