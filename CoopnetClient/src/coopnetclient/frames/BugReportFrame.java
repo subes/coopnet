@@ -277,7 +277,7 @@ public class BugReportFrame extends javax.swing.JFrame {
             boolean error = false;
 
             try{
-                BugReportMailSender.sendBugReportMail("BUGREPORT: "+tf_shortDescription.getText(), compileReport());
+                BugReportMailSender.sendBugReportMail("CLIENT BUGREPORT: "+tf_shortDescription.getText(), compileReport());
             }catch(AddressException e){
                 error = true;
             }catch(MessagingException e){
