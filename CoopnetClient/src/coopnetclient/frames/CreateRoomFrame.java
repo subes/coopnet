@@ -116,6 +116,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         });
 
         cb_compatibility.setText("Compatibility mode");
+        cb_compatibility.setToolTipText("Launching will be slower but allows cooperation with already existing lobby made by other application");
         cb_compatibility.setNextFocusableComponent(btn_create);
 
         lbl_name.setText("Name:");
@@ -159,26 +160,23 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnl_inputLayout.createSequentialGroup()
+                        .addComponent(lbl_password)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pf_password, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnl_inputLayout.createSequentialGroup()
+                        .addComponent(lbl_maxPlayers)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spn_maxPlayers, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(lbl_limitNote))
+                    .addGroup(pnl_inputLayout.createSequentialGroup()
+                        .addComponent(lbl_mod)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnl_inputLayout.createSequentialGroup()
-                                .addComponent(lbl_password)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(pf_password, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnl_inputLayout.createSequentialGroup()
-                                .addComponent(lbl_maxPlayers)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(spn_maxPlayers, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(5, 5, 5)
-                                .addComponent(lbl_limitNote))
-                            .addGroup(pnl_inputLayout.createSequentialGroup()
-                                .addComponent(lbl_mod)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cb_compatibility)
-                                    .addComponent(cb_mod, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cb_instantroom))))
-                        .addGap(4, 4, 4)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(cb_compatibility)
+                            .addComponent(cb_mod, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cb_instantroom))))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         pnl_inputLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cb_compatibility, cb_instantroom, cb_mod, pf_password, tf_name});

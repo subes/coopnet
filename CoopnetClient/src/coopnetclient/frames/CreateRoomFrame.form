@@ -72,33 +72,28 @@
                           <Component id="tf_name" linkSize="3" min="-2" pref="350" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
+                          <Component id="lbl_password" linkSize="4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="pf_password" linkSize="3" min="-2" pref="350" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lbl_maxPlayers" linkSize="4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="spn_maxPlayers" min="-2" pref="64" max="-2" attributes="0"/>
+                          <EmptySpace min="5" pref="5" max="5" attributes="0"/>
+                          <Component id="lbl_limitNote" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lbl_mod" linkSize="4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="lbl_password" linkSize="4" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="pf_password" linkSize="3" min="-2" pref="350" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="lbl_maxPlayers" linkSize="4" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="spn_maxPlayers" min="-2" pref="64" max="-2" attributes="0"/>
-                                  <EmptySpace min="5" pref="5" max="5" attributes="0"/>
-                                  <Component id="lbl_limitNote" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="lbl_mod" linkSize="4" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="cb_compatibility" linkSize="3" alignment="0" min="-2" max="-2" attributes="1"/>
-                                      <Component id="cb_mod" linkSize="3" alignment="0" min="-2" pref="350" max="-2" attributes="1"/>
-                                      <Component id="cb_instantroom" linkSize="3" alignment="0" min="-2" max="-2" attributes="1"/>
-                                  </Group>
-                              </Group>
+                              <Component id="cb_compatibility" linkSize="3" alignment="0" min="-2" max="-2" attributes="1"/>
+                              <Component id="cb_mod" linkSize="3" alignment="0" min="-2" pref="350" max="-2" attributes="1"/>
+                              <Component id="cb_instantroom" linkSize="3" alignment="0" min="-2" max="-2" attributes="1"/>
                           </Group>
-                          <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="10" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -154,6 +149,7 @@
         <Component class="javax.swing.JCheckBox" name="cb_compatibility">
           <Properties>
             <Property name="text" type="java.lang.String" value="Compatibility mode"/>
+            <Property name="toolTipText" type="java.lang.String" value="Launching will be slower but allows cooperation with already existing lobby made by other application"/>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="btn_create"/>
             </Property>
