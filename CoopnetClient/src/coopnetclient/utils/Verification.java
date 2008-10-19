@@ -63,7 +63,7 @@ public class Verification {
             return false;
         }
         
-        return true;
+        return email.matches("^.+@[^\\.].*\\.[a-z]{2,}$");
     }
     
     public static boolean verifyWebsite(String website){

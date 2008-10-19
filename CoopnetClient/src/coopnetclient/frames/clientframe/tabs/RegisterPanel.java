@@ -84,7 +84,7 @@ public class RegisterPanel extends javax.swing.JPanel {
         } else        
         if(!password1.equals(password2)){
             lbl_error.setForeground(Color.red);
-            lbl_error.setText("Passwords dont match!");
+            lbl_error.setText("Passwords don't match!");
             error = true;
         }else{
             lbl_error.setText(" ");
@@ -208,6 +208,7 @@ public class RegisterPanel extends javax.swing.JPanel {
             }
         });
 
+        lbl_error.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_error.setText(" ");
 
         btn_cancel.setText("Cancel");
@@ -230,9 +231,7 @@ public class RegisterPanel extends javax.swing.JPanel {
                         .addComponent(btn_cancel))
                     .addGroup(pnl_input4Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-                            .addComponent(lbl_error, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)))
+                        .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))
                     .addGroup(pnl_input4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,7 +262,10 @@ public class RegisterPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pf_password2, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                            .addComponent(pf_password1, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))))
+                            .addComponent(pf_password1, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_input4Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(lbl_error, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -273,9 +275,9 @@ public class RegisterPanel extends javax.swing.JPanel {
             pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_input4Layout.createSequentialGroup()
                 .addComponent(lbl_Info)
-                .addGap(1, 1, 1)
+                .addGap(7, 7, 7)
                 .addComponent(lbl_error)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_name4))
