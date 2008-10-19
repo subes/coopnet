@@ -58,7 +58,7 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
         TabOrganizer.openLoginPanel();
         Protocol.passwordRecovery(name,email);
         JOptionPane.showMessageDialog(Globals.getClientFrame(), "<html><b>Request sent!</b>\n" +
-                            "If the data is valid you will revieve an email with your new password shortly!", "Request sent", JOptionPane.INFORMATION_MESSAGE);
+                            "If the data is valid you will receive an E-Mail with your new password shortly!", "Request sent", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /** This method is called from within the constructor to
@@ -99,7 +99,7 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
         });
 
         lbl_Info.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbl_Info.setText("<html>Please fill in your account information.<br>Your new password will be sent via E-Mail, if the specified E-Mail address is the same as the one stored in your profile.");
+        lbl_Info.setText("<html>Please fill in your account information.<br>Your new password will be sent via E-Mail.");
         lbl_Info.setFocusable(false);
 
         tf_name.addActionListener(new java.awt.event.ActionListener() {
