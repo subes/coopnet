@@ -26,7 +26,6 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.utils.launcher.Launcher;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
@@ -62,6 +61,11 @@ public class Protocol {
     public static void acceptRequest(String contactName) {
         new Message(ClientProtocolCommands.ACCEPT_CONTACT_REQUEST, contactName);
     }
+
+    public static void passwordRecovery(String name, String email) {
+        String[] info = {name, email};
+        new Message(ClientProtocolCommands.PASSWORD_RECOVERY, info);
+    }
     
     public static void refuseRequest(String contactName) {
         new Message(ClientProtocolCommands.REFUSE_CONTACT_REQUEST, contactName);
@@ -71,6 +75,11 @@ public class Protocol {
         if(Verification.verifyGroupName(groupName) && !Globals.getContactList().getGroupNames().contains(groupName)){
             new Message(ClientProtocolCommands.CREATE_GROUP, groupName);
         }
+    }
+
+    public static void register(String name, String password, String email, String ingameName, String country, String website) {
+        String[] info = {name,PasswordEncrypter.encryptPassword(password),email,ingameName,country,website};
+        new Message(ClientProtocolCommands.NEW_PLAYER, info);
     }
 
     public static void removeContact(String contactName) {
@@ -165,8 +174,8 @@ public class Protocol {
         new Message(ClientProtocolCommands.EDIT_PROFILE);
     }
 
-    public static void saveProfile(String loginName, String ingameName, String email, String country, String website, boolean emailIsPublic ) {
-        String[] info = { loginName, ingameName,  email,  country,  website,  emailIsPublic+"" };
+    public static void saveProfile(String loginName, String ingameName, String email, String country, String website ) {
+        String[] info = { loginName, ingameName,  email,  country,  website };
         new Message(ClientProtocolCommands.SAVE_PROFILE,info);
     }
     

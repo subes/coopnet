@@ -59,7 +59,7 @@ public class Verification {
     }
     
     public static boolean verifyEMail(String email){
-        if(email.length() > 320){
+        if(email.length() > 320 || email.length()<5){
             return false;
         }
         

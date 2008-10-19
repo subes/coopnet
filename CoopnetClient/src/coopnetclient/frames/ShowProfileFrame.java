@@ -24,10 +24,9 @@ import coopnetclient.Globals;
 public class ShowProfileFrame extends javax.swing.JFrame {
     
     /** Creates new form ShowProfile */
-    public ShowProfileFrame(String name, String email, String country, String webpage) {
+    public ShowProfileFrame(String name, String country, String webpage) {
         initComponents();
-        tf_name.setText(name);
-        tf_email.setText(email);
+        tf_name.setText(name);        
         tf_country.setText(country) ;
         tf_website.setText(webpage);
     }
@@ -43,8 +42,6 @@ public class ShowProfileFrame extends javax.swing.JFrame {
         pnl_profile = new javax.swing.JPanel();
         lbl_name = new javax.swing.JLabel();
         tf_name = new javax.swing.JTextField();
-        lbl_email = new javax.swing.JLabel();
-        tf_email = new javax.swing.JTextField();
         lbl_country = new javax.swing.JLabel();
         tf_country = new javax.swing.JTextField();
         lbl_website = new javax.swing.JLabel();
@@ -65,10 +62,6 @@ public class ShowProfileFrame extends javax.swing.JFrame {
 
         tf_name.setEditable(false);
 
-        lbl_email.setText("E-Mail:");
-
-        tf_email.setEditable(false);
-
         lbl_country.setText("Country:");
 
         tf_country.setEditable(false);
@@ -84,16 +77,18 @@ public class ShowProfileFrame extends javax.swing.JFrame {
             .addGroup(pnl_profileLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_name)
-                    .addComponent(lbl_email)
-                    .addComponent(lbl_country)
-                    .addComponent(lbl_website))
-                .addGap(15, 15, 15)
-                .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tf_website, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-                    .addComponent(tf_country, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-                    .addComponent(tf_email, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-                    .addComponent(tf_name, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
+                    .addGroup(pnl_profileLayout.createSequentialGroup()
+                        .addComponent(lbl_name)
+                        .addGap(27, 27, 27)
+                        .addComponent(tf_name, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
+                    .addGroup(pnl_profileLayout.createSequentialGroup()
+                        .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_country)
+                            .addComponent(lbl_website))
+                        .addGap(15, 15, 15)
+                        .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tf_website, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                            .addComponent(tf_country, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         pnl_profileLayout.setVerticalGroup(
@@ -104,17 +99,13 @@ public class ShowProfileFrame extends javax.swing.JFrame {
                     .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_email)
-                    .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_country)
                     .addComponent(tf_country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_website)
                     .addComponent(tf_website, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btn_close.setText("Close");
@@ -158,12 +149,10 @@ public class ShowProfileFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_close;
     private javax.swing.JLabel lbl_country;
-    private javax.swing.JLabel lbl_email;
     private javax.swing.JLabel lbl_name;
     private javax.swing.JLabel lbl_website;
     private javax.swing.JPanel pnl_profile;
     private javax.swing.JTextField tf_country;
-    private javax.swing.JTextField tf_email;
     private javax.swing.JTextField tf_name;
     private javax.swing.JTextField tf_website;
     // End of variables declaration//GEN-END:variables

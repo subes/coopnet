@@ -84,15 +84,13 @@ public class CommandHandler {
                     TabOrganizer.getLoginPanel().showError("Wrong username/password, please try again!", Color.red);
                     break;
                 case OK_REGISTER:
-                    TabOrganizer.getLoginPanel().showError("Registration successful!", Color.green.darker());
+                    TabOrganizer.closeRegisterPanel();
+                    TabOrganizer.openLoginPanel();
                     JOptionPane.showMessageDialog(Globals.getClientFrame(), "<html><b>Thank you for registering!</b>\n" +
-                            "If you want to be able to do password recovery in the future,\n" +
-                            "please fill in a valid E-Mail address in your player profile.\n" +
-                            "\n" +
                             "You may login now.", "Successfully registered", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case LOGINNAME_IN_USE:
-                    TabOrganizer.getLoginPanel().showError("Login name is already in use!", Color.red);
+                    TabOrganizer.getRegisterPanel().showLoginNameUsedError();
                     break;
                 case CRIPPLED_SERVER_MODE:
                     JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nlogging in and registering is impossible!\nPlease try again later.", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
@@ -277,14 +275,12 @@ public class CommandHandler {
                             information[1],
                             information[2],
                             information[3],
-                            information[4],
-                            information[5]);
+                            information[4]);
                     break;
                 case SHOW_PROFILE:
                     Globals.openShowProfileFrame(information[0],
                             information[1],
-                            information[2],
-                            information[3]);
+                            information[2]);
                     break;
                 case JOINED_ROOM:
                     Globals.getClientFrame().addPlayerToRoom(GameDatabase.getGameName(information[0]), information[1], information[2]);

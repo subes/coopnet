@@ -30,7 +30,9 @@ import coopnetclient.frames.clientframe.tabs.ErrorPanel;
 import coopnetclient.frames.clientframe.tabs.FileTransferRecievePanel;
 import coopnetclient.frames.clientframe.tabs.FileTransferSendPanel;
 import coopnetclient.frames.clientframe.tabs.LoginPanel;
+import coopnetclient.frames.clientframe.tabs.PasswordRecoveryPanel;
 import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
+import coopnetclient.frames.clientframe.tabs.RegisterPanel;
 import coopnetclient.frames.clientframe.tabs.RoomPanel;
 import coopnetclient.frames.clientframe.tabs.TestGameDataEditor;
 import coopnetclient.utils.Settings;
@@ -57,6 +59,8 @@ public class TabOrganizer {
     private static BrowserPanel browserPanel;
     private static ErrorPanel errorPanel;
     private static LoginPanel loginPanel;
+    private static RegisterPanel registerPanel;
+    private static PasswordRecoveryPanel passwordRecoveryPanel;
     private static Component gamedataeditor;
     private static Vector<FileTransferSendPanel> fileTransferSendPanels = new Vector<FileTransferSendPanel>();
     private static Vector<FileTransferRecievePanel> fileTransferReceivePanels = new Vector<FileTransferRecievePanel>();
@@ -342,8 +346,70 @@ public class TabOrganizer {
         loginPanel = null;
     }
     
+    public static void openRegisterPanel() {
+        if (registerPanel == null) {
+            //Thread is needed here to get rid of an exception at startup
+            SwingUtilities.invokeLater(new Thread() {
+
+                @Override
+                public void run() {
+                    try {
+                        registerPanel = new RegisterPanel();
+                        tabHolder.addTab("Register", registerPanel);
+                        tabHolder.setSelectedComponent(registerPanel);
+                    } catch (Exception e) {
+                        ErrorHandler.handleException(e);
+                    }
+                }
+            });
+        } else {
+            if (Globals.getDebug()) {
+                System.out.println("[W]\tThere's an open LoginPanel already!");
+                tabHolder.setSelectedComponent(registerPanel);
+            }
+        }
+    }
+
+    public static void closeRegisterPanel() {
+        tabHolder.remove(registerPanel);
+        registerPanel = null;
+    }
+    
+    public static void openPasswordRecoveryPanel() {
+        if (passwordRecoveryPanel == null) {
+            //Thread is needed here to get rid of an exception at startup
+            SwingUtilities.invokeLater(new Thread() {
+
+                @Override
+                public void run() {
+                    try {
+                        passwordRecoveryPanel = new PasswordRecoveryPanel();
+                        tabHolder.addTab("Password recovery", passwordRecoveryPanel);
+                        tabHolder.setSelectedComponent(passwordRecoveryPanel);
+                    } catch (Exception e) {
+                        ErrorHandler.handleException(e);
+                    }
+                }
+            });
+        } else {
+            if (Globals.getDebug()) {
+                System.out.println("[W]\tThere's an open LoginPanel already!");
+                tabHolder.setSelectedComponent(passwordRecoveryPanel);
+            }
+        }
+    }
+
+    public static void closePasswordRecoveryPanel() {
+        tabHolder.remove(passwordRecoveryPanel);
+        passwordRecoveryPanel = null;
+    }
+    
     public static LoginPanel getLoginPanel(){
         return loginPanel;
+    }
+    
+    public static RegisterPanel getRegisterPanel(){
+        return registerPanel;
     }
 
     public static void openFileTransferSendPanel(String reciever, File file) {

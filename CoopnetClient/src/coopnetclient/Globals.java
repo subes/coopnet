@@ -285,15 +285,15 @@ public class Globals {
         return clientFrame;
     }
 
-    public static void openShowProfileFrame(String name, String email, String country, String webpage) {
+    public static void openShowProfileFrame(String name, String country, String webpage) {
         if (showProfileFrame != null) {
             Point prevLocation = showProfileFrame.getLocation();
             showProfileFrame.dispose();
             showProfileFrame = null;
-            showProfileFrame = new ShowProfileFrame(name, email, country, webpage);
+            showProfileFrame = new ShowProfileFrame(name, country, webpage);
             setupFrame(showProfileFrame, prevLocation);
         } else {
-            showProfileFrame = new ShowProfileFrame(name, email, country, webpage);
+            showProfileFrame = new ShowProfileFrame(name, country, webpage);
             setupFrame(showProfileFrame);
         }
     }
@@ -329,16 +329,16 @@ public class Globals {
         }
     }
 
-    public static void openEditProfileFrame(String name, String ingamename, String email, String country, String webpage, String emailpublicity ) {
+    public static void openEditProfileFrame(String name, String ingamename, String email, String country, String webpage ) {
         if (editProfileFrame != null) {
             Point prevLocation = editProfileFrame.getLocation();
             closeChangePasswordFrame();
             editProfileFrame.dispose();
             editProfileFrame = null;
-            editProfileFrame = new EditProfileFrame(name, ingamename, email, emailpublicity, country, webpage);
+            editProfileFrame = new EditProfileFrame(name, ingamename, email, country, webpage);
             setupFrame(editProfileFrame, prevLocation);
         } else {
-            editProfileFrame = new EditProfileFrame(name, ingamename, email, emailpublicity, country, webpage);
+            editProfileFrame = new EditProfileFrame(name, ingamename, email, country, webpage);
             setupFrame(editProfileFrame);
         }
     }
