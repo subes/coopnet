@@ -18,8 +18,6 @@
  */
 package coopnetclient.frames.clientframe.tabs;
 
-import coopnetclient.Client;
-import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.MuteBanStatuses;

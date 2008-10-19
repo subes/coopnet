@@ -42,7 +42,7 @@ public class LoginPanel extends javax.swing.JPanel {
 
     @Override
     public void requestFocus() {
-        tf_name.requestFocus();
+        tf_name.requestFocus();        
     }
 
     private void login() {
@@ -109,9 +109,7 @@ public class LoginPanel extends javax.swing.JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        pnl_top = new javax.swing.JPanel();
         pnl_input = new javax.swing.JPanel();
         lbl_name = new javax.swing.JLabel();
         lbl_password = new javax.swing.JLabel();
@@ -122,54 +120,19 @@ public class LoginPanel extends javax.swing.JPanel {
         lbl_loginError = new javax.swing.JLabel();
         tf_name = new coopnetclient.frames.components.AdvancedJTextField();
         btn_passwordRecovery = new javax.swing.JButton();
-        pnl_bottom = new javax.swing.JPanel();
-        lbl_info = new javax.swing.JLabel();
 
         setFocusable(false);
-        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
-
-        pnl_top.setFocusable(false);
-        pnl_top.setPreferredSize(new java.awt.Dimension(10, 10));
-
-        javax.swing.GroupLayout pnl_topLayout = new javax.swing.GroupLayout(pnl_top);
-        pnl_top.setLayout(pnl_topLayout);
-        pnl_topLayout.setHorizontalGroup(
-            pnl_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 469, Short.MAX_VALUE)
-        );
-        pnl_topLayout.setVerticalGroup(
-            pnl_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 59, Short.MAX_VALUE)
-        );
-
-        add(pnl_top);
+        setLayout(new java.awt.GridBagLayout());
 
         pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Login"));
         pnl_input.setFocusable(false);
-        pnl_input.setMaximumSize(new java.awt.Dimension(400, 170));
-        pnl_input.setMinimumSize(new java.awt.Dimension(400, 170));
-        pnl_input.setPreferredSize(new java.awt.Dimension(400, 170));
-        pnl_input.setLayout(new java.awt.GridBagLayout());
+        pnl_input.setMaximumSize(null);
 
         lbl_name.setText("Name:");
         lbl_name.setFocusable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 10);
-        pnl_input.add(lbl_name, gridBagConstraints);
 
         lbl_password.setText("Password:");
         lbl_password.setFocusable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 10);
-        pnl_input.add(lbl_password, gridBagConstraints);
 
         pf_password.setNextFocusableComponent(cb_autoLogin);
         pf_password.addActionListener(new java.awt.event.ActionListener() {
@@ -177,13 +140,6 @@ public class LoginPanel extends javax.swing.JPanel {
                 pf_passwordActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
-        pnl_input.add(pf_password, gridBagConstraints);
 
         btn_login.setText("Login");
         btn_login.setNextFocusableComponent(btn_register);
@@ -192,13 +148,6 @@ public class LoginPanel extends javax.swing.JPanel {
                 btn_loginActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHWEST;
-        gridBagConstraints.weightx = 0.3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
-        pnl_input.add(btn_login, gridBagConstraints);
 
         btn_register.setText("Registration...");
         btn_register.setNextFocusableComponent(tf_name);
@@ -207,48 +156,19 @@ public class LoginPanel extends javax.swing.JPanel {
                 btn_registerActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
-        gridBagConstraints.weightx = 0.3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
-        pnl_input.add(btn_register, gridBagConstraints);
 
         cb_autoLogin.setText("Log me in automatically");
         cb_autoLogin.setNextFocusableComponent(btn_login);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
-        pnl_input.add(cb_autoLogin, gridBagConstraints);
 
         lbl_loginError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_loginError.setText(" ");
         lbl_loginError.setFocusable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        pnl_input.add(lbl_loginError, gridBagConstraints);
 
         tf_name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_nameActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
-        pnl_input.add(tf_name, gridBagConstraints);
 
         btn_passwordRecovery.setText("Password recovery...");
         btn_passwordRecovery.addActionListener(new java.awt.event.ActionListener() {
@@ -256,39 +176,58 @@ public class LoginPanel extends javax.swing.JPanel {
                 btn_passwordRecoveryActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
-        gridBagConstraints.weightx = 0.3;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        pnl_input.add(btn_passwordRecovery, gridBagConstraints);
 
-        add(pnl_input);
-
-        pnl_bottom.setFocusable(false);
-        pnl_bottom.setPreferredSize(new java.awt.Dimension(10, 10));
-
-        lbl_info.setFont(new java.awt.Font("Tahoma", 0, 10));
-        lbl_info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_info.setText("<html><pre> <br> <br>");
-        lbl_info.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        lbl_info.setFocusable(false);
-
-        javax.swing.GroupLayout pnl_bottomLayout = new javax.swing.GroupLayout(pnl_bottom);
-        pnl_bottom.setLayout(pnl_bottomLayout);
-        pnl_bottomLayout.setHorizontalGroup(
-            pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbl_info, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-        );
-        pnl_bottomLayout.setVerticalGroup(
-            pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_bottomLayout.createSequentialGroup()
-                .addComponent(lbl_info)
-                .addContainerGap(21, Short.MAX_VALUE))
+        javax.swing.GroupLayout pnl_inputLayout = new javax.swing.GroupLayout(pnl_input);
+        pnl_input.setLayout(pnl_inputLayout);
+        pnl_inputLayout.setHorizontalGroup(
+            pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_inputLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_loginError, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_name, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnl_inputLayout.createSequentialGroup()
+                        .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_password, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_login))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(pf_password, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(tf_name, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+                                .addComponent(cb_autoLogin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(pnl_inputLayout.createSequentialGroup()
+                                .addComponent(btn_passwordRecovery)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_register)))))
+                .addContainerGap())
         );
 
-        add(pnl_bottom);
+        pnl_inputLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cb_autoLogin, pf_password, tf_name});
+
+        pnl_inputLayout.setVerticalGroup(
+            pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_inputLayout.createSequentialGroup()
+                .addComponent(lbl_loginError)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_name)
+                    .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_password)
+                    .addComponent(pf_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cb_autoLogin)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_login)
+                    .addComponent(btn_register)
+                    .addComponent(btn_passwordRecovery))
+                .addContainerGap())
+        );
+
+        add(pnl_input, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
         disableButtons();
@@ -318,14 +257,11 @@ private void btn_passwordRecoveryActionPerformed(java.awt.event.ActionEvent evt)
     private javax.swing.JButton btn_passwordRecovery;
     private javax.swing.JButton btn_register;
     private javax.swing.JCheckBox cb_autoLogin;
-    private javax.swing.JLabel lbl_info;
     private javax.swing.JLabel lbl_loginError;
     private javax.swing.JLabel lbl_name;
     private javax.swing.JLabel lbl_password;
     private javax.swing.JPasswordField pf_password;
-    private javax.swing.JPanel pnl_bottom;
     private javax.swing.JPanel pnl_input;
-    private javax.swing.JPanel pnl_top;
     private coopnetclient.frames.components.AdvancedJTextField tf_name;
     // End of variables declaration//GEN-END:variables
 }

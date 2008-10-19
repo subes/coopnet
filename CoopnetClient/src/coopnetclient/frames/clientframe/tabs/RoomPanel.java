@@ -262,7 +262,6 @@ public class RoomPanel extends javax.swing.JPanel {
 
         setFocusable(false);
         setNextFocusableComponent(tp_chatInput);
-        setPreferredSize(null);
         setRequestFocusEnabled(false);
 
         btn_ready.setText("Ready");
@@ -394,9 +393,9 @@ public class RoomPanel extends javax.swing.JPanel {
                 .addComponent(cb_useHamachi)
                 .addGap(18, 18, 18)
                 .addComponent(btn_gameSettings)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(btn_close))
-            .addComponent(sp_chatHorizontal, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+            .addComponent(sp_chatHorizontal, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

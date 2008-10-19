@@ -120,7 +120,7 @@ public class ChannelPanel extends javax.swing.JPanel {
     }
 
     @Override
-    public void requestFocus() {
+    public void requestFocus() {        
         tp_chatInput.requestFocus();
     }
 

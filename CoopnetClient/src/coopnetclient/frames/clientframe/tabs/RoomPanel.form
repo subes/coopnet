@@ -34,7 +34,7 @@
               <EmptySpace pref="25" max="32767" attributes="0"/>
               <Component id="btn_close" min="-2" max="-2" attributes="0"/>
           </Group>
-          <Component id="sp_chatHorizontal" alignment="0" pref="454" max="32767" attributes="0"/>
+          <Component id="sp_chatHorizontal" alignment="0" pref="473" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
