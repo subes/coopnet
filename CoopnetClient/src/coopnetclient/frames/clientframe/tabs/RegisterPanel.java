@@ -31,6 +31,13 @@ public class RegisterPanel extends javax.swing.JPanel {
         initComponents();
         coopnetclient.utils.Colorizer.colorize(this);
     }
+    
+    public RegisterPanel(String loginname){
+        initComponents();
+        tf_name.setText(loginname);
+        tf_ingameName.setText(loginname);
+        coopnetclient.utils.Colorizer.colorize(this);
+    }
 
     @Override
     public void requestFocus() {
@@ -58,7 +65,7 @@ public class RegisterPanel extends javax.swing.JPanel {
             error = true;
         }
         
-        if(ingameName.length()>0 && !Verification.verifyIngameName(ingameName)){
+        if(!Verification.verifyIngameName(ingameName)){
             tf_ingameName.showErrorMessage("Invalid name!");
             error = true;
         }
@@ -84,7 +91,7 @@ public class RegisterPanel extends javax.swing.JPanel {
         }
         
         if(!error){            
-            Protocol.register(name,password1,email,ingameName,(cmb_country.getSelectedIndex() == 0) ? "" : cmb_country.getSelectedItem().toString(),website);
+            Protocol.register(name,password1,email,ingameName,(cmb_country.getSelectedIndex() == 0) ? "" : country,website);
             coopnetclient.utils.Settings.setLastLoginName(name);
         }
     }
@@ -131,15 +138,15 @@ public class RegisterPanel extends javax.swing.JPanel {
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        pnl_input4.setBorder(javax.swing.BorderFactory.createTitledBorder("Registration"));
+        pnl_input4.setBorder(javax.swing.BorderFactory.createTitledBorder("Register"));
         pnl_input4.setFocusable(false);
         pnl_input4.setMaximumSize(new java.awt.Dimension(300, 300));
         pnl_input4.setName(""); // NOI18N
 
-        lbl_name4.setText("Login name*");
+        lbl_name4.setText("*Login name:");
         lbl_name4.setFocusable(false);
 
-        lbl_email4.setText("Email*");
+        lbl_email4.setText("*E-Mail:");
         lbl_email4.setFocusable(false);
 
         btn_send.setText("Register");
@@ -150,7 +157,7 @@ public class RegisterPanel extends javax.swing.JPanel {
         });
 
         lbl_Info.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbl_Info.setText("<html>Please fill in your account information!<br>Fields marked by * are required");
+        lbl_Info.setText("<html>Please fill in your account information.<br>Fields marked by \"*\" are required information.");
         lbl_Info.setFocusable(false);
 
         tf_name.addActionListener(new java.awt.event.ActionListener() {
@@ -165,7 +172,7 @@ public class RegisterPanel extends javax.swing.JPanel {
             }
         });
 
-        lbl_ingameName4.setText("In-game name");
+        lbl_ingameName4.setText("*Ingame name:");
 
         tf_ingameName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,9 +180,9 @@ public class RegisterPanel extends javax.swing.JPanel {
             }
         });
 
-        lbl_password9.setText("Password*");
+        lbl_password9.setText("*Password:");
 
-        lbl_password10.setText("Password again*");
+        lbl_password10.setText("*Confirm password:");
 
         pf_password1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,47 +226,48 @@ public class RegisterPanel extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_input4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btn_send)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
                         .addComponent(btn_cancel))
                     .addGroup(pnl_input4Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                            .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                            .addComponent(lbl_error, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)))
+                    .addGroup(pnl_input4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnl_input4Layout.createSequentialGroup()
-                                .addComponent(lbl_name4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnl_input4Layout.createSequentialGroup()
-                                .addComponent(lbl_password9, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(pf_password1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnl_input4Layout.createSequentialGroup()
-                                .addComponent(lbl_password10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(pf_password2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnl_input4Layout.createSequentialGroup()
-                                .addComponent(lbl_ingameName4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(tf_ingameName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnl_input4Layout.createSequentialGroup()
-                                .addComponent(lbl_email4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnl_input4Layout.createSequentialGroup()
-                                .addComponent(lbl_country4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cmb_country, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnl_input4Layout.createSequentialGroup()
-                                .addComponent(lbl_website4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(tf_website, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lbl_error, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lbl_ingameName4))
+                            .addComponent(lbl_name4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tf_ingameName, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                            .addComponent(tf_name, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)))
+                    .addGroup(pnl_input4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_email4)
+                            .addComponent(lbl_country4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_website4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tf_email, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                            .addComponent(cmb_country, javax.swing.GroupLayout.Alignment.TRAILING, 0, 148, Short.MAX_VALUE)
+                            .addComponent(tf_website, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)))
+                    .addGroup(pnl_input4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_password10)
+                            .addComponent(lbl_password9, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pf_password2, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                            .addComponent(pf_password1, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
-        pnl_input4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lbl_country4, lbl_email4, lbl_ingameName4, lbl_name4, lbl_password10, lbl_password9, lbl_website4});
-
-        pnl_input4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmb_country, pf_password1, pf_password2, tf_email, tf_ingameName, tf_name, tf_website});
+        pnl_input4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lbl_country4, lbl_name4, lbl_password10, lbl_password9, lbl_website4});
 
         pnl_input4Layout.setVerticalGroup(
             pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,57 +275,35 @@ public class RegisterPanel extends javax.swing.JPanel {
                 .addComponent(lbl_Info)
                 .addGap(1, 1, 1)
                 .addComponent(lbl_error)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_name4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(lbl_name4))
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(lbl_password9))
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(pf_password1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(lbl_password10))
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(pf_password2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(lbl_ingameName4))
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(tf_ingameName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(lbl_email4))
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(lbl_country4))
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(cmb_country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(lbl_website4))
-                    .addGroup(pnl_input4Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(tf_website, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_ingameName4)
+                    .addComponent(tf_ingameName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pf_password1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_password9))
+                .addGap(10, 10, 10)
+                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pf_password2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_password10))
+                .addGap(12, 12, 12)
+                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_email4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmb_country, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_country4))
+                .addGap(10, 10, 10)
+                .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tf_website, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_website4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_cancel)
                     .addComponent(btn_send))

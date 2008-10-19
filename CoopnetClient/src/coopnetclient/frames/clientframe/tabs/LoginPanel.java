@@ -149,7 +149,7 @@ public class LoginPanel extends javax.swing.JPanel {
             }
         });
 
-        btn_register.setText("Registration...");
+        btn_register.setText("Register");
         btn_register.setNextFocusableComponent(tf_name);
         btn_register.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,7 +157,7 @@ public class LoginPanel extends javax.swing.JPanel {
             }
         });
 
-        cb_autoLogin.setText("Log me in automatically");
+        cb_autoLogin.setText("Automatically login");
         cb_autoLogin.setNextFocusableComponent(btn_login);
 
         lbl_loginError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -170,7 +170,7 @@ public class LoginPanel extends javax.swing.JPanel {
             }
         });
 
-        btn_passwordRecovery.setText("Password recovery...");
+        btn_passwordRecovery.setText("Recover password");
         btn_passwordRecovery.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_passwordRecoveryActionPerformed(evt);
@@ -195,7 +195,9 @@ public class LoginPanel extends javax.swing.JPanel {
                             .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(pf_password, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(tf_name, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
-                                .addComponent(cb_autoLogin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_inputLayout.createSequentialGroup()
+                                    .addGap(12, 12, 12)
+                                    .addComponent(cb_autoLogin)))
                             .addGroup(pnl_inputLayout.createSequentialGroup()
                                 .addComponent(btn_passwordRecovery)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -203,7 +205,7 @@ public class LoginPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        pnl_inputLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cb_autoLogin, pf_password, tf_name});
+        pnl_inputLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {pf_password, tf_name});
 
         pnl_inputLayout.setVerticalGroup(
             pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,9 +219,9 @@ public class LoginPanel extends javax.swing.JPanel {
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_password)
                     .addComponent(pf_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cb_autoLogin)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_login)
                     .addComponent(btn_register)
@@ -240,7 +242,7 @@ public class LoginPanel extends javax.swing.JPanel {
 
     private void btn_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registerActionPerformed
         TabOrganizer.closeLoginPanel();
-        TabOrganizer.openRegisterPanel();
+        TabOrganizer.openRegisterPanel(tf_name.getText());
 }//GEN-LAST:event_btn_registerActionPerformed
 
     private void tf_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_nameActionPerformed

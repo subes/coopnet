@@ -41,7 +41,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Registration"/>
+                    <TitledBorder title="Register"/>
                   </Border>
                 </Property>
                 <Property name="focusable" type="boolean" value="false"/>
@@ -64,49 +64,55 @@
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btn_send" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="93" max="32767" attributes="0"/>
+                                  <EmptySpace pref="166" max="32767" attributes="0"/>
                                   <Component id="btn_cancel" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lbl_Info" alignment="0" pref="235" max="32767" attributes="0"/>
-                                      <Group type="102" attributes="0">
-                                          <Component id="lbl_name4" linkSize="1" min="-2" pref="81" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="1"/>
-                                          <Component id="tf_name" linkSize="2" min="-2" pref="150" max="-2" attributes="0"/>
+                                      <Component id="lbl_Info" alignment="0" pref="277" max="32767" attributes="0"/>
+                                      <Component id="lbl_error" alignment="0" pref="277" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace pref="2" max="-2" attributes="0"/>
+                                          <Component id="lbl_ingameName4" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="lbl_password9" linkSize="1" min="-2" pref="81" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="1"/>
-                                          <Component id="pf_password1" linkSize="2" min="-2" pref="150" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="lbl_password10" linkSize="1" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="1"/>
-                                          <Component id="pf_password2" linkSize="2" min="-2" pref="150" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="lbl_ingameName4" linkSize="1" min="-2" pref="81" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="1"/>
-                                          <Component id="tf_ingameName" linkSize="2" min="-2" pref="150" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="lbl_email4" linkSize="1" min="-2" pref="81" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="1"/>
-                                          <Component id="tf_email" linkSize="2" min="-2" pref="150" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="lbl_country4" linkSize="1" min="-2" pref="81" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="1"/>
-                                          <Component id="cmb_country" linkSize="2" min="-2" pref="150" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="lbl_website4" linkSize="1" min="-2" pref="81" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="1"/>
-                                          <Component id="tf_website" linkSize="2" min="-2" pref="150" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="lbl_error" alignment="0" pref="235" max="32767" attributes="0"/>
+                                      <Component id="lbl_name4" linkSize="1" alignment="0" min="-2" pref="81" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="tf_ingameName" alignment="0" pref="148" max="32767" attributes="1"/>
+                                      <Component id="tf_name" alignment="1" pref="148" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lbl_email4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbl_country4" linkSize="1" alignment="0" min="-2" pref="81" max="-2" attributes="0"/>
+                                      <Component id="lbl_website4" linkSize="1" alignment="0" min="-2" pref="81" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="tf_email" alignment="0" pref="148" max="32767" attributes="1"/>
+                                      <Component id="cmb_country" alignment="1" pref="148" max="32767" attributes="1"/>
+                                      <Component id="tf_website" alignment="0" pref="148" max="32767" attributes="1"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lbl_password10" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbl_password9" linkSize="1" alignment="0" min="-2" pref="81" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="pf_password2" alignment="0" pref="148" max="32767" attributes="1"/>
+                                      <Component id="pf_password1" alignment="0" pref="148" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -120,78 +126,42 @@
                           <Component id="lbl_Info" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                           <Component id="lbl_error" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="tf_name" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbl_name4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                                  <Component id="lbl_name4" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                  <Component id="tf_name" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lbl_ingameName4" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="tf_ingameName" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                                  <Component id="lbl_password9" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                  <Component id="pf_password1" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="pf_password1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbl_password9" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                                  <Component id="lbl_password10" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                  <Component id="pf_password2" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="pf_password2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbl_password10" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                                  <Component id="lbl_ingameName4" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                  <Component id="tf_ingameName" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="tf_email" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbl_email4" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                                  <Component id="lbl_email4" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                  <Component id="tf_email" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="cmb_country" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbl_country4" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                                  <Component id="lbl_country4" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                  <Component id="cmb_country" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="tf_website" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbl_website4" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                                  <Component id="lbl_website4" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                  <Component id="tf_website" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="18" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btn_cancel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btn_send" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -204,13 +174,13 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="lbl_name4">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Login name*"/>
+                    <Property name="text" type="java.lang.String" value="*Login name:"/>
                     <Property name="focusable" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbl_email4">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Email*"/>
+                    <Property name="text" type="java.lang.String" value="*E-Mail:"/>
                     <Property name="focusable" type="boolean" value="false"/>
                   </Properties>
                 </Component>
@@ -225,7 +195,7 @@
                 <Component class="javax.swing.JLabel" name="lbl_Info">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="2"/>
-                    <Property name="text" type="java.lang.String" value="&lt;html&gt;Please fill in your account information!&lt;br&gt;Fields marked by * are required"/>
+                    <Property name="text" type="java.lang.String" value="&lt;html&gt;Please fill in your account information.&lt;br&gt;Fields marked by &quot;*&quot; are required information."/>
                     <Property name="focusable" type="boolean" value="false"/>
                   </Properties>
                 </Component>
@@ -241,7 +211,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbl_ingameName4">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="In-game name"/>
+                    <Property name="text" type="java.lang.String" value="*Ingame name:"/>
                   </Properties>
                 </Component>
                 <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_ingameName">
@@ -251,12 +221,12 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbl_password9">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Password*"/>
+                    <Property name="text" type="java.lang.String" value="*Password:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbl_password10">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Password again*"/>
+                    <Property name="text" type="java.lang.String" value="*Confirm password:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JPasswordField" name="pf_password1">

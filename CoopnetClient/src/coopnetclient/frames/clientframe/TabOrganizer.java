@@ -346,7 +346,7 @@ public class TabOrganizer {
         loginPanel = null;
     }
     
-    public static void openRegisterPanel() {
+    public static void openRegisterPanel(final String loginname) {
         if (registerPanel == null) {
             //Thread is needed here to get rid of an exception at startup
             SwingUtilities.invokeLater(new Thread() {
@@ -354,7 +354,7 @@ public class TabOrganizer {
                 @Override
                 public void run() {
                     try {
-                        registerPanel = new RegisterPanel();
+                        registerPanel = new RegisterPanel(loginname);
                         tabHolder.addTab("Register", registerPanel);
                         tabHolder.setSelectedComponent(registerPanel);
                     } catch (Exception e) {

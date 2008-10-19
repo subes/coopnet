@@ -81,13 +81,13 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
         setFocusable(false);
         setLayout(new java.awt.GridBagLayout());
 
-        pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Password Recovery"));
+        pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Password recovery"));
         pnl_input.setFocusable(false);
 
         lbl_name.setText("Name:");
         lbl_name.setFocusable(false);
 
-        lbl_email.setText("Email:");
+        lbl_email.setText("E-Mail:");
         lbl_email.setFocusable(false);
 
         btn_send.setText("Send");
@@ -99,7 +99,7 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
         });
 
         lbl_Info.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbl_Info.setText("<html>Please fill in your account information!<br>Your new password will be sent via email!");
+        lbl_Info.setText("<html>Please fill in your account information.<br>Your new password will be sent via E-Mail, if the specified E-Mail address is the same as the one stored in your profile.");
         lbl_Info.setFocusable(false);
 
         tf_name.addActionListener(new java.awt.event.ActionListener() {
@@ -128,41 +128,36 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
             .addGroup(pnl_inputLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
-                    .addGroup(pnl_inputLayout.createSequentialGroup()
-                        .addComponent(lbl_name)
-                        .addGap(10, 10, 10)
-                        .addComponent(tf_name, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE))
-                    .addGroup(pnl_inputLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(lbl_email)
-                        .addGap(10, 10, 10)
-                        .addComponent(tf_email, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE))
+                    .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
                     .addGroup(pnl_inputLayout.createSequentialGroup()
                         .addComponent(btn_send)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
-                        .addComponent(btn_cancel)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
+                        .addComponent(btn_cancel))
+                    .addGroup(pnl_inputLayout.createSequentialGroup()
+                        .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_name)
+                            .addComponent(lbl_email))
+                        .addGap(10, 10, 10)
+                        .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tf_email, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                            .addComponent(tf_name, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         pnl_inputLayout.setVerticalGroup(
             pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_inputLayout.createSequentialGroup()
                 .addComponent(lbl_Info)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl_inputLayout.createSequentialGroup()
-                        .addGap(9, 9, 9)
+                        .addGap(3, 3, 3)
                         .addComponent(lbl_name))
-                    .addGroup(pnl_inputLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_inputLayout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(lbl_email))
-                    .addGroup(pnl_inputLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_email)
+                    .addComponent(tf_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_send)
                     .addComponent(btn_cancel))
