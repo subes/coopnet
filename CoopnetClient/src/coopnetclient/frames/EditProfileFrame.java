@@ -139,7 +139,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
 
         lbl_loginName.setText("Login name:");
 
-        lbl_inGameName.setText("InGame name:");
+        lbl_inGameName.setText("Ingame name:");
 
         lbl_emailAddress.setText("E-Mail address:");
         lbl_emailAddress.setToolTipText("Only used to send password reminders and such, no spam or advertisement");
@@ -167,11 +167,11 @@ public class EditProfileFrame extends javax.swing.JFrame {
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_inputLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_website, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE))
-                    .addComponent(cmb_country, javax.swing.GroupLayout.Alignment.TRAILING, 0, 493, Short.MAX_VALUE)
-                    .addComponent(tf_loginName, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
-                    .addComponent(tf_inGameName, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
-                    .addComponent(tf_emailAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE))
+                        .addComponent(tf_website, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE))
+                    .addComponent(cmb_country, javax.swing.GroupLayout.Alignment.TRAILING, 0, 239, Short.MAX_VALUE)
+                    .addComponent(tf_loginName, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                    .addComponent(tf_inGameName, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                    .addComponent(tf_emailAddress, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnl_inputLayout.setVerticalGroup(
@@ -216,7 +216,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
                 .addComponent(btn_save)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 329, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
                 .addComponent(btn_changePassword)
                 .addContainerGap())
             .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
