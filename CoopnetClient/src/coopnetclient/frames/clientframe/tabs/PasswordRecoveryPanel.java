@@ -54,10 +54,11 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
             return;
         }
         
+        TabOrganizer.closePasswordRecoveryPanel();
+        TabOrganizer.openLoginPanel();
         Protocol.passwordRecovery(name,email);
         JOptionPane.showMessageDialog(Globals.getClientFrame(), "<html><b>Request sent!</b>\n" +
                             "If the data is valid you will revieve an email with your new password shortly!", "Request sent", JOptionPane.INFORMATION_MESSAGE);
-                    
     }
 
     /** This method is called from within the constructor to
@@ -223,9 +224,7 @@ private void tf_emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_tf_emailActionPerformed
 
 private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sendActionPerformed
-     recovery();
-     TabOrganizer.closePasswordRecoveryPanel();
-     TabOrganizer.openLoginPanel();
+     recovery();     
 }//GEN-LAST:event_btn_sendActionPerformed
 
 private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed

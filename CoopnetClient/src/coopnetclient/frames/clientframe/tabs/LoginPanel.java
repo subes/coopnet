@@ -309,7 +309,8 @@ public class LoginPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_tf_nameActionPerformed
 
 private void btn_passwordRecoveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_passwordRecoveryActionPerformed
-// TODO add your handling code here:
+    TabOrganizer.closeLoginPanel();
+    TabOrganizer.openPasswordRecoveryPanel();
 }//GEN-LAST:event_btn_passwordRecoveryActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

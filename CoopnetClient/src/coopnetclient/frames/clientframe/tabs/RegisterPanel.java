@@ -104,6 +104,7 @@ public class RegisterPanel extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         pnl_top = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         pnl_input = new javax.swing.JPanel();
         lbl_name = new javax.swing.JLabel();
         lbl_email = new javax.swing.JLabel();
@@ -136,20 +137,25 @@ public class RegisterPanel extends javax.swing.JPanel {
         pnl_top.setLayout(pnl_topLayout);
         pnl_topLayout.setHorizontalGroup(
             pnl_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 469, Short.MAX_VALUE)
+            .addGap(0, 658, Short.MAX_VALUE)
         );
         pnl_topLayout.setVerticalGroup(
             pnl_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 49, Short.MAX_VALUE)
+            .addGap(0, 51, Short.MAX_VALUE)
         );
 
         add(pnl_top);
 
-        pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Register"));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Registration"));
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(340, 340));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(0, 0));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(300, 340));
+
         pnl_input.setFocusable(false);
-        pnl_input.setMaximumSize(new java.awt.Dimension(300, 320));
-        pnl_input.setMinimumSize(new java.awt.Dimension(300, 320));
-        pnl_input.setPreferredSize(new java.awt.Dimension(300, 320));
+        pnl_input.setMaximumSize(new java.awt.Dimension(300, 300));
+        pnl_input.setMinimumSize(new java.awt.Dimension(300, 300));
+        pnl_input.setPreferredSize(new java.awt.Dimension(300, 300));
         pnl_input.setLayout(new java.awt.GridBagLayout());
 
         lbl_name.setText("Login name*");
@@ -340,7 +346,9 @@ public class RegisterPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnl_input.add(btn_cancel, gridBagConstraints);
 
-        add(pnl_input);
+        jScrollPane1.setViewportView(pnl_input);
+
+        add(jScrollPane1);
 
         pnl_bottom.setFocusable(false);
         pnl_bottom.setPreferredSize(new java.awt.Dimension(10, 10));
@@ -355,13 +363,13 @@ public class RegisterPanel extends javax.swing.JPanel {
         pnl_bottom.setLayout(pnl_bottomLayout);
         pnl_bottomLayout.setHorizontalGroup(
             pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbl_info, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+            .addComponent(lbl_info, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
         );
         pnl_bottomLayout.setVerticalGroup(
             pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_bottomLayout.createSequentialGroup()
                 .addComponent(lbl_info)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         add(pnl_bottom);
@@ -404,6 +412,7 @@ private void tf_websiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_send;
     private javax.swing.JComboBox cmb_country;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_Info;
     private javax.swing.JLabel lbl_country;
     private javax.swing.JLabel lbl_email;
