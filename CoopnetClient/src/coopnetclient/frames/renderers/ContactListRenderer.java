@@ -65,11 +65,11 @@ public class ContactListRenderer extends JLabel implements ListCellRenderer {
             }
         } else {
             if (isSelected) {
-                setForeground(UIManager.getColor("List.selectionForeground"));
-                setBackground(UIManager.getColor("List.selectionBackground"));
+                setBackground(list.getSelectionBackground());
+                setForeground(list.getSelectionForeground());
             } else {
-                setForeground(null);
-                setBackground(null);
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
             }
         }
         setHorizontalAlignment(LEFT);

@@ -18,7 +18,6 @@
  */
 package coopnetclient.frames.clientframe;
 
-import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
@@ -106,7 +105,6 @@ public class QuickPanel extends javax.swing.JPanel {
         setFocusable(false);
         setPreferredSize(new java.awt.Dimension(200, 200));
 
-        tp_quickPanel.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         tp_quickPanel.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         tp_quickPanel.setDoubleBuffered(true);
         tp_quickPanel.setFocusable(false);
@@ -210,7 +208,9 @@ private void lst_contactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-F
                 return;
             }
             String selected = lst_contactList.getSelectedValue()+"";
-            if (model.getStatus(selected) != ContactListElementTypes.OFFLINE) {
+            if (model.getStatus(selected) != ContactListElementTypes.OFFLINE 
+                    && model.getStatus(selected) != ContactListElementTypes.GROUPNAME_OPEN 
+                    && model.getStatus(selected) != ContactListElementTypes.GROUPNAME_CLOSED) {
                 TabOrganizer.openPrivateChatPanel(selected, true);
             }
         }

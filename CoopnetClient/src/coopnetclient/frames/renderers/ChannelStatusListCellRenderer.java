@@ -50,7 +50,7 @@ public class ChannelStatusListCellRenderer extends JLabel implements ListCellRen
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
-        setToolTipText(value.toString());
+        setToolTipText(value.toString());        
         //set foreground
         setText(value.toString());
         if (Settings.getColorizeBody()) {
@@ -60,13 +60,13 @@ public class ChannelStatusListCellRenderer extends JLabel implements ListCellRen
             } else {
                 setBackground(Settings.getBackgroundColor());
             }
-        } else {
+        } else {            
             if (isSelected && !(value.toString().equals(Globals.getThisPlayer_loginName()))) {
-                setForeground(UIManager.getColor("List.selectionForeground"));
-                setBackground(UIManager.getColor("List.selectionBackground"));
+                setBackground(list.getSelectionBackground());
+                setForeground(list.getSelectionForeground());
             } else {
-                setForeground(null);
-                setBackground(null);
+                setBackground(list.getBackground());
+                setForeground(list.getForeground());
             }
         }
 
