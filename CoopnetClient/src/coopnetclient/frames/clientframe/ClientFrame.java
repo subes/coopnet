@@ -800,8 +800,8 @@ private void pnl_toggleQuickBarLeftMouseEntered(java.awt.event.MouseEvent evt) {
         if (Settings.getColorizeBody()) {
             pnl_toggleQuickBarLeft.setBackground(Settings.getSelectionColor());
         } else {
-            //pnl_toggleQuickBarLeft.setBackground((Color) UIManager.get("List.selectionBackground")); 
-            pnl_toggleQuickBarLeft.setBackground((Color) UIManager.get("List[Selected].textBackground")); 
+            pnl_toggleQuickBarLeft.setBackground((Color) UIManager.get("List.selectionBackground")); 
+            //pnl_toggleQuickBarLeft.setBackground((Color) UIManager.get("List[Selected].textBackground"));  Nimbus uses this key isntead WTF?!
             
         }
     }
