@@ -26,15 +26,14 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 
 /**
  * Renders the elements in the user list of a room
  */
-public class ChannelStatusListCellRenderer extends JLabel implements ListCellRenderer {
+public class ChannelStatusListCellRenderer extends DefaultListCellRenderer {
 
     public static ImageIcon chatIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/inchat.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     public static ImageIcon lobbyIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/inlobby.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
@@ -48,10 +47,11 @@ public class ChannelStatusListCellRenderer extends JLabel implements ListCellRen
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        super.getListCellRendererComponent(list, value, index, (value.toString().equals(Globals.getThisPlayer_loginName()))?false:isSelected, cellHasFocus);
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
         setToolTipText(value.toString());        
         //set foreground
-        setText(value.toString());
+        //setText(value.toString());
         if (Settings.getColorizeBody()) {
             setForeground(Settings.getForegroundColor());
             if (isSelected) {
@@ -59,16 +59,7 @@ public class ChannelStatusListCellRenderer extends JLabel implements ListCellRen
             } else {
                 setBackground(Settings.getBackgroundColor());
             }
-        } else {            
-            if (isSelected && !(value.toString().equals(Globals.getThisPlayer_loginName()))) {
-                setBackground(list.getSelectionBackground());
-                setForeground(list.getSelectionForeground());
-            } else {
-                setBackground(list.getBackground());
-                setForeground(list.getForeground());
-            }
         }
-
         if (model.isPlaying(value)) {
             setIcon(gameIcon);
         } else if (model.isInRoom(value)) {

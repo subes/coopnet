@@ -26,6 +26,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -35,7 +36,7 @@ import javax.swing.UIManager;
 /**
  * Renders the elements in the contact list
  */
-public class ContactListRenderer extends JLabel implements ListCellRenderer {
+public class ContactListRenderer extends DefaultListCellRenderer {
 
     public static ImageIcon chatIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/inchat.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     public static ImageIcon lobbyIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/inlobby.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
@@ -52,24 +53,17 @@ public class ContactListRenderer extends JLabel implements ListCellRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
         setToolTipText(value.toString());
         //set foreground
-        setText(value.toString());
+        //setText(value.toString());
         if (Settings.getColorizeBody()) {
             setForeground(Settings.getForegroundColor());
             if (isSelected) {
                 setBackground(Settings.getSelectionColor());
             } else {
                 setBackground(Settings.getBackgroundColor());
-            }
-        } else {
-            if (isSelected) {
-                setBackground(list.getSelectionBackground());
-                setForeground(list.getSelectionForeground());
-            } else {
-                setBackground(list.getBackground());
-                setForeground(list.getForeground());
             }
         }
         setHorizontalAlignment(LEFT);
