@@ -630,6 +630,9 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                 .addComponent(lbl_note)
                 .addContainerGap(22, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_accept, btn_browseSavePath, btn_refuse});
+
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_acceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_acceptActionPerformed

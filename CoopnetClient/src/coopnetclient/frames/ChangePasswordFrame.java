@@ -152,6 +152,8 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_cancel, btn_save});
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 

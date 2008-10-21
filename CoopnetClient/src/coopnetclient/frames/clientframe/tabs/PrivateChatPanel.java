@@ -176,6 +176,9 @@ public class PrivateChatPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sp_chatVertical, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_close, btn_mute});
+
     }// </editor-fold>//GEN-END:initComponents
 
     private void close(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close

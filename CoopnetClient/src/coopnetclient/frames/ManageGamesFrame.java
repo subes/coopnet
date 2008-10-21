@@ -204,6 +204,10 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_close, btn_save});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_browseInstallPath, btn_browsePath});
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void lst_gamesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_gamesMousePressed

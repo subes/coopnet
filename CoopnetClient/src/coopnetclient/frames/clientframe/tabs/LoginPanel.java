@@ -229,6 +229,8 @@ public class LoginPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        pnl_inputLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_login, btn_passwordRecovery, btn_register});
+
         add(pnl_input, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed

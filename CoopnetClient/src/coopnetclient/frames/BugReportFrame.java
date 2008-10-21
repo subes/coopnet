@@ -254,6 +254,8 @@ public class BugReportFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_cancel, btn_review, btn_send});
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 

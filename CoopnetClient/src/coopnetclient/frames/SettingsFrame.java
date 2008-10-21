@@ -935,6 +935,8 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_apply, btn_cancel, btn_save});
+
         tabpn_settings.getAccessibleContext().setAccessibleName("General");
 
         pack();

@@ -35,7 +35,7 @@
               <Component id="btn_showProfile" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="184" max="32767" attributes="0"/>
           </Group>
-          <Component id="scrl_table" alignment="0" pref="444" max="32767" attributes="0"/>
+          <Component id="scrl_table" alignment="0" pref="502" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -44,10 +44,10 @@
               <Component id="scrl_table" pref="255" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btn_close" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_unMute" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_unBan" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_showProfile" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_close" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_unMute" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_unBan" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_showProfile" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>

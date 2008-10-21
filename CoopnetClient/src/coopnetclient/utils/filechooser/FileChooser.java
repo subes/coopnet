@@ -190,8 +190,8 @@ public class FileChooser extends javax.swing.JFrame {
             //set selection to the dir we left
             int i = displaymodel.indexOf(prevdir);
             if (i > -1) {
-                tbl_display.getSelectionModel().setSelectionInterval(0, i);
-                Rectangle rect = tbl_display.getCellRect(i, 0, true);
+                tbl_display.getSelectionModel().setSelectionInterval(0,tbl_display.convertRowIndexToView(i));
+                Rectangle rect = tbl_display.getCellRect(tbl_display.convertRowIndexToView(i), 0, true);
                 tbl_display.scrollRectToVisible(rect);
             } else {//set slection to top
                 tbl_display.getSelectionModel().setSelectionInterval(1, 1);
@@ -242,6 +242,7 @@ public class FileChooser extends javax.swing.JFrame {
         });
 
         scrl_display.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrl_display.setFocusable(false);
 
         tbl_display.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -315,8 +316,10 @@ public class FileChooser extends javax.swing.JFrame {
 
         tf_currentDir.setEditable(false);
         tf_currentDir.setText("C:\\someplace");
+        tf_currentDir.setFocusable(false);
 
         cb_showHidden.setText("show hidden");
+        cb_showHidden.setFocusable(false);
         cb_showHidden.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_showHiddenActionPerformed(evt);
@@ -331,17 +334,17 @@ public class FileChooser extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cmb_places, 0, 329, Short.MAX_VALUE)
+                        .addComponent(cmb_places, 0, 339, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_up))
-                    .addComponent(scrl_display, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(scrl_display, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(btn_select)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_cancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
                         .addComponent(cb_showHidden))
-                    .addComponent(tf_currentDir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
+                    .addComponent(tf_currentDir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -452,6 +455,8 @@ private void tbl_displayKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
     }else
     if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE){
         btn_up.doClick();
+    }else{//jump to file with same startletter
+        
     }
 }//GEN-LAST:event_tbl_displayKeyPressed
 

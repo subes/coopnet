@@ -128,7 +128,7 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
             .addGroup(pnl_inputLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+                    .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                     .addGroup(pnl_inputLayout.createSequentialGroup()
                         .addComponent(btn_send)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
@@ -139,8 +139,8 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
                             .addComponent(lbl_email))
                         .addGap(10, 10, 10)
                         .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tf_email, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                            .addComponent(tf_name, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE))))
+                            .addComponent(tf_email, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                            .addComponent(tf_name, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         pnl_inputLayout.setVerticalGroup(
@@ -163,6 +163,8 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
                     .addComponent(btn_cancel))
                 .addContainerGap())
         );
+
+        pnl_inputLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_cancel, btn_send});
 
         add(pnl_input, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents

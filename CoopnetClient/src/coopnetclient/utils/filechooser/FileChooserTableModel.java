@@ -119,7 +119,7 @@ class FileChooserTableModel extends DefaultTableModel {
     }
 
     public String getSelectedFile() {
-        int i = parent.getSelectedRow();
+        int i = parent.convertRowIndexToModel(parent.getSelectedRow())  ;
         if (i == -1) {
             return null;
         }

@@ -50,9 +50,9 @@
               <Component id="tabpn_settings" pref="334" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btn_save" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_cancel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_apply" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_save" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_cancel" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_apply" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>

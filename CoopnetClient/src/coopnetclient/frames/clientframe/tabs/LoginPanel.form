@@ -90,9 +90,9 @@
                   <Component id="cb_autoLogin" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="16" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btn_login" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btn_register" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btn_passwordRecovery" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_login" linkSize="3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_register" linkSize="3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_passwordRecovery" linkSize="3" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>

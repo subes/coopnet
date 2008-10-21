@@ -124,8 +124,8 @@ public class MuteBanListFrame extends javax.swing.JFrame {
                 .addComponent(btn_unBan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_showProfile)
-                .addContainerGap(126, Short.MAX_VALUE))
-            .addComponent(scrl_table, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+                .addContainerGap(184, Short.MAX_VALUE))
+            .addComponent(scrl_table, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,6 +139,8 @@ public class MuteBanListFrame extends javax.swing.JFrame {
                     .addComponent(btn_showProfile))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_close, btn_showProfile, btn_unBan, btn_unMute});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

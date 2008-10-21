@@ -92,7 +92,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lbl_savePath" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_browseSavePath" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_browseSavePath" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tf_savePath" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -112,8 +112,8 @@
               <Component id="pgb_progress" min="-2" pref="16" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btn_refuse" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_accept" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_refuse" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_accept" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lbl_note" min="-2" max="-2" attributes="0"/>

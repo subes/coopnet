@@ -196,6 +196,8 @@ public class FavouritesFrame extends javax.swing.JFrame {
                 .addGap(12, 12, 12))
         );
 
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_add, btn_close, btn_remove});
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
