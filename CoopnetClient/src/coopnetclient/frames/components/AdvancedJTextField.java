@@ -28,6 +28,19 @@ public class AdvancedJTextField extends JTextField {
         return errorShowing? lastValue : super.getText();
     }
     
+    @Override
+    public void setText(String t) {
+        if (errorShowing) {
+            lastValue = t;
+            setForeground(foreGround);
+            errorShowing = false;
+            setText(lastValue);            
+            repaint();
+        } else {
+            super.setText(t);
+        }
+    }
+    
     public void showErrorMessage(String errorMessage) {
         if (!errorShowing) {
             lastValue = getText();
