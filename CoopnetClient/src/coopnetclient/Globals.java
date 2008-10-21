@@ -285,15 +285,15 @@ public class Globals {
         return clientFrame;
     }
 
-    public static void openShowProfileFrame(String name, String country, String webpage) {
+    public static void openShowProfileFrame(String name,String ingameName, String country, String webpage) {
         if (showProfileFrame != null) {
             Point prevLocation = showProfileFrame.getLocation();
             showProfileFrame.dispose();
             showProfileFrame = null;
-            showProfileFrame = new ShowProfileFrame(name, country, webpage);
+            showProfileFrame = new ShowProfileFrame(name,ingameName, country, webpage);
             setupFrame(showProfileFrame, prevLocation);
         } else {
-            showProfileFrame = new ShowProfileFrame(name, country, webpage);
+            showProfileFrame = new ShowProfileFrame(name,ingameName, country, webpage);
             setupFrame(showProfileFrame);
         }
     }

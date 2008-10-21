@@ -280,7 +280,8 @@ public class CommandHandler {
                 case SHOW_PROFILE:
                     Globals.openShowProfileFrame(information[0],
                             information[1],
-                            information[2]);
+                            information[2],
+                            information[3]);
                     break;
                 case JOINED_ROOM:
                     Globals.getClientFrame().addPlayerToRoom(GameDatabase.getGameName(information[0]), information[1], information[2]);

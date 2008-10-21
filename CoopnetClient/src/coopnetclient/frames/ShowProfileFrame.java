@@ -24,11 +24,12 @@ import coopnetclient.Globals;
 public class ShowProfileFrame extends javax.swing.JFrame {
     
     /** Creates new form ShowProfile */
-    public ShowProfileFrame(String name, String country, String webpage) {
+    public ShowProfileFrame(String name,String ingameName, String country, String webpage) {
         initComponents();
         tf_name.setText(name);        
         tf_country.setText(country) ;
         tf_website.setText(webpage);
+        tf_ingamename.setText(ingameName);                
     }
     
     /** This method is called from within the constructor to
@@ -46,6 +47,8 @@ public class ShowProfileFrame extends javax.swing.JFrame {
         tf_country = new javax.swing.JTextField();
         lbl_website = new javax.swing.JLabel();
         tf_website = new javax.swing.JTextField();
+        lbl_ingamename = new javax.swing.JLabel();
+        tf_ingamename = new javax.swing.JTextField();
         btn_close = new javax.swing.JButton();
 
         setTitle("Player profile");
@@ -70,6 +73,10 @@ public class ShowProfileFrame extends javax.swing.JFrame {
 
         tf_website.setEditable(false);
 
+        lbl_ingamename.setText("Ingame Name:");
+
+        tf_ingamename.setEditable(false);
+
         javax.swing.GroupLayout pnl_profileLayout = new javax.swing.GroupLayout(pnl_profile);
         pnl_profile.setLayout(pnl_profileLayout);
         pnl_profileLayout.setHorizontalGroup(
@@ -77,26 +84,33 @@ public class ShowProfileFrame extends javax.swing.JFrame {
             .addGroup(pnl_profileLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_profileLayout.createSequentialGroup()
-                        .addComponent(lbl_name)
-                        .addGap(27, 27, 27)
-                        .addComponent(tf_name, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
-                    .addGroup(pnl_profileLayout.createSequentialGroup()
-                        .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_country)
-                            .addComponent(lbl_website))
-                        .addGap(15, 15, 15)
-                        .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tf_website, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-                            .addComponent(tf_country, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))))
+                    .addComponent(lbl_name)
+                    .addComponent(lbl_ingamename)
+                    .addComponent(lbl_country)
+                    .addComponent(lbl_website))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tf_country, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                    .addComponent(tf_ingamename, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                    .addComponent(tf_name, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                    .addComponent(tf_website, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        pnl_profileLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lbl_country, lbl_ingamename, lbl_name, lbl_website});
+
+        pnl_profileLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {tf_country, tf_ingamename, tf_name, tf_website});
+
         pnl_profileLayout.setVerticalGroup(
             pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_profileLayout.createSequentialGroup()
                 .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_name)
                     .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_ingamename)
+                    .addComponent(tf_ingamename, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl_profileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_country)
@@ -123,7 +137,7 @@ public class ShowProfileFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_close)
-                .addContainerGap(295, Short.MAX_VALUE))
+                .addContainerGap(323, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,10 +163,12 @@ public class ShowProfileFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_close;
     private javax.swing.JLabel lbl_country;
+    private javax.swing.JLabel lbl_ingamename;
     private javax.swing.JLabel lbl_name;
     private javax.swing.JLabel lbl_website;
     private javax.swing.JPanel pnl_profile;
     private javax.swing.JTextField tf_country;
+    private javax.swing.JTextField tf_ingamename;
     private javax.swing.JTextField tf_name;
     private javax.swing.JTextField tf_website;
     // End of variables declaration//GEN-END:variables

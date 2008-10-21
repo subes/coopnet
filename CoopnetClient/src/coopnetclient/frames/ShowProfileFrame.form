@@ -30,7 +30,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_close" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="295" max="32767" attributes="0"/>
+              <EmptySpace pref="323" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -61,22 +61,17 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="lbl_name" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                          <Component id="tf_name" pref="276" max="32767" attributes="1"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lbl_country" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="lbl_website" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="tf_website" pref="276" max="32767" attributes="1"/>
-                              <Component id="tf_country" pref="276" max="32767" attributes="1"/>
-                          </Group>
-                      </Group>
+                      <Component id="lbl_name" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl_ingamename" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl_country" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lbl_website" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="tf_country" linkSize="2" alignment="1" pref="288" max="32767" attributes="1"/>
+                      <Component id="tf_ingamename" linkSize="2" alignment="0" pref="288" max="32767" attributes="1"/>
+                      <Component id="tf_name" linkSize="2" alignment="0" pref="288" max="32767" attributes="1"/>
+                      <Component id="tf_website" linkSize="2" alignment="1" pref="288" max="32767" attributes="1"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -88,6 +83,11 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lbl_name" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tf_name" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lbl_ingamename" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tf_ingamename" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -131,6 +131,16 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="tf_website">
+          <Properties>
+            <Property name="editable" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl_ingamename">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ingame Name:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="tf_ingamename">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
