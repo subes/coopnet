@@ -336,6 +336,12 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                     if(model.getStatus(playerName.getText()) != ContactListElementTypes.OFFLINE){
                         whisper.setVisible(true);
                     }
+                    
+                    if(model.groupOfContact(playerName.getText()) != null && model.getStatus(playerName.getText()) != ContactListElementTypes.OFFLINE){
+                        //If hes online and on our list, we can also send files to this pendingcontact
+                        sendFile.setVisible(true);
+                    }
+                    
                     showProfile.setVisible(true);
                     sep_group.setVisible(true);
                 }else{
