@@ -90,12 +90,16 @@ public class LoginPanel extends javax.swing.JPanel {
             new Thread(){
                 @Override
                 public void run() {
-                    btn_login.setEnabled(false);                    
+                    btn_login.setEnabled(false);
+                    btn_register.setEnabled(false);
+                    btn_passwordRecovery.setEnabled(false);
                     try {
                         sleep(1000);                    
                     } catch (InterruptedException ex) {}
                     if(btn_login != null){
-                        btn_login.setEnabled(true);                        
+                        btn_login.setEnabled(true);  
+                        btn_register.setEnabled(true);
+                        btn_passwordRecovery.setEnabled(true);
                     }
                 }
             }.start();

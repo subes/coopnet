@@ -99,6 +99,26 @@ public class RegisterPanel extends javax.swing.JPanel {
     public void showLoginNameUsedError(){
         tf_name.showErrorMessage("Name is already in use!");
     }
+    
+    private void disableButtons(){
+        if(btn_send.isEnabled()){
+            new Thread(){
+                @Override
+                public void run() {
+                    btn_send.setEnabled(false);
+                    btn_cancel.setEnabled(false);
+                    try {
+                        sleep(1000);                    
+                    } catch (InterruptedException ex) {}
+                    if(btn_send != null){ 
+                        btn_send.setEnabled(true);
+                        btn_cancel.setEnabled(true);
+                    }
+                }
+            }.start();
+        }
+    }
+
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -326,36 +346,37 @@ public class RegisterPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
-TabOrganizer.closeRegisterPanel();
+    TabOrganizer.closeRegisterPanel();
     TabOrganizer.openLoginPanel();
 }//GEN-LAST:event_btn_cancelActionPerformed
 
 private void tf_websiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_websiteActionPerformed
-btn_send.doClick();
+    btn_send.doClick();
 }//GEN-LAST:event_tf_websiteActionPerformed
 
 private void pf_password2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pf_password2ActionPerformed
-btn_send.doClick();
+    btn_send.doClick();
 }//GEN-LAST:event_pf_password2ActionPerformed
 
 private void pf_password11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pf_password11ActionPerformed
-btn_send.doClick();
+    btn_send.doClick();
 }//GEN-LAST:event_pf_password11ActionPerformed
 
 private void tf_ingameNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_ingameNameActionPerformed
-btn_send.doClick();
+    btn_send.doClick();
 }//GEN-LAST:event_tf_ingameNameActionPerformed
 
 private void tf_emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_emailActionPerformed
-btn_send.doClick();
+    btn_send.doClick();
 }//GEN-LAST:event_tf_emailActionPerformed
 
 private void tf_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_nameActionPerformed
-btn_send.doClick();
+    btn_send.doClick();
 }//GEN-LAST:event_tf_nameActionPerformed
 
 private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sendActionPerformed
-register();
+    disableButtons();
+    register();
 }//GEN-LAST:event_btn_sendActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

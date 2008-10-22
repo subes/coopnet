@@ -60,6 +60,25 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(Globals.getClientFrame(), "<html><b>Request sent!</b>\n" +
                             "If the data is valid you will receive an E-Mail with your new password shortly!", "Request sent", JOptionPane.INFORMATION_MESSAGE);
     }
+    
+    private void disableButtons(){
+        if(btn_send.isEnabled()){
+            new Thread(){
+                @Override
+                public void run() {
+                    btn_send.setEnabled(false);
+                    btn_cancel.setEnabled(false);
+                    try {
+                        sleep(1000);                    
+                    } catch (InterruptedException ex) {}
+                    if(btn_send != null){ 
+                        btn_send.setEnabled(true);
+                        btn_cancel.setEnabled(true);
+                    }
+                }
+            }.start();
+        }
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -178,7 +197,8 @@ private void tf_emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_tf_emailActionPerformed
 
 private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sendActionPerformed
-     recovery();     
+    disableButtons(); 
+    recovery();     
 }//GEN-LAST:event_btn_sendActionPerformed
 
 private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
