@@ -37,18 +37,11 @@ public class UsersInRoomTableCellRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int rowIndex, int vColIndex) {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, rowIndex, vColIndex);
-        // 'value' is value contained in the cell located at
-        // (rowIndex, vColIndex)
 
-        // Configure the component with the specified value
-        setText(value.toString());
-
-        // Set tool tip if desired
         setToolTipText("<html>" +
                 model.getUserList(rowIndex) +
                 "</html>");
 
-        // Since the renderer is a component, return itself
         return this;
     }
     // The following methods override the defaults for performance reasons

@@ -114,8 +114,8 @@ public class ClientFrame extends javax.swing.JFrame {
                             pnl_toggleQuickBarLeft.setBackground(Settings.getSelectionColor());
                             pnl_toggleQuickBarRight.setBackground(Settings.getSelectionColor());
                         } else {
-                            pnl_toggleQuickBarLeft.setBackground((Color) UIManager.get("List.selectionBackground"));
-                            pnl_toggleQuickBarRight.setBackground((Color) UIManager.get("List.selectionBackground"));
+                            pnl_toggleQuickBarLeft.setBackground(getHoverEffectColor());
+                            pnl_toggleQuickBarRight.setBackground(getHoverEffectColor());
                         }
                         try {
                             sleep(1000);
@@ -800,9 +800,7 @@ private void pnl_toggleQuickBarLeftMouseEntered(java.awt.event.MouseEvent evt) {
         if (Settings.getColorizeBody()) {
             pnl_toggleQuickBarLeft.setBackground(Settings.getSelectionColor());
         } else {
-            pnl_toggleQuickBarLeft.setBackground((Color) UIManager.get("List.selectionBackground")); 
-            //pnl_toggleQuickBarLeft.setBackground((Color) UIManager.get("List[Selected].textBackground"));  Nimbus uses this key isntead WTF?!
-            
+            pnl_toggleQuickBarLeft.setBackground(getHoverEffectColor());  
         }
     }
 }//GEN-LAST:event_pnl_toggleQuickBarLeftMouseEntered
@@ -830,7 +828,7 @@ private void pnl_toggleQuickBarRightMouseEntered(java.awt.event.MouseEvent evt) 
         if (Settings.getColorizeBody()) {
             pnl_toggleQuickBarRight.setBackground(Settings.getSelectionColor());
         } else {
-            pnl_toggleQuickBarRight.setBackground((Color) UIManager.get("List.selectionBackground"));
+            pnl_toggleQuickBarRight.setBackground(getHoverEffectColor());
         }
     }
 }//GEN-LAST:event_pnl_toggleQuickBarRightMouseEntered
@@ -871,6 +869,15 @@ private void mi_connectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         Client.disconnect();        
     }
 }//GEN-LAST:event_mi_connectionActionPerformed
+
+private Color getHoverEffectColor(){
+    Color clr = null;
+    clr = (Color) UIManager.get("List.selectionBackground"); 
+    if(clr == null){
+        clr = (Color) UIManager.get("List[Selected].textBackground");
+    }
+    return clr;
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu m_channels;
