@@ -24,6 +24,7 @@ import coopnetclient.enums.OperatingSystems;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.DateFormat;
 import java.util.Date;
@@ -455,13 +456,27 @@ private void tbl_displayKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
     }else
     if (evt.getKeyCode() == KeyEvent.VK_BACK_SPACE){
         btn_up.doClick();
-    }else{//jump to file with same startletter
-        
+    } else {//jump to file with same startletter
+        if (!(displaymodel.getValueAt(tbl_display.getSelectedRow(), 0).toString().charAt(0)+"").equalsIgnoreCase(evt.getKeyChar() + "")) {
+            int idx = displaymodel.indexOfStartLetter(evt.getKeyChar(),0);
+            if (idx > -1) {
+                tbl_display.getSelectionModel().setSelectionInterval(0, idx);
+                Rectangle rect = tbl_display.getCellRect(idx, 0, true);
+                tbl_display.scrollRectToVisible(rect);
+            }
+        }else{
+            int idx = displaymodel.indexOfStartLetter(evt.getKeyChar(),tbl_display.getSelectedRow()+1);
+            if (idx > -1) {
+                tbl_display.getSelectionModel().setSelectionInterval(0, idx);
+                Rectangle rect = tbl_display.getCellRect(idx, 0, true);
+                tbl_display.scrollRectToVisible(rect);
+            }
+        }
     }
 }//GEN-LAST:event_tbl_displayKeyPressed
 
 private void tbl_displayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_displayMouseClicked
-    if (evt.getClickCount() == 2 && evt.getButton() == evt.BUTTON1) {
+    if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
         String filename = displaymodel.getSelectedFile();
         
         if(filename != null){

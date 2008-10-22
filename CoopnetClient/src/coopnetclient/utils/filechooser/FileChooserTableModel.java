@@ -46,6 +46,15 @@ class FileChooserTableModel extends DefaultTableModel {
         return isHidden.get(row);
     }
     
+    public int indexOfStartLetter(char c, int offset){
+        for(int i= offset; i< name.size();++i){
+            if((name.get(i).charAt(0)+"").equalsIgnoreCase((c+""))){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
     @Override
     public int getColumnCount() {
         return 4;
