@@ -38,7 +38,9 @@ public class ContactListModel extends AbstractListModel implements EditableListM
 
     public static final String DEFAULT_GROUP = "Default Group";
     public static boolean isNewGroup = false;
-
+    private HashMap<String, ContactListElementTypes> pendingList = new HashMap<String, ContactListElementTypes>();
+    private ArrayList<Group> groups = new ArrayList<Group>();
+    
     public static class Group {
 
         private String name;
@@ -80,9 +82,6 @@ public class ContactListModel extends AbstractListModel implements EditableListM
             }
         }
     }
-    
-    private HashMap<String, ContactListElementTypes> pendingList = new HashMap<String, ContactListElementTypes>();
-    private ArrayList<Group> groups = new ArrayList<Group>();
 
     public ContactListModel() {
         super();
@@ -230,6 +229,11 @@ public class ContactListModel extends AbstractListModel implements EditableListM
     }
 
     public void updateShowOfflineContacts() {
+        fireContentsChanged(this, 0, getSize());
+    }
+    
+    public void removePendingRequest(String who){
+        pendingList.remove(who);
         fireContentsChanged(this, 0, getSize());
     }
 

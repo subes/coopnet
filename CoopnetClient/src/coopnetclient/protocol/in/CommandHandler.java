@@ -405,6 +405,10 @@ public class CommandHandler {
                 case CONTACT_MOVE_ACKNOWLEDGE:
                     Globals.getContactList().moveContact(information[0],information[1]);     
                     break;
+                case REMOVE_CONTACT_REQUEST:
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " doesn't want to add you anymore", ChatStyles.SYSTEM, true);
+                    Globals.getContactList().removePendingRequest(information[0]);
+                    break;
                 default:
                     Logger.log(LogTypes.ERROR, "Server sent a command which wasn't handled!");
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Unknown command recieved! Please make sure you use the latest client!", ChatStyles.SYSTEM, true);
