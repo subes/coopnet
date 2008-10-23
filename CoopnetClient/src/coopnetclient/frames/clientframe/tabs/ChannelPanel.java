@@ -32,7 +32,9 @@ import coopnetclient.frames.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.ChannelStatusListModel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
+import coopnetclient.utils.ListFileDropHandler;
 import java.awt.event.MouseEvent;
+import javax.swing.DropMode;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -89,6 +91,9 @@ public class ChannelPanel extends javax.swing.JPanel {
 
         popup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
         lst_userList.setComponentPopupMenu(popup);
+        lst_userList.setDragEnabled(true);
+        lst_userList.setDropMode(DropMode.ON);
+        lst_userList.setTransferHandler(new ListFileDropHandler());
         
         disableButtons();
         enablebuttons();
