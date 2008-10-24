@@ -262,7 +262,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         lbl_dplayEnvNote.setText("<html><table><tr><td><b>Note:</b></td><td>Changes to the DirectPlay enviroment take effect after restarting Coopnet.");
 
         cb_TrayIconEnabled.setText("Tray icon");
-        cb_TrayIconEnabled.setToolTipText("<http>A tray Icon will be placed in the system tray, closing the main window will only hide it.<br>\nWhen enabled use the right click menu on the trayicon or Client/Quit menuitem in the main window to quit.");
+        cb_TrayIconEnabled.setToolTipText("<html>A tray Icon will be placed in the system tray, closing the main window will only hide it.<br>\nWhen enabled use the right click menu on the trayicon or Client/Quit menuitem in the main window to quit.");
 
         pnl_hotkeys.setBorder(javax.swing.BorderFactory.createTitledBorder("Hotkeys"));
 
@@ -325,7 +325,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                     .addGroup(pnl_generalLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cb_multiChannel, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cb_multiChannel, javax.swing.GroupLayout.DEFAULT_SIZE, 703, Short.MAX_VALUE)
                             .addGroup(pnl_generalLayout.createSequentialGroup()
                                 .addComponent(lbl_homeChannel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -377,7 +377,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         });
 
         cb_sleepMode.setText("Sleep mode");
-        cb_sleepMode.setToolTipText("<htttp>Sleep mode saves bandwith when playing games by disabling the channel functions.<br>\nRefreshing or sending a message will reenable channel functions.");
+        cb_sleepMode.setToolTipText("<html>Sleep mode saves bandwith when playing games by disabling the channel functions.<br> Refreshing or sending a message will reenable channel functions.");
 
         tf_receiveDir.setToolTipText("Your recieved files will be saved to this directory by default, unless you select an other directory in the recieve panel.");
         tf_receiveDir.addActionListener(new java.awt.event.ActionListener() {

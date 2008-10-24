@@ -119,7 +119,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="cb_multiChannel" alignment="0" min="-2" pref="169" max="-2" attributes="0"/>
+                                  <Component id="cb_multiChannel" alignment="0" pref="703" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lbl_homeChannel" min="-2" max="-2" attributes="1"/>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -205,7 +205,7 @@
             <Component class="javax.swing.JCheckBox" name="cb_TrayIconEnabled">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tray icon"/>
-                <Property name="toolTipText" type="java.lang.String" value="&lt;http&gt;A tray Icon will be placed in the system tray, closing the main window will only hide it.&lt;br&gt;&#xa;When enabled use the right click menu on the trayicon or Client/Quit menuitem in the main window to quit."/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;A tray Icon will be placed in the system tray, closing the main window will only hide it.&lt;br&gt;&#xa;When enabled use the right click menu on the trayicon or Client/Quit menuitem in the main window to quit."/>
               </Properties>
             </Component>
             <Container class="javax.swing.JPanel" name="pnl_hotkeys">
@@ -376,7 +376,7 @@
             <Component class="javax.swing.JCheckBox" name="cb_sleepMode">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sleep mode"/>
-                <Property name="toolTipText" type="java.lang.String" value="&lt;htttp&gt;Sleep mode saves bandwith when playing games by disabling the channel functions.&lt;br&gt;&#xa;Refreshing or sending a message will reenable channel functions."/>
+                <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Sleep mode saves bandwith when playing games by disabling the channel functions.&lt;br&gt; Refreshing or sending a message will reenable channel functions."/>
               </Properties>
             </Component>
             <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_receiveDir">
