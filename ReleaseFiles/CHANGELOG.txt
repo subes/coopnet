@@ -1,3 +1,11 @@
+2008/10/24: CoopnetClient 0.98.0
+  - drag & drop to send files
+  - password recovery
+  - more sounds
+  - smart popupmenu
+  - hotkey for launching
+  - system tray icon
+
 2008/08/30: CoopnetClient 0.97.0
   - Many Bugfixes and minor improvements
   - Communication changes between Server and Client
