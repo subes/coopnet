@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient;
 
 import coopnetclient.enums.ErrorPanelStyle;
@@ -62,7 +61,7 @@ public class HandlerThread extends Thread {
         running = false;
         try {
             socketChannel.socket().close();
-            if(sender != null){
+            if (sender != null) {
                 sender.join();
             }
         } catch (Exception e) {
@@ -85,22 +84,23 @@ public class HandlerThread extends Thread {
 
                 @Override
                 public void run() {
-                    try{
+                    try {
                         while (running) {
                             try {
                                 sleep(10);
-                            } catch (InterruptedException ex) {}
+                            } catch (InterruptedException ex) {
+                            }
                             doSend();
-                            if((System.currentTimeMillis() - lastMessageReadAt) > TIMEOUT ){
+                            if ((System.currentTimeMillis() - lastMessageReadAt) > TIMEOUT) {
                                 //connection is most probably lost
-                                if(Globals.getConnectionStatus()){
+                                if (Globals.getConnectionStatus()) {
                                     Client.disconnect();
                                     TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, null);
                                 }
                             }
                         }
                     } catch (Exception e) {
-                       ErrorHandler.handleException(e);
+                        ErrorHandler.handleException(e);
                     }
                 }
             };
@@ -109,11 +109,6 @@ public class HandlerThread extends Thread {
             //login
             if (coopnetclient.utils.Settings.getAutoLogin()) {
                 Protocol.autoLogin();
-                String s = coopnetclient.utils.Settings.getHomeChannel();
-                if (s.length() > 0) {
-                    Protocol.joinChannel(s);
-                }
-
                 String input = null;
                 try {
                     input = read();
@@ -121,12 +116,16 @@ public class HandlerThread extends Thread {
                     ErrorHandler.handleException(q);
                 }
                 if (input == null) {
-                    TabOrganizer.openLoginPanel();                    
-                } else if ( ServerProtocolCommands.valueOf(input)== ServerProtocolCommands.OK_LOGIN ) {
+                    TabOrganizer.openLoginPanel();
+                } else if (input.equals(ServerProtocolCommands.OK_LOGIN.ordinal()+"")) {
                     Globals.setThisPlayer_loginName(Settings.getLastLoginName());
                     Globals.setLoggedInStatus(true);
                     TabOrganizer.closeLoginPanel();
                     Protocol.setSleep(Settings.getSleepEnabled());
+                    String s = coopnetclient.utils.Settings.getHomeChannel();
+                    if (s.length() > 0) {
+                        Protocol.joinChannel(s);
+                    }
                 } else {
                     TabOrganizer.openLoginPanel();
                 }
@@ -137,7 +136,7 @@ public class HandlerThread extends Thread {
             String input = "";
             while (running) {
                 input = read();
-                if(input == null){
+                if (input == null) {
                     continue;
                 }
                 lastMessageReadAt = System.currentTimeMillis();
@@ -149,7 +148,7 @@ public class HandlerThread extends Thread {
             System.out.println("handlerthread stopped");
         } catch (Exception e) {
             //disconnect
-            if(Globals.getConnectionStatus()){
+            if (Globals.getConnectionStatus()) {
                 Client.disconnect();
                 //ErrorHandler decides if there is a need for the stacktrace, 
                 //this helps looking at the log of a bugreport
@@ -157,7 +156,7 @@ public class HandlerThread extends Thread {
                 ErrorHandler.handleException(e);
             }
         }
-        if(Globals.getDebug()){
+        if (Globals.getDebug()) {
             System.out.println("[L]\tHandlerThreads main loop ended");
         }
     }
@@ -207,8 +206,8 @@ public class HandlerThread extends Thread {
     private static ByteBuffer arrayCut(ByteBuffer buffer, int start, int end) {
         ByteBuffer temp = ByteBuffer.allocate(buffer.limit());
         //copy data 
-        System.arraycopy(buffer.array(), start  , temp.array(), 0, end-start);
-        temp.position(end-start);
+        System.arraycopy(buffer.array(), start, temp.array(), 0, end - start);
+        temp.position(end - start);
         temp.flip();
         return temp;
     }
@@ -224,6 +223,7 @@ public class HandlerThread extends Thread {
             buffer1.rewind();
             temp.put(buffer1.array(), offset1, buffer1.limit() - offset1);
         } //copy data 2
+
         if (size2 > 0) {
             buffer2.rewind();
             temp.put(buffer2.array(), offset2, buffer2.limit() - offset2);
@@ -269,6 +269,7 @@ public class HandlerThread extends Thread {
         if (attachment != null && (idx = findDelimiter(attachment, 0)) > -1) {
             ByteBuffer packet = arrayCut(attachment, 0, idx - 3);
             attachment = arrayCut(attachment, idx, attachment.limit()); //cut off packet from start
+
             return process(packet);
         }
 
@@ -288,6 +289,7 @@ public class HandlerThread extends Thread {
         if (attachment != null && (idx = findDelimiter(attachment, 0)) > -1) {
             ByteBuffer packet = arrayCut(attachment, 0, idx - 3);
             attachment = arrayCut(attachment, idx, attachment.limit()); //cut off packet from start
+
             return process(packet);
         }
         return null;
@@ -312,8 +314,8 @@ public class HandlerThread extends Thread {
             } catch (Exception e) {
                 System.out.println("Failed to send: " + rawdata);
                 ErrorHandler.handleException(e);
-            }        
-        return true;
+            }
+            return true;
         }
         return false;
     }
