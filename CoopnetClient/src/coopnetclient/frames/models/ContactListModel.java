@@ -239,15 +239,22 @@ public class ContactListModel extends AbstractListModel implements EditableListM
 
     //other methods
     public void addContact(String contactname, String groupName, ContactListElementTypes status) {
+        int idx = -1;
         switch (status) {
             case PENDING_REQUEST:
                 pendingList.put(contactname, ContactListElementTypes.PENDING_REQUEST);
                 break;
             case OFFLINE:
-                groups.get(indexOfGroup(groupName)).offlineContacts.add(contactname);
+                 idx = indexOfGroup(groupName);
+                if(idx > -1){
+                    groups.get(idx).offlineContacts.add(contactname);
+                }
                 break;
             default:
-                groups.get(indexOfGroup(groupName)).contacts.put(contactname, status);
+                 idx = indexOfGroup(groupName);
+                if(idx > -1){
+                    groups.get(indexOfGroup(groupName)).contacts.put(contactname, status);
+                }
                 break;
         }
         fireContentsChanged(this, 0, getSize());
