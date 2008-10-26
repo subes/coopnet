@@ -67,7 +67,7 @@ public class FrameIconFlasher extends Thread {
             prevIcon = parent.getIconImage();
             prevTitle = parent.getTitle();
 
-            while (!parent.isActive() || true) {
+            while (!parent.isActive()) {
                 parent.setIconImage(flashIcon);
                 parent.setTitle(flashTitle);
                 if(SystemTray.isSupported() && Settings.getTrayIconEnabled()){
