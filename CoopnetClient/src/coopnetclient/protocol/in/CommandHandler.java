@@ -341,7 +341,7 @@ public class CommandHandler {
                             }
                             break;
                         case CHATTING:
-                            if (Settings.getContactStatusChangeSoundNotification()) {
+                            if (Settings.getContactStatusChangeSoundNotification() && previousstatus == ContactListElementTypes.OFFLINE ) {
                                 SoundPlayer.playLoginSound();
                             }
                             if (Settings.getContactStatusChangeTextNotification() && previousstatus == ContactListElementTypes.OFFLINE ) {
