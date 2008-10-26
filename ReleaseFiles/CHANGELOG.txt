@@ -1,3 +1,7 @@
+2008/10/25: CoopnetClient 0.98.1
+  - changed default hotkey that caused problems
+  - fixed some bugs
+
 2008/10/24: CoopnetClient 0.98.0
   - drag & drop to send files
   - password recovery
