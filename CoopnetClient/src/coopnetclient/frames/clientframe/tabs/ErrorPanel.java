@@ -40,7 +40,7 @@ public class ErrorPanel extends javax.swing.JPanel {
     
     public ErrorPanel(ErrorPanelStyle mode, Exception exception) {
         initComponents();
-        new FrameIconFlasher(Globals.getClientFrame(), "data/icons/error.png", "An error occured!");
+        FrameIconFlasher.flash("data/icons/error.png", "An error occured!", true);
         
         coopnetclient.utils.Colorizer.colorize(this);
         switch (mode) {

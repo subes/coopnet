@@ -32,27 +32,40 @@ import javax.swing.JFrame;
  */
 public class FrameIconFlasher extends Thread {
 
-    private static boolean isActive = false;
+    private static FrameIconFlasher flasher;
+    
     private JFrame parent;
-    private Image flashIcon;
-    private String flashTitle;
+    private Image flashIcon, prevIcon;
+    private String flashTitle, prevTitle;
     private final int flashInterval = 1000;
 
-    public FrameIconFlasher(JFrame flashOn, String flashIcon, String flashTitle) {
-        if (FrameIconFlasher.isActive == false) {
-            parent = flashOn;
-            this.flashIcon = Toolkit.getDefaultToolkit().getImage(flashIcon);
-            this.flashTitle = flashTitle;
-            start();
-            FrameIconFlasher.isActive = true;
+    private FrameIconFlasher(String flashIcon, String flashTitle) {
+        this.parent = Globals.getClientFrame();
+        changeIconAndTitle(flashIcon, flashTitle);
+        start();
+    }
+    
+    private void changeIconAndTitle(String flashIcon, String flashTitle){
+        this.flashIcon = Toolkit.getDefaultToolkit().getImage(flashIcon);
+        this.flashTitle = flashTitle;
+    }
+    
+    public static void flash(String flashIcon, String flashTitle, boolean override){
+        if(flasher != null){
+            flasher = new FrameIconFlasher(flashIcon, flashTitle);
+        }else{
+            if(override){
+                //Replace current flasher icon and title
+                flasher.changeIconAndTitle(flashIcon, flashTitle);
+            }
         }
     }
 
     @Override
     public void run() {
         try{
-            Image prevIcon = parent.getIconImage();
-            String prevTitle = parent.getTitle();
+            prevIcon = parent.getIconImage();
+            prevTitle = parent.getTitle();
 
             while (!parent.isActive()) {
                 parent.setIconImage(flashIcon);
@@ -62,21 +75,19 @@ public class FrameIconFlasher extends Thread {
                 }
                 try {
                     sleep(flashInterval);
-                } catch (InterruptedException ex) {
-                }
+                } catch (InterruptedException ex) {}
                 parent.setIconImage(prevIcon);
                 parent.setTitle(prevTitle);
                 if(SystemTray.isSupported() && Settings.getTrayIconEnabled()){
                     Globals.getTrayIcon().setImage(prevIcon);
                 }
                 try {
-                    sleep(flashInterval);
-                } catch (InterruptedException ex) {
-                }
+                    sleep(flashInterval/10);
+                } catch (InterruptedException ex) {}
             }
-            FrameIconFlasher.isActive = false;
         }catch(Exception e){
             ErrorHandler.handleException(e);
         }
+        flasher = null;
     }
 }

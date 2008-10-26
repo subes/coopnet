@@ -146,7 +146,7 @@ public class CommandHandler {
                     }
                     break;
                 case NUDGE:
-                    new FrameIconFlasher(Globals.getClientFrame(), "data/icons/nudge.png", information[0] + " sent you a nudge!");
+                    FrameIconFlasher.flash("data/icons/nudge.png", information[0] + " sent you a nudge!", false);
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " sent you a nudge!", ChatStyles.SYSTEM, false);
                     SoundPlayer.playNudgeSound();
                     break;
