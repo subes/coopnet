@@ -347,16 +347,15 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                 }else{
                     switch (model.getStatus(source.getSelectedValue().toString())) {
                         case GROUPNAME_CLOSED:
-                            setPendingActionVisibility(false);
-                            setGroupActionVisibility(true);
-                            setContactActionVisibility(false);
-                            sep_group.setVisible(true);
-                            break;
                         case GROUPNAME_OPEN:
                             setPendingActionVisibility(false);
                             setGroupActionVisibility(true);
                             setContactActionVisibility(false);
-                            sep_group.setVisible(true);
+                            if(playerName.getText().equals(ContactListModel.DEFAULT_GROUP)){
+                                sep_group.setVisible(false);
+                            }else{
+                                sep_group.setVisible(true);
+                            }
                             break;
                         case PENDING_CONTACT:
                             setPendingActionVisibility(false);
@@ -384,7 +383,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                                 whisper.setVisible(true);
                             }
                             showProfile.setVisible(true);
-                            sep_group.setVisible(true);
                             
                             sep_group.setVisible(true);
                             break;
