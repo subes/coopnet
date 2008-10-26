@@ -21,6 +21,7 @@ package coopnetclient.frames.components;
 
 import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.Settings;
+import coopnetclient.utils.hotkeys.Hotkeys;
 import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -68,6 +69,8 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
 
     @Override
     public void focusGained(FocusEvent e) {
+        Hotkeys.unbindKeys();
+        
         if (Settings.getColorizeBody()) {
             setBackground(Colorizer.getSelectionColor());
             setForeground(Colorizer.getForegroundColor());
@@ -93,6 +96,8 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
         }
         
         printText();
+        
+        Hotkeys.bindKeys();
     }
 
     @Override
