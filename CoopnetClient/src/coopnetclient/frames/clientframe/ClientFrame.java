@@ -33,9 +33,12 @@ import coopnetclient.frames.clientframe.tabs.FileTransferRecievePanel;
 import coopnetclient.frames.clientframe.tabs.FileTransferSendPanel;
 import coopnetclient.frames.clientframe.tabs.LoginPanel;
 import coopnetclient.utils.FileDownloader;
+import coopnetclient.utils.FrameIconFlasher;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -264,6 +267,7 @@ public class ClientFrame extends javax.swing.JFrame {
     }
 
     public void setQuickBarVisibility(boolean visibility) {
+        
         if (visibility) {
             if (lastdividerposition == null) {
                 if (quickPanelOrientationIsLeft) {

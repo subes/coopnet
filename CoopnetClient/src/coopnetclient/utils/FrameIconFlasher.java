@@ -32,7 +32,7 @@ import javax.swing.JFrame;
  */
 public class FrameIconFlasher extends Thread {
 
-    private static FrameIconFlasher flasher;
+    private static FrameIconFlasher flasher = null;
     
     private JFrame parent;
     private Image flashIcon, prevIcon;
@@ -51,7 +51,7 @@ public class FrameIconFlasher extends Thread {
     }
     
     public static void flash(String flashIcon, String flashTitle, boolean override){
-        if(flasher != null){
+        if(flasher == null){
             flasher = new FrameIconFlasher(flashIcon, flashTitle);
         }else{
             if(override){
@@ -67,7 +67,7 @@ public class FrameIconFlasher extends Thread {
             prevIcon = parent.getIconImage();
             prevTitle = parent.getTitle();
 
-            while (!parent.isActive()) {
+            while (!parent.isActive() || true) {
                 parent.setIconImage(flashIcon);
                 parent.setTitle(flashTitle);
                 if(SystemTray.isSupported() && Settings.getTrayIconEnabled()){
@@ -82,7 +82,7 @@ public class FrameIconFlasher extends Thread {
                     Globals.getTrayIcon().setImage(prevIcon);
                 }
                 try {
-                    sleep(flashInterval/10);
+                    sleep(flashInterval);
                 } catch (InterruptedException ex) {}
             }
         }catch(Exception e){
