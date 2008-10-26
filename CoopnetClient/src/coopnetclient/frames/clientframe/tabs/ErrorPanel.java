@@ -21,6 +21,7 @@ package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ErrorPanelStyle;
+import coopnetclient.utils.FrameIconFlasher;
 import coopnetclient.utils.Logger;
 
 public class ErrorPanel extends javax.swing.JPanel {
@@ -39,6 +40,7 @@ public class ErrorPanel extends javax.swing.JPanel {
     
     public ErrorPanel(ErrorPanelStyle mode, Exception exception) {
         initComponents();
+        new FrameIconFlasher(Globals.getClientFrame(), "data/icons/error.png", "An error occured!");
         
         coopnetclient.utils.Colorizer.colorize(this);
         switch (mode) {
