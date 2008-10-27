@@ -72,6 +72,7 @@ public class CommandHandler {
             switch (command) {
                 case OK_LOGIN:
                     Globals.setLoggedInStatus(true);
+                    Globals.setThisPlayer_loginName(information[0]);
                     TabOrganizer.closeLoginPanel();
                     Protocol.setSleep(Settings.getSleepEnabled());
                     Protocol.refreshContacts();

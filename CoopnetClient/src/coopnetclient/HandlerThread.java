@@ -117,8 +117,8 @@ public class HandlerThread extends Thread {
                 }
                 if (input == null) {
                     TabOrganizer.openLoginPanel();
-                } else if (input.equals(ServerProtocolCommands.OK_LOGIN.ordinal()+"")) {
-                    Globals.setThisPlayer_loginName(Settings.getLastLoginName());
+                } else if (SwingWorker.getParts(input)[0].equals(ServerProtocolCommands.OK_LOGIN.ordinal()+"")) {
+                    Globals.setThisPlayer_loginName(SwingWorker.getParts(input)[1]);
                     Globals.setLoggedInStatus(true);
                     TabOrganizer.closeLoginPanel();
                     Protocol.setSleep(Settings.getSleepEnabled());
