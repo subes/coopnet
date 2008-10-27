@@ -32,7 +32,7 @@ import coopnetclient.utils.SoundPlayer;
 import coopnetclient.frames.renderers.RoomStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
-import coopnetclient.utils.ListFileDropHandler;
+import coopnetclient.utils.UserListFileDropHandler;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
@@ -91,8 +91,8 @@ public class RoomPanel extends javax.swing.JPanel {
         roomStatusListCR = new RoomStatusListCellRenderer();
         lst_userList.setCellRenderer(roomStatusListCR);
         lst_userList.setDragEnabled(true);
-        lst_userList.setDropMode(DropMode.ON);
-        lst_userList.setTransferHandler(new ListFileDropHandler());
+        lst_userList.setDropMode(DropMode.USE_SELECTION);
+        lst_userList.setTransferHandler(new UserListFileDropHandler());
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.ROOM_CHAT_MODE, channel));
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());

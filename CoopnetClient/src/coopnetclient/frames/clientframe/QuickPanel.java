@@ -26,10 +26,12 @@ import coopnetclient.frames.components.ContactListPopupMenu;
 import coopnetclient.frames.components.mutablelist.DefaultListCellEditor;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.frames.renderers.ContactListRenderer;
+import coopnetclient.utils.ContactListFileDropHandler;
 import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
+import javax.swing.DropMode;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -52,10 +54,13 @@ public class QuickPanel extends javax.swing.JPanel {
         lst_contactList.setModel(model);
         lst_contactList.setCellRenderer(new ContactListRenderer(model));
         lst_contactList.setListCellEditor(new DefaultListCellEditor(new JTextField()));
+        lst_contactList.setDragEnabled(true);
+        lst_contactList.setDropMode(DropMode.USE_SELECTION);
+        lst_contactList.setTransferHandler(new ContactListFileDropHandler());
         popup = new ContactListPopupMenu(lst_contactList);
         lst_contactList.setComponentPopupMenu(popup);
         refreshFavourites();
-        lst_favouritesList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        lst_favouritesList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));        
     }
     
     public void setTabAlignment(boolean left){

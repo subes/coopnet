@@ -11,11 +11,11 @@ import java.io.IOException;
 import javax.swing.JList;
 import javax.swing.TransferHandler;
 
-public class ListFileDropHandler extends TransferHandler {
+public class UserListFileDropHandler extends TransferHandler {
 
     int action = TransferHandler.COPY; 
 
-    public ListFileDropHandler() {        
+    public UserListFileDropHandler() {        
     }
 
     @Override
