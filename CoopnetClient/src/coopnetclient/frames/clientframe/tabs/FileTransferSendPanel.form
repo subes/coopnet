@@ -32,7 +32,7 @@
                   <Component id="pgb_progress" alignment="0" pref="416" max="32767" attributes="1"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lbl_progress" min="-2" max="-2" attributes="1"/>
-                      <EmptySpace pref="230" max="32767" attributes="0"/>
+                      <EmptySpace pref="251" max="32767" attributes="0"/>
                       <Component id="lbl_timeLeft" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="lbl_timeLeftValue" min="-2" pref="64" max="-2" attributes="0"/>

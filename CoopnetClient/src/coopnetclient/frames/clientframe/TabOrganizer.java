@@ -431,6 +431,12 @@ public class TabOrganizer {
         }
         return null;
     }
+    
+    public static void cancelFileSendingOnClose(){
+        for (int i = 0; i < fileTransferSendPanels.size(); i++) {
+            fileTransferSendPanels.get(i).cancelTransfer();
+        }
+    }
 
     public static void openFileTransferReceivePanel(String sender, String size, String filename, String ip, String port) {
         FileTransferRecievePanel panel = new FileTransferRecievePanel(sender, new Long(size), filename, ip, port);

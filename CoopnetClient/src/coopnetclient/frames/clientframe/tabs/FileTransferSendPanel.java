@@ -76,6 +76,12 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
         coopnetclient.utils.Colorizer.colorize(this);
     }
 
+    public void cancelTransfer(){
+        if(btn_cancel.getText().equals("Cancel")){
+            btn_cancel.doClick();
+        }
+    }
+    
     public String getReciever() {
         return lbl_recieverValue.getText();
     }

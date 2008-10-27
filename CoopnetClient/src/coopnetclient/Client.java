@@ -157,9 +157,14 @@ public class Client {
     }
     
     public static void quit(boolean override) {
+        //hide the mainframe: trayicon enabled
         if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled()) {
             Globals.getClientFrame().setVisible(false);
         } else {
+            //trayicon disabled or overridden
+            //cancel any filesendings
+            TabOrganizer.cancelFileSendingOnClose();
+            //close connection
             Client.stopConnection();
             //save sizes
             coopnetclient.utils.Settings.setMainFrameMaximised(Globals.getClientFrame().getExtendedState());
@@ -168,7 +173,7 @@ public class Client {
                 coopnetclient.utils.Settings.setMainFrameHeight(Globals.getClientFrame().getHeight());
                 coopnetclient.utils.Settings.setMainFrameWidth(Globals.getClientFrame().getWidth());
             }
-
+            //unbind hotkeys
             Hotkeys.cleanUp();
             System.exit(0);
         }
