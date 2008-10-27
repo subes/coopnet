@@ -1,7 +1,7 @@
 !include "LogicLib.nsh"
 
 ; The name of the installer
-Name "Coopnet Client 0.97.0"
+Name "Coopnet Client 0.98.1"
 
 ; The file to write
 OutFile "CoopnetClientInstaller-win32.exe"
