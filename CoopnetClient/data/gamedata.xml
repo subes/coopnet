@@ -392,7 +392,7 @@
     <GameData>
         <GameName>Total Annihilation</GameName>
         <ChannelID>127</ChannelID>
-        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <LaunchMethod>DIRECTPLAY_FORCED_COMPATIBILITY</LaunchMethod>
         <Property>
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{99797420-F5F5-11CF-9827-00A0241496C8}</PropertyValue>
