@@ -104,6 +104,11 @@ public class FavouritesFrame extends javax.swing.JFrame {
         lbl_channels.setText("Channels:");
 
         lst_channels.setModel(channels);
+        lst_channels.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lst_channelsMouseClicked(evt);
+            }
+        });
         scrl_channels.setViewportView(lst_channels);
 
         javax.swing.GroupLayout pnl_channelsLayout = new javax.swing.GroupLayout(pnl_channels);
@@ -236,6 +241,12 @@ public class FavouritesFrame extends javax.swing.JFrame {
         }
         this.repaint();
 }//GEN-LAST:event_tf_filterActionPerformed
+
+private void lst_channelsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_channelsMouseClicked
+    if(evt.getClickCount() == 2){
+        btn_add.doClick();
+    }
+}//GEN-LAST:event_lst_channelsMouseClicked
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_add;

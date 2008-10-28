@@ -167,6 +167,9 @@
                       <Connection code="channels" type="code"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lst_channelsMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
