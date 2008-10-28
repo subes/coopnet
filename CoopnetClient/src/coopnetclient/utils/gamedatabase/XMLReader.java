@@ -17,7 +17,7 @@ public class XMLReader extends DefaultHandler {
     private String gameName;
     private String loadFrom;
     //general var to hold data
-    private String tempVal;
+    private StringBuilder tempVal = new StringBuilder();
     //setting specific data holders
     private String tmpSettingName;
     private SettingTypes tmpSettingType;
@@ -56,7 +56,7 @@ public class XMLReader extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         //reset
-        tempVal = "";
+        tempVal.delete(0, tempVal.length());
         if (qName.equalsIgnoreCase("GameData")) {
             tmpGame = new Game();
             tmpGame.setInstantLauncable(false);
@@ -80,7 +80,7 @@ public class XMLReader extends DefaultHandler {
 
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
-        tempVal += new String(ch, start, length);
+        tempVal.append(ch, start, length);
     }
 
     @Override
@@ -103,22 +103,22 @@ public class XMLReader extends DefaultHandler {
             tmpMod = null;
         } else if (qName.equalsIgnoreCase("GameName")) {
             if (inMod) {
-                tmpMod.setGameName(tempVal);
+                tmpMod.setGameName(tempVal.toString());
             } else {
-                tmpGame.setGameName(tempVal);
+                tmpGame.setGameName(tempVal.toString());
             }
         } else if (qName.equalsIgnoreCase("ChannelID")) {
-            tmpID = tempVal;
+            tmpID = tempVal.toString();
         } else if (qName.equalsIgnoreCase("LaunchMethod")) {
-            tmpGame.setLaunchMethod(tempVal);
+            tmpGame.setLaunchMethod(tempVal.toString());
         } else if (qName.equalsIgnoreCase("InstantLaunch")) {
             tmpGame.setInstantLauncable(true);
         } else if (qName.equalsIgnoreCase("Beta")) {
             beta = true;
         } else if (qName.equalsIgnoreCase("PropertyName")) {
-            propertyName = tempVal;
+            propertyName = tempVal.toString();
         } else if (qName.equalsIgnoreCase("PropertyValue")) {
-            propertyValue = tempVal;
+            propertyValue = tempVal.toString();
         } else if (qName.equalsIgnoreCase("Property")) {
             if (inMod) {
                 tmpMod.setFieldValue(propertyName, null, propertyValue);
@@ -128,7 +128,7 @@ public class XMLReader extends DefaultHandler {
             propertyValue = "";
             propertyName = "";
         } else if (qName.equalsIgnoreCase("PropertyValue")) {
-            propertyValue = tempVal;
+            propertyValue = tempVal.toString();
         } else if (qName.equalsIgnoreCase("ChoiceSetting") || qName.equalsIgnoreCase("TextSetting") || qName.equalsIgnoreCase("NumberSetting")) {
             tmpSetting = new GameSetting(sharedSetting, tmpSettingName, tmpSettingType, tmpSettingKeyWord, tmpSettingDefVal);
             switch (tmpSettingType) {
@@ -150,23 +150,23 @@ public class XMLReader extends DefaultHandler {
             }
             tmpSetting = null;
         } else if (qName.equalsIgnoreCase("SettingName")) {
-            tmpSettingName = tempVal;
+            tmpSettingName = tempVal.toString();
         } else if (qName.equalsIgnoreCase("KeyWord")) {
-            tmpSettingKeyWord = tempVal;
+            tmpSettingKeyWord = tempVal.toString();
         } else if (qName.equalsIgnoreCase("IsSharedSetting")) {
             sharedSetting = true;
         } else if (qName.equalsIgnoreCase("ChoiceDisplayName")) {
-            names.add(tempVal);
+            names.add(tempVal.toString());
         } else if (qName.equalsIgnoreCase("ChoiceRealValue")) {
-            values.add(tempVal);
+            values.add(tempVal.toString());
         } else if (qName.equalsIgnoreCase("SettingDefaultValue")) {
-            tmpSettingDefVal = tempVal;
+            tmpSettingDefVal = tempVal.toString();
         } else if (qName.equalsIgnoreCase("SettingMinValue")) {
-            tmpSettingMinVal = tempVal;
+            tmpSettingMinVal = tempVal.toString();
         } else if (qName.equalsIgnoreCase("SettingMaxValue")) {
-            tmpSettingMaxVal = tempVal;
+            tmpSettingMaxVal = tempVal.toString();
         }else if (qName.equalsIgnoreCase("SettingType")) {
-            tmpSettingType = SettingTypes.valueOf(tempVal);
+            tmpSettingType = SettingTypes.valueOf(tempVal.toString());
         }
     }
 }
