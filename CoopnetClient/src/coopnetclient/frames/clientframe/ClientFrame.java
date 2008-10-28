@@ -351,6 +351,7 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_channelList = new javax.swing.JMenuItem();
         mi_manageFavs = new javax.swing.JMenuItem();
         mi_addCurrentToFav = new javax.swing.JMenuItem();
+        mi_makeHome = new javax.swing.JMenuItem();
         mi_seperator = new javax.swing.JSeparator();
         mi_favourites = new javax.swing.JMenuItem();
         m_options = new javax.swing.JMenu();
@@ -555,6 +556,14 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_channels.add(mi_addCurrentToFav);
+
+        mi_makeHome.setText("Make this my homechannel");
+        mi_makeHome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_makeHomeActionPerformed(evt);
+            }
+        });
+        m_channels.add(mi_makeHome);
         m_channels.add(mi_seperator);
 
         mi_favourites.setText("Favourites:");
@@ -871,6 +880,14 @@ private void mi_connectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     }
 }//GEN-LAST:event_mi_connectionActionPerformed
 
+private void mi_makeHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_makeHomeActionPerformed
+    Component c = tabpn_tabs.getSelectedComponent();
+        if (c instanceof ChannelPanel) {
+            ChannelPanel cp = (ChannelPanel) c;
+            Settings.setHomeChannel(cp.name);
+        }
+}//GEN-LAST:event_mi_makeHomeActionPerformed
+
 private Color getHoverEffectColor(){
     Color clr = null;
     clr = (Color) UIManager.get("List.selectionBackground"); 
@@ -896,6 +913,7 @@ private Color getHoverEffectColor(){
     private javax.swing.JMenuItem mi_connection;
     private javax.swing.JMenuItem mi_favourites;
     private javax.swing.JMenuItem mi_guide;
+    private javax.swing.JMenuItem mi_makeHome;
     private javax.swing.JMenuItem mi_manageFavs;
     private javax.swing.JMenuItem mi_manageGames;
     private javax.swing.JMenuItem mi_profile;
