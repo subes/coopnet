@@ -238,6 +238,14 @@ public class Colorizer {
 
         return false;
     }
+    
+    public static boolean getLAFisSupportedForColoring(String LAFName) {
+        if (LAFName.equals("Metal")) {
+            return true;
+        }
+
+        return false;
+    }
 
     /*****************************************************************/    
     

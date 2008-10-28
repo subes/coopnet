@@ -1107,7 +1107,11 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             Settings.setSelectedLookAndFeel((String)cmb_style.getSelectedItem());
             Settings.setUseNativeLookAndFeel(cb_nativeStyle.isSelected());
             
-            Settings.setColorizeBody(cb_colorizeBody.isSelected());
+            if(Colorizer.getLAFisSupportedForColoring(cmb_style.getSelectedItem().toString())){
+                Settings.setColorizeBody(cb_colorizeBody.isSelected());
+            }else{
+                Settings.setColorizeBody(false);
+            }
             Settings.setColorizeText(cb_colorizeText.isSelected());
 
             Settings.setNameStyle(cmb_playerNamesType.getSelectedItem().toString());

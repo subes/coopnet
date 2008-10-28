@@ -64,7 +64,6 @@ public class ClientFrame extends javax.swing.JFrame {
         pnl_toggleQuickBarLeft.setMinimumSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         pnl_toggleQuickBarRight.setMinimumSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         setQuickPanelPosition(Settings.getQuickPanelPostionisLeft());
-        //pnl_contactList.setVisible(false);
         slp_mainSplitPanel.setDividerSize(0);
 
         refreshFavourites();
@@ -273,13 +272,11 @@ public class ClientFrame extends javax.swing.JFrame {
                     lastdividerposition = slp_mainSplitPanel.getWidth() - (pnl_contactList.getPreferredSize().width + DIVIDERWIDTH + slp_mainSplitPanel.getInsets().right);
                 }
             }
-            //pnl_contactList.setSize( lastdividerposition - DIVIDERWIDTH ,pnl_contactList.getHeight() );
             slp_mainSplitPanel.setDividerSize(DIVIDERWIDTH);
             slp_mainSplitPanel.setDividerLocation(lastdividerposition);
             pnl_toggleQuickBarLeft.setBorder(openQuickbarBorder);
             pnl_toggleQuickBarRight.setBorder(openQuickbarBorder);
         } else {
-           // pnl_contactList.setSize( 0,pnl_contactList.getHeight() );
             lastdividerposition = slp_mainSplitPanel.getDividerLocation();
             slp_mainSplitPanel.setDividerSize(0);
             pnl_toggleQuickBarLeft.setBorder(closedQuickbarBorder);

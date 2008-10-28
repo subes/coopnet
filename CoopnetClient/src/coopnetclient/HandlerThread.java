@@ -18,10 +18,10 @@
  */
 package coopnetclient;
 
-import coopnetclient.enums.ErrorPanelStyle;
 import coopnetclient.enums.ServerProtocolCommands;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.SwingWorker;
 import java.io.IOException;
@@ -91,13 +91,6 @@ public class HandlerThread extends Thread {
                             } catch (InterruptedException ex) {
                             }
                             doSend();
-                            if ((System.currentTimeMillis() - lastMessageReadAt) > TIMEOUT) {
-                                //connection is most probably lost
-                                if (Globals.getConnectionStatus()) {
-                                    Client.disconnect();
-                                    TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, null);
-                                }
-                            }
                         }
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
@@ -105,6 +98,25 @@ public class HandlerThread extends Thread {
                 }
             };
             sender.start();
+            
+            //send heartbeat
+            new Thread() {
+
+                @Override
+                public void run() {
+                    try {
+                        while (running) {
+                            new Message(Protocol.HEARTBEAT);
+                            try {
+                                sleep(30000);
+                            } catch (InterruptedException ex) {
+                            }                            
+                        }
+                    } catch (Exception e) {
+                        ErrorHandler.handleException(e);
+                    }
+                }
+            }.start();
 
             //login
             if (coopnetclient.utils.Settings.getAutoLogin()) {

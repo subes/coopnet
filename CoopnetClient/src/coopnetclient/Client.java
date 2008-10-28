@@ -54,14 +54,14 @@ import javax.swing.SwingUtilities;
 public class Client {
 
     private static HandlerThread handlerThread;
-    
-    public static void send(Message message){
-        if(message.isSent()){
+
+    public static void send(Message message) {
+        if (message.isSent()) {
             throw new IllegalArgumentException("A Message can only be sent once! They send themselves!");
         }
-        
+
         Logger.logOutTraffic(message.getLogString());
-        
+
         if (handlerThread != null) {
             handlerThread.addToOutQueue(message.getMessage());
         }
@@ -100,13 +100,14 @@ public class Client {
             @Override
             public void run() {
                 try {
-                    Colorizer.initLAF();
+                    Colorizer.initLAF();                    
                     Globals.openClientFrame();
                     startConnection();
 
                     try {
                         sleep(100);
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                    }
 
                     if (Settings.getFirstRun()) {
                         TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
@@ -131,14 +132,15 @@ public class Client {
     }
 
     public static void stopConnection() {
-        
+
         Protocol.quit();
         Globals.setConnectionStatus(false);
-        
+
         try {
             Thread.sleep(50);
-        } catch (InterruptedException ex) {}
-        
+        } catch (InterruptedException ex) {
+        }
+
         Globals.setLoggedInStatus(false);
 
         if (handlerThread != null) {
@@ -146,7 +148,7 @@ public class Client {
         }
         handlerThread = null;
     }
-    
+
     public static void disconnect() {
         Client.stopConnection();
         TabOrganizer.closeAllTabs();
@@ -155,7 +157,7 @@ public class Client {
         Globals.closeShowProfileFrame();
         Globals.closeEditProfileFrame();
     }
-    
+
     public static void quit(boolean override) {
         //hide the mainframe: trayicon enabled
         if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled()) {
