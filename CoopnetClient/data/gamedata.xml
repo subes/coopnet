@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 10 -->
+<!--Version 11 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName, ChannelID, LaunchMethod, (InstantLaunch)?, (Beta)?, (Property)*, (Settings)?, (Mod)*)>
@@ -27,7 +27,7 @@
 ]>
 <GameDataBase>
     <GameData>
-        <GameName>Fallout Tactics</GameName>
+        <GameName>Fallout Tactics: Brotherhood of Steel</GameName>
         <ChannelID>FOT</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -136,7 +136,7 @@
         </Property>
     </GameData>
     <GameData>
-        <GameName>MechWarrior Mercenaries</GameName>
+        <GameName>MechWarrior 4: Mercenaries</GameName>
         <ChannelID>105</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -317,6 +317,987 @@
             <PropertyValue>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\MechWarrior Black Knight\EXE Path</PropertyValue>
         </Property>
     </GameData>
+    <GameData>
+        <GameName>Praetorians</GameName>
+        <ChannelID>119</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{C93E1314-AC6C-49E4-AC64-14F6358F881A}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Z: Steel Soldiers</GameName>
+        <ChannelID>120</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{A569BB80-575D-11d1-9C11-008048A9B101}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Warzone2100</GameName>
+        <ChannelID>121</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{48AB0B01-FEC0-11d1-980C-00A0243870A8}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>World War II: Frontline Command</GameName>
+        <ChannelID>122</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{0B7F6257-7A58-4843-8F1D-726CD9508A11}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Waterloo: Napoleon's Last Battle</GameName>
+        <ChannelID>123</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{728775A8-DD96-11d4-B479-525400DB21E2}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Warlords Battlecry II</GameName>
+        <ChannelID>124</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{67C8D3D7-4AA3-4201-84C4-E943228D2B35}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Warlords Battlecry</GameName>
+        <ChannelID>125</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{16E9A802-6EB3-11d4-B2E3-00A0CC527767}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Total Annihilation: Kingdoms</GameName>
+        <ChannelID>126</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{97F52D81-1CF1-11d3-8CE1-00500464D862}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Total Annihilation: The Core Contingency</GameName>
+        <ChannelID>127</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{99797420-F5F5-11CF-9827-00A0241496C8}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Sudden Strike</GameName>
+        <ChannelID>128</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{a3ce7402-eb37-11d1-933b-0040c7951ce6}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Stronghold</GameName>
+        <ChannelID>129</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{BD83ADF5-9BCA-4898-ADC4-35DEC8157F72}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Midnight Outlaw: Illegal Street Drag</GameName>
+        <ChannelID>130</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{2f5d14a5-fb2a-4b2a-9bd4-e0e57e099894}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>UltraWheels StreetJam</GameName>
+        <ChannelID>131</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{D083060A-56A5-47d5-A15C-D4D2B285852C}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Submarine Titans</GameName>
+        <ChannelID>132</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{02B16080-B594-11CF-8ECF-01403439B9FF}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>StarWars: Force Commander</GameName>
+        <ChannelID>133</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{8b10c47c-305d-11d3-a3f1-00105a0716c4}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Startopia</GameName>
+        <ChannelID>134</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{60c84a04-c1a1-11d2-bdf6-00105a48fd1e}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>StarLancer</GameName>
+        <ChannelID>135</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{22bcb720-657f-11d1-82e6-444553540000}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Starfleet Command</GameName>
+        <ChannelID>136</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{379CCA80-8BDD-11d0-A078-004095E16EA0}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Sid Meier's Antietam</GameName>
+        <ChannelID>137</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{6daa09e1-23fb-11d3-8e18-00c0df1209b1}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Sacrifice</GameName>
+        <ChannelID>138</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{23824CE0-7967-11D2-854E-00A0C9C87D36}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Railroad Tycoon II - The Second Century</GameName>
+        <ChannelID>139</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{84E7A1A0-D548-11d2-8757-00104BCAB3FB}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Reach For The Stars</GameName>
+        <ChannelID>140</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{55FB66C0-1452-11d4-AAA6-0050DA1EA555}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Midnight Outlaw Illegal Street Drag Nitro Edition</GameName>
+        <ChannelID>141</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{a27ea2e4-544e-4a8a-9f53-6e3b4a5eed1b}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Motoracer 3</GameName>
+        <ChannelID>142</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{821B7D8A-5917-442A-8553-8DFCC67E8E36}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Mig Alley</GameName>
+        <ChannelID>143</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{38305683-01EB-11d2-B1A4-004005247C3D}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>MechCommander 2</GameName>
+        <ChannelID>144</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{35DC7890-C5EF-4171-B0CF-4D5C7AE7C2D7}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>MechCommander</GameName>
+        <ChannelID>145</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{454FB981-658A-11d1-980C-00A02429323C}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>MechWarrior 3: Pirates Moon</GameName>
+        <ChannelID>146</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{FA96C421-18DD-11D3-95AF-0060089877F0}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>MechCommander Gold</GameName>
+        <ChannelID>147</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{09608800-4815-11d2-92D2-0060973CFB2C}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Motocross Mania</GameName>
+        <ChannelID>148</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{d9bf412d-a56b-434e-9a6b-8727e43d7e2f}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Magic & Mayhem 2: The Art of Magic</GameName>
+        <ChannelID>149</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{3ECA4780-0491-11d4-9F3E-0000E8EF2D27}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Machines</GameName>
+        <ChannelID>150</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{30393937-3433-3338-3834-353535353634}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Links Extreme</GameName>
+        <ChannelID>151</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{B33FBDA1-62B4-11d2-980D-00A0243870A8}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Links LS 1999</GameName>
+        <ChannelID>152</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{24C9EF20-B506-11D1-92BD-444553540000}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Links 2001</GameName>
+        <ChannelID>153</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{418b7744-c11f-d211-b14b-00a00a0b0c0d}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Links LS 2000</GameName>
+        <ChannelID>154</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{964BFBC0-F98E-11D2-92BD-00A0C986330C}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Dark Force II: Jedi Knight - Mysteries of the Sith</GameName>
+        <ChannelID>155</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{A4FF3960-3B4F-11d1-96CB-444553540000}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Dark Forces II: Jedi Knight</GameName>
+        <ChannelID>156</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{BF0613C0-DE79-11d0-99C9-00A02476AD4B}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Parkan: Iron Strategy</GameName>
+        <ChannelID>157</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{3C1D1F01-A870-11D1-8400-000021B14415}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Hot Rod, American Street Drag</GameName>
+        <ChannelID>158</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{4de1b25b-baf0-42f6-aac5-71405827e671}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>High Heat Major League Baseball 2002</GameName>
+        <ChannelID>159</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{B4A281F8-00AE-4243-A898-2190EB174E09}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>High Heat Baseball 2001</GameName>
+        <ChannelID>160</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{d6ce0fc0-1e97-11d3-ba8e-00500486ab81}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>High Heat Baseball 2000</GameName>
+        <ChannelID>161</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{291a3180-6441-11d2-b377-00c04f99f890}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>High Heat Baseball 2003</GameName>
+        <ChannelID>162</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{180eeb57-ed8d-11d5-8409-005004d377cb}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Harley Davidson: Wheels of Freedom</GameName>
+        <ChannelID>163</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{ACB9DEA9-DBE5-4503-BD5B-6C149BE9A44C}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Harley Davidson: Race Around the World</GameName>
+        <ChannelID>164</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{8b15e8e1-8750-11d5-b3e9-00104b100f7e}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Gulf War: Operation Desert Hammer</GameName>
+        <ChannelID>165</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{5eb96240-1b69-11d3-abb1-00c04f7944b9}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Gangsters 2</GameName>
+        <ChannelID>166</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{B22930B2-6CE9-11D3-AEC6-0008C739EC2A}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Forsaken</GameName>
+        <ChannelID>167</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{27E96003-B1C3-11d1-B00C-080009C042E7}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Flying Heroes</GameName>
+        <ChannelID>168</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{28B267AA-EAE4-11d3-92A7-0000B4AA099D}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Flight Simulator 98</GameName>
+        <ChannelID>169</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{CC080A27-6D4E-11D0-8E21-00A0C90542EF}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Microsoft Flight Simulator 2002</GameName>
+        <ChannelID>170</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{97C62470-5F53-4098-A8BB-7F1F93B94D93}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Far Gate</GameName>
+        <ChannelID>171</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{617E5FC3-875C-11d4-A3DF-005004C1DD72}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Williams F1 Team: Team Driver</GameName>
+        <ChannelID>172</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{5506C240-59A1-11d4-9900-0050DA714697}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Evolva</GameName>
+        <ChannelID>173</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{6367aaab-b5d7-11d2-a3d6-0060086ba3f1}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>European Air War</GameName>
+        <ChannelID>174</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{51EE01C3-3121-11D2-BF69-0060083FE27C}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Earth 2150</GameName>
+        <ChannelID>175</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{9CAEEA89-0174-4aac-9544-9EBF76CCAB8E}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Dukes of Hazzard: Racing For Home</GameName>
+        <ChannelID>176</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{74cb5841-c90a-11d3-916d-0050ba021954}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Deep Space Nine: Dominion Wars</GameName>
+        <ChannelID>177</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{01D252E0-1135-4fb2-92BB-1FAFAAEBB956}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Dominion: Storm Over Gift 3</GameName>
+        <ChannelID>178</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{419E7280-DF04-11CF-984F-00A02432AEEB}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>DarkPlanet: Battle for Natrolis</GameName>
+        <ChannelID>179</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{C7185340-E89C-11D5-A519-00E02966B622}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Cultures</GameName>
+        <ChannelID>180</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{90b61c40-a3f3-11d2-80bc-0000e843c30b}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Cossacks: European Wars</GameName>
+        <ChannelID>181</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{5BFDB060-06A4-11d0-9C4F-00A0C705475f}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Commandos 3: Destination Berlin</GameName>
+        <ChannelID>182</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{25B0346F-3DCB-4aa1-BC4A-30BCCD843DAD}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Crimson Skies</GameName>
+        <ChannelID>183</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{53B4A768-3318-4272-BFBA-1A51900236D5}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Conflict Zone</GameName>
+        <ChannelID>184</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{A55A93A0-1CFC-11D4-B667-00105ABE119D}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Close Combat Invasion Normandy</GameName>
+        <ChannelID>185</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{66545400-DEF6-11D3-A09A-00E02919016C}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Microsoft Combat Flight Simulator - WWII Europe Series</GameName>
+        <ChannelID>186</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{BB74C3C1-8792-11D1-A8F9-00A0C91BBF71}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Capitalism 2</GameName>
+        <ChannelID>187</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{FACE1445-12CE-FACE-DDAA-0C0CEEFE1E47}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Pro Bass Fishing 2003</GameName>
+        <ChannelID>188</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{BFC600AA-611C-4689-A933-79f4-14B54A37}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Bang! Gunship Elite</GameName>
+        <ChannelID>189</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{126e6180-d307-11d0-9c4f-00a0c905425e}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Aliens vs. Predator</GameName>
+        <ChannelID>190</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{379CCA80-8BDD-11d0-A078-004095E16EA6}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Conquest: Frontier Wars</GameName>
+        <ChannelID>191</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{99717680-49a0-11d1-9178-00608cf13537}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Aliens versus Predator</GameName>
+        <ChannelID>192</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{379CCA80-8BDD-11d0-A078-004095E16EA5}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Army Men Toys in Space</GameName>
+        <ChannelID>193</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{EC971C40-24D0-11d3-B74B-00C04F8EDAB5}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Army Men II</GameName>
+        <ChannelID>194</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{2777D2A2-89D1-11d2-A387-00C04F79DCEB}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Army Men</GameName>
+        <ChannelID>195</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{F5117E8C-36FB-11d0-A945-00805F5AEA59}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Age of Wonders 2: The Wizard's Throne</GameName>
+        <ChannelID>196</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{4287F2A7-93D2-4E94-93C6-21C865430D85}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Army Men: World War</GameName>
+        <ChannelID>197</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{9DBD3D4A-00C1-11d4-908B-00C04F79DCEB}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Army Men: Air Tactics</GameName>
+        <ChannelID>198</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{7B695CC1-9B83-11d3-8C8C-00500464D1F3}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Hot Rod: Garage to Glory</GameName>
+        <ChannelID>199</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{8B9FBB48-E241-4F1D-9890-D2834A149FE4}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Age of Wonders 3</GameName>
+        <ChannelID>200</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{C1B39B54-D152-49F0-8937-AF0D847668A4}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Sudden Strike II</GameName>
+        <ChannelID>201</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{B24EBC6B-78AC-4b1d-8DD4-887E963D0157}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Disciples: Sacred Lands</GameName>
+        <ChannelID>202</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{BDEA2FDA-E5D5-44ed-9F9C-E90E472BACB5}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Earth 2150: The Moon Project</GameName>
+        <ChannelID>203</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{43C70187-D1C6-4947-BFC5-F89245755F9A}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Sega Rally Championship 2</GameName>
+        <ChannelID>204</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{6A470280-0790-11d3-9E1B-00A0C9A0F04F}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Star Trek: New Worlds</GameName>
+        <ChannelID>205</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{d49f7be0-1e25-11d1-89b7-00c04fddfa8a}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>MS Combat Flight Simulator 2</GameName>
+        <ChannelID>206</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{BA361865-7A5C-40e7-881A-567C19A150A9}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Legend of the Blademasters</GameName>
+        <ChannelID>207</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{22D7E8EC-5BC0-11D3-A3F1-00105A0716C4}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Shadow Company</GameName>
+        <ChannelID>208</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{80e5f066-26fd-11d2-ac27-00104b94710e}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Star Wars Rebellion</GameName>
+        <ChannelID>209</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{8DEC0D67-DCF5-11d0-AFED-0020AF9D7C7E}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Risk</GameName>
+        <ChannelID>210</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{44124D48-35C3-11D1-B657-004095E1411F}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Re-Volt</GameName>
+        <ChannelID>211</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{6bb78285-71df-11d2-b46c-0c780cc10840}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Railroad Tycoon II</GameName>
+        <ChannelID>212</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{FE451F03-5EB5-11d2-8753-00104BCAB3FB}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Powerslide</GameName>
+        <ChannelID>213</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{7ca1a460-6ee5-11d2-94b9-006008bd9468}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Populous: The Beginning</GameName>
+        <ChannelID>214</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{3A180340-08DA-11d1-8AA4-00A0C930178C}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Outlaws</GameName>
+        <ChannelID>215</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{014616a0-0e53-11d1-bb72-444553540000}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>MS Golf '99</GameName>
+        <ChannelID>216</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{F254C688-2217-11d2-BF77-00A0C933B7B3}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Majesty: The Fantasy Kingdom Sim</GameName>
+        <ChannelID>217</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{657423A0-27CF-11D3-AEAD-00902737197B}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Get Medieval</GameName>
+        <ChannelID>218</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{B1C2C161-470E-11D1-B56F-0060971BDAC5}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Flight Simulator 2000</GameName>
+        <ChannelID>219</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{1F0CB318-F159-432f-8C38-8CE753A03CDA}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>DarkStone</GameName>
+        <ChannelID>220</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{5BB7E241-5626-11d3-BADF-00C06C574225}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Close Combat III: The Russian Front</GameName>
+        <ChannelID>221</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{3E23CE00-E5DE-11D2-A09A-00E02919016C}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Close Combat IV: Battle of the Bulge</GameName>
+        <ChannelID>222</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{235C0640-D798-11d2-A09A-00E02919016C}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Civilization II Gold</GameName>
+        <ChannelID>223</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{BA644F27-D6D1-11D1-80C8-00609703E270}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Civilization II: Test of Time</GameName>
+        <ChannelID>224</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{870ED044-CCA9-11d2-A93C-006097C99702}</PropertyValue>
+        </Property>        
+    </GameData>    
+    <GameData>
+        <GameName>Axis & Allies</GameName>
+        <ChannelID>225</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{ADE19063-B99D-11D1-B7F5-00104B2B8868}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Age of Wonders</GameName>
+        <ChannelID>226</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{3205D060-4FF5-11D3-811F-0050042E6D24}</PropertyValue>
+        </Property>        
+    </GameData>
+    <GameData>
+        <GameName>Abomination</GameName>
+        <ChannelID>227</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{FBA662E0-904E-11D2-A07E-00C0DFA88F97}}</PropertyValue>
+        </Property>        
+    </GameData>    
     <GameData>
         <GameName>Unreal Tournament</GameName>
         <InstantLaunch/>
