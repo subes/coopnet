@@ -80,7 +80,7 @@ public class XMLReader extends DefaultHandler {
 
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
-        tempVal = new String(ch, start, length);
+        tempVal += new String(ch, start, length);
     }
 
     @Override
