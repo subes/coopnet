@@ -3,6 +3,7 @@ package coopnetclient.utils;
 import coopnetclient.Globals;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.protocol.out.Protocol;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -41,11 +42,19 @@ public class ContactListFileDropHandler extends TransferHandler {
         if (subject == null || subject.equals(Globals.getThisPlayer_loginName())) {
             return false;
         }
+        
+        
         ContactListElementTypes status = Globals.getContactList().getStatus(subject);
         if(   !(   status == ContactListElementTypes.CHATTING 
                 || status == ContactListElementTypes.IN_ROOM
-                || status == ContactListElementTypes.PLAYING )
+                || status == ContactListElementTypes.PLAYING
+                || status == ContactListElementTypes.PENDING_CONTACT )
                 ){
+            return false;
+        }
+        ContactListModel model = Globals.getContactList();
+        if( status == ContactListElementTypes.PENDING_CONTACT && 
+                !(model.groupOfContact(subject) != null )){
             return false;
         }
 
