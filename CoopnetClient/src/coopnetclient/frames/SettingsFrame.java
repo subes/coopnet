@@ -39,6 +39,9 @@ import java.awt.Component;
 import java.awt.SystemTray;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -51,7 +54,9 @@ public class SettingsFrame extends javax.swing.JFrame {
     public SettingsFrame() {
         initComponents();
         
-        cmb_homeChannel.setModel(new DefaultComboBoxModel(GameDatabase.gameNames()));
+        List gamenames = Arrays.asList(GameDatabase.gameNames());
+        Collections.sort(gamenames);
+        cmb_homeChannel.setModel(new DefaultComboBoxModel(gamenames.toArray()));
         cmb_homeChannel.insertItemAt("", 0);
         
         addKeyGrabberUnfocusMouseListener();
@@ -1034,7 +1039,9 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
     
     private void addKeyGrabberUnfocusMouseListener(){
         MouseListener ml = new MouseListener() {
+            @Override
             public void mouseClicked(MouseEvent e) {}
+            @Override
             public void mousePressed(MouseEvent e) {
                 if(getFocusOwner() instanceof KeyGrabberTextField){
                     Component owner = getFocusOwner();
@@ -1042,8 +1049,11 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
                     owner.setFocusable(true);
                 }
             }
+            @Override
             public void mouseReleased(MouseEvent e) {}
+            @Override
             public void mouseEntered(MouseEvent e) {}
+            @Override
             public void mouseExited(MouseEvent e) {}
         };
         
