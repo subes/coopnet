@@ -34,6 +34,7 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.utils.UserListFileDropHandler;
 import coopnetclient.utils.gamedatabase.GameSetting;
+import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
@@ -83,6 +84,7 @@ public class RoomPanel extends javax.swing.JPanel {
         if (isHost) {
             popup = new PlayerListPopupMenu(PlayerListPopupMenu.HOST_MODE, lst_userList);
             cb_useHamachi.setVisible(false);
+            Hotkeys.bindKeys();
         } else {
             popup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
         }
@@ -111,6 +113,10 @@ public class RoomPanel extends javax.swing.JPanel {
         }
     }
 
+    public boolean isHost(){
+        return isHost;
+    }
+    
     private void initLauncher() {
         new Thread() {
 

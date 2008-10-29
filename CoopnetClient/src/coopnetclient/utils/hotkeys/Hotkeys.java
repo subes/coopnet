@@ -20,7 +20,9 @@
 package coopnetclient.utils.hotkeys;
 
 import coopnetclient.Globals;
+import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -47,12 +49,14 @@ public class Hotkeys {
     private Hotkeys() {}
 
     public static void bindKeys() {
+        Logger.log(LogTypes.LOG, "Binding hotkey");
         if(Settings.getLaunchHotKey() != KeyEvent.VK_UNDEFINED){
             handler.registerHotkey(ACTION_LAUNCH, Settings.getLaunchHotKeyMask(), Settings.getLaunchHotKey());
         }
     }
 
     public static void unbindKeys() {
+        Logger.log(LogTypes.LOG, "UnBinding hotkey");
         handler.unregisterHotkey(ACTION_LAUNCH);
     }
 

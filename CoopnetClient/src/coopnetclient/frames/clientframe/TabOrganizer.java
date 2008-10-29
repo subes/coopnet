@@ -39,6 +39,7 @@ import coopnetclient.utils.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Component;
 import java.io.File;
@@ -213,6 +214,10 @@ public class TabOrganizer {
             }
             for (ChannelPanel cp : channelPanels) {
                 cp.enablebuttons();
+            }
+            
+            if(roomPanel.isHost()){
+                Hotkeys.unbindKeys();
             }
 
             roomPanel = null;

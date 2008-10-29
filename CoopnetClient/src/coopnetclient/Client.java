@@ -100,7 +100,9 @@ public class Client {
             @Override
             public void run() {
                 try {
-                    Colorizer.initLAF();                    
+                    Colorizer.initLAF();
+                    GameDatabase.loadVersion();
+                    GameDatabase.load("", GameDatabase.dataFilePath);
                     Globals.openClientFrame();
                     startConnection();
 
@@ -113,13 +115,11 @@ public class Client {
                         TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
                         Settings.setFirstRun(false);
                     }
-                    checkAndUpdateGameData();
                     checkAndUpdateClient();
-                    Hotkeys.bindKeys();
+                    checkAndUpdateGameData();                    
                 } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }
-
             }
         });
     }

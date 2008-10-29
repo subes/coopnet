@@ -45,25 +45,26 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 public class Globals {
 
     //Constants
-    public static final int JDPLAY_MAXSEARCHRETRIES = 20;    
+    public static final int JDPLAY_MAXSEARCHRETRIES = 20;
     //Set via static{}
     private static OperatingSystems operatingSystem;
-    private static String lastOpenedDir;    
+    private static String lastOpenedDir;
     //Preset value
     private static boolean debug = false;
     private static final String clientVersion = "0.98.2";
     private static boolean connectionStatus = false;
     private static boolean loggedInStatus = false;
-    private static boolean sleepModeStatus = false;  
+    private static boolean sleepModeStatus = false;
     //First set when known
     private static String thisPlayer_loginName;
     private static String thisPlayer_inGameName;
     private static String serverIP;
-    private static int serverPort;    
+    private static int serverPort;
     //Objects
     private static ClientFrame clientFrame;
     private static ContactListModel contactList = new ContactListModel();
@@ -84,7 +85,7 @@ public class Globals {
     private static TrayIcon trayIcon = null;
     private static boolean trayAdded = false;
     /*******************************************************************/
-
+    
 
     static {
         //Detect OS
@@ -188,7 +189,7 @@ public class Globals {
     public static ContactListModel getContactList() {
         return contactList;
     }
-    
+
     public static void setConnectionStatus(boolean value) {
         connectionStatus = value;
         getClientFrame().updateStatus();
@@ -285,15 +286,15 @@ public class Globals {
         return clientFrame;
     }
 
-    public static void openShowProfileFrame(String name,String ingameName, String country, String webpage) {
+    public static void openShowProfileFrame(String name, String ingameName, String country, String webpage) {
         if (showProfileFrame != null) {
             Point prevLocation = showProfileFrame.getLocation();
             showProfileFrame.dispose();
             showProfileFrame = null;
-            showProfileFrame = new ShowProfileFrame(name,ingameName, country, webpage);
+            showProfileFrame = new ShowProfileFrame(name, ingameName, country, webpage);
             setupFrame(showProfileFrame, prevLocation);
         } else {
-            showProfileFrame = new ShowProfileFrame(name,ingameName, country, webpage);
+            showProfileFrame = new ShowProfileFrame(name, ingameName, country, webpage);
             setupFrame(showProfileFrame);
         }
     }
@@ -329,7 +330,7 @@ public class Globals {
         }
     }
 
-    public static void openEditProfileFrame(String name, String ingamename, String email, String country, String webpage ) {
+    public static void openEditProfileFrame(String name, String ingamename, String email, String country, String webpage) {
         if (editProfileFrame != null) {
             Point prevLocation = editProfileFrame.getLocation();
             closeChangePasswordFrame();
@@ -351,8 +352,8 @@ public class Globals {
             editProfileFrame = null;
         }
     }
-    
-    public static EditProfileFrame getEditProfileFrame(){
+
+    public static EditProfileFrame getEditProfileFrame() {
         return editProfileFrame;
     }
 
@@ -591,7 +592,6 @@ public class Globals {
             textPreviewFrame = new TextPreviewFrame(title, text);
             setupFrame(textPreviewFrame);
         }
-
     }
 
     public static void closeTextPreviewFrame() {
@@ -601,11 +601,18 @@ public class Globals {
         }
     }
 
-    private static void setupFrame(JFrame frame) {
+    private static void setupFrame(final JFrame frame) {
         frame.setLocationRelativeTo(null);
         Colorizer.colorize(frame);
         frame.pack();
-        frame.setVisible(true);
+        SwingUtilities.invokeLater(
+                new Runnable() {
+
+                    @Override
+                    public void run() {
+                        frame.setVisible(true);
+                    }
+                });
     }
 
     private static void setupFrame(JFrame frame, Point position) {
