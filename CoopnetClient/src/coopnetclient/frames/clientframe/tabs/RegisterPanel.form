@@ -69,7 +69,7 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                                  <Component id="lbl_Info" pref="337" max="32767" attributes="0"/>
+                                  <Component id="lbl_Info" pref="368" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
@@ -82,8 +82,8 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="tf_ingameName" alignment="0" pref="208" max="32767" attributes="1"/>
-                                      <Component id="tf_name" alignment="1" pref="208" max="32767" attributes="0"/>
+                                      <Component id="tf_ingameName" alignment="0" pref="268" max="32767" attributes="1"/>
+                                      <Component id="tf_name" alignment="1" pref="268" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -95,9 +95,9 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="tf_email" alignment="0" pref="208" max="32767" attributes="1"/>
-                                      <Component id="cmb_country" alignment="1" pref="208" max="32767" attributes="1"/>
-                                      <Component id="tf_website" alignment="0" pref="208" max="32767" attributes="1"/>
+                                      <Component id="tf_email" alignment="0" pref="268" max="32767" attributes="1"/>
+                                      <Component id="cmb_country" alignment="1" pref="268" max="32767" attributes="1"/>
+                                      <Component id="tf_website" alignment="0" pref="268" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -108,13 +108,13 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="pf_password2" alignment="0" pref="208" max="32767" attributes="1"/>
-                                      <Component id="pf_password1" alignment="0" pref="208" max="32767" attributes="1"/>
+                                      <Component id="pf_password2" alignment="0" pref="268" max="32767" attributes="1"/>
+                                      <Component id="pf_password1" alignment="0" pref="268" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                  <Component id="lbl_error" pref="337" max="32767" attributes="0"/>
+                                  <Component id="lbl_error" pref="368" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -201,6 +201,9 @@
                   </Properties>
                 </Component>
                 <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_name">
+                  <Properties>
+                    <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Login name must be 3 to 30 characters and is restricted to the following characters:&lt;br&gt; [A-Z] [a-z] [0-9] ! &quot; # $ % &amp; &apos; ( ) * + , - . / : ; &lt; = &gt; ? @ [ \ ] ^ _ ` { | } ~"/>
+                  </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_nameActionPerformed"/>
                   </Events>
@@ -231,11 +234,17 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JPasswordField" name="pf_password1">
+                  <Properties>
+                    <Property name="toolTipText" type="java.lang.String" value="Password must be atleast 5 characters long."/>
+                  </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pf_password11ActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JPasswordField" name="pf_password2">
+                  <Properties>
+                    <Property name="toolTipText" type="java.lang.String" value="Password must be atleast 5 characters long."/>
+                  </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pf_password2ActionPerformed"/>
                   </Events>
