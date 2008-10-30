@@ -170,7 +170,7 @@ public class Settings {
     private final static String def_wineComamnd = "wine";
     private final static int def_fileTransferPort = 2300;
     private final static int def_quickPanelDividerWidth = 5;
-    private final static int def_quickPanelToggleBarWidth = 5;
+    private final static int def_quickPanelToggleBarWidth = 10;
     private final static boolean def_contactStatusChangeTextNotification = true;
     private final static boolean def_contactStatusChangeSoundNotification = true;
     private final static boolean def_trayIconEnabled = false;
