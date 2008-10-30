@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.frames.clientframe.TabOrganizer;
@@ -31,8 +30,8 @@ public class RegisterPanel extends javax.swing.JPanel {
         initComponents();
         coopnetclient.utils.Colorizer.colorize(this);
     }
-    
-    public RegisterPanel(String loginname){
+
+    public RegisterPanel(String loginname) {
         initComponents();
         tf_name.setText(loginname);
         tf_ingameName.setText(loginname);
@@ -41,11 +40,11 @@ public class RegisterPanel extends javax.swing.JPanel {
 
     @Override
     public void requestFocus() {
-            tf_name.requestFocus();
-        }
+        tf_name.requestFocus();
+    }
 
     private void register() {
-        String name = tf_name.getText();        
+        String name = tf_name.getText();
         String password1 = new String(pf_password1.getPassword());
         String password2 = new String(pf_password2.getPassword());
         String email = tf_email.getText();
@@ -54,71 +53,59 @@ public class RegisterPanel extends javax.swing.JPanel {
         String website = tf_website.getText();
 
         boolean error = false;
-        
-        if(!Verification.verifyLoginName(name)){
+
+        if (!Verification.verifyLoginName(name)) {
             tf_name.showErrorMessage("Invalid login name!");
             error = true;
         }
-        
-        if(!Verification.verifyEMail(email)){
+
+        if (!Verification.verifyEMail(email)) {
             tf_email.showErrorMessage("Invalid email adress!");
             error = true;
         }
-        
-        if(!Verification.verifyIngameName(ingameName)){
+
+        if (!Verification.verifyIngameName(ingameName)) {
             tf_ingameName.showErrorMessage("Invalid name!");
             error = true;
         }
-        
-        if(!Verification.verifyWebsite(website)){
+
+        if (!Verification.verifyWebsite(website)) {
             tf_website.showErrorMessage("Invalid website!");
             error = true;
-        } 
-        
-        if(!Verification.verifyPassword(password1)){
+        }
+
+        if (!Verification.verifyPassword(password1)) {
             lbl_error.setForeground(Color.red);
             lbl_error.setText("Invalid password!");
             pf_password1.setText("");
             pf_password2.setText("");
             error = true;
-        } else        
-        if(!password1.equals(password2)){
+        } else if (!password1.equals(password2)) {
             lbl_error.setForeground(Color.red);
             lbl_error.setText("Passwords don't match!");
             error = true;
-        }else{
+        } else {
             lbl_error.setText(" ");
         }
-        
-        if(!error){            
-            Protocol.register(name,password1,email,ingameName,(cmb_country.getSelectedIndex() == 0) ? "" : country,website);
+
+        if (!error) {
+            Protocol.register(name, password1, email, ingameName, (cmb_country.getSelectedIndex() == 0) ? "" : country, website);
             coopnetclient.utils.Settings.setLastLoginName(name);
-        }
-    }
-    
-    public void showLoginNameUsedError(){
-        tf_name.showErrorMessage("Name is already in use!");
-    }
-    
-    private void disableButtons(){
-        if(btn_send.isEnabled()){
-            new Thread(){
-                @Override
-                public void run() {
-                    btn_send.setEnabled(false);
-                    btn_cancel.setEnabled(false);
-                    try {
-                        sleep(1000);                    
-                    } catch (InterruptedException ex) {}
-                    if(btn_send != null){ 
-                        btn_send.setEnabled(true);
-                        btn_cancel.setEnabled(true);
-                    }
-                }
-            }.start();
+            disableButtons();
         }
     }
 
+    public void showLoginNameUsedError() {
+        tf_name.showErrorMessage("Name is already in use!");
+    }
+
+    private void disableButtons() {
+        btn_send.setEnabled(false);
+    }
+    
+    public void enableButtons() {
+        btn_send.setEnabled(true);
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -378,7 +365,6 @@ private void tf_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
 }//GEN-LAST:event_tf_nameActionPerformed
 
 private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sendActionPerformed
-    disableButtons();
     register();
 }//GEN-LAST:event_btn_sendActionPerformed
 

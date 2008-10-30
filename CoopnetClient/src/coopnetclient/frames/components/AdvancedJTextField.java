@@ -34,7 +34,7 @@ public class AdvancedJTextField extends JTextField {
             lastValue = t;
             setForeground(foreGround);
             errorShowing = false;
-            setText(lastValue);            
+            super.setText(lastValue);            
             repaint();
         } else {
             super.setText(t);
@@ -46,12 +46,13 @@ public class AdvancedJTextField extends JTextField {
             lastValue = getText();
             foreGround = getForeground();
             setForeground(errorColor);
-            setText(errorMessage);
+            super.setText(errorMessage);
             errorShowing = true;
             repaint();
         }
         else{
-            setText(errorMessage);
+            super.setText(errorMessage);
+            setForeground(errorColor);
             repaint();
         }
     }
@@ -61,8 +62,7 @@ public class AdvancedJTextField extends JTextField {
         public void focusGained(java.awt.event.FocusEvent evt) {
             if (errorShowing) {
                 setForeground(foreGround);
-                setText(lastValue);
-                errorShowing = false;
+                setText(lastValue);                
                 repaint();
             }
         }
@@ -77,8 +77,7 @@ public class AdvancedJTextField extends JTextField {
         public void keyPressed(KeyEvent e) {
             if (errorShowing) {
                 setForeground(foreGround);
-                setText(lastValue);
-                errorShowing = false;
+                setText(lastValue);                
                 repaint();
             }
         }

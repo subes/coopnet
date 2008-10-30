@@ -83,6 +83,7 @@ public class CommandHandler {
                     break;
                 case LOGIN_INCORRECT:
                     TabOrganizer.getLoginPanel().showError("Wrong username/password, please try again!", Color.red);
+                    TabOrganizer.getLoginPanel().enableButtons();
                     break;
                 case OK_REGISTER:
                     TabOrganizer.closeRegisterPanel();
@@ -92,9 +93,16 @@ public class CommandHandler {
                     break;
                 case LOGINNAME_IN_USE:
                     TabOrganizer.getRegisterPanel().showLoginNameUsedError();
+                    TabOrganizer.getRegisterPanel().enableButtons();
                     break;
                 case CRIPPLED_SERVER_MODE:
                     JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nlogging in and registering is impossible!\nPlease try again later.", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
+                    if(TabOrganizer.getLoginPanel()!= null){
+                        TabOrganizer.getLoginPanel().enableButtons();
+                    }
+                    if(TabOrganizer.getRegisterPanel()!=null){
+                        TabOrganizer.getRegisterPanel().enableButtons();
+                    }
                     break;
             }
         } else {//logged-in commands

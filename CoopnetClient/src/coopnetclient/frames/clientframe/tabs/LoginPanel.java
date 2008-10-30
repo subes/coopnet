@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.frames.clientframe.TabOrganizer;
@@ -25,7 +24,7 @@ import coopnetclient.utils.Verification;
 import java.awt.Color;
 
 public class LoginPanel extends javax.swing.JPanel {
-    
+
     /** Creates new form LoginPanel */
     public LoginPanel() {
 
@@ -33,72 +32,61 @@ public class LoginPanel extends javax.swing.JPanel {
         tf_name.setText(coopnetclient.utils.Settings.getLastLoginName());
         cb_autoLogin.setSelected(coopnetclient.utils.Settings.getAutoLogin());
         coopnetclient.utils.Colorizer.colorize(this);
-        
+
         lbl_loginError.setText(" ");
     }
 
     @Override
     public void requestFocus() {
-        tf_name.requestFocus();        
+        tf_name.requestFocus();
     }
 
     private void login() {
         String name = tf_name.getText();
         String passw = new String(pf_password.getPassword());
-        
-        if(!Verification.verifyLoginName(name)){
-            showError("Wrong username/password, please try again!",Color.red);
-            return;
-        }
-        
-        if(!Verification.verifyPassword(passw)){
-            showError("Wrong username/password, please try again!",Color.red);
-            return;
-        }
-        
-        if (tf_name.getText().length() > 0) {
-            Protocol.login(name, passw);
-            coopnetclient.utils.Settings.setLastLoginName(name);
-            coopnetclient.utils.Settings.setAutoLogin(cb_autoLogin.isSelected());
 
-            if (coopnetclient.utils.Settings.getAutoLogin()) {
-                coopnetclient.utils.Settings.setLastLoginPassword(passw);
-            } else {
-                coopnetclient.utils.Settings.setLastLoginPassword("");
-            }
-            
-            try{
-                Thread.sleep(100);
-            }catch(InterruptedException ex){}            
+        boolean error = false;
+        if (!Verification.verifyLoginName(name)) {
+            tf_name.showErrorMessage("Invalid username!");
+            error = true;
+        }
+
+        if (!Verification.verifyPassword(passw)) {
+            showError("Invalid password!", Color.red);
+            error = true;
+        }
+
+        if(error){
+            return;
         }
         
+        Protocol.login(name, passw);
+        coopnetclient.utils.Settings.setLastLoginName(name);
+        coopnetclient.utils.Settings.setAutoLogin(cb_autoLogin.isSelected());
+
+        if (coopnetclient.utils.Settings.getAutoLogin()) {
+            coopnetclient.utils.Settings.setLastLoginPassword(passw);
+        } else {
+            coopnetclient.utils.Settings.setLastLoginPassword("");
+        }
         showError(" ", Color.red);
     }
-    
-    public void showError(String msg, Color clr){
+
+    public void showError(String msg, Color clr) {
         lbl_loginError.setForeground(clr);
         lbl_loginError.setText(msg);
     }
-    
-    private void disableButtons(){
-        if(btn_login.isEnabled()){
-            new Thread(){
-                @Override
-                public void run() {
-                    btn_login.setEnabled(false);
-                    btn_register.setEnabled(false);
-                    btn_passwordRecovery.setEnabled(false);
-                    try {
-                        sleep(1000);                    
-                    } catch (InterruptedException ex) {}
-                    if(btn_login != null){
-                        btn_login.setEnabled(true);  
-                        btn_register.setEnabled(true);
-                        btn_passwordRecovery.setEnabled(true);
-                    }
-                }
-            }.start();
-        }
+
+    private void disableButtons() {
+        btn_login.setEnabled(false);
+        btn_register.setEnabled(false);
+        btn_passwordRecovery.setEnabled(false);
+    }
+
+    public void enableButtons() {
+        btn_login.setEnabled(true);
+        btn_register.setEnabled(true);
+        btn_passwordRecovery.setEnabled(true);
     }
 
     /** This method is called from within the constructor to
@@ -233,7 +221,6 @@ public class LoginPanel extends javax.swing.JPanel {
         add(pnl_input, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-        disableButtons();
         login();
 }//GEN-LAST:event_btn_loginActionPerformed
 
