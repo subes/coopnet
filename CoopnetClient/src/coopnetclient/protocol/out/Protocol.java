@@ -149,10 +149,6 @@ public class Protocol {
         new Message(ClientProtocolCommands.REFRESH_ROOMS_AND_PLAYERS, GameDatabase.IDofGame(channelName));
     }
 
-    public static void channelList() {
-        new Message(ClientProtocolCommands.LIST_CHANNELS);
-    }
-
     public static void joinChannel(String channelName) {
         if(TabOrganizer.getChannelPanel(channelName) == null){
             new Message(ClientProtocolCommands.JOIN_CHANNEL, GameDatabase.IDofGame(channelName));
@@ -247,30 +243,6 @@ public class Protocol {
 
     public static void nudge(String playerName) {
         new Message(ClientProtocolCommands.NUDGE, playerName);
-    }
-
-    public static void setEmail(String email) {
-        new Message(ClientProtocolCommands.SET_EMAIL, email);
-    }
-
-    public static void setEmailPublicity(boolean isPublic) {
-        new Message(ClientProtocolCommands.SET_EMAIL_IS_PUBLIC, String.valueOf(isPublic));
-    }
-
-    public static void setCountry(String country) {
-        new Message(ClientProtocolCommands.SET_COUNTRY, country);
-    }
-
-    public static void setWebsite(String website) {
-        new Message(ClientProtocolCommands.SET_WEBSITE, website);
-    }
-
-    public static void setGameName(String ingameName) {
-        new Message(ClientProtocolCommands.SET_INGAMENAME, ingameName);
-    }
-
-    public static void setLoginName(String loginName) {
-        new Message(ClientProtocolCommands.SET_LOGINNAME, loginName);
     }
 
     public static void gameClosed(String channelName) {
