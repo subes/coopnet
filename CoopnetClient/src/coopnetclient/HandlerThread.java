@@ -50,8 +50,7 @@ public class HandlerThread extends Thread {
     private ByteBuffer attachment = null;
     private Thread sender;
     private Vector<String> outQueue = new Vector<String>();
-    private long lastMessageReadAt = System.currentTimeMillis();
-    private static int TIMEOUT = 600000;
+    private Long lastMessageSentAt = 0l;
 
     protected void addToOutQueue(String element) {
         outQueue.add(element);
@@ -106,9 +105,14 @@ public class HandlerThread extends Thread {
                 public void run() {
                     try {
                         while (running) {
-                            new Message(Protocol.HEARTBEAT);
+                            if((System.currentTimeMillis() - lastMessageSentAt) > 30000 ){
+                                new Message(Protocol.HEARTBEAT);
+                                synchronized(lastMessageSentAt){
+                                    lastMessageSentAt = System.currentTimeMillis();
+                                }
+                            }
                             try {
-                                sleep(30000);
+                                sleep(1000);
                             } catch (InterruptedException ex) {
                             }                            
                         }
@@ -151,7 +155,6 @@ public class HandlerThread extends Thread {
                 if (input == null) {
                     continue;
                 }
-                lastMessageReadAt = System.currentTimeMillis();
                 //execute command
                 SwingUtilities.invokeLater(new SwingWorker(input));
                 input = "";
@@ -322,6 +325,9 @@ public class HandlerThread extends Thread {
                     }
                 } else {
                     socketChannel.write(byteBuffer);
+                }
+                synchronized (lastMessageSentAt) {
+                    lastMessageSentAt = System.currentTimeMillis();
                 }
             } catch (Exception e) {
                 System.out.println("Failed to send: " + rawdata);
