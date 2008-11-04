@@ -270,6 +270,9 @@ public class Client {
                     } catch (java.io.FileNotFoundException e) {
                         return;
                     }
+                    catch(java.net.ConnectException e){
+                        return;
+                    }
                     int lastversion = 0;
                     String readHeader1 = br.readLine();
                     String readHeader2 = br.readLine();

@@ -577,11 +577,24 @@ private void btn_leaveChannel1ActionPerformed(java.awt.event.ActionEvent evt) {/
 }//GEN-LAST:event_btn_leaveChannel1ActionPerformed
 
 private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
-    if(!popup.isVisible()){
-        if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
-            lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
-        }else{
-           lst_userList.clearSelection();
+    if (!popup.isVisible()) {
+        int idx = lst_userList.locationToIndex(evt.getPoint());
+        if(!lst_userList.getCellBounds(idx, idx).contains(evt.getPoint())){
+            lst_userList.clearSelection();
+            return;
+        }
+        if(idx == lst_userList.getSelectedIndex()){
+            return;
+        }
+        String selected = lst_userList.getModel().getElementAt(idx).toString();
+        if (selected !=null && selected.length()>0) {
+            if (!selected.equals(Globals.getThisPlayer_loginName())) {
+                lst_userList.setSelectedIndex(idx);
+            }else{
+                lst_userList.clearSelection();
+            }
+        } else {
+            lst_userList.clearSelection();
         }
     }
 }//GEN-LAST:event_lst_userListMouseMoved

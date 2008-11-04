@@ -521,10 +521,23 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
 }//GEN-LAST:event_tp_chatOutputKeyTyped
 
 private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
-    if(!popup.isVisible()){
-        if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
-            lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
-        }else{
+    if (!popup.isVisible()) {
+        int idx = lst_userList.locationToIndex(evt.getPoint());
+        if(!lst_userList.getCellBounds(idx, idx).contains(evt.getPoint())){
+            lst_userList.clearSelection();
+            return;
+        }
+        if(idx == lst_userList.getSelectedIndex()){
+            return;
+        }
+        String selected = lst_userList.getModel().getElementAt(idx).toString();
+        if (selected !=null && selected.length()>0) {
+            if (!selected.equals(Globals.getThisPlayer_loginName())) {
+                lst_userList.setSelectedIndex(idx);
+            }else{
+                lst_userList.clearSelection();
+            }
+        } else {
             lst_userList.clearSelection();
         }
     }

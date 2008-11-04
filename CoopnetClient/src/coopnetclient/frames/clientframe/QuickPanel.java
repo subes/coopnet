@@ -233,15 +233,41 @@ private void lst_favouritesListMouseClicked(java.awt.event.MouseEvent evt) {//GE
 }//GEN-LAST:event_lst_favouritesListMouseClicked
 
 private void lst_contactListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseMoved
-    if(!popup.isVisible()){
-        lst_contactList.setSelectedIndex(lst_contactList.locationToIndex(evt.getPoint()));
+    if (!popup.isVisible()) {
+        int idx = lst_contactList.locationToIndex(evt.getPoint());
+        if(!lst_contactList.getCellBounds(idx, idx).contains(evt.getPoint())){
+            lst_contactList.clearSelection();
+            return;
+        }
+        if(idx == lst_contactList.getSelectedIndex()){
+            return;
+        }
+        String selected = lst_contactList.getModel().getElementAt(idx).toString();
+        if (selected !=null && selected.length()>0) {
+                lst_contactList.setSelectedIndex(idx);
+        } else {
+            lst_contactList.clearSelection();
+        }
     }
 }//GEN-LAST:event_lst_contactListMouseMoved
 
 private void lst_favouritesListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_favouritesListMouseMoved
-     if(!popup.isVisible()){
-        lst_favouritesList.setSelectedIndex(lst_favouritesList.locationToIndex(evt.getPoint()));
-     }
+     if (!popup.isVisible()) {
+        int idx = lst_favouritesList.locationToIndex(evt.getPoint());
+        if(!lst_favouritesList.getCellBounds(idx, idx).contains(evt.getPoint())){
+            lst_favouritesList.clearSelection();
+            return;
+        }
+        if(idx == lst_favouritesList.getSelectedIndex()){
+            return;
+        }
+        String selected = lst_favouritesList.getModel().getElementAt(idx).toString();
+        if (selected !=null && selected.length()>0) {
+                lst_favouritesList.setSelectedIndex(idx);
+        } else {
+            lst_favouritesList.clearSelection();
+        }
+    }
 }//GEN-LAST:event_lst_favouritesListMouseMoved
 
 private void lst_contactListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseExited
