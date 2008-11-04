@@ -84,7 +84,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             cb_map.setModel(new DefaultComboBoxModel(loadMaps()));
             cb_map.setSelectedItem(TempGameSettings.getMap());            
             
-            if(cb_map.getSelectedItem() == null && cb_map.getComponentCount() > 0){
+            if(cb_map.getSelectedItem() == null && cb_map.getItemCount() > 0){
                 cb_map.setSelectedIndex(0);
             }
         }

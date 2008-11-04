@@ -19,13 +19,13 @@
 
 package coopnetclient.utils.launcher;
 
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import java.util.ArrayList;
 
 public class TempGameSettings {
     
-    private static boolean isHost;
     private static String map;
     private static ArrayList<GameSetting> gameSettings;
     
@@ -35,14 +35,6 @@ public class TempGameSettings {
     
     public static void setMap(String map){
         TempGameSettings.map = map;
-    }
-    
-    public static boolean getIsHost(){
-        return isHost;
-    }
-    
-    public static void setIsHost(boolean isHost){
-        TempGameSettings.isHost = isHost;
     }
     
     public static void initalizeGameSettings(String gameName, String childName){
@@ -70,8 +62,12 @@ public class TempGameSettings {
     public static void setGameSetting(String settingname, String value, boolean broadcast){
         for(GameSetting setting : gameSettings){
             if(setting.getName().equals(settingname)){
-                setting.setValue(value, isHost && broadcast);
-                return;
+                if(TabOrganizer.getRoomPanel()!=null){
+                    setting.setValue(value, TabOrganizer.getRoomPanel().isHost() && broadcast);
+                    return;
+                }else{
+                    return;
+                }
             }
         }
     }

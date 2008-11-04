@@ -244,7 +244,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
             if (lst_games.getSelectedValue() != null 
                     && tf_path.getText().length() > 0
-                    && Verification.verifyDirectory(tf_path.getText())) {
+                    && Verification.verifyFile(tf_path.getText())) {
                 GameDatabase.setLocalExecutablePath(lst_games.getSelectedValue().toString(), tf_path.getText());
                 GameDatabase.setLocalInstallPath(lst_games.getSelectedValue().toString(), tf_installPath.getText());
                 Globals.getClientFrame().setLaunchable(lst_games.getSelectedValue().toString(), true);
@@ -256,7 +256,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             if (lst_games.getSelectedValue() != null 
                     && tf_path.getText().length() > 0 
                     && tf_installPath.getText().length() > 0
-                    && Verification.verifyDirectory(tf_path.getText())
+                    && Verification.verifyFile(tf_path.getText())
                     && Verification.verifyDirectory(tf_installPath.getText())) {
                 GameDatabase.setLocalExecutablePath(lst_games.getSelectedValue().toString(), tf_path.getText());
                 GameDatabase.setLocalInstallPath(lst_games.getSelectedValue().toString(), tf_installPath.getText());

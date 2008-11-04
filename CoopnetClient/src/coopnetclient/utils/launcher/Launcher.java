@@ -60,7 +60,9 @@ public class Launcher {
         }else
         if(launchInfo instanceof ParameterLaunchInfo){
             launchHandler = new ParameterLaunchHandler();
-            if(!launchInfo.getIsInstantLaunch()){
+            if((!launchInfo.getIsInstantLaunch())
+                    && TabOrganizer.getRoomPanel()!= null 
+                    && TabOrganizer.getRoomPanel().isHost() ){
                 Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getChildName());
             }
         }
@@ -69,7 +71,7 @@ public class Launcher {
         if(isInitialized == false){
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed initializing the "+launchHandler.getClass().toString()+", you won't be able to play the game!", ChatStyles.SYSTEM,false);
         }else{
-            if(TabOrganizer.getRoomPanel() != null && !(launchInfo instanceof ParameterLaunchInfo)){
+            if(TabOrganizer.getRoomPanel() != null && (!(launchInfo instanceof ParameterLaunchInfo) || !TabOrganizer.getRoomPanel().isHost() ) ){
                 TabOrganizer.getRoomPanel().enableButtons();
             }
         }
