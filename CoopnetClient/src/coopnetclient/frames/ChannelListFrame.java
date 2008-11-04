@@ -19,7 +19,6 @@
 
 package coopnetclient.frames;
 
-import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.protocol.out.Protocol;
@@ -34,7 +33,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
     public ChannelListFrame() {
         initComponents();
         lst_channelList.removeAll();
-        for (String st : GameDatabase.gameNamesAsStringArray()) {
+        for (String st : GameDatabase.getAllGameNamesAsStringArray()) {
             if (st.length() > 0) {
                 channels.add(st);
             }
@@ -147,7 +146,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
         lst_channelList.removeAll();
         channels.clear();
         String filter = tf_filter.getText();
-        for (String st : GameDatabase.gameNamesAsStringArray()) {
+        for (String st : GameDatabase.getAllGameNamesAsStringArray()) {
             if (st.toLowerCase().contains(filter.toLowerCase())) {
                 channels.add(st);
             }

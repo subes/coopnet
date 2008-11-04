@@ -32,7 +32,7 @@ public class FavouritesFrame extends javax.swing.JFrame {
     /** Creates new form FavouritesFrame */
     public FavouritesFrame() {
         initComponents();
-        for(String st:  GameDatabase.gameNamesAsStringArray()){
+        for(String st:  GameDatabase.getAllGameNamesAsStringArray()){
             if(st.length()>0)
                 channels.add(st);
         }
@@ -235,7 +235,7 @@ public class FavouritesFrame extends javax.swing.JFrame {
         lst_channels.removeAll();
         channels.clear();
         String filter= tf_filter.getText();
-        for(String st: GameDatabase.gameNamesAsStringArray()){
+        for(String st: GameDatabase.getAllGameNamesAsStringArray()){
             if(st.toLowerCase().contains(filter.toLowerCase()))
                 channels.add(st);
         }

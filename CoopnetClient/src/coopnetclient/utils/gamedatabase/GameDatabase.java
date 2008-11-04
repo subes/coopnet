@@ -39,6 +39,7 @@ public class GameDatabase {
     private static final String localPathsFilePath = "data/localpaths";
     private static boolean registryOK = false;
     protected static HashMap<String, String> IDtoGameName;     // key is the ID    
+    protected static HashMap<String, LaunchMethods> IDtoLaunchMethod;     // key is the ID    
     private static HashMap<String, String> localExecutablePath; //shud point to the exe/binary
     private static HashMap<String, String> localInstallPath; //shud point to the game basedir
     protected static ArrayList<String> isExperimental;
@@ -62,6 +63,7 @@ public class GameDatabase {
         }
 
         IDtoGameName = new HashMap<String, String>();
+        IDtoLaunchMethod = new HashMap<String, LaunchMethods>();
         localExecutablePath = new HashMap<String, String>();
         localInstallPath = new HashMap<String, String>();
         isExperimental = new ArrayList<String>();
@@ -216,11 +218,23 @@ public class GameDatabase {
         localInstallPath.put(gamename, path);
     }
 
-    public static Object[] gameNames() {
+    public static Object[] getAllGameNames() {
         return IDtoGameName.values().toArray(new String[0]);
     }
+    
+    public static String[] getNonDPlayGameNames() {
+        ArrayList<String> games = new ArrayList<String>();
+        for(String ID:IDtoGameName.keySet()){
+            LaunchMethods m = IDtoLaunchMethod.get(ID);
+            if(  m!= null && !m.equals(LaunchMethods.DIRECTPLAY) &&
+                   !m.equals(LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY) ){
+                games.add(IDtoGameName.get(ID));
+            }
+        }
+        return games.toArray(new String[games.size()]);
+    }
 
-    public static String[] gameNamesAsStringArray() {
+    public static String[] getAllGameNamesAsStringArray() {
         return IDtoGameName.values().toArray(new String[0]);
     }
 

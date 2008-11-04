@@ -88,6 +88,7 @@ public class XMLReader extends DefaultHandler {
         if (qName.equalsIgnoreCase("GameData")) {
             //register in gamedatabase
             GameDatabase.IDtoGameName.put(tmpID, tmpGame.getGameName());
+            GameDatabase.IDtoLaunchMethod.put(tmpID, tmpGame.getLaunchMethod(null));
             if (gameName == null || tmpGame.getGameName().equals(gameName)) {
                 if (GameDatabase.indexOfGame(tmpGame.getGameName()) > -1) { //remove old data
                     GameDatabase.gameData.remove(GameDatabase.indexOfGame(tmpGame.getGameName()));

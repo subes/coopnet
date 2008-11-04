@@ -26,7 +26,6 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
-import java.awt.Color;
 import java.io.File;
 
 public class ManageGamesFrame extends javax.swing.JFrame {
@@ -36,7 +35,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
     /** Creates new form ManageGamesFrame */
     public ManageGamesFrame() {
         initComponents();
-        for (String st : GameDatabase.gameNamesAsStringArray()) {
+        for (String st : GameDatabase.getNonDPlayGameNames()) {
             if (st.length() > 0) {
                 channels.add(st);
             }
@@ -115,7 +114,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             }
         });
 
-        lbl_noteText.setText("<html>DirectPlay games need a registry entry in order to be launched.<br> If you get a DirectPlay error while launching,<br> then please check that the registry entry is available.<br> Maybe run dxdiag.exe and look at the network tab.");
+        lbl_noteText.setText("<html>DirectPlay games must be properly installed in order to be launched.<br>Run dxdiag.exe and look at the network tab to find out!<br>If the game is installed properly, it should be present in the middle list with status \"OK\".");
 
         lbl_installPath.setText("Install directory:");
 
@@ -146,17 +145,17 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE))
+                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE))
                     .addComponent(lbl_games)
-                    .addComponent(scrl_games, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
+                    .addComponent(scrl_games, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_installPath)
                             .addComponent(lbl_path))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tf_installPath, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                            .addComponent(tf_path, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                            .addComponent(tf_installPath, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                            .addComponent(tf_path, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lbl_note)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -306,7 +305,7 @@ private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     lst_games.removeAll();
     channels.clear();
     String filter = tf_filter.getText();
-    for (String st : GameDatabase.gameNamesAsStringArray()) {
+    for (String st : GameDatabase.getAllGameNamesAsStringArray()) {
         if (st.toLowerCase().contains(filter.toLowerCase())) {
             channels.add(st);
         }

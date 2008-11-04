@@ -32,10 +32,10 @@
                   <Group type="102" attributes="0">
                       <Component id="lbl_filter" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="tf_filter" pref="504" max="32767" attributes="0"/>
+                      <Component id="tf_filter" pref="584" max="32767" attributes="0"/>
                   </Group>
                   <Component id="lbl_games" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="scrl_games" alignment="1" pref="536" max="32767" attributes="1"/>
+                  <Component id="scrl_games" alignment="1" pref="616" max="32767" attributes="1"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lbl_installPath" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -43,8 +43,8 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="tf_installPath" pref="376" max="32767" attributes="0"/>
-                          <Component id="tf_path" alignment="0" pref="376" max="32767" attributes="0"/>
+                          <Component id="tf_installPath" pref="456" max="32767" attributes="0"/>
+                          <Component id="tf_path" alignment="0" pref="456" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lbl_note" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -164,7 +164,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_noteText">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;DirectPlay games need a registry entry in order to be launched.&lt;br&gt; If you get a DirectPlay error while launching,&lt;br&gt; then please check that the registry entry is available.&lt;br&gt; Maybe run dxdiag.exe and look at the network tab."/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;DirectPlay games must be properly installed in order to be launched.&lt;br&gt;Run dxdiag.exe and look at the network tab to find out!&lt;br&gt;If the game is installed properly, it should be present in the middle list with status &quot;OK&quot;."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_installPath">

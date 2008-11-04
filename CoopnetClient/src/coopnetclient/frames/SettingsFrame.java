@@ -54,7 +54,7 @@ public class SettingsFrame extends javax.swing.JFrame {
     public SettingsFrame() {
         initComponents();
         
-        List gamenames = Arrays.asList(GameDatabase.gameNames());
+        List gamenames = Arrays.asList(GameDatabase.getAllGameNames());
         Collections.sort(gamenames);
         cmb_homeChannel.setModel(new DefaultComboBoxModel(gamenames.toArray()));
         cmb_homeChannel.insertItemAt("", 0);
