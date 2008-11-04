@@ -169,6 +169,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                 Settings.setAutoLogin(false);
                 Settings.setLastLoginPassword("");
                 showError(" ",Color.red);
+                btn_save.setEnabled(false);
             }else{
                 showError("Your password must have 5 to 30 characters!",Color.red);                
             }

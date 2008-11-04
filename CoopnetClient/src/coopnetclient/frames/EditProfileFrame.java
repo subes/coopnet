@@ -266,7 +266,8 @@ public class EditProfileFrame extends javax.swing.JFrame {
                 tf_inGameName.getText(),
                 tf_emailAddress.getText(),
                 (cmb_country.getSelectedIndex() == 0) ? "" : cmb_country.getSelectedItem().toString(),
-                tf_website.getText() );         
+                tf_website.getText() );  
+        btn_save.setEnabled(false);
 }//GEN-LAST:event_btn_saveActionPerformed
 
     private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel

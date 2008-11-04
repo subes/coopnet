@@ -46,6 +46,7 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
     public void showWrongPasswordNotification(){
         lbl_errormsg.setForeground(Color.red);
         lbl_errormsg.setText("Wrong Password!");
+        btn_join.setEnabled(true);
     }
     
     public void hideWrongPasswordNotification(){
@@ -159,6 +160,7 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         }else if(ID != null){
             Protocol.joinRoomByID(ID, passw);
         }
+        btn_join.setEnabled(false);
         hideWrongPasswordNotification();
     }//GEN-LAST:event_join
 

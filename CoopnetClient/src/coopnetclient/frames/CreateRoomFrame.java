@@ -267,6 +267,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         if (modindex == 0) { //if none selected set index as -1
             modindex = -1;
         }
+        btn_create.setEnabled(false);
         if (btn_create.getText().equals("Create")) {
             //normal lobby stuff
             Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(), cb_instantroom.isSelected());
@@ -311,6 +312,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
 
     private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel
         Globals.closeRoomCreationFrame();
+        Protocol.closeRoom();
     }//GEN-LAST:event_cancel
 
     private void tf_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_nameActionPerformed

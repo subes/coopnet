@@ -61,6 +61,7 @@ public class LoginPanel extends javax.swing.JPanel {
         }
         
         Protocol.login(name, passw);
+        disableButtons();
         coopnetclient.utils.Settings.setLastLoginName(name);
         coopnetclient.utils.Settings.setAutoLogin(cb_autoLogin.isSelected());
 
