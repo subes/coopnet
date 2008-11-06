@@ -103,18 +103,23 @@ public class Client {
                     Colorizer.initLAF();
                     GameDatabase.loadVersion();
                     GameDatabase.load("", GameDatabase.dataFilePath);
-                    Globals.openClientFrame();
-                    startConnection();
-
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            Globals.openClientFrame();
+                            if (Settings.getFirstRun()) {
+                                TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
+                                Settings.setFirstRun(false);
+                            }
+                            startConnection();
+                        }
+                    });
+                    
                     try {
                         sleep(100);
                     } catch (Exception e) {
                     }
-
-                    if (Settings.getFirstRun()) {
-                        TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
-                        Settings.setFirstRun(false);
-                    }
+                    
                     checkAndUpdateClient();
                     checkAndUpdateGameData();                    
                 } catch (Exception e) {

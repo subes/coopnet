@@ -19,7 +19,6 @@
 
 package coopnetclient.frames.clientframe.tabs;
 
-import coopnetclient.Client;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
@@ -44,6 +43,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
     private String reciever;
     private String filename;
     private static int progress;
+    private long onePercentInBytes = 0;
 
     /** Creates new form FileTransfer */
     public FileTransferSendPanel(String reciever, File sentfile) {
@@ -52,6 +52,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
         this.filename = sentfile.getName();
         data = sentfile;
         totalbytes = data.length();
+        onePercentInBytes = totalbytes/100;
         lbl_fileValue.setText(sentfile.getName());
         lbl_recieverValue.setText(reciever);
         long size = sentfile.length();
@@ -81,6 +82,19 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
             btn_cancel.doClick();
         }
     }
+
+    public void cancelled() {
+        sending = false;
+         SwingUtilities.invokeLater(
+                new Runnable() {
+
+                    @Override
+                    public void run() {
+                        lbl_statusValue.setText("Peer cancelled the transfer!");
+                        btn_cancel.setText("Close");
+                    }
+                });
+    }
     
     public String getReciever() {
         return lbl_recieverValue.getText();
@@ -94,8 +108,9 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
         SwingUtilities.invokeLater(
                 new Runnable() {
 
+                    @Override
                     public void run() {
-                        lbl_statusValue.setText("Peer refused transfer!");
+                        lbl_statusValue.setText("Peer refused the transfer!");
                         btn_cancel.setText("Close");
                     }
                 });
@@ -114,6 +129,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
         SwingUtilities.invokeLater(
                 new Runnable() {
 
+                    @Override
                     public void run() {
                         lbl_timeLeftValue.setText(hours + ":" + minutes + ":" + seconds);
                     }
@@ -127,6 +143,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
         SwingUtilities.invokeLater(
                 new Runnable() {
 
+                    @Override
                     public void run() {
                         lbl_statusValue.setText(status);
                     }
@@ -168,30 +185,35 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                     long i = 1;
                     while ((i < firstByteToSend) && sending) {
                         bi.read();
-                        i++;
+                        ++i;
                     }
 
                     updateStatusLabel("Transferring...");
                     starttime = System.currentTimeMillis();
+                    long tmpCounter = 0;
 
                     while ((readedbyte = bi.read()) != -1 && sending) {
                         if (temp.position() < temp.capacity()) {
                             temp.put((byte) readedbyte);
-                            sentBytes++;
+                            ++sentBytes;
+                            ++tmpCounter;
                         } else {
                             temp.flip();
                             socket.write(temp);
                             temp.rewind();
                             //dont forge to sent the new byte aswell :S
                             temp.put((byte) readedbyte);
-                            sentBytes++;
+                            ++sentBytes;
+                            ++tmpCounter;
 
                         }
-                        if (sentBytes % 20000 == 0) {
+                        if (tmpCounter >= onePercentInBytes ) {
+                            tmpCounter = 0;
                             progress = (int) ((((sentBytes + firstByteToSend) * 1.0) / totalbytes) * 100);
                             SwingUtilities.invokeLater(
                                     new Runnable() {
 
+                                        @Override
                                         public void run() {
                                             pgb_progress.setValue(progress);
                                         }
@@ -211,6 +233,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                     SwingUtilities.invokeLater(
                             new Runnable() {
 
+                                @Override
                                 public void run() {
                                     lbl_statusValue.setText("Transfer complete!");
                                     pgb_progress.setValue(100);
@@ -258,12 +281,13 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                     int readedbyte;
                     long currenttime;
                     long timeelapsed;
+                    long tmpCounter = 0;
 
                     //discard data that is not needed
                     long i = 0;
                     while (i < firstByteToSend) {
                         bi.read();
-                        i++;
+                        ++i;
                     }
 
                     updateStatusLabel("Transferring...");
@@ -272,20 +296,24 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                     while ((readedbyte = bi.read()) != -1 && sending) {
                         if (temp.position() < temp.capacity()) {
                             temp.put((byte) readedbyte);
-                            sentBytes++;
+                            ++sentBytes;
+                            ++tmpCounter;
                         } else {
                             temp.flip();
                             bo.write(temp.array(), 0, temp.limit());
                             temp.rewind();
                             temp.put((byte) readedbyte);
-                            sentBytes++;
+                            ++sentBytes;
+                            ++tmpCounter;
                         }
-                        if (sentBytes % 20000 == 0) {
+                        if (tmpCounter >= onePercentInBytes) {
+                            tmpCounter = 0;
                             bo.flush();
                             progress = (int) ((((sentBytes + firstByteToSend) * 1.0) / totalbytes) * 100);
                             SwingUtilities.invokeLater(
                                     new Runnable() {
 
+                                        @Override
                                         public void run() {
                                             pgb_progress.setValue(progress);
                                         }
@@ -310,6 +338,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                     SwingUtilities.invokeLater(
                             new Runnable() {
 
+                                @Override
                                 public void run() {
                                     lbl_statusValue.setText("Transfer complete!");
                                     pgb_progress.setValue(100);

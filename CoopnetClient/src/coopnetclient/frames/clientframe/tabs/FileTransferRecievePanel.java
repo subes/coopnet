@@ -53,7 +53,9 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
     private boolean resuming = false;
     private ServerSocket serverSocket = null;
     SocketChannel socket = null;
-    private static int progress = 0;
+    private int progress = 0;
+    private long onePercentInBytes = 0;
+    
 
     /** Creates new form FileTransfer */
     public FileTransferRecievePanel(String sender, long size, String filename, String ip, String port) {
@@ -63,6 +65,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
         this.totalsize = size;
         this.ip = ip;
         this.port = port;
+        onePercentInBytes = totalsize/100;
         lbl_fileValue.setText(filename);
         lbl_senderValue.setText(sender);
         tf_savePath.setText(Settings.getRecieveDestination());
@@ -163,6 +166,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
         SwingUtilities.invokeLater(
                 new Runnable() {
 
+                    @Override
                     public void run() {
                         lbl_timeLeft.setText(hours + ":" + minutes + ":" + seconds);
                     }
@@ -181,8 +185,9 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
         SwingUtilities.invokeLater(
                 new Runnable() {
 
+                    @Override
                     public void run() {
-                        lbl_statusValue.setText("Peer cancelled!");
+                        lbl_statusValue.setText("Peer cancelled the transfer!");
                         btn_refuse.setText("Close");
                         btn_accept.setVisible(false);
                     }
@@ -250,32 +255,35 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                     long recievedBytes = 0;
                     long currenttime;
                     long timeelapsed;
+                    long tmpCounter = 0;
                     while (running && (readedbyte = bi.read()) != -1) {
                         bo.write(readedbyte);
-                        recievedBytes++;
-                        if (recievedBytes % 1000 == 0) {
+                        ++recievedBytes;
+                        ++tmpCounter;
+                        if (tmpCounter >= onePercentInBytes) {
+                            tmpCounter = 0;
                             bo.flush();
                             progress = (int) ((((recievedBytes + firstByteToSend) * 1.0) / (totalsize)) * 100);
                             SwingUtilities.invokeLater(
                                     new Runnable() {
 
+                                        @Override
                                         public void run() {
                                             pgb_progress.setValue(progress);
                                         }
                                     });
-                        }
-                        if (recievedBytes % 20000 == 0) {
                             currenttime = System.currentTimeMillis();
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
                             setTimeLeft((long) (((totalsize - firstByteToSend) - recievedBytes) / (recievedBytes * 1.0) * timeelapsed));
-                        }
+                        }                  
                     }
                     bo.flush();
                     if ((recievedBytes + firstByteToSend - ( resuming? 1:0 ) ) == totalsize) {
                         SwingUtilities.invokeLater(
                                 new Runnable() {
 
+                                    @Override
                                     public void run() {
                                         lbl_statusValue.setText("Transfer complete!");
                                         pgb_progress.setValue(100);
@@ -287,6 +295,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                         SwingUtilities.invokeLater(
                                 new Runnable() {
 
+                                    @Override
                                     public void run() {
                                         lbl_statusValue.setText("Transfer incomplete!");
                                         btn_refuse.setText("Close");
@@ -333,6 +342,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
     private void updateStatusLabel(final String status) {
         SwingUtilities.invokeLater(new Runnable() {
 
+            @Override
             public void run() {
                 lbl_statusValue.setText(status);
             }
@@ -351,7 +361,6 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                     running = true;
                     updateStatusLabel("Retrying...");
                     Thread.sleep(1000);
-                    System.out.println("second method starting");
                     socket = SocketChannel.open();
                     socket.connect(new InetSocketAddress(ip, new Integer(port)));
 
@@ -377,6 +386,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                     long recievedBytes = 0;
                     long currenttime = 0;
                     long timeelapsed = 0;
+                    long tmpCounter = 0;
                     ByteBuffer buffer = ByteBuffer.allocate(1000);
                     buffer.rewind();
                     while (running && ((socket.read(buffer)) != -1)) {
@@ -384,29 +394,31 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                         bo.write(buffer.array(), 0, buffer.limit());
                         recievedBytes += buffer.limit();
                         buffer.rewind();
-                        if (recievedBytes % 1000 == 0) {
+                        tmpCounter+=buffer.limit();
+                        if (tmpCounter >= onePercentInBytes) {
+                            tmpCounter = 0;
                             bo.flush();
                             progress = (int) ((((recievedBytes + firstByteToSend) * 1.0) / (totalsize)) * 100);
                             SwingUtilities.invokeLater(
                                     new Runnable() {
 
+                                        @Override
                                         public void run() {
                                             pgb_progress.setValue(progress);
                                         }
                                     });
-                        }
-                        if (recievedBytes % 20000 == 0) {
                             currenttime = System.currentTimeMillis();
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
                             setTimeLeft((long) (((totalsize - firstByteToSend) - recievedBytes) / (recievedBytes * 1.0) * timeelapsed));
-                        }
+                        }                        
                     }
                     bo.flush();
                     if ((recievedBytes + firstByteToSend-1) == totalsize) {
                         SwingUtilities.invokeLater(
                                 new Runnable() {
 
+                                    @Override
                                     public void run() {
                                         lbl_statusValue.setText("Transfer complete!");
                                         pgb_progress.setValue(100);
@@ -418,6 +430,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                         SwingUtilities.invokeLater(
                                 new Runnable() {
 
+                                    @Override
                                     public void run() {
                                         lbl_statusValue.setText("Transfer incomplete!");
                                         btn_refuse.setText("Close");
@@ -642,6 +655,9 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
             btn_accept.setText("Open file");
             btn_accept.setEnabled(false);
             btn_refuse.setText("Cancel");
+            cb_Resume.setEnabled(false);
+            tf_savePath.setEnabled(false);
+            btn_browseSavePath.setEnabled(false);
         } else {
             if (destfile != null) {
                 Desktop desktop = null;
@@ -662,6 +678,7 @@ private void btn_refuseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         TabOrganizer.closeFileTransferReceivePanel(this);
     } else if (btn_refuse.getText().equals("Cancel")) {
         running = false;
+        Protocol.cancelTransfer(sender, filename);
         TabOrganizer.closeFileTransferReceivePanel(this);
     } else {
         TabOrganizer.closeFileTransferReceivePanel(this);

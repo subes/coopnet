@@ -177,6 +177,11 @@ public class ClientFrame extends javax.swing.JFrame {
 
         if (recvPanel != null) {
             recvPanel.cancelled();
+        }else{
+            FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(sender, filename);
+            if (sendPanel != null) {
+            sendPanel.cancelled();
+        }
         }
     }
 
