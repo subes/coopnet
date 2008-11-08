@@ -233,6 +233,22 @@ public class Game {
     public void setJoinPattern(String value) {
         fields.put("JOINPATTERN", value);
     }
+    
+    public String getHostPasswordPattern(String modname) {
+        return getFieldValue("HOSTPASSWORDPATTERN", modname);
+    }
+    
+    public String getJoinPasswordPattern(String modname) {
+        return getFieldValue("JOINPASSWORDPATTERN", modname);
+    }
+    
+    public void setHostPasswordPattern(String value) {
+        fields.put("HOSTPASSWORDPATTERN", value);
+    }
+
+    public void setJoinPasswordPattern(String value) {
+        fields.put("JOINPASSWORDPATTERN", value);
+    }
 
     public String getRegEntry(String modname) {
         return getFieldValue("REGENTRY", modname);

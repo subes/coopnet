@@ -25,6 +25,7 @@ import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.SoundPlayer;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.launcher.launchhandlers.JDPlayJniLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.JDPlayRmtLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.LaunchHandler;
@@ -62,7 +63,8 @@ public class Launcher {
             launchHandler = new ParameterLaunchHandler();
             if((!launchInfo.getIsInstantLaunch())
                     && TabOrganizer.getRoomPanel()!= null 
-                    && TabOrganizer.getRoomPanel().isHost() ){
+                    && TabOrganizer.getRoomPanel().isHost()
+                    && GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() > 0){
                 Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getChildName());
             }
         }
@@ -71,7 +73,10 @@ public class Launcher {
         if(isInitialized == false){
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed initializing the "+launchHandler.getClass().toString()+", you won't be able to play the game!", ChatStyles.SYSTEM,false);
         }else{
-            if(TabOrganizer.getRoomPanel() != null && (!(launchInfo instanceof ParameterLaunchInfo) || !TabOrganizer.getRoomPanel().isHost() ) ){
+            if(TabOrganizer.getRoomPanel() != null && 
+                    (!(launchInfo instanceof ParameterLaunchInfo) 
+                       || !TabOrganizer.getRoomPanel().isHost() 
+                       || GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() == 0 ) ){
                 TabOrganizer.getRoomPanel().enableButtons();
             }
         }

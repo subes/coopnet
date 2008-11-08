@@ -280,7 +280,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     try {
-                        Client.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(),true);
+                        Client.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(),true,tf_name.getText(),passw);
                         Client.instantLaunch(channel);
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
@@ -300,7 +300,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     try {
-                        Client.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(),true);
+                        Client.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(),true,tf_name.getText(),passw);
                         Globals.openGameSettingsFrame(channel, finalmodname, tf_name.getText(), passw, modindex, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected());
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);

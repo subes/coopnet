@@ -142,7 +142,10 @@ public class CommandHandler {
                             information[2].equals("true"),//compatible
                             information[3],//hamachip
                             new Integer(information[4]),//maxplayers
-                            information[6]); //hostname
+                            information[6],//hostname
+                            information[7],//roomname
+                            information[8],//roomID
+                            information[9]); //password
                     break;
                 case MUTE_BAN_LIST:
                     int i = 0;
@@ -185,7 +188,10 @@ public class CommandHandler {
                             information[1].equals("true"),//compatible
                             "",//hamachi ip
                             new Integer(information[2]),//maxplayers
-                            Globals.getThisPlayer_loginName());
+                            Globals.getThisPlayer_loginName(),
+                            information[4],//roomname
+                            information[5],//roomid
+                            information[6]);//password
                     break;
                 case LEAVE_ROOM:
                     TabOrganizer.closeRoomPanel();
@@ -380,7 +386,7 @@ public class CommandHandler {
 
                         @Override
                         public void run() {
-                            Client.initInstantLaunch(tmp[0], GameDatabase.getModByIndex(tmp[0], new Integer(tmp[1])), tmp[2], new Integer(tmp[3]), tmp[4].equals("true"), false);
+                            Client.initInstantLaunch(tmp[0], GameDatabase.getModByIndex(tmp[0], new Integer(tmp[1])), tmp[2], new Integer(tmp[3]), tmp[4].equals("true"), false,tmp[5],tmp[6]);
                             Client.instantLaunch(tmp[0]);
                         }
                     }.start();

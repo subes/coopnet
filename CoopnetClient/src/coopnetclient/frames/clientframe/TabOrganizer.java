@@ -183,8 +183,9 @@ public class TabOrganizer {
         }
     }
 
-    public static void openRoomPanel(boolean isHost, String channel, String modindex, String ip, boolean compatible, String hamachiIp, int maxPlayers , String hostName) {        if (roomPanel == null) {
-            roomPanel = new RoomPanel(isHost, channel, modindex, ip, compatible, hamachiIp, maxPlayers, hostName);
+    public static void openRoomPanel(boolean isHost, String channel, String modindex, String ip, boolean compatible, String hamachiIp, int maxPlayers , String hostName,String roomName,String ID,String password) {        
+        if (roomPanel == null) {
+            roomPanel = new RoomPanel(isHost, channel, modindex, ip, compatible, hamachiIp, maxPlayers, hostName,roomName,ID,password);
             Globals.closeJoinRoomPasswordFrame();
             tabHolder.insertTab("Room", null, roomPanel, null, channelPanels.size());
 

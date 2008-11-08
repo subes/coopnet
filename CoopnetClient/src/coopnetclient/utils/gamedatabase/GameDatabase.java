@@ -249,6 +249,14 @@ public class GameDatabase {
     public static void setJoinPattern(String gamename, String pattern) {
         gameData.get(indexOfGame(gamename)).setJoinPattern(pattern);
     }
+    
+    public static String  getHostPasswordPattern(String gamename, String pattern) {
+        return gameData.get(indexOfGame(gamename)).getHostPasswordPattern(pattern);
+    }
+    
+    public static String  getJoinPasswordPattern(String gamename, String pattern) {
+        return gameData.get(indexOfGame(gamename)).getJoinPasswordPattern(pattern);
+    }
 
     public static String getJoinPattern(String gamename, String modname) {
         return gameData.get(indexOfGame(gamename)).getJoinPattern(modname);
@@ -343,7 +351,7 @@ public class GameDatabase {
                 if (path != null && path.length() > 0 && !path.endsWith(".exe")) {
                     String tmp = GameDatabase.getRelativeExePath(gamename, modName);
                     if (tmp != null) {
-                        path = path + tmp;
+                        path = path + (( path.endsWith("\\") || path.endsWith("/") )?"":"/")+ tmp;
                     }
                 }
                 break;

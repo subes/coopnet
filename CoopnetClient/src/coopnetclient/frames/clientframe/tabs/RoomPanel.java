@@ -55,6 +55,9 @@ public class RoomPanel extends javax.swing.JPanel {
     private SortedListModel users;
     private PlayerListPopupMenu popup;
     public String gameName;
+    public String roomName;
+    public String ID;
+    public String password;
     public String childName;
     public String hostName;
     private String hostIP;
@@ -63,7 +66,7 @@ public class RoomPanel extends javax.swing.JPanel {
     private HashMap<String, String> gamesettings = new HashMap<String, String>();
     private RoomStatusListCellRenderer roomStatusListCR;
 
-    public RoomPanel(boolean isHost, String channel, String modindex, String hostIP, boolean compatible, String hamachiIp, int maxPlayers,String hostName) {
+    public RoomPanel(boolean isHost, String channel, String modindex, String hostIP, boolean compatible, String hamachiIp, int maxPlayers,String hostName,String roomName,String ID,String password) {
         this.gameName = channel;
         this.maxPlayers = maxPlayers;
         this.isHost = isHost;
@@ -71,6 +74,9 @@ public class RoomPanel extends javax.swing.JPanel {
         this.hamachiHostIP = hamachiIp;
         this.users = new SortedListModel();
         this.hostName = hostName;
+        this.roomName = roomName;
+        this.ID = ID;
+        this.password = password;
         users.add(Globals.getThisPlayer_loginName());
         this.compatible = compatible;
         
@@ -111,6 +117,9 @@ public class RoomPanel extends javax.swing.JPanel {
         if (settings == null || settings.size() == 0) {
             btn_gameSettings.setVisible(false);
         }
+        
+        chat("", roomName, ChatStyles.USER);
+        chat("", "room://"+ID, ChatStyles.USER);
     }
 
     public boolean isHost(){
@@ -132,9 +141,9 @@ public class RoomPanel extends javax.swing.JPanel {
                     
                     LaunchMethods method = GameDatabase.getLaunchMethod(gameName, childName);
                     if(method == LaunchMethods.PARAMETER){
-                        launchInfo = new ParameterLaunchInfo(gameName, childName, ip, isHost, false);
+                        launchInfo = new ParameterLaunchInfo(gameName, childName, ip, isHost, false,roomName,password);
                     }else{
-                        launchInfo = new DirectPlayLaunchInfo(gameName, childName, ip, isHost, false, compatible);
+                        launchInfo = new DirectPlayLaunchInfo(gameName, childName, ip, isHost, false, compatible,password);
                     }
                     Launcher.initialize(launchInfo);
                 }catch(Exception e){

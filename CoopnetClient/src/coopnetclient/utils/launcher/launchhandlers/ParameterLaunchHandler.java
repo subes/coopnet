@@ -23,6 +23,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
+import java.io.File;
 import java.io.IOException;
 
 public class ParameterLaunchHandler extends LaunchHandler {
@@ -45,10 +46,14 @@ public class ParameterLaunchHandler extends LaunchHandler {
         Process p = null;
         try {
             Runtime rt = Runtime.getRuntime();
-            if(Globals.getDebug()){
-                System.out.println(launchInfo.getBinaryPath()+launchInfo.getParameters());
+            if (Globals.getDebug()) {
+                System.out.println(launchInfo.getBinaryPath() + launchInfo.getParameters());
             }
-            p = rt.exec(launchInfo.getBinaryPath()+launchInfo.getParameters());
+            File installdir;
+
+            installdir = new File(launchInfo.getInstallPath());
+            p = rt.exec(launchInfo.getBinaryPath() + launchInfo.getParameters(), null, installdir);
+
             try {
                 p.waitFor();
             } catch (InterruptedException ex) {
@@ -56,7 +61,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
         } catch (IOException e) {
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "Error while launching: " + e.getMessage(),
-                    ChatStyles.SYSTEM,false);
+                    ChatStyles.SYSTEM, false);
         }
         return (p.exitValue() == 0 ? true : false);
     }

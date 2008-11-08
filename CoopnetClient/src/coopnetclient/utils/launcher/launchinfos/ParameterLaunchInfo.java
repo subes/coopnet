@@ -28,9 +28,10 @@ public class ParameterLaunchInfo extends LaunchInfo {
     
     private String binaryPath;
     private String parameters;
+    private String roomName;
     
-    public ParameterLaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch){
-        super(gameName, childName, hostIP, isHost, isInstantLaunch);
+    public ParameterLaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch, String roomName,String password){
+        super(gameName, childName, hostIP, isHost, isInstantLaunch,password);
         
         binaryPath = GameDatabase.getLaunchPathWithExe(gameName, childName);
         
@@ -39,10 +40,15 @@ public class ParameterLaunchInfo extends LaunchInfo {
         }else{
             parameters = " " + GameDatabase.getJoinPattern(gameName, childName) ;
         }
+        this.roomName = roomName;
     }
     
     public String getBinaryPath(){
         return binaryPath;
+    }
+    
+    public String getInstallPath(){
+        return GameDatabase.getInstallPath(gameName);
     }
     
     public String getParameters(){
@@ -53,6 +59,22 @@ public class ParameterLaunchInfo extends LaunchInfo {
             ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName().replace(" ", "_"));
         }else{
             ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName());
+        }
+        
+        ret = ret.replace("{ROOMNAME}", roomName);
+        
+        if( password!= null && password.length() > 0){
+            String tmp;
+            if(isHost){
+                tmp = GameDatabase.getHostPasswordPattern(gameName, childName) ;
+            }else{
+                tmp = GameDatabase.getJoinPasswordPattern(gameName, childName) ;
+            }
+            
+            tmp = tmp.replace("{PASSWORD}", password);
+            ret = ret.replace("{PASSWORD}",tmp  );
+        }else{
+             ret = ret.replace("{PASSWORD}","" );
         }
         
         if(TempGameSettings.getMap() != null){
