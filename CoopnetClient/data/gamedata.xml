@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 14 -->
+<!--Version 15 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName, ChannelID, LaunchMethod, (InstantLaunch)?, (Beta)?, (Property)*, (Settings)?, (Mod)*)>
@@ -1701,7 +1701,88 @@
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{FBA662E0-904E-11D2-A07E-00C0DFA88F97}}</PropertyValue>
         </Property>
-    </GameData>    
+    </GameData>
+    <GameData>
+        <GameName>Quake 3</GameName>
+        <ChannelID>228</ChannelID>
+        <LaunchMethod>PARAMETER</LaunchMethod>
+        <InstantLaunch/>
+        <Property>
+            <PropertyName>REGENTRY</PropertyName>
+            <PropertyValue>HKEY_LOCAL_MACHINE\Software\Id\Quake III Arena\INSTALLPATH</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>EXE</PropertyName>
+            <PropertyValue>quake3.exe</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue>+map {MAP} +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set g_gametype {GAMEMODE}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue>+connect {HOSTIP}:{PORT} {PASSWORD} </PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+set password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+set sv_privatePassword "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Settings>
+            <ChoiceSetting>
+                <SettingName>GameMode</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>GAMEMODE</KeyWord>
+                <ChoiceItem>
+                    <ChoiceDisplayName>free for all</ChoiceDisplayName>
+                    <ChoiceRealValue>0</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>tournament</ChoiceDisplayName>
+                    <ChoiceRealValue>1</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>team deathmatch</ChoiceDisplayName>
+                    <ChoiceRealValue>3</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>CTF</ChoiceDisplayName>
+                    <ChoiceRealValue>4</ChoiceRealValue>
+                </ChoiceItem>                
+            </ChoiceSetting>
+            <NumberSetting>
+                <SettingName>goalscore</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>GOALSCORE</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>timelimit</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>TIMELIMIT</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>maxplayers</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>MAXPLAYERS</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>port</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
+                <SettingDefaultValue>27960</SettingDefaultValue>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>map</SettingName>
+                <SettingType>TEXT</SettingType>
+                <KeyWord>MAP</KeyWord>
+                <SettingDefaultValue>q3dm1</SettingDefaultValue>
+            </NumberSetting>
+        </Settings>
+    </GameData>
     <GameData>
         <GameName>Unreal Tournament</GameName>
         <InstantLaunch/>
@@ -1787,7 +1868,6 @@
     <GameData>
         <GameName>Unreal Tournament 2004</GameName>
         <InstantLaunch/>
-        <Beta/>
         <ChannelID>UT4</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <Property>
