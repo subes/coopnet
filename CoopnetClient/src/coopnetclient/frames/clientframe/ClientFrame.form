@@ -42,6 +42,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="mi_update">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Update Client"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_updateActionPerformed"/>

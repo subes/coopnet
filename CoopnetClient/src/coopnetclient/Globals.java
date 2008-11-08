@@ -133,7 +133,7 @@ public class Globals {
 
     public static void addTrayIcon() {
         try {
-            if (SystemTray.isSupported() && !trayAdded) {
+            if (SystemTray.isSupported() && !trayAdded &&!debug) {
                 tray.add(trayIcon);
                 trayAdded = true;
             }

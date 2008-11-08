@@ -112,15 +112,9 @@ public class Client {
                                 Settings.setFirstRun(false);
                             }
                             startConnection();
+                            checkAndUpdateClient();
                         }
-                    });
-                    
-                    try {
-                        sleep(100);
-                    } catch (Exception e) {
-                    }
-                    
-                    checkAndUpdateClient();
+                    });                                        
                     checkAndUpdateGameData();                    
                 } catch (Exception e) {
                     ErrorHandler.handleException(e);
@@ -165,7 +159,7 @@ public class Client {
 
     public static void quit(boolean override) {
         //hide the mainframe: trayicon enabled
-        if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled()) {
+        if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled() && !Globals.getDebug() ) {
             Globals.getClientFrame().setVisible(false);
         } else {
             //trayicon disabled or overridden
@@ -332,6 +326,7 @@ public class Client {
                     br = new BufferedReader(new InputStreamReader(url.openStream()));
                     String version = br.readLine();
                     if (!Verification.verifyClientVersion(version)) {
+                        Globals.getClientFrame().enableUpdate();
                         new Thread() {
 
                             @Override

@@ -40,6 +40,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 
@@ -99,6 +100,17 @@ public class ClientFrame extends javax.swing.JFrame {
         
         m_user.setEnabled(Globals.getLoggedInStatus());
         m_channels.setEnabled(Globals.getLoggedInStatus());
+    }
+    
+    public void enableUpdate() {
+        SwingUtilities.invokeLater(
+                new Runnable() {
+
+                    @Override
+                    public void run() {
+                        mi_update.setEnabled(true);
+                    }
+                });
     }
 
     public void flashQuickPanelToggler() {
@@ -486,6 +498,7 @@ public class ClientFrame extends javax.swing.JFrame {
         m_main.add(mi_connection);
 
         mi_update.setText("Update Client");
+        mi_update.setEnabled(false);
         mi_update.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_updateActionPerformed(evt);
