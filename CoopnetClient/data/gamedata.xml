@@ -1596,11 +1596,11 @@
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>+map {MAP} +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set g_gametype {GAMEMODE}</PropertyValue>
+            <PropertyValue>+map {MAP} +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set g_gametype {GAMEMODE}</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
-            <PropertyValue>+connect {HOSTIP}:{PORT} {PASSWORD} </PropertyValue>
+            <PropertyValue>+connect {HOSTIP}:{PORT} +set name "{NAME}" {PASSWORD} </PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPASSWORDPATTERN</PropertyName>
@@ -1666,9 +1666,159 @@
         <GameName>Return to Castle Wolfenstein</GameName>
         <ChannelID>229</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
+        <InstantLaunch/>
         <RegistryEntry>
             <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Activision\Return to Castle Wolfenstein\InstallPath</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Activision\Return to Castle Wolfenstein - Platinum Edition\InstallPath</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Activision\Return to Castle Wolfenstein - Game of The Year Edition\InstallPath</RegKey>
         </RegistryEntry>
+        <Property>
+            <PropertyName>EXE</PropertyName>
+            <PropertyValue>wolfmp.exe</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue>+map {MAP} +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set g_gametype {GAMEMODE}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue>+connect {HOSTIP}:{PORT} +set name "{NAME}" {PASSWORD}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+set sv_privatePassword "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+set password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Settings>
+            <ChoiceSetting>
+                <SettingName>GameMode</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>GAMEMODE</KeyWord>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Normal</ChoiceDisplayName>
+                    <ChoiceRealValue>5</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Stop Watch</ChoiceDisplayName>
+                    <ChoiceRealValue>6</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Capture Point</ChoiceDisplayName>
+                    <ChoiceRealValue>7</ChoiceRealValue>
+                </ChoiceItem>
+            </ChoiceSetting>
+            <NumberSetting>
+                <SettingName>goalscore</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>GOALSCORE</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>timelimit</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>TIMELIMIT</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>maxplayers</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>MAXPLAYERS</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>port</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
+                <SettingDefaultValue>27960</SettingDefaultValue>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>map</SettingName>
+                <SettingType>TEXT</SettingType>
+                <KeyWord>MAP</KeyWord>
+                <SettingDefaultValue>oasis</SettingDefaultValue>
+            </NumberSetting>
+        </Settings>
+    </GameData>
+    <GameData>
+        <GameName>Wolfenstein: Enemy Territory</GameName>
+        <ChannelID>230</ChannelID>
+        <LaunchMethod>PARAMETER</LaunchMethod>
+        <InstantLaunch/>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Activision\Wolfenstein - Enemy Territory\InstallPath</RegKey>            
+        </RegistryEntry>
+        <Property>
+            <PropertyName>EXE</PropertyName>
+            <PropertyValue>ET.exe</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue>+map {MAP} +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set g_gametype {GAMEMODE}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue>+connect {HOSTIP}:{PORT} +set name "{NAME}" {PASSWORD}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+set sv_privatePassword "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+set password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Settings>
+            <ChoiceSetting>
+                <SettingName>GameMode</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>GAMEMODE</KeyWord>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Campaign</ChoiceDisplayName>
+                    <ChoiceRealValue>4</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Objective</ChoiceDisplayName>
+                    <ChoiceRealValue>2</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Stopwatch</ChoiceDisplayName>
+                    <ChoiceRealValue>3</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>LMS</ChoiceDisplayName>
+                    <ChoiceRealValue>5</ChoiceRealValue>
+                </ChoiceItem>
+            </ChoiceSetting>
+            <NumberSetting>
+                <SettingName>goalscore</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>GOALSCORE</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>timelimit</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>TIMELIMIT</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>maxplayers</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>MAXPLAYERS</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>port</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
+                <SettingDefaultValue>27960</SettingDefaultValue>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>map</SettingName>
+                <SettingType>TEXT</SettingType>
+                <KeyWord>MAP</KeyWord>
+                <SettingDefaultValue>oasis</SettingDefaultValue>
+            </NumberSetting>
+        </Settings>
     </GameData>
     <GameData>
         <GameName>Unreal Tournament</GameName>
