@@ -1674,7 +1674,7 @@
         </RegistryEntry>
         <Property>
             <PropertyName>EXE</PropertyName>
-            <PropertyValue>wolfmp.exe</PropertyValue>
+            <PropertyValue>WolfMP.exe</PropertyValue>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
@@ -1736,7 +1736,7 @@
                 <SettingName>map</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>MAP</KeyWord>
-                <SettingDefaultValue>oasis</SettingDefaultValue>
+                <SettingDefaultValue>assault</SettingDefaultValue>
             </NumberSetting>
         </Settings>
     </GameData>
