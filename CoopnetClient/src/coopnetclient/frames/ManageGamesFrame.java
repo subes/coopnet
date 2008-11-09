@@ -89,6 +89,11 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 lst_gamesMousePressed(evt);
             }
         });
+        lst_games.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lst_gamesValueChanged(evt);
+            }
+        });
         scrl_games.setViewportView(lst_games);
 
         btn_save.setText("Save");
@@ -210,12 +215,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void lst_gamesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_gamesMousePressed
-        if (lst_games.getSelectedValue() != null) {
-            String path = GameDatabase.getLaunchPathWithExe(lst_games.getSelectedValue().toString(),null);
-            tf_path.setText(path);
-            String installpath = GameDatabase.getInstallPath(lst_games.getSelectedValue().toString());
-            tf_installPath.setText(installpath);
-        }
+        
 }//GEN-LAST:event_lst_gamesMousePressed
 
     private void btn_browsePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browsePathActionPerformed
@@ -316,6 +316,15 @@ private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
     Globals.closeManageGamesFrame();
 }//GEN-LAST:event_formWindowClosing
+
+private void lst_gamesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lst_gamesValueChanged
+    if (lst_games.getSelectedValue() != null) {
+            String path = GameDatabase.getLaunchPathWithExe(lst_games.getSelectedValue().toString(),null);
+            tf_path.setText(path);
+            String installpath = GameDatabase.getInstallPath(lst_games.getSelectedValue().toString());
+            tf_installPath.setText(installpath);
+        }
+}//GEN-LAST:event_lst_gamesValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_browseInstallPath;

@@ -29,12 +29,14 @@ public class Game {
     protected HashMap<String, String> fields;
     protected ArrayList<Game> mods;
     protected ArrayList<GameSetting> settings;
+    protected ArrayList<String> registryKeys;
 
     public Game() {
         name = "";
         fields = new HashMap<String, String>();
         mods = new ArrayList<Game>();
         settings = new ArrayList<GameSetting>();
+        registryKeys = new ArrayList<String>();
     }
 
     @Override
@@ -250,12 +252,12 @@ public class Game {
         fields.put("JOINPASSWORDPATTERN", value);
     }
 
-    public String getRegEntry(String modname) {
-        return getFieldValue("REGENTRY", modname);
+    public ArrayList<String> getRegEntries(String modname) {
+        return registryKeys;
     }
 
-    public void setRegEntry(String value) {
-        fields.put("REGENTRY", value);
+    public void setRegEntries(ArrayList<String> value) {
+        registryKeys = value;
     }
 
     public LaunchMethods getLaunchMethod(String modname) {

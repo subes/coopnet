@@ -157,6 +157,19 @@ public class GameDatabase {
         }
         return "";
     }
+    
+    public static String readRegistry(ArrayList<String> regkeys) {
+        if(regkeys == null){
+            return null;
+        }
+        for(String key :regkeys ){
+            String path = readRegistry(key);
+            if(path != null){
+                return path;
+            }
+        }
+        return null;
+    }
 
     public static void setNoSpacesFlag(String gamename, boolean flag) {
         gameData.get(indexOfGame(gamename)).setNoSpacesFlag(flag);
@@ -262,16 +275,16 @@ public class GameDatabase {
         return gameData.get(indexOfGame(gamename)).getJoinPattern(modname);
     }
 
-    public static void setRegEntry(String gamename, String regkey) {
-        gameData.get(indexOfGame(gamename)).setRegEntry(regkey);
+    public static void setRegEntry(String gamename, ArrayList<String> regkeys) {
+        gameData.get(indexOfGame(gamename)).setRegEntries(regkeys);
     }
 
-    public static String getRegEntry(String gamename, String modname) {
+    public static ArrayList<String> getRegEntry(String gamename, String modname) {
         int idx = indexOfGame(gamename);
         if (idx == -1) {
             return null;
         }
-        return gameData.get(idx).getRegEntry(modname);
+        return gameData.get(idx).getRegEntries(modname);
     }
 
     public static void setLaunchMethod(String gamename, LaunchMethods launchmethod) {

@@ -162,7 +162,7 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         tf_joinPattern.setText(testData.getJoinPattern(null));
         tf_mapExtension.setText(testData.getMapExtension(null));
         tf_mapPath.setText(testData.getMapPath(null));
-        tf_regKey.setText(testData.getRegEntry(null));
+        tf_regKey.setText(testData.getRegEntries(null).get(0));
         tf_relativeExePath.setText(testData.getRelativeExePath(null));
     }
     private ActionListener saveaction = new ActionListener() {
@@ -180,7 +180,9 @@ public class TestGameDataEditor extends javax.swing.JPanel {
         testData.setJoinPattern(tf_joinPattern.getText());
         testData.setMapExtension(tf_mapExtension.getText());
         testData.setMapPath(tf_mapPath.getText());
-        testData.setRegEntry(tf_regKey.getText());
+        ArrayList<String> regkeys = new ArrayList<String>();
+        regkeys.add(tf_regKey.getText());
+        testData.setRegEntries(regkeys);
         testData.setRelativeExePath(tf_relativeExePath.getText());
         testData.setGameSettings(null, settings);
         try {

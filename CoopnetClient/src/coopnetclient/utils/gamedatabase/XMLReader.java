@@ -27,6 +27,8 @@ public class XMLReader extends DefaultHandler {
     private String tmpSettingMaxVal;
     private ArrayList<String> names;
     private ArrayList<String> values;
+    private ArrayList<String> regkeys;
+    private ArrayList<String> modregkeys;
     private boolean sharedSetting = false;
     //temp object holders
     private Game tmpGame;
@@ -62,8 +64,10 @@ public class XMLReader extends DefaultHandler {
             tmpGame.setInstantLauncable(false);
             beta = false;
             inMod = false;
+            regkeys = new ArrayList<String>();
         } else if (qName.equalsIgnoreCase("Mod")) {
             tmpMod = new Game();
+            modregkeys = new ArrayList<String>();
             inMod = true;
         } else if (qName.equalsIgnoreCase("ChoiceSetting") || qName.equalsIgnoreCase("TextSetting") || qName.equalsIgnoreCase("NumberSetting")) {
             sharedSetting = false;
@@ -74,7 +78,7 @@ public class XMLReader extends DefaultHandler {
             tmpSettingMinVal = Integer.MIN_VALUE + "";
             tmpSettingMaxVal = Integer.MAX_VALUE + "";
             names = new ArrayList<String>();
-            values = new ArrayList<String>();
+            values = new ArrayList<String>();            
         }
     }
 
@@ -116,6 +120,18 @@ public class XMLReader extends DefaultHandler {
             tmpGame.setInstantLauncable(true);
         } else if (qName.equalsIgnoreCase("Beta")) {
             beta = true;
+        } else if (qName.equalsIgnoreCase("RegKey")) {
+            if (inMod) {
+                modregkeys.add(tempVal.toString());
+            }else{
+                regkeys.add(tempVal.toString());
+            }            
+        } else if (qName.equalsIgnoreCase("RegistryEntry")) {
+            if (inMod) {
+                tmpMod.setRegEntries(modregkeys);
+            } else {
+                tmpGame.setRegEntries(regkeys);
+            }
         } else if (qName.equalsIgnoreCase("PropertyName")) {
             propertyName = tempVal.toString();
         } else if (qName.equalsIgnoreCase("PropertyValue")) {
