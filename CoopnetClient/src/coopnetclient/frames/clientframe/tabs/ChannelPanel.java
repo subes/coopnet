@@ -317,6 +317,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 
         sp_chatHorizontal.setLeftComponent(sp_chatVertical);
 
+        pnl_userList.setPreferredSize(new java.awt.Dimension(100, 78));
         pnl_userList.setLayout(new java.awt.GridBagLayout());
 
         scrl_userList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
