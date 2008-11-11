@@ -1654,12 +1654,12 @@
                 <IsSharedSetting/>
                 <SettingDefaultValue>27960</SettingDefaultValue>
             </NumberSetting>
-            <NumberSetting>
+            <TextSetting>
                 <SettingName>map</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>MAP</KeyWord>
                 <SettingDefaultValue>q3dm1</SettingDefaultValue>
-            </NumberSetting>
+            </TextSetting>
         </Settings>
     </GameData>
     <GameData>
@@ -1732,12 +1732,12 @@
                 <IsSharedSetting/>
                 <SettingDefaultValue>27960</SettingDefaultValue>
             </NumberSetting>
-            <NumberSetting>
+            <TextSetting>
                 <SettingName>map</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>MAP</KeyWord>
                 <SettingDefaultValue>assault</SettingDefaultValue>
-            </NumberSetting>
+            </TextSetting>
         </Settings>
     </GameData>
     <GameData>
@@ -1812,12 +1812,84 @@
                 <IsSharedSetting/>
                 <SettingDefaultValue>27960</SettingDefaultValue>
             </NumberSetting>
-            <NumberSetting>
+            <TextSetting>
                 <SettingName>map</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>MAP</KeyWord>
                 <SettingDefaultValue>oasis</SettingDefaultValue>
+            </TextSetting>
+        </Settings>
+    </GameData>
+    <GameData>
+        <GameName>Battlefield 1942</GameName>
+        <ChannelID>231</ChannelID>
+        <LaunchMethod>PARAMETER</LaunchMethod>
+        <InstantLaunch/>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\EA GAMES\Battlefield 1942\GAMEDIR</RegKey>            
+        </RegistryEntry>
+        <Property>
+            <PropertyName>EXE</PropertyName>
+            <PropertyValue>BF1942.exe</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPPATH</PropertyName>
+            <PropertyValue>Mods\bf1942\Archives\bf1942\levels\</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPEXT</PropertyName>
+            <PropertyValue>rfa</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue>+restart 1 +hostServer 1 +fullscreen 1 +playerName "{NAME}" +loadLevel "{MAP}" +maxPlayers {MAXPLAYERS} +gameMode {GAMEMODE} +port {PORT}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue>+restart 1 +joinServer {HOSTIP}:{PORT} +isInternet 1 +playerName "{NAME}" {PASSWORD}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Settings>
+            <ChoiceSetting>
+                <SettingName>GameMode</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>GAMEMODE</KeyWord>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Capture the flag</ChoiceDisplayName>
+                    <ChoiceRealValue>GPM_CTF</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Team deathmatch</ChoiceDisplayName>
+                    <ChoiceRealValue>GPM_TDM</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Conquest</ChoiceDisplayName>
+                    <ChoiceRealValue>GPM_CQ</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Co-op</ChoiceDisplayName>
+                    <ChoiceRealValue>GPM_COOP</ChoiceRealValue>
+                </ChoiceItem>
+            </ChoiceSetting>
+            <NumberSetting>
+                <SettingName>maxplayers</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>MAXPLAYERS</KeyWord>
             </NumberSetting>
+            <NumberSetting>
+                <SettingName>port</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
+                <SettingDefaultValue>14567</SettingDefaultValue>
+            </NumberSetting>            
         </Settings>
     </GameData>
     <GameData>
