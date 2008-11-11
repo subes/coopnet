@@ -1893,6 +1893,57 @@
         </Settings>
     </GameData>
     <GameData>
+        <GameName>Half-Life</GameName>
+        <ChannelID>232</ChannelID>
+        <LaunchMethod>PARAMETER</LaunchMethod>
+        <InstantLaunch/>
+        <RegistryEntry>
+            <RegKey>HKEY_CURRENT_USER\Software\Valve\Half-Life\InstallPath</RegKey>
+        </RegistryEntry>
+        <Property>
+            <PropertyName>EXE</PropertyName>
+            <PropertyValue>hl.exe</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPPATH</PropertyName>
+            <PropertyValue>valve\maps\</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPEXT</PropertyName>
+            <PropertyValue>BSP</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue>+sv_lan 1 +sv_setmaster none +maxplayers {MAXPLAYERS} +map {MAP} +hostname "{ROOMNAME}" +port {PORT}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue>+connect {HOSTIP}:{PORT}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Settings>
+            <NumberSetting>
+                <SettingName>maxplayers</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>MAXPLAYERS</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>port</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
+                <SettingDefaultValue>27010</SettingDefaultValue>
+            </NumberSetting>            
+        </Settings>
+    </GameData>
+    <GameData>
         <GameName>Unreal Tournament</GameName>
         <InstantLaunch/>
         <ChannelID>UT1</ChannelID>
