@@ -1993,6 +1993,65 @@
         </Settings>
     </GameData>
     <GameData>
+        <GameName>Call of Duty</GameName>
+        <ChannelID>233</ChannelID>
+        <LaunchMethod>PARAMETER</LaunchMethod>
+        <InstantLaunch/>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Activision\Call of Duty\InstallPath</RegKey>
+        </RegistryEntry>
+        <Property>
+            <PropertyName>EXE</PropertyName>
+            <PropertyValue>CoDMP.exe</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue>+map {MAP} +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set cl_playintro 0 +set ui_skip_titlescreen 1 +set ui_skip_legalscreen 1</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue>+connect {HOSTIP}:{PORT} +name {NAME} +set cl_playintro 0 +set ui_skip_titlescreen 1 +set ui_skip_legalscreen 1</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Settings>
+            <NumberSetting>
+                <SettingName>goalscore</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>GOALSCORE</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>timelimit</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>TIMELIMIT</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>maxplayers</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>MAXPLAYERS</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>port</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
+                <SettingDefaultValue>28960</SettingDefaultValue>
+            </NumberSetting>
+            <TextSetting>
+                <SettingName>map</SettingName>
+                <SettingType>TEXT</SettingType>
+                <KeyWord>MAP</KeyWord>
+                <SettingDefaultValue> </SettingDefaultValue>
+            </TextSetting>
+        </Settings>
+    </GameData>
+    <GameData>
         <GameName>Unreal Tournament</GameName>
         <InstantLaunch/>
         <ChannelID>UT1</ChannelID>
