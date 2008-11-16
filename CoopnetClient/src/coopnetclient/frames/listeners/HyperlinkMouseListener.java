@@ -25,6 +25,7 @@ import java.awt.Desktop;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.JTextPane;
@@ -75,7 +76,7 @@ public class HyperlinkMouseListener extends MouseAdapter {
     }
 
     public static void openURL(String address) {
-        if(address.startsWith("room://")){
+        if(address!=null && address.startsWith("room://")){
             Protocol.joinRoomByID(address.substring(7), "");
             return;
         }
@@ -92,6 +93,8 @@ public class HyperlinkMouseListener extends MouseAdapter {
             }
         } catch (URISyntaxException use) {
             //do nothing
+        } catch (FileNotFoundException fne) {
+            //do nothing cuz mozzilla's restore dialogue does this
         } catch (Exception e) {
             ErrorHandler.handleException(e);
         }
