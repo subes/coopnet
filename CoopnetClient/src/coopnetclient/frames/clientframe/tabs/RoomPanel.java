@@ -87,6 +87,11 @@ public class RoomPanel extends javax.swing.JPanel {
         }
         initComponents();
         
+        if(hamachiIp.length()>0 ) {
+            cb_useHamachi.setEnabled(true);
+            cb_useHamachi.setToolTipText("<html>Don't use this unless you have connection issues!<br>If you really need to use this consult with the room host!<br>Both you and the host have to be connected to <br>the same hamachi network!Otherwise it won't work!");
+        }
+        
         if (isHost) {
             popup = new PlayerListPopupMenu(PlayerListPopupMenu.HOST_MODE, lst_userList);
             cb_useHamachi.setVisible(false);
@@ -386,6 +391,8 @@ public class RoomPanel extends javax.swing.JPanel {
         sp_chatHorizontal.setLeftComponent(sp_chatVertical);
 
         cb_useHamachi.setText("use Hamachi");
+        cb_useHamachi.setToolTipText("<html>The host doesn't have Hamachi installed!");
+        cb_useHamachi.setEnabled(false);
         cb_useHamachi.setFocusable(false);
         cb_useHamachi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

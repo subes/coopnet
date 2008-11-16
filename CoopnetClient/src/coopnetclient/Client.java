@@ -79,12 +79,13 @@ public class Client {
                         InetAddress iadr = iadrs.nextElement();
                         ip = iadr.getHostAddress();
                         System.out.println("Hamachi found!");
+                        return ip;
                     }
                 }
             }
         } catch (Exception ex) {
         }
-        return ip;
+        return "";
     }
 
     /**
