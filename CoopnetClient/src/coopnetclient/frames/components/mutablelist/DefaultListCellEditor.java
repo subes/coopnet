@@ -24,19 +24,24 @@
 package coopnetclient.frames.components.mutablelist;
 
 import java.awt.Component;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JList;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 public class DefaultListCellEditor extends DefaultCellEditor implements ListCellEditor{ 
     
+    private static Border border = BorderFactory.createLineBorder(null, 2);
+    
     public DefaultListCellEditor(final JTextField textField){ 
-        super(textField); 
+        super(textField);
     } 
  
     @Override
     public Component getListCellEditorComponent(JList list, Object value, boolean isSelected, int index){ 
-        delegate.setValue(value); 
+        delegate.setValue(value);
+        editorComponent.setBorder(border);
         return editorComponent; 
     } 
 }
