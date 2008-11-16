@@ -28,6 +28,7 @@ import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.frames.renderers.ContactListRenderer;
 import coopnetclient.utils.ContactListFileDropHandler;
 import java.awt.Cursor;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
@@ -123,9 +124,8 @@ public class QuickPanel extends javax.swing.JPanel {
             public Object getElementAt(int i) { return strings[i]; }
         });
         lst_contactList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lst_contactList.setFixedCellHeight(20);
         lst_contactList.setFocusable(false);
-        lst_contactList.setMaximumSize(null);
-        lst_contactList.setPreferredSize(null);
         lst_contactList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lst_contactListMouseClicked(evt);
@@ -233,9 +233,13 @@ private void lst_favouritesListMouseClicked(java.awt.event.MouseEvent evt) {//GE
 }//GEN-LAST:event_lst_favouritesListMouseClicked
 
 private void lst_contactListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_contactListMouseMoved
-    if (!popup.isVisible()) {
+    if (!popup.isVisible() ) {
         int idx = lst_contactList.locationToIndex(evt.getPoint());
-        if(!lst_contactList.getCellBounds(idx, idx).contains(evt.getPoint())){
+        Rectangle rec = lst_contactList.getCellBounds(idx, idx);
+        if(rec == null){
+            return;
+        }
+        if(!rec.contains(evt.getPoint())){
             lst_contactList.clearSelection();
             return;
         }
