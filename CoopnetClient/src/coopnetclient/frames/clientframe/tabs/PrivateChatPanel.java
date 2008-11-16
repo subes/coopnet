@@ -150,6 +150,7 @@ public class PrivateChatPanel extends javax.swing.JPanel {
         sp_chatVertical.setRightComponent(scrl_chatInput);
 
         btn_mute.setText("Mute");
+        btn_mute.setFocusable(false);
         btn_mute.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_muteActionPerformed(evt);

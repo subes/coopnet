@@ -21,6 +21,7 @@ package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ErrorPanelStyle;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.FrameIconFlasher;
 import coopnetclient.utils.Logger;
 
@@ -86,21 +87,56 @@ public class ErrorPanel extends javax.swing.JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
+        pnl_top = new javax.swing.JPanel();
         lbl_errorText = new javax.swing.JLabel();
+        btn_close = new javax.swing.JButton();
         pnl_button = new javax.swing.JPanel();
         btn_report = new javax.swing.JButton();
+
+        setFocusable(false);
+        setLayout(new java.awt.GridBagLayout());
+
+        pnl_top.setFocusable(false);
+        pnl_top.setLayout(new java.awt.GridBagLayout());
 
         lbl_errorText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_errorText.setText("<html><p style=\"text-align: center\"><b>Error header!</b><br>Error description, error description, error description.</p></html>");
         lbl_errorText.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        lbl_errorText.setFocusable(false);
         lbl_errorText.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lbl_errorText.setIconTextGap(0);
         lbl_errorText.setMaximumSize(new java.awt.Dimension(1000, 1000));
         lbl_errorText.setMinimumSize(new java.awt.Dimension(100, 100));
         lbl_errorText.setName("text"); // NOI18N
         lbl_errorText.setPreferredSize(new java.awt.Dimension(100, 100));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        pnl_top.add(lbl_errorText, gridBagConstraints);
 
+        btn_close.setText("Close");
+        btn_close.setFocusable(false);
+        btn_close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_closeActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        pnl_top.add(btn_close, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.4;
+        add(pnl_top, gridBagConstraints);
+
+        pnl_button.setFocusable(false);
         pnl_button.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 1, 10));
 
         btn_report.setText("Report this bug");
@@ -115,29 +151,29 @@ public class ErrorPanel extends javax.swing.JPanel {
         });
         pnl_button.add(btn_report);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbl_errorText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
-            .addComponent(pnl_button, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(lbl_errorText, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnl_button, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.6;
+        add(pnl_button, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_reportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reportActionPerformed
         Globals.openBugReportFrame(exception, trafficLog);
 }//GEN-LAST:event_btn_reportActionPerformed
+
+private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
+    TabOrganizer.closeErrorPanel();
+}//GEN-LAST:event_btn_closeActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_close;
     private javax.swing.JButton btn_report;
     private javax.swing.JLabel lbl_errorText;
     private javax.swing.JPanel pnl_button;
+    private javax.swing.JPanel pnl_top;
     // End of variables declaration//GEN-END:variables
     
 }

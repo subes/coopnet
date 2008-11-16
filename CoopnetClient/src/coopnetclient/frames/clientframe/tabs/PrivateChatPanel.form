@@ -135,6 +135,7 @@
     <Component class="javax.swing.JButton" name="btn_mute">
       <Properties>
         <Property name="text" type="java.lang.String" value="Mute"/>
+        <Property name="focusable" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_muteActionPerformed"/>

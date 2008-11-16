@@ -70,7 +70,7 @@ public class TabOrganizer {
     static {
         tabHolder = Globals.getClientFrame().getTabHolder();
     }
-
+    
     public static void openChannelPanel(String channelname) {
         
         int index = -1;
@@ -321,6 +321,10 @@ public class TabOrganizer {
         }
 
         Globals.getClientFrame().repaint();
+    }
+    
+    public static void closeErrorPanel() {
+        tabHolder.remove(errorPanel);
     }
 
     public static void openLoginPanel() {
