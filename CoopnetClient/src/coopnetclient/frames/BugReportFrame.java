@@ -57,6 +57,7 @@ public class BugReportFrame extends javax.swing.JFrame {
                 "\n\t"+ date.toLocaleString() +
                 "\n\t" + date.toGMTString();
         
+        report+= "\n\nClient version:" + Globals.getClientVersion();
         //EMail
         if(tf_email.getText().length() > 0){
             report += "\n\nReporters E-Mail:\n\t" + tf_email.getText();
@@ -195,32 +196,31 @@ public class BugReportFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(lbl_email, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(12, 12, 12)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btn_send)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btn_cancel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
-                                    .addComponent(btn_review))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(lbl_header))))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(scrl_longDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(tf_shortDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_send)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_cancel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
+                                .addComponent(btn_review))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbl_header))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
                                 .addComponent(lbl_note))
-                            .addComponent(lbl_info, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))))
+                            .addComponent(lbl_info, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(scrl_longDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(tf_shortDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
