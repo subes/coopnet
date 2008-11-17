@@ -70,7 +70,7 @@ public class GameDatabase {
         gameData = new ArrayList<Game>();
         load("", dataFilePath);
         loadLocalPaths();
-        IDtoGameName.put("WLC", "Welcome");
+        //IDtoGameName.put("WLC", "Welcome");
         IDtoGameName.put("TST", "GameTest channel");
         load("GameTest channel", testDataFilePath);
     }
@@ -267,6 +267,10 @@ public class GameDatabase {
         return gameData.get(indexOfGame(gamename)).getHostPasswordPattern(pattern);
     }
     
+    public static String  getWelcomeMessage(String gamename) {
+        return gameData.get(indexOfGame(gamename)).getWelcomeMessage();
+    }
+
     public static String  getJoinPasswordPattern(String gamename, String pattern) {
         return gameData.get(indexOfGame(gamename)).getJoinPasswordPattern(pattern);
     }

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class Game {
 
     private String name;
+    private String welcomeMessage;
     protected HashMap<String, String> fields;
     protected ArrayList<Game> mods;
     protected ArrayList<GameSetting> settings;
@@ -274,5 +275,13 @@ public class Game {
 
     public void setGuid(String value) {
         fields.put("GUID", value);
+    }
+    
+    public String getWelcomeMessage() {
+        return welcomeMessage;
+    }
+    
+    public void setWelcomeMessage(String value) {
+        welcomeMessage = value;
     }
 }

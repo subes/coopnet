@@ -97,6 +97,11 @@ public class ChannelPanel extends javax.swing.JPanel {
         
         disableButtons();
         enablebuttons();
+        
+        String message = GameDatabase.getWelcomeMessage(name);
+        if(message != null && message.length()> 0){
+            printMainChatMessage(name, message, ChatStyles.DEFAULT);
+        }
     }
 
     public void gameClosed(String playername) {

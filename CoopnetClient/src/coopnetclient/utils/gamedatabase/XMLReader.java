@@ -112,6 +112,12 @@ public class XMLReader extends DefaultHandler {
             } else {
                 tmpGame.setGameName(tempVal.toString());
             }
+        } else if (qName.equalsIgnoreCase("WelcomeMessage")) {
+            if (inMod) {
+                tmpMod.setWelcomeMessage(tempVal.toString());
+            } else {
+                tmpGame.setWelcomeMessage(tempVal.toString());
+            }
         } else if (qName.equalsIgnoreCase("ChannelID")) {
             tmpID = tempVal.toString();
         } else if (qName.equalsIgnoreCase("LaunchMethod")) {
