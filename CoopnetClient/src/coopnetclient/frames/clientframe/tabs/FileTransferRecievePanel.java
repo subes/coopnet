@@ -51,6 +51,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
     private long firstByteToSend = 0;
     private boolean running = false;
     private boolean resuming = false;
+    private boolean wasCancelled = false;
     private ServerSocket serverSocket = null;
     SocketChannel socket = null;
     private int progress = 0;
@@ -182,6 +183,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
     }
 
     public void cancelled() {
+        wasCancelled = true;
         SwingUtilities.invokeLater(
                 new Runnable() {
 
@@ -218,6 +220,8 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                         running = true;
                         updateStatusLabel("Transfer starting...");
                         serverSocket = new ServerSocket(Settings.getFiletTansferPort());
+                        socket = serverSocket.accept();
+                        serverSocket.close();
                     } catch (Exception e) {
                         if (e instanceof java.net.BindException) {
                             serverSocket.close();
@@ -227,7 +231,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                             return;
                         }
                     }
-                    socket = serverSocket.accept();
+                    
 
                     bi = new BufferedInputStream(socket.getInputStream());
 
@@ -307,7 +311,9 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                     bo.close();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    updateStatusLabel("Error: " + e.getLocalizedMessage());
+                    if(!wasCancelled){
+                        updateStatusLabel("Error: " + e.getLocalizedMessage());
+                    }
                 } finally {
                     try {
                         if (bi != null) {
@@ -319,10 +325,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                         if (socket != null) {
                             socket.close();
                             socket = null;
-                        }
-                        if (serverSocket != null) {
-                            serverSocket.close();
-                        }
+                        }                        
                     } catch (Exception e) {
                     }
                 }
@@ -414,7 +417,7 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
                         }                        
                     }
                     bo.flush();
-                    if ((recievedBytes + firstByteToSend-1) == totalsize) {
+                    if ((recievedBytes + firstByteToSend - ( resuming? 1:0 ) ) == totalsize) {
                         SwingUtilities.invokeLater(
                                 new Runnable() {
 
@@ -444,7 +447,9 @@ public class FileTransferRecievePanel extends javax.swing.JPanel {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    updateStatusLabel("Error: " + e.getLocalizedMessage());
+                    if(!wasCancelled){
+                        updateStatusLabel("Error: " + e.getLocalizedMessage());
+                    }
                 } finally {
                     try {
                         if (bo != null) {

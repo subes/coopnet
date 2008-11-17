@@ -44,6 +44,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
     private String filename;
     private static int progress;
     private long onePercentInBytes = 0;
+    private boolean wasCancelled = false;
 
     /** Creates new form FileTransfer */
     public FileTransferSendPanel(String reciever, File sentfile) {
@@ -85,6 +86,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
 
     public void cancelled() {
         sending = false;
+        wasCancelled = true;
          SwingUtilities.invokeLater(
                 new Runnable() {
 
@@ -245,7 +247,9 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                 } catch (Exception e) {
                     //set error messag
                     e.printStackTrace();
-                    updateStatusLabel("Error: " + e.getLocalizedMessage());
+                    if(!wasCancelled){
+                        updateStatusLabel("Error: " + e.getLocalizedMessage());
+                    }
                 } finally {
                     try {
                         if (socket != null) {
@@ -274,6 +278,7 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                 try {
                     serverSocket = new ServerSocket(Settings.getFiletTansferPort());
                     socket = serverSocket.accept();
+                    serverSocket.close();
                     BufferedOutputStream bo = new BufferedOutputStream(socket.getOutputStream());
 
                     ByteBuffer temp = ByteBuffer.allocate(1000);
@@ -352,7 +357,9 @@ public class FileTransferSendPanel extends javax.swing.JPanel {
                     //set error message
                     e.printStackTrace();
                     sending = false;
-                    updateStatusLabel("Error: " + e.getLocalizedMessage());
+                    if(!wasCancelled){
+                        updateStatusLabel("Error: " + e.getLocalizedMessage());
+                    }
                     try {
                         serverSocket.close();
                     } catch (Exception ex) {
