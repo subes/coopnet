@@ -424,6 +424,9 @@ public class CommandHandler {
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " doesn't want to add you anymore", ChatStyles.SYSTEM, true);
                     Globals.getContactList().removePendingRequest(information[0]);
                     break;
+                case ROOM_INVITE:
+                    Globals.getClientFrame().printPrivateChatMessage(information[0] , "Come to my room room://"+information[1]+ " at "+ GameDatabase.getGameName(information[2]) );
+                    break;
                 default:
                     Logger.log(LogTypes.ERROR, "Server sent a command which wasn't handled!");
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Unknown command recieved! Please make sure you use the latest client!", ChatStyles.SYSTEM, true);

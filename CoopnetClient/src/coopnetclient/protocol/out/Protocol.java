@@ -203,7 +203,7 @@ public class Protocol {
         new Message(ClientProtocolCommands.CHAT_ROOM, message);
     }
 
-    public static void privateChat(String message, String sendTo) {
+    public static void privateChat(String sendTo ,String message ) {
         String[] info = {sendTo, message};
         new Message(ClientProtocolCommands.WHISPER, info);
     }

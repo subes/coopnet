@@ -75,9 +75,31 @@ public class ChatInputKeyListener implements KeyListener {
                 }
                 if(command.length() > 2500){
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Could not send message, because it is too big!", ChatStyles.SYSTEM,false);
+                    source.setText("");
                     return;
                 }
 
+                //whisper command
+                if(command.startsWith("/w")){
+                    String tail = command.substring(3);
+                    int nameEnd = tail.indexOf(" ");
+                    if(nameEnd == -1){
+                        Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Usage: /w username message", ChatStyles.SYSTEM,false);
+                        source.setText("");
+                        return;
+                    }                    
+                    String name = tail.substring(0, nameEnd);
+                    String msg = tail.substring(nameEnd+1 , tail.length());
+                    if(name.equals(Globals.getThisPlayer_loginName())){
+                        Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Private chat with yourself is not allowed!", ChatStyles.SYSTEM,false);
+                        source.setText("");
+                        return;
+                    }
+                    Protocol.privateChat(name, msg);
+                    source.setText("");
+                    return;
+                }
+                
                 if (this.mode == CHANNEL_CHAT_MODE) { //main chat
                     Protocol.mainChat(prefix, command);
                 } else if (this.mode == ROOM_CHAT_MODE) { //room chat
@@ -89,7 +111,7 @@ public class ChatInputKeyListener implements KeyListener {
                     if (privatechat != null) {
                         privatechat.append(Globals.getThisPlayer_loginName(), command, ChatStyles.WHISPER);
                     }
-                    Protocol.privateChat(command, prefix);
+                    Protocol.privateChat(prefix, command );
                 }
                 source.setText("");
             }

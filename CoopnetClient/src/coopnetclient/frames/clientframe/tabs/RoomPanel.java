@@ -507,10 +507,14 @@ public class RoomPanel extends javax.swing.JPanel {
         btn_ready.setEnabled(false);
         if (cb_useHamachi.isSelected()) {
             System.out.println("Hamachi support turning on");
+            cb_useHamachi.setEnabled(false);
             initLauncher();
+            cb_useHamachi.setEnabled(true);
         } else {
             System.out.println("Hamachi support turning off");
+            cb_useHamachi.setEnabled(false);
             initLauncher();
+            cb_useHamachi.setEnabled(true);
         }
 }//GEN-LAST:event_cb_useHamachiActionPerformed
 
