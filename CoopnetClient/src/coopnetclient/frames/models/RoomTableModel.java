@@ -83,7 +83,7 @@ public class RoomTableModel extends DefaultTableModel {
         public String getUserlist() {
             String userlist = "";
             for (String username : playersInRoom) {
-                userlist += username + "<br>";
+                userlist += "<xmp>"+username+"</xmp><br>";
             }
             return userlist;
         }

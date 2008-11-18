@@ -65,8 +65,7 @@ public class ClientFrame extends javax.swing.JFrame {
         pnl_toggleQuickBarLeft.setMinimumSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         pnl_toggleQuickBarRight.setMinimumSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         setQuickPanelPosition(Settings.getQuickPanelPostionisLeft());
-        slp_mainSplitPanel.setDividerSize(0);
-
+        slp_mainSplitPanel.setDividerSize(0);        
         refreshFavourites();
 
         //load the size from options

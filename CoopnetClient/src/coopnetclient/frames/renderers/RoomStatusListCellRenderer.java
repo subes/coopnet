@@ -104,6 +104,7 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
         //set foreground
         setForeground(Color.black);
         setBorder(null);
+        setToolTipText("<html><xmp>"+value.toString());
         //set background color
         if (readyList.contains(value.toString())) {
             if (playingList.contains(value.toString())) {
@@ -115,11 +116,11 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
             setBackground(Color.red);
         }
         if (isSelected && !(value.toString().equals(Globals.getThisPlayer_loginName()))) {
-            setText("<html><pre>&nbsp;" + value.toString() + "</pre></html>");
+            setText("<html>&nbsp;<xmp>" + value.toString() + "</xmp></html>");
             setBorder(selectionBorder);
 
         } else {
-            setText("<html><pre>&nbsp;" + value.toString() + "</pre></html>");
+            setText("<html>&nbsp;<xmp>" + value.toString() + "</xmp></html>");
         }
         if(value.toString().equals( TabOrganizer.getRoomPanel().hostName )){
             setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));

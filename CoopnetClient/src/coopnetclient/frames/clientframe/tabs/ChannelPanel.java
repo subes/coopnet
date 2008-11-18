@@ -32,6 +32,7 @@ import coopnetclient.frames.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.ChannelStatusListModel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
+import coopnetclient.frames.renderers.TableTextCellRenderer;
 import coopnetclient.utils.UserListFileDropHandler;
 import java.awt.event.MouseEvent;
 import javax.swing.DropMode;
@@ -86,6 +87,8 @@ public class ChannelPanel extends javax.swing.JPanel {
         UsersInRoomTableCellRenderer userrend = new UsersInRoomTableCellRenderer(rooms);
         userrend.setHorizontalAlignment(SwingConstants.CENTER);
         col.setCellRenderer(userrend);
+        tbl_roomList.getColumnModel().getColumn(1).setCellRenderer(new TableTextCellRenderer());
+        tbl_roomList.getColumnModel().getColumn(2).setCellRenderer(new TableTextCellRenderer());
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.CHANNEL_CHAT_MODE, this.name));
 

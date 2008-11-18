@@ -20,6 +20,7 @@ package coopnetclient.frames;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.MuteBanStatuses;
+import coopnetclient.frames.renderers.TableTextCellRenderer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.MuteBanList;
 import javax.swing.JTable;
@@ -41,6 +42,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         SelectionListener listener = new SelectionListener(tbl_UserTable);
         tbl_UserTable.getSelectionModel().addListSelectionListener(listener);
         tbl_UserTable.getColumnModel().getSelectionModel().addListSelectionListener(listener);
+        tbl_UserTable.getColumnModel().getColumn(0).setCellRenderer(new TableTextCellRenderer());
     }
 
     public void updateTable() {
@@ -65,7 +67,10 @@ public class MuteBanListFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Mute/Ban List");
+        setFocusable(false);
         setResizable(false);
+
+        scrl_table.setFocusable(false);
 
         tbl_UserTable.setAutoCreateRowSorter(true);
         tbl_UserTable.setModel(tablemodel);
@@ -81,6 +86,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         scrl_table.setViewportView(tbl_UserTable);
 
         btn_close.setText("Close");
+        btn_close.setFocusable(false);
         btn_close.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_closeActionPerformed(evt);
@@ -89,6 +95,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
 
         btn_unMute.setText("UnMute");
         btn_unMute.setEnabled(false);
+        btn_unMute.setFocusable(false);
         btn_unMute.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_unMuteActionPerformed(evt);
@@ -97,6 +104,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
 
         btn_unBan.setText("UnBan");
         btn_unBan.setEnabled(false);
+        btn_unBan.setFocusable(false);
         btn_unBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_unBanActionPerformed(evt);
@@ -105,6 +113,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
 
         btn_showProfile.setText("Show Profile");
         btn_showProfile.setEnabled(false);
+        btn_showProfile.setFocusable(false);
         btn_showProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_showProfileActionPerformed(evt);

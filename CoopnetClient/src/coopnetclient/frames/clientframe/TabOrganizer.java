@@ -230,10 +230,10 @@ public class TabOrganizer {
     }
 
     public static void openPrivateChatPanel(String title, boolean setFocus) {
-        int index = tabHolder.indexOfTab(title);
+        int index = tabHolder.indexOfTab("<html><xmp>" + title);
         if (index == -1) {
             PrivateChatPanel pc = new PrivateChatPanel(title);
-            tabHolder.add(title, pc);
+            tabHolder.add("<html><xmp>" + title, pc);
             privateChatPanels.add(pc);
             if (setFocus) {
                 tabHolder.setSelectedComponent(pc);
@@ -253,7 +253,7 @@ public class TabOrganizer {
             }
         } else {
             if (setFocus) {
-                tabHolder.setSelectedIndex(tabHolder.indexOfTab(title));
+                tabHolder.setSelectedIndex(tabHolder.indexOfTab("<html><xmp>" + title));
                 tabHolder.getSelectedComponent().requestFocus();
             }
         }
@@ -273,7 +273,7 @@ public class TabOrganizer {
     }
 
     public static PrivateChatPanel getPrivateChatPanel(String title) {
-        int index = tabHolder.indexOfTab(title);
+        int index = tabHolder.indexOfTab("<html><xmp>" + title);
         if (index != -1) {
             JPanel panel = (JPanel) tabHolder.getComponentAt(index);
             if (panel instanceof PrivateChatPanel) {

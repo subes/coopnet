@@ -28,9 +28,7 @@ import java.awt.Toolkit;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 
 /**
@@ -55,9 +53,10 @@ public class ContactListRenderer extends DefaultListCellRenderer {
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
-        setToolTipText(value.toString());
+        setToolTipText("<html><xmp>"+value.toString());
+        setText("<html><xmp>"+value.toString());
+        
         //set foreground
-        //setText(value.toString());
         if (Settings.getColorizeBody()) {
             setForeground(Settings.getForegroundColor());
             if (isSelected) {

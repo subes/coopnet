@@ -49,9 +49,9 @@ public class ChannelStatusListCellRenderer extends DefaultListCellRenderer {
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         super.getListCellRendererComponent(list, value, index, (value.toString().equals(Globals.getThisPlayer_loginName()))?false:isSelected, cellHasFocus);
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
-        setToolTipText(value.toString());        
-        //set foreground
-        //setText(value.toString());
+        setToolTipText("<html><xmp>"+value.toString());
+        setText("<html><xmp>"+value.toString());
+        //set foreground        
         if (Settings.getColorizeBody()) {
             setForeground(Settings.getForegroundColor());
             if (isSelected) {
