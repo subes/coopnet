@@ -113,16 +113,21 @@ public class ChannelStatusListModel extends AbstractListModel {
         return playingList.contains(value);
     }
 
-    public void updateName(String oldname, String playername) {
+    public boolean updateName(String oldname, String playername) {
+        boolean found = false;
         if (chattingList.remove(oldname)) {
             chattingList.add(playername);
+            found = true;
         }
         if (playingList.remove(oldname)) {
             playingList.add(playername);
+            found = true;
         }
         if (inRoomList.remove(oldname)) {
             inRoomList.add(playername);
+            found = true;
         }
+        return found;
     }
 
     // ListModel methods

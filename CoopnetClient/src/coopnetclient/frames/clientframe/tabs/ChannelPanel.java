@@ -219,12 +219,11 @@ public class ChannelPanel extends javax.swing.JPanel {
         }
     }
 
-    public void updatePlayerName(String oldname, String newname) {
-        rooms.updateName(oldname, newname);
-        users.updateName(oldname, newname);
-        if (TabOrganizer.getRoomPanel() != null) {
-            TabOrganizer.getRoomPanel().updatePlayerName(oldname, newname);
-        }
+    public boolean updatePlayerName(String oldname, String newname) {
+        boolean found = false;
+        found = rooms.updateName(oldname, newname) ||found;
+        found = users.updateName(oldname, newname) ||found ;        
+        return found;
     }
 
     /** This method is called from within the constructor to
@@ -262,6 +261,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         sp_vertical.setResizeWeight(0.3);
         sp_vertical.setFocusable(false);
         sp_vertical.setOneTouchExpandable(true);
+        sp_vertical.setPreferredSize(new java.awt.Dimension(350, 400));
 
         sp_chatHorizontal.setBorder(null);
         sp_chatHorizontal.setDividerSize(3);
@@ -413,6 +413,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         scrl_roomList.setFocusable(false);
         scrl_roomList.setMaximumSize(null);
         scrl_roomList.setMinimumSize(null);
+        scrl_roomList.setPreferredSize(new java.awt.Dimension(100, 50));
 
         tbl_roomList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

@@ -88,10 +88,12 @@ public class RoomTableModel extends DefaultTableModel {
             return userlist;
         }
 
-        public void updatename(String oldname, String newname) {
+        public boolean updatename(String oldname, String newname) {
             if (playersInRoom.remove(oldname)) {
                 playersInRoom.add(newname);
+                return true;
             }
+            return false;
         }
 
         public void addPlayer(String name) {
@@ -260,11 +262,13 @@ public class RoomTableModel extends DefaultTableModel {
         }
     }
 
-    public void updateName(String oldName, String newName) {
+    public boolean updateName(String oldName, String newName) {
+        boolean found = false;
         for (Room room : rooms) {
-            room.updatename(oldName, newName);
+            found = room.updatename(oldName, newName) || found;
         }
         fireTableDataChanged();
+        return found;
     }
 
     public String getUserList(int row) {

@@ -218,11 +218,13 @@ public class RoomPanel extends javax.swing.JPanel {
                 modeStyle, doc, scrl_chatOutput, tp_chatOutput);
     }
 
-    public void updatePlayerName(String oldname, String newname) {
+    public boolean updatePlayerName(String oldname, String newname) {
         roomStatusListCR.updateName(oldname, newname);
         if(users.removeElement(oldname)){
             users.add(newname);
+            return true;
         }
+        return false;
     }
     
     public void unReadyPlayer(String playerName){

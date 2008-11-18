@@ -264,19 +264,21 @@ public class ClientFrame extends javax.swing.JFrame {
         TabOrganizer.getChannelPanel(channel).removePlayerFromChannel(playername);
     }
 
-    public void updatePlayerName(String oldname, String newname) {
+    public boolean updatePlayerName(String oldname, String newname) {
+        boolean found = false;
         //update name in the channels
         for (int i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
-            TabOrganizer.getChannelPanel(i).updatePlayerName(oldname, newname);
+            found = TabOrganizer.getChannelPanel(i).updatePlayerName(oldname, newname) || found;
         }
         //update name in the room tab
         if (TabOrganizer.getRoomPanel() != null) {
-            TabOrganizer.getRoomPanel().updatePlayerName(oldname, newname);
+            found = TabOrganizer.getRoomPanel().updatePlayerName(oldname, newname) || found;
         }
         //update the pm tab title too
         TabOrganizer.updateTitleOnTab(oldname, newname);
         //update the contactlist
-        Globals.getContactList().updateName(oldname, newname);
+        found = Globals.getContactList().updateName(oldname, newname) ||found;
+        return found;
     }
 
     public void setQuickBarVisibility(boolean visibility) {

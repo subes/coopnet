@@ -308,11 +308,13 @@ public class CommandHandler {
                     Globals.setThisPlayer_inGameName(information[0]);
                     break;
                 case UPDATE_PLAYERNAME:
-                    Globals.getClientFrame().updatePlayerName(information[0], information[1]);
+                    boolean found = Globals.getClientFrame().updatePlayerName(information[0], information[1]);
                     if (Globals.getThisPlayer_loginName().equals(information[0])) {
                         Globals.setThisPlayer_loginName(information[1]);
                     } else {
-                        Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " is now known as " + information[1], ChatStyles.SYSTEM, false);
+                        if(found){
+                            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " is now known as " + information[1], ChatStyles.SYSTEM, false);
+                        }
                     }
                     Globals.getClientFrame().repaint();
                     break;
