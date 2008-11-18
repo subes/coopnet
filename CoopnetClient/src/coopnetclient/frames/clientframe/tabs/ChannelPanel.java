@@ -261,7 +261,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(350, 400));
 
         sp_vertical.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
-        sp_vertical.setResizeWeight(0.3);
+        sp_vertical.setResizeWeight(0.5);
         sp_vertical.setFocusable(false);
         sp_vertical.setOneTouchExpandable(true);
         sp_vertical.setPreferredSize(new java.awt.Dimension(350, 400));
@@ -270,7 +270,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         sp_chatHorizontal.setDividerSize(3);
         sp_chatHorizontal.setResizeWeight(1.0);
         sp_chatHorizontal.setFocusable(false);
-        sp_chatHorizontal.setPreferredSize(new java.awt.Dimension(200, 100));
+        sp_chatHorizontal.setPreferredSize(new java.awt.Dimension(350, 200));
 
         sp_chatVertical.setBorder(null);
         sp_chatVertical.setDividerSize(3);
@@ -386,6 +386,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 
         pnl_roomActions.setFocusable(false);
         pnl_roomActions.setMinimumSize(new java.awt.Dimension(100, 70));
+        pnl_roomActions.setPreferredSize(new java.awt.Dimension(350, 200));
 
         btn_create.setText("Create");
         btn_create.setFocusable(false);
