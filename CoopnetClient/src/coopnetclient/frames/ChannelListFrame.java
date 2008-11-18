@@ -57,6 +57,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
         btn_cancel = new javax.swing.JButton();
 
         setTitle("Join channel");
+        setFocusable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -64,12 +65,15 @@ public class ChannelListFrame extends javax.swing.JFrame {
         });
 
         lbl_filter.setText("Filter:");
+        lbl_filter.setFocusable(false);
 
         tf_filter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_filterActionPerformed(evt);
             }
         });
+
+        scrl_channelList.setFocusable(false);
 
         lst_channelList.setModel(channels);
         lst_channelList.addMouseListener(new java.awt.event.MouseAdapter() {
