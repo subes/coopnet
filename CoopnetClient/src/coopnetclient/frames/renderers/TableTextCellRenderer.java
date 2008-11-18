@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class TableTextCellRenderer extends DefaultTableCellRenderer {
 
     public TableTextCellRenderer() {
+        putClientProperty("html.disable", Boolean.TRUE);
     }
 
     @Override
