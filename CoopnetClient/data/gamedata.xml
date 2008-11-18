@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-<!--Version 15 -->
+<!--Version 16 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
-<!ELEMENT GameData (GameName, ChannelID, LaunchMethod, (InstantLaunch)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
+<!ELEMENT GameData (GameName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
 <!ELEMENT GameName (CDATA)>
+<!ELEMENT WelcomeMessage (CDATA)>
 <!ELEMENT ChannelID (CDATA)>
 <!ELEMENT LaunchMethod (CDATA)>
 <!ELEMENT InstantLaunch (EMPTY)>
@@ -29,9 +30,17 @@
 ]>
 <GameDataBase>
     <GameData>
+        <GameName>Welcome</GameName>
+        <ChannelID>WLC</ChannelID>
+        <LaunchMethod>CHAT_ONLY</LaunchMethod>
+        <WelcomeMessage>To change channel use the "Channel List" item in "Channels" menu</WelcomeMessage>
+    </GameData>
+    <GameData>
         <GameName>Fallout Tactics: Brotherhood of Steel</GameName>
         <ChannelID>FOT</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <WelcomeMessage>Welcome to the new home of the Fot community!
+Game time is around 16-00 GTM +1</WelcomeMessage>
         <Property>
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}</PropertyValue>
@@ -1945,7 +1954,7 @@
     </GameData>
     <GameData>
         <GameName>Half-Life - Steam</GameName>
-        <ChannelID>232</ChannelID>
+        <ChannelID>233</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
         <RegistryEntry>
