@@ -34,19 +34,15 @@ import coopnetclient.frames.clientframe.tabs.PasswordRecoveryPanel;
 import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
 import coopnetclient.frames.clientframe.tabs.RegisterPanel;
 import coopnetclient.frames.clientframe.tabs.RoomPanel;
-import coopnetclient.frames.clientframe.tabs.TestGameDataEditor;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
-import java.awt.Component;
 import java.io.File;
-import java.io.IOException;
 import java.util.Vector;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeListener;
@@ -62,7 +58,6 @@ public class TabOrganizer {
     private static LoginPanel loginPanel;
     private static RegisterPanel registerPanel;
     private static PasswordRecoveryPanel passwordRecoveryPanel;
-    private static Component gamedataeditor;
     private static Vector<FileTransferSendPanel> fileTransferSendPanels = new Vector<FileTransferSendPanel>();
     private static Vector<FileTransferRecievePanel> fileTransferReceivePanels = new Vector<FileTransferRecievePanel>();
     
@@ -118,10 +113,6 @@ public class TabOrganizer {
 
         Globals.getClientFrame().repaint();
         tabHolder.setSelectedComponent(currentchannel);
-        
-        if(currentchannel.ID.equals("TST")){
-            TabOrganizer.openGameDataEditor();
-        }
     }
 
     public static void closeChannelPanel(String channelName) {
@@ -129,10 +120,6 @@ public class TabOrganizer {
     }
 
     public static void closeChannelPanel(ChannelPanel which) {
-        if(which.ID.equals("TST")){
-            closeGameDataEditor();
-        }
-        
         Protocol.leaveChannel(which.name);
         channelPanels.remove(which);
         tabHolder.remove(which);
@@ -466,26 +453,6 @@ public class TabOrganizer {
             }
         }
         return null;
-    }
-
-    public static void openGameDataEditor() {
-        GameDatabase.load(null, GameDatabase.testDataFilePath);
-        if (gamedataeditor == null) {
-            gamedataeditor = new JScrollPane(new TestGameDataEditor());
-            tabHolder.add("TestGameData Editor", gamedataeditor);
-        } else {
-            putFocusOnTab("TestGameData Editor");
-        }
-    }
-
-    public static void closeGameDataEditor() {
-        tabHolder.remove(gamedataeditor);
-        gamedataeditor = null;
-        try {
-            GameDatabase.saveTestData();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 
     /*******************************************************************/

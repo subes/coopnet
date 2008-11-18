@@ -35,7 +35,6 @@ import java.util.HashMap;
 public class GameDatabase {
 
     public static final String dataFilePath = "data/gamedata.xml";
-    public static final String testDataFilePath = "data/testgamedata.xml";
     private static final String localPathsFilePath = "data/localpaths";
     private static boolean registryOK = false;
     protected static HashMap<String, String> IDtoGameName;     // key is the ID    
@@ -70,9 +69,6 @@ public class GameDatabase {
         gameData = new ArrayList<Game>();
         load("", dataFilePath);
         loadLocalPaths();
-        //IDtoGameName.put("WLC", "Welcome");
-        IDtoGameName.put("TST", "GameTest channel");
-        load("GameTest channel", testDataFilePath);
     }
 
     public static boolean isBeta(String channelname) {
@@ -403,61 +399,11 @@ public class GameDatabase {
         try {
             xmlReader.parseGameData(gamename, datafilepath);
             System.out.println("game database loaded");  
-        }catch(java.io.FileNotFoundException e){
-            if(datafilepath.equals(testDataFilePath)){
-                //make new default testdata
-                //...
-                Game defdata = new Game();
-                defdata.setGameName("GameTest channel");
-                defdata.setLaunchMethod("PARAMETER");
-                gameData.add(defdata);
-                //save it
-                try{
-                    saveTestData();
-                }catch(IOException ex ){
-                    return ;
-                }
-                //retry loading
-                load(gamename, datafilepath);
-            }
         }
         catch (Exception e) {
             System.out.println("game database loading failed!");
             e.printStackTrace();
         }
-    }
-
-    public static void saveTestData() throws IOException {
-        PrintWriter pw = null;
-        pw = new PrintWriter(new FileWriter(testDataFilePath));
-        for (Game game : gameData) {
-            if (game.getGameName().equals(GameDatabase.getGameName("TST"))) {
-                //start
-                pw.println("<?xml version=\"1.0\"?><GameDataBase><GameData>");
-                pw.println("<GameName>GameTest channel</GameName>");
-                pw.println("<ChannelID>TST</ChannelID>");
-                //print fields:
-                for (String key : game.fields.keySet()) {
-                    if (game.fields.get(key).length() > 0) {
-                        pw.println("<Property><PropertyName>" + key + "</PropertyName><PropertyValue>" + game.fields.get(key) + "</PropertyValue></Property>");
-                    }
-                }
-                if (game.settings.size() > 0) {
-                    pw.print("<Settings>");
-                    //print settings
-                    for (GameSetting gs : game.settings) {
-                        pw.println(gs.getStorageString());
-                    }                    
-                    pw.print("</Settings>");
-                }
-                //end
-                pw.println("</GameData></GameDataBase>");
-            //break;
-            }
-        }
-        pw.flush();
-        pw.close();
-        System.out.println("tesdata saved");
     }
 
     public static void loadLocalPaths() {
