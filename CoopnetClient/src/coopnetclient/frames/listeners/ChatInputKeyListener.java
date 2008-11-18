@@ -80,7 +80,7 @@ public class ChatInputKeyListener implements KeyListener {
                 }
 
                 //whisper command
-                if(command.startsWith("/w")){
+                if(command.startsWith("/w ")){
                     String tail = command.substring(3);
                     int nameEnd = tail.indexOf(" ");
                     if(nameEnd == -1){
@@ -96,6 +96,13 @@ public class ChatInputKeyListener implements KeyListener {
                         return;
                     }
                     Protocol.privateChat(name, msg);
+                    source.setText("");
+                    return;
+                }
+                
+                if(command.startsWith("/invite ")){
+                    String name = command.substring(8);
+                    Protocol.sendInvite(name);  
                     source.setText("");
                     return;
                 }
