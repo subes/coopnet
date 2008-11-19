@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 16 -->
+<!--Version 18 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
@@ -40,7 +40,7 @@
         <ChannelID>FOT</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <WelcomeMessage>Welcome to the new home of the Fot community!
-Game time is around 16-00 GTM +1</WelcomeMessage>
+Game time is around 16-24 GTM +1</WelcomeMessage>
         <Property>
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}</PropertyValue>
@@ -2003,7 +2003,7 @@ Game time is around 16-00 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Call of Duty</GameName>
-        <ChannelID>233</ChannelID>
+        <ChannelID>234</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
         <RegistryEntry>
@@ -2058,6 +2058,75 @@ Game time is around 16-00 GTM +1</WelcomeMessage>
                 <KeyWord>MAP</KeyWord>
                 <SettingDefaultValue> </SettingDefaultValue>
             </TextSetting>
+        </Settings>
+    </GameData>
+    <GameData>
+        <GameName>Kingpin: Life of Crime</GameName>
+        <ChannelID>235</ChannelID>
+        <LaunchMethod>PARAMETER</LaunchMethod>
+        <InstantLaunch/>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\App Paths\kingpin.exe\Path</RegKey>
+        </RegistryEntry>
+        <Property>
+            <PropertyName>EXE</PropertyName>
+            <PropertyValue>kingpin.exe</PropertyValue>
+        </Property>        
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue>+map {MAP} {GAMEMODE} +set maxclients {MAXPLAYERS}  +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} {PASSWORD}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue>+connect {HOSTIP} +set name {NAME} {PASSWORD}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+set password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+set password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Settings>
+            <NumberSetting>
+                <SettingName>goalscore</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>GOALSCORE</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>timelimit</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>TIMELIMIT</KeyWord>
+            </NumberSetting>
+            <NumberSetting>
+                <SettingName>maxplayers</SettingName>
+                <SettingType>NUMBER</SettingType>
+                <KeyWord>MAXPLAYERS</KeyWord>
+            </NumberSetting>
+            <TextSetting>
+                <SettingName>map</SettingName>
+                <SettingType>TEXT</SettingType>
+                <KeyWord>MAP</KeyWord>
+                <SettingDefaultValue> </SettingDefaultValue>
+            </TextSetting>
+            <ChoiceSetting>
+                <SettingName>GameMode</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>GAMEMODE</KeyWord>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Co-op</ChoiceDisplayName>
+                    <ChoiceRealValue>+set coop 1</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Deathmatch</ChoiceDisplayName>
+                    <ChoiceRealValue>+set deathmatch 1</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Teamplay</ChoiceDisplayName>
+                    <ChoiceRealValue>+set teamplay 1</ChoiceRealValue>
+                </ChoiceItem>
+            </ChoiceSetting>            
         </Settings>
     </GameData>
     <GameData>
