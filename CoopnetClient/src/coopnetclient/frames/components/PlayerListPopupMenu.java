@@ -54,6 +54,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
         playerName = new JMenuItem();
         playerName.setEnabled(false);
+        playerName.putClientProperty("html.disable", Boolean.TRUE);
         this.add(playerName);
 
         this.add(new JSeparator());

@@ -39,6 +39,7 @@ import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -545,7 +546,11 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
 private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
     if (!popup.isVisible()) {
         int idx = lst_userList.locationToIndex(evt.getPoint());
-        if(!lst_userList.getCellBounds(idx, idx).contains(evt.getPoint())){
+        Rectangle rec = lst_userList.getCellBounds(idx, idx);
+        if(rec == null){
+            return;
+        }
+        if(!rec.contains(evt.getPoint())){
             lst_userList.clearSelection();
             return;
         }

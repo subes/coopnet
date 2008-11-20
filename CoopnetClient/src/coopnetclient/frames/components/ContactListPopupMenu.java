@@ -72,6 +72,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
 
         playerName = new JMenuItem();
         playerName.setEnabled(false);
+        playerName.putClientProperty("html.disable", Boolean.TRUE);
         accept = makeMenuItem("Accept");
         acceptAndAdd = makeMenuItem("Accept and add");
         refuse = makeMenuItem("Refuse");

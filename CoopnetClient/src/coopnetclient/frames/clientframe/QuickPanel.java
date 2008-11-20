@@ -258,7 +258,11 @@ private void lst_contactListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIR
 private void lst_favouritesListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_favouritesListMouseMoved
      if (!popup.isVisible()) {
         int idx = lst_favouritesList.locationToIndex(evt.getPoint());
-        if(!lst_favouritesList.getCellBounds(idx, idx).contains(evt.getPoint())){
+        Rectangle rec = lst_favouritesList.getCellBounds(idx, idx);
+        if(rec == null){
+            return;
+        }
+        if(!rec.contains(evt.getPoint())){
             lst_favouritesList.clearSelection();
             return;
         }

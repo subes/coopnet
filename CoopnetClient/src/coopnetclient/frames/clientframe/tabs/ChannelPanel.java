@@ -34,6 +34,7 @@ import coopnetclient.frames.models.ChannelStatusListModel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.frames.renderers.TableTextCellRenderer;
 import coopnetclient.utils.UserListFileDropHandler;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import javax.swing.DropMode;
 import javax.swing.JTable;
@@ -590,7 +591,11 @@ private void btn_leaveChannel1ActionPerformed(java.awt.event.ActionEvent evt) {/
 private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
     if (!popup.isVisible()) {
         int idx = lst_userList.locationToIndex(evt.getPoint());
-        if(!lst_userList.getCellBounds(idx, idx).contains(evt.getPoint())){
+        Rectangle rec = lst_userList.getCellBounds(idx, idx);
+        if(rec == null){
+            return;
+        }
+        if(!rec.contains(evt.getPoint())){
             lst_userList.clearSelection();
             return;
         }
