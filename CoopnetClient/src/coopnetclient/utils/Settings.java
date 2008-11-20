@@ -129,7 +129,8 @@ public class Settings {
             launchHotKeyMask = "HotKeyMask",
             launchHotKey = "HotKey",
             multiChannel = "MultiChannel",
-            showOfflineContacts = "ShowOfflineContacts";
+            showOfflineContacts = "ShowOfflineContacts",
+            quickTabIconSizeIsBig="QuickTabIconSizeIsBig";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -179,6 +180,7 @@ public class Settings {
     private final static int def_launchHotKey = KeyEvent.VK_L;
     private final static boolean def_multiChannel = true;
     private final static boolean def_showOfflineContacts = false;
+    private final static boolean def_quickTabIconSize = true;
 
     /**
      * store the settings in options file
@@ -691,6 +693,14 @@ public class Settings {
     
     public static boolean getMultiChannel(){
         return readBoolean(multiChannel, def_multiChannel);
+    }
+    
+    public static boolean isquickTabIconSizeBig() {
+        return readBoolean(quickTabIconSizeIsBig, def_quickTabIconSize);
+    }
+
+    public static void setIsquickTabIconSizeBig(boolean bool) {
+        writeSetting(quickTabIconSizeIsBig, String.valueOf(bool));
     }
     
     public static void setShowOfflineContacts(boolean enabled){

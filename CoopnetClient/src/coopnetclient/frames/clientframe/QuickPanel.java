@@ -39,8 +39,10 @@ import javax.swing.JTextField;
 
 public class QuickPanel extends javax.swing.JPanel {
 
-    public static ImageIcon ContactListIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/contacts.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-    public static ImageIcon FavouritesIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/favourites.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon ContactListIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/contacts.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon FavouritesIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/favourites.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon ContactListIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/contacts_small.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon FavouritesIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/favourites_small.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
     private static ContactListPopupMenu popup;
     ContactListModel model;
 
@@ -62,6 +64,7 @@ public class QuickPanel extends javax.swing.JPanel {
         lst_contactList.setComponentPopupMenu(popup);
         refreshFavourites();
         lst_favouritesList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));        
+        setTabIcons();
     }
     
     public void setTabAlignment(boolean left){
@@ -91,6 +94,16 @@ public class QuickPanel extends javax.swing.JPanel {
         });
         lst_favouritesList.repaint();
     }
+    
+    private void setTabIcons(){
+        if(Settings.isquickTabIconSizeBig()){
+            tp_quickPanel.setIconAt(0, ContactListIconBig);
+            tp_quickPanel.setIconAt(1, FavouritesIconBig);
+        }else{//small icons
+            tp_quickPanel.setIconAt(0, ContactListIconSmall);
+            tp_quickPanel.setIconAt(1, FavouritesIconSmall);
+        }
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -101,6 +114,10 @@ public class QuickPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        IconSizeSelector = new javax.swing.JPopupMenu();
+        rbmi_bigIcons = new javax.swing.JRadioButtonMenuItem();
+        rbmi_smallIcons = new javax.swing.JRadioButtonMenuItem();
+        IconSizes = new javax.swing.ButtonGroup();
         tp_quickPanel = new javax.swing.JTabbedPane();
         scrl_contactlist = new javax.swing.JScrollPane();
         lst_contactList = new coopnetclient.frames.components.mutablelist.EditableJlist();
@@ -108,10 +125,31 @@ public class QuickPanel extends javax.swing.JPanel {
         scrl_favouritesList = new javax.swing.JScrollPane();
         lst_favouritesList = new javax.swing.JList();
 
+        IconSizes.add(rbmi_bigIcons);
+        rbmi_bigIcons.setSelected(Settings.isquickTabIconSizeBig());
+        rbmi_bigIcons.setText("Big Icons");
+        rbmi_bigIcons.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbmi_bigIconsActionPerformed(evt);
+            }
+        });
+        IconSizeSelector.add(rbmi_bigIcons);
+
+        IconSizes.add(rbmi_smallIcons);
+        rbmi_smallIcons.setSelected(!Settings.isquickTabIconSizeBig());
+        rbmi_smallIcons.setText("Small Icons");
+        rbmi_smallIcons.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbmi_smallIconsActionPerformed(evt);
+            }
+        });
+        IconSizeSelector.add(rbmi_smallIcons);
+
         setFocusable(false);
         setPreferredSize(new java.awt.Dimension(200, 200));
 
         tp_quickPanel.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        tp_quickPanel.setComponentPopupMenu(IconSizeSelector);
         tp_quickPanel.setDoubleBuffered(true);
         tp_quickPanel.setFocusable(false);
         tp_quickPanel.setMinimumSize(new java.awt.Dimension(0, 0));
@@ -141,7 +179,7 @@ public class QuickPanel extends javax.swing.JPanel {
         });
         scrl_contactlist.setViewportView(lst_contactList);
 
-        tp_quickPanel.addTab("", ContactListIcon, scrl_contactlist);
+        tp_quickPanel.addTab("", scrl_contactlist);
 
         lst_favouritesList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -175,7 +213,7 @@ public class QuickPanel extends javax.swing.JPanel {
             .addComponent(scrl_favouritesList, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
         );
 
-        tp_quickPanel.addTab("", FavouritesIcon, pnl_favouritesList);
+        tp_quickPanel.addTab("", pnl_favouritesList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -288,10 +326,24 @@ private void lst_favouritesListMouseExited(java.awt.event.MouseEvent evt) {//GEN
     lst_favouritesList.clearSelection();
 }//GEN-LAST:event_lst_favouritesListMouseExited
 
+private void rbmi_bigIconsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbmi_bigIconsActionPerformed
+    Settings.setIsquickTabIconSizeBig(true);
+    setTabIcons();
+}//GEN-LAST:event_rbmi_bigIconsActionPerformed
+
+private void rbmi_smallIconsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbmi_smallIconsActionPerformed
+    Settings.setIsquickTabIconSizeBig(false);
+    setTabIcons();
+}//GEN-LAST:event_rbmi_smallIconsActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPopupMenu IconSizeSelector;
+    private javax.swing.ButtonGroup IconSizes;
     private coopnetclient.frames.components.mutablelist.EditableJlist lst_contactList;
     private javax.swing.JList lst_favouritesList;
     private javax.swing.JPanel pnl_favouritesList;
+    private javax.swing.JRadioButtonMenuItem rbmi_bigIcons;
+    private javax.swing.JRadioButtonMenuItem rbmi_smallIcons;
     private javax.swing.JScrollPane scrl_contactlist;
     private javax.swing.JScrollPane scrl_favouritesList;
     private javax.swing.JTabbedPane tp_quickPanel;
