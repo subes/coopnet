@@ -197,6 +197,7 @@ public class CommandHandler {
                     TabOrganizer.closeRoomPanel();
                     break;
                 case REMOVE_ROOM:
+                    Globals.getClientFrame().removePlayerFromRoom(GameDatabase.getGameName(information[0]), information[1], information[1]);
                     Globals.getClientFrame().removeRoomFromTable(GameDatabase.getGameName(information[0]), information[1]);
                     break;
                 case CLOSE_ROOM:
