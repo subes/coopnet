@@ -326,7 +326,7 @@ public class ChannelPanel extends javax.swing.JPanel {
 
         sp_chatHorizontal.setLeftComponent(sp_chatVertical);
 
-        pnl_userList.setPreferredSize(new java.awt.Dimension(100, 78));
+        pnl_userList.setPreferredSize(new java.awt.Dimension(100, 80));
         pnl_userList.setLayout(new java.awt.GridBagLayout());
 
         scrl_userList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -483,7 +483,7 @@ public class ChannelPanel extends javax.swing.JPanel {
                     .addComponent(btn_refresh)
                     .addComponent(btn_leaveChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
+                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
         );
 
         pnl_roomActionsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_create, btn_join, btn_leaveChannel, btn_refresh});

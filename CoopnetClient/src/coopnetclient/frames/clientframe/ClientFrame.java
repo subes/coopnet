@@ -26,7 +26,7 @@ import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
 import coopnetclient.frames.clientframe.tabs.RoomPanel;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
-import coopnetclient.frames.clientframe.QuickPanel;
+import coopnetclient.frames.clientframe.quickpanel.QuickPanel;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.components.FavMenuItem;
 import coopnetclient.frames.clientframe.tabs.FileTransferRecievePanel;
@@ -57,7 +57,7 @@ public class ClientFrame extends javax.swing.JFrame {
 
     /** Creates new form ClientFrame */
     public ClientFrame() {
-        pnl_contactList = new coopnetclient.frames.clientframe.QuickPanel(Globals.getContactList());
+        pnl_contactList = new coopnetclient.frames.clientframe.quickpanel.QuickPanel(Globals.getContactList());
         pnl_contactList.setPreferredSize(new Dimension(200, 10));
         initComponents();       
         pnl_toggleQuickBarLeft.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));

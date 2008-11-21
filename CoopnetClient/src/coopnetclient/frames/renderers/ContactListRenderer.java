@@ -47,6 +47,7 @@ public class ContactListRenderer extends DefaultListCellRenderer {
     public ContactListRenderer(ContactListModel model) {
         setOpaque(true);
         this.model = model;
+        putClientProperty("html.disable", Boolean.TRUE);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class ContactListRenderer extends DefaultListCellRenderer {
         super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
         setToolTipText("<html><xmp>"+value.toString());
-        setText("<html><xmp>"+value.toString());
+        setText(value.toString());
         
         //set foreground
         if (Settings.getColorizeBody()) {

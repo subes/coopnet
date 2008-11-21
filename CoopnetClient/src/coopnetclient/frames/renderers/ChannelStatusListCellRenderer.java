@@ -43,6 +43,7 @@ public class ChannelStatusListCellRenderer extends DefaultListCellRenderer {
     public ChannelStatusListCellRenderer(ChannelStatusListModel model) {
         setOpaque(true);
         this.model = model;
+        putClientProperty("html.disable", Boolean.TRUE);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class ChannelStatusListCellRenderer extends DefaultListCellRenderer {
         super.getListCellRendererComponent(list, value, index, (value.toString().equals(Globals.getThisPlayer_loginName()))?false:isSelected, cellHasFocus);
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
         setToolTipText("<html><xmp>"+value.toString());
-        setText("<html><xmp>"+value.toString());
+        setText(value.toString());
         //set foreground        
         if (Settings.getColorizeBody()) {
             setForeground(Settings.getForegroundColor());

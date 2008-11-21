@@ -29,7 +29,7 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.SoundPlayer;
-import coopnetclient.frames.renderers.RoomStatusListCellRenderer;
+import coopnetclient.frames.renderers.RoomPlayerStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.utils.UserListFileDropHandler;
@@ -65,7 +65,7 @@ public class RoomPanel extends javax.swing.JPanel {
     private String hamachiHostIP;
     private int maxPlayers;
     private HashMap<String, String> gamesettings = new HashMap<String, String>();
-    private RoomStatusListCellRenderer roomStatusListCR;
+    private RoomPlayerStatusListCellRenderer roomStatusListCR;
 
     public RoomPanel(boolean isHost, String channel, String modindex, String hostIP, boolean compatible, String hamachiIp, int maxPlayers,String hostName,String roomName,String ID,String password) {
         this.gameName = channel;
@@ -102,7 +102,7 @@ public class RoomPanel extends javax.swing.JPanel {
         }
         lst_userList.setComponentPopupMenu(popup);
         
-        roomStatusListCR = new RoomStatusListCellRenderer();
+        roomStatusListCR = new RoomPlayerStatusListCellRenderer();
         lst_userList.setCellRenderer(roomStatusListCR);
         lst_userList.setDragEnabled(true);
         lst_userList.setDropMode(DropMode.USE_SELECTION);
@@ -326,13 +326,15 @@ public class RoomPanel extends javax.swing.JPanel {
         scrl_userList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrl_userList.setFocusable(false);
         scrl_userList.setMinimumSize(new java.awt.Dimension(100, 50));
+        scrl_userList.setPreferredSize(new java.awt.Dimension(100, 200));
 
         lst_userList.setModel(users);
         lst_userList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lst_userList.setAutoscrolls(false);
         lst_userList.setFixedCellHeight(20);
-        lst_userList.setFixedCellWidth(100);
         lst_userList.setFocusable(false);
         lst_userList.setMinimumSize(new java.awt.Dimension(30, 50));
+        lst_userList.setPreferredSize(null);
         lst_userList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lst_userListMouseClicked(evt);

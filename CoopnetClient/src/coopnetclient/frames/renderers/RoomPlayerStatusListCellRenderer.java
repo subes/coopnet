@@ -37,15 +37,17 @@ import javax.swing.border.Border;
 /**
  * Renders the elements in the user list of a room
  */
-public class RoomStatusListCellRenderer extends JLabel implements ListCellRenderer {
+public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCellRenderer {
 
     private Vector<String> readyList = new Vector<String>();
     private Vector<String> playingList = new Vector<String>();
     
     private static Border selectionBorder = BorderFactory.createLineBorder(Colorizer.getSelectionColor() , 2);
-
-    public RoomStatusListCellRenderer() {
+    private static Border normalBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+    
+    public RoomPlayerStatusListCellRenderer() {
         setOpaque(true);
+        putClientProperty("html.disable", Boolean.TRUE);
     }
         
     public void removePlayer(String playerName){
@@ -103,7 +105,7 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
         //set foreground
         setForeground(Color.black);
-        setBorder(null);
+        setBorder(normalBorder);
         setToolTipText("<html><xmp>"+value.toString());
         //set background color
         if (readyList.contains(value.toString())) {
@@ -116,11 +118,10 @@ public class RoomStatusListCellRenderer extends JLabel implements ListCellRender
             setBackground(Color.red);
         }
         if (isSelected && !(value.toString().equals(Globals.getThisPlayer_loginName()))) {
-            setText("<html>&nbsp;<xmp>" + value.toString() + "</xmp></html>");
+            setText(" "+value.toString());
             setBorder(selectionBorder);
-
         } else {
-            setText("<html>&nbsp;<xmp>" + value.toString() + "</xmp></html>");
+            setText(" "+value.toString());            
         }
         if(value.toString().equals( TabOrganizer.getRoomPanel().hostName )){
             setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
