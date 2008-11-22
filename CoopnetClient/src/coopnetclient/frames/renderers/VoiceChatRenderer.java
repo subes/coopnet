@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.renderers;
 
 import coopnetclient.Globals;
@@ -53,9 +52,9 @@ public class VoiceChatRenderer extends DefaultListCellRenderer {
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         super.getListCellRendererComponent(list, value, index, isSelected && !(value.toString().equals(Globals.getThisPlayer_loginName())), cellHasFocus);
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
-        setToolTipText("<html><xmp>"+value.toString());
+        setToolTipText("<html><xmp>" + value.toString());
         setText(value.toString());
-        
+
         //set foreground
         if (Settings.getColorizeBody()) {
             setForeground(Settings.getForegroundColor());
@@ -67,25 +66,18 @@ public class VoiceChatRenderer extends DefaultListCellRenderer {
         }
         setHorizontalAlignment(LEFT);
         setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-        
+
         Channel c = model.getChannel(value.toString());
-        if(c!=null){
-            if(c.isClosed()){
-                setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-                setIcon(UIManager.getIcon("Tree.collapsedIcon"));
-                setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
-            }else{
-                setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-                setIcon(UIManager.getIcon("Tree.expandedIcon"));
-                setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
-            }
-        }else{ //username
-            if(model.isMuted(value.toString())){
+        if (c != null) {
+            setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+            setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
+        } else { //username
+            if (model.isMuted(value.toString())) {
                 setIcon(mutedIcon);
-            }else{
-                if(model.isTalking(value.toString())){
+            } else {
+                if (model.isTalking(value.toString())) {
                     setIcon(talkingIcon);
-                }else{
+                } else {
                     setIcon(emptyIcon);
                 }
             }

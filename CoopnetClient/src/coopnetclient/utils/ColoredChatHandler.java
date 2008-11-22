@@ -149,7 +149,7 @@ public class ColoredChatHandler {
             doc.insertString(doc.getLength(), "\n" + name, doc.getStyle(nameStyleName));
             String[] messageWords = message.split(" ");
             for (String word : messageWords) {
-                if (word.startsWith("http://") || word.startsWith("room://")) {
+                if (word.startsWith("http://") || word.startsWith("room://") || word.startsWith("voice://")) {
                     //print link
                     String href = word;
                     SimpleAttributeSet attr2 = new SimpleAttributeSet();

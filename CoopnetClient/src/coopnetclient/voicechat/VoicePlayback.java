@@ -1,6 +1,7 @@
 package coopnetclient.voicechat;
 
 import coopnetclient.Globals;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.models.VoiceChatChannelListModel;
 import coopnetclient.utils.Settings;
 import java.util.ArrayList;
@@ -8,10 +9,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import javax.sound.sampled.*;
 import javax.sound.sampled.Port.Info;
-import javax.swing.JOptionPane;
 
 public class VoicePlayback {
 
+    public static final int MAXEXPIRE = 2;
     public static final int LOW_QUALITY = 1;
     public static final int MEDIUM_QUALITY = 2;
     public static final int HIGH_QUALITY = 3;
@@ -26,7 +27,7 @@ public class VoicePlayback {
     private static boolean recordLoop = false;
     private static boolean isTalking = false;
     private static Mixer playbackMixer = null;
-    
+
 
     static {
         channels = new HashMap<String, SourceDataLine>();
@@ -63,11 +64,13 @@ public class VoicePlayback {
         "Cannot find audio device", JOptionPane.ERROR_MESSAGE);
         }*/
 
-        playbackMixer = AudioSystem.getMixer(AudioSystem.getMixerInfo()[Settings.getPlaybackDeviceIndex()]);
-        if (playbackMixer == null || !playbackMixer.isLineSupported(playbackInfo)) {
-            JOptionPane.showMessageDialog(Globals.getClientFrame(),
-                    "<html>The sound device does not support the voice format! Sound playback is not possible!<br>" + "Try selecting other device in options!",
-                    "Audio device is incompatible", JOptionPane.ERROR_MESSAGE);
+        try {
+            playbackMixer = AudioSystem.getMixer(AudioSystem.getMixerInfo()[Settings.getPlaybackDeviceIndex()]);
+            if (playbackMixer == null || !playbackMixer.isLineSupported(playbackInfo)) {
+                Globals.getClientFrame().printToVisibleChatbox("System", "Error initialising voice playback! Please edit your settings!", ChatStyles.SYSTEM, false);
+            }
+        } catch (Exception e) {
+            Globals.getClientFrame().printToVisibleChatbox("System", "Error initialising voice playback! Please edit your settings!", ChatStyles.SYSTEM, false);
         }
 
         try {
@@ -76,9 +79,7 @@ public class VoicePlayback {
             adjustRecordingVolume();
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(Globals.getClientFrame(),
-                    "The sound device does not support the voice format! Sound recording is not possible!" + "Try selecting other device in options!",
-                    "Audio device is incompatible", JOptionPane.ERROR_MESSAGE);
+            Globals.getClientFrame().printToVisibleChatbox("System", "Error initialising voice capture! Please edit your settings!", ChatStyles.SYSTEM, false);
         }
         recordLoop = true;
         recorderThread = new Thread() {
@@ -90,6 +91,7 @@ public class VoicePlayback {
                 }
                 byte[] buffer = new byte[micInputLine.getBufferSize() / 3];
                 int read = 0;
+                int expire = 0;
                 micInputLine.start();
                 while (recordLoop) {
                     read = micInputLine.read(buffer, 0, buffer.length);
@@ -114,9 +116,17 @@ public class VoicePlayback {
                                     VoiceClient.sendVoiceData(output);
                                 }
                             } else { //nothing sendable read, stop sending
-                                if(isTalking){
-                                    VoiceClient.send("SPV");
-                                    isTalking = false;
+                                if (isTalking) {
+                                    if (expire >= MAXEXPIRE) {
+                                        VoiceClient.send("SPV");
+                                        isTalking = false;
+                                        expire = 0;
+                                    } else {
+                                        expire++;
+                                        byte[] output = new byte[read];
+                                        System.arraycopy(buffer, 0, output, 0, read);
+                                        VoiceClient.sendVoiceData(output);
+                                    }
                                 }
                             }
                         } else if (captureAndSend) {//push to talk

@@ -56,7 +56,7 @@ public class Globals {
     private static String lastOpenedDir;
     //Preset value
     private static boolean debug = false;
-    private static final String clientVersion = "0.98.4";
+    private static final String clientVersion = "0.99.0";
     private static boolean connectionStatus = false;
     private static boolean loggedInStatus = false;
     private static boolean sleepModeStatus = false;
@@ -84,6 +84,7 @@ public class Globals {
     private static SystemTray tray = null;
     private static TrayIcon trayIcon = null;
     private static boolean trayAdded = false;
+    private static String MyIP =null;
     /*******************************************************************/
     
 
@@ -154,6 +155,15 @@ public class Globals {
     public static TrayIcon getTrayIcon() {
         return trayIcon;
     }
+
+    public static String getMyIP() {
+        return MyIP;
+    }
+
+    public static void setMyIP(String IP) {
+         MyIP= IP;
+    }
+
 
     public static void recolorFrames() {
         Colorizer.colorize(clientFrame);

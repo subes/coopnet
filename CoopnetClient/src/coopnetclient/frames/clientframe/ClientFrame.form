@@ -147,15 +147,22 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Start local service"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_startActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_copyURL">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Copy URL to clipboard"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_copyURLActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_connect">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Connect To..."/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </MenuItem>
           </SubComponents>

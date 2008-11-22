@@ -600,12 +600,23 @@ public class ClientFrame extends javax.swing.JFrame {
         m_voiceChat.setText("VoiceChat");
 
         mi_start.setText("Start local service");
+        mi_start.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_startActionPerformed(evt);
+            }
+        });
         m_voiceChat.add(mi_start);
 
         mi_copyURL.setText("Copy URL to clipboard");
+        mi_copyURL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_copyURLActionPerformed(evt);
+            }
+        });
         m_voiceChat.add(mi_copyURL);
 
         mi_connect.setText("Connect To...");
+        mi_connect.setEnabled(false);
         m_voiceChat.add(mi_connect);
 
         mbar.add(m_voiceChat);
@@ -925,6 +936,44 @@ private void mi_makeHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             Settings.setHomeChannel(cp.name);
         }
 }//GEN-LAST:event_mi_makeHomeActionPerformed
+
+private void mi_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_startActionPerformed
+    if(mi_start.getText().equals("Start local service")){
+        mi_start.setText("Stop local service");
+        pnl_QuickPanel.getVoiceChatPanel().startServer();
+        return;
+    }
+    if(mi_start.getText().equals("Stop local service")){
+        mi_start.setText("Start local service");
+        pnl_QuickPanel.getVoiceChatPanel().stopServer();
+        return;
+    }
+    if(mi_start.getText().equals("Disconnect")){
+        mi_start.setText("Start local service");
+        pnl_QuickPanel.getVoiceChatPanel().disconnect();
+        return;
+    }
+}//GEN-LAST:event_mi_startActionPerformed
+
+private void mi_copyURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_copyURLActionPerformed
+    //TODO copy to clipboard
+}//GEN-LAST:event_mi_copyURLActionPerformed
+
+public void updateVoiceServerStatus(boolean isrunning){
+    if(isrunning){
+        mi_start.setText("Stop local service");
+    }else{
+        mi_start.setText("Start local service");
+    }
+}
+
+public void updateVoiceClientStatus(boolean isrunning){
+    if(isrunning){
+        mi_start.setText("Disconnect");
+    }else{
+        mi_start.setText("Start local service");
+    }
+}
 
 private Color getHoverEffectColor(){
     Color clr = null;

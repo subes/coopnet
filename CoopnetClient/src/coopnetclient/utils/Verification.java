@@ -29,9 +29,9 @@ public class Verification {
         String[] checkAgainstSplit = checkAgainst.split("\\.");
         String[] clientVersionSplit = Globals.getClientVersion().split("\\.");
 
-        for (int i = 0; i < clientVersionSplit.length; i++) {
+        for (int i = 0; i < clientVersionSplit.length ; i++) {
             if (Integer.parseInt(clientVersionSplit[i]) < Integer.parseInt(checkAgainstSplit[i])) {
-                return false;
+                return Integer.parseInt(clientVersionSplit[i-1]) > Integer.parseInt(checkAgainstSplit[i-1]);
             }
         }
 

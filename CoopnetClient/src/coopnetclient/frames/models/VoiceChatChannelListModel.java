@@ -34,28 +34,16 @@ public class VoiceChatChannelListModel extends AbstractListModel {
     public static class Channel {
 
         private String name;
-        private boolean closed = false;
         private TreeSet<String> users;
 
         public Channel(String name) {
             this.name = name;
             users = new TreeSet<String>();
         }
- 
-        public void toggleOpenStatus(){
-            closed = !closed;
-        }
-        
-        public boolean isClosed(){
-            return closed;
-        }
+
                
         public int size() {
-            if (closed) {
-                return 1;
-            } else {
-                return (1 + users.size());
-            }
+                return (1 + users.size());            
         }
 
         public Object getElementAt(int index) {
@@ -200,12 +188,6 @@ public class VoiceChatChannelListModel extends AbstractListModel {
             }
         }
         return null;
-    }
-
-    public void toggleGroupClosedStatus(String groupName) {
-        Channel c = getChannel(groupName);
-        c.closed = !c.closed;
-        fireContentsChanged(this, 0, getSize());
     }
 
     public void clear() {

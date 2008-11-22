@@ -35,6 +35,7 @@ import javax.swing.JOptionPane;
 import coopnetclient.frames.listeners.ColorChooserButtonActionListener;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.Verification;
+import coopnetclient.voicechat.VoicePlayback;
 import java.awt.Component;
 import java.awt.SystemTray;
 import java.awt.event.MouseListener;
@@ -42,6 +43,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import javax.sound.sampled.*;
+import javax.sound.sampled.Mixer.Info;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -53,7 +56,21 @@ public class SettingsFrame extends javax.swing.JFrame {
     /** Creates new form OptionsFrame */
     public SettingsFrame() {
         initComponents();
-        
+
+        //sound stuff init
+        cmb_Playbackdevice.setModel(new DefaultComboBoxModel(AudioSystem.getMixerInfo()));
+        cmb_CaptureDevice.setModel(new DefaultComboBoxModel(AudioSystem.getMixerInfo()));
+        cmb_device_ports.setModel(new DefaultComboBoxModel());
+        sl_sensitivity.setValue(128 - Settings.getVoiceSensitivity());
+        try {
+            cmb_Playbackdevice.setSelectedIndex(Settings.getPlaybackDeviceIndex());
+            cmb_CaptureDevice.setSelectedIndex(Settings.getCaptureDeviceIndex());
+            cmb_device_ports.setSelectedIndex(Settings.getCapturePortIndex());
+        } catch (Exception e) {
+        }
+        //rest
+        tf_voiceChatPort.setText(Settings.getVoiceChatPort()+"");
+
         List gamenames = Arrays.asList(GameDatabase.getAllGameNames());
         Collections.sort(gamenames);
         cmb_homeChannel.setModel(new DefaultComboBoxModel(gamenames.toArray()));
@@ -159,6 +176,7 @@ public class SettingsFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bg_captureMode = new javax.swing.ButtonGroup();
         tabpn_settings = new javax.swing.JTabbedPane();
         pnl_general = new javax.swing.JPanel();
         cb_sounds = new javax.swing.JCheckBox();
@@ -181,6 +199,8 @@ public class SettingsFrame extends javax.swing.JFrame {
         btn_browseReceiveDir = new javax.swing.JButton();
         cb_sleepMode = new javax.swing.JCheckBox();
         tf_receiveDir = new coopnetclient.frames.components.AdvancedJTextField();
+        lbl_voiceChatPort = new javax.swing.JLabel();
+        tf_voiceChatPort = new javax.swing.JTextField();
         pnl_text = new javax.swing.JPanel();
         pnl_textStyle = new javax.swing.JPanel();
         lbl_playerNames = new javax.swing.JLabel();
@@ -234,6 +254,18 @@ public class SettingsFrame extends javax.swing.JFrame {
         cb_TextNotification = new javax.swing.JCheckBox();
         cb_SoundNotification = new javax.swing.JCheckBox();
         cb_showOfflineContacts = new javax.swing.JCheckBox();
+        jPanel1 = new javax.swing.JPanel();
+        lbl_playbackdevice = new javax.swing.JLabel();
+        cmb_Playbackdevice = new javax.swing.JComboBox();
+        cmb_CaptureDevice = new javax.swing.JComboBox();
+        lbl_capturedevice = new javax.swing.JLabel();
+        cmb_device_ports = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        rbtn_pushToTalk = new javax.swing.JRadioButton();
+        rbtn_voiceActivation = new javax.swing.JRadioButton();
+        lbl_sensitivity = new javax.swing.JLabel();
+        sl_sensitivity = new javax.swing.JSlider();
         btn_save = new javax.swing.JButton();
         btn_cancel = new javax.swing.JButton();
         btn_apply = new javax.swing.JButton();
@@ -396,6 +428,8 @@ public class SettingsFrame extends javax.swing.JFrame {
             }
         });
 
+        lbl_voiceChatPort.setText("VoiceChat port:");
+
         javax.swing.GroupLayout pnl_networkLayout = new javax.swing.GroupLayout(pnl_network);
         pnl_network.setLayout(pnl_networkLayout);
         pnl_networkLayout.setHorizontalGroup(
@@ -403,20 +437,27 @@ public class SettingsFrame extends javax.swing.JFrame {
             .addGroup(pnl_networkLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cb_autoLogin)
-                    .addComponent(cb_sleepMode)
                     .addGroup(pnl_networkLayout.createSequentialGroup()
-                        .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lbl_transferPort, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbl_receiveDir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cb_autoLogin)
+                            .addComponent(cb_sleepMode)
                             .addGroup(pnl_networkLayout.createSequentialGroup()
-                                .addComponent(tf_receiveDir, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btn_browseReceiveDir))
-                            .addComponent(tf_transferPort, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                                .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lbl_transferPort, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lbl_receiveDir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnl_networkLayout.createSequentialGroup()
+                                        .addComponent(tf_receiveDir, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btn_browseReceiveDir))
+                                    .addComponent(tf_transferPort, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap())
+                    .addGroup(pnl_networkLayout.createSequentialGroup()
+                        .addComponent(lbl_voiceChatPort, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tf_voiceChatPort, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(450, 450, 450))))
         );
         pnl_networkLayout.setVerticalGroup(
             pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -430,7 +471,11 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_transferPort)
                     .addComponent(tf_transferPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 170, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl_networkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_voiceChatPort)
+                    .addComponent(tf_voiceChatPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
                 .addComponent(cb_sleepMode)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cb_autoLogin)
@@ -464,31 +509,28 @@ public class SettingsFrame extends javax.swing.JFrame {
             .addGroup(pnl_textStyleLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_playerNames, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
+                    .addComponent(lbl_playerNames, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
                     .addComponent(lbl_playerMessages)
                     .addGroup(pnl_textStyleLayout.createSequentialGroup()
-                        .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_textStyleLayout.createSequentialGroup()
-                                .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl_playerMessagesType)
-                                    .addComponent(lbl_playerMessagesSize))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnl_textStyleLayout.createSequentialGroup()
-                                        .addComponent(tf_playerMessagesSize, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 257, Short.MAX_VALUE))
-                                    .addComponent(cmb_playerMessagesType, 0, 282, Short.MAX_VALUE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_textStyleLayout.createSequentialGroup()
-                                .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbl_playerNamesType)
-                                    .addComponent(lbl_playerNamesSize))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(pnl_textStyleLayout.createSequentialGroup()
-                                        .addComponent(tf_playerNamesSize, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 258, Short.MAX_VALUE))
-                                    .addComponent(cmb_playerNamesType, 0, 282, Short.MAX_VALUE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_playerMessagesType)
+                            .addComponent(lbl_playerMessagesSize))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnl_textStyleLayout.createSequentialGroup()
+                                .addComponent(tf_playerMessagesSize, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 267, Short.MAX_VALUE))
+                            .addComponent(cmb_playerMessagesType, 0, 292, Short.MAX_VALUE)))
+                    .addGroup(pnl_textStyleLayout.createSequentialGroup()
+                        .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_playerNamesType)
+                            .addComponent(lbl_playerNamesSize))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnl_textStyleLayout.createSequentialGroup()
+                                .addComponent(tf_playerNamesSize, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 268, Short.MAX_VALUE))
+                            .addComponent(cmb_playerNamesType, 0, 292, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         pnl_textStyleLayout.setVerticalGroup(
@@ -890,6 +932,106 @@ public class SettingsFrame extends javax.swing.JFrame {
 
         tabpn_settings.addTab("Quckbar", pnl_QuckPanel);
 
+        lbl_playbackdevice.setText("Playback device:");
+
+        cmb_Playbackdevice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cmb_CaptureDevice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmb_CaptureDevice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_CaptureDeviceActionPerformed(evt);
+            }
+        });
+
+        lbl_capturedevice.setText("Capture device");
+
+        cmb_device_ports.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel3.setText("Capture port");
+
+        jLabel4.setText("Capture mode:");
+
+        bg_captureMode.add(rbtn_pushToTalk);
+        rbtn_pushToTalk.setText("Push to talk");
+        rbtn_pushToTalk.setEnabled(false);
+        rbtn_pushToTalk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtn_pushToTalkActionPerformed(evt);
+            }
+        });
+
+        bg_captureMode.add(rbtn_voiceActivation);
+        rbtn_voiceActivation.setSelected(true);
+        rbtn_voiceActivation.setText("Voice activation");
+        rbtn_voiceActivation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtn_voiceActivationActionPerformed(evt);
+            }
+        });
+
+        lbl_sensitivity.setText("Sensitivity:");
+
+        sl_sensitivity.setMaximum(128);
+        sl_sensitivity.setValue(90);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(rbtn_voiceActivation)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lbl_sensitivity))
+                            .addComponent(rbtn_pushToTalk))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(sl_sensitivity, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbl_playbackdevice)
+                    .addComponent(lbl_capturedevice)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(cmb_Playbackdevice, 0, 432, Short.MAX_VALUE)
+                    .addComponent(cmb_CaptureDevice, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmb_device_ports, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(204, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_playbackdevice)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmb_Playbackdevice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_capturedevice)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmb_CaptureDevice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmb_device_ports, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbtn_pushToTalk)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbtn_voiceActivation)
+                            .addComponent(lbl_sensitivity)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(sl_sensitivity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+
+        tabpn_settings.addTab("VoiceChat", jPanel1);
+
         btn_save.setText("Save");
         btn_save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1066,7 +1208,13 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
         try {
             Settings.setLaunchHotKey(tf_launchKey.getKey());
             Settings.setLaunchHotKeymask(tf_launchKey.getModifiers());
-            
+
+            Settings.setPlaybackDeviceIndex(cmb_Playbackdevice.getSelectedIndex());
+            Settings.setCaptureDeviceIndex(cmb_CaptureDevice.getSelectedIndex());
+            Settings.setCapturePortIndex(cmb_device_ports.getSelectedIndex());
+            Settings.setVoiceSensitivity(128-sl_sensitivity.getValue());
+            Settings.setVoiceChatPort(Integer.valueOf(tf_voiceChatPort.getText()));
+
             Settings.setQuickPanelPostionisLeft(cmb_QuickPanelPosition.getSelectedIndex() == 0);
             Settings.setQuickPanelDividerWidth(Integer.valueOf(spn_DividerWidth.getValue().toString()));
             Settings.setQuickPanelToggleBarWidth(Integer.valueOf(spn_ToggleButtonWidth.getValue().toString()));
@@ -1174,7 +1322,23 @@ private void tf_receiveDirFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:
     }
 }//GEN-LAST:event_tf_receiveDirFocusLost
 
+private void cmb_CaptureDeviceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_CaptureDeviceActionPerformed
+    cmb_device_ports.setModel(new DefaultComboBoxModel(VoicePlayback.getAudioPorts((Info) cmb_CaptureDevice.getSelectedItem())));
+    this.repaint();      
+}//GEN-LAST:event_cmb_CaptureDeviceActionPerformed
+
+private void rbtn_voiceActivationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtn_voiceActivationActionPerformed
+        lbl_sensitivity.setEnabled(true);
+        sl_sensitivity.setEnabled(true);
+}//GEN-LAST:event_rbtn_voiceActivationActionPerformed
+
+private void rbtn_pushToTalkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtn_pushToTalkActionPerformed
+        lbl_sensitivity.setEnabled(false);
+        sl_sensitivity.setEnabled(false);
+}//GEN-LAST:event_rbtn_pushToTalkActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup bg_captureMode;
     private javax.swing.JButton btn_apply;
     private javax.swing.JButton btn_background;
     private javax.swing.JButton btn_browseReceiveDir;
@@ -1199,15 +1363,22 @@ private void tf_receiveDirFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:
     private javax.swing.JCheckBox cb_sleepMode;
     private javax.swing.JCheckBox cb_sounds;
     private javax.swing.JCheckBox cb_timeStamps;
+    private javax.swing.JComboBox cmb_CaptureDevice;
+    private javax.swing.JComboBox cmb_Playbackdevice;
     private javax.swing.JComboBox cmb_QuickPanelPosition;
+    private javax.swing.JComboBox cmb_device_ports;
     private javax.swing.JComboBox cmb_homeChannel;
     private javax.swing.JComboBox cmb_playerMessagesType;
     private javax.swing.JComboBox cmb_playerNamesType;
     private javax.swing.JComboBox cmb_style;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbl_DividerWidth;
     private javax.swing.JLabel lbl_StatusChangeNotification;
     private javax.swing.JLabel lbl_ToggleButtonWidth;
     private javax.swing.JLabel lbl_background;
+    private javax.swing.JLabel lbl_capturedevice;
     private javax.swing.JLabel lbl_dplayEnv;
     private javax.swing.JLabel lbl_dplayEnvNote;
     private javax.swing.JLabel lbl_foreground;
@@ -1217,6 +1388,7 @@ private void tf_receiveDirFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:
     private javax.swing.JLabel lbl_noteText;
     private javax.swing.JLabel lbl_noteText1;
     private javax.swing.JLabel lbl_otherUsernames;
+    private javax.swing.JLabel lbl_playbackdevice;
     private javax.swing.JLabel lbl_playerMessages;
     private javax.swing.JLabel lbl_playerMessagesSize;
     private javax.swing.JLabel lbl_playerMessagesType;
@@ -1226,10 +1398,12 @@ private void tf_receiveDirFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:
     private javax.swing.JLabel lbl_quickpanelposition;
     private javax.swing.JLabel lbl_receiveDir;
     private javax.swing.JLabel lbl_selection;
+    private javax.swing.JLabel lbl_sensitivity;
     private javax.swing.JLabel lbl_style;
     private javax.swing.JLabel lbl_systemMessages;
     private javax.swing.JLabel lbl_transferPort;
     private javax.swing.JLabel lbl_userMessages;
+    private javax.swing.JLabel lbl_voiceChatPort;
     private javax.swing.JLabel lbl_whisperMessages;
     private javax.swing.JLabel lbl_yourUsername;
     private javax.swing.JPanel pnl_ContactList;
@@ -1244,6 +1418,9 @@ private void tf_receiveDirFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:
     private javax.swing.JPanel pnl_text;
     private javax.swing.JPanel pnl_textColors;
     private javax.swing.JPanel pnl_textStyle;
+    private javax.swing.JRadioButton rbtn_pushToTalk;
+    private javax.swing.JRadioButton rbtn_voiceActivation;
+    private javax.swing.JSlider sl_sensitivity;
     private javax.swing.JSpinner spn_DividerWidth;
     private javax.swing.JSpinner spn_ToggleButtonWidth;
     private javax.swing.JTabbedPane tabpn_settings;
@@ -1253,6 +1430,7 @@ private void tf_receiveDirFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:
     private javax.swing.JTextField tf_playerNamesSize;
     private coopnetclient.frames.components.AdvancedJTextField tf_receiveDir;
     private javax.swing.JTextField tf_transferPort;
+    private javax.swing.JTextField tf_voiceChatPort;
     // End of variables declaration//GEN-END:variables
 
 }

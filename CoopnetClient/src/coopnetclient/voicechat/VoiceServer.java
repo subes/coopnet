@@ -1,6 +1,9 @@
 package coopnetclient.voicechat;
 
+import coopnetclient.Globals;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.protocol.out.Protocol;
+import coopnetclient.utils.Settings;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
@@ -24,7 +27,7 @@ public class VoiceServer extends Thread {
     private static java.util.Map<String, java.nio.channels.SelectionKey> Players_to_Keys = new java.util.HashMap<String, java.nio.channels.SelectionKey>();
     public static Vector<String> players = new Vector<String>();
     protected static Vector<Vector<SelectionKey>> playersInChannels = new Vector<Vector<SelectionKey>>();
-    
+    private static Vector<SelectionKey> brokenClients = new Vector<SelectionKey> ();
 
     static {
         for (int i = 0; i < 8; ++i) {
@@ -60,17 +63,18 @@ public class VoiceServer extends Thread {
     static void logIn(String userName, java.nio.channels.SelectionKey key) {
         Keys_to_Players.put(key, userName);
         Players_to_Keys.put(userName, key);
-        playersInChannels.get(0).add(key);
-
-        for (String player : players) {            
-            sendToPlayer(Players_to_Keys.get(player), 
+        //send already connected players
+        for (String player : players) {
+            sendToKey(key,
                     new MixedMessage("addplayer" +Protocol.MESSAGE_DELIMITER 
-                    + player + Protocol.MESSAGE_DELIMITER 
-                    + channelIndexOfKey(Players_to_Keys.get(player))));
+                            + player + Protocol.MESSAGE_DELIMITER
+                            + channelIndexOfKey(Players_to_Keys.get(player))));
         }
         players.add(userName);
-        sendtoall(new MixedMessage("addplayer " + Protocol.MESSAGE_DELIMITER  
+        playersInChannels.get(0).add(key);
+        sendtoall(new MixedMessage("addplayer" + Protocol.MESSAGE_DELIMITER  
                 + userName + Protocol.MESSAGE_DELIMITER  + "0"));
+        doLogoff();
     }
 
     /**
@@ -86,13 +90,14 @@ public class VoiceServer extends Thread {
                 v.remove(key);
             }
             sendtoall(new MixedMessage("removeplayer" + Protocol.MESSAGE_DELIMITER +userName));
+            doLogoff();
         }
     }
 
     /**
      * sends the command to the players client
      */
-    static public void sendToPlayer(SelectionKey key, MixedMessage msg) {
+    static public void sendToKey(SelectionKey key, MixedMessage msg) {
         SocketChannel client = (SocketChannel) key.channel();
         if (msg.valid) {
             try {
@@ -108,7 +113,8 @@ public class VoiceServer extends Thread {
                     ((SocketChannel) client).write(byteBuffer);
                 }
             } catch (IOException ex) {
-                logOff(key);
+                //logOff(key);
+                brokenClients.add(key);
             }
         }
     }
@@ -134,8 +140,9 @@ public class VoiceServer extends Thread {
         Iterator<SelectionKey> pit = Keys_to_Players.keySet().iterator();
         while (pit.hasNext()) {
             SelectionKey key = pit.next();
-            sendToPlayer(key, msg);
+            sendToKey(key, msg);
         }
+        doLogoff();
     }
 
     static public void sendtoOthers(MixedMessage msg, SelectionKey key) {
@@ -143,10 +150,28 @@ public class VoiceServer extends Thread {
         while (pit.hasNext()) {
             SelectionKey k = pit.next();
             if (!k.equals(key)) {
-                sendToPlayer(k, msg);
+                sendToKey(k, msg);
+            }
+        }
+        doLogoff();
+    }
+
+    static public void sendtoChannel(MixedMessage msg, SelectionKey key) {
+        int idx = channelIndexOfKey(key);
+        for(SelectionKey k : playersInChannels.get(idx)){
+            if( !key.equals(k)){
+                sendToKey(k, msg);
             }
         }
     }
+
+    private static void doLogoff(){
+        for(SelectionKey key : brokenClients){
+            logOff(key);
+        }
+        brokenClients.clear();
+    }
+
     int port;
     public static boolean serverrun = false;
 
@@ -165,7 +190,7 @@ public class VoiceServer extends Thread {
         if (msg.commandType == MixedMessage.STRING_COMMAND && msg.valid) {
             VoiceCommandhandler.execute(key, msg.commandString);
         } else if (msg.commandType == MixedMessage.AUDIO_DATA_PACKAGE && msg.valid) {
-            sendtoOthers(msg, key);
+            sendtoChannel(msg, key);
         }else{
             System.out.println("Bad packet");
         }
@@ -237,10 +262,12 @@ public class VoiceServer extends Thread {
             // Recording server to selector
             server.register(selector, SelectionKey.OP_ACCEPT);
         } catch (Exception ex) {
-            System.out.println("server setup error");
-            //TODO JOptionPane.showMessageDialog(null, "<html>The port is already used, cannot bind!", "Cannot host!", JOptionPane.ERROR_MESSAGE);
+            System.out.println("server setup error");            
+            Globals.getClientFrame().printToVisibleChatbox("System", "The port is already used, cannot start VoiceChat service!", ChatStyles.SYSTEM , false);
+            Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().connectFailedOrBroken();
             return;
         }
+        Globals.getClientFrame().printToVisibleChatbox("System", "VoiceChat service started! Your URL is voice://"+Globals.getMyIP()+":"+Settings.getVoiceChatPort(), ChatStyles.SYSTEM , false);
         //the server loop
         while (serverrun) {
             try {

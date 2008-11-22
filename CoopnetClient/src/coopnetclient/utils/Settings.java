@@ -363,7 +363,7 @@ public class Settings {
     }
     
     public static void setPlaybackDeviceIndex(int key) {
-        writeSetting(capturePortIndex, String.valueOf(key));
+        writeSetting(playbackDeviceIndex, String.valueOf(key));
     }
     
      public static int getLaunchHotKey() {

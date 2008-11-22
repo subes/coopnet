@@ -21,6 +21,7 @@ package coopnetclient.frames.clientframe.quickpanel.tabs;
 import coopnetclient.Globals;
 import coopnetclient.frames.models.VoiceChatChannelListModel;
 import coopnetclient.frames.renderers.VoiceChatRenderer;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Settings;
 import coopnetclient.voicechat.VoiceClient;
 import coopnetclient.voicechat.VoiceServer;
@@ -46,9 +47,46 @@ public class VoiceChatPanel extends javax.swing.JPanel {
         return model;
     }
 
-    public void startconnect(String ip, String port) {
+    public void startServer() {
+        if (server == null && client == null) {
+            server = new VoiceServer(Settings.getVoiceChatPort());
+            server.start();
+            client = new VoiceClient(Globals.getThisPlayer_loginName(), "localhost", String.valueOf(Settings.getVoiceChatPort()));
+            btn_connect.setText("Stop service");
+            lbl_currentStatus.setText("Status: running");
+            Globals.getClientFrame().updateVoiceServerStatus(true);
+        }
+    }
+
+    public void stopServer() {
         if (server != null) {
+            server.shutdown();
+            server = null;
+            Globals.getClientFrame().updateVoiceServerStatus(false);
+        }
+        if (client != null) {
+            client.disconnect();
+            client = null;
+        }
+        btn_connect.setText("Start service");
+        lbl_currentStatus.setText("Status: not running");
+        model.clear();
+    }
+
+    public void startconnect(String ip, String port) {
+        if (server == null && client == null) {
             client = new VoiceClient(Globals.getThisPlayer_loginName(), ip, port);
+        }
+    }
+
+    public void disconnect() {
+        if (server == null && client != null) {
+            client.disconnect();
+            client = null;
+            lbl_currentStatus.setText("Status: not running");
+            btn_connect.setText("Start service");
+            model.clear();
+            Globals.getClientFrame().updateVoiceClientStatus(false);
         }
     }
 
@@ -63,6 +101,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
                             lbl_currentStatus.setText("Status: connected");
                         }
                     });
+            Globals.getClientFrame().updateVoiceClientStatus(true);
         }
     }
 
@@ -84,8 +123,11 @@ public class VoiceChatPanel extends javax.swing.JPanel {
             server.shutdown();
             server = null;
         }
+        Globals.getClientFrame().updateVoiceClientStatus(false);
+        model.clear();
     }
     //public void setEnabled(boolean enabled){}
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -139,9 +181,6 @@ public class VoiceChatPanel extends javax.swing.JPanel {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 lst_channelListMouseExited(evt);
             }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                lst_channelListMousePressed(evt);
-            }
         });
         lst_channelList.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -170,8 +209,7 @@ private void lst_channelListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-F
         String name = (String) lst_channelList.getSelectedValue();
         if (name != null && name.length() > 0 && !name.equals(Globals.getThisPlayer_loginName())) {
             if (model.getChannel(name) != null) {
-                model.toggleGroupClosedStatus(name);
-                model.refresh();
+                VoiceClient.send("cc" + Protocol.MESSAGE_DELIMITER + model.indexOfChannel(model.getChannel(name)));
             } else {//player
                 if (model.isMuted(name)) {
                     model.unMute(name);
@@ -214,38 +252,19 @@ private void lst_channelListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FI
 
 private void btn_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_connectActionPerformed
     if (btn_connect.getText().equals("Start service")) {
-        server = new VoiceServer(Settings.getVoiceChatPort());
-        server.start();
-        client = new VoiceClient(Globals.getThisPlayer_loginName(), "localhost", String.valueOf(Settings.getVoiceChatPort()));
-        btn_connect.setText("Stop service");
-        lbl_currentStatus.setText("Status: running");
+        startServer();
         return;
     }
     if (btn_connect.getText().equals("Stop service")) {
-        server.shutdown();
-        server = null;
-        client.disconnect();
-        client = null;
-        btn_connect.setText("Start service");
-        lbl_currentStatus.setText("Status: not running");
-        model.clear();
+        stopServer();
         return;
     }
     if (btn_connect.getText().equals("Disconnect")) {
-        client.disconnect();
-        client = null;
-        lbl_currentStatus.setText("Status: not running");
-        btn_connect.setText("Start service");
-        model.clear();
+        disconnect();
         return;
     }
 }//GEN-LAST:event_btn_connectActionPerformed
 
-private void lst_channelListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_channelListMousePressed
-    if (lst_channelList.getModel().getElementAt(lst_channelList.locationToIndex(evt.getPoint())).toString().equalsIgnoreCase(Globals.getThisPlayer_loginName())) {
-        lst_channelList.clearSelection();
-    }
-}//GEN-LAST:event_lst_channelListMousePressed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_connect;
     private javax.swing.JScrollPane jScrollPane1;
