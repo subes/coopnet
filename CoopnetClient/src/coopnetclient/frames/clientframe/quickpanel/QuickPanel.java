@@ -21,6 +21,7 @@ package coopnetclient.frames.clientframe.quickpanel;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframe.quickpanel.tabs.VoiceChatPanel;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.components.ContactListPopupMenu;
 import coopnetclient.frames.components.mutablelist.DefaultListCellEditor;
@@ -47,6 +48,7 @@ public class QuickPanel extends javax.swing.JPanel {
     public static ImageIcon VoiceChatIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/voicechat_small.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
     private static ContactListPopupMenu popup;
     ContactListModel model;
+    VoiceChatPanel voiceChatPanel;
 
     /** Creates new form PlayerListPanel */
     public QuickPanel() {
@@ -56,6 +58,8 @@ public class QuickPanel extends javax.swing.JPanel {
     public QuickPanel(ContactListModel model) {
         this.model = model;
         initComponents();
+        voiceChatPanel = new VoiceChatPanel();
+        tp_quickPanel.add("",voiceChatPanel);
         lst_contactList.setModel(model);
         lst_contactList.setCellRenderer(new ContactListRenderer(model));
         lst_contactList.setListCellEditor(new DefaultListCellEditor(new JTextField()));
@@ -67,6 +71,10 @@ public class QuickPanel extends javax.swing.JPanel {
         refreshFavourites();
         lst_favouritesList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));        
         setTabIcons();
+    }
+        
+    public VoiceChatPanel getVoiceChatPanel(){
+        return voiceChatPanel;
     }
     
     public void setTabAlignment(boolean left){
@@ -100,8 +108,8 @@ public class QuickPanel extends javax.swing.JPanel {
     private void setTabIcons(){
         if(Settings.isquickTabIconSizeBig()){
             tp_quickPanel.setIconAt(0, ContactListIconBig);
-            tp_quickPanel.setIconAt(1, FavouritesIconBig);
-            tp_quickPanel.setIconAt(2, VoiceChatIconBig);
+            tp_quickPanel.setIconAt(1, FavouritesIconBig);           
+            tp_quickPanel.setIconAt(2, VoiceChatIconBig);            
         }else{//small icons
             tp_quickPanel.setIconAt(0, ContactListIconSmall);
             tp_quickPanel.setIconAt(1, FavouritesIconSmall);
@@ -128,7 +136,6 @@ public class QuickPanel extends javax.swing.JPanel {
         pnl_favouritesList = new javax.swing.JPanel();
         scrl_favouritesList = new javax.swing.JScrollPane();
         lst_favouritesList = new javax.swing.JList();
-        voiceChatPanel1 = new coopnetclient.frames.clientframe.quickpanel.tabs.VoiceChatPanel();
 
         IconSizes.add(rbmi_bigIcons);
         rbmi_bigIcons.setSelected(Settings.isquickTabIconSizeBig());
@@ -219,7 +226,6 @@ public class QuickPanel extends javax.swing.JPanel {
         );
 
         tp_quickPanel.addTab("", pnl_favouritesList);
-        tp_quickPanel.addTab("", voiceChatPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -353,6 +359,5 @@ private void rbmi_smallIconsActionPerformed(java.awt.event.ActionEvent evt) {//G
     private javax.swing.JScrollPane scrl_contactlist;
     private javax.swing.JScrollPane scrl_favouritesList;
     private javax.swing.JTabbedPane tp_quickPanel;
-    private coopnetclient.frames.clientframe.quickpanel.tabs.VoiceChatPanel voiceChatPanel1;
     // End of variables declaration//GEN-END:variables
 }

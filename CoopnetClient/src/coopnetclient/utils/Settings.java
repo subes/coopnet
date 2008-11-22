@@ -130,12 +130,24 @@ public class Settings {
             launchHotKey = "HotKey",
             multiChannel = "MultiChannel",
             showOfflineContacts = "ShowOfflineContacts",
-            quickTabIconSizeIsBig="QuickTabIconSizeIsBig";
+            quickTabIconSizeIsBig="QuickTabIconSizeIsBig",
+            captureDeviceIndex = "CaptureDeviceIndex",
+            capturePortIndex = "CapturePortIndex",
+            playbackDeviceIndex="PlaybackDeviceIndex",
+            voiceChatPort= "VoiceChatPort",
+            voiceChatIsVoiceActivated = "VoiceChatIsVoiceActivated",
+            voiceSensitivity="VoiceSensitivity";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
     private final static int def_lastValidServerPort = 6667;
+    private final static int def_capturePortIndex = -1;
+    private final static int def_captureDeviceIndex = -1;
+    private final static int def_playbackDeviceIndex = -1;
+    private final static int def_voiceChatPort = 2301;
+    private final static int def_voiceSensitivity = 30;
     private final static boolean def_firstRun = true;
+    private final static boolean def_voiceChatIsVoiceActivated = true;
     private final static boolean def_sleepEnabled = true;
     private final static boolean def_autoLogin = false;
     private final static boolean def_debugMode = false; // new Color(new Integer(""));
@@ -306,6 +318,53 @@ public class Settings {
         save();
     }
 
+    public static int getVoiceSensitivity(){
+        return readInteger(voiceSensitivity, def_voiceSensitivity);
+    }
+    
+    public static void setVoiceSensitivity(int value){
+        writeSetting(voiceSensitivity, String.valueOf(value));
+    }
+    
+    public static boolean isVoiceActivated() {
+         return readBoolean(voiceChatIsVoiceActivated, def_voiceChatIsVoiceActivated);
+    }
+    
+    public static void setVoiceActivated(boolean bool) {
+        writeSetting(voiceChatIsVoiceActivated, String.valueOf(bool));
+    }
+    
+    public static int getVoiceChatPort() {
+        return readInteger(voiceChatPort, def_voiceChatPort);
+    }
+    
+    public static void setVoiceChatPort(int key) {
+        writeSetting(voiceChatPort, String.valueOf(key));
+    }
+    
+    public static int getCaptureDeviceIndex() {
+        return readInteger(captureDeviceIndex, def_captureDeviceIndex);
+    }
+    
+    public static void setCaptureDeviceIndex(int key) {
+        writeSetting(captureDeviceIndex, String.valueOf(key));
+    }
+    
+    public static int getCapturePortIndex() {
+        return readInteger(capturePortIndex, def_capturePortIndex);
+    }
+    
+    public static void setCapturePortIndex(int key) {
+        writeSetting(capturePortIndex, String.valueOf(key));
+    }
+    
+    public static int getPlaybackDeviceIndex() {
+        return readInteger(playbackDeviceIndex, def_playbackDeviceIndex);
+    }
+    
+    public static void setPlaybackDeviceIndex(int key) {
+        writeSetting(capturePortIndex, String.valueOf(key));
+    }
     
      public static int getLaunchHotKey() {
         return readInteger(launchHotKey, def_launchHotKey);

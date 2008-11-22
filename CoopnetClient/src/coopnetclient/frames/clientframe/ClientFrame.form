@@ -66,7 +66,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mi_profile">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Edit Profile"/>
+                <Property name="text" type="java.lang.String" value="Edit Profile..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_profileActionPerformed"/>
@@ -74,7 +74,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_showMuteBanList">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Edit Mute/Ban List"/>
+                <Property name="text" type="java.lang.String" value="Edit Mute/Ban List..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_showMuteBanListActionPerformed"/>
@@ -98,7 +98,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mi_channelList">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Channel List"/>
+                <Property name="text" type="java.lang.String" value="Open Channel List"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_channelListActionPerformed"/>
@@ -106,7 +106,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_manageFavs">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Manage Favourites"/>
+                <Property name="text" type="java.lang.String" value="Manage Favourites..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_manageFavsActionPerformed"/>
@@ -138,6 +138,28 @@
             </MenuItem>
           </SubComponents>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="m_voiceChat">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="VoiceChat"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="mi_start">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Start local service"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mi_copyURL">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Copy URL to clipboard"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mi_connect">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Connect To..."/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
         <Menu class="javax.swing.JMenu" name="m_options">
           <Properties>
             <Property name="text" type="java.lang.String" value="Options"/>
@@ -145,7 +167,7 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mi_clientSettings">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Edit Settings"/>
+                <Property name="text" type="java.lang.String" value="Edit Settings..."/>
                 <Property name="actionCommand" type="java.lang.String" value="Client settings"/>
               </Properties>
               <Events>
@@ -154,7 +176,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_manageGames">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Manage Games"/>
+                <Property name="text" type="java.lang.String" value="Manage Games..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_manageGamesActionPerformed"/>
@@ -186,7 +208,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_bugReport">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Report a Bug"/>
+                <Property name="text" type="java.lang.String" value="Report a Bug..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_bugReportActionPerformed"/>
