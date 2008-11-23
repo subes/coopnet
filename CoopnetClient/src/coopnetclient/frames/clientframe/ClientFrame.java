@@ -36,6 +36,9 @@ import coopnetclient.utils.FileDownloader;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -104,6 +107,7 @@ public class ClientFrame extends javax.swing.JFrame {
         
         m_user.setEnabled(Globals.getLoggedInStatus());
         m_channels.setEnabled(Globals.getLoggedInStatus());
+        m_voiceChat.setEnabled(Globals.getLoggedInStatus());
     }
     
     public void enableUpdate() {
@@ -616,7 +620,11 @@ public class ClientFrame extends javax.swing.JFrame {
         m_voiceChat.add(mi_copyURL);
 
         mi_connect.setText("Connect To...");
-        mi_connect.setEnabled(false);
+        mi_connect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_connectActionPerformed(evt);
+            }
+        });
         m_voiceChat.add(mi_connect);
 
         mbar.add(m_voiceChat);
@@ -956,8 +964,14 @@ private void mi_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_mi_startActionPerformed
 
 private void mi_copyURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_copyURLActionPerformed
-    //TODO copy to clipboard
+    StringSelection stringSelection = new StringSelection( "voice://"+Globals.getMyIP()+":"+Settings.getVoiceChatPort() );
+    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+    clipboard.setContents( stringSelection, null );
 }//GEN-LAST:event_mi_copyURLActionPerformed
+
+private void mi_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_connectActionPerformed
+    Globals.openConnectToVoiceChatFrame();
+}//GEN-LAST:event_mi_connectActionPerformed
 
 public void updateVoiceServerStatus(boolean isrunning){
     if(isrunning){

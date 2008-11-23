@@ -22,6 +22,7 @@ import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.BugReportFrame;
 import coopnetclient.frames.ChangePasswordFrame;
 import coopnetclient.frames.ChannelListFrame;
+import coopnetclient.frames.ConnectToVoiceChatFrame;
 import coopnetclient.frames.CreateRoomFrame;
 import coopnetclient.frames.EditProfileFrame;
 import coopnetclient.frames.FavouritesFrame;
@@ -81,6 +82,7 @@ public class Globals {
     private static BugReportFrame bugReportFrame;
     private static TextPreviewFrame textPreviewFrame;
     private static MuteBanListFrame muteBanTableFrame = null;
+    private static ConnectToVoiceChatFrame connectToVoiceChatFrame;
     private static SystemTray tray = null;
     private static TrayIcon trayIcon = null;
     private static boolean trayAdded = false;
@@ -139,6 +141,22 @@ public class Globals {
                 trayAdded = true;
             }
         } catch (Exception e) {
+        }
+    }
+
+    public static void closeConnectToVoiceChatFrame() {
+        if (connectToVoiceChatFrame != null) {
+            connectToVoiceChatFrame.dispose();
+            connectToVoiceChatFrame = null;
+        }
+    }
+
+    public static void openConnectToVoiceChatFrame() {
+        if (connectToVoiceChatFrame != null) {
+            connectToVoiceChatFrame.setVisible(true);
+        } else {
+            connectToVoiceChatFrame = new ConnectToVoiceChatFrame();
+            setupFrame(connectToVoiceChatFrame);
         }
     }
 

@@ -34,20 +34,82 @@ public class VoicePlayback {
     }
     private static String RECORD_PORT_SELECT;
 
+    public static int indexOfAudioDevice(Mixer.Info info){
+        return Arrays.asList(AudioSystem.getMixerInfo()).indexOf(info);
+    }
+
+    public static Mixer.Info[] getUsablePlayBackDevices() {
+        ArrayList<Mixer.Info> usabledevices = new ArrayList<Mixer.Info>();
+        playbackInfo = new DataLine.Info(SourceDataLine.class, voiceformat);
+        Mixer.Info minfo[] = AudioSystem.getMixerInfo();
+        for (int i = 0; i < minfo.length; ++i) {
+            Mixer mixer = AudioSystem.getMixer(minfo[i]);
+            if (mixer.isLineSupported(playbackInfo)) {
+                usabledevices.add(minfo[i]);
+            }
+        }
+        return usabledevices.toArray(new Mixer.Info[usabledevices.size()]);
+    }
+
+    public static Mixer.Info[] getUsableCaptureDevices() {
+        ArrayList<Mixer.Info> usabledevices = new ArrayList<Mixer.Info>();
+        Mixer.Info minfo[] = AudioSystem.getMixerInfo();
+        for (int i = 0; i < minfo.length; ++i) {
+            Port.Info pinfo[] = getAudioPorts(minfo[i]);
+             if (pinfo.length > 0) {
+                usabledevices.add(minfo[i]);
+             }
+        }
+        return usabledevices.toArray(new Mixer.Info[usabledevices.size()]);
+    }
+
+    public static void autoDetect() {
+        playbackInfo = new DataLine.Info(SourceDataLine.class, voiceformat);
+        if (Settings.getPlaybackDeviceIndex() < 0) {
+            Mixer.Info minfo[] = AudioSystem.getMixerInfo();
+            for (int i = 0; i < minfo.length; ++i) {
+                Mixer mixer = AudioSystem.getMixer(minfo[i]);
+                if (mixer.isLineSupported(playbackInfo)) {
+                    Settings.setPlaybackDeviceIndex(i);
+                    break;
+                }
+            }
+        }
+
+        if (Settings.getCaptureDeviceIndex() < 0 || Settings.getCapturePortIndex() < 0) {
+            Mixer.Info minfo[] = AudioSystem.getMixerInfo();
+            for (int i = 0; i < minfo.length; ++i) {
+                Port.Info pinfo[] = getAudioPorts(minfo[i]);
+                if (pinfo.length > 0) {
+                    Settings.setCaptureDeviceIndex(i);
+                    for (int j = 0; j < pinfo.length; ++j) {
+                        if (pinfo[j].getName().contains("MICROPHONE") || pinfo[j].getName().contains("microphone")) {
+                            Settings.setCapturePortIndex(j);
+                            break;
+                        }
+                    }
+                    if (Settings.getCapturePortIndex() < 0) {//no mic found by name
+                        Settings.setCapturePortIndex(0);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
     public static void init() {
+        autoDetect();
         playbackMixer = null;
 
         recordLoop = false;
         captureAndSend = false;
 
-        QUALITY_LEVEL = LOW_QUALITY;//TODO do we want choseable quality or jsut stick with low as it requires the least traffic
-        System.out.println("Sound Quality:" + QUALITY_LEVEL);
+        QUALITY_LEVEL = LOW_QUALITY;
 
         voiceformat = getAudioFormat();
         channels = new HashMap<String, SourceDataLine>();
         playbackInfo = new DataLine.Info(SourceDataLine.class, voiceformat);
         captureInfo = new DataLine.Info(TargetDataLine.class, voiceformat);
-
 
         if (Settings.getCaptureDeviceIndex() == -1) {
             RECORD_PORT_SELECT = "MICROPHONE";
@@ -58,11 +120,6 @@ public class VoicePlayback {
                 System.out.println("can't select port");
             }
         }
-        /*if (!AudioSystem.isLineSupported(playbackInfo)) {//no playback, report to user
-        JOptionPane.showMessageDialog(Client.mainwindow,
-        "Cannot find suitable sound device! Sound playback is not possible!",
-        "Cannot find audio device", JOptionPane.ERROR_MESSAGE);
-        }*/
 
         try {
             playbackMixer = AudioSystem.getMixer(AudioSystem.getMixerInfo()[Settings.getPlaybackDeviceIndex()]);

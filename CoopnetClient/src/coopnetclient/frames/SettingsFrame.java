@@ -43,7 +43,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Mixer;
 import javax.sound.sampled.Mixer.Info;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
@@ -57,16 +58,18 @@ public class SettingsFrame extends javax.swing.JFrame {
     public SettingsFrame() {
         initComponents();
 
+        VoicePlayback.autoDetect();
         //sound stuff init
-        cmb_Playbackdevice.setModel(new DefaultComboBoxModel(AudioSystem.getMixerInfo()));
-        cmb_CaptureDevice.setModel(new DefaultComboBoxModel(AudioSystem.getMixerInfo()));
-        cmb_device_ports.setModel(new DefaultComboBoxModel());
+        cmb_Playbackdevice.setModel(new DefaultComboBoxModel(VoicePlayback.getUsablePlayBackDevices()));
+        cmb_CaptureDevice.setModel(new DefaultComboBoxModel(VoicePlayback.getUsableCaptureDevices()));
+        cmb_device_ports.setModel(new DefaultComboBoxModel(VoicePlayback.getAudioPorts((Info) cmb_CaptureDevice.getSelectedItem())));
         sl_sensitivity.setValue(128 - Settings.getVoiceSensitivity());
         try {
-            cmb_Playbackdevice.setSelectedIndex(Settings.getPlaybackDeviceIndex());
-            cmb_CaptureDevice.setSelectedIndex(Settings.getCaptureDeviceIndex());
+            cmb_Playbackdevice.setSelectedItem(AudioSystem.getMixerInfo()[Settings.getPlaybackDeviceIndex()]);
+            cmb_CaptureDevice.setSelectedItem(AudioSystem.getMixerInfo()[Settings.getCaptureDeviceIndex()]);
             cmb_device_ports.setSelectedIndex(Settings.getCapturePortIndex());
         } catch (Exception e) {
+            e.printStackTrace();
         }
         //rest
         tf_voiceChatPort.setText(Settings.getVoiceChatPort()+"");
@@ -1209,8 +1212,8 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             Settings.setLaunchHotKey(tf_launchKey.getKey());
             Settings.setLaunchHotKeymask(tf_launchKey.getModifiers());
 
-            Settings.setPlaybackDeviceIndex(cmb_Playbackdevice.getSelectedIndex());
-            Settings.setCaptureDeviceIndex(cmb_CaptureDevice.getSelectedIndex());
+            Settings.setPlaybackDeviceIndex(VoicePlayback.indexOfAudioDevice((Mixer.Info)cmb_Playbackdevice.getSelectedItem()));
+            Settings.setCaptureDeviceIndex(VoicePlayback.indexOfAudioDevice((Mixer.Info)cmb_CaptureDevice.getSelectedItem()));
             Settings.setCapturePortIndex(cmb_device_ports.getSelectedIndex());
             Settings.setVoiceSensitivity(128-sl_sensitivity.getValue());
             Settings.setVoiceChatPort(Integer.valueOf(tf_voiceChatPort.getText()));

@@ -10,6 +10,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.Vector;
+import javax.swing.SwingUtilities;
 
 class HandlerThread extends Thread {
 
@@ -61,7 +62,15 @@ class HandlerThread extends Thread {
                 }
             }.start();
 
-            Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().connected();
+             SwingUtilities.invokeLater(
+                new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().connected();
+                    }
+                });
+            
             VoiceClient.send("login" + Protocol.MESSAGE_DELIMITER +Globals.getThisPlayer_loginName() );
 
             while (running) {
@@ -82,7 +91,15 @@ class HandlerThread extends Thread {
             } else {
                 Logger.log(e);
             }
-            Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().connectFailedOrBroken();
+             SwingUtilities.invokeLater(
+                new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().connectFailedOrBroken();
+                    }
+                });
+            
         }
         try {
             socketChannel.close();
