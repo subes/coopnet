@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 18 -->
+<!--Version 20 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
@@ -2015,7 +2015,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>+map {MAP} +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set cl_playintro 0 +set ui_skip_titlescreen 1 +set ui_skip_legalscreen 1</PropertyValue>
+            <PropertyValue>+map {MAP} +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set scr_bel_scorelimit {GOALSCORE} +set scr_bel_timelimit {TIMELIMIT} +set scr_tdm_scorelimit {GOALSCORE} +set scr_tdm_timelimit {TIMELIMIT} +set scr_sd_scorelimit {GOALSCORE} +set scr_sd_timelimit {TIMELIMIT} +set scr_re_scorelimit {GOALSCORE} +set scr_re_timelimit {TIMELIMIT} +set scr_hq_scorelimit {GOALSCORE} +set scr_hq_timelimit {TIMELIMIT} +set scr_dm_scorelimit {GOALSCORE} +set scr_dm_timelimit {TIMELIMIT} +set cl_playintro 0 +set ui_skip_titlescreen 1 +set ui_skip_legalscreen 1 +set g_gametype {GAMEMODE}</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
@@ -2030,6 +2030,35 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             <PropertyValue>+password "{PASSWORD}"</PropertyValue>
         </Property>
         <Settings>
+            <ChoiceSetting>
+                <SettingName>GameMode</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>GAMEMODE</KeyWord>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Deathmatch</ChoiceDisplayName>
+                    <ChoiceRealValue>dm</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Team deathmatch</ChoiceDisplayName>
+                    <ChoiceRealValue>tdm</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Behind Enemy Lines</ChoiceDisplayName>
+                    <ChoiceRealValue>bel</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>HQ</ChoiceDisplayName>
+                    <ChoiceRealValue>hq</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Retrieval</ChoiceDisplayName>
+                    <ChoiceRealValue>re</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Search and Destroy</ChoiceDisplayName>
+                    <ChoiceRealValue>sd</ChoiceRealValue>
+                </ChoiceItem>                
+            </ChoiceSetting>
             <NumberSetting>
                 <SettingName>goalscore</SettingName>
                 <SettingType>NUMBER</SettingType>
