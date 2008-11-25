@@ -42,8 +42,7 @@ class HandlerThread extends Thread {
         try {
             socketChannel = SocketChannel.open();
             socketChannel.connect(new InetSocketAddress(VoiceClient.serveraddress, VoiceClient.serverport));
-            running = true;
-            System.out.println("VoiceClient connected");
+            running = true;            
             //start sender thread
             new Thread() {
 

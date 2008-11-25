@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.utils.hotkeys;
 
 import coopnetclient.Globals;
@@ -24,15 +23,18 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
+import coopnetclient.voicechat.VoicePlayback;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
 public class Hotkeys {
 
     private static int ACTION_LAUNCH = 1;
+    private static int PUSH_TO_TALK = 2;
     private static HotkeyHandler handler;
     
-    static{
+
+    static {
         switch (Globals.getOperatingSystem()) {
             case WINDOWS:
                 System.loadLibrary("lib/JIntellitype");
@@ -40,29 +42,47 @@ public class Hotkeys {
                 break;
             case LINUX:
                 File curDir = new File(".");
-                System.load(curDir.getAbsolutePath()+"/lib/libJXGrabKey.so");
+                System.load(curDir.getAbsolutePath() + "/lib/libJXGrabKey.so");
                 handler = new JXGrabKeyHandler();
                 break;
         }
     }
 
-    private Hotkeys() {}
+    private Hotkeys() {
+    }
 
-    public static void bindKeys() {
+    public static void bindLaunchHotKey() {
         Logger.log(LogTypes.LOG, "Binding hotkey");
-        if(Settings.getLaunchHotKey() != KeyEvent.VK_UNDEFINED){
+        if (Settings.getLaunchHotKey() != KeyEvent.VK_UNDEFINED) {
             handler.registerHotkey(ACTION_LAUNCH, Settings.getLaunchHotKeyMask(), Settings.getLaunchHotKey());
+        }        
+    }
+
+    public static void bindPushToTalkHOtKey(){
+        if (Settings.getPushToTalkHotKey() != KeyEvent.VK_UNDEFINED) {
+            handler.registerHotkey(PUSH_TO_TALK, Settings.getPushToTalkHotKeyMask(), Settings.getPushToTalkHotKey());
         }
     }
 
-    public static void unbindKeys() {
+    public static void unbindLaunchHotKey() {
         Logger.log(LogTypes.LOG, "UnBinding hotkey");
         handler.unregisterHotkey(ACTION_LAUNCH);
+        handler.unregisterHotkey(PUSH_TO_TALK);
     }
 
-    public static void reBind() {
-        unbindKeys();
-        bindKeys();
+    public static void unbindPushToTalkHotKey() {
+        Logger.log(LogTypes.LOG, "UnBinding hotkey");
+        handler.unregisterHotkey(PUSH_TO_TALK);
+    }
+
+    public static void reBindLaunchHotKey() {
+        unbindLaunchHotKey();
+        bindLaunchHotKey();
+    }
+
+    public static void reBindPushToTalkHotKey() {
+        unbindPushToTalkHotKey();
+        bindPushToTalkHOtKey();
     }
 
     public static void cleanUp() {
@@ -72,8 +92,11 @@ public class Hotkeys {
     protected static void onHotkey(int id) {
         if (id == ACTION_LAUNCH) {
             if (TabOrganizer.getRoomPanel() != null) {
-               TabOrganizer.getRoomPanel().pressLaunch();
+                TabOrganizer.getRoomPanel().pressLaunch();
             }
+        } else if (id == PUSH_TO_TALK) {
+            VoicePlayback.pushToTalk();
+            //System.out.println("talk!");
         }
     }
 }

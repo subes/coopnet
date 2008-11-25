@@ -216,7 +216,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Hotkeys"/>
+                    <TitledBorder title="General HotKeys"/>
                   </Border>
                 </Property>
               </Properties>
@@ -1213,28 +1213,44 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="rbtn_voiceActivation" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="lbl_sensitivity" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="rbtn_pushToTalk" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="sl_sensitivity" min="-2" pref="114" max="-2" attributes="0"/>
+                              <EmptySpace min="10" pref="10" max="10" attributes="0"/>
+                              <Component id="cmb_device_ports" pref="616" max="32767" attributes="1"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="10" pref="10" max="10" attributes="0"/>
+                              <Component id="cmb_CaptureDevice" pref="616" max="32767" attributes="1"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="10" pref="10" max="10" attributes="0"/>
+                              <Component id="cmb_Playbackdevice" pref="616" max="32767" attributes="1"/>
                           </Group>
                           <Component id="lbl_playbackdevice" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lbl_capturedevice" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="cmb_Playbackdevice" alignment="0" pref="432" max="32767" attributes="1"/>
-                          <Component id="cmb_CaptureDevice" alignment="0" max="32767" attributes="1"/>
-                          <Component id="cmb_device_ports" alignment="0" max="32767" attributes="1"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="rbtn_voiceActivation" linkSize="4" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lbl_sensitivity" linkSize="5" min="-2" max="-2" attributes="0"/>
+                                      <Component id="sl_sensitivity" linkSize="6" min="-2" pref="114" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="rbtn_pushToTalk" linkSize="4" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabel1" linkSize="5" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="tf_pushToTalkHotKey" linkSize="6" min="-2" pref="111" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lbl_hotkeyNoteText1" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace pref="204" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1254,23 +1270,21 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cmb_device_ports" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="rbtn_pushToTalk" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="rbtn_voiceActivation" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lbl_sensitivity" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
-                              <Component id="sl_sensitivity" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="rbtn_pushToTalk" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tf_pushToTalkHotKey" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbl_hotkeyNoteText1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="49" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="rbtn_voiceActivation" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbl_sensitivity" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="sl_sensitivity" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1341,7 +1355,6 @@
                   <ComponentRef name="bg_captureMode"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Push to talk"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtn_pushToTalkActionPerformed"/>
@@ -1367,7 +1380,25 @@
             <Component class="javax.swing.JSlider" name="sl_sensitivity">
               <Properties>
                 <Property name="maximum" type="int" value="128"/>
-                <Property name="value" type="int" value="90"/>
+                <Property name="minimum" type="int" value="50"/>
+                <Property name="value" type="int" value="110"/>
+              </Properties>
+            </Component>
+            <Component class="coopnetclient.frames.components.KeyGrabberTextField" name="tf_pushToTalkHotKey">
+              <Properties>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="btn_apply"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Key:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_hotkeyNoteText1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Click anywhere to cancel assignment,&lt;br&gt;press backspace to disable the hotkey."/>
               </Properties>
             </Component>
           </SubComponents>

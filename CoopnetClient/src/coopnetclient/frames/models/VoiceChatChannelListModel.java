@@ -80,6 +80,7 @@ public class VoiceChatChannelListModel extends AbstractListModel {
     public void addUserToChannel(String user, int channelIndex){
         Channel c = channels.get(channelIndex);
         c.users.add(user);
+        talkinglist.remove(user);
         fireContentsChanged(this, 0, getSize());
     }
     
@@ -123,8 +124,10 @@ public class VoiceChatChannelListModel extends AbstractListModel {
     }
     
     public void setTalking(String user){
-        talkinglist.add(user);
-        fireContentsChanged(this, 0, getSize());
+        if(!talkinglist.contains(user)){
+            talkinglist.add(user);
+            fireContentsChanged(this, 0, getSize());
+        }
     }
     
     public void setNotTalking(String user){
@@ -194,6 +197,8 @@ public class VoiceChatChannelListModel extends AbstractListModel {
         for (Channel c : channels) {
             c.users.clear();
         }
+        talkinglist.clear();
+        mutelist.clear();
         fireContentsChanged(this, 0, getSize());
     }
 

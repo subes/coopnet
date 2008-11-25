@@ -19,11 +19,14 @@
 package coopnetclient.frames.clientframe.quickpanel.tabs;
 
 import coopnetclient.Globals;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.models.VoiceChatChannelListModel;
 import coopnetclient.frames.renderers.VoiceChatRenderer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Settings;
+import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.voicechat.VoiceClient;
+import coopnetclient.voicechat.VoicePlayback;
 import coopnetclient.voicechat.VoiceServer;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -34,6 +37,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
     private VoiceChatChannelListModel model;
     private VoiceServer server = null;
     private VoiceClient client = null;
+    private boolean isClientConnected = false;
 
     public VoiceChatPanel() {
         initComponents();
@@ -59,18 +63,23 @@ public class VoiceChatPanel extends javax.swing.JPanel {
     }
 
     public void stopServer() {
-        if (server != null) {
-            server.shutdown();
-            server = null;
-            Globals.getClientFrame().updateVoiceServerStatus(false);
-        }
         if (client != null) {
             client.disconnect();
             client = null;
         }
+        
+        if (server != null) {
+            server.shutdown();
+            server = null;
+            isClientConnected = false;
+            Hotkeys.unbindPushToTalkHotKey();
+            Globals.getClientFrame().updateVoiceServerStatus(false);
+        }
+        
         btn_connect.setText("Start service");
         lbl_currentStatus.setText("Status: not running");
         model.clear();
+        VoicePlayback.cleanUp();
     }
 
     public void startconnect(String ip, String port) {
@@ -86,11 +95,17 @@ public class VoiceChatPanel extends javax.swing.JPanel {
             lbl_currentStatus.setText("Status: not running");
             btn_connect.setText("Start service");
             model.clear();
+            isClientConnected = false;
+            Hotkeys.unbindPushToTalkHotKey();
+            VoicePlayback.cleanUp();
             Globals.getClientFrame().updateVoiceClientStatus(false);
         }
     }
 
     public void connected() {
+        if(!Settings.isVoiceActivated()){
+                Hotkeys.bindPushToTalkHOtKey();
+        }
         if (server == null) {
             SwingUtilities.invokeLater(
                     new Runnable() {
@@ -101,8 +116,14 @@ public class VoiceChatPanel extends javax.swing.JPanel {
                             lbl_currentStatus.setText("Status: connected");
                         }
                     });
+            isClientConnected = false;
             Globals.getClientFrame().updateVoiceClientStatus(true);
+            Globals.getClientFrame().printToVisibleChatbox("System", "VoiceClient connected! For controlls open QuickTab!", ChatStyles.SYSTEM , false);
         }
+    }
+
+    public boolean isClientConnected (){
+        return isClientConnected;
     }
 
     public void connectFailedOrBroken() {
@@ -118,6 +139,8 @@ public class VoiceChatPanel extends javax.swing.JPanel {
         if (client != null) {
             client.disconnect();
             client = null;
+            isClientConnected = false;
+            Hotkeys.unbindPushToTalkHotKey();
         }
         if (server != null) {
             server.shutdown();
@@ -125,6 +148,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
         }
         Globals.getClientFrame().updateVoiceClientStatus(false);
         model.clear();
+        VoicePlayback.cleanUp();
     }
     //public void setEnabled(boolean enabled){}
 

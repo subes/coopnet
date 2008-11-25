@@ -86,6 +86,10 @@ public class VoiceServer extends Thread {
             Keys_to_Players.remove(key);
             Players_to_Keys.remove(userName);
             players.remove(userName);
+            key.cancel();
+            try{
+                key.channel().close();
+            }catch(Exception e){}
             for (Vector<SelectionKey> v : VoiceServer.playersInChannels) {
                 v.remove(key);
             }
@@ -183,6 +187,11 @@ public class VoiceServer extends Thread {
 
     public void shutdown() {
         serverrun = false;
+        for(SelectionKey  key : Keys_to_Players.keySet() ){
+            try{
+                key.channel().close();
+            }catch(Exception e){}
+        }
     }
 
     private void process(SelectionKey key, ByteBuffer buffer) {

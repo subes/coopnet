@@ -12,7 +12,7 @@ import javax.sound.sampled.Port.Info;
 
 public class VoicePlayback {
 
-    public static final int MAXEXPIRE = 2;
+    public static final int MAXEXPIRE = 3;
     public static final int LOW_QUALITY = 1;
     public static final int MEDIUM_QUALITY = 2;
     public static final int HIGH_QUALITY = 3;
@@ -27,6 +27,8 @@ public class VoicePlayback {
     private static boolean recordLoop = false;
     private static boolean isTalking = false;
     private static Mixer playbackMixer = null;
+    public static int expire = 0;
+    private static final Object Lock = new Object();
 
 
     static {
@@ -34,7 +36,7 @@ public class VoicePlayback {
     }
     private static String RECORD_PORT_SELECT;
 
-    public static int indexOfAudioDevice(Mixer.Info info){
+    public static int indexOfAudioDevice(Mixer.Info info) {
         return Arrays.asList(AudioSystem.getMixerInfo()).indexOf(info);
     }
 
@@ -56,9 +58,9 @@ public class VoicePlayback {
         Mixer.Info minfo[] = AudioSystem.getMixerInfo();
         for (int i = 0; i < minfo.length; ++i) {
             Port.Info pinfo[] = getAudioPorts(minfo[i]);
-             if (pinfo.length > 0) {
+            if (pinfo.length > 0) {
                 usabledevices.add(minfo[i]);
-             }
+            }
         }
         return usabledevices.toArray(new Mixer.Info[usabledevices.size()]);
     }
@@ -148,66 +150,14 @@ public class VoicePlayback {
                 }
                 byte[] buffer = new byte[micInputLine.getBufferSize() / 3];
                 int read = 0;
-                int expire = 0;
                 micInputLine.start();
                 while (recordLoop) {
                     read = micInputLine.read(buffer, 0, buffer.length);
                     //System.out.println(read);
-                    if (read > 0) {
-                        if (Settings.isVoiceActivated()) {
-                            int sum = 0;
-                            for (int i = 0; i < read; ++i) {
-                                sum += Math.abs(buffer[i]);
-                            }
-                            int average = sum / read;
-                            if (average >= Settings.getVoiceSensitivity()) {//send data
-                                if (isTalking) {
-                                    byte[] output = new byte[read];
-                                    System.arraycopy(buffer, 0, output, 0, read);
-                                    VoiceClient.sendVoiceData(output);
-                                } else {//wasnt talking yet
-                                    isTalking = true;
-                                    VoiceClient.send("STV");
-                                    byte[] output = new byte[read];
-                                    System.arraycopy(buffer, 0, output, 0, read);
-                                    VoiceClient.sendVoiceData(output);
-                                }
-                            } else { //nothing sendable read, stop sending
-                                if (isTalking) {
-                                    if (expire >= MAXEXPIRE) {
-                                        VoiceClient.send("SPV");
-                                        isTalking = false;
-                                        expire = 0;
-                                    } else {
-                                        expire++;
-                                        byte[] output = new byte[read];
-                                        System.arraycopy(buffer, 0, output, 0, read);
-                                        VoiceClient.sendVoiceData(output);
-                                    }
-                                }
-                            }
-                        } else if (captureAndSend) {//push to talk
-                            byte[] output = new byte[read];
-                            System.arraycopy(buffer, 0, output, 0, read);
-                            VoiceClient.sendVoiceData(output);
-                            //micInputLine.flush();
-                            VoiceClient.send("SPV");
-                        } else {
-                            try {
-                                Thread.sleep(10);
-                            } catch (Exception e) {
-                            }
-                        }
+                    if (Settings.isVoiceActivated()) {
+                        processVoiceActivated(buffer, read);
                     } else {
-                        if (Settings.isVoiceActivated() && isTalking) {
-                            VoiceClient.send("SPV");
-                            isTalking = false;
-                        } else {
-                            try {
-                                Thread.sleep(10);
-                            } catch (Exception e) {
-                            }
-                        }
+                        processPushToTalk(buffer, read);
                     }
                 }
                 micInputLine.stop();
@@ -219,6 +169,88 @@ public class VoicePlayback {
             recordLoop = false;
         }
         System.out.println("Audio System initialised");
+    }
+
+    private static void processVoiceActivated(byte[] buffer, int read) {
+        if (read > 0) {
+            int max = 0;
+            if (Settings.isVoiceActivated()) {
+                for (int i = 0; i < read; ++i) {
+                    int current = Math.abs(buffer[i]);
+                    max = (current > max) ? current : max;
+                }
+            }
+            if (max >= Settings.getVoiceSensitivity()) {//send data
+                if (isTalking) {
+                    byte[] output = new byte[read];
+                    System.arraycopy(buffer, 0, output, 0, read);
+                    VoiceClient.sendVoiceData(output);
+                } else {//wasnt talking yet
+                    isTalking = true;
+                    VoiceClient.send("STV");
+                    byte[] output = new byte[read];
+                    System.arraycopy(buffer, 0, output, 0, read);
+                    VoiceClient.sendVoiceData(output);
+                }
+            } else { //nothing sendable read, stop sending
+                if (isTalking) {
+                    if (expire >= MAXEXPIRE) {
+                        VoiceClient.send("SPV");
+                        isTalking = false;
+                        expire = 0;
+                    } else {
+                        expire++;
+                        byte[] output = new byte[read];
+                        System.arraycopy(buffer, 0, output, 0, read);
+                        VoiceClient.sendVoiceData(output);
+                    }
+                }
+            }
+        } else {
+            if (isTalking) {
+                VoiceClient.send("SPV");
+                isTalking = false;
+            } else {
+                try {
+                    Thread.sleep(10);
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
+
+    private static void processPushToTalk(byte[] buffer, int read) {
+        if (captureAndSend) {//send data
+            if (isTalking) {
+                byte[] output = new byte[read];
+                System.arraycopy(buffer, 0, output, 0, read);
+                VoiceClient.sendVoiceData(output);
+            } else {//wasnt talking yet
+                isTalking = true;
+                VoiceClient.send("STV");
+                byte[] output = new byte[read];
+                System.arraycopy(buffer, 0, output, 0, read);
+                VoiceClient.sendVoiceData(output);
+            }
+            synchronized(Lock){
+                expire++;
+            }
+            if (expire >= MAXEXPIRE +2) {
+                    isTalking = false;
+                    captureAndSend = false;
+                    expire = 0;
+                    VoiceClient.send("SPV");
+                }
+        }
+    }
+
+    public static void pushToTalk() {
+        synchronized(Lock){
+            if (!captureAndSend) {
+                captureAndSend = true;
+            }
+            expire = 0;
+        }
     }
 
     public static void shutDown() {
@@ -294,12 +326,32 @@ public class VoicePlayback {
         }
     }
 
+    public static void cleanUp() {
+        for (String name : channels.keySet()) {
+            SourceDataLine channel = channels.get(name);
+            channel.stop();
+            channel.close();
+        }
+        channels.clear();
+    }
+
     public static void putDataInChannel(byte[] data, String playerName) {
         SourceDataLine channel = channels.get(playerName);
         VoiceChatChannelListModel model = Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().getModel();
-        if (channel != null && !model.isMuted(playerName)) {
-            channel.write(data, 0, data.length);
-            channel.start();
+        if (channel != null) {
+            if (!model.isMuted(playerName)) {
+                model.setTalking(playerName);
+                channel.write(data, 0, data.length);
+                channel.start();
+            }
+        } else {
+            openChannel(playerName);
+            channel = channels.get(playerName);
+            if (!model.isMuted(playerName)) {
+                model.setTalking(playerName);
+                channel.write(data, 0, data.length);
+                channel.start();
+            }
         }
     }
 

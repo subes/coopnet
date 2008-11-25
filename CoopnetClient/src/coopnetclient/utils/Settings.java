@@ -136,7 +136,9 @@ public class Settings {
             playbackDeviceIndex="PlaybackDeviceIndex",
             voiceChatPort= "VoiceChatPort",
             voiceChatIsVoiceActivated = "VoiceChatIsVoiceActivated",
-            voiceSensitivity="VoiceSensitivity";
+            voiceSensitivity="VoiceSensitivity",
+            pushToTalkHotKey = "PushToTalkHotKey",
+            pushToTalkHotKeyMask = "PushToTalkHotKeyMask";;
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -145,7 +147,7 @@ public class Settings {
     private final static int def_captureDeviceIndex = -1;
     private final static int def_playbackDeviceIndex = -1;
     private final static int def_voiceChatPort = 2301;
-    private final static int def_voiceSensitivity = 30;
+    private final static int def_voiceSensitivity = 20;
     private final static boolean def_firstRun = true;
     private final static boolean def_voiceChatIsVoiceActivated = true;
     private final static boolean def_sleepEnabled = true;
@@ -190,6 +192,8 @@ public class Settings {
     private static Vector<String> favourites;
     private final static int def_launchHotKeyMask = 10;
     private final static int def_launchHotKey = KeyEvent.VK_L;
+    private final static int def_pushToTalkHotKey = KeyEvent.VK_F2;
+    private final static int def_pushToTalkHotKeyMask = 0;
     private final static boolean def_multiChannel = true;
     private final static boolean def_showOfflineContacts = false;
     private final static boolean def_quickTabIconSize = true;
@@ -366,12 +370,28 @@ public class Settings {
         writeSetting(playbackDeviceIndex, String.valueOf(key));
     }
     
-     public static int getLaunchHotKey() {
+    public static int getLaunchHotKey() {
         return readInteger(launchHotKey, def_launchHotKey);
     }
     
     public static void setLaunchHotKey(int key) {
         writeSetting(launchHotKey, String.valueOf(key));
+    }
+
+    public static int getPushToTalkHotKey() {
+        return readInteger(pushToTalkHotKey, def_pushToTalkHotKey);
+    }
+
+    public static void setPushToTalkHotKey(int key) {
+        writeSetting(pushToTalkHotKey, String.valueOf(key));
+    }
+
+    public static int getPushToTalkHotKeyMask() {
+        return readInteger(pushToTalkHotKeyMask, def_pushToTalkHotKeyMask);
+    }
+
+    public static void setPushToTalkHotKeyMask(int key) {
+        writeSetting(pushToTalkHotKeyMask, String.valueOf(key));
     }
     
     public static int getLaunchHotKeyMask() {
