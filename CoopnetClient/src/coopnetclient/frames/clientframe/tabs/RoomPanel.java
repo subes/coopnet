@@ -96,7 +96,7 @@ public class RoomPanel extends javax.swing.JPanel {
         if (isHost) {
             popup = new PlayerListPopupMenu(PlayerListPopupMenu.HOST_MODE, lst_userList);
             cb_useHamachi.setVisible(false);
-            Hotkeys.bindLaunchHotKey();
+            Hotkeys.bindHotKey(Hotkeys.ACTION_LAUNCH);
         } else {
             popup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
         }

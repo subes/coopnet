@@ -9,7 +9,7 @@ import java.util.Vector;
 public class VoiceCommandhandler {
     //executed by clients
     public static void execute2(final String command) {
-        System.out.println("VOICECLIENT:" + command);
+        //System.out.println("VOICECLIENT:" + command);
         if (command.startsWith("SPV")) { //stop voice
             String tmp[] = command.split(Protocol.MESSAGE_DELIMITER);
             Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().getModel().setNotTalking(tmp[1]);
@@ -38,7 +38,7 @@ public class VoiceCommandhandler {
 
     //used by server
     static void execute(SelectionKey key, String command) {
-        System.out.println("VOICESERVER:" + command);
+        //System.out.println("VOICESERVER:" + command);
         String thisplayer = VoiceServer.playerByKey(key);
         if (thisplayer == null) {
             if (command.startsWith("login")) {

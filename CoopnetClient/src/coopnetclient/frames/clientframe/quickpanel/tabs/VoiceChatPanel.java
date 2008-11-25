@@ -72,7 +72,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
             server.shutdown();
             server = null;
             isClientConnected = false;
-            Hotkeys.unbindPushToTalkHotKey();
+            Hotkeys.unbindHotKey(Hotkeys.PUSH_TO_TALK);
             Globals.getClientFrame().updateVoiceServerStatus(false);
         }
         
@@ -96,7 +96,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
             btn_connect.setText("Start service");
             model.clear();
             isClientConnected = false;
-            Hotkeys.unbindPushToTalkHotKey();
+            Hotkeys.unbindHotKey(Hotkeys.PUSH_TO_TALK);
             VoicePlayback.cleanUp();
             Globals.getClientFrame().updateVoiceClientStatus(false);
         }
@@ -104,7 +104,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
 
     public void connected() {
         if(!Settings.isVoiceActivated()){
-                Hotkeys.bindPushToTalkHOtKey();
+                Hotkeys.bindHotKey(Hotkeys.PUSH_TO_TALK);
         }
         if (server == null) {
             SwingUtilities.invokeLater(
@@ -140,7 +140,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
             client.disconnect();
             client = null;
             isClientConnected = false;
-            Hotkeys.unbindPushToTalkHotKey();
+            Hotkeys.unbindHotKey(Hotkeys.PUSH_TO_TALK);
         }
         if (server != null) {
             server.shutdown();

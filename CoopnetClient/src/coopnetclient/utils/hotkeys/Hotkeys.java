@@ -29,10 +29,9 @@ import java.io.File;
 
 public class Hotkeys {
 
-    private static int ACTION_LAUNCH = 1;
-    private static int PUSH_TO_TALK = 2;
+    public static int ACTION_LAUNCH = 1;
+    public static int PUSH_TO_TALK = 2;
     private static HotkeyHandler handler;
-    
 
     static {
         switch (Globals.getOperatingSystem()) {
@@ -51,38 +50,29 @@ public class Hotkeys {
     private Hotkeys() {
     }
 
-    public static void bindLaunchHotKey() {
-        Logger.log(LogTypes.LOG, "Binding hotkey");
-        if (Settings.getLaunchHotKey() != KeyEvent.VK_UNDEFINED) {
-            handler.registerHotkey(ACTION_LAUNCH, Settings.getLaunchHotKeyMask(), Settings.getLaunchHotKey());
-        }        
-    }
+    public static void bindHotKey(int action) {
+        if (action == ACTION_LAUNCH) {
+            Logger.log(LogTypes.LOG, "Binding hotkey");
+            if (Settings.getLaunchHotKey() != KeyEvent.VK_UNDEFINED) {
+                handler.registerHotkey(ACTION_LAUNCH, Settings.getLaunchHotKeyMask(), Settings.getLaunchHotKey());
+            }
+        }
 
-    public static void bindPushToTalkHOtKey(){
-        if (Settings.getPushToTalkHotKey() != KeyEvent.VK_UNDEFINED) {
-            handler.registerHotkey(PUSH_TO_TALK, Settings.getPushToTalkHotKeyMask(), Settings.getPushToTalkHotKey());
+        if (action == ACTION_LAUNCH) {
+            if (Settings.getPushToTalkHotKey() != KeyEvent.VK_UNDEFINED) {
+                handler.registerHotkey(PUSH_TO_TALK, Settings.getPushToTalkHotKeyMask(), Settings.getPushToTalkHotKey());
+            }
         }
     }
 
-    public static void unbindLaunchHotKey() {
+    public static void reBindHotKey(int action) {
+        unbindHotKey(action);
+        bindHotKey(action);
+    }
+
+    public static void unbindHotKey(int action) {
         Logger.log(LogTypes.LOG, "UnBinding hotkey");
-        handler.unregisterHotkey(ACTION_LAUNCH);
-        handler.unregisterHotkey(PUSH_TO_TALK);
-    }
-
-    public static void unbindPushToTalkHotKey() {
-        Logger.log(LogTypes.LOG, "UnBinding hotkey");
-        handler.unregisterHotkey(PUSH_TO_TALK);
-    }
-
-    public static void reBindLaunchHotKey() {
-        unbindLaunchHotKey();
-        bindLaunchHotKey();
-    }
-
-    public static void reBindPushToTalkHotKey() {
-        unbindPushToTalkHotKey();
-        bindPushToTalkHOtKey();
+        handler.unregisterHotkey(action);
     }
 
     public static void cleanUp() {
@@ -96,7 +86,6 @@ public class Hotkeys {
             }
         } else if (id == PUSH_TO_TALK) {
             VoicePlayback.pushToTalk();
-            //System.out.println("talk!");
         }
     }
 }

@@ -267,6 +267,9 @@
                       <ComponentRef name="btn_apply"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new KeyGrabberTextField(Hotkeys.ACTION_LAUNCH,false)"/>
+                  </AuxValues>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbl_hotkeyNoteText">
                   <Properties>
@@ -1199,7 +1202,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel1">
+        <Container class="javax.swing.JPanel" name="pnl_VoiceChat">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="VoiceChat">
@@ -1235,19 +1238,27 @@
                                       <Component id="rbtn_voiceActivation" linkSize="4" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="lbl_sensitivity" linkSize="5" min="-2" max="-2" attributes="0"/>
-                                      <Component id="sl_sensitivity" linkSize="6" min="-2" pref="114" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="rbtn_pushToTalk" linkSize="4" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jLabel1" linkSize="5" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="tf_pushToTalkHotKey" linkSize="6" min="-2" pref="111" max="-2" attributes="0"/>
+                                      <Component id="lbl_PushToTalkKeyLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lbl_hotkeyNoteText1" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="sl_sensitivity" linkSize="6" min="-2" pref="114" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="4" pref="4" max="4" attributes="0"/>
+                                      <Component id="tf_pushToTalkHotKey" linkSize="6" min="-2" pref="111" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lbl_highSensitivityLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_hotkeyNoteText1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -1270,19 +1281,31 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cmb_device_ports" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="rbtn_pushToTalk" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tf_pushToTalkHotKey" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbl_hotkeyNoteText1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="rbtn_voiceActivation" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbl_sensitivity" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="sl_sensitivity" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="rbtn_pushToTalk" linkSize="8" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_PushToTalkKeyLabel" linkSize="8" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="rbtn_voiceActivation" linkSize="7" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_sensitivity" linkSize="7" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="tf_pushToTalkHotKey" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_hotkeyNoteText1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="sl_sensitivity" linkSize="7" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_highSensitivityLabel" linkSize="7" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                   </Group>
@@ -1374,7 +1397,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lbl_sensitivity">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Sensitivity:"/>
+                <Property name="text" type="java.lang.String" value="Sensitivity:  low"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JSlider" name="sl_sensitivity">
@@ -1390,8 +1413,11 @@
                   <ComponentRef name="btn_apply"/>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new KeyGrabberTextField(Hotkeys.PUSH_TO_TALK, true)"/>
+              </AuxValues>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel1">
+            <Component class="javax.swing.JLabel" name="lbl_PushToTalkKeyLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Key:"/>
               </Properties>
@@ -1399,6 +1425,11 @@
             <Component class="javax.swing.JLabel" name="lbl_hotkeyNoteText1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Click anywhere to cancel assignment,&lt;br&gt;press backspace to disable the hotkey."/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_highSensitivityLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="high"/>
               </Properties>
             </Component>
           </SubComponents>

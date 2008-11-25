@@ -33,12 +33,16 @@ import javax.swing.UIManager;
 
 public class KeyGrabberTextField extends JTextField implements FocusListener, KeyListener {
 
+    private int action = 0;
     private int key = 0;
     private int modifiers = 0;
+    private boolean singleKeyEnabled = false;
     
-    public KeyGrabberTextField() {
+    public KeyGrabberTextField(int action,boolean enableSingleKey) {
         addFocusListener(this);
         addKeyListener(this);
+        singleKeyEnabled = enableSingleKey;
+        this.action = action;
     }
     
     public void setKey(int key, int modifiers){
@@ -70,7 +74,7 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
 
     @Override
     public void focusGained(FocusEvent e) {
-        Hotkeys.unbindKeys();
+        Hotkeys.unbindHotKey(action);
         
         if (Settings.getColorizeBody()) {
             setBackground(Colorizer.getSelectionColor());
@@ -96,8 +100,8 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
             setForeground((Color) UIManager.get("TextArea.foreground"));
         }
         printText();
-        if( TabOrganizer.getRoomPanel()!= null && TabOrganizer.getRoomPanel().isHost() ){
-            Hotkeys.bindKeys();
+        if(action ==Hotkeys.PUSH_TO_TALK || (action ==Hotkeys.ACTION_LAUNCH && TabOrganizer.getRoomPanel()!= null && TabOrganizer.getRoomPanel().isHost()) ){
+            Hotkeys.bindHotKey(action);
         }
     }
 

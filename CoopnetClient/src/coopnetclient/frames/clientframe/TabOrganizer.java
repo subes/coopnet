@@ -205,7 +205,7 @@ public class TabOrganizer {
             }
             
             if(roomPanel.isHost()){
-                Hotkeys.unbindKeys();
+                Hotkeys.unbindHotKey(Hotkeys.ACTION_LAUNCH);
             }
 
             roomPanel = null;
