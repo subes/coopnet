@@ -51,15 +51,16 @@ public class Hotkeys {
     }
 
     public static void bindHotKey(int action) {
-        if (action == ACTION_LAUNCH) {
-            Logger.log(LogTypes.LOG, "Binding hotkey");
+        if (action == ACTION_LAUNCH) {            
             if (Settings.getLaunchHotKey() != KeyEvent.VK_UNDEFINED) {
+                Logger.log(LogTypes.LOG, "Binding hotkey");
                 handler.registerHotkey(ACTION_LAUNCH, Settings.getLaunchHotKeyMask(), Settings.getLaunchHotKey());
             }
         }
 
-        if (action == ACTION_LAUNCH) {
+        if (action == PUSH_TO_TALK) {
             if (Settings.getPushToTalkHotKey() != KeyEvent.VK_UNDEFINED) {
+                Logger.log(LogTypes.LOG, "Binding hotkey");
                 handler.registerHotkey(PUSH_TO_TALK, Settings.getPushToTalkHotKeyMask(), Settings.getPushToTalkHotKey());
             }
         }

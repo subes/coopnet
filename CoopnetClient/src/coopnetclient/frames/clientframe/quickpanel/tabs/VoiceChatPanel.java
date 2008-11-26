@@ -58,6 +58,15 @@ public class VoiceChatPanel extends javax.swing.JPanel {
             client = new VoiceClient(Globals.getThisPlayer_loginName(), "localhost", String.valueOf(Settings.getVoiceChatPort()));
             btn_connect.setText("Stop service");
             lbl_currentStatus.setText("Status: running");
+            SwingUtilities.invokeLater(
+                    new Runnable() {
+
+                        @Override
+                        public void run() {
+                            btn_lock.setVisible(true);
+                            btn_lock.setEnabled(true);
+                        }
+                    });
             Globals.getClientFrame().updateVoiceServerStatus(true);
         }
     }
@@ -67,24 +76,48 @@ public class VoiceChatPanel extends javax.swing.JPanel {
             client.disconnect();
             client = null;
         }
-        
+
         if (server != null) {
             server.shutdown();
             server = null;
             isClientConnected = false;
             Hotkeys.unbindHotKey(Hotkeys.PUSH_TO_TALK);
             Globals.getClientFrame().updateVoiceServerStatus(false);
+            SwingUtilities.invokeLater(
+                    new Runnable() {
+
+                        @Override
+                        public void run() {
+                            btn_lock.setVisible(true);
+                            btn_lock.setEnabled(false);
+                        }
+                    });
         }
-        
+
         btn_connect.setText("Start service");
         lbl_currentStatus.setText("Status: not running");
         model.clear();
         VoicePlayback.cleanUp();
     }
 
+    public void setServerLockedStatus(boolean isLocked) {
+        if (server != null) {
+            VoiceServer.setLocked(isLocked);
+        }
+    }
+
     public void startconnect(String ip, String port) {
         if (server == null && client == null) {
             client = new VoiceClient(Globals.getThisPlayer_loginName(), ip, port);
+            SwingUtilities.invokeLater(
+                    new Runnable() {
+
+                        @Override
+                        public void run() {
+                            btn_lock.setVisible(false);
+                            btn_lock.setEnabled(false);
+                        }
+                    });
         }
     }
 
@@ -99,12 +132,21 @@ public class VoiceChatPanel extends javax.swing.JPanel {
             Hotkeys.unbindHotKey(Hotkeys.PUSH_TO_TALK);
             VoicePlayback.cleanUp();
             Globals.getClientFrame().updateVoiceClientStatus(false);
+            SwingUtilities.invokeLater(
+                    new Runnable() {
+
+                        @Override
+                        public void run() {
+                            btn_lock.setVisible(true);
+                            btn_lock.setEnabled(false);
+                        }
+                    });
         }
     }
 
     public void connected() {
-        if(!Settings.isVoiceActivated()){
-                Hotkeys.bindHotKey(Hotkeys.PUSH_TO_TALK);
+        if (!Settings.isVoiceActivated()) {
+            Hotkeys.bindHotKey(Hotkeys.PUSH_TO_TALK);
         }
         if (server == null) {
             SwingUtilities.invokeLater(
@@ -114,15 +156,17 @@ public class VoiceChatPanel extends javax.swing.JPanel {
                         public void run() {
                             btn_connect.setText("Disconnect");
                             lbl_currentStatus.setText("Status: connected");
+                            btn_lock.setVisible(false);
+                            btn_lock.setEnabled(false);
                         }
                     });
             isClientConnected = false;
             Globals.getClientFrame().updateVoiceClientStatus(true);
-            Globals.getClientFrame().printToVisibleChatbox("System", "VoiceClient connected! For controlls open QuickTab!", ChatStyles.SYSTEM , false);
+            Globals.getClientFrame().printToVisibleChatbox("System", "VoiceClient connected! For controlls open QuickTab!", ChatStyles.SYSTEM, false);
         }
     }
 
-    public boolean isClientConnected (){
+    public boolean isClientConnected() {
         return isClientConnected;
     }
 
@@ -134,6 +178,12 @@ public class VoiceChatPanel extends javax.swing.JPanel {
                     public void run() {
                         btn_connect.setText("Start service");
                         lbl_currentStatus.setText("Status: not running");
+                        if (server != null) {
+                            btn_lock.setVisible(true);
+                            btn_lock.setEnabled(false);
+                            server.shutdown();
+                            server = null;
+                        }
                     }
                 });
         if (client != null) {
@@ -142,15 +192,10 @@ public class VoiceChatPanel extends javax.swing.JPanel {
             isClientConnected = false;
             Hotkeys.unbindHotKey(Hotkeys.PUSH_TO_TALK);
         }
-        if (server != null) {
-            server.shutdown();
-            server = null;
-        }
         Globals.getClientFrame().updateVoiceClientStatus(false);
         model.clear();
         VoicePlayback.cleanUp();
     }
-    //public void setEnabled(boolean enabled){}
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -166,12 +211,14 @@ public class VoiceChatPanel extends javax.swing.JPanel {
         lbl_currentStatus = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lst_channelList = new javax.swing.JList();
+        btn_lock = new javax.swing.JButton();
 
         setFocusable(false);
         setLayout(new java.awt.GridBagLayout());
 
         btn_connect.setText("Start service");
         btn_connect.setFocusable(false);
+        btn_connect.setMargin(new java.awt.Insets(2, 5, 2, 5));
         btn_connect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_connectActionPerformed(evt);
@@ -186,9 +233,10 @@ public class VoiceChatPanel extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTHEAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         add(lbl_currentStatus, gridBagConstraints);
 
         lst_channelList.setModel(new javax.swing.AbstractListModel() {
@@ -216,10 +264,25 @@ public class VoiceChatPanel extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         add(jScrollPane1, gridBagConstraints);
+
+        btn_lock.setText("Lock");
+        btn_lock.setToolTipText("Locking will prevent anyone from connecting or changing channels!");
+        btn_lock.setEnabled(false);
+        btn_lock.setFocusable(false);
+        btn_lock.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        btn_lock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_lockActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        add(btn_lock, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
 private void lst_channelListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_channelListMouseClicked
@@ -289,8 +352,19 @@ private void btn_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     }
 }//GEN-LAST:event_btn_connectActionPerformed
 
+private void btn_lockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lockActionPerformed
+    if (btn_lock.getText().equals("Lock")) {
+        setServerLockedStatus(true);
+        btn_lock.setText("UnLock");
+    } else if (btn_lock.getText().equals("UnLock")) {
+        setServerLockedStatus(false);
+        btn_lock.setText("Lock");
+    }
+}//GEN-LAST:event_btn_lockActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_connect;
+    private javax.swing.JButton btn_lock;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_currentStatus;
     private javax.swing.JList lst_channelList;

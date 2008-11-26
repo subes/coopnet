@@ -1,6 +1,7 @@
 package coopnetclient.voicechat;
 
 import coopnetclient.Globals;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.models.VoiceChatChannelListModel;
 import coopnetclient.protocol.out.Protocol;
 import java.nio.channels.SelectionKey;
@@ -8,8 +9,13 @@ import java.util.Vector;
 
 public class VoiceCommandhandler {
     //executed by clients
+
     public static void execute2(final String command) {
         //System.out.println("VOICECLIENT:" + command);
+        if (command.startsWith("locked")) {
+            Globals.getClientFrame().printToVisibleChatbox("System", "The VoiceChat server is locked! Noone is permitted to connect or change channel!", ChatStyles.SYSTEM , false);
+            return;
+        }
         if (command.startsWith("SPV")) { //stop voice
             String tmp[] = command.split(Protocol.MESSAGE_DELIMITER);
             Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().getModel().setNotTalking(tmp[1]);
@@ -42,11 +48,20 @@ public class VoiceCommandhandler {
         String thisplayer = VoiceServer.playerByKey(key);
         if (thisplayer == null) {
             if (command.startsWith("login")) {
+                if (VoiceServer.isLocked) {
+                    VoiceServer.sendToKey(key, new MixedMessage("locked"));
+                    VoiceServer.logOff(key);
+                    return;
+                }
                 String tmp[] = command.split(Protocol.MESSAGE_DELIMITER);
                 VoiceServer.logIn(tmp[1], key);
             }
         } else {//logged in
             if (command.startsWith("cc")) { //change channel: cc | channelidx
+                if (VoiceServer.isLocked) {
+                    VoiceServer.sendToKey(key, new MixedMessage("locked"));
+                    return;
+                }
                 String tmp[] = command.split(Protocol.MESSAGE_DELIMITER);
                 for (Vector<SelectionKey> v : VoiceServer.playersInChannels) {
                     v.remove(key);

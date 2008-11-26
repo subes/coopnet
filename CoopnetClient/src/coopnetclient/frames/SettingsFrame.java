@@ -1338,6 +1338,8 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
 
             if( !Settings.isVoiceActivated() && Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().isClientConnected()){
                 Hotkeys.reBindHotKey(Hotkeys.PUSH_TO_TALK);
+            }else{
+                Hotkeys.unbindHotKey(Hotkeys.PUSH_TO_TALK);
             }
 
         } catch (NumberFormatException e) {
