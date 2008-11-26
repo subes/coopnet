@@ -25,7 +25,6 @@ import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
 import coopnetclient.voicechat.VoicePlayback;
 import java.awt.event.KeyEvent;
-import java.io.File;
 
 public class Hotkeys {
 
@@ -33,17 +32,23 @@ public class Hotkeys {
     public static int PUSH_TO_TALK = 2;
     private static HotkeyHandler handler;
 
+
     static {
-        switch (Globals.getOperatingSystem()) {
-            case WINDOWS:
-                System.loadLibrary("lib/JIntellitype");
-                handler = new JIntellitypeHandler();
-                break;
-            case LINUX:
-                File curDir = new File(".");
-                System.load(curDir.getAbsolutePath() + "/lib/libJXGrabKey.so");
-                handler = new JXGrabKeyHandler();
-                break;
+        try {
+            switch (Globals.getOperatingSystem()) {
+                case WINDOWS:
+                    System.load(Globals.getResourceAsString("lib\\JIntellitype.dll"));
+                    handler = new JIntellitypeHandler();
+                    break;
+                case LINUX:
+
+                    System.load(Globals.getResourceAsString("/lib/libJXGrabKey.so"));
+                    handler = new JXGrabKeyHandler();
+                    break;
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+            handler = null;
         }
     }
 
@@ -51,7 +56,10 @@ public class Hotkeys {
     }
 
     public static void bindHotKey(int action) {
-        if (action == ACTION_LAUNCH) {            
+        if(handler==null){
+            return;
+        }
+        if (action == ACTION_LAUNCH) {
             if (Settings.getLaunchHotKey() != KeyEvent.VK_UNDEFINED) {
                 Logger.log(LogTypes.LOG, "Binding hotkey");
                 handler.registerHotkey(ACTION_LAUNCH, Settings.getLaunchHotKeyMask(), Settings.getLaunchHotKey());
@@ -72,11 +80,17 @@ public class Hotkeys {
     }
 
     public static void unbindHotKey(int action) {
+        if(handler==null){
+            return;
+        }
         Logger.log(LogTypes.LOG, "UnBinding hotkey");
         handler.unregisterHotkey(action);
     }
 
     public static void cleanUp() {
+        if(handler==null){
+            return;
+        }
         handler.cleanUp();
     }
 

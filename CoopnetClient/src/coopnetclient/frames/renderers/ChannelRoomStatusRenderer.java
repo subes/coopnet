@@ -19,6 +19,7 @@
 
 package coopnetclient.frames.renderers;
 
+import coopnetclient.Globals;
 import coopnetclient.frames.models.RoomTableModel;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -30,12 +31,12 @@ public class ChannelRoomStatusRenderer extends DefaultTableCellRenderer{
     /**
      * this renders the picture in the room list showing if its public or password protected
      */
-    private static ImageIcon normalOpenRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/roomtype/lobby.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH));
-    private static ImageIcon normalPasswordedRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/roomtype/lobby_private.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH));
-    private static ImageIcon normalOpenRoomLaunchedIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/roomtype/lobby_busy.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH));
-    private static ImageIcon normalPasswordedRoomLaucnhedIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/roomtype/lobby_private_busy.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH));
-    private static ImageIcon instantOpenRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/roomtype/instantlaunch.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH));
-    private static ImageIcon instantPasswordedRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/roomtype/instantlaunch_private.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+    private static ImageIcon normalOpenRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/roomtype/lobby.png")).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+    private static ImageIcon normalPasswordedRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/roomtype/lobby_private.png")).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+    private static ImageIcon normalOpenRoomLaunchedIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/roomtype/lobby_busy.png")).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+    private static ImageIcon normalPasswordedRoomLaucnhedIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/roomtype/lobby_private_busy.png")).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+    private static ImageIcon instantOpenRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/roomtype/instantlaunch.png")).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+    private static ImageIcon instantPasswordedRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/roomtype/instantlaunch_private.png")).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
     /** Creates a new instance of MyPasswordrenderer */
     public ChannelRoomStatusRenderer() {
     }

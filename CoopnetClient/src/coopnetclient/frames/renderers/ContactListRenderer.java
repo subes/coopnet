@@ -19,6 +19,7 @@
 
 package coopnetclient.frames.renderers;
 
+import coopnetclient.Globals;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.utils.Settings;
 import java.awt.Component;
@@ -36,12 +37,12 @@ import javax.swing.UIManager;
  */
 public class ContactListRenderer extends DefaultListCellRenderer {
 
-    public static ImageIcon chatIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/inchat.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon lobbyIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/inlobby.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon gameIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/ingame.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon pendingRequestIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/pending_request.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon pendingContactIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/pending_contact.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon offlineIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/offline.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon chatIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/inchat.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon lobbyIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/inlobby.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon gameIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/ingame.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon pendingRequestIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/pending_request.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon pendingContactIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/pending_contact.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon offlineIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/offline.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     private ContactListModel model;
 
     public ContactListRenderer(ContactListModel model) {

@@ -39,11 +39,15 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.SystemTrayPopup;
 import coopnetclient.frames.models.ContactListModel;
+import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Point;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -87,10 +91,16 @@ public class Globals {
     private static TrayIcon trayIcon = null;
     private static boolean trayAdded = false;
     private static String MyIP =null;
+    private static String currentPath ="";
     /*******************************************************************/
     
 
     static {
+        try {
+            currentPath = Client.getCurrentDirectory().getCanonicalPath();
+        } catch (Exception ex) {
+            Logger.log(ex);
+        }
         //Detect OS
         if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
             operatingSystem = OperatingSystems.WINDOWS;
@@ -110,7 +120,7 @@ public class Globals {
             tray = SystemTray.getSystemTray();
             ImageIcon normalIcon = new ImageIcon(
                     Toolkit.getDefaultToolkit().createImage(
-                    "data/icons/coopnet.png"));
+                    Globals.getResourceAsString("data/icons/coopnet.png")));
             trayIcon = new TrayIcon(normalIcon.getImage(), "Coopnet client", new SystemTrayPopup());
             trayIcon.setImageAutoSize(true);
             trayIcon.addMouseListener(
@@ -131,6 +141,29 @@ public class Globals {
                             }
                         }
                     });
+        }
+    }
+
+    public static File getResource(String name){
+        try{
+        String addedDivider = "";
+        if((!name.startsWith("/")) || (!name.startsWith("\\"))){
+            addedDivider = "/";
+        }
+        File absolute = new File(currentPath + addedDivider + name  );
+        return absolute.getCanonicalFile();
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+            return new File(name);
+        }
+    }
+
+    public static String getResourceAsString(String name){
+        try{
+            return getResource(name).getCanonicalPath();
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+            return name;
         }
     }
 

@@ -35,9 +35,9 @@ import javax.swing.JList;
  */
 public class ChannelStatusListCellRenderer extends DefaultListCellRenderer {
 
-    public static ImageIcon chatIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/inchat.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon lobbyIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/inlobby.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon gameIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/playerstatus/ingame.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon chatIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/inchat.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon lobbyIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/inlobby.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon gameIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/ingame.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     private ChannelStatusListModel model;
 
     public ChannelStatusListCellRenderer(ChannelStatusListModel model) {

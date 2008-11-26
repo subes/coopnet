@@ -46,7 +46,7 @@ public class FrameIconFlasher extends Thread {
     }
     
     private void changeIconAndTitle(String flashIcon, String flashTitle){
-        this.flashIcon = Toolkit.getDefaultToolkit().getImage(flashIcon);
+        this.flashIcon = Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString(flashIcon));
         this.flashTitle = flashTitle;
     }
     

@@ -30,16 +30,15 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
-import javax.swing.UIManager;
 
 /**
  * Renders the elements in the contact list
  */
 public class VoiceChatRenderer extends DefaultListCellRenderer {
 
-    public static ImageIcon emptyIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/voicechat/empty.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon talkingIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/voicechat/talking.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon mutedIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/voicechat/muted.png").getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon emptyIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/voicechat/empty.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon talkingIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/voicechat/talking.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon mutedIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/voicechat/muted.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     private VoiceChatChannelListModel model;
 
     public VoiceChatRenderer(VoiceChatChannelListModel model) {

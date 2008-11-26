@@ -18,6 +18,7 @@
  */
 package coopnetclient.frames.clientframe.quickpanel;
 
+import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
@@ -40,12 +41,12 @@ import javax.swing.JTextField;
 
 public class QuickPanel extends javax.swing.JPanel {
 
-    public static ImageIcon ContactListIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/contacts.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-    public static ImageIcon FavouritesIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/favourites.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-    public static ImageIcon ContactListIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/contacts_small.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-    public static ImageIcon FavouritesIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/favourites_small.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-    public static ImageIcon VoiceChatIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/voicechat.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-    public static ImageIcon VoiceChatIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/quicktab/voicechat_small.png"));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon ContactListIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/contacts.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon FavouritesIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/favourites.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon ContactListIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/contacts_small.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon FavouritesIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/favourites_small.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon VoiceChatIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/voicechat.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon VoiceChatIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/voicechat_small.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
     private static ContactListPopupMenu popup;
     ContactListModel model;
     VoiceChatPanel voiceChatPanel;

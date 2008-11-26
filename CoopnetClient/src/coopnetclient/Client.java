@@ -42,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Enumeration;
 import javax.swing.JOptionPane;
@@ -95,6 +96,11 @@ public class Client {
     public static void startup() {
 
         readServerAddress();
+        try {
+            System.out.println(getCurrentDirectory().toString());
+        } catch (URISyntaxException ex) {
+        }
+        System.out.println(Globals.getResourceAsString("data/icons/roomtype/lobby.png"));
 
         SwingUtilities.invokeLater(new Thread() {
 
@@ -105,6 +111,7 @@ public class Client {
                     GameDatabase.loadVersion();
                     GameDatabase.load("", GameDatabase.dataFilePath);
                     SwingUtilities.invokeLater(new Runnable() {
+
                         @Override
                         public void run() {
                             Globals.openClientFrame();
@@ -115,8 +122,8 @@ public class Client {
                             startConnection();
                             checkAndUpdateClient();
                         }
-                    });                                        
-                    checkAndUpdateGameData();                    
+                    });
+                    checkAndUpdateGameData();
                 } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }
@@ -160,7 +167,7 @@ public class Client {
 
     public static void quit(boolean override) {
         //hide the mainframe: trayicon enabled
-        if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled() && !Globals.getDebug() ) {
+        if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled() && !Globals.getDebug()) {
             Globals.getClientFrame().setVisible(false);
         } else {
             //trayicon disabled or overridden
@@ -181,7 +188,7 @@ public class Client {
         }
     }
 
-    public static void initInstantLaunch(final String game, final String mod, final String hostIP, final int maxPlayers, final boolean compatible, final boolean isHost,final String roomName,String password) {
+    public static void initInstantLaunch(final String game, final String mod, final String hostIP, final int maxPlayers, final boolean compatible, final boolean isHost, final String roomName, String password) {
         Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                 "Initializing game ...",
                 ChatStyles.SYSTEM, false);
@@ -191,11 +198,11 @@ public class Client {
         LaunchMethods method = GameDatabase.getLaunchMethod(game, mod);
 
         if (method == LaunchMethods.PARAMETER) {
-            launchInfo = new ParameterLaunchInfo(game, mod, hostIP, isHost, true,roomName,password);
+            launchInfo = new ParameterLaunchInfo(game, mod, hostIP, isHost, true, roomName, password);
         } else if (method == LaunchMethods.CHAT_ONLY) {
             throw new IllegalArgumentException("You can't launch from CHAT_ONLY channel! GameName: " + game + " ChildName: " + mod);
         } else {
-            launchInfo = new DirectPlayLaunchInfo(game, mod, hostIP, isHost, true, compatible,password);
+            launchInfo = new DirectPlayLaunchInfo(game, mod, hostIP, isHost, true, compatible, password);
         }
 
         Launcher.initialize(launchInfo);
@@ -269,8 +276,7 @@ public class Client {
                         return;
                     } catch (java.io.FileNotFoundException e) {
                         return;
-                    }
-                    catch(java.net.ConnectException e){
+                    } catch (java.net.ConnectException e) {
                         return;
                     }
                     int lastversion = 0;
@@ -315,6 +321,15 @@ public class Client {
         }.start();
     }
 
+    public static File getCurrentDirectory() throws URISyntaxException {
+        File location = new File(Client.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+        if(location.isFile()){
+            return location.getParentFile();
+        }else{
+            return location;
+        }
+    }
+
     public static void checkAndUpdateClient() {
         new Thread() {
 
@@ -341,7 +356,7 @@ public class Client {
                                         try {
                                             FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", "./CoopnetUpdater.jar");
                                             Runtime rt = Runtime.getRuntime();
-                                            rt.exec("java -jar CoopnetUpdater.jar");
+                                            rt.exec("java -jar CoopnetUpdater.jar",null,getCurrentDirectory()  );
                                             quit(true);
                                         } catch (Exception ex) {
                                             ex.printStackTrace();

@@ -19,6 +19,7 @@
 
 package coopnetclient.utils.filechooser;
 
+import coopnetclient.Globals;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -28,10 +29,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 class FileChooserTableCellRenderer extends DefaultTableCellRenderer {
 
-    private static ImageIcon dirIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/filechooser/folder.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-    private static ImageIcon dirIconHidden = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/filechooser/folder_hidden.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-    private static ImageIcon fileIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/filechooser/file.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-    private static ImageIcon fileIconHidden = new ImageIcon(Toolkit.getDefaultToolkit().getImage("data/icons/filechooser/file_hidden.png").getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+    private static ImageIcon dirIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filechooser/folder.png")).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+    private static ImageIcon dirIconHidden = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filechooser/folder_hidden.png")).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+    private static ImageIcon fileIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filechooser/file.png")).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+    private static ImageIcon fileIconHidden = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filechooser/file_hidden.png")).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
     
     public FileChooserTableCellRenderer() {
         super();
