@@ -20,6 +20,7 @@ package coopnetclient.frames.components;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
@@ -257,6 +258,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             }
         } else if (command.equals("Nudge")) {
             Protocol.nudge(subject);
+            Globals.getClientFrame().printToVisibleChatbox("System", "You have nudged "+subject +" !", ChatStyles.SYSTEM , false);
         } else if (command.equals("Invite to room")) {
             Protocol.sendInvite(subject);
         } else if (command.equals("Show profile")) {

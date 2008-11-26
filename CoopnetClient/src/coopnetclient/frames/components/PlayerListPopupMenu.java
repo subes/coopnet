@@ -20,6 +20,7 @@ package coopnetclient.frames.components;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.MuteBanList;
@@ -125,6 +126,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             Protocol.sendInvite(subject);
         } else if (command.equals("Nudge")) {
             Protocol.nudge(subject);
+            Globals.getClientFrame().printToVisibleChatbox("System", "You have nudged "+subject +" !", ChatStyles.SYSTEM , false);
         } else if (command.equals("Send file")) {
 
             new Thread() {

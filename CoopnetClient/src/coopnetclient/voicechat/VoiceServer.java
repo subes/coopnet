@@ -199,7 +199,9 @@ public class VoiceServer extends Thread {
         if (msg.commandType == MixedMessage.STRING_COMMAND && msg.valid) {
             VoiceCommandhandler.execute(key, msg.commandString);
         } else if (msg.commandType == MixedMessage.AUDIO_DATA_PACKAGE && msg.valid) {
-            sendtoChannel(msg, key);
+            if(playerByKey(key)!= null){
+                sendtoChannel(msg, key);
+            }
         }else{
             System.out.println("Bad packet");
         }

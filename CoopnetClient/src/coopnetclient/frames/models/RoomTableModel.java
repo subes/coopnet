@@ -97,7 +97,9 @@ public class RoomTableModel extends DefaultTableModel {
         }
 
         public void addPlayer(String name) {
-            playersInRoom.add(name);
+            if(!playersInRoom.contains(name)){
+                playersInRoom.add(name);
+            }
         }
 
         public boolean removePlayer(String name) {

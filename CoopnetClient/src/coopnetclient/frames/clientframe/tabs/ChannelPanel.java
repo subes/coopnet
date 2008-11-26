@@ -130,6 +130,7 @@ public class ChannelPanel extends javax.swing.JPanel {
             tp_chatOutput.setToolTipText("<html>Sleep mode: Channel chat is inactive!<br>Press refresh button or write a chat message to exit sleep mode.");
         } else {
             tp_chatOutput.setToolTipText(null);
+            refresh(null);
         }
     }
 
