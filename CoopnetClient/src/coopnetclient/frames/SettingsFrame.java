@@ -64,8 +64,14 @@ public class SettingsFrame extends javax.swing.JFrame {
         cmb_CaptureDevice.setModel(new DefaultComboBoxModel(VoicePlayback.getUsableCaptureDevices()));
         cmb_device_ports.setModel(new DefaultComboBoxModel(VoicePlayback.getAudioPorts((Info) cmb_CaptureDevice.getSelectedItem())));
         sl_sensitivity.setValue(128 - Settings.getVoiceSensitivity());
-        rbtn_voiceActivation.setSelected(Settings.isVoiceActivated());
-        rbtn_pushToTalk.setSelected(!Settings.isVoiceActivated());
+        if(Settings.isVoiceActivated()){
+            rbtn_voiceActivation.setSelected(true);
+            rbtn_voiceActivation.doClick();
+        }else{
+            rbtn_pushToTalk.setSelected(true);
+            rbtn_pushToTalk.doClick();
+        }
+        
         try {
             cmb_Playbackdevice.setSelectedItem(AudioSystem.getMixerInfo()[Settings.getPlaybackDeviceIndex()]);
             cmb_CaptureDevice.setSelectedItem(AudioSystem.getMixerInfo()[Settings.getCaptureDeviceIndex()]);
@@ -979,18 +985,23 @@ public class SettingsFrame extends javax.swing.JFrame {
         });
 
         lbl_sensitivity.setText("Sensitivity:  low");
+        lbl_sensitivity.setEnabled(false);
 
         sl_sensitivity.setMaximum(128);
         sl_sensitivity.setMinimum(50);
         sl_sensitivity.setValue(110);
+        sl_sensitivity.setEnabled(false);
 
+        tf_pushToTalkHotKey.setEnabled(false);
         tf_pushToTalkHotKey.setNextFocusableComponent(btn_apply);
 
         lbl_PushToTalkKeyLabel.setText("Key:");
+        lbl_PushToTalkKeyLabel.setEnabled(false);
 
         lbl_hotkeyNoteText1.setText("<html><table><tr><td><b>Note:</b></td><td>Click anywhere to cancel assignment,<br>press backspace to disable the hotkey.");
 
         lbl_highSensitivityLabel.setText("high");
+        lbl_highSensitivityLabel.setEnabled(false);
 
         javax.swing.GroupLayout pnl_VoiceChatLayout = new javax.swing.GroupLayout(pnl_VoiceChat);
         pnl_VoiceChat.setLayout(pnl_VoiceChatLayout);

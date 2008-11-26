@@ -11,7 +11,7 @@ public class VoiceCommandhandler {
     //executed by clients
 
     public static void execute2(final String command) {
-        //System.out.println("VOICECLIENT:" + command);
+        System.out.println("VOICECLIENT:" + command);
         if (command.startsWith("locked")) {
             Globals.getClientFrame().printToVisibleChatbox("System", "The VoiceChat server is locked! Noone is permitted to connect or change channel!", ChatStyles.SYSTEM , false);
             return;
@@ -44,7 +44,7 @@ public class VoiceCommandhandler {
 
     //used by server
     static void execute(SelectionKey key, String command) {
-        //System.out.println("VOICESERVER:" + command);
+        System.out.println("VOICESERVER:" + command);
         String thisplayer = VoiceServer.playerByKey(key);
         if (thisplayer == null) {
             if (command.startsWith("login")) {

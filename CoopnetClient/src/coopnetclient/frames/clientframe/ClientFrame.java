@@ -382,6 +382,7 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_start = new javax.swing.JMenuItem();
         mi_copyURL = new javax.swing.JMenuItem();
         mi_connect = new javax.swing.JMenuItem();
+        mi_lock = new javax.swing.JMenuItem();
         m_options = new javax.swing.JMenu();
         mi_clientSettings = new javax.swing.JMenuItem();
         mi_manageGames = new javax.swing.JMenuItem();
@@ -626,6 +627,15 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_voiceChat.add(mi_connect);
+
+        mi_lock.setText("Lock");
+        mi_lock.setToolTipText("Locking will prevent anyone from connecting or changing channels!");
+        mi_lock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_lockActionPerformed(evt);
+            }
+        });
+        m_voiceChat.add(mi_lock);
 
         mbar.add(m_voiceChat);
 
@@ -973,19 +983,44 @@ private void mi_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     Globals.openConnectToVoiceChatFrame();
 }//GEN-LAST:event_mi_connectActionPerformed
 
+private void mi_lockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_lockActionPerformed
+   if (mi_lock.getText().equals("Lock")) {
+        Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().setServerLockedStatus(true);
+        mi_lock.setText("UnLock");
+    } else if (mi_lock.getText().equals("UnLock")) {
+        Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().setServerLockedStatus(false);
+        mi_lock.setText("Lock");
+    }
+}//GEN-LAST:event_mi_lockActionPerformed
+
 public void updateVoiceServerStatus(boolean isrunning){
     if(isrunning){
         mi_start.setText("Stop local service");
+        mi_lock.setEnabled(true);
+        mi_connect.setEnabled(false);
     }else{
         mi_start.setText("Start local service");
+        mi_lock.setEnabled(false);
+        mi_connect.setEnabled(true);
+        mi_lock.setText("Lock");
     }
+}
+
+public void updateVoiceServerLockStatus(boolean isLocked){
+        if (isLocked) {
+            mi_lock.setText("UnLock");
+        } else {
+            mi_lock.setText("Lock");
+        }
 }
 
 public void updateVoiceClientStatus(boolean isrunning){
     if(isrunning){
         mi_start.setText("Disconnect");
+        mi_lock.setEnabled(false);
     }else{
         mi_start.setText("Start local service");
+        mi_lock.setEnabled(false);
     }
 }
 
@@ -1017,6 +1052,7 @@ private Color getHoverEffectColor(){
     private javax.swing.JMenuItem mi_copyURL;
     private javax.swing.JMenuItem mi_favourites;
     private javax.swing.JMenuItem mi_guide;
+    private javax.swing.JMenuItem mi_lock;
     private javax.swing.JMenuItem mi_makeHome;
     private javax.swing.JMenuItem mi_manageFavs;
     private javax.swing.JMenuItem mi_manageGames;

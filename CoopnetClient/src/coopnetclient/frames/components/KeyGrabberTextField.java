@@ -37,7 +37,11 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
     private int key = 0;
     private int modifiers = 0;
     private boolean singleKeyEnabled = false;
-    
+
+    public KeyGrabberTextField(){
+        super();
+    }
+
     public KeyGrabberTextField(int action,boolean enableSingleKey) {
         addFocusListener(this);
         addKeyListener(this);

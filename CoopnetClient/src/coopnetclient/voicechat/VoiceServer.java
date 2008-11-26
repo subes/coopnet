@@ -3,6 +3,7 @@ package coopnetclient.voicechat;
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.protocol.out.Protocol;
+import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -68,7 +69,7 @@ public class VoiceServer extends Thread {
 
     static void logIn(String userName, java.nio.channels.SelectionKey key) {
         Keys_to_Players.put(key, userName);
-        Players_to_Keys.put(userName, key);
+        Players_to_Keys.put(userName, key);        
         //send already connected players
         for (String player : players) {
             sendToKey(key,
@@ -77,7 +78,6 @@ public class VoiceServer extends Thread {
         players.add(userName);
         playersInChannels.get(0).add(key);
         sendtoall(new MixedMessage("addplayer" + Protocol.MESSAGE_DELIMITER + userName + Protocol.MESSAGE_DELIMITER + "0"));
-        doLogoff();
     }
 
     /**
@@ -98,7 +98,6 @@ public class VoiceServer extends Thread {
                 v.remove(key);
             }
             sendtoall(new MixedMessage("removeplayer" + Protocol.MESSAGE_DELIMITER + userName));
-            doLogoff();
         }
     }
 
@@ -121,7 +120,6 @@ public class VoiceServer extends Thread {
                     ((SocketChannel) client).write(byteBuffer);
                 }
             } catch (IOException ex) {
-                //logOff(key);
                 brokenClients.add(key);
             }
         }
@@ -187,6 +185,14 @@ public class VoiceServer extends Thread {
         this.port = port;
         serverrun = true;
         isLocked = false;
+        players.clear();
+        Keys_to_Players.clear();
+        Players_to_Keys.clear();
+        brokenClients.clear();
+        for (int i = 0; i < playersInChannels.size(); ++i) {
+            Vector<SelectionKey> v = playersInChannels.get(i);
+            v.clear();
+        }
     }
 
     public void shutdown() {
@@ -202,7 +208,11 @@ public class VoiceServer extends Thread {
     private void process(SelectionKey key, ByteBuffer buffer) {
         MixedMessage msg = new MixedMessage(buffer);
         if (msg.commandType == MixedMessage.STRING_COMMAND && msg.valid) {
-            VoiceCommandhandler.execute(key, msg.commandString);
+            try{
+                VoiceCommandhandler.execute(key, msg.commandString);
+            }catch(Exception e){
+                Logger.log(e) ;
+            }
         } else if (msg.commandType == MixedMessage.AUDIO_DATA_PACKAGE && msg.valid) {
             if (playerByKey(key) != null) {
                 sendtoChannel(msg, key);
@@ -292,7 +302,10 @@ public class VoiceServer extends Thread {
             }
             try {
                 // Waiting for events, this will sleep until something happens
-                selector.select();
+                int jobs = selector.selectNow();
+                if(jobs == 0){
+                    continue;
+                }
                 // Get keys
                 Set keys = selector.selectedKeys();
                 Iterator keyiterator = keys.iterator();

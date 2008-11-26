@@ -14,7 +14,7 @@ import javax.swing.SwingUtilities;
 
 class HandlerThread extends Thread {
 
-    boolean running = true;
+    boolean running = false;
     private SocketChannel socketChannel;
     public static final int WRITEBUFFER_SIZE = 1000;
     public static final int READBUFFER_SIZE = 1000;
@@ -105,7 +105,7 @@ class HandlerThread extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("client thread died");
+        System.out.println("voiceChatClient thread died");
     }
 
     private void process(ByteBuffer packet) {
