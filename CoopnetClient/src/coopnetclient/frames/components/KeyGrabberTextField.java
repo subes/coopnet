@@ -43,6 +43,7 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
     }
 
     public KeyGrabberTextField(int action,boolean enableSingleKey) {
+        super();
         addFocusListener(this);
         addKeyListener(this);
         singleKeyEnabled = enableSingleKey;
@@ -68,7 +69,13 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
             setText("Hit a combination of keys ...");
         }else{
             if(key != KeyEvent.VK_UNDEFINED){
-                setText(""+KeyEvent.getKeyModifiersText(modifiers)+"+"+KeyEvent.getKeyText(key));
+                String text = KeyEvent.getKeyModifiersText(modifiers);
+                if(text.length() > 0){
+                    text += "+";
+                }
+                text += KeyEvent.getKeyText(key);
+                
+                setText(text);
             }else{
                 setText("Disabled");
             }
@@ -127,7 +134,7 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
                     && e.getKeyCode() != KeyEvent.VK_META
                     && e.getKeyCode() != KeyEvent.VK_ALT
                     && e.getKeyCode() != KeyEvent.VK_ALT_GRAPH
-                    && e.getModifiers() != 0){
+                    && (e.getModifiers() != 0 || singleKeyEnabled)){
                 key = e.getKeyCode();
                 modifiers = e.getModifiers();
                 setFocusable(false);
