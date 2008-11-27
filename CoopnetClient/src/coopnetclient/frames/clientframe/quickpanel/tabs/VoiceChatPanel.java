@@ -67,7 +67,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
                             btn_lock.setEnabled(true);
                             Globals.getClientFrame().updateVoiceServerStatus(true);
                         }
-                    });            
+                    });
         }
     }
 
@@ -81,7 +81,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
             server.shutdown();
             server = null;
             isClientConnected = false;
-            Hotkeys.unbindHotKey(Hotkeys.PUSH_TO_TALK);            
+            Hotkeys.unbindHotKey(Hotkeys.PUSH_TO_TALK);
             SwingUtilities.invokeLater(
                     new Runnable() {
 
@@ -93,6 +93,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
                             Globals.getClientFrame().updateVoiceServerStatus(false);
                         }
                     });
+            Globals.getClientFrame().printToVisibleChatbox("System", "VoiceChat service stopped!", ChatStyles.SYSTEM, false);
         }
 
         btn_connect.setText("Start service");
@@ -104,9 +105,9 @@ public class VoiceChatPanel extends javax.swing.JPanel {
     public void setServerLockedStatus(boolean isLocked) {
         if (server != null) {
             VoiceServer.setLocked(isLocked);
-            if(isLocked){
+            if (isLocked) {
                 btn_lock.setText("UnLock");
-            }else{
+            } else {
                 btn_lock.setText("Lock");
             }
             Globals.getClientFrame().updateVoiceServerLockStatus(isLocked);
@@ -137,7 +138,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
             model.clear();
             isClientConnected = false;
             Hotkeys.unbindHotKey(Hotkeys.PUSH_TO_TALK);
-            VoicePlayback.cleanUp();            
+            VoicePlayback.cleanUp();
             SwingUtilities.invokeLater(
                     new Runnable() {
 
@@ -148,6 +149,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
                             Globals.getClientFrame().updateVoiceClientStatus(false);
                         }
                     });
+            Globals.getClientFrame().printToVisibleChatbox("System", "VoiceChat client disconnected!", ChatStyles.SYSTEM, false);
         }
     }
 
@@ -168,7 +170,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
                             Globals.getClientFrame().updateVoiceClientStatus(true);
                         }
                     });
-            isClientConnected = false;            
+            isClientConnected = false;
             Globals.getClientFrame().printToVisibleChatbox("System", "VoiceClient connected! For controlls open QuickTab!", ChatStyles.SYSTEM, false);
         }
     }
@@ -190,7 +192,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
                             btn_lock.setVisible(true);
                             btn_lock.setEnabled(false);
                             server.shutdown();
-                            server = null;                            
+                            server = null;
                         }
                     }
                 });
@@ -199,7 +201,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
             client = null;
             isClientConnected = false;
             Hotkeys.unbindHotKey(Hotkeys.PUSH_TO_TALK);
-        }        
+        }
         model.clear();
         VoicePlayback.cleanUp();
     }

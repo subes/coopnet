@@ -40,7 +40,7 @@ public class SoundPlayer {
     
     
     public static void playNudgeSound() {
-        playSoundFile("data/sounds/nudge.wav", true);
+        playSoundFile(Globals.getResourceAsString("data/sounds/nudge.wav"), true);
     }
 
     public static void playLaunchSound() {
@@ -52,7 +52,7 @@ public class SoundPlayer {
             }
         }
         
-        playSoundFile("data/sounds/launch.wav", Globals.getOperatingSystem() == OperatingSystems.WINDOWS); //Don't fork a thread here
+        playSoundFile(Globals.getResourceAsString("data/sounds/launch.wav"), Globals.getOperatingSystem() == OperatingSystems.WINDOWS); //Don't fork a thread here
         
         if(Settings.getSoundEnabled() && Globals.getOperatingSystem() != OperatingSystems.WINDOWS)
         {        
@@ -71,19 +71,19 @@ public class SoundPlayer {
     }
     
     public static void playReadySound(){
-        playSoundFile("data/sounds/ready.wav", true);
+        playSoundFile(Globals.getResourceAsString("data/sounds/ready.wav"), true);
     }
     
     public static void playUnreadySound(){
-        playSoundFile("data/sounds/unready.wav", true);
+        playSoundFile(Globals.getResourceAsString("data/sounds/unready.wav"), true);
     }
     
     public static void playLoginSound(){
-        playSoundFile("data/sounds/login.wav", true);
+        playSoundFile(Globals.getResourceAsString("data/sounds/login.wav"), true);
     }
     
     public static void playLogoutSound(){
-        playSoundFile("data/sounds/logout.wav", true);
+        playSoundFile(Globals.getResourceAsString("data/sounds/logout.wav"), true);
     }
 
     private static void playSoundFile(final String file, boolean forkThread) {

@@ -34,8 +34,8 @@ import java.util.HashMap;
 
 public class GameDatabase {
 
-    public static final String dataFilePath = "data/gamedata.xml";
-    private static final String localPathsFilePath = "data/localpaths";
+    public static final String dataFilePath = Globals.getResourceAsString("data/gamedata.xml");
+    private static final String localPathsFilePath = Globals.getResourceAsString("data/localpaths");
     private static boolean registryOK = false;
     protected static HashMap<String, String> IDtoGameName;     // key is the ID    
     protected static HashMap<String, LaunchMethods> IDtoLaunchMethod;     // key is the ID    
@@ -86,8 +86,6 @@ public class GameDatabase {
         IDtoGameName = new HashMap<String, String>();
         isExperimental = new ArrayList<String>();
         gameData = new ArrayList<Game>();
-        IDtoGameName.put("WLC", "Welcome");
-        IDtoGameName.put("TST", "GameTest channel");
     }
 
     protected static int indexOfGame(String gamename) {

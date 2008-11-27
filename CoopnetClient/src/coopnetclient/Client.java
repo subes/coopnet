@@ -95,13 +95,7 @@ public class Client {
      */
     public static void startup() {
 
-        readServerAddress();
-        try {
-            System.out.println(getCurrentDirectory().toString());
-        } catch (URISyntaxException ex) {
-        }
-        System.out.println(Globals.getResourceAsString("data/icons/roomtype/lobby.png"));
-
+        readServerAddress();        
         SwingUtilities.invokeLater(new Thread() {
 
             @Override
@@ -323,10 +317,10 @@ public class Client {
 
     public static File getCurrentDirectory() throws URISyntaxException {
         File location = new File(Client.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-        if(location.isFile()){
+        if (location.isFile()) {
             return location.getParentFile();
-        }else{
-            return location;
+        } else {
+            return location.getParentFile().getParentFile();//loc is build/classes
         }
     }
 
@@ -354,7 +348,7 @@ public class Client {
                                             "Client outdated", JOptionPane.YES_NO_OPTION);
                                     if (n == JOptionPane.YES_OPTION) {
                                         try {
-                                            FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", "./CoopnetUpdater.jar");
+                                            FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", Globals.getResourceAsString("CoopnetUpdater.jar"));
                                             Runtime rt = Runtime.getRuntime();
                                             rt.exec("java -jar CoopnetUpdater.jar",null,getCurrentDirectory()  );
                                             quit(true);
