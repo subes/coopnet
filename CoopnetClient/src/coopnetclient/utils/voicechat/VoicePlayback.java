@@ -1,4 +1,4 @@
-package coopnetclient.voicechat;
+package coopnetclient.utils.voicechat;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;

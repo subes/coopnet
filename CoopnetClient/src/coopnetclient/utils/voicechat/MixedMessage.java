@@ -1,4 +1,4 @@
-package coopnetclient.voicechat;
+package coopnetclient.utils.voicechat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -35,7 +35,7 @@ import javax.swing.JOptionPane;
 import coopnetclient.frames.listeners.ColorChooserButtonActionListener;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.Verification;
-import coopnetclient.voicechat.VoicePlayback;
+import coopnetclient.utils.voicechat.VoicePlayback;
 import java.awt.Component;
 import java.awt.SystemTray;
 import java.awt.event.MouseListener;

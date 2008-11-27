@@ -23,7 +23,7 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
-import coopnetclient.voicechat.VoicePlayback;
+import coopnetclient.utils.voicechat.VoicePlayback;
 import java.awt.event.KeyEvent;
 
 public class Hotkeys {
