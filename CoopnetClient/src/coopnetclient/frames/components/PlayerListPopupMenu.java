@@ -24,6 +24,7 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.MuteBanList;
+import coopnetclient.utils.Settings;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -40,7 +41,8 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
     public static final int GENERAL_MODE = 1;
     private JList source;
     private JMenuItem playerName;
-    private JMenuItem invite;
+    private JMenuItem roomInvite;
+    private JMenuItem talkInvite;
     private JMenuItem mute_UnMute;
     private JMenuItem ban_UnBan;
     private JMenuItem addContact;
@@ -60,8 +62,10 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
         this.add(new JSeparator());
         this.add(makeMenuItem("Nudge"));
-        invite = makeMenuItem("Invite to room");
-        this.add(invite);
+        roomInvite = makeMenuItem("Invite to room");
+        talkInvite = makeMenuItem("Invite to voiceChat");
+        this.add(roomInvite);
+        this.add(talkInvite);
         this.add(makeMenuItem("Whisper"));
         this.add(makeMenuItem("Send file"));
         addContact = makeMenuItem("Add to contacts");
@@ -123,7 +127,9 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         } else if (command.equals("Show profile")) {
             Protocol.requestProfile(subject);
         } else if (command.equals("Invite to room")) {
-            Protocol.sendInvite(subject);
+            Protocol.sendRoomInvite(subject);
+        } else if (command.equals("Invite to voiceChat")) {
+            Protocol.privateChat(subject, "Lets talk! voice://" + Globals.getMyIP() + ":" + Settings.getVoiceChatPort());
         } else if (command.equals("Nudge")) {
             Protocol.nudge(subject);
             Globals.getClientFrame().printToVisibleChatbox("System", "You have nudged "+subject +" !", ChatStyles.SYSTEM , false);
@@ -170,10 +176,16 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             addContact.setVisible(true);
         }
         if (TabOrganizer.getRoomPanel() == null) {
-            invite.setVisible(false);
+            roomInvite.setVisible(false);
         } else {
-            invite.setVisible(true);
-        }        
+            roomInvite.setVisible(true);
+        }
+        
+        if(Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().isServerRunning()){
+            talkInvite.setVisible(true);
+        }else{
+            talkInvite.setVisible(false);
+        }
         
         if (MuteBanList.getMuteBanStatus(playerName.getText()) == null) {
             mute_UnMute.setText("Mute");

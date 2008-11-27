@@ -51,6 +51,10 @@ public class VoiceChatPanel extends javax.swing.JPanel {
         return model;
     }
 
+    public boolean isServerRunning() {
+        return (server != null);
+    }
+
     public void startServer() {
         if (server == null && client == null) {
             server = new VoiceServer(Settings.getVoiceChatPort());

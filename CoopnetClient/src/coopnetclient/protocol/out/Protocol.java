@@ -212,7 +212,7 @@ public class Protocol {
         new Message(ClientProtocolCommands.KICK, playerName);
     }
 
-    public static void sendInvite(String subject) {
+    public static void sendRoomInvite(String subject) {
         new Message(ClientProtocolCommands.INVITE_USER, subject);
     }
 

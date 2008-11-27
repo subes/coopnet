@@ -102,7 +102,7 @@ public class ChatInputKeyListener implements KeyListener {
                 
                 if(command.startsWith("/invite ")){
                     String name = command.substring(8);
-                    Protocol.sendInvite(name);  
+                    Protocol.sendRoomInvite(name);
                     source.setText("");
                     return;
                 }

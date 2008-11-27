@@ -56,7 +56,8 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem showProfile;
     private JMenuItem whisper;
     private JMenuItem sendFile;
-    private JMenuItem invite;
+    private JMenuItem roomInvite;
+    private JMenuItem talkInvite;
     private JMenuItem refresh;
     private JMenu moveto;
     private JSeparator sep_group;
@@ -91,7 +92,8 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         sep_group = new JSeparator();
         showOffline = new JCheckBoxMenuItem("Show offline contacts", Settings.getShowOfflineContacts());
         showOffline.addActionListener(this);
-        invite = makeMenuItem("Invite to room");
+        roomInvite = makeMenuItem("Invite to room");
+        talkInvite = makeMenuItem("Invite to voiceChat");
         mute_UnMute = makeMenuItem("Mute");
         ban_UnBan = makeMenuItem("Ban");
 
@@ -106,7 +108,8 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(nudge);
         this.add(whisper);
         this.add(sendFile);
-        this.add(invite);
+        this.add(roomInvite);
+        this.add(talkInvite);
         this.add(mute_UnMute);
         this.add(ban_UnBan);
         this.add(showProfile);
@@ -161,9 +164,14 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         showProfile.setVisible(isVisible);
         
         if (TabOrganizer.getRoomPanel() == null) {
-            invite.setVisible(false);
+            roomInvite.setVisible(false);
         } else {
-            invite.setVisible(isVisible);
+            roomInvite.setVisible(isVisible);
+        }
+        if(Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().isServerRunning()){
+            talkInvite.setVisible(isVisible);
+        }else{
+            talkInvite.setVisible(false);
         }
         sep_group.setVisible(isVisible);
     }
@@ -260,7 +268,9 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             Protocol.nudge(subject);
             Globals.getClientFrame().printToVisibleChatbox("System", "You have nudged "+subject +" !", ChatStyles.SYSTEM , false);
         } else if (command.equals("Invite to room")) {
-            Protocol.sendInvite(subject);
+            Protocol.sendRoomInvite(subject);
+        } else if (command.equals("Invite to voiceChat")) {
+            Protocol.privateChat(subject, "Lets talk! voice://" + Globals.getMyIP() + ":" + Settings.getVoiceChatPort());
         } else if (command.equals("Show profile")) {
             Protocol.requestProfile(subject);
         } else if (command.equals("Ban")) {
