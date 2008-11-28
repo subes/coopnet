@@ -89,10 +89,10 @@ public class Globals {
     private static SystemTray tray = null;
     private static TrayIcon trayIcon = null;
     private static boolean trayAdded = false;
-    private static String MyIP =null;
-    private static String currentPath ="";
+    private static String MyIP = null;
+    private static String currentPath = "";
     /*******************************************************************/
-    
+
 
     static {
         try {
@@ -143,24 +143,24 @@ public class Globals {
         }
     }
 
-    public static File getResource(String name){
-        try{
-        String addedDivider = "";
-        if((!name.startsWith("/")) || (!name.startsWith("\\"))){
-            addedDivider = "/";
-        }
-        File absolute = new File(currentPath + addedDivider + name  );
-        return absolute.getCanonicalFile();
-        }catch(IOException ioe){
+    public static File getResource(String name) {
+        try {
+            String addedDivider = "";
+            if ((!name.startsWith("/")) || (!name.startsWith("\\"))) {
+                addedDivider = "/";
+            }
+            File absolute = new File(currentPath + addedDivider + name);
+            return absolute.getCanonicalFile();
+        } catch (IOException ioe) {
             ioe.printStackTrace();
             return new File(name);
         }
     }
 
-    public static String getResourceAsString(String name){
-        try{
+    public static String getResourceAsString(String name) {
+        try {
             return getResource(name).getCanonicalPath();
-        }catch(IOException ioe){
+        } catch (IOException ioe) {
             ioe.printStackTrace();
             return name;
         }
@@ -168,7 +168,7 @@ public class Globals {
 
     public static void addTrayIcon() {
         try {
-            if (SystemTray.isSupported() && !trayAdded &&!debug) {
+            if (SystemTray.isSupported() && !trayAdded && !debug) {
                 tray.add(trayIcon);
                 trayAdded = true;
             }
@@ -211,9 +211,8 @@ public class Globals {
     }
 
     public static void setMyIP(String IP) {
-         MyIP= IP;
+        MyIP = IP;
     }
-
 
     public static void recolorFrames() {
         Colorizer.colorize(clientFrame);
@@ -453,22 +452,36 @@ public class Globals {
         }
     }
 
-    public static void openGameSettingsFrame(String gameName, String modName) {
-        if (gameSettingsFrame != null) {
-            gameSettingsFrame.setVisible(true);
-        } else {
-            gameSettingsFrame = new GameSettingsFrame(gameName, modName);
-            setupFrame(gameSettingsFrame);
-        }
+    public static void openGameSettingsFrame(final String gameName, final String modName) {
+        SwingUtilities.invokeLater(
+                new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (gameSettingsFrame != null) {
+                            gameSettingsFrame.setVisible(true);
+                        } else {
+                            gameSettingsFrame = new GameSettingsFrame(gameName, modName);
+                            setupFrame(gameSettingsFrame);
+                        }
+                    }
+                });
     }
 
-    public static void openGameSettingsFrame(String gameName, String modName, String roomName, String password, int modIndex, int maxPlayers, boolean compatible) {
-        if (gameSettingsFrame != null) {
-            gameSettingsFrame.setVisible(true);
-        } else {
-            gameSettingsFrame = new GameSettingsFrame(gameName, modName, roomName, password, modIndex, maxPlayers, compatible);
-            setupFrame(gameSettingsFrame);
-        }
+    public static void openGameSettingsFrame(final String gameName,final String modName,final String roomName,final String password,final int modIndex,final int maxPlayers,final boolean compatible) {
+        SwingUtilities.invokeLater(
+                new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (gameSettingsFrame != null) {
+                            gameSettingsFrame.setVisible(true);
+                        } else {
+                            gameSettingsFrame = new GameSettingsFrame(gameName, modName, roomName, password, modIndex, maxPlayers, compatible);
+                            setupFrame(gameSettingsFrame);
+                        }
+                    }
+                });
     }
 
     public static void closeGameSettingsFrame() {
