@@ -443,6 +443,7 @@ public class ChannelPanel extends javax.swing.JPanel {
         tbl_roomList.setMaximumSize(null);
         tbl_roomList.setMinimumSize(null);
         tbl_roomList.setPreferredSize(null);
+        tbl_roomList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_roomList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_roomListMouseClicked(evt);
