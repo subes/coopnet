@@ -1,14 +1,15 @@
 <?xml version="1.0"?>
-<!--Version 21 -->
+<!--Version 22 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
-<!ELEMENT GameData (GameName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
+<!ELEMENT GameData (GameName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?,(NoSpaces)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
 <!ELEMENT GameName (CDATA)>
 <!ELEMENT WelcomeMessage (CDATA)>
 <!ELEMENT ChannelID (CDATA)>
 <!ELEMENT LaunchMethod (CDATA)>
 <!ELEMENT InstantLaunch (EMPTY)>
 <!ELEMENT Beta (EMPTY)>
+<!ELEMENT NoSpaces (EMPTY)>
 <!ELEMENT RegistryEntry (RegKey*)>
 <!ELEMENT RegKey (CDATA)>
 <!ELEMENT Property (PropertyName,PropertyValue)>
@@ -2161,6 +2162,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     <GameData>
         <GameName>Unreal Tournament</GameName>
         <InstantLaunch/>
+        <NoSpaces/>
         <ChannelID>UT1</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <Property>
@@ -2242,6 +2244,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     <GameData>
         <GameName>Unreal Tournament 2004</GameName>
         <InstantLaunch/>
+        <NoSpaces/>
         <ChannelID>UT4</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <Property>
