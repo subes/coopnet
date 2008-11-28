@@ -47,6 +47,9 @@ public class Game {
 
     @Override
     public boolean equals(Object o) {
+        if(!(o instanceof Game)){
+            return false;
+        }
         return ((Game) o).name.equals(this.name);
     }
 
@@ -167,15 +170,6 @@ public class Game {
         }        
     }
     
-    public void setGameSetting(String settingName,String settingValue,boolean broadcast){
-        for(GameSetting gs :settings){
-            if(gs.getName().equals(settingName)){
-                gs.setValue(settingValue,broadcast);
-                return;
-            }
-        }
-    }
-    
     public void setGameSettings(String modname ,ArrayList<GameSetting> settings) {
         if(modname == null || modname.length()==0){
             this.settings = settings;  
@@ -184,7 +178,15 @@ public class Game {
             mods.get(indexOfMod(modname)).settings = settings;
         }        
     }
-    
+
+    public String getPK3FindPath(String modname){
+        return getFieldValue("PK3FINDPATH", modname);
+    }
+
+    public String getMapLoaderType(String modname){
+        return getFieldValue("MAPLOADERTYPE", modname);
+    }
+
     public boolean getNoSpacesFlag(String modname) {
         String val = getFieldValue("NOSPACES", modname);
         if(val == null){
@@ -201,42 +203,22 @@ public class Game {
         return getFieldValue("MAPPATH", modname);
     }
 
-    public void setMapPath(String value) {
-        fields.put("MAPPATH", value);
-    }
-
     public String getMapExtension(String modname) {
         return getFieldValue("MAPEXT", modname);
-    }
-
-    public void setMapExtension(String value) {
-        fields.put("MAPEXT", value);
     }
 
     public String getRelativeExePath(String modname) {
         return getFieldValue("EXE", modname);
     }
 
-    public void setRelativeExePath(String value) {
-        fields.put("EXE", value);
-    }
-
     public String getHostPattern(String modname) {
         return getFieldValue("LAUNCHPATTERN", modname);
-    }
-
-    public void setHostPattern(String value) {
-        fields.put("LAUNCHPATTERN", value);
     }
 
     public String getJoinPattern(String modname) {
         return getFieldValue("JOINPATTERN", modname);
     }
 
-    public void setJoinPattern(String value) {
-        fields.put("JOINPATTERN", value);
-    }
-    
     public String getHostPasswordPattern(String modname) {
         return getFieldValue("HOSTPASSWORDPATTERN", modname);
     }
@@ -245,14 +227,6 @@ public class Game {
         return getFieldValue("JOINPASSWORDPATTERN", modname);
     }
     
-    public void setHostPasswordPattern(String value) {
-        fields.put("HOSTPASSWORDPATTERN", value);
-    }
-
-    public void setJoinPasswordPattern(String value) {
-        fields.put("JOINPASSWORDPATTERN", value);
-    }
-
     public ArrayList<String> getRegEntries(String modname) {
         return registryKeys;
     }
@@ -273,10 +247,6 @@ public class Game {
         return getFieldValue("GUID", modname);
     }
 
-    public void setGuid(String value) {
-        fields.put("GUID", value);
-    }
-    
     public String getWelcomeMessage() {
         return welcomeMessage;
     }

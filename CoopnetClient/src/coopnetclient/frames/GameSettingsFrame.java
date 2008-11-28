@@ -16,12 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames;
 
 import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
+import coopnetclient.enums.MapLoaderTypes;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -31,8 +31,14 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -81,10 +87,15 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         if (GameDatabase.getMapExtension(gamename, modname) != null) {
             lbl_map.setVisible(true);
             cb_map.setVisible(true);
-            cb_map.setModel(new DefaultComboBoxModel(loadMaps()));
-            cb_map.setSelectedItem(TempGameSettings.getMap());            
+            if(GameDatabase.getMapLoaderType(gamename, modname) == MapLoaderTypes.FILE ){
+                cb_map.setModel(new DefaultComboBoxModel(loadFileMaps()));
+            }else if(GameDatabase.getMapLoaderType(gamename, modname) == MapLoaderTypes.PK3 ){
+                cb_map.setModel(new DefaultComboBoxModel(loadPK3Maps()));
+            }
             
-            if(cb_map.getSelectedItem() == null && cb_map.getItemCount() > 0){
+            cb_map.setSelectedItem(TempGameSettings.getMap());
+
+            if (cb_map.getSelectedItem() == null && cb_map.getItemCount() > 0) {
                 cb_map.setSelectedIndex(0);
             }
         }
@@ -125,24 +136,24 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                 case TEXT: {
                     input = new JTextField(gs.getDefaultValue());
                     String currentValue = TempGameSettings.getGameSetting(gs.getName());
-                    if( currentValue != null && currentValue.length()>0 ){
-                        ((JTextField)input).setText(currentValue);
+                    if (currentValue != null && currentValue.length() > 0) {
+                        ((JTextField) input).setText(currentValue);
                     }
                     break;
                 }
                 case NUMBER: {
                     int def = 0;
-                    def= Integer.valueOf((gs.getDefaultValue()==null||gs.getDefaultValue().length() == 0)?"0":gs.getDefaultValue());
+                    def = Integer.valueOf((gs.getDefaultValue() == null || gs.getDefaultValue().length() == 0) ? "0" : gs.getDefaultValue());
                     int min = Integer.valueOf(gs.getMinValue());
                     int max = Integer.valueOf(gs.getMaxValue());
-                    if(min <= max && min <= def && def <= max){
+                    if (min <= max && min <= def && def <= max) {
                         input = new JSpinner(new SpinnerNumberModel(def, min, max, 1));
-                    }else{
-                         input = new JSpinner();
+                    } else {
+                        input = new JSpinner();
                     }
                     String currentValue = TempGameSettings.getGameSetting(gs.getName());
-                    if( currentValue != null && currentValue.length()>0 ){
-                        ((JSpinner)input).setValue(Integer.valueOf(currentValue));
+                    if (currentValue != null && currentValue.length() > 0) {
+                        ((JSpinner) input).setValue(Integer.valueOf(currentValue));
                     }
                     break;
                 }
@@ -156,8 +167,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                         }
                     }
                     String currentValue = TempGameSettings.getGameSetting(gs.getName());
-                    if( currentValue != null && currentValue.length()>0 ){
-                        ((JComboBox)input).setSelectedItem(currentValue);
+                    if (currentValue != null && currentValue.length() > 0) {
+                        ((JComboBox) input).setSelectedItem(currentValue);
                     }
                     break;
                 }
@@ -173,7 +184,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         }
     }
 
-    private String[] loadMaps() {
+    private String[] loadFileMaps() {
         String extension = GameDatabase.getMapExtension(gamename, modname);
         String path = GameDatabase.getFullMapPath(gamename, modname);
         System.out.println("loading maps from: " + path);
@@ -191,7 +202,55 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             if (tmp.endsWith(extension));
             names.add(tmp);
         }
-        return names.toArray(new String[0]);
+        return names.toArray(new String[names.size()]);
+    }
+
+    private ArrayList<File> getPK3Files(ArrayList<File> list, File baseDir) {
+        for (File f : baseDir.listFiles()) {
+            if (f.isDirectory()) {
+                getPK3Files(list, f);
+            } else {
+                if (f.getName().endsWith("pk3") || f.getName().endsWith("pk4")) {
+                    list.add(f);
+                }
+            }
+        }
+        return list;
+    }
+
+    private String getMapNameFromEntry(String entry){
+        Pattern pattern = Pattern.compile(GameDatabase.getMapPath(gamename, modname).replace('\\', '/')+"([\\p{Alnum}\\p{Punct}&&[^/\\\\]]+)\\."+GameDatabase.getMapExtension(gamename, modname));
+        Matcher matcher = pattern.matcher(entry);
+        if(matcher.matches()){
+            return matcher.group(1);
+        }
+        return null;
+    }
+
+    private String[] loadPK3Maps() {
+        String pk3FindPath = GameDatabase.getInstallPath(gamename) + GameDatabase.getPK3FindPath(gamename,modname);
+        Vector<String> names = new Vector<String>();
+        ArrayList<File> pk3Files = new ArrayList<File>();
+        getPK3Files(pk3Files, new File(pk3FindPath));
+        for (File pk3File : pk3Files) {
+            try {
+                // Open the ZIP file
+                ZipFile zf = new ZipFile(pk3File);
+                // Enumerate each entry
+                for (Enumeration entries = zf.entries(); entries.hasMoreElements();) {
+                    // Get the entry name
+                    String zipEntryName = ((ZipEntry) entries.nextElement()).getName();
+                    //if is a map, add to mapnames
+                    String mapFileName = getMapNameFromEntry(zipEntryName);
+                    if(mapFileName!=null ){
+                        names.add(mapFileName);
+                    }
+                }
+            } catch (IOException e) {
+            }
+        }
+
+        return names.toArray(new String[names.size()]);
     }
 
     /** This method is called from within the constructor to
@@ -272,25 +331,23 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     try {
         //if somethings unselected an exception is thrown        
         if (cb_map.isVisible()) {
-            if(cb_map.getSelectedItem() != null){
+            if (cb_map.getSelectedItem() != null) {
                 TempGameSettings.setMap(cb_map.getSelectedItem().toString());
             }
         }
         //save settings
-        String name,value = "save-error";
-        for(int i = 0;i < labels.size();i++){
+        String name, value = "save-error";
+        for (int i = 0; i < labels.size(); i++) {
             name = labels.get(i).getText();
             Component input = inputfields.get(i);
-            if(input instanceof JTextField){
-                value = ((JTextField)input).getText();
-            }else
-            if(input instanceof JSpinner){
-                value = ((JSpinner)input).getValue()+"";
-            }else
-            if(input instanceof JComboBox){
-                value =((JComboBox)input).getSelectedItem().toString();
+            if (input instanceof JTextField) {
+                value = ((JTextField) input).getText();
+            } else if (input instanceof JSpinner) {
+                value = ((JSpinner) input).getValue() + "";
+            } else if (input instanceof JComboBox) {
+                value = ((JComboBox) input).getSelectedItem().toString();
             }
-            TempGameSettings.setGameSetting(name, value,true);
+            TempGameSettings.setGameSetting(name, value, true);
         }
 
         if (!isInstant) {
@@ -304,6 +361,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         Protocol.createRoom(gamename, roomname, modindex, password, maxPlayers, compatible, true);
         Globals.closeRoomCreationFrame();
         new Thread() {
+
             @Override
             public void run() {
                 try {

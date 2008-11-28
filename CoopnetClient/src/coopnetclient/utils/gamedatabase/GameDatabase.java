@@ -22,6 +22,7 @@ import coopnetclient.*;
 import com.ice.jni.registry.Registry;
 import com.ice.jni.registry.RegistryKey;
 import coopnetclient.enums.LaunchMethods;
+import coopnetclient.enums.MapLoaderTypes;
 import coopnetclient.enums.OperatingSystems;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -165,40 +166,24 @@ public class GameDatabase {
         return null;
     }
 
-    public static void setNoSpacesFlag(String gamename, boolean flag) {
-        gameData.get(indexOfGame(gamename)).setNoSpacesFlag(flag);
-    }
-
     public static boolean getNoSpacesFlag(String gamename, String modname) {
         return gameData.get(indexOfGame(gamename)).getNoSpacesFlag(modname);
-    }
-
-    public static void setGameSettings(String gamename, String modname, ArrayList<GameSetting> settings) {
-        gameData.get(indexOfGame(gamename)).setGameSettings(modname, settings);
     }
 
     public static ArrayList<GameSetting> getGameSettings(String gamename, String modname) {
         return gameData.get(indexOfGame(gamename)).getGameSettings(modname);
     }
-
-    public static void setMapPath(String gamename, String path) {
-        gameData.get(indexOfGame(gamename)).setMapPath(path);
-    }
-
+    
     public static String getMapPath(String gamename, String modname) {
         return gameData.get(indexOfGame(gamename)).getMapPath(modname);
     }
 
-    public static void setMapExtension(String gamename, String ext) {
-        gameData.get(indexOfGame(gamename)).setMapExtension(ext);
+    public static MapLoaderTypes getMapLoaderType(String gamename, String modname) {
+        return MapLoaderTypes.valueOf(gameData.get(indexOfGame(gamename)).getMapLoaderType(modname));
     }
 
     public static String getMapExtension(String gamename, String modname) {
         return gameData.get(indexOfGame(gamename)).getMapExtension(modname);
-    }
-
-    public static void setRelativeExePath(String gamename, String path) {
-        gameData.get(indexOfGame(gamename)).setRelativeExePath(path);
     }
 
     public static String getRelativeExePath(String gamename, String modname) {
@@ -245,18 +230,10 @@ public class GameDatabase {
         return IDtoGameName.values().toArray(new String[0]);
     }
 
-    public static void setHostPattern(String gamename, String pattern) {
-        gameData.get(indexOfGame(gamename)).setHostPattern(pattern);
-    }
-
     public static String getHostPattern(String gamename, String modname) {
         return gameData.get(indexOfGame(gamename)).getHostPattern(modname);
     }
 
-    public static void setJoinPattern(String gamename, String pattern) {
-        gameData.get(indexOfGame(gamename)).setJoinPattern(pattern);
-    }
-    
     public static String  getHostPasswordPattern(String gamename, String pattern) {
         return gameData.get(indexOfGame(gamename)).getHostPasswordPattern(pattern);
     }
@@ -273,8 +250,8 @@ public class GameDatabase {
         return gameData.get(indexOfGame(gamename)).getJoinPattern(modname);
     }
 
-    public static void setRegEntry(String gamename, ArrayList<String> regkeys) {
-        gameData.get(indexOfGame(gamename)).setRegEntries(regkeys);
+    public static String getPK3FindPath(String gamename, String modname) {
+        return gameData.get(indexOfGame(gamename)).getPK3FindPath(modname);
     }
 
     public static ArrayList<String> getRegEntry(String gamename, String modname) {
@@ -285,10 +262,6 @@ public class GameDatabase {
         return gameData.get(idx).getRegEntries(modname);
     }
 
-    public static void setLaunchMethod(String gamename, LaunchMethods launchmethod) {
-        gameData.get(indexOfGame(gamename)).setLaunchMethod(launchmethod.toString());
-    }
-
     public static LaunchMethods getLaunchMethod(String gamename, String modname) {
         int idx = indexOfGame(gamename);
         if (idx > -1) {
@@ -296,10 +269,6 @@ public class GameDatabase {
         } else {
             return LaunchMethods.CHAT_ONLY;
         }
-    }
-
-    public static void setGuid(String gamename, String guid) {
-        gameData.get(indexOfGame(gamename)).setGuid(guid);
     }
 
     public static String getGuid(String gamename, String modname) {
