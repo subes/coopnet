@@ -124,8 +124,14 @@ public class XMLReader extends DefaultHandler {
             tmpGame.setLaunchMethod(tempVal.toString());
         } else if (qName.equalsIgnoreCase("InstantLaunch")) {
             tmpGame.setInstantLauncable(true);
-        } else if (qName.equalsIgnoreCase("Beta")) {
+        } else if (qName.equalsIgnoreCase("Beta")) {//NoSpaces
             beta = true;
+        } else if (qName.equalsIgnoreCase("NoSpaces")) {
+            if (inMod) {
+                tmpMod.setNoSpacesFlag(true);
+            } else {
+                tmpGame.setNoSpacesFlag(true);
+            }
         } else if (qName.equalsIgnoreCase("RegKey")) {
             if (inMod) {
                 modregkeys.add(tempVal.toString());
