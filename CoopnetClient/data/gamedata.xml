@@ -1790,7 +1790,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>PK3FINDPATH</PropertyName>
-            <PropertyValue>Main/</PropertyValue>
+            <PropertyValue>etmain/</PropertyValue>
         </Property>
         <Property>
             <PropertyName>MAPLOADERTYPE</PropertyName>
