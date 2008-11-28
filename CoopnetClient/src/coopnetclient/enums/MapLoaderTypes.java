@@ -20,6 +20,7 @@
 package coopnetclient.enums;
 
 public enum MapLoaderTypes {
+    NONE,
     FILE,
     PK3
 }
