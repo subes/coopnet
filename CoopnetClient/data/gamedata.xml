@@ -1605,6 +1605,22 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             <PropertyValue>quake3.exe</PropertyValue>
         </Property>
         <Property>
+            <PropertyName>PK3FINDPATH</PropertyName>
+            <PropertyValue>Main/</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPLOADERTYPE</PropertyName>
+            <PropertyValue>PK3</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPPATH</PropertyName>
+            <PropertyValue>maps/</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPEXT</PropertyName>
+            <PropertyValue>bsp</PropertyValue>
+        </Property>
+        <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
             <PropertyValue>+map {MAP} +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set g_gametype {GAMEMODE}</PropertyValue>
         </Property>
@@ -1663,13 +1679,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <KeyWord>PORT</KeyWord>
                 <IsSharedSetting/>
                 <SettingDefaultValue>27960</SettingDefaultValue>
-            </NumberSetting>
-            <TextSetting>
-                <SettingName>map</SettingName>
-                <SettingType>TEXT</SettingType>
-                <KeyWord>MAP</KeyWord>
-                <SettingDefaultValue>q3dm1</SettingDefaultValue>
-            </TextSetting>
+            </NumberSetting>            
         </Settings>
     </GameData>
     <GameData>
@@ -1685,6 +1695,22 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         <Property>
             <PropertyName>EXE</PropertyName>
             <PropertyValue>WolfMP.exe</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>PK3FINDPATH</PropertyName>
+            <PropertyValue>Main/</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPLOADERTYPE</PropertyName>
+            <PropertyValue>PK3</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPPATH</PropertyName>
+            <PropertyValue>maps/</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPEXT</PropertyName>
+            <PropertyValue>bsp</PropertyValue>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
@@ -1763,6 +1789,22 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             <PropertyValue>ET.exe</PropertyValue>
         </Property>
         <Property>
+            <PropertyName>PK3FINDPATH</PropertyName>
+            <PropertyValue>Main/</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPLOADERTYPE</PropertyName>
+            <PropertyValue>PK3</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPPATH</PropertyName>
+            <PropertyValue>maps/</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPEXT</PropertyName>
+            <PropertyValue>bsp</PropertyValue>
+        </Property>
+        <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
             <PropertyValue>+map {MAP} +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set g_gametype {GAMEMODE}</PropertyValue>
         </Property>
@@ -1821,13 +1863,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <KeyWord>PORT</KeyWord>
                 <IsSharedSetting/>
                 <SettingDefaultValue>27960</SettingDefaultValue>
-            </NumberSetting>
-            <TextSetting>
-                <SettingName>map</SettingName>
-                <SettingType>TEXT</SettingType>
-                <KeyWord>MAP</KeyWord>
-                <SettingDefaultValue>oasis</SettingDefaultValue>
-            </TextSetting>
+            </NumberSetting>            
         </Settings>
     </GameData>
     <GameData>
@@ -1841,6 +1877,10 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         <Property>
             <PropertyName>EXE</PropertyName>
             <PropertyValue>BF1942.exe</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPLOADERTYPE</PropertyName>
+            <PropertyValue>FILE</PropertyValue>
         </Property>
         <Property>
             <PropertyName>MAPPATH</PropertyName>
@@ -1915,6 +1955,10 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             <PropertyValue>hl.exe</PropertyValue>
         </Property>
         <Property>
+            <PropertyName>MAPLOADERTYPE</PropertyName>
+            <PropertyValue>FILE</PropertyValue>
+        </Property>
+        <Property>
             <PropertyName>MAPPATH</PropertyName>
             <PropertyValue>valve\maps\</PropertyValue>
         </Property>
@@ -1966,6 +2010,10 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             <PropertyValue>Steam.exe</PropertyValue>
         </Property>
         <Property>
+            <PropertyName>MAPLOADERTYPE</PropertyName>
+            <PropertyValue>NONE</PropertyValue>
+        </Property>
+        <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
             <PropertyValue>-game valve +sv_lan 1 +sv_setmaster none +maxplayers {MAXPLAYERS} +map {MAP} +hostname "{ROOMNAME}" +port {PORT}</PropertyValue>
         </Property>
@@ -2013,6 +2061,22 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         <Property>
             <PropertyName>EXE</PropertyName>
             <PropertyValue>CoDMP.exe</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>PK3FINDPATH</PropertyName>
+            <PropertyValue>Main/</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPLOADERTYPE</PropertyName>
+            <PropertyValue>PK3</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPPATH</PropertyName>
+            <PropertyValue>maps/MP/</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPEXT</PropertyName>
+            <PropertyValue>bsp</PropertyValue>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
@@ -2081,13 +2145,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <KeyWord>PORT</KeyWord>
                 <IsSharedSetting/>
                 <SettingDefaultValue>28960</SettingDefaultValue>
-            </NumberSetting>
-            <TextSetting>
-                <SettingName>map</SettingName>
-                <SettingType>TEXT</SettingType>
-                <KeyWord>MAP</KeyWord>
-                <SettingDefaultValue> </SettingDefaultValue>
-            </TextSetting>
+            </NumberSetting>            
         </Settings>
     </GameData>
     <GameData>
@@ -2101,7 +2159,23 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         <Property>
             <PropertyName>EXE</PropertyName>
             <PropertyValue>kingpin.exe</PropertyValue>
-        </Property>        
+        </Property>
+        <Property>
+            <PropertyName>PK3FINDPATH</PropertyName>
+            <PropertyValue>Main/</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPLOADERTYPE</PropertyName>
+            <PropertyValue>PK3</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPPATH</PropertyName>
+            <PropertyValue>maps/</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPEXT</PropertyName>
+            <PropertyValue>bsp</PropertyValue>
+        </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
             <PropertyValue>+map {MAP} {GAMEMODE} +set maxclients {MAXPLAYERS}  +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} {PASSWORD}</PropertyValue>
@@ -2133,13 +2207,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>maxplayers</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>MAXPLAYERS</KeyWord>
-            </NumberSetting>
-            <TextSetting>
-                <SettingName>map</SettingName>
-                <SettingType>TEXT</SettingType>
-                <KeyWord>MAP</KeyWord>
-                <SettingDefaultValue> </SettingDefaultValue>
-            </TextSetting>
+            </NumberSetting>            
             <ChoiceSetting>
                 <SettingName>GameMode</SettingName>
                 <SettingType>CHOICE</SettingType>
@@ -2181,16 +2249,16 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             <PropertyValue>System\UnrealTournament.exe</PropertyValue>
         </Property>
         <Property>
+            <PropertyName>MAPLOADERTYPE</PropertyName>
+            <PropertyValue>FILE</PropertyValue>
+        </Property>
+        <Property>
             <PropertyName>MAPPATH</PropertyName>
             <PropertyValue>Maps</PropertyValue>
         </Property>
         <Property>
             <PropertyName>MAPEXT</PropertyName>
             <PropertyValue>UNR</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>NOSPACES</PropertyName>
-            <PropertyValue>true</PropertyValue>
         </Property>
         <Settings>
             <ChoiceSetting>
@@ -2263,16 +2331,16 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             <PropertyValue>\System\UT2004.exe</PropertyValue>
         </Property>
         <Property>
+            <PropertyName>MAPLOADERTYPE</PropertyName>
+            <PropertyValue>FILE</PropertyValue>
+        </Property>
+        <Property>
             <PropertyName>MAPPATH</PropertyName>
             <PropertyValue>\Maps\</PropertyValue>
         </Property>
         <Property>
             <PropertyName>MAPEXT</PropertyName>
             <PropertyValue>ut2</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>NOSPACES</PropertyName>
-            <PropertyValue>true</PropertyValue>
         </Property>
         <Settings>
             <ChoiceSetting>
