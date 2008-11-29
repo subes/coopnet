@@ -253,7 +253,7 @@ public class HandlerThread extends Thread {
 
         if (array != null) {
             int i = start;
-            while (i < array.length - Protocol.ENCODED_MESSAGE_DELIMITER.length + 1) {
+            while (i < ( array.length - Protocol.ENCODED_MESSAGE_DELIMITER.length ) + 1) {
                 boolean isFound = true;
                 int j = 0;
                 while (j < Protocol.ENCODED_MESSAGE_DELIMITER.length && isFound) {
@@ -282,33 +282,30 @@ public class HandlerThread extends Thread {
         //return remaining message if any
         int idx;
         if (attachment != null && (idx = findDelimiter(attachment, 0)) > -1) {
-            ByteBuffer packet = arrayCut(attachment, 0, idx - 3);
+            ByteBuffer packet = arrayCut(attachment, 0, idx - Protocol.ENCODED_MESSAGE_DELIMITER.length );
             attachment = arrayCut(attachment, idx, attachment.limit()); //cut off packet from start
-
             return process(packet);
         }
 
         //read new mesages from socket
         readBuffer.clear();
-        if (socketChannel.read(readBuffer) == -1) {
+        int read = 0;
+        read = socketChannel.read(readBuffer);
+        if (read == -1) {
             running = false;
             throw new IOException("Connection lost");
         }
+
         readBuffer.flip();
 
-        ByteBuffer prev = attachment;
-        //search for delimiter
-        ByteBuffer bufarray = extractBytes(readBuffer);
-        ByteBuffer tmp = arrayConcat(prev, bufarray, 0, 0);
-        attachment = tmp;
-        if (attachment != null && (idx = findDelimiter(attachment, 0)) > -1) {
-            ByteBuffer packet = arrayCut(attachment, 0, idx - 3);
-            attachment = arrayCut(attachment, idx, attachment.limit()); //cut off packet from start
-
-            return process(packet);
-        }
+        if ( read > 0 ) {
+            ByteBuffer prev = attachment;
+            //search for delimiter
+            ByteBuffer bufarray = extractBytes(readBuffer);
+            ByteBuffer tmp = arrayConcat(prev, bufarray, 0, 0);
+            attachment = tmp;
+        }        
         return null;
-
     }
 
     public boolean doSend() {
