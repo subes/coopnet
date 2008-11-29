@@ -364,6 +364,7 @@ public class GameDatabase {
 
     public static synchronized void load(String gamename, String datafilepath) {
         try {
+            System.out.println("loading from:"+datafilepath);
             xmlReader.parseGameData(gamename, datafilepath);
             System.out.println("game database loaded");  
         }

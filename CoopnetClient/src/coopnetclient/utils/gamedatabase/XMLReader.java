@@ -1,6 +1,7 @@
 package coopnetclient.utils.gamedatabase;
 
 import coopnetclient.enums.SettingTypes;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
@@ -51,7 +52,7 @@ public class XMLReader extends DefaultHandler {
         //get a factory
         SAXParserFactory spf = SAXParserFactory.newInstance();
             SAXParser sp = spf.newSAXParser();
-            sp.parse(loadFrom, this);
+            sp.parse(new File(loadFrom), this);
     }
 
     //Event Handlers
