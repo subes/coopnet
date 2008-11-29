@@ -195,6 +195,10 @@ public class VoiceServer extends Thread {
         }
     }
 
+    public boolean isLocked() {
+        return isLocked;
+    }
+
     public void shutdown() {
         serverrun = false;
         for (SelectionKey key : Keys_to_Players.keySet()) {

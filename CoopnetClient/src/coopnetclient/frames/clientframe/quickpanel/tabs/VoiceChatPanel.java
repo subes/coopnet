@@ -28,11 +28,17 @@ import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.voicechat.VoiceClient;
 import coopnetclient.utils.voicechat.VoicePlayback;
 import coopnetclient.utils.voicechat.VoiceServer;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
+import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 
 public class VoiceChatPanel extends javax.swing.JPanel {
+
+    private static ImageIcon lockedIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/voicechat/locked.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    private static ImageIcon unLockedIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/voicechat/unlocked.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 
     private VoiceChatChannelListModel model;
     private VoiceServer server = null;
@@ -45,6 +51,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
         VoiceChatRenderer renderer = new VoiceChatRenderer(model);
         lst_channelList.setModel(model);
         lst_channelList.setCellRenderer(renderer);
+        btn_lock.setIcon(unLockedIcon);
     }
 
     public VoiceChatChannelListModel getModel() {
@@ -93,7 +100,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
                         public void run() {
                             btn_lock.setVisible(true);
                             btn_lock.setEnabled(false);
-                            btn_lock.setText("Lock");
+                            btn_lock.setIcon(unLockedIcon);
                             Globals.getClientFrame().updateVoiceServerStatus(false);
                         }
                     });
@@ -110,9 +117,9 @@ public class VoiceChatPanel extends javax.swing.JPanel {
         if (server != null) {
             VoiceServer.setLocked(isLocked);
             if (isLocked) {
-                btn_lock.setText("UnLock");
+                btn_lock.setIcon(lockedIcon);
             } else {
-                btn_lock.setText("Lock");
+                btn_lock.setIcon(unLockedIcon);
             }
             Globals.getClientFrame().updateVoiceServerLockStatus(isLocked);
         }
@@ -231,7 +238,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
 
         btn_connect.setText("Start service");
         btn_connect.setFocusable(false);
-        btn_connect.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        btn_connect.setMargin(new java.awt.Insets(2, 2, 2, 2));
         btn_connect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_connectActionPerformed(evt);
@@ -283,17 +290,21 @@ public class VoiceChatPanel extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         add(jScrollPane1, gridBagConstraints);
 
-        btn_lock.setText("Lock");
         btn_lock.setToolTipText("Locking will prevent anyone from connecting or changing channels!");
         btn_lock.setEnabled(false);
         btn_lock.setFocusable(false);
-        btn_lock.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        btn_lock.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        btn_lock.setMaximumSize(new java.awt.Dimension(30, 30));
+        btn_lock.setMinimumSize(new java.awt.Dimension(30, 30));
+        btn_lock.setPreferredSize(new java.awt.Dimension(30, 30));
         btn_lock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_lockActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         add(btn_lock, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
@@ -366,9 +377,9 @@ private void btn_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 }//GEN-LAST:event_btn_connectActionPerformed
 
 private void btn_lockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lockActionPerformed
-    if (btn_lock.getText().equals("Lock")) {
+    if (!server.isLocked()) {
         setServerLockedStatus(true);
-    } else if (btn_lock.getText().equals("UnLock")) {
+    } else  {
         setServerLockedStatus(false);
     }
 }//GEN-LAST:event_btn_lockActionPerformed

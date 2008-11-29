@@ -61,7 +61,7 @@ public class ClientFrame extends javax.swing.JFrame {
     /** Creates new form ClientFrame */
     public ClientFrame() {
         pnl_QuickPanel = new coopnetclient.frames.clientframe.quickpanel.QuickPanel(Globals.getContactList());
-        pnl_QuickPanel.setPreferredSize(new Dimension(210, 10));
+        pnl_QuickPanel.setPreferredSize(new Dimension(210, 100));
         initComponents();       
         pnl_toggleQuickBarLeft.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         pnl_toggleQuickBarRight.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
