@@ -97,12 +97,16 @@ public class CommandHandler {
                     break;
                 case CRIPPLED_SERVER_MODE:
                     JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nlogging in and registering is impossible!\nPlease try again later.", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
-                    if(TabOrganizer.getLoginPanel()!= null){
+                    if (TabOrganizer.getLoginPanel() != null) {
                         TabOrganizer.getLoginPanel().enableButtons();
                     }
-                    if(TabOrganizer.getRegisterPanel()!=null){
+                    if (TabOrganizer.getRegisterPanel() != null) {
                         TabOrganizer.getRegisterPanel().enableButtons();
                     }
+                    break;
+                case SERVER_SHUTTING_DOWN:
+                    Client.disconnect();
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Server is shutting down!", ChatStyles.SYSTEM, true);
                     break;
             }
         } else {//logged-in commands
@@ -234,8 +238,8 @@ public class CommandHandler {
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0]+" is currently offline, he won't receive your whisper messages", ChatStyles.SYSTEM, true);
                     break;
                 case SERVER_SHUTTING_DOWN:
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Server is shutting down!", ChatStyles.SYSTEM, true);
                     Client.disconnect();
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Server is shutting down!", ChatStyles.SYSTEM, true);
                     break;
                 case ECHO_NO_SUCH_PLAYER:
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Error:No such Player!", ChatStyles.SYSTEM, false);
