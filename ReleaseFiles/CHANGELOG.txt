@@ -1,4 +1,4 @@
-2008/11/29: CoopnetClient 0.99.0
+2008/12/01: CoopnetClient 0.99.0
   - new feature: voiceChat
   - now able to load maps from pk3 packages
   - bugfixes
