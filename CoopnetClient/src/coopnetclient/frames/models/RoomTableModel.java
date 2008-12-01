@@ -243,8 +243,10 @@ public class RoomTableModel extends DefaultTableModel {
     }
 
     public void addRoomToTable(String name, String hostName, int maxPlayers, int type) {
-        rooms.add(new Room(type, name, hostName, maxPlayers));
-        fireTableDataChanged();
+        if( indexOf(hostName)== -1 ){
+            rooms.add(new Room(type, name, hostName, maxPlayers));
+            fireTableDataChanged();
+        }
     }
 
     //user joined the room, add him to the list

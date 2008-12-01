@@ -33,6 +33,7 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.ChannelStatusListModel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.frames.renderers.TableTextCellRenderer;
+import coopnetclient.utils.Settings;
 import coopnetclient.utils.UserListFileDropHandler;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -130,7 +131,6 @@ public class ChannelPanel extends javax.swing.JPanel {
             tp_chatOutput.setToolTipText("<html>Sleep mode: Channel chat is inactive!<br>Press refresh button or write a chat message to exit sleep mode.");
         } else {
             tp_chatOutput.setToolTipText(null);
-            refresh(null);
         }
     }
 
@@ -524,10 +524,12 @@ public class ChannelPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_join
 
     private void refresh(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refresh
-        Protocol.refreshRoomsAndPlayers(this.name);
         rooms.clear();
         users.refresh();
-        Globals.setSleepModeStatus(false);
+        Protocol.refreshRoomsAndPlayers(this.name);
+        if(Settings.getSleepEnabled() && Globals.getSleepModeStatus()){
+            Globals.setSleepModeStatus(false);
+        }
         
         //Disable button for some secs, so that user cant spam refresh
         new Thread() {

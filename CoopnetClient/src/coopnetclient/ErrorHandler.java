@@ -33,7 +33,7 @@ public class ErrorHandler {
         
         //From now on we want to log any exception!
         Logger.log(exc);
-        
+        exc.printStackTrace();
         if(exc instanceof java.nio.channels.AsynchronousCloseException){
             return;
         }
