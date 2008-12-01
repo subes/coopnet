@@ -299,6 +299,7 @@ public class BugReportFrame extends javax.swing.JFrame {
                         "Success", JOptionPane.PLAIN_MESSAGE);
                 
                 //TabOrganizer.closeAllTabs();
+                TabOrganizer.closeErrorPanel();
                 Globals.closeBugReportFrame();
             }
         }
