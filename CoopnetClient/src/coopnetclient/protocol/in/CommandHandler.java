@@ -233,6 +233,7 @@ public class CommandHandler {
                     break;
                 case CHAT_PRIVATE:
                     Globals.getClientFrame().printPrivateChatMessage(information[0], information[1]);
+                    FrameIconFlasher.flash("data/icons/nudge.png", information[0] + " sent you a nudge!", false);
                     break;
                 case ERROR_WHISPER_TO_OFFLINE_USER:
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0]+" is currently offline, he won't receive your whisper messages", ChatStyles.SYSTEM, true);
