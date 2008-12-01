@@ -239,7 +239,9 @@ public class ClientFrame extends javax.swing.JFrame {
     }
 
     public void addPlayerToRoom(String channel, String hostname, String playername) {
-        TabOrganizer.getChannelPanel(channel).addPlayerToRoom(hostname, playername);
+        if(TabOrganizer.getChannelPanel(channel)!=null){
+            TabOrganizer.getChannelPanel(channel).addPlayerToRoom(hostname, playername);
+        }
     }
 
     public void removePlayerFromRoom(String channel, String hostname, String playername) {

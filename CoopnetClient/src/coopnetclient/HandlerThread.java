@@ -253,7 +253,7 @@ public class HandlerThread extends Thread {
 
         if (array != null) {
             int i = start;
-            while (i < ( array.length - Protocol.ENCODED_MESSAGE_DELIMITER.length ) + 1) {
+            while (i < array.length - Protocol.ENCODED_MESSAGE_DELIMITER.length + 1) {
                 boolean isFound = true;
                 int j = 0;
                 while (j < Protocol.ENCODED_MESSAGE_DELIMITER.length && isFound) {

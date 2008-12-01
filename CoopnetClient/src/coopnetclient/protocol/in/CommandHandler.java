@@ -118,7 +118,7 @@ public class CommandHandler {
                     Globals.getClientFrame().printMainChatMessage(
                             GameDatabase.getGameName(information[0]) //aka currentchannel
                             , information[1], information[2], ChatStyles.USER);
-                    if (Globals.getSleepModeStatus()) {
+                    if (Settings.getSleepEnabled() && Globals.getSleepModeStatus()) {
                         Globals.setSleepModeStatus(false);
                     }
                     break;
@@ -224,7 +224,7 @@ public class CommandHandler {
                             information[2],
                             new Integer(information[3]),
                             new Integer(information[4]));
-                    if (Globals.getSleepModeStatus()) {
+                    if (Settings.getSleepEnabled() && Globals.getSleepModeStatus()) {
                         Globals.setSleepModeStatus(false);
                     }
                     break;

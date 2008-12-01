@@ -305,7 +305,7 @@ public class Globals {
     }
 
     public static void setSleepModeStatus(boolean value) {
-        if (Settings.getSleepEnabled()) {
+        if (Settings.getSleepEnabled() && sleepModeStatus != value ) {
             sleepModeStatus = value;
             TabOrganizer.updateSleepMode();
         }
