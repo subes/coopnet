@@ -30,11 +30,13 @@ public class Main {
             if (updateurl == null) {
                 throw new Exception("Can't find update URL!");
             }
-            
+            MessageFrame.startedDownload();
             FileDownloader.downloadFile(updateurl, new File("./dist.zip").getCanonicalPath());
+            MessageFrame.setMessage("Extracting files");
             UnZipper.UnZip("./dist.zip", new File("./UPDATER_TMP/").getCanonicalPath());
             new File("./dist.zip").delete();
-            
+
+            MessageFrame.setMessage("Updating client");
             FileMover.copyDirectory(new File("./UPDATER_TMP/Coopnet"), new File("."));
             FileMover.delete(new File("./UPDATER_TMP"));
             
