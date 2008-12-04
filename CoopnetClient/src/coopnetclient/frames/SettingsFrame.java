@@ -72,7 +72,10 @@ public class SettingsFrame extends javax.swing.JFrame {
             rbtn_pushToTalk.setSelected(true);
             rbtn_pushToTalk.doClick();
         }
-        
+
+        sl_captureVolume.setValue((int) (Settings.getCaptureVolume() * 100));
+        sl_playbackVolume.setValue((int) (Settings.getPlaybackVolume() * 100));
+
         try {
             cmb_Playbackdevice.setSelectedItem(AudioSystem.getMixerInfo()[Settings.getPlaybackDeviceIndex()]);
             cmb_CaptureDevice.setSelectedItem(AudioSystem.getMixerInfo()[Settings.getCaptureDeviceIndex()]);
@@ -285,6 +288,11 @@ public class SettingsFrame extends javax.swing.JFrame {
         lbl_PushToTalkKeyLabel = new javax.swing.JLabel();
         lbl_hotkeyNoteText1 = new javax.swing.JLabel();
         lbl_highSensitivityLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lbl_playbackVolume = new javax.swing.JLabel();
+        sl_playbackVolume = new javax.swing.JSlider();
+        lbl_captureVolume = new javax.swing.JLabel();
+        sl_captureVolume = new javax.swing.JSlider();
         btn_save = new javax.swing.JButton();
         btn_cancel = new javax.swing.JButton();
         btn_apply = new javax.swing.JButton();
@@ -1057,6 +1065,12 @@ public class SettingsFrame extends javax.swing.JFrame {
         lbl_highSensitivityLabel.setText("high");
         lbl_highSensitivityLabel.setEnabled(false);
 
+        jLabel1.setText("Volumes:");
+
+        lbl_playbackVolume.setText("Playback:");
+
+        lbl_captureVolume.setText("Capture:");
+
         javax.swing.GroupLayout pnl_VoiceChatLayout = new javax.swing.GroupLayout(pnl_VoiceChat);
         pnl_VoiceChat.setLayout(pnl_VoiceChatLayout);
         pnl_VoiceChatLayout.setHorizontalGroup(
@@ -1076,29 +1090,36 @@ public class SettingsFrame extends javax.swing.JFrame {
                     .addComponent(lbl_playbackdevice)
                     .addComponent(lbl_capturedevice)
                     .addComponent(jLabel3)
+                    .addComponent(jLabel1)
                     .addGroup(pnl_VoiceChatLayout.createSequentialGroup()
                         .addGroup(pnl_VoiceChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnl_VoiceChatLayout.createSequentialGroup()
-                                .addComponent(rbtn_voiceActivation)
+                                .addGroup(pnl_VoiceChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnl_VoiceChatLayout.createSequentialGroup()
+                                        .addComponent(rbtn_voiceActivation)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lbl_sensitivity))
+                                    .addGroup(pnl_VoiceChatLayout.createSequentialGroup()
+                                        .addComponent(rbtn_pushToTalk)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lbl_PushToTalkKeyLabel))
+                                    .addComponent(jLabel4))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbl_sensitivity))
-                            .addGroup(pnl_VoiceChatLayout.createSequentialGroup()
-                                .addComponent(rbtn_pushToTalk)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbl_PushToTalkKeyLabel))
-                            .addComponent(jLabel4))
+                                .addGroup(pnl_VoiceChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(sl_sensitivity, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(pnl_VoiceChatLayout.createSequentialGroup()
+                                        .addGap(4, 4, 4)
+                                        .addComponent(tf_pushToTalkHotKey, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(lbl_playbackVolume)
+                            .addComponent(sl_playbackVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnl_VoiceChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sl_sensitivity, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnl_VoiceChatLayout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addComponent(tf_pushToTalkHotKey, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnl_VoiceChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(sl_captureVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_captureVolume)
                             .addGroup(pnl_VoiceChatLayout.createSequentialGroup()
                                 .addComponent(lbl_highSensitivityLabel)
                                 .addGap(208, 208, 208))
-                            .addComponent(lbl_hotkeyNoteText1, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE))))
+                            .addComponent(lbl_hotkeyNoteText1, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
@@ -1143,7 +1164,17 @@ public class SettingsFrame extends javax.swing.JFrame {
                         .addGroup(pnl_VoiceChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(sl_sensitivity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbl_highSensitivityLabel))))
-                .addGap(43, 43, 43))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl_VoiceChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_playbackVolume)
+                    .addComponent(lbl_captureVolume))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl_VoiceChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(sl_playbackVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sl_captureVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pnl_VoiceChatLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_highSensitivityLabel, lbl_sensitivity, rbtn_voiceActivation, sl_sensitivity});
@@ -1336,8 +1367,9 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             Settings.setCaptureDeviceIndex(VoicePlayback.indexOfAudioDevice((Mixer.Info)cmb_CaptureDevice.getSelectedItem()));
             Settings.setCapturePortIndex(cmb_device_ports.getSelectedIndex());
             Settings.setVoiceSensitivity(128-sl_sensitivity.getValue());
-            Settings.setVoiceChatPort(Integer.valueOf(tf_voiceChatPort.getText()));
-            Settings.setVoiceActivated(rbtn_voiceActivation.isSelected());
+            Settings.setVoiceChatPort(Integer.valueOf(tf_voiceChatPort.getText()));            
+            Settings.setCaptureVolume((float) ((sl_captureVolume.getValue() * 1.0) / 100));
+            Settings.setPlaybackVolume((float) ((sl_playbackVolume.getValue() * 1.0) / 100));
 
             Settings.setQuickPanelPostionisLeft(cmb_QuickPanelPosition.getSelectedIndex() == 0);
             Settings.setQuickPanelDividerWidth(Integer.valueOf(spn_DividerWidth.getValue().toString()));
@@ -1402,8 +1434,9 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             if( TabOrganizer.getRoomPanel()!= null && TabOrganizer.getRoomPanel().isHost() ){
                 Hotkeys.reBindHotKey(Hotkeys.ACTION_LAUNCH);
             }
-
-            if( !Settings.isVoiceActivated() && Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().isClientConnected()){
+            
+            Settings.setVoiceActivated(rbtn_voiceActivation.isSelected());
+            if( (!Settings.isVoiceActivated()) && Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().isClientConnected()){
                 Hotkeys.reBindHotKey(Hotkeys.PUSH_TO_TALK);
             }else{
                 Hotkeys.unbindHotKey(Hotkeys.PUSH_TO_TALK);
@@ -1523,6 +1556,7 @@ private void tf_playerMessagesSizeActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JComboBox cmb_playerMessagesType;
     private javax.swing.JComboBox cmb_playerNamesType;
     private javax.swing.JComboBox cmb_style;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel lbl_DividerWidth;
@@ -1530,6 +1564,7 @@ private void tf_playerMessagesSizeActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JLabel lbl_StatusChangeNotification;
     private javax.swing.JLabel lbl_ToggleButtonWidth;
     private javax.swing.JLabel lbl_background;
+    private javax.swing.JLabel lbl_captureVolume;
     private javax.swing.JLabel lbl_capturedevice;
     private javax.swing.JLabel lbl_dplayEnv;
     private javax.swing.JLabel lbl_dplayEnvNote;
@@ -1542,6 +1577,7 @@ private void tf_playerMessagesSizeActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JLabel lbl_noteText;
     private javax.swing.JLabel lbl_noteText1;
     private javax.swing.JLabel lbl_otherUsernames;
+    private javax.swing.JLabel lbl_playbackVolume;
     private javax.swing.JLabel lbl_playbackdevice;
     private javax.swing.JLabel lbl_playerMessages;
     private javax.swing.JLabel lbl_playerMessagesSize;
@@ -1578,6 +1614,8 @@ private void tf_playerMessagesSizeActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JPanel pnl_textStyle;
     private javax.swing.JRadioButton rbtn_pushToTalk;
     private javax.swing.JRadioButton rbtn_voiceActivation;
+    private javax.swing.JSlider sl_captureVolume;
+    private javax.swing.JSlider sl_playbackVolume;
     private javax.swing.JSlider sl_sensitivity;
     private javax.swing.JSpinner spn_DividerWidth;
     private javax.swing.JSpinner spn_ToggleButtonWidth;

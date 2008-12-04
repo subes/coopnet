@@ -86,12 +86,12 @@ public class VoiceChatPanel extends javax.swing.JPanel {
         if (client != null) {
             client.disconnect();
             client = null;
+            isClientConnected = false;
         }
 
         if (server != null) {
             server.shutdown();
-            server = null;
-            isClientConnected = false;
+            server = null;            
             Hotkeys.unbindHotKey(Hotkeys.PUSH_TO_TALK);
             SwingUtilities.invokeLater(
                     new Runnable() {
@@ -168,6 +168,7 @@ public class VoiceChatPanel extends javax.swing.JPanel {
         if (!Settings.isVoiceActivated()) {
             Hotkeys.bindHotKey(Hotkeys.PUSH_TO_TALK);
         }
+        isClientConnected = true;
         if (server == null) {
             SwingUtilities.invokeLater(
                     new Runnable() {
@@ -181,7 +182,6 @@ public class VoiceChatPanel extends javax.swing.JPanel {
                             Globals.getClientFrame().updateVoiceClientStatus(true);
                         }
                     });
-            isClientConnected = false;
             Globals.getClientFrame().printToVisibleChatbox("System", "VoiceClient connected! For controlls open QuickTab!", ChatStyles.SYSTEM, false);
         }
     }

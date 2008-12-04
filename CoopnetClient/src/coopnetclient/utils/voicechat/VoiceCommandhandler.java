@@ -4,6 +4,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.models.VoiceChatChannelListModel;
 import coopnetclient.protocol.out.Protocol;
+import coopnetclient.utils.Settings;
 import java.nio.channels.SelectionKey;
 import java.util.Vector;
 
@@ -11,7 +12,9 @@ public class VoiceCommandhandler {
     //executed by clients
 
     public static void execute2(final String command) {
-        System.out.println("VOICECLIENT:" + command);
+        if(Settings.getDebugMode()){
+            System.out.println("VOICECLIENT:" + command);
+        }
         if (command.startsWith("locked")) {
             Globals.getClientFrame().printToVisibleChatbox("System", "The VoiceChat server is locked! Noone is permitted to connect or change channel!", ChatStyles.SYSTEM , false);
             return;
@@ -44,7 +47,9 @@ public class VoiceCommandhandler {
 
     //used by server
     static void execute(SelectionKey key, String command) {
-        System.out.println("VOICESERVER:" + command);
+        if(Settings.getDebugMode()){
+            System.out.println("VOICESERVER:" + command);
+        }
         String thisplayer = VoiceServer.playerByKey(key);
         if (thisplayer == null) {
             if (command.startsWith("login")) {
@@ -63,15 +68,15 @@ public class VoiceCommandhandler {
                     return;
                 }
                 String tmp[] = command.split(Protocol.MESSAGE_DELIMITER);
-                for (Vector<SelectionKey> v : VoiceServer.playersInChannels) {
+                for (Vector<SelectionKey> v : VoiceServer.playerKeysInChannels) {
                     v.remove(key);
                 }
-                VoiceServer.playersInChannels.get(Integer.valueOf(tmp[1])).add(key);
-                VoiceServer.sendtoall(new MixedMessage("cc" + Protocol.MESSAGE_DELIMITER + thisplayer + Protocol.MESSAGE_DELIMITER + tmp[1]));
+                VoiceServer.playerKeysInChannels.get(Integer.valueOf(tmp[1])).add(key);
+                VoiceServer.sendToAll(new MixedMessage("cc" + Protocol.MESSAGE_DELIMITER + thisplayer + Protocol.MESSAGE_DELIMITER + tmp[1]));
             } else if (command.startsWith("STV")) { //start voice
-                VoiceServer.sendtoall(new MixedMessage("STV" + Protocol.MESSAGE_DELIMITER + thisplayer));
+                VoiceServer.sendToAll(new MixedMessage("STV" + Protocol.MESSAGE_DELIMITER + thisplayer));
             } else if (command.startsWith("SPV")) { //stop voice
-                VoiceServer.sendtoall(new MixedMessage("SPV" + Protocol.MESSAGE_DELIMITER + thisplayer));
+                VoiceServer.sendToAll(new MixedMessage("SPV" + Protocol.MESSAGE_DELIMITER + thisplayer));
             }
         }
     }

@@ -135,7 +135,8 @@ public class VoicePlayback {
         try {
             micInputLine = (TargetDataLine) AudioSystem.getLine(captureInfo);
             micInputLine.open();
-            adjustRecordingVolume();
+            //adjustRecordingVolume();
+            //applyMicVolume();
         } catch (Exception e) {
             e.printStackTrace();
             Globals.getClientFrame().printToVisibleChatbox("System", "Error initialising voice capture! Please edit your settings!", ChatStyles.SYSTEM, false);
@@ -184,12 +185,14 @@ public class VoicePlayback {
                 if (isTalking) {
                     byte[] output = new byte[read];
                     System.arraycopy(buffer, 0, output, 0, read);
+                    applyVolume(output,Settings.getCaptureVolume());
                     VoiceClient.sendVoiceData(output);
                 } else {//wasnt talking yet
                     isTalking = true;
                     VoiceClient.send("STV");
                     byte[] output = new byte[read];
                     System.arraycopy(buffer, 0, output, 0, read);
+                    applyVolume(output,Settings.getCaptureVolume());
                     VoiceClient.sendVoiceData(output);
                 }
             } else { //nothing sendable read, stop sending
@@ -202,6 +205,7 @@ public class VoicePlayback {
                         expire++;
                         byte[] output = new byte[read];
                         System.arraycopy(buffer, 0, output, 0, read);
+                        applyVolume(output,Settings.getCaptureVolume());
                         VoiceClient.sendVoiceData(output);
                     }
                 }
@@ -224,12 +228,14 @@ public class VoicePlayback {
             if (isTalking) {
                 byte[] output = new byte[read];
                 System.arraycopy(buffer, 0, output, 0, read);
+                applyVolume(output,Settings.getCaptureVolume());
                 VoiceClient.sendVoiceData(output);
             } else {//wasnt talking yet
                 isTalking = true;
                 VoiceClient.send("STV");
                 byte[] output = new byte[read];
                 System.arraycopy(buffer, 0, output, 0, read);
+                applyVolume(output,Settings.getCaptureVolume());
                 VoiceClient.sendVoiceData(output);
             }
             synchronized(Lock){
@@ -241,6 +247,12 @@ public class VoicePlayback {
                     expire = 0;
                     VoiceClient.send("SPV");
                 }
+        }
+    }
+
+    private static void applyVolume(byte[] data ,float volume) {
+        for(int i = 0; i <data.length;++i){
+            data[i] = (byte) (data[i] * volume);
         }
     }
 
@@ -317,8 +329,9 @@ public class VoicePlayback {
             SourceDataLine channel = channels.get(playerName);
             if (channel != null) {
                 channels.remove(playerName);
-                channel.drain();
+                //channel.drain();                
                 channel.stop();
+                channel.flush();
                 channel.close();
             }
         } catch (Exception e) {
@@ -341,6 +354,7 @@ public class VoicePlayback {
         if (channel != null) {
             if (!model.isMuted(playerName)) {
                 model.setTalking(playerName);
+                applyVolume(data,Settings.getPlaybackVolume());
                 channel.write(data, 0, data.length);
                 channel.start();
             }
@@ -349,6 +363,7 @@ public class VoicePlayback {
             channel = channels.get(playerName);
             if (!model.isMuted(playerName)) {
                 model.setTalking(playerName);
+                applyVolume(data,Settings.getPlaybackVolume());
                 channel.write(data, 0, data.length);
                 channel.start();
             }
@@ -397,16 +412,21 @@ public class VoicePlayback {
         return ports.toArray(new Port.Info[]{});
     }
 
-    public static void adjustRecordingVolume()
-            throws Exception {
+    public static synchronized void adjustPlaybackVolume() throws Exception {
+        for (String name : channels.keySet()) {
+            SourceDataLine channel = channels.get(name);
+            System.out.println("Playback controll nubmer: " + channel.getControls().length);
+        }
+    }
+
+    public static synchronized void adjustRecordingVolume() throws Exception {
         Port.Info recPortInfo =
                 new Port.Info(Port.class,
                 RECORD_PORT_SELECT, true);
         if (recPortInfo == null) {
             return;
         }
-        Port recPort = (Port) AudioSystem.getLine(
-                recPortInfo);
+        Port recPort = (Port) AudioSystem.getLine(recPortInfo);
         if (recPort == null) {
             return;
         }
@@ -423,26 +443,35 @@ public class VoicePlayback {
                 Control[] members =
                         ((CompoundControl) controls[i]).getMemberControls();
                 for (int j = 0; j < members.length; j++) {
-                    setCtrl(members[j]);
+                    setMicCtrl(members[j]);
                 } // for int j
             } // if
             else {
-                setCtrl(controls[i]);
+                setMicCtrl(controls[i]);
             }
         } // for i
     //inPort.close();
     }
 
-    private static void setCtrl(
-            Control ctl) {
-        if (ctl.getType().toString().equals("Select")) {
+    public static void applyMicVolume(){
+        FloatControl gainControl = (FloatControl) micInputLine.getControl(FloatControl.Type.MASTER_GAIN);
+        if(gainControl == null){
+            System.out.println("No controll!!!");
+            return;
+        }
+        float gain = gainControl.getMinimum() + (gainControl.getMaximum() - gainControl.getMinimum()) * Settings.getCaptureVolume();
+        gainControl.setValue(gain);
+    }
+
+    private static void setMicCtrl( Control ctl ) {
+        if (ctl.getType().toString().equalsIgnoreCase("Select")) {
             ((BooleanControl) ctl).setValue(true);
         }
-    /*if (ctl.getType().toString().equals("Volume")) {
-    FloatControl vol =
-    (FloatControl) ctl;
-    float setVal = vol.getMinimum() + (vol.getMaximum() - vol.getMinimum()) * RECORD_VOLUME_LEVEL;
-    vol.setValue(setVal);
-    }*/
+        if (ctl.getType().toString().equalsIgnoreCase("Volume")) {
+            FloatControl vol = (FloatControl) ctl;
+            float setVal = vol.getMinimum() + (vol.getMaximum() - vol.getMinimum()) * Settings.getCaptureVolume();
+            vol.setValue(setVal);
+            System.out.println("Volume set");
+        }
     }
 }

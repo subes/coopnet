@@ -32,6 +32,7 @@ import coopnetclient.frames.components.FavMenuItem;
 import coopnetclient.frames.clientframe.tabs.FileTransferRecievePanel;
 import coopnetclient.frames.clientframe.tabs.FileTransferSendPanel;
 import coopnetclient.frames.clientframe.tabs.LoginPanel;
+import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.utils.FileDownloader;
 import java.awt.Color;
 import java.awt.Component;
@@ -117,6 +118,7 @@ public class ClientFrame extends javax.swing.JFrame {
                     @Override
                     public void run() {
                         mi_update.setEnabled(true);
+                        mi_update.repaint();
                     }
                 });
     }
@@ -391,6 +393,7 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_Sounds = new javax.swing.JCheckBoxMenuItem();
         m_help = new javax.swing.JMenu();
         mi_guide = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         mi_bugReport = new javax.swing.JMenuItem();
         mi_about = new javax.swing.JMenuItem();
 
@@ -680,6 +683,14 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_help.add(mi_guide);
+
+        jMenuItem1.setText("FAQ");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        m_help.add(jMenuItem1);
 
         mi_bugReport.setText("Report a Bug...");
         mi_bugReport.addActionListener(new java.awt.event.ActionListener() {
@@ -995,6 +1006,10 @@ private void mi_lockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     }
 }//GEN-LAST:event_mi_lockActionPerformed
 
+private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    HyperlinkMouseListener.openURL("http://coopnet.sourceforge.net/faq.html");
+}//GEN-LAST:event_jMenuItem1ActionPerformed
+
 public void updateVoiceServerStatus(boolean isrunning){
     if(isrunning){
         mi_start.setText("Stop local service");
@@ -1036,6 +1051,7 @@ private Color getHoverEffectColor(){
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu m_channels;
     private javax.swing.JMenu m_help;
     private javax.swing.JMenu m_main;

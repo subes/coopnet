@@ -2,6 +2,8 @@ package coopnetclient.utils.voicechat;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.enums.ErrorPanelStyle;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
 import java.io.IOException;
@@ -42,7 +44,7 @@ class HandlerThread extends Thread {
         try {
             socketChannel = SocketChannel.open();
             socketChannel.connect(new InetSocketAddress(VoiceClient.serveraddress, VoiceClient.serverport));
-            running = true;            
+            running = true;
             //start sender thread
             new Thread() {
 
@@ -61,16 +63,16 @@ class HandlerThread extends Thread {
                 }
             }.start();
 
-             SwingUtilities.invokeLater(
-                new Runnable() {
+            SwingUtilities.invokeLater(
+                    new Runnable() {
 
-                    @Override
-                    public void run() {
-                        Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().connected();
-                    }
-                });
-            
-            VoiceClient.send("login" + Protocol.MESSAGE_DELIMITER +Globals.getThisPlayer_loginName() );
+                        @Override
+                        public void run() {
+                            Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().connected();
+                        }
+                    });
+
+            VoiceClient.send("login" + Protocol.MESSAGE_DELIMITER + Globals.getThisPlayer_loginName());
 
             while (running) {
                 Read();
@@ -82,23 +84,23 @@ class HandlerThread extends Thread {
                 return; // do nothing, happens when disconnecting
             }
             if (msg != null && msg.contains("UnknownHostException")) {
-                Globals.getClientFrame().printToVisibleChatbox("System", "Invalid voiceChat address!", ChatStyles.SYSTEM , false);                
+                Globals.getClientFrame().printToVisibleChatbox("System", "Invalid voiceChat address!", ChatStyles.SYSTEM, false);
             } else if (msg != null && (msg.equals("Connection refused: connect") || msg.equals("Connection refused"))) {
-                Globals.getClientFrame().printToVisibleChatbox("System", "Could not connect to voiceChat address!", ChatStyles.SYSTEM , false);                
+                Globals.getClientFrame().printToVisibleChatbox("System", "Could not connect to voiceChat address!", ChatStyles.SYSTEM, false);
             } else if ((msg != null && (msg.equals("Connection reset")) || e instanceof IOException)) {
-                Globals.getClientFrame().printToVisibleChatbox("System", "Connection with voiceChat server was lost!", ChatStyles.SYSTEM , false);                
+                Globals.getClientFrame().printToVisibleChatbox("System", "Connection with voiceChat server was lost!", ChatStyles.SYSTEM, false);
             } else {
                 Logger.log(e);
             }
-             SwingUtilities.invokeLater(
-                new Runnable() {
+            SwingUtilities.invokeLater(
+                    new Runnable() {
 
-                    @Override
-                    public void run() {
-                        Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().connectFailedOrBroken();
-                    }
-                });
-            
+                        @Override
+                        public void run() {
+                            Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().connectFailedOrBroken();
+                        }
+                    });
+
         }
         try {
             socketChannel.close();
@@ -120,6 +122,7 @@ class HandlerThread extends Thread {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            TabOrganizer.openErrorPanel(ErrorPanelStyle.UNKNOWN, e);
         }
     }
 
@@ -135,7 +138,7 @@ class HandlerThread extends Thread {
     }
 
     private static ByteBuffer arrayCut(ByteBuffer buffer, int start, int end) {
-        ByteBuffer temp = ByteBuffer.allocate(end-start);
+        ByteBuffer temp = ByteBuffer.allocate(end - start);
         //copy data 
         System.arraycopy(buffer.array(), start, temp.array(), 0, end - start);
         temp.position(end - start);
@@ -143,7 +146,7 @@ class HandlerThread extends Thread {
         return temp;
     }
 
-    private ByteBuffer arrayconcat(ByteBuffer buffer1, ByteBuffer buffer2, int offset1, int offset2) {
+    private ByteBuffer arrayConcat(ByteBuffer buffer1, ByteBuffer buffer2, int offset1, int offset2) {
         int size1, size2;
         size1 = buffer1 == null ? 0 : buffer1.limit();
         size2 = buffer2 == null ? 0 : buffer2.limit();
@@ -183,12 +186,12 @@ class HandlerThread extends Thread {
     private static int findDelimiter(ByteBuffer buffer, int start) {
         byte[] array = buffer.array();
         for (int i = start; array != null && i <= buffer.limit() - 5; i++) {
-            if (      (array[i] == -128 
+            if (      (array[i] == -128
                     && array[i + 1] == 127 
-                    && array[i + 2] == -128 
-                    && array[i + 3] == 127 
-                    && array[i + 4] == -128) 
-                    && (i == (buffer.limit() - 5) 
+                    && array[i + 2] == -128
+                    && array[i + 3] == 127
+                    && array[i + 4] == -128)
+                    && (i == (buffer.limit() - 5)
                        || (array[i + 5] == 1 || array[i + 5] == 2))) {
                 return i + 5;
             }
@@ -207,7 +210,7 @@ class HandlerThread extends Thread {
         ByteBuffer prev = (ByteBuffer) attachment;
         //search for delimiter
         ByteBuffer bufarray = extractBytes(readbuffer);
-        ByteBuffer tmp = arrayconcat(prev, bufarray, 0, 0);
+        ByteBuffer tmp = arrayConcat(prev, bufarray, 0, 0);
         //get all readed packets
         int idx;
         while ((idx = findDelimiter(tmp, 0)) > -1) {
@@ -288,11 +291,11 @@ public class VoiceClient {
      *Initialises and starts the client
      * 
      */
-    public VoiceClient(String name,String serveraddress, String serverport) {
+    public VoiceClient(String name, String serveraddress, String serverport) {
         //INITIALIZE FIELDS
         VoiceClient.playername = name;
         VoiceClient.serveraddress = serveraddress;
-        VoiceClient.serverport = new Integer(serverport);       
+        VoiceClient.serverport = new Integer(serverport);
         //connect
         VoicePlayback.init();
         client = new HandlerThread();

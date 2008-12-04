@@ -18,8 +18,8 @@ public class MixedMessage {
     public static final byte STRING_COMMAND = 2;
     public static final String CHARSET = "UTF-8";
     private static Charset charset = Charset.forName(CHARSET);
-    private static CharsetDecoder decoder = charset.newDecoder();
-    private static CharsetEncoder encoder = charset.newEncoder();
+    private static final CharsetDecoder decoder = charset.newDecoder();
+    private static final CharsetEncoder encoder = charset.newEncoder();
     public final byte commandType;
     public final String commandString;
     public final byte[] byteData;
@@ -56,7 +56,10 @@ public class MixedMessage {
                 String readedString = null;
                 byte[] deCompressedData;
                 try {
-                    CharBuffer charBuffer = decoder.decode(buffer);
+                    CharBuffer charBuffer;
+                    synchronized(decoder){
+                        charBuffer = decoder.decode(buffer);
+                    }
                     readedString = charBuffer.toString();
                     byte[] compressedData = new byte[tail.length - (i + 1)];
                     System.arraycopy(tail, i + 1, compressedData, 0, compressedData.length);
@@ -79,7 +82,10 @@ public class MixedMessage {
                 buffer.flip();
                 readedString = null;
                 try {
-                    CharBuffer charBuffer = decoder.decode(buffer);
+                    CharBuffer charBuffer;
+                    synchronized(decoder){
+                        charBuffer = decoder.decode(buffer);
+                    }
                     readedString = charBuffer.toString();
                 } catch (Exception e) {
                     System.out.println("Bad package:" + e.getMessage());
@@ -127,7 +133,10 @@ public class MixedMessage {
     public ByteBuffer getBytesToSend() throws CharacterCodingException {
         if (commandType == AUDIO_DATA_PACKAGE) {
             CharBuffer charBuffer = CharBuffer.wrap(commandString);
-            ByteBuffer encodedStringData = encoder.encode(charBuffer);
+            ByteBuffer encodedStringData ;
+            synchronized(encoder){
+                encodedStringData = encoder.encode(charBuffer);
+            }
             //compress
             byte[] compressedData = new byte[]{};
             try {
@@ -146,7 +155,10 @@ public class MixedMessage {
             return byteBuffer;
         } else {
             CharBuffer charBuffer = CharBuffer.wrap(commandString);
-            ByteBuffer encodedData = encoder.encode(charBuffer);
+            ByteBuffer encodedData ;
+            synchronized(encoder){
+                encodedData = encoder.encode(charBuffer);
+            }
             ByteBuffer byteBuffer = ByteBuffer.allocate(encodedData.limit() + 6);
             byteBuffer.put(commandType);
             byteBuffer.put(encodedData);

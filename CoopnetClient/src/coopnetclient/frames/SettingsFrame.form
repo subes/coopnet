@@ -1271,7 +1271,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
@@ -1289,35 +1289,44 @@
                           <Component id="lbl_playbackdevice" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lbl_capturedevice" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
+                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="rbtn_voiceActivation" linkSize="4" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="rbtn_voiceActivation" linkSize="4" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="lbl_sensitivity" linkSize="5" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="rbtn_pushToTalk" linkSize="4" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="lbl_PushToTalkKeyLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="lbl_sensitivity" linkSize="5" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="sl_sensitivity" linkSize="6" min="-2" pref="114" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="4" pref="4" max="4" attributes="0"/>
+                                              <Component id="tf_pushToTalkHotKey" linkSize="6" min="-2" pref="111" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="rbtn_pushToTalk" linkSize="4" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="lbl_PushToTalkKeyLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_playbackVolume" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="sl_playbackVolume" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="sl_sensitivity" linkSize="6" min="-2" pref="114" max="-2" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="4" pref="4" max="4" attributes="0"/>
-                                      <Component id="tf_pushToTalkHotKey" linkSize="6" min="-2" pref="111" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="sl_captureVolume" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_captureVolume" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Component id="lbl_highSensitivityLabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="208" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="lbl_hotkeyNoteText1" pref="312" max="32767" attributes="0"/>
+                                  <Component id="lbl_hotkeyNoteText1" pref="310" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -1367,7 +1376,19 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lbl_playbackVolume" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbl_captureVolume" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="sl_playbackVolume" min="-2" max="-2" attributes="0"/>
+                          <Component id="sl_captureVolume" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1496,6 +1517,25 @@
                 <Property name="text" type="java.lang.String" value="high"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Volumes:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_playbackVolume">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Playback:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JSlider" name="sl_playbackVolume">
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_captureVolume">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Capture:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JSlider" name="sl_captureVolume">
             </Component>
           </SubComponents>
         </Container>

@@ -27,14 +27,14 @@ public class VoiceServer extends Thread {
     private static java.util.Map<java.nio.channels.SelectionKey, String> Keys_to_Players = new java.util.HashMap<java.nio.channels.SelectionKey, String>();
     private static java.util.Map<String, java.nio.channels.SelectionKey> Players_to_Keys = new java.util.HashMap<String, java.nio.channels.SelectionKey>();
     public static Vector<String> players = new Vector<String>();
-    protected static Vector<Vector<SelectionKey>> playersInChannels = new Vector<Vector<SelectionKey>>();
+    protected static Vector<Vector<SelectionKey>> playerKeysInChannels = new Vector<Vector<SelectionKey>>();
     private static Vector<SelectionKey> brokenClients = new Vector<SelectionKey>();
     protected static boolean isLocked = false;
 
 
     static {
         for (int i = 0; i < 8; ++i) {
-            playersInChannels.add(new Vector<SelectionKey>());
+            playerKeysInChannels.add(new Vector<SelectionKey>());
         }
     }
 
@@ -44,8 +44,8 @@ public class VoiceServer extends Thread {
 
     private static int channelIndexOfKey(java.nio.channels.SelectionKey key) {
         int i = 0;
-        for (; i < playersInChannels.size(); ++i) {
-            Vector<SelectionKey> v = playersInChannels.get(i);
+        for (; i < playerKeysInChannels.size(); ++i) {
+            Vector<SelectionKey> v = playerKeysInChannels.get(i);
             if (v.contains(key)) {
                 return i;
             }
@@ -76,8 +76,8 @@ public class VoiceServer extends Thread {
                     new MixedMessage("addplayer" + Protocol.MESSAGE_DELIMITER + player + Protocol.MESSAGE_DELIMITER + channelIndexOfKey(Players_to_Keys.get(player))));
         }
         players.add(userName);
-        playersInChannels.get(0).add(key);
-        sendtoall(new MixedMessage("addplayer" + Protocol.MESSAGE_DELIMITER + userName + Protocol.MESSAGE_DELIMITER + "0"));
+        playerKeysInChannels.get(0).add(key);
+        sendToAll(new MixedMessage("addplayer" + Protocol.MESSAGE_DELIMITER + userName + Protocol.MESSAGE_DELIMITER + "0"));
     }
 
     /**
@@ -94,10 +94,10 @@ public class VoiceServer extends Thread {
             Keys_to_Players.remove(key);
             Players_to_Keys.remove(userName);
             players.remove(userName);
-            for (Vector<SelectionKey> v : VoiceServer.playersInChannels) {
+            for (Vector<SelectionKey> v : VoiceServer.playerKeysInChannels) {
                 v.remove(key);
             }
-            sendtoall(new MixedMessage("removeplayer" + Protocol.MESSAGE_DELIMITER + userName));
+            sendToAll(new MixedMessage("removeplayer" + Protocol.MESSAGE_DELIMITER + userName));
         }
     }
 
@@ -142,7 +142,7 @@ public class VoiceServer extends Thread {
         return dataarray.toArray(new ByteBuffer[1]);
     }
 
-    static public void sendtoall(MixedMessage msg) {
+    static public void sendToAll(MixedMessage msg) {
         Iterator<SelectionKey> pit = Keys_to_Players.keySet().iterator();
         while (pit.hasNext()) {
             SelectionKey key = pit.next();
@@ -151,7 +151,7 @@ public class VoiceServer extends Thread {
         doLogoff();
     }
 
-    static public void sendtoOthers(MixedMessage msg, SelectionKey key) {
+    static public void sendToOthers(MixedMessage msg, SelectionKey key) {
         Iterator<SelectionKey> pit = Keys_to_Players.keySet().iterator();
         while (pit.hasNext()) {
             SelectionKey k = pit.next();
@@ -162,13 +162,14 @@ public class VoiceServer extends Thread {
         doLogoff();
     }
 
-    static public void sendtoChannel(MixedMessage msg, SelectionKey key) {
+    static public void sendToChannel(MixedMessage msg, SelectionKey key) {
         int idx = channelIndexOfKey(key);
-        for (SelectionKey k : playersInChannels.get(idx)) {
+        for (SelectionKey k : playerKeysInChannels.get(idx)) {
             if (!key.equals(k)) {
                 sendToKey(k, msg);
             }
         }
+        doLogoff();
     }
 
     private static void doLogoff() {
@@ -189,8 +190,8 @@ public class VoiceServer extends Thread {
         Keys_to_Players.clear();
         Players_to_Keys.clear();
         brokenClients.clear();
-        for (int i = 0; i < playersInChannels.size(); ++i) {
-            Vector<SelectionKey> v = playersInChannels.get(i);
+        for (int i = 0; i < playerKeysInChannels.size(); ++i) {
+            Vector<SelectionKey> v = playerKeysInChannels.get(i);
             v.clear();
         }
     }
@@ -199,7 +200,7 @@ public class VoiceServer extends Thread {
         return isLocked;
     }
 
-    public void shutdown() {
+    public synchronized void shutdown() {
         serverrun = false;
         for (SelectionKey key : Keys_to_Players.keySet()) {
             try {
@@ -209,7 +210,7 @@ public class VoiceServer extends Thread {
         }
     }
 
-    private void process(SelectionKey key, ByteBuffer buffer) {
+    private synchronized void process(SelectionKey key, ByteBuffer buffer) {
         MixedMessage msg = new MixedMessage(buffer);
         if (msg.commandType == MixedMessage.STRING_COMMAND && msg.valid) {
             try{
@@ -219,7 +220,7 @@ public class VoiceServer extends Thread {
             }
         } else if (msg.commandType == MixedMessage.AUDIO_DATA_PACKAGE && msg.valid) {
             if (playerByKey(key) != null) {
-                sendtoChannel(msg, key);
+                sendToChannel(msg, key);
             }
         } else {
             System.out.println("Bad packet");
@@ -374,6 +375,7 @@ public class VoiceServer extends Thread {
             } catch (Exception ex) {
                 System.out.println("shit happens");
                 ex.printStackTrace();
+                Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().connectFailedOrBroken();
             }
         }
         try {

@@ -138,7 +138,9 @@ public class Settings {
             voiceChatIsVoiceActivated = "VoiceChatIsVoiceActivated",
             voiceSensitivity="VoiceSensitivity",
             pushToTalkHotKey = "PushToTalkHotKey",
-            pushToTalkHotKeyMask = "PushToTalkHotKeyMask";;
+            pushToTalkHotKeyMask = "PushToTalkHotKeyMask",
+            playbackVolume = "PlaybackVolume",
+            captureVolume = "CaptureVolume";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -148,6 +150,8 @@ public class Settings {
     private final static int def_playbackDeviceIndex = -1;
     private final static int def_voiceChatPort = 2301;
     private final static int def_voiceSensitivity = 20;
+    private final static float def_playbackVolume = 1.0f;
+    private final static float def_captureVolume = 1.0f;
     private final static boolean def_firstRun = true;
     private final static boolean def_voiceChatIsVoiceActivated = true;
     private final static boolean def_sleepEnabled = true;
@@ -265,6 +269,31 @@ public class Settings {
         return ret;
     }
 
+    //Generic getter for integer. Private, coz used by the real getters
+    private static float readFloat(String entry, float defaultValue) {
+        boolean error = false;
+
+        float ret = 0;
+        String get = data.getProperty(entry);
+
+        if (get != null) {
+            try {
+                ret = Float.parseFloat(get);
+            } catch (NumberFormatException e) {
+                error = true;
+            }
+        }
+
+        if (error || get == null) {
+            //reset setting to default value
+            writeSetting(entry, String.valueOf(defaultValue));
+            return defaultValue;
+        }
+
+        return ret;
+    }
+
+
     //Generic getter for boolean. Private, coz used by the real getters
     private static boolean readBoolean(String entry, boolean defaultValue) {
         boolean error = false;
@@ -320,6 +349,22 @@ public class Settings {
         //using this one, so everytime the settings get saved on a change
         data.setProperty(entry, value);
         save();
+    }
+
+    public static float getPlaybackVolume(){
+        return readFloat(playbackVolume, def_playbackVolume);
+    }
+
+    public static void setPlaybackVolume(float value){
+        writeSetting(playbackVolume, String.valueOf(value));
+    }
+
+    public static float getCaptureVolume(){
+        return readFloat(captureVolume, def_captureVolume);
+    }
+
+    public static void setCaptureVolume(float value){
+        writeSetting(captureVolume, String.valueOf(value));
     }
 
     public static int getVoiceSensitivity(){
