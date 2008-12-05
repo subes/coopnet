@@ -617,11 +617,16 @@ public class Settings {
     }
 
     public static String getHomeChannel() {
-        return readString(homeChannel, def_homeChannel);
+        String ch = readString(homeChannel, def_homeChannel);
+        if(ch.length()==3){
+            return GameDatabase.getGameName(ch);
+        }else{
+            return ch;
+        }
     }
 
     public static void setHomeChannel(String channel) {
-        writeSetting(homeChannel, channel);
+        writeSetting(homeChannel, GameDatabase.IDofGame(channel));
     }
 
     //debugMode
@@ -867,7 +872,7 @@ public class Settings {
         } catch (Exception ex) {
         }
         for (String s : favourites) {
-            pw.println(s);
+            pw.println(GameDatabase.IDofGame(s));
         }
         pw.close();
     }
@@ -893,7 +898,11 @@ public class Settings {
             } catch (IOException ex) {
                 return;
             }
-            favourites.add(input);
+            if(input.length()==3){
+                favourites.add(GameDatabase.getGameName(input));
+            }else{
+                favourites.add(input);
+            }
         }
         try {
             br.close();
