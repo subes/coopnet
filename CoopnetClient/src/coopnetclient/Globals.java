@@ -60,7 +60,7 @@ public class Globals {
     private static String lastOpenedDir;
     //Preset value
     private static boolean debug = false;
-    private static final String clientVersion = "0.99.2";
+    private static final String clientVersion = "0.99.3";
     private static boolean connectionStatus = false;
     private static boolean loggedInStatus = false;
     private static boolean sleepModeStatus = false;

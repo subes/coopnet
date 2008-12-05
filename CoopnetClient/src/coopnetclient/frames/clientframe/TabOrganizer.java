@@ -34,12 +34,15 @@ import coopnetclient.frames.clientframe.tabs.PasswordRecoveryPanel;
 import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
 import coopnetclient.frames.clientframe.tabs.RegisterPanel;
 import coopnetclient.frames.clientframe.tabs.RoomPanel;
+import coopnetclient.frames.components.TabComponent;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
+import java.awt.Component;
+import java.awt.Font;
 import java.io.File;
 import java.util.Vector;
 import javax.swing.JPanel;
@@ -88,6 +91,7 @@ public class TabOrganizer {
         ChannelPanel currentchannel = new ChannelPanel(channelname);
         tabHolder.add(currentchannel, 0);
         tabHolder.setTitleAt(0, channelname);
+        tabHolder.setTabComponentAt(0, new TabComponent(channelname) );
         channelPanels.add(currentchannel);
         
         //chatonly or game?
@@ -113,6 +117,32 @@ public class TabOrganizer {
 
         Globals.getClientFrame().repaint();
         tabHolder.setSelectedComponent(currentchannel);
+    }
+
+    public static void markTab(Component tab) {
+        int idx = tabHolder.indexOfComponent(tab);
+        if (idx > -1 && tabHolder.getSelectedIndex()!= idx ) {
+            Component tabComponent = tabHolder.getTabComponentAt(idx);
+            if (tabComponent != null) {
+                Font f = tabComponent.getFont().deriveFont(Font.BOLD);
+                if (f != null) {
+                    tabComponent.setFont(f);
+                }
+            }
+        }
+    }
+
+    public static void unMarkTab(Component tab) {
+        int idx = tabHolder.indexOfComponent(tab);
+        if (idx > -1) {
+            Component tabComponent = tabHolder.getTabComponentAt(idx);
+            if (tabComponent != null) {
+                Font f = tabComponent.getFont().deriveFont(Font.PLAIN);
+                if (f != null) {
+                    tabComponent.setFont(f);
+                }
+            }
+        }
     }
 
     public static void closeChannelPanel(String channelName) {
@@ -175,7 +205,7 @@ public class TabOrganizer {
             roomPanel = new RoomPanel(isHost, channel, modindex, ip, compatible, hamachiIp, maxPlayers, hostName,roomName,ID,password);
             Globals.closeJoinRoomPasswordFrame();
             tabHolder.insertTab("Room", null, roomPanel, null, channelPanels.size());
-
+            tabHolder.setTabComponentAt(channelPanels.size(), new TabComponent("Room") );
             tabHolder.setSelectedComponent(roomPanel);
 
             for (ChannelPanel cp : channelPanels) {
@@ -217,10 +247,11 @@ public class TabOrganizer {
     }
 
     public static void openPrivateChatPanel(String title, boolean setFocus) {
-        int index = tabHolder.indexOfTab("<html><xmp>" + title);
+        int index = tabHolder.indexOfTab(title);
         if (index == -1) {
             PrivateChatPanel pc = new PrivateChatPanel(title);
-            tabHolder.add("<html><xmp>" + title, pc);
+            tabHolder.add(title, pc);
+            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(pc), new TabComponent(title) );
             privateChatPanels.add(pc);
             if (setFocus) {
                 tabHolder.setSelectedComponent(pc);
@@ -240,7 +271,7 @@ public class TabOrganizer {
             }
         } else {
             if (setFocus) {
-                tabHolder.setSelectedIndex(tabHolder.indexOfTab("<html><xmp>" + title));
+                tabHolder.setSelectedIndex(tabHolder.indexOfTab(title));
                 tabHolder.getSelectedComponent().requestFocus();
             }
         }
@@ -260,7 +291,7 @@ public class TabOrganizer {
     }
 
     public static PrivateChatPanel getPrivateChatPanel(String title) {
-        int index = tabHolder.indexOfTab("<html><xmp>" + title);
+        int index = tabHolder.indexOfTab(title);
         if (index != -1) {
             JPanel panel = (JPanel) tabHolder.getComponentAt(index);
             if (panel instanceof PrivateChatPanel) {
@@ -280,7 +311,7 @@ public class TabOrganizer {
             browserPanel = new BrowserPanel(url);
 
             //panelHolder.addTab("Browser", browserPanel);
-            tabHolder.addTab("Beginner's Guide", browserPanel); //For now this is ok
+            tabHolder.addTab("Beginner's Guide", browserPanel); //For now this is ok            
             tabHolder.setSelectedComponent(browserPanel);
         } else {
             tabHolder.setSelectedComponent(browserPanel);
@@ -485,7 +516,6 @@ public class TabOrganizer {
 
     public static void closeAllTabs() {
         tabHolder.removeAll();
-
         channelPanels.clear();
         roomPanel = null;
         privateChatPanels.clear();

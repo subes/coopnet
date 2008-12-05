@@ -254,6 +254,7 @@ public class ClientFrame extends javax.swing.JFrame {
         ChannelPanel cp = TabOrganizer.getChannelPanel(channel);
         if (cp != null) {
             cp.printMainChatMessage(name, message, modeStyle);
+            TabOrganizer.markTab(cp);
         }
     }
 
@@ -815,6 +816,7 @@ public class ClientFrame extends javax.swing.JFrame {
 
     private void tabpn_tabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabpn_tabsStateChanged
         TabOrganizer.putFocusOnTab(null);
+        TabOrganizer.unMarkTab(tabpn_tabs.getSelectedComponent());
 }//GEN-LAST:event_tabpn_tabsStateChanged
 
     private void tabpn_tabsComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tabpn_tabsComponentAdded
