@@ -143,7 +143,10 @@ public class FileChooser extends javax.swing.JFrame {
         TreeSet<File> directories = new TreeSet<File>();
         TreeSet<File> files = new TreeSet<File>();
         //stores where we were when going up
-        if (directory.getName().equals("..")) {
+        if( directory.isFile()){
+            directory = directory.getParentFile();
+        }
+        if (directory.getName().equals("..") ) {
             prevdir = directory.getParentFile().getName();
         }
         try {
@@ -315,9 +318,12 @@ public class FileChooser extends javax.swing.JFrame {
             }
         });
 
-        tf_currentDir.setEditable(false);
         tf_currentDir.setText("C:\\someplace");
-        tf_currentDir.setFocusable(false);
+        tf_currentDir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tf_currentDirActionPerformed(evt);
+            }
+        });
 
         cb_showHidden.setText("show hidden");
         cb_showHidden.setFocusable(false);
@@ -528,6 +534,10 @@ private void cmb_placesPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEve
     cmb_places.insertItemAt(tf_currentDir.getText(), 0);
     cmb_places.setSelectedIndex(0);
 }//GEN-LAST:event_cmb_placesPopupMenuWillBecomeVisible
+
+private void tf_currentDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_currentDirActionPerformed
+    openDirectory(new File(tf_currentDir.getText()));
+}//GEN-LAST:event_tf_currentDirActionPerformed
     /*
     public static void main(String args[]) {
     MyFileChooser mfc =new MyFileChooser(MyFileChooser.ANY_MODE);
