@@ -20,7 +20,6 @@
 package coopnetclient.frames.listeners;
 
 import coopnetclient.ErrorHandler;
-import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import java.awt.Desktop;
 import java.awt.Point;
@@ -80,12 +79,7 @@ public class HyperlinkMouseListener extends MouseAdapter {
         if(address!=null && address.startsWith("room://")){
             Protocol.joinRoomByID(address.substring(7), "");
             return;
-        }
-        if(address!=null && address.startsWith("voice://")){
-            String tmp[] = address.substring(8).split(":");
-            Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().startconnect(tmp[0],tmp[1]);
-            return;
-        }
+        }        
         try {
             Desktop desktop = null;
             if (Desktop.isDesktopSupported()) {

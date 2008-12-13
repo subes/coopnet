@@ -37,9 +37,6 @@ import coopnetclient.utils.FileDownloader;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -108,7 +105,6 @@ public class ClientFrame extends javax.swing.JFrame {
         
         m_user.setEnabled(Globals.getLoggedInStatus());
         m_channels.setEnabled(Globals.getLoggedInStatus());
-        m_voiceChat.setEnabled(Globals.getLoggedInStatus());
     }
     
     public void enableUpdate() {
@@ -383,18 +379,13 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_makeHome = new javax.swing.JMenuItem();
         mi_seperator = new javax.swing.JSeparator();
         mi_favourites = new javax.swing.JMenuItem();
-        m_voiceChat = new javax.swing.JMenu();
-        mi_start = new javax.swing.JMenuItem();
-        mi_copyURL = new javax.swing.JMenuItem();
-        mi_connect = new javax.swing.JMenuItem();
-        mi_lock = new javax.swing.JMenuItem();
         m_options = new javax.swing.JMenu();
         mi_clientSettings = new javax.swing.JMenuItem();
         mi_manageGames = new javax.swing.JMenuItem();
         mi_Sounds = new javax.swing.JCheckBoxMenuItem();
         m_help = new javax.swing.JMenu();
         mi_guide = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        mi_faq = new javax.swing.JMenuItem();
         mi_bugReport = new javax.swing.JMenuItem();
         mi_about = new javax.swing.JMenuItem();
 
@@ -608,43 +599,6 @@ public class ClientFrame extends javax.swing.JFrame {
 
         mbar.add(m_channels);
 
-        m_voiceChat.setText("VoiceChat");
-
-        mi_start.setText("Start local service");
-        mi_start.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_startActionPerformed(evt);
-            }
-        });
-        m_voiceChat.add(mi_start);
-
-        mi_copyURL.setText("Copy URL to clipboard");
-        mi_copyURL.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_copyURLActionPerformed(evt);
-            }
-        });
-        m_voiceChat.add(mi_copyURL);
-
-        mi_connect.setText("Connect To...");
-        mi_connect.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_connectActionPerformed(evt);
-            }
-        });
-        m_voiceChat.add(mi_connect);
-
-        mi_lock.setText("Lock");
-        mi_lock.setToolTipText("Locking will prevent anyone from connecting or changing channels!");
-        mi_lock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_lockActionPerformed(evt);
-            }
-        });
-        m_voiceChat.add(mi_lock);
-
-        mbar.add(m_voiceChat);
-
         m_options.setText("Options");
 
         mi_clientSettings.setText("Edit Settings...");
@@ -685,13 +639,13 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_help.add(mi_guide);
 
-        jMenuItem1.setText("FAQ");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        mi_faq.setText("FAQ");
+        mi_faq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                mi_faqActionPerformed(evt);
             }
         });
-        m_help.add(jMenuItem1);
+        m_help.add(mi_faq);
 
         mi_bugReport.setText("Report a Bug...");
         mi_bugReport.addActionListener(new java.awt.event.ActionListener() {
@@ -970,78 +924,9 @@ private void mi_makeHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         }
 }//GEN-LAST:event_mi_makeHomeActionPerformed
 
-private void mi_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_startActionPerformed
-    if(mi_start.getText().equals("Start local service")){
-        mi_start.setText("Stop local service");
-        pnl_QuickPanel.getVoiceChatPanel().startServer();
-        return;
-    }
-    if(mi_start.getText().equals("Stop local service")){
-        mi_start.setText("Start local service");
-        pnl_QuickPanel.getVoiceChatPanel().stopServer();
-        return;
-    }
-    if(mi_start.getText().equals("Disconnect")){
-        mi_start.setText("Start local service");
-        pnl_QuickPanel.getVoiceChatPanel().disconnect();
-        return;
-    }
-}//GEN-LAST:event_mi_startActionPerformed
-
-private void mi_copyURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_copyURLActionPerformed
-    StringSelection stringSelection = new StringSelection( "voice://"+Globals.getMyIP()+":"+Settings.getVoiceChatPort() );
-    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-    clipboard.setContents( stringSelection, null );
-}//GEN-LAST:event_mi_copyURLActionPerformed
-
-private void mi_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_connectActionPerformed
-    Globals.openConnectToVoiceChatFrame();
-}//GEN-LAST:event_mi_connectActionPerformed
-
-private void mi_lockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_lockActionPerformed
-   if (mi_lock.getText().equals("Lock")) {
-        Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().setServerLockedStatus(true);
-        mi_lock.setText("UnLock");
-    } else if (mi_lock.getText().equals("UnLock")) {
-        Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().setServerLockedStatus(false);
-        mi_lock.setText("Lock");
-    }
-}//GEN-LAST:event_mi_lockActionPerformed
-
-private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+private void mi_faqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_faqActionPerformed
     HyperlinkMouseListener.openURL("http://coopnet.sourceforge.net/faq.html");
-}//GEN-LAST:event_jMenuItem1ActionPerformed
-
-public void updateVoiceServerStatus(boolean isrunning){
-    if(isrunning){
-        mi_start.setText("Stop local service");
-        mi_lock.setEnabled(true);
-        mi_connect.setEnabled(false);
-    }else{
-        mi_start.setText("Start local service");
-        mi_lock.setEnabled(false);
-        mi_connect.setEnabled(true);
-        mi_lock.setText("Lock");
-    }
-}
-
-public void updateVoiceServerLockStatus(boolean isLocked){
-        if (isLocked) {
-            mi_lock.setText("UnLock");
-        } else {
-            mi_lock.setText("Lock");
-        }
-}
-
-public void updateVoiceClientStatus(boolean isrunning){
-    if(isrunning){
-        mi_start.setText("Disconnect");
-        mi_lock.setEnabled(false);
-    }else{
-        mi_start.setText("Start local service");
-        mi_lock.setEnabled(false);
-    }
-}
+}//GEN-LAST:event_mi_faqActionPerformed
 
 private Color getHoverEffectColor(){
     Color clr = null;
@@ -1053,13 +938,11 @@ private Color getHoverEffectColor(){
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu m_channels;
     private javax.swing.JMenu m_help;
     private javax.swing.JMenu m_main;
     private javax.swing.JMenu m_options;
     private javax.swing.JMenu m_user;
-    private javax.swing.JMenu m_voiceChat;
     private javax.swing.JMenuBar mbar;
     private javax.swing.JCheckBoxMenuItem mi_Sounds;
     private javax.swing.JMenuItem mi_about;
@@ -1067,12 +950,10 @@ private Color getHoverEffectColor(){
     private javax.swing.JMenuItem mi_bugReport;
     private javax.swing.JMenuItem mi_channelList;
     private javax.swing.JMenuItem mi_clientSettings;
-    private javax.swing.JMenuItem mi_connect;
     private javax.swing.JMenuItem mi_connection;
-    private javax.swing.JMenuItem mi_copyURL;
+    private javax.swing.JMenuItem mi_faq;
     private javax.swing.JMenuItem mi_favourites;
     private javax.swing.JMenuItem mi_guide;
-    private javax.swing.JMenuItem mi_lock;
     private javax.swing.JMenuItem mi_makeHome;
     private javax.swing.JMenuItem mi_manageFavs;
     private javax.swing.JMenuItem mi_manageGames;
@@ -1081,7 +962,6 @@ private Color getHoverEffectColor(){
     private javax.swing.JSeparator mi_seperator;
     private javax.swing.JMenuItem mi_showMuteBanList;
     private javax.swing.JCheckBoxMenuItem mi_showQuickbar;
-    private javax.swing.JMenuItem mi_start;
     private javax.swing.JMenuItem mi_update;
     private javax.swing.JPanel pnl_toggleQuickBarLeft;
     private javax.swing.JPanel pnl_toggleQuickBarRight;

@@ -57,7 +57,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem whisper;
     private JMenuItem sendFile;
     private JMenuItem roomInvite;
-    private JMenuItem talkInvite;
     private JMenuItem refresh;
     private JMenu moveto;
     private JSeparator sep_group;
@@ -93,7 +92,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         showOffline = new JCheckBoxMenuItem("Show offline contacts", Settings.getShowOfflineContacts());
         showOffline.addActionListener(this);
         roomInvite = makeMenuItem("Invite to room");
-        talkInvite = makeMenuItem("Invite to voiceChat");
         mute_UnMute = makeMenuItem("Mute");
         ban_UnBan = makeMenuItem("Ban");
 
@@ -109,7 +107,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(whisper);
         this.add(sendFile);
         this.add(roomInvite);
-        this.add(talkInvite);
         this.add(mute_UnMute);
         this.add(ban_UnBan);
         this.add(showProfile);
@@ -167,12 +164,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             roomInvite.setVisible(false);
         } else {
             roomInvite.setVisible(isVisible);
-        }
-        if(Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().isServerRunning()){
-            talkInvite.setVisible(isVisible);
-        }else{
-            talkInvite.setVisible(false);
-        }
+        }        
         sep_group.setVisible(isVisible);
     }
 
@@ -269,8 +261,6 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             Globals.getClientFrame().printToVisibleChatbox("System", "You have nudged "+subject +" !", ChatStyles.SYSTEM , false);
         } else if (command.equals("Invite to room")) {
             Protocol.sendRoomInvite(subject);
-        } else if (command.equals("Invite to voiceChat")) {
-            Protocol.privateChat(subject, "Lets talk! voice://" + Globals.getMyIP() + ":" + Settings.getVoiceChatPort());
         } else if (command.equals("Show profile")) {
             Protocol.requestProfile(subject);
         } else if (command.equals("Ban")) {
