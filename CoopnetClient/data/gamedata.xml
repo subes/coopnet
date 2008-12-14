@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 23 -->
+<!--Version 24 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?,(NoSpaces)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
@@ -2251,11 +2251,11 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>-game left4dead -console -novid +sv_cheats 0 +sv_allow_lobby_connect_only 0 +z_difficulty {DIFFICULTY} +sv_lan 0 +map {MAP}</PropertyValue>
+            <PropertyValue>-game left4dead -console -novid +sv_cheats 0 +sv_allow_lobby_connect_only 0 +z_difficulty {DIFFICULTY} +sv_lan 0 +map {MAP} +name "{NAME}"</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
-            <PropertyValue>-game left4dead -console -novid +connect {HOSTIP}</PropertyValue>
+            <PropertyValue>-game left4dead -console -novid +connect {HOSTIP} +name "{NAME}"</PropertyValue>
         </Property>
         <Property>
             <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
