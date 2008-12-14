@@ -24,6 +24,7 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.models.SortedListModel;
 import java.awt.event.MouseEvent;
+import java.util.Vector;
 
 public class ChannelListFrame extends javax.swing.JFrame {
 
@@ -55,6 +56,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
         jb_joinChannelButton = new javax.swing.JButton();
         lbl_channellist = new javax.swing.JLabel();
         btn_cancel = new javax.swing.JButton();
+        cb_showInstalledOnly = new javax.swing.JCheckBox();
 
         setTitle("Join channel");
         setFocusable(false);
@@ -99,6 +101,13 @@ public class ChannelListFrame extends javax.swing.JFrame {
             }
         });
 
+        cb_showInstalledOnly.setText("Show installed games only");
+        cb_showInstalledOnly.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_showInstalledOnlyActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,14 +117,16 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(scrl_channelList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(lbl_filter)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jb_joinChannelButton)
                         .addGap(10, 10, 10)
                         .addComponent(btn_cancel))
-                    .addComponent(lbl_channellist, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(lbl_channellist, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(lbl_filter)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cb_showInstalledOnly)
+                            .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -125,10 +136,12 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tf_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_filter))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cb_showInstalledOnly)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_channellist, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrl_channelList, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                .addComponent(scrl_channelList, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_cancel)
@@ -149,10 +162,17 @@ public class ChannelListFrame extends javax.swing.JFrame {
     private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_filterActionPerformed
         lst_channelList.removeAll();
         channels.clear();
+        Vector<String> installedgames = GameDatabase.getInstalledGameNames();
         String filter = tf_filter.getText();
-        for (String st : GameDatabase.getAllGameNamesAsStringArray()) {
-            if (st.toLowerCase().contains(filter.toLowerCase())) {
-                channels.add(st);
+        for (String gameName : GameDatabase.getAllGameNamesAsStringArray()) {
+            if (gameName.toLowerCase().contains(filter.toLowerCase())) {
+                if (cb_showInstalledOnly.isSelected()) {
+                    if (installedgames.contains(gameName)) {
+                        channels.add(gameName);
+                    }
+                } else {
+                    channels.add(gameName);
+                }
             }
         }
         this.repaint();
@@ -172,8 +192,13 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     Globals.closeChannelListFrame();
 }//GEN-LAST:event_formWindowClosing
 
+private void cb_showInstalledOnlyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_showInstalledOnlyActionPerformed
+    tf_filterActionPerformed(null);
+}//GEN-LAST:event_cb_showInstalledOnlyActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
+    private javax.swing.JCheckBox cb_showInstalledOnly;
     private javax.swing.JButton jb_joinChannelButton;
     private javax.swing.JLabel lbl_channellist;
     private javax.swing.JLabel lbl_filter;

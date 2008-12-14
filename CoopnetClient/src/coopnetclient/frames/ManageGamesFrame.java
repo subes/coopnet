@@ -27,6 +27,7 @@ import coopnetclient.frames.models.SortedListModel;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.io.File;
+import java.util.Vector;
 
 public class ManageGamesFrame extends javax.swing.JFrame {
 
@@ -72,6 +73,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         lbl_note = new javax.swing.JLabel();
         tf_path = new coopnetclient.frames.components.AdvancedJTextField();
         tf_installPath = new coopnetclient.frames.components.AdvancedJTextField();
+        cb_showInstalledOnly = new javax.swing.JCheckBox();
 
         setTitle("Manage games");
         setResizable(false);
@@ -140,39 +142,51 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
         lbl_note.setText("<html><b>Note:");
 
+        cb_showInstalledOnly.setText("Show installed games only");
+        cb_showInstalledOnly.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_showInstalledOnlyActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl_filter)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE))
-                    .addComponent(lbl_games)
-                    .addComponent(scrl_games, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_installPath)
-                            .addComponent(lbl_path))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tf_installPath, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
-                            .addComponent(tf_path, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lbl_note)
+                                .addComponent(lbl_filter)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbl_noteText)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_browseInstallPath, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btn_browsePath, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE))
+                            .addComponent(lbl_games)
+                            .addComponent(scrl_games, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl_installPath)
+                                    .addComponent(lbl_path))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tf_installPath, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                                    .addComponent(tf_path, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lbl_note)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lbl_noteText)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btn_browseInstallPath, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btn_browsePath, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn_save)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_close))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_save)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_close)))
+                        .addGap(38, 38, 38)
+                        .addComponent(cb_showInstalledOnly)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -182,7 +196,9 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tf_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_filter))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cb_showInstalledOnly)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_games)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrl_games, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -304,10 +320,17 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_filterActionPerformed
     lst_games.removeAll();
     channels.clear();
+    Vector<String> installedgames = GameDatabase.getInstalledGameNames();
     String filter = tf_filter.getText();
-    for (String st : GameDatabase.getAllGameNamesAsStringArray()) {
-        if (st.toLowerCase().contains(filter.toLowerCase())) {
-            channels.add(st);
+    for (String gameName : GameDatabase.getNonDPlayGameNames()) {
+        if (gameName.toLowerCase().contains(filter.toLowerCase())) {
+            if (cb_showInstalledOnly.isSelected()) {
+                if (installedgames.contains(gameName)) {
+                    channels.add(gameName);
+                }
+            } else {
+                channels.add(gameName);
+            }
         }
     }
     this.repaint();
@@ -326,11 +349,16 @@ private void lst_gamesValueChanged(javax.swing.event.ListSelectionEvent evt) {//
         }
 }//GEN-LAST:event_lst_gamesValueChanged
 
+private void cb_showInstalledOnlyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_showInstalledOnlyActionPerformed
+    tf_filterActionPerformed(null);
+}//GEN-LAST:event_cb_showInstalledOnlyActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_browseInstallPath;
     private javax.swing.JButton btn_browsePath;
     private javax.swing.JButton btn_close;
     private javax.swing.JButton btn_save;
+    private javax.swing.JCheckBox cb_showInstalledOnly;
     private javax.swing.JLabel lbl_filter;
     private javax.swing.JLabel lbl_games;
     private javax.swing.JLabel lbl_installPath;
