@@ -2228,6 +2228,68 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Settings>
     </GameData>
     <GameData>
+        <GameName>Left 4 Dead</GameName>
+        <ChannelID>236</ChannelID>
+        <LaunchMethod>PARAMETER</LaunchMethod>
+        <InstantLaunch/>
+        <RegistryEntry></RegistryEntry>
+        <Property>
+            <PropertyName>EXE</PropertyName>
+            <PropertyValue>hl2.exe</PropertyValue>
+        </Property>        
+        <Property>
+            <PropertyName>MAPLOADERTYPE</PropertyName>
+            <PropertyValue>FILE</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPPATH</PropertyName>
+            <PropertyValue>left4dead\maps</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPEXT</PropertyName>
+            <PropertyValue>bsp</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue>-game left4dead -console -novid +sv_cheats 0 +sv_allow_lobby_connect_only 0 +z_difficulty {DIFFICULTY} +sv_lan 0 +map {MAP}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue>-game left4dead -console -novid +connect {HOSTIP}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Settings>            
+            <ChoiceSetting>
+                <SettingName>Difficulty</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>DIFFICULTY</KeyWord>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Easy</ChoiceDisplayName>
+                    <ChoiceRealValue>easy</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Normal</ChoiceDisplayName>
+                    <ChoiceRealValue>normal</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>hard</ChoiceDisplayName>
+                    <ChoiceRealValue>hard</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Impossible</ChoiceDisplayName>
+                    <ChoiceRealValue>impossible</ChoiceRealValue>
+                </ChoiceItem>
+            </ChoiceSetting>            
+        </Settings>
+    </GameData>
+    <GameData>
         <GameName>Unreal Tournament</GameName>
         <InstantLaunch/>
         <NoSpaces/>
