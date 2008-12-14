@@ -25,7 +25,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class XmlHandler_DetectGames extends DefaultHandler{
 
-    private String gameName;
     private String tmpID;
     private StringBuilder tempVal = new StringBuilder();
     private boolean inMod = false;
@@ -40,7 +39,6 @@ public class XmlHandler_DetectGames extends DefaultHandler{
         tempVal.delete(0, tempVal.length());
         if (qName.equalsIgnoreCase("GameData")) {            
             inMod = false;
-            gameName = null;
             tmpID = null;
         } else if (qName.equalsIgnoreCase("Mod")) {            
             inMod = true;
@@ -56,17 +54,11 @@ public class XmlHandler_DetectGames extends DefaultHandler{
     public void endElement(String uri, String localName, String qName) throws SAXException {
          if (qName.equalsIgnoreCase("Mod")) {
             inMod = false;
-            gameName = null;
+
         } else if (qName.equalsIgnoreCase("ChannelID")) {
             tmpID = tempVal.toString();
-        } else if (qName.equalsIgnoreCase("GameName")) {
-            if (!inMod) {
-                gameName = tempVal.toString();
-            }
         } else if (qName.equalsIgnoreCase("RegKey")) {
             if (!inMod) {
-                //TODO detect
-                //tempVal.toString();
                 String path = GameDatabase.readRegistry(tempVal.toString());
                 if(path!=null && path.length() >0){
                     GameDatabase.addIDToInstalledList(tmpID);

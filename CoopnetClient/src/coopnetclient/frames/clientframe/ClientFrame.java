@@ -34,6 +34,7 @@ import coopnetclient.frames.clientframe.tabs.FileTransferSendPanel;
 import coopnetclient.frames.clientframe.tabs.LoginPanel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.utils.FileDownloader;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -68,6 +69,7 @@ public class ClientFrame extends javax.swing.JFrame {
         setQuickPanelPosition(Settings.getQuickPanelPostionisLeft());
         slp_mainSplitPanel.setDividerSize(0);        
         refreshFavourites();
+        refreshInstalledGames();
 
         //load the size from options
         int width = Settings.getMainFrameWidth();
@@ -378,7 +380,8 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_addCurrentToFav = new javax.swing.JMenuItem();
         mi_makeHome = new javax.swing.JMenuItem();
         mi_seperator = new javax.swing.JSeparator();
-        mi_favourites = new javax.swing.JMenuItem();
+        m_Favourites = new javax.swing.JMenu();
+        m_installedGames = new javax.swing.JMenu();
         m_options = new javax.swing.JMenu();
         mi_clientSettings = new javax.swing.JMenuItem();
         mi_manageGames = new javax.swing.JMenuItem();
@@ -593,9 +596,11 @@ public class ClientFrame extends javax.swing.JFrame {
         m_channels.add(mi_makeHome);
         m_channels.add(mi_seperator);
 
-        mi_favourites.setText("Favourites:");
-        mi_favourites.setEnabled(false);
-        m_channels.add(mi_favourites);
+        m_Favourites.setText("Favourites");
+        m_channels.add(m_Favourites);
+
+        m_installedGames.setText("Installed Games");
+        m_channels.add(m_installedGames);
 
         mbar.add(m_channels);
 
@@ -701,15 +706,11 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_aboutActionPerformed
 
     private void clearFavourites() {
-        for (Component mi : m_channels.getMenuComponents()) {
-            if (mi instanceof FavMenuItem) {
-                m_channels.remove(mi);
-            }
-        }
+        m_Favourites.removeAll();
     }
 
     private void addFavourite(String channelname) {
-        m_channels.add(new FavMenuItem(channelname));
+        m_Favourites.add(new FavMenuItem(channelname));
     }
 
     public void refreshFavourites() {
@@ -717,8 +718,24 @@ public class ClientFrame extends javax.swing.JFrame {
         for (String s : Settings.getFavourites()) {
             addFavourite(s);
         }
-        m_channels.revalidate();
+        m_Favourites.revalidate();
         pnl_QuickPanel.refreshFavourites();
+    }
+
+    private void clearInstalledGames() {
+        m_installedGames.removeAll();
+    }
+
+    private void addInstalledGame(String channelname) {
+        m_installedGames.add(new FavMenuItem(channelname));
+    }
+
+    public void refreshInstalledGames() {
+        clearInstalledGames();
+        for (String s : GameDatabase.getInstalledGameNames()) {
+            addInstalledGame(s);
+        }
+        m_installedGames.revalidate();
     }
 
     /**
@@ -938,8 +955,10 @@ private Color getHoverEffectColor(){
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu m_Favourites;
     private javax.swing.JMenu m_channels;
     private javax.swing.JMenu m_help;
+    private javax.swing.JMenu m_installedGames;
     private javax.swing.JMenu m_main;
     private javax.swing.JMenu m_options;
     private javax.swing.JMenu m_user;
@@ -952,7 +971,6 @@ private Color getHoverEffectColor(){
     private javax.swing.JMenuItem mi_clientSettings;
     private javax.swing.JMenuItem mi_connection;
     private javax.swing.JMenuItem mi_faq;
-    private javax.swing.JMenuItem mi_favourites;
     private javax.swing.JMenuItem mi_guide;
     private javax.swing.JMenuItem mi_makeHome;
     private javax.swing.JMenuItem mi_manageFavs;

@@ -130,12 +130,16 @@
             </MenuItem>
             <MenuItem class="javax.swing.JSeparator" name="mi_seperator">
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mi_favourites">
+            <Menu class="javax.swing.JMenu" name="m_Favourites">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Favourites:"/>
-                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="text" type="java.lang.String" value="Favourites"/>
               </Properties>
-            </MenuItem>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="m_installedGames">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Installed Games"/>
+              </Properties>
+            </Menu>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="m_options">

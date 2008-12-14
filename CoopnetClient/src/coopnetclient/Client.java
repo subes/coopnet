@@ -109,7 +109,7 @@ public class Client {
 
                         @Override
                         public void run() {
-                            Globals.openClientFrame();
+                            Globals.openClientFrame();                            
                             if (Settings.getFirstRun()) {
                                 TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
                                 Settings.setFirstRun(false);

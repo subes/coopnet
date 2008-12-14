@@ -81,8 +81,6 @@ public class GameDatabase {
 
     public static void addIDToInstalledList(String ID) {
         installedGameIDs.add(ID);
-        //debug
-        System.out.println("Game detected: "+ getGameName(ID));
     }
 
     public static Vector<String> getInstalledGameNames() {
@@ -396,13 +394,13 @@ public class GameDatabase {
     }
 
     public static synchronized void detectGames() {
-        ClearInstalledGameList();
+        ClearInstalledGameList();        
         try {
             xmlReader.parseGameData(null, dataFilePath,XMLReader.DETECT_GAMES);
         }
         catch (Exception e) {
             e.printStackTrace();
-        }
+        }        
     }
 
     public static void loadLocalPaths() {
