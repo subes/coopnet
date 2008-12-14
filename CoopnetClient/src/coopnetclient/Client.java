@@ -104,6 +104,7 @@ public class Client {
                     Colorizer.initLAF();
                     GameDatabase.loadVersion();
                     GameDatabase.load("", GameDatabase.dataFilePath);
+                    GameDatabase.detectGames();
                     SwingUtilities.invokeLater(new Runnable() {
 
                         @Override

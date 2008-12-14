@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 public class GameDatabase {
 
@@ -46,6 +47,7 @@ public class GameDatabase {
     protected static ArrayList<Game> gameData;
     public static int version = 0;
     private static XMLReader xmlReader = new XMLReader();
+    private static Vector<String> installedGameIDs ;
     
 
     static {
@@ -68,8 +70,27 @@ public class GameDatabase {
         localInstallPath = new HashMap<String, String>();
         isExperimental = new ArrayList<String>();
         gameData = new ArrayList<Game>();
+        installedGameIDs = new  Vector<String>();
         load("", dataFilePath);
         loadLocalPaths();
+    }
+
+    public static void ClearInstalledGameList() {
+        installedGameIDs.clear();
+    }
+
+    public static void addIDToInstalledList(String ID) {
+        installedGameIDs.add(ID);
+        //debug
+        System.out.println("Game detected: "+ getGameName(ID));
+    }
+
+    public static Vector<String> getInstalledGameNames() {
+        Vector<String> data = new Vector<String>();
+        for (String ID : installedGameIDs) {
+            data.add(getGameName(ID));
+        }
+        return data;
     }
 
     public static boolean isBeta(String channelname) {
@@ -365,11 +386,21 @@ public class GameDatabase {
     public static synchronized void load(String gamename, String datafilepath) {
         try {
             System.out.println("loading from:"+datafilepath);
-            xmlReader.parseGameData(gamename, datafilepath);
+            xmlReader.parseGameData(gamename, datafilepath,XMLReader.LOAD_GAMEDATA);
             System.out.println("game database loaded");  
         }
         catch (Exception e) {
             System.out.println("game database loading failed!");
+            e.printStackTrace();
+        }
+    }
+
+    public static synchronized void detectGames() {
+        ClearInstalledGameList();
+        try {
+            xmlReader.parseGameData(null, dataFilePath,XMLReader.DETECT_GAMES);
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
