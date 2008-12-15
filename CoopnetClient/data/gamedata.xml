@@ -16,7 +16,7 @@
 <!ELEMENT Settings ((ChoiceSetting|TextSetting|NumberSetting)*)>
 <!ELEMENT ChoiceSetting (SettingName, SettingType, KeyWord, (IsSharedSetting)?, (SettingDefaultValue)?,(ChoiceItem)*)>
 <!ELEMENT TextSetting (SettingName, SettingType, KeyWord, (IsSharedSetting)?, (SettingDefaultValue)?)>
-<!ELEMENT NumberSetting (SettingName, SettingType, KeyWord, (IsSharedSetting)?, (SettingDefaultValue)?, SettingMinValue, SettingMaxValue)>
+<!ELEMENT NumberSetting (SettingName, SettingType, KeyWord, (IsLocalSetting)?, (SettingDefaultValue)?, SettingMinValue, SettingMaxValue)>
 <!ELEMENT ChoiceItem (ChoiceDisplayName,ChoiceRealValue)>
 <!ELEMENT SettingName (CDATA)>
 <!ELEMENT SettingType (CDATA)>
@@ -2244,11 +2244,11 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>-game left4dead -console -novid +sv_cheats 0 +sv_allow_lobby_connect_only 0 +z_difficulty {DIFFICULTY} +sv_lan 0 +map {MAP} +name "{NAME}"</PropertyValue>
+            <PropertyValue>-game left4dead -console -novid +sv_cheats 0 +sv_allow_lobby_connect_only 0 +z_difficulty {DIFFICULTY} +sv_lan 0 +map {MAP} +name "{NAME}" +team_desired "{TEAM}" {SHOULDERVIEW}</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
-            <PropertyValue>-game left4dead -console -novid +connect {HOSTIP} +name "{NAME}"</PropertyValue>
+            <PropertyValue>-game left4dead -console -novid +connect {HOSTIP} +name "{NAME}" +team_desired "{TEAM}" {SHOULDERVIEW}</PropertyValue>
         </Property>
         <Property>
             <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
@@ -2258,7 +2258,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             <PropertyName>JOINPASSWORDPATTERN</PropertyName>
             <PropertyValue>+password "{PASSWORD}"</PropertyValue>
         </Property>
-        <Settings>            
+        <Settings>
             <ChoiceSetting>
                 <SettingName>Difficulty</SettingName>
                 <SettingType>CHOICE</SettingType>
@@ -2279,7 +2279,47 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                     <ChoiceDisplayName>Impossible</ChoiceDisplayName>
                     <ChoiceRealValue>impossible</ChoiceRealValue>
                 </ChoiceItem>
-            </ChoiceSetting>            
+            </ChoiceSetting>
+            <ChoiceSetting>
+                <SettingName>Desired team</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>TEAM</KeyWord>
+                <IsLocalSetting/>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Bill</ChoiceDisplayName>
+                    <ChoiceRealValue>Survivor Bill</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Zoey</ChoiceDisplayName>
+                    <ChoiceRealValue>Survivor Zoey</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Francis</ChoiceDisplayName>
+                    <ChoiceRealValue>Survivor Francis</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Louis</ChoiceDisplayName>
+                    <ChoiceRealValue>Survivor Louis</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Infected(versus mode only)</ChoiceDisplayName>
+                    <ChoiceRealValue>Infected</ChoiceRealValue>
+                </ChoiceItem>
+            </ChoiceSetting>
+            <ChoiceSetting>
+                <SettingName>Shoulderview</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>SHOULDERVIEW</KeyWord>
+                <IsLocalSetting/>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Yes</ChoiceDisplayName>
+                    <ChoiceRealValue>+thirdperson</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>No</ChoiceDisplayName>
+                    <ChoiceRealValue></ChoiceRealValue>
+                </ChoiceItem>
+            </ChoiceSetting>
         </Settings>
     </GameData>
     <GameData>
