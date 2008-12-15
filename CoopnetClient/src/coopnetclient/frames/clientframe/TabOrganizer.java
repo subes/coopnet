@@ -233,7 +233,7 @@ public class TabOrganizer {
             for (ChannelPanel cp : channelPanels) {
                 cp.enablebuttons();
             }
-            
+
             if(roomPanel.isHost()){
                 Hotkeys.unbindHotKey(Hotkeys.ACTION_LAUNCH);
             }

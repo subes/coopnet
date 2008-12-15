@@ -41,7 +41,7 @@ public class XmlHandler_LoadGameData extends DefaultHandler{
     private ArrayList<String> values;
     private ArrayList<String> regkeys;
     private ArrayList<String> modregkeys;
-    private boolean sharedSetting = false;
+    private boolean localSetting = false;
     //temp object holders
     private Game tmpGame;
     private Game tmpMod;
@@ -73,7 +73,7 @@ public class XmlHandler_LoadGameData extends DefaultHandler{
             modregkeys = new ArrayList<String>();
             inMod = true;
         } else if (qName.equalsIgnoreCase("ChoiceSetting") || qName.equalsIgnoreCase("TextSetting") || qName.equalsIgnoreCase("NumberSetting")) {
-            sharedSetting = false;
+            localSetting = false;
             tmpSettingName = "";
             tmpSettingType = null;
             tmpSettingKeyWord = "";
@@ -162,7 +162,7 @@ public class XmlHandler_LoadGameData extends DefaultHandler{
         } else if (qName.equalsIgnoreCase("PropertyValue")) {
             propertyValue = tempVal.toString();
         } else if (qName.equalsIgnoreCase("ChoiceSetting") || qName.equalsIgnoreCase("TextSetting") || qName.equalsIgnoreCase("NumberSetting")) {
-            tmpSetting = new GameSetting(sharedSetting, tmpSettingName, tmpSettingType, tmpSettingKeyWord, tmpSettingDefVal);
+            tmpSetting = new GameSetting(localSetting, tmpSettingName, tmpSettingType, tmpSettingKeyWord, tmpSettingDefVal);
             switch (tmpSettingType) {
                 case CHOICE: {
                     tmpSetting.setComboboxSelectNames(names);
@@ -185,8 +185,8 @@ public class XmlHandler_LoadGameData extends DefaultHandler{
             tmpSettingName = tempVal.toString();
         } else if (qName.equalsIgnoreCase("KeyWord")) {
             tmpSettingKeyWord = tempVal.toString();
-        } else if (qName.equalsIgnoreCase("IsSharedSetting")) {
-            sharedSetting = true;
+        } else if (qName.equalsIgnoreCase("IsLocalSetting")) {
+            localSetting = true;
         } else if (qName.equalsIgnoreCase("ChoiceDisplayName")) {
             names.add(tempVal.toString());
         } else if (qName.equalsIgnoreCase("ChoiceRealValue")) {

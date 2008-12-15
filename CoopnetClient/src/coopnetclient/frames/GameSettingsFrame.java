@@ -45,6 +45,7 @@ import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 
 public class GameSettingsFrame extends javax.swing.JFrame {
 
@@ -54,13 +55,15 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     private String modname;
     private String roomname,  password;
     private int modindex,  maxPlayers;
-    private boolean compatible,  isInstant;
+    private boolean compatible,  isInstant,  isHost;
 
     /** Creates new form GameSettingsPanel */
-    public GameSettingsFrame(String gamename, String modname) {
+    public GameSettingsFrame(String gamename, String modname, boolean isHost) {
         initComponents();
         this.gamename = gamename;
         this.modname = modname;
+        this.isHost = isHost;
+        isInstant = false;
         lbl_map.setVisible(false);
         cb_map.setVisible(false);
         customize();
@@ -70,6 +73,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     public GameSettingsFrame(String gamename, String modname, String roomname, String password, int modindex, int maxPlayers, boolean compatible) {
         initComponents();
         isInstant = true;
+        isHost = true;
         this.gamename = gamename;
         this.modname = modname;
         this.roomname = roomname;
@@ -87,22 +91,25 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         if (GameDatabase.getMapExtension(gamename, modname) != null) {
             lbl_map.setVisible(true);
             cb_map.setVisible(true);
-            if(GameDatabase.getMapLoaderType(gamename, modname) == MapLoaderTypes.FILE ){
+            if (GameDatabase.getMapLoaderType(gamename, modname) == MapLoaderTypes.FILE) {
                 cb_map.setModel(new DefaultComboBoxModel(loadFileMaps()));
-            }else if(GameDatabase.getMapLoaderType(gamename, modname) == MapLoaderTypes.PK3 ){
+            } else if (GameDatabase.getMapLoaderType(gamename, modname) == MapLoaderTypes.PK3) {
                 cb_map.setModel(new DefaultComboBoxModel(loadPK3Maps()));
             }
-            
+
             cb_map.setSelectedItem(TempGameSettings.getMap());
 
             if (cb_map.getSelectedItem() == null && cb_map.getItemCount() > 0) {
                 cb_map.setSelectedIndex(0);
             }
+            cb_map.setEnabled(isHost);
         }
         //add setting components to frame and internal lists
         GridBagConstraints firstcolumn = new GridBagConstraints();
         GridBagConstraints secondcolumn = new GridBagConstraints();
-        int rowindex = 1;
+        int serverrowindex = 1;
+        int localrowindex = 0;
+        int localcount = 0;
         ArrayList<GameSetting> settings = GameDatabase.getGameSettings(gamename, modname);
         //setup constraints
         firstcolumn.gridwidth = 1;
@@ -126,8 +133,14 @@ public class GameSettingsFrame extends javax.swing.JFrame {
 
         //add each setting
         for (GameSetting gs : settings) {
-            firstcolumn.gridy = rowindex;
-            secondcolumn.gridy = rowindex;
+            if (gs.isLocal()) {
+                localcount++;
+                firstcolumn.gridy = localrowindex;
+                secondcolumn.gridy = localrowindex;
+            } else {
+                firstcolumn.gridy = serverrowindex;
+                secondcolumn.gridy = serverrowindex;
+            }
 
             JLabel label = new JLabel(gs.getName());
             label.setHorizontalAlignment(JLabel.RIGHT);
@@ -135,9 +148,12 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             switch (gs.getType()) {
                 case TEXT: {
                     input = new JTextField(gs.getDefaultValue());
-                    String currentValue = TempGameSettings.getGameSetting(gs.getName());
+                    String currentValue = TempGameSettings.getGameSettingValue(gs.getName());
                     if (currentValue != null && currentValue.length() > 0) {
                         ((JTextField) input).setText(currentValue);
+                    }
+                    if (!isHost && !gs.isLocal()) {
+                        input.setEnabled(false);
                     }
                     break;
                 }
@@ -151,24 +167,39 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                     } else {
                         input = new JSpinner();
                     }
-                    String currentValue = TempGameSettings.getGameSetting(gs.getName());
+                    String currentValue = TempGameSettings.getGameSettingValue(gs.getName());
                     if (currentValue != null && currentValue.length() > 0) {
                         ((JSpinner) input).setValue(Integer.valueOf(currentValue));
+                    }
+                    if (!isHost && !gs.isLocal()) {
+                        input.setEnabled(false);
                     }
                     break;
                 }
                 case CHOICE: {
-                    input = new JComboBox(gs.getComboboxSelectNames().toArray());
-                    if (gs.getDefaultValue() != null && gs.getDefaultValue().length() > 0) {
-                        int idx = -1;
-                        idx = gs.getComboboxSelectNames().indexOf(gs.getDefaultValue());
-                        if (idx > -1) {
-                            ((JComboBox) input).setSelectedIndex(idx);
+                    if (!isHost && !gs.isLocal()) {
+                        input = new JTextField(gs.getDefaultValue());
+                        String currentValue = TempGameSettings.getGameSettingValue(gs.getName());
+                        if (gs.getDefaultValue() != null && gs.getDefaultValue().length() > 0) {
+                            ((JTextField) input).setText(gs.getDefaultValue());
                         }
-                    }
-                    String currentValue = TempGameSettings.getGameSetting(gs.getName());
-                    if (currentValue != null && currentValue.length() > 0) {
-                        ((JComboBox) input).setSelectedItem(currentValue);
+                        if (currentValue != null && currentValue.length() > 0) {
+                            ((JTextField) input).setText(currentValue);
+                        }
+                        input.setEnabled(false);
+                    } else {
+                        input = new JComboBox(gs.getComboboxSelectNames().toArray());
+                        if (gs.getDefaultValue() != null && gs.getDefaultValue().length() > 0) {
+                            int idx = -1;
+                            idx = gs.getComboboxSelectNames().indexOf(gs.getDefaultValue());
+                            if (idx > -1) {
+                                ((JComboBox) input).setSelectedIndex(idx);
+                            }
+                        }
+                        String currentValue = TempGameSettings.getGameSettingValue(gs.getName());
+                        if (currentValue != null && currentValue.length() > 0) {
+                            ((JComboBox) input).setSelectedItem(currentValue);
+                        }
                     }
                     break;
                 }
@@ -177,10 +208,20 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             //add items to internal array
             labels.add(label);
             inputfields.add(input);
+
             //add to panel
-            pnl_settings.add(label, firstcolumn);
-            pnl_settings.add(input, secondcolumn);
-            rowindex++;
+            if (gs.isLocal()) {
+                pnl_localSettings.add(label, firstcolumn);
+                pnl_localSettings.add(input, secondcolumn);
+                localrowindex++;
+            } else {
+                pnl_serverSettings.add(label, firstcolumn);
+                pnl_serverSettings.add(input, secondcolumn);
+                serverrowindex++;
+            }
+        }
+        if (localcount == 0) {
+            pnl_localSettings.setVisible(false);
         }
     }
 
@@ -198,9 +239,12 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         File files[] = mapdir.listFiles();
         Vector<String> names = new Vector<String>();
         for (File f : files) {
-            String tmp = f.getName();
-            if (tmp.endsWith(extension));
-            names.add(tmp);
+            if (f.isFile()) {
+                String tmp = f.getName();
+                if (tmp.endsWith(extension)) {
+                    names.add(tmp.substring(0, tmp.length() - (extension.length() + 1)));
+                }
+            }
         }
         return names.toArray(new String[names.size()]);
     }
@@ -218,17 +262,17 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         return list;
     }
 
-    private String getMapNameFromEntry(String entry){
-        Pattern pattern = Pattern.compile(GameDatabase.getMapPath(gamename, modname).replace('\\', '/')+"([\\p{Alnum}\\p{Punct}&&[^/\\\\]]+)\\."+GameDatabase.getMapExtension(gamename, modname));
+    private String getMapNameFromEntry(String entry) {
+        Pattern pattern = Pattern.compile(GameDatabase.getMapPath(gamename, modname).replace('\\', '/') + "([\\p{Alnum}\\p{Punct}&&[^/\\\\]]+)\\." + GameDatabase.getMapExtension(gamename, modname));
         Matcher matcher = pattern.matcher(entry);
-        if(matcher.matches()){
+        if (matcher.matches()) {
             return matcher.group(1);
         }
         return null;
     }
 
     private String[] loadPK3Maps() {
-        String pk3FindPath = GameDatabase.getInstallPath(gamename) + GameDatabase.getPK3FindPath(gamename,modname);
+        String pk3FindPath = GameDatabase.getInstallPath(gamename) + GameDatabase.getPK3FindPath(gamename, modname);
         Vector<String> names = new Vector<String>();
         ArrayList<File> pk3Files = new ArrayList<File>();
         getPK3Files(pk3Files, new File(pk3FindPath));
@@ -242,7 +286,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                     String zipEntryName = ((ZipEntry) entries.nextElement()).getName();
                     //if is a map, add to mapnames
                     String mapFileName = getMapNameFromEntry(zipEntryName);
-                    if(mapFileName!=null ){
+                    if (mapFileName != null) {
                         names.add(mapFileName);
                     }
                 }
@@ -264,9 +308,10 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         btn_save = new javax.swing.JButton();
-        pnl_settings = new javax.swing.JPanel();
+        pnl_serverSettings = new javax.swing.JPanel();
         lbl_map = new javax.swing.JLabel();
         cb_map = new javax.swing.JComboBox();
+        pnl_localSettings = new javax.swing.JPanel();
 
         setTitle("Game settings");
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -282,8 +327,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             }
         });
 
-        pnl_settings.setBorder(javax.swing.BorderFactory.createTitledBorder("Game settings"));
-        pnl_settings.setLayout(new java.awt.GridBagLayout());
+        pnl_serverSettings.setBorder(javax.swing.BorderFactory.createTitledBorder("Server settings"));
+        pnl_serverSettings.setLayout(new java.awt.GridBagLayout());
 
         lbl_map.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_map.setText("Map:");
@@ -293,7 +338,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 40;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        pnl_settings.add(lbl_map, gridBagConstraints);
+        pnl_serverSettings.add(lbl_map, gridBagConstraints);
 
         cb_map.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -302,25 +347,31 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        pnl_settings.add(cb_map, gridBagConstraints);
+        pnl_serverSettings.add(cb_map, gridBagConstraints);
+
+        pnl_localSettings.setBorder(javax.swing.BorderFactory.createTitledBorder("Local settings"));
+        pnl_localSettings.setLayout(new java.awt.GridBagLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnl_settings, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_save)
-                .addContainerGap(395, Short.MAX_VALUE))
+                .addGap(395, 395, 395))
+            .addComponent(pnl_serverSettings, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+            .addComponent(pnl_localSettings, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(pnl_settings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnl_serverSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnl_localSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_save)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -331,8 +382,9 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     try {
         //if somethings unselected an exception is thrown        
         if (cb_map.isVisible()) {
-            if (cb_map.getSelectedItem() != null) {
+            if (cb_map.getSelectedItem() != null && cb_map.isEnabled()) {
                 TempGameSettings.setMap(cb_map.getSelectedItem().toString());
+                Protocol.sendSetting("map", cb_map.getSelectedItem().toString());
             }
         }
         //save settings
@@ -347,7 +399,9 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             } else if (input instanceof JComboBox) {
                 value = ((JComboBox) input).getSelectedItem().toString();
             }
-            TempGameSettings.setGameSetting(name, value, true);
+            if (input.isEnabled()) {
+                TempGameSettings.setGameSetting(name, value, isHost);
+            }
         }
 
         if (!isInstant) {
@@ -375,6 +429,30 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 }//GEN-LAST:event_btn_saveActionPerformed
 
+    public void updateValues() {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                cb_map.setSelectedItem(TempGameSettings.getMap());
+                for (int i = 0; i < labels.size(); i++) {
+                    String name = labels.get(i).getText();
+                    Component input = inputfields.get(i);
+                    String value = TempGameSettings.getGameSettingValue(name);
+                    if (value != null && value.length() > 0) {
+                        if (input instanceof JTextField) {
+                            ((JTextField) input).setText(value);
+                        } else if (input instanceof JSpinner) {
+                            ((JSpinner) input).setValue(value);
+                        } else if (input instanceof JComboBox) {
+                            ((JComboBox) input).setSelectedItem(value);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
     Globals.closeGameSettingsFrame();
 }//GEN-LAST:event_formWindowClosing
@@ -382,6 +460,7 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     private javax.swing.JButton btn_save;
     private javax.swing.JComboBox cb_map;
     private javax.swing.JLabel lbl_map;
-    private javax.swing.JPanel pnl_settings;
+    private javax.swing.JPanel pnl_localSettings;
+    private javax.swing.JPanel pnl_serverSettings;
     // End of variables declaration//GEN-END:variables
 }

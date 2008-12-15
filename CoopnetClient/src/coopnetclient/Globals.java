@@ -434,7 +434,7 @@ public class Globals {
         }
     }
 
-    public static void openGameSettingsFrame(final String gameName, final String modName) {
+    public static void openGameSettingsFrame(final String gameName, final String modName,final boolean isHost) {
         SwingUtilities.invokeLater(
                 new Runnable() {
 
@@ -443,7 +443,7 @@ public class Globals {
                         if (gameSettingsFrame != null) {
                             gameSettingsFrame.setVisible(true);
                         } else {
-                            gameSettingsFrame = new GameSettingsFrame(gameName, modName);
+                            gameSettingsFrame = new GameSettingsFrame(gameName, modName, isHost);
                             setupFrame(gameSettingsFrame);
                         }
                     }
@@ -464,6 +464,10 @@ public class Globals {
                         }
                     }
                 });
+    }
+
+    public static GameSettingsFrame getGameSettingsFrame() {
+        return gameSettingsFrame;
     }
 
     public static void closeGameSettingsFrame() {

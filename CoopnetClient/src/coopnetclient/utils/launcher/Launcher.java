@@ -65,7 +65,7 @@ public class Launcher {
                     && TabOrganizer.getRoomPanel()!= null 
                     && TabOrganizer.getRoomPanel().isHost()
                     && GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() > 0){
-                Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getChildName());
+                Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getChildName(),launchInfo.getIsHost());
             }
         }
         

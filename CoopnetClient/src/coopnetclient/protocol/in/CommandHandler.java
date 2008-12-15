@@ -25,6 +25,7 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.ServerProtocolCommands;
+import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.protocol.out.Message;
@@ -132,7 +133,15 @@ public class CommandHandler {
                     Globals.getClientFrame().addPlayerToChannel(GameDatabase.getGameName(information[0]), information[1]);
                     break;
                 case SET_GAMESETTING:
-                    TempGameSettings.setGameSetting(information[0], information[1], false);
+                    if(information[0].equals("map")){
+                        TempGameSettings.setMap(information[1]);
+                    }else{
+                        TempGameSettings.setGameSetting(information[0], information[1], false);
+                    }
+                    GameSettingsFrame gf = Globals.getGameSettingsFrame();
+                    if(gf!= null){
+                        gf.updateValues();
+                    }
                     break;
                 case JOIN_CHANNEL:
                     GameDatabase.load(GameDatabase.getGameName(information[0]), GameDatabase.dataFilePath);

@@ -161,7 +161,7 @@ public class RoomPanel extends javax.swing.JPanel {
 
     public void showSettings() {
         if (btn_gameSettings.isVisible()) {
-            Globals.openGameSettingsFrame(gameName, childName);
+            Globals.openGameSettingsFrame(gameName, childName,isHost);
         }
     }
 
@@ -192,7 +192,7 @@ public class RoomPanel extends javax.swing.JPanel {
         btn_launch.setVisible(false);
         btn_close.setText("Leave");
         cb_useHamachi.setVisible(true);
-        btn_gameSettings.setVisible(false);
+        //btn_gameSettings.setVisible(false);
     }
 
     public void setGameSetting(String key, String value) {
@@ -273,6 +273,7 @@ public class RoomPanel extends javax.swing.JPanel {
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         btn_ready = new javax.swing.JButton();
         btn_close = new javax.swing.JButton();
@@ -291,6 +292,7 @@ public class RoomPanel extends javax.swing.JPanel {
         setFocusable(false);
         setNextFocusableComponent(tp_chatInput);
         setRequestFocusEnabled(false);
+        setLayout(new java.awt.GridBagLayout());
 
         btn_ready.setText("Ready");
         btn_ready.setEnabled(false);
@@ -300,6 +302,10 @@ public class RoomPanel extends javax.swing.JPanel {
                 clickedbtn_ready(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        add(btn_ready, gridBagConstraints);
 
         btn_close.setText("Close");
         btn_close.setFocusable(false);
@@ -308,6 +314,12 @@ public class RoomPanel extends javax.swing.JPanel {
                 btn_close(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        add(btn_close, gridBagConstraints);
 
         btn_launch.setText("Launch");
         btn_launch.setEnabled(false);
@@ -317,6 +329,12 @@ public class RoomPanel extends javax.swing.JPanel {
                 clickedbtn_launch(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        add(btn_launch, gridBagConstraints);
 
         sp_chatHorizontal.setBorder(null);
         sp_chatHorizontal.setDividerSize(3);
@@ -395,6 +413,15 @@ public class RoomPanel extends javax.swing.JPanel {
 
         sp_chatHorizontal.setLeftComponent(sp_chatVertical);
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        add(sp_chatHorizontal, gridBagConstraints);
+
         cb_useHamachi.setText("use Hamachi");
         cb_useHamachi.setToolTipText("<html>The host doesn't have Hamachi installed!");
         cb_useHamachi.setEnabled(false);
@@ -404,6 +431,12 @@ public class RoomPanel extends javax.swing.JPanel {
                 cb_useHamachiActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        add(cb_useHamachi, gridBagConstraints);
 
         btn_gameSettings.setText("Game Settings");
         btn_gameSettings.setFocusable(false);
@@ -412,38 +445,12 @@ public class RoomPanel extends javax.swing.JPanel {
                 btn_gameSettingsActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(btn_ready, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_launch)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cb_useHamachi)
-                .addGap(18, 18, 18)
-                .addComponent(btn_gameSettings)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(btn_close))
-            .addComponent(sp_chatHorizontal, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_close)
-                    .addComponent(btn_ready)
-                    .addComponent(btn_launch)
-                    .addComponent(cb_useHamachi)
-                    .addComponent(btn_gameSettings))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sp_chatHorizontal, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
-        );
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_close, btn_gameSettings, btn_launch, btn_ready, cb_useHamachi});
-
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        add(btn_gameSettings, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
     private void tp_chatOutputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tp_chatOutputFocusLost
         StyledDocument doc = tp_chatOutput.getStyledDocument();

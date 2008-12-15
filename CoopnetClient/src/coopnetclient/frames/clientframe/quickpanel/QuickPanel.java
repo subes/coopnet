@@ -40,12 +40,10 @@ import javax.swing.JTextField;
 
 public class QuickPanel extends javax.swing.JPanel {
 
-    public static ImageIcon ContactListIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/contacts.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-    public static ImageIcon FavouritesIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/favourites.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-    public static ImageIcon ContactListIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/contacts_small.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-    public static ImageIcon FavouritesIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/favourites_small.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-    public static ImageIcon VoiceChatIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/voicechat.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-    public static ImageIcon VoiceChatIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/voicechat_small.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon ContactListIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/contacts.png")));
+    public static ImageIcon FavouritesIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/favourites.png")));
+    public static ImageIcon ContactListIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/contacts_small.png")));
+    public static ImageIcon FavouritesIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/favourites_small.png")));
     private static ContactListPopupMenu popup;
     ContactListModel model;
 
@@ -101,10 +99,10 @@ public class QuickPanel extends javax.swing.JPanel {
     private void setTabIcons(){
         if(Settings.isquickTabIconSizeBig()){
             tp_quickPanel.setIconAt(0, ContactListIconBig);
-            tp_quickPanel.setIconAt(1, FavouritesIconBig);           
+            tp_quickPanel.setIconAt(1, FavouritesIconBig);            
         }else{//small icons
             tp_quickPanel.setIconAt(0, ContactListIconSmall);
-            tp_quickPanel.setIconAt(1, FavouritesIconSmall);
+            tp_quickPanel.setIconAt(1, FavouritesIconSmall);            
         }
     }
 
