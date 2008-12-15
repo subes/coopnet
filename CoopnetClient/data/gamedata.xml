@@ -21,7 +21,7 @@
 <!ELEMENT SettingName (CDATA)>
 <!ELEMENT SettingType (CDATA)>
 <!ELEMENT KeyWord (CDATA)>
-<!ELEMENT IsSharedSetting (EMPTY)>
+<!ELEMENT IsLocalSetting (EMPTY)>
 <!ELEMENT SettingDefaultValue (CDATA)>
 <!ELEMENT SettingMinValue (CDATA)>
 <!ELEMENT SettingMaxValue (CDATA)>
@@ -1677,7 +1677,6 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
-                <IsSharedSetting/>
                 <SettingDefaultValue>27960</SettingDefaultValue>
             </NumberSetting>            
         </Settings>
@@ -1765,7 +1764,6 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
-                <IsSharedSetting/>
                 <SettingDefaultValue>27960</SettingDefaultValue>
             </NumberSetting>
             <TextSetting>
@@ -1861,7 +1859,6 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
-                <IsSharedSetting/>
                 <SettingDefaultValue>27960</SettingDefaultValue>
             </NumberSetting>            
         </Settings>
@@ -1937,7 +1934,6 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
-                <IsSharedSetting/>
                 <SettingDefaultValue>14567</SettingDefaultValue>
             </NumberSetting>            
         </Settings>
@@ -1992,7 +1988,6 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
-                <IsSharedSetting/>
                 <SettingDefaultValue>27010</SettingDefaultValue>
             </NumberSetting>            
         </Settings>
@@ -2039,7 +2034,6 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
-                <IsSharedSetting/>
                 <SettingDefaultValue>27010</SettingDefaultValue>
             </NumberSetting>
             <TextSetting>
@@ -2143,7 +2137,6 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
-                <IsSharedSetting/>
                 <SettingDefaultValue>28960</SettingDefaultValue>
             </NumberSetting>            
         </Settings>
@@ -2366,7 +2359,6 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
-                <IsSharedSetting/>
                 <SettingDefaultValue>7777</SettingDefaultValue>
             </NumberSetting>
         </Settings>
@@ -2474,7 +2466,6 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
-                <IsSharedSetting/>
                 <SettingDefaultValue>7777</SettingDefaultValue>
             </NumberSetting>
         </Settings>
