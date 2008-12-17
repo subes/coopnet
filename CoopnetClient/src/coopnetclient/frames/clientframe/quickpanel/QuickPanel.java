@@ -18,7 +18,6 @@
  */
 package coopnetclient.frames.clientframe.quickpanel;
 
-import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
@@ -28,22 +27,17 @@ import coopnetclient.frames.components.mutablelist.DefaultListCellEditor;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.frames.renderers.ContactListRenderer;
 import coopnetclient.utils.ContactListFileDropHandler;
+import coopnetclient.utils.Icons;
 import java.awt.Cursor;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 import javax.swing.DropMode;
-import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 public class QuickPanel extends javax.swing.JPanel {
 
-    public static ImageIcon ContactListIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/contacts.png")));
-    public static ImageIcon FavouritesIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/favourites.png")));
-    public static ImageIcon ContactListIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/contacts_small.png")));
-    public static ImageIcon FavouritesIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/favourites_small.png")));
     private static ContactListPopupMenu popup;
     ContactListModel model;
 
@@ -98,11 +92,11 @@ public class QuickPanel extends javax.swing.JPanel {
     
     private void setTabIcons(){
         if(Settings.isquickTabIconSizeBig()){
-            tp_quickPanel.setIconAt(0, ContactListIconBig);
-            tp_quickPanel.setIconAt(1, FavouritesIconBig);            
+            tp_quickPanel.setIconAt(0, Icons.ContactListIconBig);
+            tp_quickPanel.setIconAt(1, Icons.FavouritesIconBig);
         }else{//small icons
-            tp_quickPanel.setIconAt(0, ContactListIconSmall);
-            tp_quickPanel.setIconAt(1, FavouritesIconSmall);            
+            tp_quickPanel.setIconAt(0, Icons.ContactListIconSmall);
+            tp_quickPanel.setIconAt(1, Icons.FavouritesIconSmall);
         }
     }
 

@@ -19,16 +19,13 @@
 
 package coopnetclient.frames.renderers;
 
-import coopnetclient.Globals;
 import coopnetclient.frames.models.ContactListModel;
+import coopnetclient.utils.Icons;
 import coopnetclient.utils.Settings;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.Toolkit;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.UIManager;
 
@@ -37,12 +34,6 @@ import javax.swing.UIManager;
  */
 public class ContactListRenderer extends DefaultListCellRenderer {
 
-    public static ImageIcon chatIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/inchat.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon lobbyIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/inlobby.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon gameIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/ingame.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon pendingRequestIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/pending_request.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon pendingContactIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/pending_contact.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon offlineIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/offline.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     private ContactListModel model;
 
     public ContactListRenderer(ContactListModel model) {
@@ -72,29 +63,29 @@ public class ContactListRenderer extends DefaultListCellRenderer {
         
         if(index < model.getFirstGroupIndex()){
             //Pendingrequests are always shown above a group!
-            setIcon(pendingRequestIcon);
+            setIcon(Icons.pendingRequestIcon);
             return this;
         }
         
         switch (model.getStatus(value.toString())) {
             case CHATTING:
-                setIcon(chatIcon);
+                setIcon(Icons.chatIcon);
                 break;
             case IN_ROOM:
-                setIcon(lobbyIcon);
+                setIcon(Icons.lobbyIcon);
                 break;
             case PENDING_REQUEST:
-                setIcon(pendingRequestIcon);
+                setIcon(Icons.pendingRequestIcon);
                 setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
                 break;
             case PENDING_CONTACT:
-                setIcon(pendingContactIcon);
+                setIcon(Icons.pendingContactIcon);
                 break;
             case PLAYING:
-                setIcon(gameIcon);
+                setIcon(Icons.gameIcon);
                 break;
             case OFFLINE:
-                setIcon(offlineIcon);
+                setIcon(Icons.offlineIcon);
                 break;
             case GROUPNAME_OPEN:
                 setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));

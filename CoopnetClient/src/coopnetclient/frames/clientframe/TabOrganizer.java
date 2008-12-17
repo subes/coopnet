@@ -27,8 +27,7 @@ import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.tabs.BrowserPanel;
 import coopnetclient.frames.clientframe.tabs.ChannelPanel;
 import coopnetclient.frames.clientframe.tabs.ErrorPanel;
-import coopnetclient.frames.clientframe.tabs.FileTransferRecievePanel;
-import coopnetclient.frames.clientframe.tabs.FileTransferSendPanel;
+import coopnetclient.frames.clientframe.tabs.FileTransferPanel;
 import coopnetclient.frames.clientframe.tabs.LoginPanel;
 import coopnetclient.frames.clientframe.tabs.PasswordRecoveryPanel;
 import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
@@ -37,6 +36,7 @@ import coopnetclient.frames.clientframe.tabs.RoomPanel;
 import coopnetclient.frames.components.TabComponent;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
+import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.hotkeys.Hotkeys;
@@ -61,10 +61,9 @@ public class TabOrganizer {
     private static LoginPanel loginPanel;
     private static RegisterPanel registerPanel;
     private static PasswordRecoveryPanel passwordRecoveryPanel;
-    private static Vector<FileTransferSendPanel> fileTransferSendPanels = new Vector<FileTransferSendPanel>();
-    private static Vector<FileTransferRecievePanel> fileTransferReceivePanels = new Vector<FileTransferRecievePanel>();
+    private static FileTransferPanel transferPanel;
+    private static TransferTableModel transferModel = new TransferTableModel();
     
-
     static {
         tabHolder = Globals.getClientFrame().getTabHolder();
     }
@@ -440,52 +439,50 @@ public class TabOrganizer {
         return registerPanel;
     }
 
-    public static void openFileTransferSendPanel(String reciever, File file) {
-        FileTransferSendPanel panel = new FileTransferSendPanel(reciever, file);
-        fileTransferSendPanels.add(panel);
-        tabHolder.add("Send file to " + reciever, panel);
-    }
-
-    public static void closeFileTransferSendPanel(FileTransferSendPanel which) {
-        fileTransferSendPanels.remove(which);
-        tabHolder.remove(which);
-    }
-
-    public static FileTransferSendPanel getFileTransferSendPanel(String receiver, String fileName) {
-        for (int i = 0; i < fileTransferSendPanels.size(); i++) {
-            if (fileTransferSendPanels.get(i).getFilename().equals(fileName) && fileTransferSendPanels.get(i).getReciever().equals(receiver)) {
-                return fileTransferSendPanels.get(i);
-            }
+    public static void openTransferPanel(){
+        if (transferPanel == null) {
+            transferPanel = new FileTransferPanel(transferModel);
+            tabHolder.insertTab("Transfers",null,transferPanel,null, channelPanels.size()); //For now this is ok
+            tabHolder.setTabComponentAt(channelPanels.size(),  new TabComponent("Transfers"));
+            tabHolder.setSelectedComponent(transferPanel);
+        } else {
+            tabHolder.setSelectedComponent(transferPanel);
         }
-        return null;
+
+        Globals.getClientFrame().repaint();
+    }
+
+    public static void closeTransferPanel(){
+        tabHolder.remove(transferPanel);
+        transferPanel = null;
+    }
+
+    public static void sendFile(String reciever, File file){
+        if(transferPanel != null){
+            markTab(transferPanel);
+        }else{
+            openTransferPanel();
+        }
+        transferModel.addSendTransfer(reciever, file.getName(), file);        
+    }
+
+    public static void recieveFile( String peerName, String size, String fileName, String ip, String port){
+        if(transferPanel != null){
+            markTab(transferPanel);
+        }else{
+            openTransferPanel();
+        }
+        transferModel.addRecieveTransfer(peerName, size, fileName, ip, port);
+    }
+
+    public static TransferTableModel getTransferModel(){
+        return transferModel;
+    }
+
+    public static void cancelFileSendingOnClose(){
+       transferModel.cancelOrRefuseOnQuit();
     }
     
-    public static void cancelFileSendingOnClose(){
-        for (int i = 0; i < fileTransferSendPanels.size(); i++) {
-            fileTransferSendPanels.get(i).cancelTransfer();
-        }
-    }
-
-    public static void openFileTransferReceivePanel(String sender, String size, String filename, String ip, String port) {
-        FileTransferRecievePanel panel = new FileTransferRecievePanel(sender, new Long(size), filename, ip, port);
-        fileTransferReceivePanels.add(panel);
-        tabHolder.add("Recieve file from " + sender, panel);
-    }
-
-    public static void closeFileTransferReceivePanel(FileTransferRecievePanel which) {
-        fileTransferReceivePanels.remove(which);
-        tabHolder.remove(which);
-    }
-
-    public static FileTransferRecievePanel getFileTransferReceivePanel(String sender, String fileName) {
-        for (int i = 0; i < fileTransferReceivePanels.size(); i++) {
-            if (fileTransferReceivePanels.get(i).getFilename().equals(fileName) && fileTransferReceivePanels.get(i).getSender().equals(sender)) {
-                return fileTransferReceivePanels.get(i);
-            }
-        }
-        return null;
-    }
-
     /*******************************************************************/
     public static void updateTitleOnTab(String oldTitle, String newTitle) {
         int index = -1;
@@ -522,7 +519,5 @@ public class TabOrganizer {
         errorPanel = null;
         browserPanel = null;
         loginPanel = null;
-        fileTransferSendPanels.clear();
-        fileTransferReceivePanels.clear();
     }
 }

@@ -16,52 +16,41 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
+package coopnetclient.frames.renderers;
 
-package coopnetclient.utils.filechooser;
-
-import coopnetclient.utils.Icons;
 import java.awt.Component;
+import javax.swing.JProgressBar;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.SwingConstants;
+import javax.swing.table.TableCellRenderer;
 
-class FileChooserTableCellRenderer extends DefaultTableCellRenderer {
+public class TransferProgressRenderer extends JProgressBar implements TableCellRenderer {
 
-    
-    public FileChooserTableCellRenderer() {
-        super();
+    private JTable parent;
+
+    public TransferProgressRenderer(JTable parent) {
+        setMinimum(0);
+        setMaximum(100);
+        setStringPainted(true);
+        this.parent = parent;
+        setAlignmentX(SwingConstants.CENTER);
+        setAlignmentY(SwingConstants.CENTER);
+        setOpaque(true);
     }
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int rowIndex, int vColIndex) {
-        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, rowIndex, vColIndex);
-        setBorder(null);
-        //set icon:
-        setIcon(null);
-        if (vColIndex == 0) {
-            boolean isHidden = ((FileChooserTableModel)table.getModel()).fileIsHidden(rowIndex);
-            
-            if(value.equals("..") || value.equals(".") ||table.getModel().getValueAt(rowIndex, vColIndex+1).equals("dir")){
-                if(isHidden){
-                    setIcon(Icons.dirIconHidden);
-                }else{
-                    setIcon(Icons.dirIcon);
-                }
-            } else {
-                if(isHidden){
-                    setIcon(Icons.fileIconHidden);
-                }else{
-                    setIcon(Icons.fileIcon);
-                }
-            }
+        setValue(Integer.valueOf(value.toString()));
+        if(isSelected){
+            setBackground(parent.getSelectionBackground());
+        }else{
+            setBackground(parent.getBackground());
         }
-        // Configure the component with the specified value
-        setText(value.toString());
-        setToolTipText(value.toString());
-        // Since the renderer is a component, return itself
         return this;
     }
     // The following methods override the defaults for performance reasons
+
     @Override
     public void validate() {
     }

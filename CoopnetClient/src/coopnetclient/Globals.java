@@ -38,6 +38,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.SystemTrayPopup;
 import coopnetclient.frames.models.ContactListModel;
+import coopnetclient.utils.Icons;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Point;
@@ -115,10 +116,8 @@ public class Globals {
         //initialise and add trayicon if needed
         if (SystemTray.isSupported()) {
             tray = SystemTray.getSystemTray();
-            ImageIcon normalIcon = new ImageIcon(
-                    Toolkit.getDefaultToolkit().createImage(
-                    Globals.getResourceAsString("data/icons/coopnet.png")));
-            trayIcon = new TrayIcon(normalIcon.getImage(), "Coopnet client", new SystemTrayPopup());
+            
+            trayIcon = new TrayIcon(Icons.CoopnetnormalIcon.getImage(), "Coopnet client", new SystemTrayPopup());
             trayIcon.setImageAutoSize(true);
             trayIcon.addMouseListener(
                     new java.awt.event.MouseAdapter() {

@@ -29,8 +29,6 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.clientframe.quickpanel.QuickPanel;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.components.FavMenuItem;
-import coopnetclient.frames.clientframe.tabs.FileTransferRecievePanel;
-import coopnetclient.frames.clientframe.tabs.FileTransferSendPanel;
 import coopnetclient.frames.clientframe.tabs.LoginPanel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.utils.FileDownloader;
@@ -161,47 +159,6 @@ public class ClientFrame extends javax.swing.JFrame {
                     }
                 }
             }.start();
-        }
-    }
-
-    public void turnAroundTransfer(String peer, String filename) {
-        FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(peer, filename);
-        FileTransferRecievePanel recvPanel = TabOrganizer.getFileTransferReceivePanel(peer, filename);
-
-        if (sendPanel != null) {
-            sendPanel.turnAround();
-        }
-        if (recvPanel != null) {
-            recvPanel.turnAround();
-        }
-    }
-
-    public void startSending(String ip, String reciever, String filename, String port, long firstByte) {
-        FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(reciever, filename);
-
-        if (sendPanel != null) {
-            sendPanel.startSending(ip, port, firstByte);
-        }
-    }
-
-    public void refusedTransfer(String reciever, String filename) {
-        FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(reciever, filename);
-
-        if (sendPanel != null) {
-            sendPanel.refused();
-        }
-    }
-
-    public void cancelledTransfer(String sender, String filename) {
-        FileTransferRecievePanel recvPanel = TabOrganizer.getFileTransferReceivePanel(sender, filename);
-
-        if (recvPanel != null) {
-            recvPanel.cancelled();
-        }else{
-            FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(sender, filename);
-            if (sendPanel != null) {
-            sendPanel.cancelled();
-        }
         }
     }
 
@@ -369,6 +326,7 @@ public class ClientFrame extends javax.swing.JFrame {
         m_main = new javax.swing.JMenu();
         mi_connection = new javax.swing.JMenuItem();
         mi_update = new javax.swing.JMenuItem();
+        mi_showTransfers = new javax.swing.JMenuItem();
         mi_quit = new javax.swing.JMenuItem();
         m_user = new javax.swing.JMenu();
         mi_profile = new javax.swing.JMenuItem();
@@ -520,6 +478,14 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_main.add(mi_update);
+
+        mi_showTransfers.setText("Show Transfers");
+        mi_showTransfers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_showTransfersActionPerformed(evt);
+            }
+        });
+        m_main.add(mi_showTransfers);
 
         mi_quit.setText("Quit");
         mi_quit.addActionListener(new java.awt.event.ActionListener() {
@@ -945,6 +911,10 @@ private void mi_faqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
     HyperlinkMouseListener.openURL("http://coopnet.sourceforge.net/faq.html");
 }//GEN-LAST:event_mi_faqActionPerformed
 
+private void mi_showTransfersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_showTransfersActionPerformed
+    TabOrganizer.openTransferPanel();
+}//GEN-LAST:event_mi_showTransfersActionPerformed
+
 private Color getHoverEffectColor(){
     Color clr = null;
     clr = (Color) UIManager.get("List.selectionBackground"); 
@@ -980,6 +950,7 @@ private Color getHoverEffectColor(){
     private javax.swing.JSeparator mi_seperator;
     private javax.swing.JMenuItem mi_showMuteBanList;
     private javax.swing.JCheckBoxMenuItem mi_showQuickbar;
+    private javax.swing.JMenuItem mi_showTransfers;
     private javax.swing.JMenuItem mi_update;
     private javax.swing.JPanel pnl_toggleQuickBarLeft;
     private javax.swing.JPanel pnl_toggleQuickBarRight;

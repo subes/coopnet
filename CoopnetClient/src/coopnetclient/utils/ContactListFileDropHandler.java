@@ -90,7 +90,7 @@ public class ContactListFileDropHandler extends TransferHandler {
             for (File inputfile : l) {
                 //process files
                 Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
-                TabOrganizer.openFileTransferSendPanel(subject, inputfile);
+                TabOrganizer.sendFile(subject, inputfile);
             }
         } catch (UnsupportedFlavorException e) {
             return false;

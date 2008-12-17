@@ -334,20 +334,20 @@ public class CommandHandler {
                     Globals.getClientFrame().repaint();
                     break;
                 case SENDING_FILE:
-                    TabOrganizer.openFileTransferReceivePanel(information[0], information[1], information[2], information[3], information[4]);
+                    TabOrganizer.recieveFile(information[0], information[1], information[2], information[3], information[4]);
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " wants to send you a file!", ChatStyles.SYSTEM, false);
                     break;
                 case ACCEPTED_FILE:
-                    Globals.getClientFrame().startSending(information[0], information[1], information[2], information[3], new Long(information[4]));
+                    TabOrganizer.getTransferModel().startSending(information[0], information[1], information[2], information[3], new Long(information[4]));
                     break;
                 case REFUSED_FILE:
-                    Globals.getClientFrame().refusedTransfer(information[0], information[1]);
+                    TabOrganizer.getTransferModel().peerRefusedTransfer(information[0], information[1]);
                     break;
                 case CANCELED_FILE:
-                    Globals.getClientFrame().cancelledTransfer(information[0], information[1]);
+                    TabOrganizer.getTransferModel().peerCancelledTransfer(information[0], information[1]);
                     break;
                 case TURN_AROUND_FILE:
-                    Globals.getClientFrame().turnAroundTransfer(information[0], information[1]);
+                    TabOrganizer.getTransferModel().turnAroundTransfer(information[0], information[1]);
                     break;
                 case CONTACT_REQUESTED:
                     Globals.getContactList().addContact(information[0], "", ContactListElementTypes.PENDING_REQUEST);
