@@ -108,6 +108,7 @@ public class TransferTableModel extends DefaultTableModel {
         if (t.status == TransferStatuses.Waiting) {
             t.handler.startRecieve();
         }
+        fireTableDataChanged();
     }
 
     public void refuseFile(int index) {
@@ -116,16 +117,19 @@ public class TransferTableModel extends DefaultTableModel {
             Protocol.refuseTransfer(t.peerName, t.fileName);
             t.status = TransferStatuses.Refused;
         }
+        fireTableDataChanged();
     }
 
     public void cancel(int index) {
         Transfer t = transfers.get(index);
         Protocol.cancelTransfer(t.peerName, t.fileName);
         t.handler.cancel();
+        fireTableDataChanged();
     }
 
     public void startRecieve(int index) {
         transfers.get(index).startRecieve();
+        fireTableDataChanged();
     }
 
     public void startSending(String ip, String peerName, String fileName, String port, long firstByte) {
@@ -137,6 +141,7 @@ public class TransferTableModel extends DefaultTableModel {
         }
         if (tf != null) {
             tf.startSend(ip, port, firstByte);
+            fireTableDataChanged();
         }
     }
 
@@ -149,6 +154,7 @@ public class TransferTableModel extends DefaultTableModel {
         }
         if (tf != null) {
             tf.status = TransferStatuses.Refused;
+            fireTableDataChanged();
         }
     }
 
@@ -162,6 +168,7 @@ public class TransferTableModel extends DefaultTableModel {
         if (tf != null) {
             tf.status = TransferStatuses.Cancelled;
             tf.handler.cancel();
+            fireTableDataChanged();
         }
     }
 
@@ -175,6 +182,7 @@ public class TransferTableModel extends DefaultTableModel {
         if (tf != null) {
             tf.status = TransferStatuses.Retrying;
             tf.handler.turnAround();
+            fireTableDataChanged();
         }
     }
 
@@ -358,7 +366,6 @@ public class TransferTableModel extends DefaultTableModel {
         final int seconds;
         final int minutes;
         final long hours;
-        //time=time/1000;//scale to seconds
         seconds = (int) (time % 60);
         time = time / 60;   //scale to minutes
         minutes = (int) (time % 60);
