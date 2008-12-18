@@ -197,7 +197,7 @@ public class RoomTableModel extends DefaultTableModel {
         if (index >= 0) {
             rooms.remove(index);
         }
-        fireTableDataChanged();
+        fireTableRowsDeleted(index, index);
     }
 
     @Override
@@ -245,7 +245,7 @@ public class RoomTableModel extends DefaultTableModel {
     public void addRoomToTable(String name, String hostName, int maxPlayers, int type) {
         if( indexOf(hostName)== -1 ){
             rooms.add(new Room(type, name, hostName, maxPlayers));
-            fireTableDataChanged();
+            fireTableRowsInserted(rooms.size()-1, rooms.size()-1);
         }
     }
 
@@ -255,23 +255,28 @@ public class RoomTableModel extends DefaultTableModel {
         if (index >= 0) {
             rooms.get(index).addPlayer(playerName);
         }
-        fireTableDataChanged();
+        fireTableCellUpdated(index, 3);
     }
 
     public void removePlayerFromRoom(String hostName, String playerName) {
         int index = indexOf(hostName);
         if (index >= 0) {
             rooms.get(index).removePlayer(playerName);
-            fireTableDataChanged();
+            fireTableCellUpdated(index, 3);
         }
     }
 
     public boolean updateName(String oldName, String newName) {
         boolean found = false;
-        for (Room room : rooms) {
-            found = room.updatename(oldName, newName) || found;
-        }
-        fireTableDataChanged();
+        for (int index = 0; index <rooms.size();++index) {
+            Room room = rooms.get(index);
+            boolean foundhere = room.updatename(oldName, newName) ;
+            found = foundhere || found;
+            if(foundhere){
+                fireTableCellUpdated(index, 2);
+                fireTableCellUpdated(index, 3);
+            }
+        }        
         return found;
     }
 
@@ -284,6 +289,6 @@ public class RoomTableModel extends DefaultTableModel {
         if (index >= 0) {
             rooms.get(index).setLaunched(newLaunchedState);
         }
-        fireTableDataChanged();
+        fireTableCellUpdated(index, 0);
     }
 }
