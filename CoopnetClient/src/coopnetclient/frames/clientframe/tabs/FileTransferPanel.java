@@ -337,6 +337,7 @@ public class FileTransferPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tbl_transfers.setFillsViewportHeight(true);
         tbl_transfers.setFocusable(false);
         tbl_transfers.setRowHeight(20);
         tbl_transfers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);

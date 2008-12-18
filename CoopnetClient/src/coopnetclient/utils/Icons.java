@@ -49,4 +49,5 @@ public class Icons {
     public static ImageIcon downloadIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/download.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     public static ImageIcon uploadIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/upload.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     public static ImageIcon transferIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/transfers2.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon errorIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/error.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 }

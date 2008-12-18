@@ -328,7 +328,7 @@ public class TabOrganizer {
     public static void openErrorPanel(ErrorPanelStyle mode, Exception e) {
         if (errorPanel == null || errorPanel.hasException() == false && e != null) {
             errorPanel = new ErrorPanel(mode, e);
-            tabHolder.addTab("Error", errorPanel);
+            tabHolder.addTab("Error", Icons.errorIconSmall ,errorPanel);
             tabHolder.setSelectedComponent(errorPanel);
         } else {
             if (Globals.getDebug()) {
@@ -442,7 +442,11 @@ public class TabOrganizer {
     public static void openTransferPanel(){
         if (transferPanel == null) {
             transferPanel = new FileTransferPanel(Globals.getTransferModel());
-            tabHolder.insertTab("Transfers",null,transferPanel,null, channelPanels.size()); //For now this is ok
+            int index = channelPanels.size();
+            if(roomPanel != null){
+                ++index;
+            }
+            tabHolder.insertTab("Transfers",null,transferPanel,null, index); //For now this is ok
             tabHolder.setTabComponentAt(channelPanels.size(),  new TabComponent("Transfers",Icons.transferIcon));
             tabHolder.setSelectedComponent(transferPanel);
         } else {
