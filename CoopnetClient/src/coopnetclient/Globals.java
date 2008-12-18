@@ -38,6 +38,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.SystemTrayPopup;
 import coopnetclient.frames.models.ContactListModel;
+import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.utils.Icons;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.Launcher;
@@ -90,6 +91,7 @@ public class Globals {
     private static boolean trayAdded = false;
     private static String MyIP = null;
     private static String currentPath = "";
+    private static TransferTableModel transferModel = new TransferTableModel();
     /*******************************************************************/
 
 
@@ -138,6 +140,10 @@ public class Globals {
                         }
                     });
         }
+    }
+
+    public static TransferTableModel getTransferModel(){
+        return transferModel;
     }
 
     public static File getResource(String name) {

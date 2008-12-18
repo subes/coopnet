@@ -24,6 +24,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.FileTransferHandler;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 import javax.swing.JOptionPane;
@@ -231,6 +232,16 @@ public class TransferTableModel extends DefaultTableModel {
         return transfers.get(index).status;
     }
 
+    public File getDestFile(int index) throws IOException{
+        switch(transfers.get(index).type){
+            case RECIEVE_TYPE:
+                return transfers.get(index).handler.getDestFile();
+            case SEND_TYPE:
+                return transfers.get(index).handler.getSentFile();
+        }
+        return null;
+    }
+
     public void updateStatus(UUID ID, TransferStatuses status) {
         for (Transfer t : transfers) {
             if (t.ID.equals(ID) && t.status != TransferStatuses.Cancelled) {
@@ -346,6 +357,25 @@ public class TransferTableModel extends DefaultTableModel {
     public void removeTransfer(int index) {
         transfers.remove(index);
         fireTableRowsDeleted(index, index);
+    }
+
+    public void removeAllEndedTransfers(){
+        for(int i = 0; i <transfers.size(); ){
+            Transfer t = transfers.get(i);
+            switch(t.status){
+                case Cancelled:
+                case Error:
+                case Failed:
+                case Finished:
+                case Refused:
+                    transfers.remove(t);
+                    break;
+                default:
+                    ++i;
+                    continue;
+            }
+        }
+        fireTableDataChanged();
     }
 
     @Override

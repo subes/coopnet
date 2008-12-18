@@ -20,7 +20,6 @@ package coopnetclient.utils;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
-import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -113,6 +112,10 @@ public class FileTransferHandler {
         }.start();
     }
 
+    public File getSentFile(){
+        return sentFile;
+    }
+
     public boolean getResuming() {
         return resuming;
     }
@@ -144,19 +147,19 @@ public class FileTransferHandler {
     }
 
     private void feedBackStatus(TransferStatuses status) {
-        TabOrganizer.getTransferModel().updateStatus(ID, status);
+        Globals.getTransferModel().updateStatus(ID, status);
     }
 
     private void feedBackTime(long time) {
-        TabOrganizer.getTransferModel().updateTime(ID, time);
+        Globals.getTransferModel().updateTime(ID, time);
     }
 
     private void feedBackProgress(int value) {
-        TabOrganizer.getTransferModel().updateProgress(ID, value);
+        Globals.getTransferModel().updateProgress(ID, value);
     }
 
     private void feedBackSpeed(int value) {
-        TabOrganizer.getTransferModel().updateSpeed(ID, value);
+        Globals.getTransferModel().updateSpeed(ID, value);
     }
 
     private File Checkfile(File file, int n) {
@@ -202,7 +205,7 @@ public class FileTransferHandler {
         }
     }
 
-    private File getDestFile() throws IOException {
+    public File getDestFile() throws IOException {
         File dest;
         String fullpath = savePath;
         if (!(new File(fullpath).exists())) {

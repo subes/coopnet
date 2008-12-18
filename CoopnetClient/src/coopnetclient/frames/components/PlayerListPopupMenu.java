@@ -24,7 +24,6 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.MuteBanList;
-import coopnetclient.utils.Settings;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Component;
 import java.awt.event.ActionEvent;

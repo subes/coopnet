@@ -22,6 +22,7 @@ import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.components.TransferPopupMenu;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.frames.renderers.TransferProgressRenderer;
 import coopnetclient.frames.renderers.TransferTypeRenderer;
@@ -55,6 +56,9 @@ public class FileTransferPanel extends javax.swing.JPanel {
         DefaultTableCellRenderer rend = new DefaultTableCellRenderer();
         rend.setHorizontalAlignment(SwingConstants.CENTER);
         tbl_transfers.setDefaultRenderer(String.class, rend);
+        tbl_transfers.getColumnModel().getColumn(0).setPreferredWidth(40);
+        tbl_transfers.setComponentPopupMenu(new TransferPopupMenu(tbl_transfers));
+        
         cb_resume.setVisible(false);
         btn_browse.setVisible(false);
         tf_savePath.setVisible(false);

@@ -36,7 +36,6 @@ import coopnetclient.frames.clientframe.tabs.RoomPanel;
 import coopnetclient.frames.components.TabComponent;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
-import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Icons;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -63,7 +62,7 @@ public class TabOrganizer {
     private static RegisterPanel registerPanel;
     private static PasswordRecoveryPanel passwordRecoveryPanel;
     private static FileTransferPanel transferPanel;
-    private static TransferTableModel transferModel = new TransferTableModel();
+    
     
     static {
         tabHolder = Globals.getClientFrame().getTabHolder();
@@ -442,7 +441,7 @@ public class TabOrganizer {
 
     public static void openTransferPanel(){
         if (transferPanel == null) {
-            transferPanel = new FileTransferPanel(transferModel);
+            transferPanel = new FileTransferPanel(Globals.getTransferModel());
             tabHolder.insertTab("Transfers",null,transferPanel,null, channelPanels.size()); //For now this is ok
             tabHolder.setTabComponentAt(channelPanels.size(),  new TabComponent("Transfers",Icons.transferIcon));
             tabHolder.setSelectedComponent(transferPanel);
@@ -468,7 +467,7 @@ public class TabOrganizer {
         }else{
             openTransferPanel();
         }
-        return transferModel.addSendTransfer(reciever, file.getName(), file);
+        return Globals.getTransferModel().addSendTransfer(reciever, file.getName(), file);
     }
 
     public static void recieveFile( String peerName, String size, String fileName, String ip, String port){
@@ -477,15 +476,10 @@ public class TabOrganizer {
         }else{
             openTransferPanel();
         }
-        transferModel.addRecieveTransfer(peerName, size, fileName, ip, port);
+        Globals.getTransferModel().addRecieveTransfer(peerName, size, fileName, ip, port);
     }
-
-    public static TransferTableModel getTransferModel(){
-        return transferModel;
-    }
-
     public static void cancelFileSendingOnClose(){
-       transferModel.cancelOrRefuseOnQuit();
+       Globals.getTransferModel().cancelOrRefuseOnQuit();
     }
     
     /*******************************************************************/
