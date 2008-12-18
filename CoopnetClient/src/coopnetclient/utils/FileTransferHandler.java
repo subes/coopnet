@@ -47,7 +47,6 @@ public class FileTransferHandler {
     private String peerIP;
     private String peerPort;
     private long totalsize;
-    private long onePercentInBytes = 0;
     private long firstByteToSend = 0;
     private File sentFile = null;
     private String savePath = Settings.getRecieveDestination();
@@ -56,13 +55,19 @@ public class FileTransferHandler {
     private ServerSocket serverSocket = null;
     private SocketChannel socket = null;
     private UUID ID;
+    //variables for observing the transfer
+    long starttime;
+    long processedBytes = 0;
+    long currenttime;
+    long timeelapsed;
+    long speedtmptime;
+    int progress;
 
     public FileTransferHandler(UUID ID, File sentFile) {
         this.mode = SEND_MODE;
         this.ID = ID;
         this.sentFile = sentFile;
         this.totalsize = sentFile.length();
-        onePercentInBytes = totalsize / 100;
     }
 
     public FileTransferHandler(UUID ID, String peerName, long size, String fileName, String ip, String port) {
@@ -73,7 +78,39 @@ public class FileTransferHandler {
         this.peerPort = port;
         this.totalsize = size;
         this.peerName = peerName;
-        onePercentInBytes = totalsize / 100;
+    }
+
+    private void startObserving() {
+        new Thread() {
+
+            long lastBytePosition = 0;
+
+            @Override
+            public void run() {
+                currenttime = System.currentTimeMillis();
+                speedtmptime = System.currentTimeMillis();
+                while (running) {
+                    try {
+                        sleep(1000);
+                    } catch (Exception e) {
+                    }
+                    //DO stuff
+                    currenttime = System.currentTimeMillis();
+                    long tmp = currenttime - speedtmptime;
+                    feedBackSpeed((int) ((processedBytes - lastBytePosition) / tmp));
+                    speedtmptime = currenttime;
+                    progress = (int) ((((processedBytes) * 1.0) / (totalsize - firstByteToSend)) * 100);
+                    feedBackProgress(progress);
+                    
+                    timeelapsed = currenttime - starttime;
+                    timeelapsed = timeelapsed / 1000;
+                    feedBackTime((long) (((totalsize - firstByteToSend) - processedBytes) / (processedBytes * 1.0) * timeelapsed));
+
+
+                    lastBytePosition = processedBytes;
+                }
+            }
+        }.start();
     }
 
     public boolean getResuming() {
@@ -214,18 +251,18 @@ public class FileTransferHandler {
         peerPort = port;
         firstByteToSend = firstByte;
         send1(peerIP, peerPort, firstByteToSend);
+        startObserving();
     }
 
     public void startRecieve() {
         recieve1();
         Protocol.acceptTransfer(peerName, fileName, firstByteToSend);
+        startObserving();
     }
 
     //binds download to the port, sender connects here
     private void recieve1() {
         new Thread() {
-
-            long starttime;
 
             @Override
             public void run() {
@@ -277,40 +314,21 @@ public class FileTransferHandler {
 
                     feedBackStatus(TransferStatuses.Transferring);
                     starttime = System.currentTimeMillis();
+                    processedBytes = 0;
                     int readedbyte;
-                    long recievedBytes = 0;
-                    long currenttime;
-                    long timeelapsed;
-                    long tmpCounter = 0;
-                    long speedtmptime1 = System.currentTimeMillis();
-                    long speedtmptime2 = speedtmptime1;
-                    long tmpspeedcount = 0;
-                    int progress;
+                    int tmp = 0;
+                    //Read data
                     while (running && (readedbyte = bi.read()) != -1) {
                         bo.write(readedbyte);
-                        ++recievedBytes;
-                        ++tmpCounter;
-                        ++tmpspeedcount;
-                        speedtmptime1 = System.currentTimeMillis();
-                        long tmp = speedtmptime1 - speedtmptime2;
-                        if (tmp >= 1000) {//check speed every second
-                            feedBackSpeed((int) (tmpspeedcount / tmp));
-                            speedtmptime2 = speedtmptime1;
-                            tmpspeedcount = 0;
-                        }
-                        if (tmpCounter >= onePercentInBytes) {
-                            tmpCounter = 0;
+                        ++processedBytes;
+                        ++tmp;
+                        if (tmp > 1000) {
                             bo.flush();
-                            progress = (int) ((((recievedBytes) * 1.0) / (totalsize - firstByteToSend)) * 100);
-                            feedBackProgress(progress);
-                            currenttime = System.currentTimeMillis();
-                            timeelapsed = currenttime - starttime;
-                            timeelapsed = timeelapsed / 1000;
-                            feedBackTime((long) (((totalsize - firstByteToSend) - recievedBytes) / (recievedBytes * 1.0) * timeelapsed));
+                            tmp = 0;
                         }
                     }
                     bo.flush();
-                    if ((recievedBytes + firstByteToSend - (resuming ? 1 : 0)) == totalsize) {
+                    if ((processedBytes + firstByteToSend - (resuming ? 1 : 0)) == totalsize) {
                         feedBackStatus(TransferStatuses.Finished);
                         feedBackProgress(100);
                     } else {
@@ -345,7 +363,6 @@ public class FileTransferHandler {
     private void recieve2() {
         new Thread() {
 
-            long starttime;
             BufferedOutputStream bo = null;
 
             @Override
@@ -368,49 +385,29 @@ public class FileTransferHandler {
                         if (!destfile.exists()) {
                             destfile.createNewFile();
                         }
-                    //destfile = new RandomAccessFile(destfile,"rw");
                     }
                     bo = new BufferedOutputStream(new FileOutputStream(destfile, resuming));
 
                     feedBackStatus(TransferStatuses.Transferring);
                     starttime = System.currentTimeMillis();
-                    long recievedBytes = 0;
-                    long currenttime = 0;
-                    long timeelapsed = 0;
-                    long tmpCounter = 0;
-                    long speedtmptime1 = System.currentTimeMillis();
-                    long speedtmptime2 = speedtmptime1;
-                    long tmpspeedcount = 0;
-                    int progress;
+                    processedBytes = 0;
+                    int tmp = 0;
                     ByteBuffer buffer = ByteBuffer.allocate(1000);
                     buffer.rewind();
+                    //Read data
                     while (running && ((socket.read(buffer)) != -1)) {
                         buffer.flip();
                         bo.write(buffer.array(), 0, buffer.limit());
-                        recievedBytes += buffer.limit();
-                        buffer.rewind();
-                        tmpCounter += buffer.limit();
-                        tmpspeedcount += buffer.limit();
-                        speedtmptime1 = System.currentTimeMillis();
-                        long tmp = speedtmptime1 - speedtmptime2;
-                        if (tmp >= 1000) {//check speed every second
-                            feedBackSpeed((int) (tmpspeedcount / tmp));
-                            speedtmptime2 = speedtmptime1;
-                            tmpspeedcount = 0;
-                        }
-                        if (tmpCounter >= onePercentInBytes) {
-                            tmpCounter = 0;
+                        ++tmp;
+                        if (tmp > 1000) {
                             bo.flush();
-                            progress = (int) ((((recievedBytes) * 1.0) / (totalsize - firstByteToSend)) * 100);
-                            feedBackProgress(progress);
-                            currenttime = System.currentTimeMillis();
-                            timeelapsed = currenttime - starttime;
-                            timeelapsed = timeelapsed / 1000;
-                            feedBackTime((long) (((totalsize - firstByteToSend) - recievedBytes) / (recievedBytes * 1.0) * timeelapsed));
+                            tmp = 0;
                         }
+                        processedBytes += buffer.limit();
+                        buffer.rewind();
                     }
                     bo.flush();
-                    if ((recievedBytes + firstByteToSend - (resuming ? 1 : 0)) == totalsize) {
+                    if ((processedBytes + firstByteToSend - (resuming ? 1 : 0)) == totalsize) {
                         feedBackStatus(TransferStatuses.Finished);
                         feedBackProgress(100);
                     } else {
@@ -447,11 +444,8 @@ public class FileTransferHandler {
         firstByteToSend = firstByte;
         new Thread() {
 
-            long starttime;
-
             @Override
             public void run() {
-                long sentBytes = 0;
                 running = true;
                 feedBackStatus(TransferStatuses.Starting);
                 socket = null;
@@ -471,9 +465,6 @@ public class FileTransferHandler {
                     ByteBuffer temp = ByteBuffer.allocate(1000);
                     BufferedInputStream bi = new BufferedInputStream(new FileInputStream(sentFile));
                     int readedbyte;
-                    long currenttime;
-                    long timeelapsed;
-
                     //discard data that is not needed
                     long i = 1;
                     while ((i < firstByteToSend) && running) {
@@ -483,43 +474,18 @@ public class FileTransferHandler {
 
                     feedBackStatus(TransferStatuses.Transferring);
                     starttime = System.currentTimeMillis();
-                    long tmpCounter = 0;
-                    int progress;
-                    long speedtmptime1 = System.currentTimeMillis();
-                    long speedtmptime2 = speedtmptime1;
-                    long tmpspeedcount = 0;
-
+                    processedBytes = 0;
+                    //Send data
                     while ((readedbyte = bi.read()) != -1 && running) {
                         if (temp.position() < temp.capacity()) {
                             temp.put((byte) readedbyte);
-                            ++sentBytes;
-                            ++tmpCounter;
-                            ++tmpspeedcount;
+                            ++processedBytes;
                         } else {
                             temp.flip();
                             socket.write(temp);
                             temp.rewind();
-                            //dont forge to sent the new byte aswell :S
                             temp.put((byte) readedbyte);
-                            ++sentBytes;
-                            ++tmpCounter;
-                            ++tmpspeedcount;
-                        }
-                        speedtmptime1 = System.currentTimeMillis();
-                        long tmp = speedtmptime1 - speedtmptime2;
-                        if (tmp >= 1000) {//check speed every second
-                            feedBackSpeed((int) (tmpspeedcount / tmp));
-                            speedtmptime2 = speedtmptime1;
-                            tmpspeedcount = 0;
-                        }
-                        if (tmpCounter >= onePercentInBytes) {
-                            tmpCounter = 0;
-                            progress = (int) ((((sentBytes + firstByteToSend) * 1.0) / totalsize) * 100);
-                            feedBackProgress(progress);
-                            currenttime = System.currentTimeMillis();
-                            timeelapsed = currenttime - starttime;
-                            timeelapsed = timeelapsed / 1000;
-                            feedBackTime((long) (((totalsize - firstByteToSend) - sentBytes) / (sentBytes * 1.0) * timeelapsed));
+                            ++processedBytes;
                         }
                     }
                     //send last chunk
@@ -528,9 +494,9 @@ public class FileTransferHandler {
                         socket.write(temp);
                         temp.rewind();
                     }
+                    running = false;
                     feedBackStatus(TransferStatuses.Finished);
                     feedBackProgress(100);
-                    running = false;
                 } catch (Exception e) {
                     //set error messag
                     e.printStackTrace();
@@ -556,7 +522,6 @@ public class FileTransferHandler {
 
             @Override
             public void run() {
-                long sentBytes = 0;
                 running = true;
                 feedBackStatus(TransferStatuses.Retrying);
                 Socket socket = null;
@@ -570,10 +535,6 @@ public class FileTransferHandler {
                     ByteBuffer temp = ByteBuffer.allocate(1000);
                     BufferedInputStream bi = new BufferedInputStream(new FileInputStream(sentFile));
                     int readedbyte;
-                    long currenttime;
-                    long timeelapsed;
-                    long tmpCounter = 0;
-
                     //discard data that is not needed
                     long i = 0;
                     while (i < firstByteToSend) {
@@ -583,41 +544,22 @@ public class FileTransferHandler {
 
                     feedBackStatus(TransferStatuses.Transferring);
                     starttime = System.currentTimeMillis();
-                    int progress;
-                    long speedtmptime1 = System.currentTimeMillis();
-                    long speedtmptime2 = speedtmptime1;
-                    long tmpspeedcount = 0;
-
+                    int tmp = 0;
+                    //Send data
                     while ((readedbyte = bi.read()) != -1 && running) {
                         if (temp.position() < temp.capacity()) {
                             temp.put((byte) readedbyte);
-
                         } else {
                             temp.flip();
                             bo.write(temp.array(), 0, temp.limit());
                             temp.rewind();
                             temp.put((byte) readedbyte);
                         }
-                        ++sentBytes;
-                        ++tmpCounter;
-                        ++tmpspeedcount;
-
-                        speedtmptime1 = System.currentTimeMillis();
-                        long tmp = speedtmptime1 - speedtmptime2;
-                        if (tmp >= 1000) {//check speed every second
-                            feedBackSpeed((int) (tmpspeedcount / tmp));
-                            speedtmptime2 = speedtmptime1;
-                            tmpspeedcount = 0;
-                        }
-                        if (tmpCounter >= onePercentInBytes) {
-                            tmpCounter = 0;
+                        ++processedBytes;
+                        ++tmp;
+                        if (tmp > 1000) {
                             bo.flush();
-                            progress = (int) ((((sentBytes + firstByteToSend) * 1.0) / totalsize) * 100);
-                            feedBackProgress(progress);
-                            currenttime = System.currentTimeMillis();
-                            timeelapsed = currenttime - starttime;
-                            timeelapsed = timeelapsed / 1000;
-                            feedBackTime((long) (((totalsize - firstByteToSend) - sentBytes) / (sentBytes * 1.0) * timeelapsed));
+                            tmp = 0;
                         }
                     }
                     bo.flush();
@@ -629,10 +571,10 @@ public class FileTransferHandler {
                         bo.flush();
                     }
                     bo.close();
+                    running = false;
                     serverSocket.close();
                     feedBackStatus(TransferStatuses.Finished);
                     feedBackProgress(100);
-                    running = false;
                 } catch (Exception e) {
                     //set error message
                     e.printStackTrace();

@@ -254,8 +254,10 @@ public class TransferTableModel extends DefaultTableModel {
     public void updateProgress(UUID ID, int value) {
         for (Transfer t : transfers) {
             if (t.ID.equals(ID)) {
-                t.progress = value;
-                fireTableCellUpdated(transfers.indexOf(t), 4);
+                if(t.progress < value){
+                    t.progress = value;
+                    fireTableCellUpdated(transfers.indexOf(t), 4);
+                }
                 return;
             }
         }
