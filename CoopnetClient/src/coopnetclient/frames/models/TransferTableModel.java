@@ -354,7 +354,7 @@ public class TransferTableModel extends DefaultTableModel {
     @Override
     public void fireTableCellUpdated(int row, int col){
         super.fireTableCellUpdated(row, col);
-        if(TabOrganizer.getTransferPanel()!=null){
+        if(TabOrganizer.getTransferPanel()!=null &&col == 3){
             TabOrganizer.getTransferPanel().rowUpdated(row);
         }
     }
