@@ -20,6 +20,7 @@ package coopnetclient.frames.models;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.FileTransferHandler;
 import java.io.File;
@@ -85,22 +86,24 @@ public class TransferTableModel extends DefaultTableModel {
         super();
     }
 
-    public void addSendTransfer(String peer, String filename, File sentFile) {
+    public boolean addSendTransfer(String peer, String filename, File sentFile) {
         if (!findActiveSendTransfer(peer, filename)) {
             Transfer t = new Transfer(peer, filename, sentFile);
             transfers.add(0, t);
+            fireTableRowsInserted(0,0);
+            return true;
         } else {
             JOptionPane.showMessageDialog(Globals.getClientFrame(),
                     "You are already sending the file to " + peer + " !",
                     "Cannot send file!", JOptionPane.ERROR_MESSAGE);
-        }
-        fireTableDataChanged();
+            return false;
+        }        
     }
 
     public void addRecieveTransfer(String sender, String size, String filename, String ip, String port) {
         Transfer t = new Transfer(sender, Long.valueOf(size), filename, ip, port);
         transfers.add(0, t);
-        fireTableDataChanged();
+        fireTableRowsInserted(0,0);
     }
 
     public void acceptFile(int index) {
@@ -108,7 +111,7 @@ public class TransferTableModel extends DefaultTableModel {
         if (t.status == TransferStatuses.Waiting) {
             t.handler.startRecieve();
         }
-        fireTableDataChanged();
+        fireTableCellUpdated(index, 3);
     }
 
     public void refuseFile(int index) {
@@ -117,19 +120,20 @@ public class TransferTableModel extends DefaultTableModel {
             Protocol.refuseTransfer(t.peerName, t.fileName);
             t.status = TransferStatuses.Refused;
         }
-        fireTableDataChanged();
+        fireTableCellUpdated(index, 3);
     }
 
     public void cancel(int index) {
         Transfer t = transfers.get(index);
         Protocol.cancelTransfer(t.peerName, t.fileName);
         t.handler.cancel();
-        fireTableDataChanged();
+        t.status = TransferStatuses.Cancelled;
+        fireTableCellUpdated(index, 3);
     }
 
     public void startRecieve(int index) {
         transfers.get(index).startRecieve();
-        fireTableDataChanged();
+        fireTableCellUpdated(index, 3);
     }
 
     public void startSending(String ip, String peerName, String fileName, String port, long firstByte) {
@@ -141,7 +145,7 @@ public class TransferTableModel extends DefaultTableModel {
         }
         if (tf != null) {
             tf.startSend(ip, port, firstByte);
-            fireTableDataChanged();
+            fireTableCellUpdated(transfers.indexOf(tf), 3);
         }
     }
 
@@ -154,21 +158,21 @@ public class TransferTableModel extends DefaultTableModel {
         }
         if (tf != null) {
             tf.status = TransferStatuses.Refused;
-            fireTableDataChanged();
+            fireTableCellUpdated(transfers.indexOf(tf), 3);
         }
     }
 
     public void peerCancelledTransfer(String peerName, String fileName) {
         Transfer tf = null;
         for (Transfer t : transfers) {
-            if (t.type == SEND_TYPE && t.peerName.equals(peerName) && t.fileName.equals(fileName) &&(t.status == TransferStatuses.Waiting || t.status == TransferStatuses.Starting || t.status == TransferStatuses.Transferring)) {
+            if (t.type == SEND_TYPE && t.peerName.equals(peerName) && t.fileName.equals(fileName) &&(t.status == TransferStatuses.Waiting || t.status == TransferStatuses.Starting || t.status == TransferStatuses.Transferring || t.status == TransferStatuses.Error || t.status == TransferStatuses.Failed)) {
                 tf = t;
             }
         }
         if (tf != null) {
             tf.status = TransferStatuses.Cancelled;
             tf.handler.cancel();
-            fireTableDataChanged();
+            fireTableCellUpdated(transfers.indexOf(tf), 3);
         }
     }
 
@@ -182,7 +186,7 @@ public class TransferTableModel extends DefaultTableModel {
         if (tf != null) {
             tf.status = TransferStatuses.Retrying;
             tf.handler.turnAround();
-            fireTableDataChanged();
+            fireTableCellUpdated(transfers.indexOf(tf), 3);
         }
     }
 
@@ -231,7 +235,7 @@ public class TransferTableModel extends DefaultTableModel {
         for (Transfer t : transfers) {
             if (t.ID.equals(ID) && t.status != TransferStatuses.Cancelled) {
                 t.status = status;
-                fireTableDataChanged();
+                fireTableCellUpdated(transfers.indexOf(t), 3);
                 return;
             }
         }
@@ -241,7 +245,7 @@ public class TransferTableModel extends DefaultTableModel {
         for (Transfer t : transfers) {
             if (t.ID.equals(ID)) {
                 t.timeLeft = time;
-                fireTableDataChanged();
+                fireTableCellUpdated(transfers.indexOf(t), 5);
                 return;
             }
         }
@@ -251,7 +255,17 @@ public class TransferTableModel extends DefaultTableModel {
         for (Transfer t : transfers) {
             if (t.ID.equals(ID)) {
                 t.progress = value;
-                fireTableDataChanged();
+                fireTableCellUpdated(transfers.indexOf(t), 4);
+                return;
+            }
+        }
+    }
+
+    public void updateSpeed(UUID ID, int value) {
+        for (Transfer t : transfers) {
+            if (t.ID.equals(ID)) {
+                t.speed = value;
+                fireTableCellUpdated(transfers.indexOf(t), 6);
                 return;
             }
         }
@@ -293,12 +307,7 @@ public class TransferTableModel extends DefaultTableModel {
     public Object getValueAt(int row, int col) {
         switch (col) {
             case 0:
-                if (transfers.get(row).type == RECIEVE_TYPE) {
-                    return "Recieve";
-                }
-                if (transfers.get(row).type == SEND_TYPE) {
-                    return "Send";
-                }
+                return transfers.get(row).type;
             case 1:
                 return transfers.get(row).peerName;
             case 2:
@@ -334,12 +343,20 @@ public class TransferTableModel extends DefaultTableModel {
 
     public void removeTransfer(int index) {
         transfers.remove(index);
-        fireTableDataChanged();
+        fireTableRowsDeleted(index, index);
     }
 
     @Override
     public boolean isCellEditable(int row, int col) {
         return false;
+    }
+
+    @Override
+    public void fireTableCellUpdated(int row, int col){
+        super.fireTableCellUpdated(row, col);
+        if(TabOrganizer.getTransferPanel()!=null){
+            TabOrganizer.getTransferPanel().rowUpdated(row);
+        }
     }
 
     public int getTransferType(int idx){

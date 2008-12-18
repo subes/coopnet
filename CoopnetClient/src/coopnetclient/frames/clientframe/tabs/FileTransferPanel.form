@@ -52,7 +52,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lbl_senderlabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Sender:"/>
+            <Property name="text" type="java.lang.String" value="Peer:"/>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Constraints>

@@ -184,7 +184,6 @@
               <SubComponents>
                 <Container class="javax.swing.JScrollPane" name="scrl_userList">
                   <Properties>
-                    <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[100, 50]"/>
@@ -280,7 +279,7 @@
                       <Component id="btn_join" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btn_refresh" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="43" max="32767" attributes="0"/>
+                      <EmptySpace pref="49" max="32767" attributes="0"/>
                       <Component id="btn_leaveChannel" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="scrl_roomList" alignment="0" pref="0" max="32767" attributes="0"/>

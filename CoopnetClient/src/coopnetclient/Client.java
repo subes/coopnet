@@ -168,6 +168,7 @@ public class Client {
             //trayicon disabled or overridden
             //cancel any filesendings
             TabOrganizer.cancelFileSendingOnClose();
+            try{Thread.sleep(500);}catch(Exception e){}
             //close connection
             Client.stopConnection();
             //save sizes

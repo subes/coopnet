@@ -118,6 +118,10 @@ public class FileTransferHandler {
         TabOrganizer.getTransferModel().updateProgress(ID, value);
     }
 
+    private void feedBackSpeed(int value) {
+        TabOrganizer.getTransferModel().updateSpeed(ID, value);
+    }
+
     private File Checkfile(File file, int n) {
         try {
             String path = file.getCanonicalPath();
@@ -138,8 +142,6 @@ public class FileTransferHandler {
             return file;
         }
     }
-
-
 
     private boolean setResuming() {
         try {
@@ -280,11 +282,22 @@ public class FileTransferHandler {
                     long currenttime;
                     long timeelapsed;
                     long tmpCounter = 0;
+                    long speedtmptime1 = System.currentTimeMillis();
+                    long speedtmptime2 = System.currentTimeMillis();
+                    int tmpspeedcount = 0;
                     int progress;
                     while (running && (readedbyte = bi.read()) != -1) {
                         bo.write(readedbyte);
                         ++recievedBytes;
                         ++tmpCounter;
+                        ++tmpspeedcount;
+                        speedtmptime1 = System.currentTimeMillis();
+                        long tmp = speedtmptime2 - speedtmptime1;
+                        if (tmp > 1000) {//check speed every second
+                            feedBackSpeed((int) (tmpspeedcount / tmp));
+                            speedtmptime2 = System.currentTimeMillis();
+                            tmpspeedcount = 0;
+                        }
                         if (tmpCounter >= onePercentInBytes) {
                             tmpCounter = 0;
                             bo.flush();
@@ -365,6 +378,9 @@ public class FileTransferHandler {
                     long currenttime = 0;
                     long timeelapsed = 0;
                     long tmpCounter = 0;
+                    long speedtmptime1 = System.currentTimeMillis();
+                    long speedtmptime2 = System.currentTimeMillis();
+                    int tmpspeedcount = 0;
                     int progress;
                     ByteBuffer buffer = ByteBuffer.allocate(1000);
                     buffer.rewind();
@@ -374,6 +390,14 @@ public class FileTransferHandler {
                         recievedBytes += buffer.limit();
                         buffer.rewind();
                         tmpCounter += buffer.limit();
+                        tmpspeedcount += buffer.limit();
+                        speedtmptime1 = System.currentTimeMillis();
+                        long tmp = speedtmptime2 - speedtmptime1;
+                        if (tmp > 1000) {//check speed every second
+                            feedBackSpeed((int) (tmpspeedcount / tmp));
+                            speedtmptime2 = System.currentTimeMillis();
+                            tmpspeedcount = 0;
+                        }
                         if (tmpCounter >= onePercentInBytes) {
                             tmpCounter = 0;
                             bo.flush();
@@ -461,12 +485,16 @@ public class FileTransferHandler {
                     starttime = System.currentTimeMillis();
                     long tmpCounter = 0;
                     int progress;
+                    long speedtmptime1 = System.currentTimeMillis();
+                    long speedtmptime2 = System.currentTimeMillis();
+                    int tmpspeedcount = 0;
 
                     while ((readedbyte = bi.read()) != -1 && running) {
                         if (temp.position() < temp.capacity()) {
                             temp.put((byte) readedbyte);
                             ++sentBytes;
                             ++tmpCounter;
+                            ++tmpspeedcount;
                         } else {
                             temp.flip();
                             socket.write(temp);
@@ -475,6 +503,14 @@ public class FileTransferHandler {
                             temp.put((byte) readedbyte);
                             ++sentBytes;
                             ++tmpCounter;
+                            ++tmpspeedcount;
+                        }
+                        speedtmptime1 = System.currentTimeMillis();
+                        long tmp = speedtmptime2 - speedtmptime1;
+                        if (tmp > 1000) {//check speed every second
+                            feedBackSpeed((int) (tmpspeedcount / tmp));
+                            speedtmptime2 = System.currentTimeMillis();
+                            tmpspeedcount = 0;
                         }
                         if (tmpCounter >= onePercentInBytes) {
                             tmpCounter = 0;
@@ -548,12 +584,16 @@ public class FileTransferHandler {
                     feedBackStatus(TransferStatuses.Transferring);
                     starttime = System.currentTimeMillis();
                     int progress;
+                    long speedtmptime1 = System.currentTimeMillis();
+                    long speedtmptime2 = System.currentTimeMillis();
+                    int tmpspeedcount = 0;
 
                     while ((readedbyte = bi.read()) != -1 && running) {
                         if (temp.position() < temp.capacity()) {
                             temp.put((byte) readedbyte);
                             ++sentBytes;
                             ++tmpCounter;
+                            ++tmpspeedcount;
                         } else {
                             temp.flip();
                             bo.write(temp.array(), 0, temp.limit());
@@ -561,6 +601,15 @@ public class FileTransferHandler {
                             temp.put((byte) readedbyte);
                             ++sentBytes;
                             ++tmpCounter;
+                            ++tmpspeedcount;
+                        }
+
+                        speedtmptime1 = System.currentTimeMillis();
+                        long tmp = speedtmptime2 - speedtmptime1;
+                        if (tmp > 1000) {//check speed every second
+                            feedBackSpeed((int) (tmpspeedcount / tmp));
+                            speedtmptime2 = System.currentTimeMillis();
+                            tmpspeedcount = 0;
                         }
                         if (tmpCounter >= onePercentInBytes) {
                             tmpCounter = 0;

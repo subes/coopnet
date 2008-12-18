@@ -142,9 +142,10 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
                         if (returnVal == FileChooser.SELECT_ACTION) {
                             inputfile = mfc.getSelectedFile();
                             if (inputfile != null) {
-                                Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
-                                TabOrganizer.sendFile(subject, inputfile);
-                                Globals.setLastOpenedDir(inputfile.getParent());
+                                if(TabOrganizer.sendFile(subject, inputfile)){
+                                    Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
+                                    Globals.setLastOpenedDir(inputfile.getParent());
+                                }
                             }
                         }
                     } catch (Exception e) {

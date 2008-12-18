@@ -72,8 +72,9 @@ public class UserListFileDropHandler extends TransferHandler {
             }
             for (File inputfile : l) {
                 //process files
-                Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
-                TabOrganizer.sendFile(subject, inputfile);
+                if(TabOrganizer.sendFile(subject, inputfile)){
+                    Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
+                }
             }
         } catch (UnsupportedFlavorException e) {
             return false;

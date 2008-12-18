@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.ErrorHandler;
@@ -25,11 +24,13 @@ import coopnetclient.enums.TransferStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.frames.renderers.TransferProgressRenderer;
+import coopnetclient.frames.renderers.TransferTypeRenderer;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.io.File;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
-
 
 public class FileTransferPanel extends javax.swing.JPanel {
 
@@ -48,6 +49,23 @@ public class FileTransferPanel extends javax.swing.JPanel {
         TableColumn col = tbl_transfers.getColumnModel().getColumn(4);
         TransferProgressRenderer renderer = new TransferProgressRenderer(tbl_transfers);
         col.setCellRenderer(renderer);
+        TableColumn col2 = tbl_transfers.getColumnModel().getColumn(0);
+        TransferTypeRenderer renderer2 = new TransferTypeRenderer();
+        col2.setCellRenderer(renderer2);
+        DefaultTableCellRenderer rend = new DefaultTableCellRenderer();
+        rend.setHorizontalAlignment(SwingConstants.CENTER);
+        tbl_transfers.setDefaultRenderer(String.class, rend);
+        cb_resume.setVisible(false);
+        btn_browse.setVisible(false);
+        tf_savePath.setVisible(false);
+        lbl_saveto.setVisible(false);
+    }
+
+    public void rowUpdated(int row) {
+        if (tbl_transfers.getSelectedRow() == row) {
+            UpdateButtons();
+            UpdateDetails();
+        }
     }
 
     private String getFileSize(long size) {
@@ -121,7 +139,7 @@ public class FileTransferPanel extends javax.swing.JPanel {
         pnl_details.setFocusable(false);
         pnl_details.setLayout(new java.awt.GridBagLayout());
 
-        lbl_senderlabel.setText("Sender:");
+        lbl_senderlabel.setText("Peer:");
         lbl_senderlabel.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
@@ -461,9 +479,9 @@ public class FileTransferPanel extends javax.swing.JPanel {
                         tf_savePath.setEnabled(true);
                         break;
                     default:
-                        cb_resume.setEnabled(true);
-                        btn_browse.setEnabled(true);
-                        tf_savePath.setEnabled(true);
+                        cb_resume.setEnabled(false);
+                        btn_browse.setEnabled(false);
+                        tf_savePath.setEnabled(false);
                         break;
                 }
             } else {

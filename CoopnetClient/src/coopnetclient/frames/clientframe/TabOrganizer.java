@@ -38,6 +38,7 @@ import coopnetclient.utils.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.protocol.out.Protocol;
+import coopnetclient.utils.Icons;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
@@ -67,7 +68,7 @@ public class TabOrganizer {
     static {
         tabHolder = Globals.getClientFrame().getTabHolder();
     }
-    
+
     public static void openChannelPanel(String channelname) {
         
         int index = -1;
@@ -443,7 +444,7 @@ public class TabOrganizer {
         if (transferPanel == null) {
             transferPanel = new FileTransferPanel(transferModel);
             tabHolder.insertTab("Transfers",null,transferPanel,null, channelPanels.size()); //For now this is ok
-            tabHolder.setTabComponentAt(channelPanels.size(),  new TabComponent("Transfers"));
+            tabHolder.setTabComponentAt(channelPanels.size(),  new TabComponent("Transfers",Icons.transferIcon));
             tabHolder.setSelectedComponent(transferPanel);
         } else {
             tabHolder.setSelectedComponent(transferPanel);
@@ -457,13 +458,17 @@ public class TabOrganizer {
         transferPanel = null;
     }
 
-    public static void sendFile(String reciever, File file){
+    public static FileTransferPanel getTransferPanel() {
+        return transferPanel;
+    }
+
+    public static boolean  sendFile(String reciever, File file){
         if(transferPanel != null){
             markTab(transferPanel);
         }else{
             openTransferPanel();
         }
-        transferModel.addSendTransfer(reciever, file.getName(), file);        
+        return transferModel.addSendTransfer(reciever, file.getName(), file);
     }
 
     public static void recieveFile( String peerName, String size, String fileName, String ip, String port){
