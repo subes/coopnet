@@ -88,6 +88,12 @@ public class GameDatabase {
         for (String ID : installedGameIDs) {
             data.add(getGameName(ID));
         }
+        for (String name : localExecutablePath.keySet()) {
+            if(!data.contains(name)){
+                data.add(name);
+            }
+        }
+
         return data;
     }
 
@@ -237,8 +243,7 @@ public class GameDatabase {
         ArrayList<String> games = new ArrayList<String>();
         for(String ID:IDtoGameName.keySet()){
             LaunchMethods m = IDtoLaunchMethod.get(ID);
-            if(  m!= null && !m.equals(LaunchMethods.DIRECTPLAY) &&
-                   !m.equals(LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY) ){
+            if(  m!= null && m.equals(LaunchMethods.PARAMETER)){
                 games.add(IDtoGameName.get(ID));
             }
         }
