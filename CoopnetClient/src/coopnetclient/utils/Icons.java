@@ -53,4 +53,6 @@ public class Icons {
     public static ImageIcon transferAcceptIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/accept.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
     public static ImageIcon transferRefuseIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/decline.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
     public static ImageIcon transferCancelIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/cancel.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
+    public static ImageIcon tabCloseIconNormal = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/close.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
+    public static ImageIcon tabCloseIconMouseOver = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/close_mouseover.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
 }

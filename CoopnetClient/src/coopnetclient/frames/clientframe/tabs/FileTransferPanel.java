@@ -458,7 +458,6 @@ public class FileTransferPanel extends javax.swing.JPanel {
                     , (int)(e.getY() - rect.getMinY())
                     ,e.getClickCount(),e.isPopupTrigger());
             cell.dispatchEvent(buttonEvent);
-            System.out.println("event forwarded: "+buttonEvent.toString());
             // This is necessary so that when a button is pressed and released
             // it gets rendered properly.  Otherwise, the button may still appear
             // pressed down when it has been released.

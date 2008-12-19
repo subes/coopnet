@@ -68,7 +68,7 @@ public class TabComponent extends javax.swing.JPanel {
         add(lbl_text, gridBagConstraints);
 
         btn_close.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        btn_close.setIcon(Icons.transferCancelIcon);
+        btn_close.setIcon(Icons.tabCloseIconNormal);
         btn_close.setFocusable(false);
         btn_close.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_close.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -76,11 +76,27 @@ public class TabComponent extends javax.swing.JPanel {
         btn_close.setMinimumSize(new java.awt.Dimension(20, 20));
         btn_close.setOpaque(false);
         btn_close.setPreferredSize(new java.awt.Dimension(20, 20));
+        btn_close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn_closeMouseExited(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         add(btn_close, gridBagConstraints);
         btn_close.getAccessibleContext().setAccessibleName("Close");
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_closeMouseEntered
+        btn_close.setIcon(Icons.tabCloseIconMouseOver);
+    }//GEN-LAST:event_btn_closeMouseEntered
+
+    private void btn_closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_closeMouseExited
+        btn_close.setIcon(Icons.tabCloseIconNormal);
+    }//GEN-LAST:event_btn_closeMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
