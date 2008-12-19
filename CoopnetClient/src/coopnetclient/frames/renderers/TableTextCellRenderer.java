@@ -16,9 +16,9 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.renderers;
 
+import coopnetclient.utils.Settings;
 import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -33,9 +33,18 @@ public class TableTextCellRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int rowIndex, int vColIndex) {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, rowIndex, vColIndex);
+        if (Settings.getColorizeBody()) {
+            setForeground(Settings.getForegroundColor());
+            if (isSelected) {
+                setBackground(Settings.getSelectionColor());
+            } else {
+                setBackground(Settings.getBackgroundColor());
+            }
+        }
         return this;
     }
     // The following methods override the defaults for performance reasons
+
     @Override
     public void validate() {
     }

@@ -25,6 +25,7 @@ import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.components.TransferPopupMenu;
 import coopnetclient.frames.models.TransferTableModel;
+import coopnetclient.frames.renderers.TableTextCellRenderer;
 import coopnetclient.frames.renderers.TransferProgressRenderer;
 import coopnetclient.frames.renderers.TransferStatusButtonRenderer;
 import coopnetclient.frames.renderers.TransferTypeRenderer;
@@ -65,7 +66,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
         TransferStatusButtonRenderer renderer3 = new TransferStatusButtonRenderer();
         col1.setCellRenderer(renderer3);
         //align center
-        DefaultTableCellRenderer rend = new DefaultTableCellRenderer();
+        TableTextCellRenderer rend = new TableTextCellRenderer();
         rend.setHorizontalAlignment(SwingConstants.CENTER);
         tbl_transfers.setDefaultRenderer(String.class, rend);
         tbl_transfers.getColumnModel().getColumn(0).setPreferredWidth(40);

@@ -18,6 +18,7 @@
  */
 package coopnetclient.frames.renderers;
 
+import coopnetclient.utils.Settings;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JProgressBar;
@@ -44,14 +45,24 @@ public class TransferProgressRenderer extends JProgressBar implements TableCellR
             boolean isSelected, boolean hasFocus, int rowIndex, int vColIndex) {
         setValue(Integer.valueOf(value.toString()));
         setOpaque(true);
-		if (isSelected) {
-			setBackground(table.getSelectionBackground());
-		} else {
-			if (rowIndex % 2 == 1)
-				setBackground(Color.WHITE);
-			else
-				setBackground(table.getBackground());
-		}
+        if (Settings.getColorizeBody()) {
+            setForeground(Settings.getForegroundColor());
+            if (isSelected) {
+                setBackground(Settings.getSelectionColor());
+            } else {
+                setBackground(Settings.getBackgroundColor());
+            }
+        } else {
+            if (isSelected) {
+                setBackground(table.getSelectionBackground());
+            } else {
+                if (rowIndex % 2 == 1) {
+                    setBackground(Color.WHITE);
+                } else {
+                    setBackground(table.getBackground());
+                }
+            }
+        }
         return this;
     }
     // The following methods override the defaults for performance reasons

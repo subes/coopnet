@@ -23,6 +23,7 @@ import coopnetclient.enums.TransferStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.utils.Icons;
+import coopnetclient.utils.Settings;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseListener;
@@ -205,17 +206,26 @@ public class TransferStatusButtonRenderer extends javax.swing.JPanel implements 
         TransferStatusButtonRenderer renderer = (TransferStatusButtonRenderer) Globals.getTransferModel().getValueAt(row, column);
         renderer.prepare(table, value, isSelected, hasFocus, row, column);
         renderer.setOpaque(true);
-        if (isSelected) {
-            renderer.setBackground(table.getSelectionBackground());
-            lbl_text.setBackground(table.getSelectionBackground());
-        } else {
-            if (row % 2 == 1) {
-                renderer.setBackground(Color.WHITE);
-                lbl_text.setBackground(Color.WHITE);
+        if (Settings.getColorizeBody()) {
+            renderer.setForeground(Settings.getForegroundColor());
+            if (isSelected) {
+                renderer.setBackground(Settings.getSelectionColor());
             } else {
-                renderer.setBackground(table.getBackground());
+                renderer.setBackground(Settings.getBackgroundColor());
             }
-            lbl_text.setBackground(table.getBackground());
+        } else {
+            if (isSelected) {
+                renderer.setBackground(table.getSelectionBackground());
+                //lbl_text.setBackground(table.getSelectionBackground());
+            } else {
+                if (row % 2 == 1) {
+                    renderer.setBackground(Color.WHITE);
+                    //lbl_text.setBackground(Color.WHITE);
+                } else {
+                    renderer.setBackground(table.getBackground());
+                }
+                //lbl_text.setBackground(table.getBackground());
+            }
         }
         return renderer;
     }

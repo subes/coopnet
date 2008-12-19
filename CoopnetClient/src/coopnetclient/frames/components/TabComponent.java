@@ -76,7 +76,7 @@ public class TabComponent extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
         add(lbl_text, gridBagConstraints);
 
-        btn_close.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        btn_close.setFont(new java.awt.Font("Tahoma", 0, 10));
         btn_close.setIcon(Icons.tabCloseIconNormal);
         btn_close.setFocusable(false);
         btn_close.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -100,6 +100,7 @@ public class TabComponent extends javax.swing.JPanel {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 0, 0, 0);
         add(btn_close, gridBagConstraints);
         btn_close.getAccessibleContext().setAccessibleName("Close");
     }// </editor-fold>//GEN-END:initComponents

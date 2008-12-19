@@ -20,6 +20,7 @@ package coopnetclient.frames.renderers;
 
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.utils.Icons;
+import coopnetclient.utils.Settings;
 import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -38,6 +39,14 @@ public class TransferTypeRenderer extends DefaultTableCellRenderer  {
             setIcon(Icons.downloadIcon);
         }else{
             setIcon(Icons.uploadIcon);
+        }
+        if (Settings.getColorizeBody()) {
+            setForeground(Settings.getForegroundColor());
+            if (isSelected) {
+                setBackground(Settings.getSelectionColor());
+            } else {
+                setBackground(Settings.getBackgroundColor());
+            }
         }
         return this;
     }
