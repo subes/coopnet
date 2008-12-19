@@ -21,6 +21,7 @@ package coopnetclient.frames.models;
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.renderers.TransferStatusButtonRenderer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.FileTransferHandler;
 import java.io.File;
@@ -42,6 +43,7 @@ public class TransferTableModel extends DefaultTableModel {
         private String peerName;
         private String fileName;
         private TransferStatuses status;
+        private TransferStatusButtonRenderer render;
         private int progress = 0;
         private long timeLeft = 0;
         private int speed = 0;
@@ -54,6 +56,7 @@ public class TransferTableModel extends DefaultTableModel {
             this.ID = UUID.randomUUID();
             this.handler = new FileTransferHandler(ID, sentFile);
             this.status = TransferStatuses.Waiting;
+            this.render = new TransferStatusButtonRenderer();
         }
 
         public Transfer(String peerName, long size, String fileName, String ip, String port) {
@@ -63,6 +66,7 @@ public class TransferTableModel extends DefaultTableModel {
             this.ID = UUID.randomUUID();
             this.status = TransferStatuses.Waiting;
             this.handler = new FileTransferHandler(ID, peerName, size, fileName, ip, port);
+            this.render = new TransferStatusButtonRenderer();
         }
 
         public void startSend(String ip, String port, long firstByte) {
@@ -111,6 +115,8 @@ public class TransferTableModel extends DefaultTableModel {
         Transfer t = transfers.get(index);
         if (t.status == TransferStatuses.Waiting) {
             t.handler.startRecieve();
+        }else{
+            System.out.println("Cant accept file, bad status:" + t.status);
         }
         fireTableCellUpdated(index, 1);
     }
@@ -166,7 +172,7 @@ public class TransferTableModel extends DefaultTableModel {
     public void peerCancelledTransfer(String peerName, String fileName) {
         Transfer tf = null;
         for (Transfer t : transfers) {
-            if (t.type == SEND_TYPE && t.peerName.equals(peerName) && t.fileName.equals(fileName) &&(t.status == TransferStatuses.Waiting || t.status == TransferStatuses.Starting || t.status == TransferStatuses.Transferring || t.status == TransferStatuses.Error || t.status == TransferStatuses.Failed)) {
+            if ( t.peerName.equals(peerName) && t.fileName.equals(fileName) &&(t.status == TransferStatuses.Waiting || t.status == TransferStatuses.Starting || t.status == TransferStatuses.Transferring || t.status == TransferStatuses.Error || t.status == TransferStatuses.Failed)) {
                 tf = t;
             }
         }
@@ -322,7 +328,7 @@ public class TransferTableModel extends DefaultTableModel {
             case 0:
                 return transfers.get(row).type;
             case 1:
-                return transfers.get(row).status;
+                return transfers.get(row).render;
             case 2:
                 return transfers.get(row).peerName;
             case 3:

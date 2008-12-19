@@ -1,38 +1,41 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com),
+ *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+ *
+ *  This file is part of Coopnet.
+ *
+ *  Coopnet is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Coopnet is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * TransferStatusButtonRenderer.java
- *
- * Created on 2008.12.19., 15:00:20
- */
 package coopnetclient.frames.renderers;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.utils.Icons;
 import java.awt.Component;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.TableCellRenderer;
 
-/**
- *
- * @author user
- */
+
 public class TransferStatusButtonRenderer extends javax.swing.JPanel implements TableCellRenderer {
 
-    private JTable parent;
-
     /** Creates new form TransferStatusButtonRenderer */
-    public TransferStatusButtonRenderer(JTable parent) {
+    public TransferStatusButtonRenderer() {
         initComponents();
-        this.parent = parent;
     }
 
     /** This method is called from within the constructor to
@@ -51,6 +54,9 @@ public class TransferStatusButtonRenderer extends javax.swing.JPanel implements 
         lbl_text = new javax.swing.JLabel();
 
         addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 formMousePressed(evt);
             }
@@ -58,16 +64,12 @@ public class TransferStatusButtonRenderer extends javax.swing.JPanel implements 
                 formMouseReleased(evt);
             }
         });
-        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                formMouseMoved(evt);
-            }
-        });
         setLayout(new java.awt.GridBagLayout());
 
         btn_accept.setIcon(Icons.transferAcceptIcon);
         btn_accept.setMargin(new java.awt.Insets(0, 0, 0, 0));
         btn_accept.setMaximumSize(new java.awt.Dimension(20, 20));
+        btn_accept.setMinimumSize(new java.awt.Dimension(20, 20));
         btn_accept.setPreferredSize(new java.awt.Dimension(20, 20));
         btn_accept.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,6 +83,7 @@ public class TransferStatusButtonRenderer extends javax.swing.JPanel implements 
         btn_refuse.setIcon(Icons.transferRefuseIcon);
         btn_refuse.setMargin(new java.awt.Insets(0, 0, 0, 0));
         btn_refuse.setMaximumSize(new java.awt.Dimension(20, 20));
+        btn_refuse.setMinimumSize(new java.awt.Dimension(20, 20));
         btn_refuse.setPreferredSize(new java.awt.Dimension(20, 20));
         btn_refuse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,6 +98,7 @@ public class TransferStatusButtonRenderer extends javax.swing.JPanel implements 
         btn_cancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn_cancel.setMargin(new java.awt.Insets(0, 0, 0, 0));
         btn_cancel.setMaximumSize(new java.awt.Dimension(20, 20));
+        btn_cancel.setMinimumSize(new java.awt.Dimension(20, 20));
         btn_cancel.setPreferredSize(new java.awt.Dimension(20, 20));
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,22 +120,22 @@ public class TransferStatusButtonRenderer extends javax.swing.JPanel implements 
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_acceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_acceptActionPerformed
-        Globals.getTransferModel().acceptFile(parent.getSelectedRow());
+        Globals.getTransferModel().acceptFile(TabOrganizer.getTransferPanel().getSelectedIndex());
     }//GEN-LAST:event_btn_acceptActionPerformed
 
     private void btn_refuseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refuseActionPerformed
-        Globals.getTransferModel().refuseFile(parent.getSelectedRow());
+        Globals.getTransferModel().refuseFile(TabOrganizer.getTransferPanel().getSelectedIndex());
     }//GEN-LAST:event_btn_refuseActionPerformed
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
-        Globals.getTransferModel().cancel(parent.getSelectedRow());
+        Globals.getTransferModel().cancel(TabOrganizer.getTransferPanel().getSelectedIndex());
     }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
         for (Component comp : this.getComponents()) {
-            if (comp.isVisible() &&  comp.getBounds().contains(evt.getPoint())) {
+            if (comp.isVisible() && comp.getBounds().contains(evt.getPoint())) {
                 for (MouseListener ml : comp.getMouseListeners()) {
-                    ml.mousePressed(SwingUtilities.convertMouseEvent((Component)evt.getSource(), evt, comp));
+                    ml.mousePressed(SwingUtilities.convertMouseEvent((Component) evt.getSource(), evt, comp));
                 }
             }
         }
@@ -139,24 +143,23 @@ public class TransferStatusButtonRenderer extends javax.swing.JPanel implements 
 
     private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
         for (Component comp : this.getComponents()) {
-            if (comp.isVisible() &&  comp.getBounds().contains(evt.getPoint())) {
+            if (comp.isVisible() && comp.getBounds().contains(evt.getPoint())) {
                 for (MouseListener ml : comp.getMouseListeners()) {
-                    ml.mouseReleased(SwingUtilities.convertMouseEvent((Component)evt.getSource(), evt, comp));
+                    ml.mouseReleased(SwingUtilities.convertMouseEvent((Component) evt.getSource(), evt, comp));
                 }
             }
         }
     }//GEN-LAST:event_formMouseReleased
 
-    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         for (Component comp : this.getComponents()) {
-            if (comp.isVisible() &&  comp.getBounds().contains(evt.getPoint())) {
-                for ( MouseMotionListener ml : comp.getMouseMotionListeners()) {
-                    ml.mouseMoved(SwingUtilities.convertMouseEvent((Component)evt.getSource(), evt, comp));
+            if (comp.isVisible() && comp.getBounds().contains(evt.getPoint())) {
+                for (MouseListener ml : comp.getMouseListeners()) {
+                    ml.mouseClicked(SwingUtilities.convertMouseEvent((Component) evt.getSource(), evt, comp));
                 }
             }
         }
-    }//GEN-LAST:event_formMouseMoved
-
+    }//GEN-LAST:event_formMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_accept;
     private javax.swing.JButton btn_cancel;
@@ -164,11 +167,10 @@ public class TransferStatusButtonRenderer extends javax.swing.JPanel implements 
     private javax.swing.JLabel lbl_text;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        int idx = row;
-        lbl_text.setText(value.toString());
+    public Component prepare(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        int idx = row;        
         TransferStatuses status = Globals.getTransferModel().getTransferStatus(idx);
+        lbl_text.setText(status.toString());
         int type = Globals.getTransferModel().getTransferType(idx);
         switch (status) {
             case Waiting:
@@ -196,5 +198,12 @@ public class TransferStatusButtonRenderer extends javax.swing.JPanel implements 
                 break;
         }
         return this;
+    }
+
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        TransferStatusButtonRenderer renderer = (TransferStatusButtonRenderer) Globals.getTransferModel().getValueAt(row, column);
+        renderer.prepare(table, value, isSelected, hasFocus, row, column);
+        return renderer;
     }
 }

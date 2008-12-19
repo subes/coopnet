@@ -32,7 +32,6 @@ import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.io.File;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -60,9 +59,11 @@ public class FileTransferPanel extends javax.swing.JPanel {
         TableColumn col0 = tbl_transfers.getColumnModel().getColumn(0);
         TransferTypeRenderer renderer2 = new TransferTypeRenderer();
         col0.setCellRenderer(renderer2);
+        //status render
         TableColumn col1 = tbl_transfers.getColumnModel().getColumn(1);
-        TransferStatusButtonRenderer renderer3 = new TransferStatusButtonRenderer(tbl_transfers);
+        TransferStatusButtonRenderer renderer3 = new TransferStatusButtonRenderer();
         col1.setCellRenderer(renderer3);
+        //align center
         DefaultTableCellRenderer rend = new DefaultTableCellRenderer();
         rend.setHorizontalAlignment(SwingConstants.CENTER);
         tbl_transfers.setDefaultRenderer(String.class, rend);
@@ -70,12 +71,15 @@ public class FileTransferPanel extends javax.swing.JPanel {
         tbl_transfers.setComponentPopupMenu(new TransferPopupMenu(tbl_transfers));
         JTableButtonMouseListener mlsitener = new JTableButtonMouseListener(tbl_transfers);
         tbl_transfers.addMouseListener(mlsitener);
-        tbl_transfers.addMouseMotionListener(mlsitener);
 
         cb_resume.setVisible(false);
         btn_browse.setVisible(false);
         tf_savePath.setVisible(false);
         lbl_saveto.setVisible(false);
+    }
+
+    public int getSelectedIndex(){
+        return tbl_transfers.getSelectedRow();
     }
 
     public void rowUpdated(int row) {
@@ -421,7 +425,7 @@ public class FileTransferPanel extends javax.swing.JPanel {
         }
     }
 
-    private class JTableButtonMouseListener implements MouseListener,MouseMotionListener {
+    private class JTableButtonMouseListener implements MouseListener {
 
         private JTable __table;
 
@@ -441,24 +445,25 @@ public class FileTransferPanel extends javax.swing.JPanel {
                 return;
             }
 
-            value = __table.getCellRenderer(row, column);
+            value = __table.getValueAt(row, column);
             if (!(value instanceof TransferStatusButtonRenderer)) {
                 return;
             }
 
             cell = (TransferStatusButtonRenderer) value;
-            Rectangle rect = __table.getCellRect(row, column, true);
+            Rectangle rect = __table.getCellRect(row, column, false);
 
             buttonEvent = new MouseEvent(cell, e.getID(),e.getWhen(),e.getModifiers()
                     , (int)(e.getX() - rect.getMinX())
                     , (int)(e.getY() - rect.getMinY())
                     ,e.getClickCount(),e.isPopupTrigger());
             cell.dispatchEvent(buttonEvent);
+            System.out.println("event forwarded: "+buttonEvent.toString());
             // This is necessary so that when a button is pressed and released
             // it gets rendered properly.  Otherwise, the button may still appear
             // pressed down when it has been released.
-            __table.repaint(__table.getCellRect(row, column, true));
-            //__table.repaint();
+            //__table.repaint(__table.getCellRect(row, column, true));
+            __table.repaint();
         }
 
         public JTableButtonMouseListener(JTable table) {
@@ -467,7 +472,7 @@ public class FileTransferPanel extends javax.swing.JPanel {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            //__forwardEventToButton(e);
+            __forwardEventToButton(e);
         }
 
         @Override
@@ -488,17 +493,7 @@ public class FileTransferPanel extends javax.swing.JPanel {
         @Override
         public void mouseReleased(MouseEvent e) {
             __forwardEventToButton(e);
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            __forwardEventToButton(e);
-        }
+        }       
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_browse;
