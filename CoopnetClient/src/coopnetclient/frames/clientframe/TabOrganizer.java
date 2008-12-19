@@ -90,7 +90,7 @@ public class TabOrganizer {
         ChannelPanel currentchannel = new ChannelPanel(channelname);
         tabHolder.add(currentchannel, 0);
         tabHolder.setTitleAt(0, channelname);
-        tabHolder.setTabComponentAt(0, new TabComponent(channelname) );
+        tabHolder.setTabComponentAt(0, new TabComponent(channelname,currentchannel) );
         channelPanels.add(currentchannel);
         
         //chatonly or game?
@@ -204,7 +204,7 @@ public class TabOrganizer {
             roomPanel = new RoomPanel(isHost, channel, modindex, ip, compatible, hamachiIp, maxPlayers, hostName,roomName,ID,password);
             Globals.closeJoinRoomPasswordFrame();
             tabHolder.insertTab("Room", null, roomPanel, null, channelPanels.size());
-            tabHolder.setTabComponentAt(channelPanels.size(), new TabComponent("Room") );
+            tabHolder.setTabComponentAt(channelPanels.size(), new TabComponent("Room",roomPanel) );
             tabHolder.setSelectedComponent(roomPanel);
 
             for (ChannelPanel cp : channelPanels) {
@@ -250,7 +250,7 @@ public class TabOrganizer {
         if (index == -1) {
             PrivateChatPanel pc = new PrivateChatPanel(title);
             tabHolder.add(title, pc);
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(pc), new TabComponent(title) );
+            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(pc), new TabComponent(title,pc) );
             privateChatPanels.add(pc);
             if (setFocus) {
                 tabHolder.setSelectedComponent(pc);
@@ -329,7 +329,7 @@ public class TabOrganizer {
         if (errorPanel == null || errorPanel.hasException() == false && e != null) {
             errorPanel = new ErrorPanel(mode, e);
             tabHolder.addTab("Error", null ,errorPanel);
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Room",Icons.errorIconSmall) );
+            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Room",Icons.errorIconSmall,errorPanel) );
             tabHolder.setSelectedComponent(errorPanel);
         } else {
             if (Globals.getDebug()) {
@@ -447,7 +447,7 @@ public class TabOrganizer {
                 ++index;
             }
             tabHolder.insertTab("Transfers",null,transferPanel,null, index); //For now this is ok
-            tabHolder.setTabComponentAt(channelPanels.size(),  new TabComponent("Transfers",Icons.transferIcon));
+            tabHolder.setTabComponentAt(channelPanels.size(),  new TabComponent("Transfers",Icons.transferIcon,transferPanel));
 
             if(bringToFrontOnCreate){
                 tabHolder.setSelectedComponent(transferPanel);

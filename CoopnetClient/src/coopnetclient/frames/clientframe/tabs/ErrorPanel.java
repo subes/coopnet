@@ -21,11 +21,12 @@ package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ErrorPanelStyle;
+import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.FrameIconFlasher;
 import coopnetclient.utils.Logger;
 
-public class ErrorPanel extends javax.swing.JPanel {
+public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
     
     private Exception exception;
     private String trafficLog;
@@ -91,7 +92,6 @@ public class ErrorPanel extends javax.swing.JPanel {
 
         pnl_top = new javax.swing.JPanel();
         lbl_errorText = new javax.swing.JLabel();
-        btn_close = new javax.swing.JButton();
         pnl_button = new javax.swing.JPanel();
         btn_report = new javax.swing.JButton();
 
@@ -118,17 +118,6 @@ public class ErrorPanel extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         pnl_top.add(lbl_errorText, gridBagConstraints);
-
-        btn_close.setText("Close");
-        btn_close.setFocusable(false);
-        btn_close.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_closeActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
-        pnl_top.add(btn_close, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -164,16 +153,16 @@ public class ErrorPanel extends javax.swing.JPanel {
         Globals.openBugReportFrame(exception, trafficLog);
 }//GEN-LAST:event_btn_reportActionPerformed
 
-private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
-    TabOrganizer.closeErrorPanel();
-}//GEN-LAST:event_btn_closeActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_close;
     private javax.swing.JButton btn_report;
     private javax.swing.JLabel lbl_errorText;
     private javax.swing.JPanel pnl_button;
     private javax.swing.JPanel pnl_top;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void closeTab() {
+        TabOrganizer.closeErrorPanel();
+    }
     
 }

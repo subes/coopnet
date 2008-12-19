@@ -27,6 +27,7 @@ import coopnetclient.frames.models.SortedListModel;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
+import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.SoundPlayer;
 import coopnetclient.frames.renderers.RoomPlayerStatusListCellRenderer;
@@ -47,7 +48,7 @@ import javax.swing.DropMode;
 import javax.swing.SwingUtilities;
 import javax.swing.text.StyledDocument;
 
-public class RoomPanel extends javax.swing.JPanel {
+public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     private LaunchInfo launchInfo;
     
@@ -190,7 +191,6 @@ public class RoomPanel extends javax.swing.JPanel {
 
     public void convertToJoinPanel() {
         btn_launch.setVisible(false);
-        btn_close.setText("Leave");
         cb_useHamachi.setVisible(true);
         //btn_gameSettings.setVisible(false);
     }
@@ -276,7 +276,6 @@ public class RoomPanel extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         btn_ready = new javax.swing.JButton();
-        btn_close = new javax.swing.JButton();
         btn_launch = new javax.swing.JButton();
         sp_chatHorizontal = new javax.swing.JSplitPane();
         scrl_userList = new javax.swing.JScrollPane();
@@ -306,20 +305,6 @@ public class RoomPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         add(btn_ready, gridBagConstraints);
-
-        btn_close.setText("Close");
-        btn_close.setFocusable(false);
-        btn_close.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_close(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
-        add(btn_close, gridBagConstraints);
 
         btn_launch.setText("Launch");
         btn_launch.setEnabled(false);
@@ -459,14 +444,6 @@ public class RoomPanel extends javax.swing.JPanel {
         tp_chatOutput.setSelectionEnd(doc.getLength());
 }//GEN-LAST:event_tp_chatOutputFocusLost
 
-    private void btn_close(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_close
-        if (isHost) {
-            Protocol.closeRoom();
-        } else {
-            Protocol.leaveRoom();
-        }
-}//GEN-LAST:event_btn_close
-
     private void clickedbtn_launch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_launch
         if (isHost) {
             Protocol.launch();
@@ -596,7 +573,6 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
 }//GEN-LAST:event_scrl_chatOutputComponentResized
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_close;
     private javax.swing.JButton btn_gameSettings;
     private javax.swing.JButton btn_launch;
     private javax.swing.JButton btn_ready;
@@ -610,4 +586,13 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
     private javax.swing.JTextPane tp_chatInput;
     private javax.swing.JTextPane tp_chatOutput;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void closeTab() {
+        if (isHost) {
+            Protocol.closeRoom();
+        } else {
+            Protocol.leaveRoom();
+        }
+    }
 }

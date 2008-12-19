@@ -27,6 +27,7 @@ import coopnetclient.frames.models.RoomTableModel;
 import coopnetclient.frames.components.PlayerListPopupMenu;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -44,7 +45,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.text.StyledDocument;
 
-public class ChannelPanel extends javax.swing.JPanel {
+public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
 
     public String ID;
     private ChannelStatusListModel users;
@@ -61,7 +62,6 @@ public class ChannelPanel extends javax.swing.JPanel {
         users = new ChannelStatusListModel();
         renderer = new ChannelStatusListCellRenderer(users);
         initComponents();
-        btn_leaveChannel1.setVisible(false);
         coopnetclient.utils.Colorizer.colorize(this);
 
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
@@ -117,7 +117,6 @@ public class ChannelPanel extends javax.swing.JPanel {
     public void hideRoomList() {
         pnl_roomActions.setVisible(false);
         sp_vertical.setDividerSize(0);
-        btn_leaveChannel1.setVisible(true);
     }
 
     public void setPlayingStatus(String player) {
@@ -250,14 +249,12 @@ public class ChannelPanel extends javax.swing.JPanel {
         pnl_userList = new javax.swing.JPanel();
         scrl_userList = new javax.swing.JScrollPane();
         lst_userList = new javax.swing.JList();
-        btn_leaveChannel1 = new javax.swing.JButton();
         pnl_roomActions = new javax.swing.JPanel();
         btn_create = new javax.swing.JButton();
         btn_join = new javax.swing.JButton();
         btn_refresh = new javax.swing.JButton();
         scrl_roomList = new javax.swing.JScrollPane();
         tbl_roomList = new javax.swing.JTable();
-        btn_leaveChannel = new javax.swing.JButton();
 
         setFocusable(false);
         setPreferredSize(new java.awt.Dimension(350, 400));
@@ -364,23 +361,6 @@ public class ChannelPanel extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         pnl_userList.add(scrl_userList, gridBagConstraints);
 
-        btn_leaveChannel1.setText("Leave");
-        btn_leaveChannel1.setFocusable(false);
-        btn_leaveChannel1.setMaximumSize(new java.awt.Dimension(100, 23));
-        btn_leaveChannel1.setMinimumSize(new java.awt.Dimension(100, 23));
-        btn_leaveChannel1.setPreferredSize(new java.awt.Dimension(100, 23));
-        btn_leaveChannel1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_leaveChannel1ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
-        pnl_userList.add(btn_leaveChannel1, gridBagConstraints);
-
         sp_chatHorizontal.setRightComponent(pnl_userList);
 
         sp_vertical.setBottomComponent(sp_chatHorizontal);
@@ -450,17 +430,6 @@ public class ChannelPanel extends javax.swing.JPanel {
         });
         scrl_roomList.setViewportView(tbl_roomList);
 
-        btn_leaveChannel.setText("Leave");
-        btn_leaveChannel.setFocusable(false);
-        btn_leaveChannel.setMaximumSize(new java.awt.Dimension(100, 23));
-        btn_leaveChannel.setMinimumSize(new java.awt.Dimension(100, 23));
-        btn_leaveChannel.setPreferredSize(new java.awt.Dimension(100, 23));
-        btn_leaveChannel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_leaveChannelActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout pnl_roomActionsLayout = new javax.swing.GroupLayout(pnl_roomActions);
         pnl_roomActions.setLayout(pnl_roomActionsLayout);
         pnl_roomActionsLayout.setHorizontalGroup(
@@ -471,8 +440,7 @@ public class ChannelPanel extends javax.swing.JPanel {
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_refresh)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addComponent(btn_leaveChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(149, Short.MAX_VALUE))
             .addComponent(scrl_roomList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         pnl_roomActionsLayout.setVerticalGroup(
@@ -481,13 +449,12 @@ public class ChannelPanel extends javax.swing.JPanel {
                 .addGroup(pnl_roomActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_create)
                     .addComponent(btn_join)
-                    .addComponent(btn_refresh)
-                    .addComponent(btn_leaveChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_refresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
         );
 
-        pnl_roomActionsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_create, btn_join, btn_leaveChannel, btn_refresh});
+        pnl_roomActionsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_create, btn_join, btn_refresh});
 
         sp_vertical.setLeftComponent(pnl_roomActions);
 
@@ -575,10 +542,6 @@ public class ChannelPanel extends javax.swing.JPanel {
         tp_chatOutput.setSelectionEnd(doc.getLength());
 }//GEN-LAST:event_tp_chatOutputFocusLost
 
-    private void btn_leaveChannelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveChannelActionPerformed
-        TabOrganizer.closeChannelPanel(this);
-}//GEN-LAST:event_btn_leaveChannelActionPerformed
-
 private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tp_chatOutputKeyTyped
     char c = evt.getKeyChar();
     if (!evt.isControlDown()) {
@@ -586,10 +549,6 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
         tp_chatInput.requestFocus();
     }
 }//GEN-LAST:event_tp_chatOutputKeyTyped
-
-private void btn_leaveChannel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveChannel1ActionPerformed
-    btn_leaveChannelActionPerformed(evt);
-}//GEN-LAST:event_btn_leaveChannel1ActionPerformed
 
 private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
     if (!popup.isVisible()) {
@@ -652,8 +611,6 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_create;
     private javax.swing.JButton btn_join;
-    private javax.swing.JButton btn_leaveChannel;
-    private javax.swing.JButton btn_leaveChannel1;
     private javax.swing.JButton btn_refresh;
     private javax.swing.JList lst_userList;
     private javax.swing.JPanel pnl_roomActions;
@@ -669,5 +626,10 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
     private javax.swing.JTextPane tp_chatInput;
     private javax.swing.JTextPane tp_chatOutput;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void closeTab() {
+        TabOrganizer.closeChannelPanel(this);
+    }
 
 }

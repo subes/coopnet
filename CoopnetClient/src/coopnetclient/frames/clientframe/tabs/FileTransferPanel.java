@@ -21,6 +21,7 @@ package coopnetclient.frames.clientframe.tabs;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
+import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.components.TransferPopupMenu;
 import coopnetclient.frames.models.TransferTableModel;
@@ -39,7 +40,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-public class FileTransferPanel extends javax.swing.JPanel {
+public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab {
 
     private TransferTableModel model;
 
@@ -120,7 +121,6 @@ public class FileTransferPanel extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        btn_close = new javax.swing.JButton();
         pnl_details = new javax.swing.JPanel();
         lbl_senderlabel = new javax.swing.JLabel();
         lbl_sendername = new javax.swing.JLabel();
@@ -137,20 +137,6 @@ public class FileTransferPanel extends javax.swing.JPanel {
 
         setFocusable(false);
         setLayout(new java.awt.GridBagLayout());
-
-        btn_close.setText("Close");
-        btn_close.setFocusable(false);
-        btn_close.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_closeActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
-        add(btn_close, gridBagConstraints);
 
         pnl_details.setBorder(javax.swing.BorderFactory.createTitledBorder("Transfer details"));
         pnl_details.setFocusable(false);
@@ -323,10 +309,6 @@ public class FileTransferPanel extends javax.swing.JPanel {
         add(jScrollPane1, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
-        TabOrganizer.closeTransferPanel();
-    }//GEN-LAST:event_btn_closeActionPerformed
-
     private void btn_browseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browseActionPerformed
         final int idx = tbl_transfers.getSelectedRow();
         if (idx >= 0) {
@@ -425,6 +407,11 @@ public class FileTransferPanel extends javax.swing.JPanel {
         }
     }
 
+    @Override
+    public void closeTab() {
+        TabOrganizer.closeTransferPanel();
+    }
+
     private class JTableButtonMouseListener implements MouseListener {
 
         private JTable __table;
@@ -496,7 +483,6 @@ public class FileTransferPanel extends javax.swing.JPanel {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_browse;
-    private javax.swing.JButton btn_close;
     private javax.swing.JCheckBox cb_resume;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_filename;

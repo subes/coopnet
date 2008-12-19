@@ -1,42 +1,50 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * TabComponent.java
+/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com),
+ *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
  *
- * Created on 2008.12.19., 20:32:42
+ *  This file is part of Coopnet.
+ *
+ *  Coopnet is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Coopnet is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package coopnetclient.frames.components;
 
+import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.utils.Icons;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 
-/**
- *
- * @author user
- */
 public class TabComponent extends javax.swing.JPanel {
 
+    ClosableTab closeMe;
+
     /** Creates new form TabComponent */
-    public TabComponent() {
+    public TabComponent(ClosableTab closeMe) {
         initComponents();
         putClientProperty("html.disable", Boolean.TRUE);
+        lbl_text.setHorizontalTextPosition(JLabel.RIGHT);
+        this.closeMe = closeMe;
     }
 
 
-    public TabComponent(String title){
-        this();
+    public TabComponent(String title,ClosableTab closeMe){
+        this(closeMe);
         lbl_text.setText(title);
     }
 
-    public TabComponent(String title, Icon icon){
-        this(title);
-        lbl_text.setIcon(icon);
-        lbl_text.setHorizontalTextPosition(JLabel.RIGHT);
+    public TabComponent(String title, Icon icon,ClosableTab closeMe){
+        this(title,closeMe);
+        lbl_text.setIcon(icon);        
     }
 
     /** This method is called from within the constructor to
@@ -84,6 +92,11 @@ public class TabComponent extends javax.swing.JPanel {
                 btn_closeMouseExited(evt);
             }
         });
+        btn_close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_closeActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         add(btn_close, gridBagConstraints);
@@ -97,6 +110,10 @@ public class TabComponent extends javax.swing.JPanel {
     private void btn_closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_closeMouseExited
         btn_close.setIcon(Icons.tabCloseIconNormal);
     }//GEN-LAST:event_btn_closeMouseExited
+
+    private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
+        closeMe.closeTab();
+    }//GEN-LAST:event_btn_closeActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
