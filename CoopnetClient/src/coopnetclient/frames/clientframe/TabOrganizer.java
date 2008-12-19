@@ -474,7 +474,7 @@ public class TabOrganizer {
         if(transferPanel != null){
             markTab(transferPanel);
         }else{
-            openTransferPanel(true);
+            openTransferPanel(false);
         }
         return Globals.getTransferModel().addSendTransfer(reciever, file.getName(), file);
     }

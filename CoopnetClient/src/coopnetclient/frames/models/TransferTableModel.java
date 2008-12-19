@@ -376,6 +376,7 @@ public class TransferTableModel extends DefaultTableModel {
             }
         }
         fireTableDataChanged();
+        TabOrganizer.getTransferPanel().UpdateDetails();
     }
 
     @Override

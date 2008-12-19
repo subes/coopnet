@@ -25,13 +25,20 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.components.TransferPopupMenu;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.frames.renderers.TransferProgressRenderer;
+import coopnetclient.frames.renderers.TransferStatusButtonRenderer;
 import coopnetclient.frames.renderers.TransferTypeRenderer;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 public class FileTransferPanel extends javax.swing.JPanel {
 
@@ -47,17 +54,23 @@ public class FileTransferPanel extends javax.swing.JPanel {
         this.model = transferModel;
         tbl_transfers.setModel(transferModel);
 
-        TableColumn col = tbl_transfers.getColumnModel().getColumn(4);
+        TableColumn col4 = tbl_transfers.getColumnModel().getColumn(4);
         TransferProgressRenderer renderer = new TransferProgressRenderer(tbl_transfers);
-        col.setCellRenderer(renderer);
-        TableColumn col2 = tbl_transfers.getColumnModel().getColumn(0);
+        col4.setCellRenderer(renderer);
+        TableColumn col0 = tbl_transfers.getColumnModel().getColumn(0);
         TransferTypeRenderer renderer2 = new TransferTypeRenderer();
-        col2.setCellRenderer(renderer2);
+        col0.setCellRenderer(renderer2);
+        TableColumn col1 = tbl_transfers.getColumnModel().getColumn(1);
+        TransferStatusButtonRenderer renderer3 = new TransferStatusButtonRenderer(tbl_transfers);
+        col1.setCellRenderer(renderer3);
         DefaultTableCellRenderer rend = new DefaultTableCellRenderer();
         rend.setHorizontalAlignment(SwingConstants.CENTER);
         tbl_transfers.setDefaultRenderer(String.class, rend);
         tbl_transfers.getColumnModel().getColumn(0).setPreferredWidth(40);
         tbl_transfers.setComponentPopupMenu(new TransferPopupMenu(tbl_transfers));
+        JTableButtonMouseListener mlsitener = new JTableButtonMouseListener(tbl_transfers);
+        tbl_transfers.addMouseListener(mlsitener);
+        tbl_transfers.addMouseMotionListener(mlsitener);
 
         cb_resume.setVisible(false);
         btn_browse.setVisible(false);
@@ -67,7 +80,6 @@ public class FileTransferPanel extends javax.swing.JPanel {
 
     public void rowUpdated(int row) {
         if (tbl_transfers.getSelectedRow() == row) {
-            UpdateButtons();
             UpdateDetails();
         }
     }
@@ -116,9 +128,6 @@ public class FileTransferPanel extends javax.swing.JPanel {
         btn_browse = new javax.swing.JButton();
         cb_resume = new javax.swing.JCheckBox();
         tf_savePath = new coopnetclient.frames.components.AdvancedJTextField();
-        btn_accept = new javax.swing.JButton();
-        btn_refuse = new javax.swing.JButton();
-        btn_cancel = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_transfers = new javax.swing.JTable();
 
@@ -256,51 +265,6 @@ public class FileTransferPanel extends javax.swing.JPanel {
         gridBagConstraints.weightx = 1.0;
         add(pnl_details, gridBagConstraints);
 
-        btn_accept.setText("Accept");
-        btn_accept.setEnabled(false);
-        btn_accept.setFocusable(false);
-        btn_accept.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_acceptActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
-        add(btn_accept, gridBagConstraints);
-
-        btn_refuse.setText("Refuse");
-        btn_refuse.setEnabled(false);
-        btn_refuse.setFocusable(false);
-        btn_refuse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_refuseActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
-        add(btn_refuse, gridBagConstraints);
-
-        btn_cancel.setText("Cancel");
-        btn_cancel.setEnabled(false);
-        btn_cancel.setFocusable(false);
-        btn_cancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_cancelActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
-        add(btn_cancel, gridBagConstraints);
-
         jScrollPane1.setFocusable(false);
 
         tbl_transfers.setModel(new javax.swing.table.DefaultTableModel(
@@ -336,7 +300,7 @@ public class FileTransferPanel extends javax.swing.JPanel {
         });
         tbl_transfers.setFillsViewportHeight(true);
         tbl_transfers.setFocusable(false);
-        tbl_transfers.setRowHeight(20);
+        tbl_transfers.setRowHeight(22);
         tbl_transfers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_transfers.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -354,18 +318,6 @@ public class FileTransferPanel extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         add(jScrollPane1, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btn_acceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_acceptActionPerformed
-        model.acceptFile(tbl_transfers.getSelectedRow());
-    }//GEN-LAST:event_btn_acceptActionPerformed
-
-    private void btn_refuseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refuseActionPerformed
-        model.refuseFile(tbl_transfers.getSelectedRow());
-    }//GEN-LAST:event_btn_refuseActionPerformed
-
-    private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
-        model.cancel(tbl_transfers.getSelectedRow());
-    }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
         TabOrganizer.closeTransferPanel();
@@ -403,7 +355,6 @@ public class FileTransferPanel extends javax.swing.JPanel {
         if (idx >= 0) {
             cb_resume.setSelected(model.setresume(idx, !cb_resume.isSelected()));
         } else {
-            UpdateButtons();
             UpdateDetails();
         }
     }//GEN-LAST:event_cb_resumeActionPerformed
@@ -417,43 +368,13 @@ public class FileTransferPanel extends javax.swing.JPanel {
                 model.setSavePath(idx, tf_savePath.getText());
             }
         } else {
-            UpdateButtons();
             UpdateDetails();
         }
 }//GEN-LAST:event_tf_savePathActionPerformed
 
     private void tbl_transfersMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_transfersMouseReleased
-        UpdateButtons();
         UpdateDetails();
     }//GEN-LAST:event_tbl_transfersMouseReleased
-
-    private void UpdateButtons() {
-        btn_accept.setEnabled(false);
-        btn_refuse.setEnabled(false);
-        btn_cancel.setEnabled(false);
-        int idx = tbl_transfers.getSelectedRow();
-        if (idx >= 0) {
-            TransferStatuses status = model.getTransferStatus(idx);
-            int type = model.getTransferType(idx);
-            switch (status) {
-                case Waiting:
-                    if (type == TransferTableModel.RECIEVE_TYPE) {
-                        btn_accept.setEnabled(true);
-                        btn_refuse.setEnabled(true);
-                    } else {
-                        btn_accept.setEnabled(false);
-                        btn_refuse.setEnabled(false);
-                    }
-                    break;
-
-                case Starting:
-                case Transferring:
-                case Retrying:
-                    btn_cancel.setEnabled(true);
-                    break;
-            }
-        }
-    }
 
     public void UpdateDetails() {
         int idx = tbl_transfers.getSelectedRow();
@@ -500,12 +421,88 @@ public class FileTransferPanel extends javax.swing.JPanel {
         }
     }
 
+    private class JTableButtonMouseListener implements MouseListener,MouseMotionListener {
+
+        private JTable __table;
+
+        private void __forwardEventToButton(MouseEvent e) {
+            TableColumnModel columnModel = __table.getColumnModel();
+            int column = columnModel.getColumnIndexAtX(e.getX());
+            int row = e.getY() / __table.getRowHeight();
+            if (column != 1) {
+                return;
+            }
+            Object value;
+            TransferStatusButtonRenderer cell;
+            MouseEvent buttonEvent;
+
+            if (row >= __table.getRowCount() || row < 0 ||
+                    column >= __table.getColumnCount() || column < 0) {
+                return;
+            }
+
+            value = __table.getCellRenderer(row, column);
+            if (!(value instanceof TransferStatusButtonRenderer)) {
+                return;
+            }
+
+            cell = (TransferStatusButtonRenderer) value;
+            Rectangle rect = __table.getCellRect(row, column, true);
+
+            buttonEvent = new MouseEvent(cell, e.getID(),e.getWhen(),e.getModifiers()
+                    , (int)(e.getX() - rect.getMinX())
+                    , (int)(e.getY() - rect.getMinY())
+                    ,e.getClickCount(),e.isPopupTrigger());
+            cell.dispatchEvent(buttonEvent);
+            // This is necessary so that when a button is pressed and released
+            // it gets rendered properly.  Otherwise, the button may still appear
+            // pressed down when it has been released.
+            __table.repaint(__table.getCellRect(row, column, true));
+            //__table.repaint();
+        }
+
+        public JTableButtonMouseListener(JTable table) {
+            __table = table;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            //__forwardEventToButton(e);
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            //__forwardEventToButton(e);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            //__forwardEventToButton(e);
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            __forwardEventToButton(e);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            __forwardEventToButton(e);
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            __forwardEventToButton(e);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_accept;
     private javax.swing.JButton btn_browse;
-    private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_close;
-    private javax.swing.JButton btn_refuse;
     private javax.swing.JCheckBox cb_resume;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbl_filename;

@@ -50,4 +50,7 @@ public class Icons {
     public static ImageIcon uploadIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/upload.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     public static ImageIcon transferIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/transfers2.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     public static ImageIcon errorIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/error.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon transferAcceptIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/accept.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
+    public static ImageIcon transferRefuseIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/decline.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
+    public static ImageIcon transferCancelIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/cancel.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
 }
