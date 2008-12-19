@@ -328,7 +328,8 @@ public class TabOrganizer {
     public static void openErrorPanel(ErrorPanelStyle mode, Exception e) {
         if (errorPanel == null || errorPanel.hasException() == false && e != null) {
             errorPanel = new ErrorPanel(mode, e);
-            tabHolder.addTab("Error", Icons.errorIconSmall ,errorPanel);
+            tabHolder.addTab("Error", null ,errorPanel);
+            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Room",Icons.errorIconSmall) );
             tabHolder.setSelectedComponent(errorPanel);
         } else {
             if (Globals.getDebug()) {
@@ -336,7 +337,6 @@ public class TabOrganizer {
             }
             tabHolder.setSelectedComponent(errorPanel);
         }
-
         Globals.getClientFrame().repaint();
     }
     
