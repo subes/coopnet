@@ -253,6 +253,7 @@ public class TransferTableModel extends DefaultTableModel {
             if (t.ID.equals(ID) && t.status != TransferStatuses.Cancelled) {
                 t.status = status;
                 fireTableCellUpdated(transfers.indexOf(t), 1);
+                TabOrganizer.markTab(TabOrganizer.getTransferPanel());
                 return;
             }
         }

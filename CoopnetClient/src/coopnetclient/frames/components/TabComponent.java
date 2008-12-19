@@ -21,6 +21,7 @@ package coopnetclient.frames.components;
 
 import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.utils.Icons;
+import java.awt.Font;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 
@@ -115,7 +116,20 @@ public class TabComponent extends javax.swing.JPanel {
         closeMe.closeTab();
     }//GEN-LAST:event_btn_closeActionPerformed
 
-
+    @Override
+    public Font getFont(){
+        if(lbl_text != null){
+            return lbl_text.getFont();
+        }
+       return null;
+    }
+    
+    @Override
+    public void setFont(Font f){
+        if(lbl_text != null){
+            lbl_text.setFont(f);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_close;
     private javax.swing.JLabel lbl_text;
