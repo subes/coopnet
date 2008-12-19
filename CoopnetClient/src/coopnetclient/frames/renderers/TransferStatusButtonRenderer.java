@@ -24,10 +24,12 @@ import coopnetclient.enums.TransferStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.utils.Icons;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseListener;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.table.TableCellRenderer;
 
 
@@ -204,6 +206,11 @@ public class TransferStatusButtonRenderer extends javax.swing.JPanel implements 
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         TransferStatusButtonRenderer renderer = (TransferStatusButtonRenderer) Globals.getTransferModel().getValueAt(row, column);
         renderer.prepare(table, value, isSelected, hasFocus, row, column);
+        Color bgc = table.getDefaultRenderer(String.class).getTableCellRendererComponent( table,  value,  isSelected,  hasFocus,  row,  column) .getBackground();
+        if(bgc == null){
+            renderer.setBackground(UIManager.getColor("JLabel.background"));
+        }
+        renderer.setBackground(bgc);
         return renderer;
     }
 }
