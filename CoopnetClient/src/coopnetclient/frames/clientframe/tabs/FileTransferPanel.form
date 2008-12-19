@@ -239,9 +239,20 @@
                   <Data value="null"/>
                   <Data value="null"/>
                 </Column>
+                <Column editable="false" title="Status" type="java.lang.String">
+                  <Data value="waiting"/>
+                  <Data value="transferring"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                  <Data value="null"/>
+                </Column>
                 <Column editable="false" title="Peer" type="java.lang.String">
-                  <Data value="user2"/>
                   <Data value="user1"/>
+                  <Data value="user2"/>
                   <Data value="null"/>
                   <Data value="null"/>
                   <Data value="null"/>
@@ -252,18 +263,7 @@
                 </Column>
                 <Column editable="false" title="Filename" type="java.lang.String">
                   <Data value="file1.txt"/>
-                  <Data value="file2.asd"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
-                  <Data value="null"/>
-                </Column>
-                <Column editable="false" title="Status" type="java.lang.String">
-                  <Data value="waiting"/>
-                  <Data value="transferring"/>
+                  <Data value="file2.txt"/>
                   <Data value="null"/>
                   <Data value="null"/>
                   <Data value="null"/>

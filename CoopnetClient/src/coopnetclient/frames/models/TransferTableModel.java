@@ -74,7 +74,7 @@ public class TransferTableModel extends DefaultTableModel {
         }
     }
     //end of inner class
-    private String[] columnNames = {"Type", "Peer", "Filename", "Status", "Progress", "Time left", "Speed"};
+    private String[] columnNames = {"Type", "Status", "Peer", "Filename",  "Progress", "Time left", "Speed"};
     private ArrayList<Transfer> transfers;
 
 
@@ -112,7 +112,7 @@ public class TransferTableModel extends DefaultTableModel {
         if (t.status == TransferStatuses.Waiting) {
             t.handler.startRecieve();
         }
-        fireTableCellUpdated(index, 3);
+        fireTableCellUpdated(index, 1);
     }
 
     public void refuseFile(int index) {
@@ -121,7 +121,7 @@ public class TransferTableModel extends DefaultTableModel {
             Protocol.refuseTransfer(t.peerName, t.fileName);
             t.status = TransferStatuses.Refused;
         }
-        fireTableCellUpdated(index, 3);
+        fireTableCellUpdated(index, 1);
     }
 
     public void cancel(int index) {
@@ -129,12 +129,12 @@ public class TransferTableModel extends DefaultTableModel {
         Protocol.cancelTransfer(t.peerName, t.fileName);
         t.handler.cancel();
         t.status = TransferStatuses.Cancelled;
-        fireTableCellUpdated(index, 3);
+        fireTableCellUpdated(index, 1);
     }
 
     public void startRecieve(int index) {
         transfers.get(index).startRecieve();
-        fireTableCellUpdated(index, 3);
+        fireTableCellUpdated(index, 1);
     }
 
     public void startSending(String ip, String peerName, String fileName, String port, long firstByte) {
@@ -146,7 +146,7 @@ public class TransferTableModel extends DefaultTableModel {
         }
         if (tf != null) {
             tf.startSend(ip, port, firstByte);
-            fireTableCellUpdated(transfers.indexOf(tf), 3);
+            fireTableCellUpdated(transfers.indexOf(tf), 1);
         }
     }
 
@@ -159,7 +159,7 @@ public class TransferTableModel extends DefaultTableModel {
         }
         if (tf != null) {
             tf.status = TransferStatuses.Refused;
-            fireTableCellUpdated(transfers.indexOf(tf), 3);
+            fireTableCellUpdated(transfers.indexOf(tf), 1);
         }
     }
 
@@ -173,7 +173,7 @@ public class TransferTableModel extends DefaultTableModel {
         if (tf != null) {
             tf.status = TransferStatuses.Cancelled;
             tf.handler.cancel();
-            fireTableCellUpdated(transfers.indexOf(tf), 3);
+            fireTableCellUpdated(transfers.indexOf(tf), 1);
         }
     }
 
@@ -187,7 +187,7 @@ public class TransferTableModel extends DefaultTableModel {
         if (tf != null) {
             tf.status = TransferStatuses.Retrying;
             tf.handler.turnAround();
-            fireTableCellUpdated(transfers.indexOf(tf), 3);
+            fireTableCellUpdated(transfers.indexOf(tf), 1);
         }
     }
 
@@ -246,7 +246,7 @@ public class TransferTableModel extends DefaultTableModel {
         for (Transfer t : transfers) {
             if (t.ID.equals(ID) && t.status != TransferStatuses.Cancelled) {
                 t.status = status;
-                fireTableCellUpdated(transfers.indexOf(t), 3);
+                fireTableCellUpdated(transfers.indexOf(t), 1);
                 return;
             }
         }
@@ -322,11 +322,11 @@ public class TransferTableModel extends DefaultTableModel {
             case 0:
                 return transfers.get(row).type;
             case 1:
-                return transfers.get(row).peerName;
-            case 2:
-                return transfers.get(row).fileName;
-            case 3:
                 return transfers.get(row).status;
+            case 2:
+                return transfers.get(row).peerName;
+            case 3:
+                return transfers.get(row).fileName;
             case 4:
                 return transfers.get(row).progress;
             case 5:
@@ -386,9 +386,15 @@ public class TransferTableModel extends DefaultTableModel {
     @Override
     public void fireTableCellUpdated(int row, int col){
         super.fireTableCellUpdated(row, col);
-        if(TabOrganizer.getTransferPanel()!=null &&col == 3){
+        if(TabOrganizer.getTransferPanel()!=null &&col == 1){
             TabOrganizer.getTransferPanel().rowUpdated(row);
         }
+    }
+
+     @Override
+    public void fireTableRowsDeleted(int start, int end){
+        super.fireTableRowsDeleted(start, end);
+        TabOrganizer.getTransferPanel().UpdateDetails();
     }
 
     public int getTransferType(int idx){

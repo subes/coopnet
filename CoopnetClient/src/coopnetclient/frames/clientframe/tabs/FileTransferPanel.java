@@ -58,7 +58,7 @@ public class FileTransferPanel extends javax.swing.JPanel {
         tbl_transfers.setDefaultRenderer(String.class, rend);
         tbl_transfers.getColumnModel().getColumn(0).setPreferredWidth(40);
         tbl_transfers.setComponentPopupMenu(new TransferPopupMenu(tbl_transfers));
-        
+
         cb_resume.setVisible(false);
         btn_browse.setVisible(false);
         tf_savePath.setVisible(false);
@@ -305,8 +305,8 @@ public class FileTransferPanel extends javax.swing.JPanel {
 
         tbl_transfers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"recieve", "user2", "file1.txt", "waiting", "0%", "??:??:??", "0 KB/s"},
-                {"send", "user1", "file2.asd", "transferring", "56%", "00:01:21", "500 KB/s"},
+                {"recieve", "waiting", "user1", "file1.txt", "0%", "??:??:??", "0 KB/s"},
+                {"send", "transferring", "user2", "file2.txt", "56%", "00:01:21", "500 KB/s"},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -316,7 +316,7 @@ public class FileTransferPanel extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Type", "Peer", "Filename", "Status", "Progress", "Time left", "Speed"
+                "Type", "Status", "Peer", "Filename", "Progress", "Time left", "Speed"
             }
         ) {
             Class[] types = new Class [] {
@@ -455,15 +455,7 @@ public class FileTransferPanel extends javax.swing.JPanel {
         }
     }
 
-    private void UpdateDetails() {
-        cb_resume.setVisible(false);
-        btn_browse.setVisible(false);
-        tf_savePath.setVisible(false);
-        lbl_saveto.setVisible(false);
-        lbl_filename.setText("");
-        lbl_sendername.setText("");
-        lbl_sizeValue.setText("");
-        tf_savePath.setText("");
+    public void UpdateDetails() {
         int idx = tbl_transfers.getSelectedRow();
         if (idx >= 0) {
             lbl_filename.setText(model.getValueAt(idx, 2).toString());
@@ -496,6 +488,15 @@ public class FileTransferPanel extends javax.swing.JPanel {
                 tf_savePath.setVisible(false);
                 lbl_saveto.setVisible(false);
             }
+        } else {
+            cb_resume.setVisible(false);
+            btn_browse.setVisible(false);
+            tf_savePath.setVisible(false);
+            lbl_saveto.setVisible(false);
+            lbl_filename.setText("");
+            lbl_sendername.setText("");
+            lbl_sizeValue.setText("");
+            tf_savePath.setText("");
         }
     }
 
