@@ -379,8 +379,8 @@ public class FileTransferPanel extends javax.swing.JPanel {
     public void UpdateDetails() {
         int idx = tbl_transfers.getSelectedRow();
         if (idx >= 0) {
-            lbl_filename.setText(model.getValueAt(idx, 2).toString());
-            lbl_sendername.setText(model.getValueAt(idx, 1).toString());
+            lbl_filename.setText(model.getValueAt(idx, 3).toString());
+            lbl_sendername.setText(model.getValueAt(idx, 2).toString());
             lbl_sizeValue.setText(getFileSize(model.getFileSize(idx)));
             tf_savePath.setText(model.getSavePath(idx));
             cb_resume.setSelected(model.getResume(idx));
