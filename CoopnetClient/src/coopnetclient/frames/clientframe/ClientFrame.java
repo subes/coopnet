@@ -912,7 +912,7 @@ private void mi_faqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
 }//GEN-LAST:event_mi_faqActionPerformed
 
 private void mi_showTransfersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_showTransfersActionPerformed
-    TabOrganizer.openTransferPanel();
+    TabOrganizer.openTransferPanel(true);
 }//GEN-LAST:event_mi_showTransfersActionPerformed
 
 private Color getHoverEffectColor(){

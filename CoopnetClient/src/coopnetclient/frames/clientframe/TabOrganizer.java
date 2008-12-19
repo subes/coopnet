@@ -439,7 +439,7 @@ public class TabOrganizer {
         return registerPanel;
     }
 
-    public static void openTransferPanel(){
+    public static void openTransferPanel(boolean bringToFrontOnCreate){
         if (transferPanel == null) {
             transferPanel = new FileTransferPanel(Globals.getTransferModel());
             int index = channelPanels.size();
@@ -448,7 +448,12 @@ public class TabOrganizer {
             }
             tabHolder.insertTab("Transfers",null,transferPanel,null, index); //For now this is ok
             tabHolder.setTabComponentAt(channelPanels.size(),  new TabComponent("Transfers",Icons.transferIcon));
-            tabHolder.setSelectedComponent(transferPanel);
+
+            if(bringToFrontOnCreate){
+                tabHolder.setSelectedComponent(transferPanel);
+            }else{
+                markTab(transferPanel);
+            }
         } else {
             tabHolder.setSelectedComponent(transferPanel);
         }
@@ -469,7 +474,7 @@ public class TabOrganizer {
         if(transferPanel != null){
             markTab(transferPanel);
         }else{
-            openTransferPanel();
+            openTransferPanel(true);
         }
         return Globals.getTransferModel().addSendTransfer(reciever, file.getName(), file);
     }
@@ -478,7 +483,7 @@ public class TabOrganizer {
         if(transferPanel != null){
             markTab(transferPanel);
         }else{
-            openTransferPanel();
+            openTransferPanel(false);
         }
         Globals.getTransferModel().addRecieveTransfer(peerName, size, fileName, ip, port);
     }
