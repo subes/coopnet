@@ -28,6 +28,7 @@ public class TabComponent extends JLabel {
     public TabComponent(){
         super("tabText");
         putClientProperty("html.disable", Boolean.TRUE);
+        setVerticalTextPosition(JLabel.RIGHT);
     }
 
     public TabComponent(String title){
