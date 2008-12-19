@@ -63,7 +63,6 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_sendername">
           <Properties>
-            <Property name="text" type="java.lang.String" value="user"/>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Constraints>
@@ -85,7 +84,6 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_filename">
           <Properties>
-            <Property name="text" type="java.lang.String" value="filename"/>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Constraints>
@@ -107,7 +105,6 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_sizeValue">
           <Properties>
-            <Property name="text" type="java.lang.String" value="0 byte"/>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Constraints>

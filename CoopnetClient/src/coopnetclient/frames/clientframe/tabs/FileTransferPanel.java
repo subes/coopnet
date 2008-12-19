@@ -150,7 +150,6 @@ public class FileTransferPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnl_details.add(lbl_senderlabel, gridBagConstraints);
 
-        lbl_sendername.setText("user");
         lbl_sendername.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = 2;
@@ -169,7 +168,6 @@ public class FileTransferPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         pnl_details.add(lbl_filenamelabel, gridBagConstraints);
 
-        lbl_filename.setText("filename");
         lbl_filename.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -190,7 +188,6 @@ public class FileTransferPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         pnl_details.add(lbl_sizelabel, gridBagConstraints);
 
-        lbl_sizeValue.setText("0 byte");
         lbl_sizeValue.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -459,6 +456,10 @@ public class FileTransferPanel extends javax.swing.JPanel {
     }
 
     private void UpdateDetails() {
+        cb_resume.setVisible(false);
+        btn_browse.setVisible(false);
+        tf_savePath.setVisible(false);
+        lbl_saveto.setVisible(false);
         lbl_filename.setText("");
         lbl_sendername.setText("");
         lbl_sizeValue.setText("");

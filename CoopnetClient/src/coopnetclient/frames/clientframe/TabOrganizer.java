@@ -522,5 +522,6 @@ public class TabOrganizer {
         errorPanel = null;
         browserPanel = null;
         loginPanel = null;
+        transferPanel = null;
     }
 }
