@@ -154,8 +154,11 @@ public class TransferPopupMenu extends JPopupMenu implements ActionListener {
             }
             super.show(invoker, x, y);
         } else {
-            setVisible(false);
-            return;
+            remove.setEnabled(false);
+            clear.setEnabled(true);
+            openDir.setEnabled(false);
+            openFile.setEnabled(false);
+            super.show(invoker, x, y);
         }
     }
 }
