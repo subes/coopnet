@@ -34,12 +34,14 @@ public class TabComponent extends JLabel {
     public TabComponent(String title){
         super(title);
         putClientProperty("html.disable", Boolean.TRUE);
+        setVerticalTextPosition(JLabel.RIGHT);
     }
 
     public TabComponent(String title, Icon icon){
         super(title);
         setIcon(icon);
         putClientProperty("html.disable", Boolean.TRUE);
+        setVerticalTextPosition(JLabel.RIGHT);
     }
 
 }
