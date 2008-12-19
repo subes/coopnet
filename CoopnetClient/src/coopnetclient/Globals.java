@@ -494,14 +494,14 @@ public class Globals {
             createRoomFrame.dispose();
             createRoomFrame = null;
             if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two RoomJoinFrames! Closing the other one. (openJoinRoomPasswordFrame)");
             }
         }
         if (roomJoinPasswordFrame != null) {
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
             if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two roomJoinPasswordFrames! Closing the other one. (openJoinRoomPasswordFrame)");
             }
         }
 
@@ -514,14 +514,14 @@ public class Globals {
             createRoomFrame.dispose();
             createRoomFrame = null;
             if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two createRoomFrames! Closing the other one. (openJoinRoomPasswordFrame)");
             }
         }
         if (roomJoinPasswordFrame != null) {
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
             if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two roomJoinPasswordFrames! Closing the other one. (openJoinRoomPasswordFrame)");
             }
         }
 
@@ -540,14 +540,14 @@ public class Globals {
             createRoomFrame.dispose();
             createRoomFrame = null;
             if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two createRoomFrames! Closing the other one. (openCreateRoomFrame)");
             }
         }
         if (roomJoinPasswordFrame != null) {
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
             if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two roomJoinPasswordFrames! Closing the other one. (openCreateRoomFrame)");
             }
         }
 

@@ -440,7 +440,6 @@ private void tbl_displayKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
         String filename = displaymodel.getSelectedFile();
         
         File file = new File(currentdir.getPath() + File.separatorChar + filename);
-        //System.out.println("File selected:" + file);
         if (file.isDirectory()) {//open directory
             openDirectory(file);
         } else {//file was selected            
@@ -487,7 +486,6 @@ private void tbl_displayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
         
         if(filename != null){
             File file = new File(currentdir.getPath() + File.separatorChar + filename);
-            //System.out.println("File selected:" + file);
             if (file.isDirectory()) {//open directory
                 openDirectory(file);
             } else {//file was selected   

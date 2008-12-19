@@ -388,7 +388,7 @@ public class GameDatabase {
 
     public static synchronized void load(String gamename, String datafilepath) {
         try {
-            System.out.println("loading from:"+datafilepath);
+            System.out.println("loading gamedata from:"+datafilepath);
             xmlReader.parseGameData(gamename, datafilepath,XMLReader.LOAD_GAMEDATA);
             System.out.println("game database loaded");  
         }

@@ -79,7 +79,6 @@ public class Client {
                     while (iadrs.hasMoreElements()) {
                         InetAddress iadr = iadrs.nextElement();
                         ip = iadr.getHostAddress();
-                        System.out.println("Hamachi found!");
                         return ip;
                     }
                 }
