@@ -18,6 +18,7 @@
  */
 package coopnetclient.frames.renderers;
 
+import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JProgressBar;
 import javax.swing.JTable;
@@ -42,11 +43,15 @@ public class TransferProgressRenderer extends JProgressBar implements TableCellR
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int rowIndex, int vColIndex) {
         setValue(Integer.valueOf(value.toString()));
-        if(isSelected){
-            setBackground(parent.getSelectionBackground());
-        }else{
-            setBackground(parent.getBackground());
-        }
+        setOpaque(true);
+		if (isSelected) {
+			setBackground(table.getSelectionBackground());
+		} else {
+			if (rowIndex % 2 == 1)
+				setBackground(Color.WHITE);
+			else
+				setBackground(table.getBackground());
+		}
         return this;
     }
     // The following methods override the defaults for performance reasons
