@@ -260,6 +260,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         setFocusable(false);
         setPreferredSize(new java.awt.Dimension(350, 400));
 
+        sp_vertical.setDividerSize(10);
         sp_vertical.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         sp_vertical.setResizeWeight(0.5);
         sp_vertical.setFocusable(false);
@@ -356,7 +357,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
@@ -439,23 +440,25 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         pnl_roomActionsLayout.setHorizontalGroup(
             pnl_roomActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_roomActionsLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(btn_create)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_refresh)
-                .addContainerGap(149, Short.MAX_VALUE))
-            .addComponent(scrl_roomList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap(139, Short.MAX_VALUE))
+            .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
         );
         pnl_roomActionsLayout.setVerticalGroup(
             pnl_roomActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_roomActionsLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(pnl_roomActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_create)
                     .addComponent(btn_join)
                     .addComponent(btn_refresh))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
         );
 
         pnl_roomActionsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_create, btn_join, btn_refresh});
