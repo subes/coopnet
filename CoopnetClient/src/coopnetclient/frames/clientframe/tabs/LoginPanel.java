@@ -128,6 +128,11 @@ public class LoginPanel extends javax.swing.JPanel {
         lbl_password.setFocusable(false);
 
         pf_password.setNextFocusableComponent(cb_autoLogin);
+        pf_password.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                pf_passwordCaretUpdate(evt);
+            }
+        });
         pf_password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pf_passwordActionPerformed(evt);
@@ -136,6 +141,7 @@ public class LoginPanel extends javax.swing.JPanel {
 
         btn_login.setMnemonic(KeyEvent.VK_L);
         btn_login.setText("Login");
+        btn_login.setEnabled(false);
         btn_login.setNextFocusableComponent(btn_passwordRecovery);
         btn_login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,9 +166,19 @@ public class LoginPanel extends javax.swing.JPanel {
         lbl_loginError.setText(" ");
         lbl_loginError.setFocusable(false);
 
+        tf_name.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tf_nameCaretUpdate(evt);
+            }
+        });
         tf_name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_nameActionPerformed(evt);
+            }
+        });
+        tf_name.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tf_nameFocusGained(evt);
             }
         });
 
@@ -245,13 +261,44 @@ public class LoginPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_btn_registerActionPerformed
 
     private void tf_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_nameActionPerformed
-        btn_login.doClick();
+        if(!btn_login.isEnabled()){
+            pf_password.requestFocus();
+        }else{
+            btn_login.doClick();
+        }
     }//GEN-LAST:event_tf_nameActionPerformed
 
 private void btn_passwordRecoveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_passwordRecoveryActionPerformed
     TabOrganizer.closeLoginPanel();
     TabOrganizer.openPasswordRecoveryPanel();
 }//GEN-LAST:event_btn_passwordRecoveryActionPerformed
+
+private void pf_passwordCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_pf_passwordCaretUpdate
+    String password = new String(pf_password.getPassword());
+    if( Verification.verifyLoginName(tf_name.getText())
+            && Verification.verifyPassword(password) )
+            {
+        btn_login.setEnabled(true);
+    }else{
+        btn_login.setEnabled(false);
+    }
+}//GEN-LAST:event_pf_passwordCaretUpdate
+
+private void tf_nameCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tf_nameCaretUpdate
+    String password = new String(pf_password.getPassword());
+    if( Verification.verifyLoginName(tf_name.getText())
+            && Verification.verifyPassword(password) )
+            {
+        btn_login.setEnabled(true);
+    }else{
+        btn_login.setEnabled(false);
+    }
+}//GEN-LAST:event_tf_nameCaretUpdate
+
+private void tf_nameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_nameFocusGained
+    tf_name.setSelectionStart(0);
+    tf_name.setSelectionEnd(tf_name.getText().length());
+}//GEN-LAST:event_tf_nameFocusGained
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_login;

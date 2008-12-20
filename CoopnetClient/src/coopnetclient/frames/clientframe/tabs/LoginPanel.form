@@ -131,6 +131,7 @@
             </Property>
           </Properties>
           <Events>
+            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="pf_passwordCaretUpdate"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pf_passwordActionPerformed"/>
           </Events>
         </Component>
@@ -140,6 +141,7 @@
               <Connection code="KeyEvent.VK_L" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Login"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection component="btn_passwordRecovery" type="bean"/>
             </Property>
@@ -182,7 +184,9 @@
         </Component>
         <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_name">
           <Events>
+            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="tf_nameCaretUpdate"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_nameActionPerformed"/>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tf_nameFocusGained"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_passwordRecovery">
