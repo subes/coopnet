@@ -77,7 +77,6 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_join.setMnemonic(KeyEvent.VK_J);
         btn_join.setText("Join");
         btn_join.setNextFocusableComponent(btn_cancel);
         btn_join.addActionListener(new java.awt.event.ActionListener() {
@@ -86,7 +85,6 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_cancel.setMnemonic(KeyEvent.VK_C);
         btn_cancel.setText("Cancel");
         btn_cancel.setNextFocusableComponent(pf_roomPassword);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {

@@ -117,7 +117,6 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btn_save.setMnemonic(KeyEvent.VK_S);
         btn_save.setText("Save");
         btn_save.setNextFocusableComponent(btn_cancel);
         btn_save.addActionListener(new java.awt.event.ActionListener() {
@@ -126,7 +125,6 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_cancel.setMnemonic(KeyEvent.VK_C);
         btn_cancel.setText("Cancel");
         btn_cancel.setNextFocusableComponent(lbl_oldPassword);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {

@@ -321,7 +321,6 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_save.setMnemonic(KeyEvent.VK_S);
         btn_save.setText("Save");
         btn_save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

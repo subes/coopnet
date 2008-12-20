@@ -90,7 +90,6 @@ public class FavouritesFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_close.setMnemonic(KeyEvent.VK_C);
         btn_close.setText("Close");
         btn_close.setNextFocusableComponent(tf_filter);
         btn_close.addActionListener(new java.awt.event.ActionListener() {
@@ -133,8 +132,8 @@ public class FavouritesFrame extends javax.swing.JFrame {
             .addGroup(pnl_channelsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbl_channels)
-                .addContainerGap(181, Short.MAX_VALUE))
-            .addComponent(scrl_channels, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                .addContainerGap(191, Short.MAX_VALUE))
+            .addComponent(scrl_channels, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
         );
         pnl_channelsLayout.setVerticalGroup(
             pnl_channelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,11 +158,11 @@ public class FavouritesFrame extends javax.swing.JFrame {
         pnl_favourites.setLayout(pnl_favouritesLayout);
         pnl_favouritesLayout.setHorizontalGroup(
             pnl_favouritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrl_favourites, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+            .addComponent(scrl_favourites, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
             .addGroup(pnl_favouritesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbl_favourites)
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addContainerGap(162, Short.MAX_VALUE))
         );
         pnl_favouritesLayout.setVerticalGroup(
             pnl_favouritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,22 +189,17 @@ public class FavouritesFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(sp_lists, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE))
+                    .addComponent(sp_lists, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                    .addComponent(btn_close, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(lbl_filter)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_close)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lbl_filter)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cb_showInstalledOnly)
-                                    .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)))))
+                            .addComponent(cb_showInstalledOnly)
+                            .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(btn_add)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 217, Short.MAX_VALUE)
                         .addComponent(btn_remove)))

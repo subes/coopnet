@@ -943,7 +943,6 @@ public class SettingsFrame extends javax.swing.JFrame {
 
         tabpn_settings.addTab("Quckbar", pnl_QuckPanel);
 
-        btn_save.setMnemonic(KeyEvent.VK_S);
         btn_save.setText("Save");
         btn_save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -951,7 +950,6 @@ public class SettingsFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_cancel.setMnemonic(KeyEvent.VK_C);
         btn_cancel.setText("Cancel");
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -959,7 +957,6 @@ public class SettingsFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_apply.setMnemonic(KeyEvent.VK_A);
         btn_apply.setText("Apply");
         btn_apply.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

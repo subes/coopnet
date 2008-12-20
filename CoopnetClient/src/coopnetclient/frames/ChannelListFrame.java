@@ -90,7 +90,6 @@ public class ChannelListFrame extends javax.swing.JFrame {
         });
         scrl_channelList.setViewportView(lst_channelList);
 
-        btn_joinChannelButton.setMnemonic(KeyEvent.VK_J);
         btn_joinChannelButton.setText("Join selected channel");
         btn_joinChannelButton.setNextFocusableComponent(btn_cancel);
         btn_joinChannelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -103,7 +102,6 @@ public class ChannelListFrame extends javax.swing.JFrame {
         lbl_channellist.setLabelFor(lst_channelList);
         lbl_channellist.setText("Available Channels:");
 
-        btn_cancel.setMnemonic(KeyEvent.VK_C);
         btn_cancel.setText("Cancel");
         btn_cancel.setNextFocusableComponent(tf_filter);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {

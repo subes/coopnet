@@ -103,7 +103,6 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         });
         scrl_games.setViewportView(lst_games);
 
-        btn_save.setMnemonic(KeyEvent.VK_S);
         btn_save.setText("Save");
         btn_save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,7 +121,6 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_close.setMnemonic(KeyEvent.VK_C);
         btn_close.setText("Close");
         btn_close.setNextFocusableComponent(tf_filter);
         btn_close.addActionListener(new java.awt.event.ActionListener() {
@@ -210,6 +208,9 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                         .addComponent(cb_showInstalledOnly)))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_close, btn_save});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()

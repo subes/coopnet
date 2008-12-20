@@ -151,7 +151,6 @@ public class BugReportFrame extends javax.swing.JFrame {
         ta_LongDescription.setNextFocusableComponent(btn_send);
         scrl_longDescription.setViewportView(ta_LongDescription);
 
-        btn_send.setMnemonic(KeyEvent.VK_S);
         btn_send.setText("Send");
         btn_send.setNextFocusableComponent(btn_cancel);
         btn_send.addActionListener(new java.awt.event.ActionListener() {
@@ -160,7 +159,6 @@ public class BugReportFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_cancel.setMnemonic(KeyEvent.VK_C);
         btn_cancel.setText("Cancel");
         btn_cancel.setNextFocusableComponent(btn_review);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {

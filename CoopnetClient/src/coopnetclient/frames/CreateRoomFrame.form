@@ -257,9 +257,6 @@
     </Container>
     <Component class="javax.swing.JButton" name="btn_create">
       <Properties>
-        <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="KeyEvent.VK_R" type="code"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Create"/>
         <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="btn_cancel"/>
@@ -271,9 +268,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="btn_cancel">
       <Properties>
-        <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="KeyEvent.VK_C" type="code"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Cancel"/>
         <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="tf_name"/>

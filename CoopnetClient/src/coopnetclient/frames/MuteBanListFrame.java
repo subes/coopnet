@@ -86,7 +86,6 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         });
         scrl_table.setViewportView(tbl_UserTable);
 
-        btn_close.setMnemonic(KeyEvent.VK_C);
         btn_close.setText("Close");
         btn_close.setNextFocusableComponent(btn_unMute);
         btn_close.addActionListener(new java.awt.event.ActionListener() {

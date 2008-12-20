@@ -234,7 +234,6 @@ public class CreateRoomFrame extends javax.swing.JFrame {
 
         pnl_inputLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmb_mod, lbl_mod});
 
-        btn_create.setMnemonic(KeyEvent.VK_R);
         btn_create.setText("Create");
         btn_create.setNextFocusableComponent(btn_cancel);
         btn_create.addActionListener(new java.awt.event.ActionListener() {
@@ -243,7 +242,6 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_cancel.setMnemonic(KeyEvent.VK_C);
         btn_cancel.setText("Cancel");
         btn_cancel.setNextFocusableComponent(tf_name);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {

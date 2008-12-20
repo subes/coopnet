@@ -58,7 +58,6 @@ public class TextPreviewFrame extends javax.swing.JFrame {
         ta_text.setRows(5);
         scrl_text.setViewportView(ta_text);
 
-        btn_close.setMnemonic(KeyEvent.VK_C);
         btn_close.setText("Close");
         btn_close.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

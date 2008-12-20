@@ -123,7 +123,6 @@ public class ShowProfileFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btn_close.setMnemonic(KeyEvent.VK_C);
         btn_close.setText("Close");
         btn_close.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
