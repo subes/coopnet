@@ -23,6 +23,7 @@ import coopnetclient.enums.MuteBanStatuses;
 import coopnetclient.frames.renderers.TableTextCellRenderer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.MuteBanList;
+import java.awt.event.KeyEvent;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -75,7 +76,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         tbl_UserTable.setAutoCreateRowSorter(true);
         tbl_UserTable.setModel(tablemodel);
         tbl_UserTable.setFillsViewportHeight(true);
-        tbl_UserTable.setFocusable(false);
+        tbl_UserTable.setNextFocusableComponent(btn_close);
         tbl_UserTable.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 tbl_UserTableCaretPositionChanged(evt);
@@ -85,35 +86,39 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         });
         scrl_table.setViewportView(tbl_UserTable);
 
+        btn_close.setMnemonic(KeyEvent.VK_C);
         btn_close.setText("Close");
-        btn_close.setFocusable(false);
+        btn_close.setNextFocusableComponent(btn_unMute);
         btn_close.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_closeActionPerformed(evt);
             }
         });
 
+        btn_unMute.setMnemonic(KeyEvent.VK_M);
         btn_unMute.setText("UnMute");
         btn_unMute.setEnabled(false);
-        btn_unMute.setFocusable(false);
+        btn_unMute.setNextFocusableComponent(btn_unBan);
         btn_unMute.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_unMuteActionPerformed(evt);
             }
         });
 
+        btn_unBan.setMnemonic(KeyEvent.VK_B);
         btn_unBan.setText("UnBan");
         btn_unBan.setEnabled(false);
-        btn_unBan.setFocusable(false);
+        btn_unBan.setNextFocusableComponent(btn_showProfile);
         btn_unBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_unBanActionPerformed(evt);
             }
         });
 
+        btn_showProfile.setMnemonic(KeyEvent.VK_P);
         btn_showProfile.setText("Show Profile");
         btn_showProfile.setEnabled(false);
-        btn_showProfile.setFocusable(false);
+        btn_showProfile.setNextFocusableComponent(tbl_UserTable);
         btn_showProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_showProfileActionPerformed(evt);
@@ -133,7 +138,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
                 .addComponent(btn_unBan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_showProfile)
-                .addContainerGap(184, Short.MAX_VALUE))
+                .addContainerGap(192, Short.MAX_VALUE))
             .addComponent(scrl_table, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(

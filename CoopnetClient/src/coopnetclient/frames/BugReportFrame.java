@@ -23,6 +23,7 @@ import bugreportmailsender.BugReportMailSender;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Colorizer;
+import java.awt.event.KeyEvent;
 import java.util.Date;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -141,20 +142,27 @@ public class BugReportFrame extends javax.swing.JFrame {
 
         lbl_email.setText("<HTML>Please give us your E-Mail address,<br>so we may contact you if we need further information:</HTML>");
 
+        tf_email.setNextFocusableComponent(tf_shortDescription);
+
         lbl_longDescription.setText("<HTML>Here you can get more in detail and tell us how to reproduce the error,<br>so we can actually get some clues about how to fix it:</HTML>");
 
         ta_LongDescription.setColumns(20);
         ta_LongDescription.setRows(5);
+        ta_LongDescription.setNextFocusableComponent(btn_send);
         scrl_longDescription.setViewportView(ta_LongDescription);
 
+        btn_send.setMnemonic(KeyEvent.VK_S);
         btn_send.setText("Send");
+        btn_send.setNextFocusableComponent(btn_cancel);
         btn_send.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_sendActionPerformed(evt);
             }
         });
 
+        btn_cancel.setMnemonic(KeyEvent.VK_C);
         btn_cancel.setText("Cancel");
+        btn_cancel.setNextFocusableComponent(btn_review);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cancelActionPerformed(evt);
@@ -165,9 +173,13 @@ public class BugReportFrame extends javax.swing.JFrame {
 
         lbl_info.setText("<HTML>You can help the development of this project by submitting a report.<br>Only known problems can be fixed and we appreciate your help.</HTML>");
 
+        tf_shortDescription.setNextFocusableComponent(ta_LongDescription);
+
         lbl_shortDescription.setText("<HTML>Write a short, but proper description of the problem:</HTML>");
 
+        btn_review.setMnemonic(KeyEvent.VK_R);
         btn_review.setText("Review this report");
+        btn_review.setNextFocusableComponent(tf_email);
         btn_review.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_reviewActionPerformed(evt);
@@ -203,7 +215,7 @@ public class BugReportFrame extends javax.swing.JFrame {
                                 .addComponent(btn_send)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_cancel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
                                 .addComponent(btn_review))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

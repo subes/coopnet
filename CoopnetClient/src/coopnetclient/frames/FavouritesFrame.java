@@ -23,6 +23,7 @@ import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.models.SortedListModel;
+import java.awt.event.KeyEvent;
 import java.util.Vector;
 import javax.swing.DefaultListModel;
 
@@ -71,29 +72,38 @@ public class FavouritesFrame extends javax.swing.JFrame {
             }
         });
 
+        btn_add.setMnemonic(KeyEvent.VK_A);
         btn_add.setText("Add to favourites");
+        btn_add.setNextFocusableComponent(lst_channels);
         btn_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_addActionPerformed(evt);
             }
         });
 
+        btn_remove.setMnemonic(KeyEvent.VK_R);
         btn_remove.setText("Remove from favourites");
+        btn_remove.setNextFocusableComponent(lst_favourites);
         btn_remove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_removeActionPerformed(evt);
             }
         });
 
+        btn_close.setMnemonic(KeyEvent.VK_C);
         btn_close.setText("Close");
+        btn_close.setNextFocusableComponent(tf_filter);
         btn_close.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_closeActionPerformed(evt);
             }
         });
 
+        lbl_filter.setDisplayedMnemonic(KeyEvent.VK_F);
+        lbl_filter.setLabelFor(tf_filter);
         lbl_filter.setText("Filter:");
 
+        tf_filter.setNextFocusableComponent(cb_showInstalledOnly);
         tf_filter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_filterActionPerformed(evt);
@@ -103,9 +113,12 @@ public class FavouritesFrame extends javax.swing.JFrame {
         sp_lists.setDividerLocation(250);
         sp_lists.setResizeWeight(0.5);
 
+        lbl_channels.setDisplayedMnemonic(KeyEvent.VK_H);
+        lbl_channels.setLabelFor(lst_channels);
         lbl_channels.setText("Channels:");
 
         lst_channels.setModel(channels);
+        lst_channels.setNextFocusableComponent(btn_remove);
         lst_channels.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lst_channelsMouseClicked(evt);
@@ -119,11 +132,9 @@ public class FavouritesFrame extends javax.swing.JFrame {
             pnl_channelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_channelsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnl_channelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrl_channels, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
-                    .addGroup(pnl_channelsLayout.createSequentialGroup()
-                        .addComponent(lbl_channels)
-                        .addContainerGap(191, Short.MAX_VALUE))))
+                .addComponent(lbl_channels)
+                .addContainerGap(181, Short.MAX_VALUE))
+            .addComponent(scrl_channels, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
         );
         pnl_channelsLayout.setVerticalGroup(
             pnl_channelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,25 +142,28 @@ public class FavouritesFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lbl_channels)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrl_channels, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE))
+                .addComponent(scrl_channels, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))
         );
 
         sp_lists.setLeftComponent(pnl_channels);
 
+        lbl_favourites.setDisplayedMnemonic(KeyEvent.VK_F);
+        lbl_favourites.setLabelFor(lst_favourites);
         lbl_favourites.setText("Favourites:");
 
         lst_favourites.setModel(new DefaultListModel());
+        lst_favourites.setNextFocusableComponent(btn_close);
         scrl_favourites.setViewportView(lst_favourites);
 
         javax.swing.GroupLayout pnl_favouritesLayout = new javax.swing.GroupLayout(pnl_favourites);
         pnl_favourites.setLayout(pnl_favouritesLayout);
         pnl_favouritesLayout.setHorizontalGroup(
             pnl_favouritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scrl_favourites, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
             .addGroup(pnl_favouritesLayout.createSequentialGroup()
-                .addGroup(pnl_favouritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_favourites)
-                    .addComponent(scrl_favourites, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(lbl_favourites)
+                .addContainerGap(172, Short.MAX_VALUE))
         );
         pnl_favouritesLayout.setVerticalGroup(
             pnl_favouritesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,12 +171,14 @@ public class FavouritesFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lbl_favourites)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrl_favourites, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE))
+                .addComponent(scrl_favourites, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))
         );
 
         sp_lists.setRightComponent(pnl_favourites);
 
+        cb_showInstalledOnly.setMnemonic(KeyEvent.VK_S);
         cb_showInstalledOnly.setText("Show installed games only");
+        cb_showInstalledOnly.setNextFocusableComponent(btn_add);
         cb_showInstalledOnly.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_showInstalledOnlyActionPerformed(evt);
@@ -173,23 +189,26 @@ public class FavouritesFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_close)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl_filter)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addContainerGap()
+                        .addComponent(sp_lists, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cb_showInstalledOnly)
-                            .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE))))
-                .addContainerGap())
-            .addComponent(sp_lists, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btn_add)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
-                .addComponent(btn_remove)
+                            .addComponent(btn_close)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbl_filter)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cb_showInstalledOnly)
+                                    .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btn_add)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 217, Short.MAX_VALUE)
+                        .addComponent(btn_remove)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -206,10 +225,9 @@ public class FavouritesFrame extends javax.swing.JFrame {
                     .addComponent(btn_add)
                     .addComponent(btn_remove))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sp_lists, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                .addComponent(sp_lists, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_close)
-                .addGap(12, 12, 12))
+                .addComponent(btn_close))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_add, btn_close, btn_remove});

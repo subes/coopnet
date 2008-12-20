@@ -112,8 +112,14 @@
         </Component>
         <Component class="javax.swing.JButton" name="btn_browse">
           <Properties>
+            <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="KeyEvent.VK_B" type="code"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Browse"/>
             <Property name="focusable" type="boolean" value="false"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="cb_resume"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_browseActionPerformed"/>
@@ -126,8 +132,14 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="cb_resume">
           <Properties>
+            <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="KeyEvent.VK_R" type="code"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Resume file"/>
             <Property name="focusable" type="boolean" value="false"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="tbl_transfers"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cb_resumeActionPerformed"/>
@@ -139,6 +151,11 @@
           </Constraints>
         </Component>
         <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_savePath">
+          <Properties>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="btn_browse"/>
+            </Property>
+          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_savePathActionPerformed"/>
           </Events>
@@ -249,7 +266,9 @@
               </Table>
             </Property>
             <Property name="fillsViewportHeight" type="boolean" value="true"/>
-            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="tf_savePath"/>
+            </Property>
             <Property name="rowHeight" type="int" value="22"/>
             <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
               <JTableSelectionModel selectionMode="0"/>

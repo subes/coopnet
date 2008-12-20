@@ -23,6 +23,7 @@ import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.Verification;
+import java.awt.event.KeyEvent;
 
 public class EditProfileFrame extends javax.swing.JFrame {
 
@@ -120,6 +121,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
             }
         });
 
+        btn_save.setMnemonic(KeyEvent.VK_S);
         btn_save.setText("Save");
         btn_save.setNextFocusableComponent(btn_cancel);
         btn_save.addActionListener(new java.awt.event.ActionListener() {
@@ -128,7 +130,9 @@ public class EditProfileFrame extends javax.swing.JFrame {
             }
         });
 
+        btn_changePassword.setMnemonic(KeyEvent.VK_H);
         btn_changePassword.setText("Change password");
+        btn_changePassword.setNextFocusableComponent(tf_loginName);
         btn_changePassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 changepassword(evt);
@@ -137,19 +141,37 @@ public class EditProfileFrame extends javax.swing.JFrame {
 
         pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Edit profile"));
 
+        lbl_loginName.setDisplayedMnemonic(KeyEvent.VK_L);
+        lbl_loginName.setLabelFor(tf_loginName);
         lbl_loginName.setText("Login name:");
 
+        lbl_inGameName.setDisplayedMnemonic(KeyEvent.VK_I);
+        lbl_inGameName.setLabelFor(tf_inGameName);
         lbl_inGameName.setText("Ingame name:");
 
+        lbl_emailAddress.setDisplayedMnemonic(KeyEvent.VK_E);
+        lbl_emailAddress.setLabelFor(tf_emailAddress);
         lbl_emailAddress.setText("E-Mail address:");
         lbl_emailAddress.setToolTipText("Only used to send password reminders and such, no spam or advertisement");
 
+        lbl_country.setDisplayedMnemonic(KeyEvent.VK_O);
+        lbl_country.setLabelFor(cmb_country);
         lbl_country.setText("Country:");
 
+        lbl_website.setDisplayedMnemonic(KeyEvent.VK_W        );
+        lbl_website.setLabelFor(tf_website);
         lbl_website.setText("Website:");
 
         cmb_country.setModel(new javax.swing.DefaultComboBoxModel(CountryList));
         cmb_country.setNextFocusableComponent(tf_website);
+
+        tf_loginName.setNextFocusableComponent(tf_inGameName);
+
+        tf_inGameName.setNextFocusableComponent(tf_emailAddress);
+
+        tf_emailAddress.setNextFocusableComponent(cmb_country);
+
+        tf_website.setNextFocusableComponent(btn_save);
 
         javax.swing.GroupLayout pnl_inputLayout = new javax.swing.GroupLayout(pnl_input);
         pnl_input.setLayout(pnl_inputLayout);
@@ -165,9 +187,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
                     .addComponent(lbl_website))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_inputLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_website, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE))
+                    .addComponent(tf_website, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                     .addComponent(cmb_country, javax.swing.GroupLayout.Alignment.TRAILING, 0, 304, Short.MAX_VALUE)
                     .addComponent(tf_loginName, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                     .addComponent(tf_inGameName, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
@@ -199,6 +219,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        btn_cancel.setMnemonic(KeyEvent.VK_C);
         btn_cancel.setText("Cancel");
         btn_cancel.setNextFocusableComponent(btn_changePassword);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
@@ -216,7 +237,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
                 .addComponent(btn_save)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                 .addComponent(btn_changePassword)
                 .addContainerGap())
             .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

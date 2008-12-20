@@ -37,6 +37,7 @@ import coopnetclient.frames.renderers.TableTextCellRenderer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.UserListFileDropHandler;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import javax.swing.DropMode;
 import javax.swing.JTable;
@@ -369,6 +370,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         pnl_roomActions.setMinimumSize(new java.awt.Dimension(100, 70));
         pnl_roomActions.setPreferredSize(new java.awt.Dimension(350, 200));
 
+        btn_create.setMnemonic(KeyEvent.VK_C);
         btn_create.setText("Create");
         btn_create.setFocusable(false);
         btn_create.addActionListener(new java.awt.event.ActionListener() {
@@ -377,6 +379,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
             }
         });
 
+        btn_join.setMnemonic(KeyEvent.VK_J);
         btn_join.setText("Join");
         btn_join.setFocusable(false);
         btn_join.addActionListener(new java.awt.event.ActionListener() {
@@ -385,6 +388,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
             }
         });
 
+        btn_refresh.setMnemonic(KeyEvent.VK_R);
         btn_refresh.setText("Refresh");
         btn_refresh.setFocusable(false);
         btn_refresh.addActionListener(new java.awt.event.ActionListener() {
@@ -451,7 +455,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
                     .addComponent(btn_join)
                     .addComponent(btn_refresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
+                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
         );
 
         pnl_roomActionsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_create, btn_join, btn_refresh});

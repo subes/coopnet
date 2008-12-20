@@ -26,6 +26,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.MuteBanList;
 import coopnetclient.frames.listeners.ChatInputKeyListener;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
+import java.awt.event.KeyEvent;
 import javax.swing.text.StyledDocument;
 
 public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab {
@@ -133,6 +134,7 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
 
         sp_chatVertical.setLeftComponent(scrl_chatOutput);
 
+        btn_mute.setMnemonic(KeyEvent.VK_M);
         btn_mute.setText("Mute");
         btn_mute.setFocusable(false);
         btn_mute.addActionListener(new java.awt.event.ActionListener() {

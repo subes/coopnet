@@ -45,8 +45,8 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="tf_installPath" pref="456" max="32767" attributes="0"/>
-                                  <Component id="tf_path" alignment="0" pref="456" max="32767" attributes="0"/>
+                                  <Component id="tf_installPath" pref="458" max="32767" attributes="0"/>
+                                  <Component id="tf_path" alignment="0" pref="458" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lbl_note" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -121,6 +121,12 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="lbl_games">
       <Properties>
+        <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="KeyEvent.VK_G" type="code"/>
+        </Property>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="lst_games"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Games:"/>
       </Properties>
     </Component>
@@ -136,6 +142,9 @@
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="channels" type="code"/>
             </Property>
+            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="tf_path"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lst_gamesMousePressed"/>
@@ -146,6 +155,9 @@
     </Container>
     <Component class="javax.swing.JButton" name="btn_save">
       <Properties>
+        <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="KeyEvent.VK_S" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Save"/>
       </Properties>
       <Events>
@@ -154,6 +166,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_path">
       <Properties>
+        <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="KeyEvent.VK_E" type="code"/>
+        </Property>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="tf_path"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Executable:"/>
       </Properties>
     </Component>
@@ -167,7 +185,13 @@
     </Component>
     <Component class="javax.swing.JButton" name="btn_close">
       <Properties>
+        <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="KeyEvent.VK_C" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Close"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="tf_filter"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_closeActionPerformed"/>
@@ -180,6 +204,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_installPath">
       <Properties>
+        <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="KeyEvent.VK_I" type="code"/>
+        </Property>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="tf_installPath"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Install directory:"/>
       </Properties>
     </Component>
@@ -192,12 +222,23 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tf_filter">
+      <Properties>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="cb_showInstalledOnly"/>
+        </Property>
+      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_filterActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_filter">
       <Properties>
+        <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="KeyEvent.VK_F" type="code"/>
+        </Property>
+        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="tf_filter"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Filter:"/>
       </Properties>
     </Component>
@@ -207,12 +248,28 @@
       </Properties>
     </Component>
     <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_path">
+      <Properties>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="tf_installPath"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_installPath">
+      <Properties>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="btn_save"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="cb_showInstalledOnly">
       <Properties>
+        <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="KeyEvent.VK_H" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Show installed games only"/>
+        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="lst_games"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cb_showInstalledOnlyActionPerformed"/>

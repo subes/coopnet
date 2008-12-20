@@ -22,6 +22,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Verification;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 
 public class RegisterPanel extends javax.swing.JPanel {
 
@@ -150,12 +151,17 @@ public class RegisterPanel extends javax.swing.JPanel {
         pnl_input4.setMaximumSize(new java.awt.Dimension(300, 300));
         pnl_input4.setName(""); // NOI18N
 
+        lbl_name4.setDisplayedMnemonic(KeyEvent.VK_N);
+        lbl_name4.setLabelFor(tf_name);
         lbl_name4.setText("*Login name:");
         lbl_name4.setFocusable(false);
 
+        lbl_email4.setDisplayedMnemonic(KeyEvent.VK_E);
+        lbl_email4.setLabelFor(tf_email);
         lbl_email4.setText("*E-Mail:");
         lbl_email4.setFocusable(false);
 
+        btn_send.setMnemonic(KeyEvent.VK_R);
         btn_send.setText("Register");
         btn_send.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,6 +186,8 @@ public class RegisterPanel extends javax.swing.JPanel {
             }
         });
 
+        lbl_ingameName4.setDisplayedMnemonic(KeyEvent.VK_I);
+        lbl_ingameName4.setLabelFor(tf_ingameName);
         lbl_ingameName4.setText("*Ingame name:");
 
         tf_ingameName.addActionListener(new java.awt.event.ActionListener() {
@@ -188,8 +196,12 @@ public class RegisterPanel extends javax.swing.JPanel {
             }
         });
 
+        lbl_password9.setDisplayedMnemonic(KeyEvent.VK_P);
+        lbl_password9.setLabelFor(pf_password1);
         lbl_password9.setText("*Password:");
 
+        lbl_password10.setDisplayedMnemonic(KeyEvent.VK_N);
+        lbl_password10.setLabelFor(pf_password2);
         lbl_password10.setText("*Confirm password:");
 
         pf_password1.setToolTipText("Password must be atleast 5 characters long.");
@@ -206,10 +218,14 @@ public class RegisterPanel extends javax.swing.JPanel {
             }
         });
 
+        lbl_country4.setDisplayedMnemonic(KeyEvent.VK_O);
+        lbl_country4.setLabelFor(cmb_country);
         lbl_country4.setText("Country:");
 
         cmb_country.setModel(new javax.swing.DefaultComboBoxModel(CountryList));
 
+        lbl_website4.setDisplayedMnemonic(KeyEvent.VK_W);
+        lbl_website4.setLabelFor(tf_website);
         lbl_website4.setText("Website:");
 
         tf_website.addActionListener(new java.awt.event.ActionListener() {
@@ -221,6 +237,7 @@ public class RegisterPanel extends javax.swing.JPanel {
         lbl_error.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_error.setText(" ");
 
+        btn_cancel.setMnemonic(KeyEvent.VK_C);
         btn_cancel.setText("Cancel");
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -237,7 +254,7 @@ public class RegisterPanel extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_input4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btn_send)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 226, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
                         .addComponent(btn_cancel))
                     .addGroup(pnl_input4Layout.createSequentialGroup()
                         .addGap(10, 10, 10)

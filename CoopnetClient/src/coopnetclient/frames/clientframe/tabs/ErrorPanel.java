@@ -25,6 +25,7 @@ import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.FrameIconFlasher;
 import coopnetclient.utils.Logger;
+import java.awt.event.KeyEvent;
 
 public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
     
@@ -128,6 +129,7 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
         pnl_button.setFocusable(false);
         pnl_button.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 1, 10));
 
+        btn_report.setMnemonic(KeyEvent.VK_R);
         btn_report.setText("Report this bug");
         btn_report.setAlignmentX(0.5F);
         btn_report.setAlignmentY(0.0F);

@@ -22,6 +22,7 @@ package coopnetclient.frames;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 
 public class JoinRoomPasswordFrame extends javax.swing.JFrame {
 
@@ -76,14 +77,18 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
             }
         });
 
+        btn_join.setMnemonic(KeyEvent.VK_J);
         btn_join.setText("Join");
+        btn_join.setNextFocusableComponent(btn_cancel);
         btn_join.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 join(evt);
             }
         });
 
+        btn_cancel.setMnemonic(KeyEvent.VK_C);
         btn_cancel.setText("Cancel");
+        btn_cancel.setNextFocusableComponent(pf_roomPassword);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cancelActionPerformed(evt);
@@ -94,6 +99,7 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
 
         lbl_roomPassword.setText("<html>This room is password protected,<br> please enter the correct password:");
 
+        pf_roomPassword.setNextFocusableComponent(btn_join);
         pf_roomPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pf_roomPasswordActionPerformed(evt);
@@ -135,7 +141,7 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addContainerGap(302, Short.MAX_VALUE))
+                .addContainerGap(310, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

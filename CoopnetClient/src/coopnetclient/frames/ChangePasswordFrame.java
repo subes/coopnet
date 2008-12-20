@@ -24,6 +24,7 @@ import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.Verification;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 
 public class ChangePasswordFrame extends javax.swing.JFrame {
     
@@ -61,17 +62,26 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
 
         pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Change password"));
 
+        lbl_oldPassword.setDisplayedMnemonic(KeyEvent.VK_O);
+        lbl_oldPassword.setLabelFor(tf_oldPassword);
         lbl_oldPassword.setText("Old password:");
 
+        lbl_newPassword1.setDisplayedMnemonic(KeyEvent.VK_N);
+        lbl_newPassword1.setLabelFor(tf_newPassword1);
         lbl_newPassword1.setText("New password:");
 
         tf_newPassword1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        tf_newPassword1.setNextFocusableComponent(tf_newPassword2);
 
+        lbl_newPassword2.setDisplayedMnemonic(KeyEvent.VK_N);
+        lbl_newPassword2.setLabelFor(tf_newPassword2);
         lbl_newPassword2.setText("Confirm password:");
 
         tf_newPassword2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        tf_newPassword2.setNextFocusableComponent(btn_save);
 
         tf_oldPassword.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        tf_oldPassword.setNextFocusableComponent(tf_newPassword1);
 
         javax.swing.GroupLayout pnl_inputLayout = new javax.swing.GroupLayout(pnl_input);
         pnl_input.setLayout(pnl_inputLayout);
@@ -107,14 +117,18 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        btn_save.setMnemonic(KeyEvent.VK_S);
         btn_save.setText("Save");
+        btn_save.setNextFocusableComponent(btn_cancel);
         btn_save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_saveActionPerformed(evt);
             }
         });
 
+        btn_cancel.setMnemonic(KeyEvent.VK_C);
         btn_cancel.setText("Cancel");
+        btn_cancel.setNextFocusableComponent(lbl_oldPassword);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancel(evt);
@@ -133,10 +147,10 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                 .addComponent(btn_save)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addContainerGap(358, Short.MAX_VALUE))
+                .addContainerGap(366, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbl_error, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                .addComponent(lbl_error, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(

@@ -64,7 +64,7 @@
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btn_send" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="226" max="32767" attributes="0"/>
+                                  <EmptySpace pref="230" max="32767" attributes="0"/>
                                   <Component id="btn_cancel" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -175,18 +175,33 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="lbl_name4">
                   <Properties>
+                    <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="KeyEvent.VK_N" type="code"/>
+                    </Property>
+                    <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="tf_name"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="*Login name:"/>
                     <Property name="focusable" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbl_email4">
                   <Properties>
+                    <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="KeyEvent.VK_E" type="code"/>
+                    </Property>
+                    <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="tf_email"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="*E-Mail:"/>
                     <Property name="focusable" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="btn_send">
                   <Properties>
+                    <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="KeyEvent.VK_R" type="code"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Register"/>
                   </Properties>
                   <Events>
@@ -215,6 +230,12 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbl_ingameName4">
                   <Properties>
+                    <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="KeyEvent.VK_I" type="code"/>
+                    </Property>
+                    <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="tf_ingameName"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="*Ingame name:"/>
                   </Properties>
                 </Component>
@@ -225,11 +246,23 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbl_password9">
                   <Properties>
+                    <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="KeyEvent.VK_P" type="code"/>
+                    </Property>
+                    <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="pf_password1"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="*Password:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbl_password10">
                   <Properties>
+                    <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="KeyEvent.VK_N" type="code"/>
+                    </Property>
+                    <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="pf_password2"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="*Confirm password:"/>
                   </Properties>
                 </Component>
@@ -251,6 +284,12 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbl_country4">
                   <Properties>
+                    <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="KeyEvent.VK_O" type="code"/>
+                    </Property>
+                    <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="cmb_country"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Country:"/>
                   </Properties>
                 </Component>
@@ -263,6 +302,12 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="lbl_website4">
                   <Properties>
+                    <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="KeyEvent.VK_W" type="code"/>
+                    </Property>
+                    <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                      <ComponentRef name="tf_website"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Website:"/>
                   </Properties>
                 </Component>
@@ -279,6 +324,9 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btn_cancel">
                   <Properties>
+                    <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="KeyEvent.VK_C" type="code"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Cancel"/>
                   </Properties>
                   <Events>

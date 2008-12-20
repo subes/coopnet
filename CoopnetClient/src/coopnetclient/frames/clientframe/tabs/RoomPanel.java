@@ -41,6 +41,7 @@ import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -293,6 +294,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         setRequestFocusEnabled(false);
         setLayout(new java.awt.GridBagLayout());
 
+        btn_ready.setMnemonic(KeyEvent.VK_R);
         btn_ready.setText("Ready");
         btn_ready.setEnabled(false);
         btn_ready.setFocusable(false);
@@ -306,6 +308,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         add(btn_ready, gridBagConstraints);
 
+        btn_launch.setMnemonic(KeyEvent.VK_L);
         btn_launch.setText("Launch");
         btn_launch.setEnabled(false);
         btn_launch.setFocusable(false);
@@ -407,6 +410,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         gridBagConstraints.weighty = 1.0;
         add(sp_chatHorizontal, gridBagConstraints);
 
+        cb_useHamachi.setMnemonic(KeyEvent.VK_H);
         cb_useHamachi.setText("use Hamachi");
         cb_useHamachi.setToolTipText("<html>The host doesn't have Hamachi installed!");
         cb_useHamachi.setEnabled(false);
@@ -423,6 +427,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
         add(cb_useHamachi, gridBagConstraints);
 
+        btn_gameSettings.setMnemonic(KeyEvent.VK_G);
         btn_gameSettings.setText("Game Settings");
         btn_gameSettings.setFocusable(false);
         btn_gameSettings.addActionListener(new java.awt.event.ActionListener() {

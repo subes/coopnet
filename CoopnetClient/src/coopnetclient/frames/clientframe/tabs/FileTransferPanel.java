@@ -32,12 +32,12 @@ import coopnetclient.frames.renderers.TransferTypeRenderer;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
@@ -208,8 +208,10 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         pnl_details.add(lbl_saveto, gridBagConstraints);
 
+        btn_browse.setMnemonic(KeyEvent.VK_B);
         btn_browse.setText("Browse");
         btn_browse.setFocusable(false);
+        btn_browse.setNextFocusableComponent(cb_resume);
         btn_browse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_browseActionPerformed(evt);
@@ -222,8 +224,10 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
         pnl_details.add(btn_browse, gridBagConstraints);
 
+        cb_resume.setMnemonic(KeyEvent.VK_R);
         cb_resume.setText("Resume file");
         cb_resume.setFocusable(false);
+        cb_resume.setNextFocusableComponent(tbl_transfers);
         cb_resume.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_resumeActionPerformed(evt);
@@ -236,6 +240,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 5);
         pnl_details.add(cb_resume, gridBagConstraints);
 
+        tf_savePath.setNextFocusableComponent(btn_browse);
         tf_savePath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_savePathActionPerformed(evt);
@@ -290,7 +295,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
             }
         });
         tbl_transfers.setFillsViewportHeight(true);
-        tbl_transfers.setFocusable(false);
+        tbl_transfers.setNextFocusableComponent(tf_savePath);
         tbl_transfers.setRowHeight(22);
         tbl_transfers.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbl_transfers.addMouseListener(new java.awt.event.MouseAdapter() {

@@ -26,6 +26,7 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Vector;
 
@@ -83,9 +84,12 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             }
         });
 
+        lbl_games.setDisplayedMnemonic(KeyEvent.VK_G);
+        lbl_games.setLabelFor(lst_games);
         lbl_games.setText("Games:");
 
         lst_games.setModel(channels);
+        lst_games.setNextFocusableComponent(tf_path);
         lst_games.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 lst_gamesMousePressed(evt);
@@ -98,6 +102,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         });
         scrl_games.setViewportView(lst_games);
 
+        btn_save.setMnemonic(KeyEvent.VK_S);
         btn_save.setText("Save");
         btn_save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,6 +110,8 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             }
         });
 
+        lbl_path.setDisplayedMnemonic(KeyEvent.VK_E);
+        lbl_path.setLabelFor(tf_path);
         lbl_path.setText("Executable:");
 
         btn_browsePath.setText("Browse");
@@ -114,7 +121,9 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             }
         });
 
+        btn_close.setMnemonic(KeyEvent.VK_C);
         btn_close.setText("Close");
+        btn_close.setNextFocusableComponent(tf_filter);
         btn_close.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_closeActionPerformed(evt);
@@ -123,6 +132,8 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
         lbl_noteText.setText("<html>DirectPlay games must be properly installed in order to be launched.<br>Run dxdiag.exe and look at the network tab to find out!<br>If the game is installed properly, it should be present in the middle list with status \"OK\".");
 
+        lbl_installPath.setDisplayedMnemonic(KeyEvent.VK_I);
+        lbl_installPath.setLabelFor(tf_installPath);
         lbl_installPath.setText("Install directory:");
 
         btn_browseInstallPath.setText("Browse");
@@ -132,17 +143,26 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             }
         });
 
+        tf_filter.setNextFocusableComponent(cb_showInstalledOnly);
         tf_filter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_filterActionPerformed(evt);
             }
         });
 
+        lbl_filter.setDisplayedMnemonic(KeyEvent.VK_F);
+        lbl_filter.setLabelFor(tf_filter);
         lbl_filter.setText("Filter:");
 
         lbl_note.setText("<html><b>Note:");
 
+        tf_path.setNextFocusableComponent(tf_installPath);
+
+        tf_installPath.setNextFocusableComponent(btn_save);
+
+        cb_showInstalledOnly.setMnemonic(KeyEvent.VK_H);
         cb_showInstalledOnly.setText("Show installed games only");
+        cb_showInstalledOnly.setNextFocusableComponent(lst_games);
         cb_showInstalledOnly.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_showInstalledOnlyActionPerformed(evt);
@@ -170,8 +190,8 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                                     .addComponent(lbl_path))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tf_installPath, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
-                                    .addComponent(tf_path, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                                    .addComponent(tf_installPath, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+                                    .addComponent(tf_path, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lbl_note)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

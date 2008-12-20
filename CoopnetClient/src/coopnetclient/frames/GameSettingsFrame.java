@@ -30,6 +30,7 @@ import coopnetclient.utils.launcher.TempGameSettings;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -320,6 +321,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             }
         });
 
+        btn_save.setMnemonic(KeyEvent.VK_S);
         btn_save.setText("Save");
         btn_save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

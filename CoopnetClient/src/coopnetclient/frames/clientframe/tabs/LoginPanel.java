@@ -22,6 +22,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Verification;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 
 public class LoginPanel extends javax.swing.JPanel {
 
@@ -116,9 +117,13 @@ public class LoginPanel extends javax.swing.JPanel {
         pnl_input.setFocusable(false);
         pnl_input.setMaximumSize(null);
 
+        lbl_name.setDisplayedMnemonic(KeyEvent.VK_N);
+        lbl_name.setLabelFor(tf_name);
         lbl_name.setText("Name:");
         lbl_name.setFocusable(false);
 
+        lbl_password.setDisplayedMnemonic(KeyEvent.VK_P);
+        lbl_password.setLabelFor(pf_password);
         lbl_password.setText("Password:");
         lbl_password.setFocusable(false);
 
@@ -129,14 +134,16 @@ public class LoginPanel extends javax.swing.JPanel {
             }
         });
 
+        btn_login.setMnemonic(KeyEvent.VK_L);
         btn_login.setText("Login");
-        btn_login.setNextFocusableComponent(btn_register);
+        btn_login.setNextFocusableComponent(btn_passwordRecovery);
         btn_login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_loginActionPerformed(evt);
             }
         });
 
+        btn_register.setMnemonic(KeyEvent.VK_R);
         btn_register.setText("Register");
         btn_register.setNextFocusableComponent(tf_name);
         btn_register.addActionListener(new java.awt.event.ActionListener() {
@@ -145,6 +152,7 @@ public class LoginPanel extends javax.swing.JPanel {
             }
         });
 
+        cb_autoLogin.setMnemonic(KeyEvent.VK_A);
         cb_autoLogin.setText("Automatically login");
         cb_autoLogin.setNextFocusableComponent(btn_login);
 
@@ -158,7 +166,9 @@ public class LoginPanel extends javax.swing.JPanel {
             }
         });
 
+        btn_passwordRecovery.setMnemonic(KeyEvent.VK_C);
         btn_passwordRecovery.setText("Recover password");
+        btn_passwordRecovery.setNextFocusableComponent(btn_register);
         btn_passwordRecovery.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_passwordRecoveryActionPerformed(evt);

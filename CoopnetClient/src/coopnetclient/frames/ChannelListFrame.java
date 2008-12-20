@@ -23,6 +23,7 @@ import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.models.SortedListModel;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
@@ -53,7 +54,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
         tf_filter = new javax.swing.JTextField();
         scrl_channelList = new javax.swing.JScrollPane();
         lst_channelList = new javax.swing.JList();
-        jb_joinChannelButton = new javax.swing.JButton();
+        btn_joinChannelButton = new javax.swing.JButton();
         lbl_channellist = new javax.swing.JLabel();
         btn_cancel = new javax.swing.JButton();
         cb_showInstalledOnly = new javax.swing.JCheckBox();
@@ -66,9 +67,12 @@ public class ChannelListFrame extends javax.swing.JFrame {
             }
         });
 
+        lbl_filter.setDisplayedMnemonic(KeyEvent.VK_F);
+        lbl_filter.setLabelFor(tf_filter);
         lbl_filter.setText("Filter:");
         lbl_filter.setFocusable(false);
 
+        tf_filter.setNextFocusableComponent(cb_showInstalledOnly);
         tf_filter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_filterActionPerformed(evt);
@@ -78,6 +82,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
         scrl_channelList.setFocusable(false);
 
         lst_channelList.setModel(channels);
+        lst_channelList.setNextFocusableComponent(btn_joinChannelButton);
         lst_channelList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lst_channelListMouseClicked(evt);
@@ -85,23 +90,31 @@ public class ChannelListFrame extends javax.swing.JFrame {
         });
         scrl_channelList.setViewportView(lst_channelList);
 
-        jb_joinChannelButton.setText("Join selected channel");
-        jb_joinChannelButton.addActionListener(new java.awt.event.ActionListener() {
+        btn_joinChannelButton.setMnemonic(KeyEvent.VK_J);
+        btn_joinChannelButton.setText("Join selected channel");
+        btn_joinChannelButton.setNextFocusableComponent(btn_cancel);
+        btn_joinChannelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jb_joinChannelButtonActionPerformed(evt);
+                btn_joinChannelButtonActionPerformed(evt);
             }
         });
 
+        lbl_channellist.setDisplayedMnemonic(KeyEvent.VK_A);
+        lbl_channellist.setLabelFor(lst_channelList);
         lbl_channellist.setText("Available Channels:");
 
+        btn_cancel.setMnemonic(KeyEvent.VK_C);
         btn_cancel.setText("Cancel");
+        btn_cancel.setNextFocusableComponent(tf_filter);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cancelActionPerformed(evt);
             }
         });
 
+        cb_showInstalledOnly.setMnemonic(KeyEvent.VK_S);
         cb_showInstalledOnly.setText("Show installed games only");
+        cb_showInstalledOnly.setNextFocusableComponent(lst_channelList);
         cb_showInstalledOnly.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_showInstalledOnlyActionPerformed(evt);
@@ -117,7 +130,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(scrl_channelList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jb_joinChannelButton)
+                        .addComponent(btn_joinChannelButton)
                         .addGap(10, 10, 10)
                         .addComponent(btn_cancel))
                     .addComponent(lbl_channellist, javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,19 +158,19 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_cancel)
-                    .addComponent(jb_joinChannelButton))
+                    .addComponent(btn_joinChannelButton))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_cancel, jb_joinChannelButton});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_cancel, btn_joinChannelButton});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jb_joinChannelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_joinChannelButtonActionPerformed
+    private void btn_joinChannelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_joinChannelButtonActionPerformed
         Protocol.joinChannel((String) lst_channelList.getSelectedValue());
         Globals.closeChannelListFrame();
-}//GEN-LAST:event_jb_joinChannelButtonActionPerformed
+}//GEN-LAST:event_btn_joinChannelButtonActionPerformed
 
     private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_filterActionPerformed
         lst_channelList.removeAll();
@@ -184,7 +197,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
 
 private void lst_channelListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_channelListMouseClicked
     if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
-        jb_joinChannelButton.doClick();
+        btn_joinChannelButton.doClick();
     }
 }//GEN-LAST:event_lst_channelListMouseClicked
 
@@ -198,8 +211,8 @@ private void cb_showInstalledOnlyActionPerformed(java.awt.event.ActionEvent evt)
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
+    private javax.swing.JButton btn_joinChannelButton;
     private javax.swing.JCheckBox cb_showInstalledOnly;
-    private javax.swing.JButton jb_joinChannelButton;
     private javax.swing.JLabel lbl_channellist;
     private javax.swing.JLabel lbl_filter;
     private javax.swing.JList lst_channelList;
