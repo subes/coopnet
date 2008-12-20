@@ -21,7 +21,7 @@ package coopnetclient.frames.models;
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.frames.renderers.TransferStatusButtonRenderer;
+import coopnetclient.frames.components.TransferStatusButtonComponent;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.FileTransferHandler;
 import java.io.File;
@@ -43,7 +43,7 @@ public class TransferTableModel extends DefaultTableModel {
         private String peerName;
         private String fileName;
         private TransferStatuses status;
-        private TransferStatusButtonRenderer render;
+        private TransferStatusButtonComponent render;
         private int progress = 0;
         private long timeLeft = 0;
         private int speed = 0;
@@ -56,7 +56,7 @@ public class TransferTableModel extends DefaultTableModel {
             this.ID = UUID.randomUUID();
             this.handler = new FileTransferHandler(ID, sentFile);
             this.status = TransferStatuses.Waiting;
-            this.render = new TransferStatusButtonRenderer();
+            this.render = new TransferStatusButtonComponent();
         }
 
         public Transfer(String peerName, long size, String fileName, String ip, String port) {
@@ -66,7 +66,7 @@ public class TransferTableModel extends DefaultTableModel {
             this.ID = UUID.randomUUID();
             this.status = TransferStatuses.Waiting;
             this.handler = new FileTransferHandler(ID, peerName, size, fileName, ip, port);
-            this.render = new TransferStatusButtonRenderer();
+            this.render = new TransferStatusButtonComponent();
         }
 
         public void startSend(String ip, String port, long firstByte) {

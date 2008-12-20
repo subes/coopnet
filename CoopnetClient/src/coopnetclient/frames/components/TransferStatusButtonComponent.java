@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-package coopnetclient.frames.renderers;
+package coopnetclient.frames.components;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
@@ -29,13 +29,11 @@ import java.awt.Component;
 import java.awt.event.MouseListener;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.table.TableCellRenderer;
 
-public class TransferStatusButtonRenderer extends javax.swing.JPanel implements TableCellRenderer {
+public class TransferStatusButtonComponent extends javax.swing.JPanel  {
 
     /** Creates new form TransferStatusButtonRenderer */
-    public TransferStatusButtonRenderer() {
+    public TransferStatusButtonComponent() {
         initComponents();
     }
 
@@ -201,32 +199,5 @@ public class TransferStatusButtonRenderer extends javax.swing.JPanel implements 
         return this;
     }
 
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        TransferStatusButtonRenderer renderer = (TransferStatusButtonRenderer) Globals.getTransferModel().getValueAt(row, column);
-        renderer.prepare(table, value, isSelected, hasFocus, row, column);
-        renderer.setOpaque(true);
-        if (Settings.getColorizeBody()) {
-            renderer.setForeground(Settings.getForegroundColor());
-            if (isSelected) {
-                renderer.setBackground(Settings.getSelectionColor());
-            } else {
-                renderer.setBackground(Settings.getBackgroundColor());
-            }
-        } else {
-            if (isSelected) {
-                renderer.setBackground(table.getSelectionBackground());
-                //lbl_text.setBackground(table.getSelectionBackground());
-            } else {
-                if (row % 2 == 1) {
-                    renderer.setBackground(Color.WHITE);
-                    //lbl_text.setBackground(Color.WHITE);
-                } else {
-                    renderer.setBackground(table.getBackground());
-                }
-                //lbl_text.setBackground(table.getBackground());
-            }
-        }
-        return renderer;
-    }
+    
 }

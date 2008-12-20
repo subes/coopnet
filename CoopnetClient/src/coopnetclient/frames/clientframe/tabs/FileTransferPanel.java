@@ -27,7 +27,8 @@ import coopnetclient.frames.components.TransferPopupMenu;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.frames.renderers.TableTextCellRenderer;
 import coopnetclient.frames.renderers.TransferProgressRenderer;
-import coopnetclient.frames.renderers.TransferStatusButtonRenderer;
+import coopnetclient.frames.components.TransferStatusButtonComponent;
+import coopnetclient.frames.renderers.TransferStatusRenderer;
 import coopnetclient.frames.renderers.TransferTypeRenderer;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
@@ -63,7 +64,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
         col0.setCellRenderer(renderer2);
         //status render
         TableColumn col1 = tbl_transfers.getColumnModel().getColumn(1);
-        TransferStatusButtonRenderer renderer3 = new TransferStatusButtonRenderer();
+        TransferStatusRenderer renderer3 = new TransferStatusRenderer();
         col1.setCellRenderer(renderer3);
         //align center
         TableTextCellRenderer rend = new TableTextCellRenderer();
@@ -430,7 +431,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
                 return;
             }
             Object value;
-            TransferStatusButtonRenderer cell;
+            TransferStatusButtonComponent cell;
             MouseEvent buttonEvent;
 
             if (row >= __table.getRowCount() || row < 0 ||
@@ -439,11 +440,11 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
             }
 
             value = __table.getValueAt(row, column);
-            if (!(value instanceof TransferStatusButtonRenderer)) {
+            if (!(value instanceof TransferStatusButtonComponent)) {
                 return;
             }
 
-            cell = (TransferStatusButtonRenderer) value;
+            cell = (TransferStatusButtonComponent) value;
             Rectangle rect = __table.getCellRect(row, column, false);
 
             buttonEvent = new MouseEvent(cell, e.getID(),e.getWhen(),e.getModifiers()
@@ -454,7 +455,6 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
             // This is necessary so that when a button is pressed and released
             // it gets rendered properly.  Otherwise, the button may still appear
             // pressed down when it has been released.
-            //__table.repaint(__table.getCellRect(row, column, true));
             __table.repaint();
         }
 
