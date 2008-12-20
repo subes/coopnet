@@ -342,11 +342,13 @@ public class ClientFrame extends javax.swing.JFrame {
         m_installedGames = new javax.swing.JMenu();
         m_options = new javax.swing.JMenu();
         mi_clientSettings = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JSeparator();
         mi_manageGames = new javax.swing.JMenuItem();
         mi_Sounds = new javax.swing.JCheckBoxMenuItem();
         m_help = new javax.swing.JMenu();
         mi_guide = new javax.swing.JMenuItem();
         mi_faq = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JSeparator();
         mi_bugReport = new javax.swing.JMenuItem();
         mi_about = new javax.swing.JMenuItem();
 
@@ -580,6 +582,7 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_options.add(mi_clientSettings);
+        m_options.add(jSeparator2);
 
         mi_manageGames.setText("Manage Games...");
         mi_manageGames.addActionListener(new java.awt.event.ActionListener() {
@@ -617,6 +620,7 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_help.add(mi_faq);
+        m_help.add(jSeparator1);
 
         mi_bugReport.setText("Report a Bug...");
         mi_bugReport.addActionListener(new java.awt.event.ActionListener() {
@@ -925,6 +929,8 @@ private Color getHoverEffectColor(){
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JMenu m_Favourites;
     private javax.swing.JMenu m_channels;
     private javax.swing.JMenu m_help;
