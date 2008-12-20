@@ -105,6 +105,14 @@ public class Protocol {
     public static void refreshContacts() {
         new Message(ClientProtocolCommands.REFRESH_CONTACTS, String.valueOf(Settings.getShowOfflineContacts()));
     }
+
+    public static void setAwayStatus() {
+        new Message(ClientProtocolCommands.SETAWAYSTATUS);
+    }
+
+    public static void unSetAwayStatus() {
+        new Message(ClientProtocolCommands.UNSETAWAYSTATUS);
+    }
     
     public static void acceptTransfer(String sender, String fileName, long firstByteToSend) {
         String[] info = {sender, fileName, String.valueOf(Settings.getFiletTansferPort()), String.valueOf(firstByteToSend)};

@@ -28,6 +28,7 @@ import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.FileDownloader;
 import coopnetclient.utils.Verification;
 import coopnetclient.protocol.out.Message;
+import coopnetclient.utils.InactivityWatcher;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.Launcher;
@@ -94,6 +95,7 @@ public class Client {
      */
     public static void startup() {
 
+        new InactivityWatcher().start();
         readServerAddress();        
         SwingUtilities.invokeLater(new Thread() {
 

@@ -208,6 +208,14 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         users.add(playername);
     }
 
+    public void setAway(String playername){
+        roomStatusListCR.setAway(playername);
+    }
+
+    public void unSetAway(String playername){
+        roomStatusListCR.unSetAway(playername);
+    }
+
     public void removeMember(String playername) {
         roomStatusListCR.removePlayer(playername);
         users.removeElement(playername);

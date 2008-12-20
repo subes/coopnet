@@ -16,12 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.models;
 
-import java.util.Iterator;
+import coopnetclient.enums.PlayerStatuses;
+import java.util.ArrayList;
 import java.util.TreeSet;
-import java.util.Vector;
 import javax.swing.AbstractListModel;
 
 /**
@@ -29,104 +28,198 @@ import javax.swing.AbstractListModel;
  */
 public class ChannelStatusListModel extends AbstractListModel {
 
+    private class PlayerStatusData {
+
+        String name;
+        boolean isInRoom = false;
+        boolean isPlaying = false;
+        boolean isAway = false;
+
+        PlayerStatusData(String name) {
+            this.name = name;
+        }
+
+        public PlayerStatuses getStatus() {
+            if (isAway) {
+                return PlayerStatuses.AWAY;
+            }
+            if (isPlaying) {
+                return PlayerStatuses.PLAYING;
+            }
+            if (isInRoom) {
+                return PlayerStatuses.IN_ROOM;
+            }
+            return PlayerStatuses.CHATTING;
+        }
+    }
+    private ArrayList<PlayerStatusData> statuses = new ArrayList<PlayerStatusData>();
     private TreeSet chattingList = new TreeSet();
     private TreeSet inRoomList = new TreeSet();
     private TreeSet playingList = new TreeSet();
-    private Vector<String> leftRoom = new Vector<String>(); //left room while playing
+    private TreeSet awayList = new TreeSet();
 
     public ChannelStatusListModel() {
     }
 
-    private void removeplayer(String playername) {
-        chattingList.remove(playername);
-        playingList.remove(playername);
-        inRoomList.remove(playername);
-        leftRoom.remove(playername);
-    }
-
-    public void playerEnteredChannel(String playername) {
-        if (!chattingList.contains(playername)) {
-            chattingList.add(playername);
-        }
-        fireContentsChanged(this, 0, getSize());
-    }
-
-    public void playerLeftChannel(String playername) {
-        removeplayer(playername);
-        fireContentsChanged(this, 0, getSize());
-    }
-
-    public void playerEnteredRoom(String playername) {
-        if (playingList.contains(playername)) {
-            if (leftRoom.contains(playername)) {
-                leftRoom.remove(playername);
-                fireContentsChanged(this, 0, getSize());
-                return;
-            }
-        } else {
-            inRoomList.add(playername);
-            chattingList.remove(playername);
-        }
-        fireContentsChanged(this, 0, getSize());
-    }
-
-    public void playerLeftRoom(String playername) {
-        if (playingList.contains(playername)) {
-            leftRoom.add(playername);
-        } else {
-            if (inRoomList.remove(playername)) {
-                chattingList.add(playername);
+    private int statusIndexOf(String playerName) {
+        for (int i = 0; i < statuses.size(); ++i) {
+            if (statuses.get(i).name.equals(playerName)) {
+                return i;
             }
         }
-        fireContentsChanged(this, 0, getSize());
+        return -1;
     }
 
-    public void playerLaunchedGame(String playername) {
-        if (inRoomList.remove(playername)) {
-            playingList.add(playername);
+    public PlayerStatuses getPlayerStatus(String playerName) {
+        int idx = statusIndexOf(playerName);
+        if (idx < 0) {
+            return null;
+        }
+        PlayerStatusData player = statuses.get(idx);
+        return player.getStatus();
+    }
+
+    boolean isPlaying(String playerName) {
+        int idx = statusIndexOf(playerName);
+        if (idx < 0) {
+            return false;
+        }
+        PlayerStatusData player = statuses.get(idx);
+        return player.isPlaying;
+    }
+
+    private void relocatePlayer(String playerName) {
+        int idx = statusIndexOf(playerName);
+        if (idx < 0) {
+            return;
+        }
+        PlayerStatusData player = statuses.get(idx);
+        PlayerStatuses status = player.getStatus();
+        removeplayer(playerName);
+        switch (status) {
+            case AWAY:
+                awayList.add(playerName);
+                break;
+            case CHATTING:
+                chattingList.add(playerName);
+                break;
+            case IN_ROOM:
+                inRoomList.add(playerName);
+                break;
+            case PLAYING:
+                playingList.add(playerName);
+                break;
+        }
+        statuses.add(player);
+    }
+
+    private void removeplayer(String playerName) {
+        chattingList.remove(playerName);
+        playingList.remove(playerName);
+        inRoomList.remove(playerName);
+        awayList.remove(playerName);
+        statuses.remove(playerName);
+    }
+
+    public void playerEnteredChannel(String playerName) {
+        if (!chattingList.contains(playerName)) {
+            chattingList.add(playerName);
+            statuses.add(new PlayerStatusData(playerName));
         }
         fireContentsChanged(this, 0, getSize());
     }
 
-    public void playerClosedGame(String playername) {
-        if (playingList.contains(playername)) {
-            if (leftRoom.contains(playername)) {
-                playingList.remove(playername);
-                leftRoom.remove(playername);
-                chattingList.add(playername);
-                fireContentsChanged(this, 0, getSize());
-                return;
-            } else {
-                inRoomList.add(playername);
-                playingList.remove(playername);
-            }
-        } else {
+    public void setAway(String playerName) {
+        int idx = statusIndexOf(playerName);
+        if (idx < 0) {
+            return;
         }
+        PlayerStatusData player = statuses.get(idx);
+        player.isAway = true;
+        relocatePlayer(playerName);
         fireContentsChanged(this, 0, getSize());
     }
 
-    public boolean isInRoom(Object value) {
-        return inRoomList.contains(value);
+    public void unSetAway(String playerName) {
+        int idx = statusIndexOf(playerName);
+        if (idx < 0) {
+            return;
+        }
+        PlayerStatusData player = statuses.get(idx);
+        player.isAway = false;
+        relocatePlayer(playerName);
+        fireContentsChanged(this, 0, getSize());
     }
 
-    public boolean isPlaying(Object value) {
-        return playingList.contains(value);
+    public void playerLeftChannel(String playerName) {
+        removeplayer(playerName);
+        fireContentsChanged(this, 0, getSize());
     }
 
-    public boolean updateName(String oldname, String playername) {
+    public void playerEnteredRoom(String playerName) {
+        int idx = statusIndexOf(playerName);
+        if (idx < 0) {
+            return;
+        }
+        PlayerStatusData player = statuses.get(idx);
+        player.isInRoom = true;
+        relocatePlayer(playerName);
+        fireContentsChanged(this, 0, getSize());
+    }
+
+    public void playerLeftRoom(String playerName) {
+        int idx = statusIndexOf(playerName);
+        if (idx < 0) {
+            return;
+        }
+        PlayerStatusData player = statuses.get(idx);
+        player.isInRoom = false;
+        relocatePlayer(playerName);
+        fireContentsChanged(this, 0, getSize());
+    }
+
+    public void playerLaunchedGame(String playerName) {
+        int idx = statusIndexOf(playerName);
+        if (idx < 0) {
+            return;
+        }
+        PlayerStatusData player = statuses.get(idx);
+        player.isPlaying = true;
+        relocatePlayer(playerName);
+        fireContentsChanged(this, 0, getSize());
+    }
+
+    public void playerClosedGame(String playerName) {
+        int idx = statusIndexOf(playerName);
+        if (idx < 0) {
+            return;
+        }
+        PlayerStatusData player = statuses.get(idx);
+        player.isPlaying = false;
+        relocatePlayer(playerName);
+        fireContentsChanged(this, 0, getSize());
+    }
+
+    public boolean updateName(String oldname, String playerName) {
         boolean found = false;
         if (chattingList.remove(oldname)) {
-            chattingList.add(playername);
+            chattingList.add(playerName);
             found = true;
         }
         if (playingList.remove(oldname)) {
-            playingList.add(playername);
+            playingList.add(playerName);
             found = true;
         }
         if (inRoomList.remove(oldname)) {
-            inRoomList.add(playername);
+            inRoomList.add(playerName);
             found = true;
         }
+        if (awayList.remove(oldname)) {
+            awayList.add(playerName);
+            found = true;
+        }
+        PlayerStatusData player = statuses.get(statuses.indexOf(oldname));
+        player.name = playerName;
         return found;
     }
 
@@ -134,7 +227,7 @@ public class ChannelStatusListModel extends AbstractListModel {
     @Override
     public int getSize() {
         // Return the model size
-        return chattingList.size() + inRoomList.size() + playingList.size();
+        return chattingList.size() + inRoomList.size() + playingList.size() + awayList.size();
     }
 
     @Override
@@ -145,25 +238,18 @@ public class ChannelStatusListModel extends AbstractListModel {
         } else if (index < chattingList.size() + inRoomList.size()) {
             index -= chattingList.size();
             return inRoomList.toArray()[index];
-        } else {
+        } else if (index < chattingList.size() + inRoomList.size() + playingList.size()) {
             index -= chattingList.size() + inRoomList.size();
             return playingList.toArray()[index];
+        } else {
+            index -= chattingList.size() + inRoomList.size() + playingList.size();
+            return awayList.toArray()[index];
         }
-    }
-
-    // Other methods
-    public void add(Object element) {
-    }
-
-    public void addAll(Object elements[]) {
     }
 
     public void refresh() {
         chattingList.addAll(inRoomList);
-        //chattinglist.addAll(playinglist);
         inRoomList.clear();
-        //playinglist.clear();
-        leftRoom.clear();
         fireContentsChanged(this, 0, getSize());
     }
 
@@ -171,29 +257,12 @@ public class ChannelStatusListModel extends AbstractListModel {
         chattingList.clear();
         inRoomList.clear();
         playingList.clear();
-        leftRoom.clear();
+        awayList.clear();
+        statuses.clear();
         fireContentsChanged(this, 0, getSize());
     }
 
     public boolean contains(Object element) {
-        return chattingList.contains(element) || inRoomList.contains(element) || playingList.contains(element);
-    }
-
-    public Object firstElement() {
-        // Return the appropriate element
-        return chattingList.first();
-    }
-
-    public Iterator iterator() {
-        return chattingList.iterator();
-    }
-
-    public Object lastElement() {
-        // Return the appropriate element
-        return playingList.last();
-    }
-
-    public boolean removeElement(Object element) {
-        return false;
+        return chattingList.contains(element) || inRoomList.contains(element) || playingList.contains(element) || awayList.contains(element);
     }
 }

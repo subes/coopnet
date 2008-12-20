@@ -41,6 +41,7 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
 
     private Vector<String> readyList = new Vector<String>();
     private Vector<String> playingList = new Vector<String>();
+    private Vector<String> awayList = new Vector<String>();
     
     private static Border selectionBorder = BorderFactory.createLineBorder(Colorizer.getSelectionColor() , 2);
     private static Border normalBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
@@ -53,6 +54,19 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
     public void removePlayer(String playerName){
         readyList.remove(playerName);
         playingList.remove(playerName);
+        awayList.remove(playerName);
+        Globals.getClientFrame().repaint();
+    }
+
+    public void setAway(String playername) {
+        if(!awayList.contains(playername)){
+            awayList.add(playername);
+            Globals.getClientFrame().repaint();
+        }
+    }
+
+    public void unSetAway(String playername) {
+        awayList.remove(playername);
         Globals.getClientFrame().repaint();
     }
 
@@ -62,7 +76,10 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
         }
         if (readyList.remove(oldname)) {
             readyList.add(newname);
-        }        
+        }
+        if (awayList.remove(oldname)) {
+            awayList.add(newname);
+        }
         Globals.getClientFrame().repaint();
     }
 
@@ -83,6 +100,7 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
     public void unReadyPlayer(String playername) {
         readyList.remove(playername);
         playingList.remove(playername);
+        awayList.remove(playername);
         Globals.getClientFrame().repaint();
     }
 
@@ -108,7 +126,9 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
         setBorder(normalBorder);
         setToolTipText("<html><xmp>"+value.toString());
         //set background color
-        if (readyList.contains(value.toString())) {
+        if(awayList.contains(value.toString())){
+            setBackground(Color.GRAY);
+        }else if (readyList.contains(value.toString())) {
             if (playingList.contains(value.toString())) {
                 setBackground(Color.yellow);
             } else {

@@ -22,5 +22,6 @@ package coopnetclient.enums;
 public enum PlayerStatuses {
     CHATTING,
     IN_ROOM,
-    PLAYING
+    PLAYING,
+    AWAY
 }

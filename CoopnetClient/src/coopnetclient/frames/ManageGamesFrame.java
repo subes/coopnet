@@ -16,12 +16,13 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.OperatingSystems;
+import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframe.tabs.ChannelPanel;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
 import coopnetclient.utils.Verification;
@@ -33,7 +34,7 @@ import java.util.Vector;
 public class ManageGamesFrame extends javax.swing.JFrame {
 
     private SortedListModel channels = new SortedListModel();
-    
+
     /** Creates new form ManageGamesFrame */
     public ManageGamesFrame() {
         initComponents();
@@ -46,7 +47,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
             tf_installPath.setVisible(false);
             lbl_installPath.setVisible(false);
-            btn_browseInstallPath.setVisible(false);            
+            btn_browseInstallPath.setVisible(false);
         }
         pack();
     }
@@ -251,7 +252,6 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void lst_gamesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_gamesMousePressed
-        
 }//GEN-LAST:event_lst_gamesMousePressed
 
     private void btn_browsePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browsePathActionPerformed
@@ -260,7 +260,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
                 @Override
                 public void run() {
-                    try{
+                    try {
                         FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
                         int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
@@ -268,7 +268,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                             File file = mfc.getSelectedFile();
                             tf_path.setText(file.getAbsolutePath());
                         }//else cancelled
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         ErrorHandler.handleException(e);
                     }
                 }
@@ -278,31 +278,31 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
-            if (lst_games.getSelectedValue() != null 
-                    && tf_path.getText().length() > 0
-                    && Verification.verifyFile(tf_path.getText())) {
+            if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0 && Verification.verifyFile(tf_path.getText())) {
                 GameDatabase.setLocalExecutablePath(lst_games.getSelectedValue().toString(), tf_path.getText());
                 GameDatabase.setLocalInstallPath(lst_games.getSelectedValue().toString(), tf_installPath.getText());
-                Globals.getClientFrame().setLaunchable(lst_games.getSelectedValue().toString(), true);
+                ChannelPanel channel = TabOrganizer.getChannelPanel(lst_games.getSelectedValue().toString());
+                if (channel != null) {
+                    channel.setLaunchable(true);
+                }
                 GameDatabase.saveLocalPaths();
             } else {
                 tf_path.showErrorMessage("Please set the path correctly!");
             }
         } else {
-            if (lst_games.getSelectedValue() != null 
-                    && tf_path.getText().length() > 0 
-                    && tf_installPath.getText().length() > 0
-                    && Verification.verifyFile(tf_path.getText())
-                    && Verification.verifyDirectory(tf_installPath.getText())) {
+            if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0 && tf_installPath.getText().length() > 0 && Verification.verifyFile(tf_path.getText()) && Verification.verifyDirectory(tf_installPath.getText())) {
                 GameDatabase.setLocalExecutablePath(lst_games.getSelectedValue().toString(), tf_path.getText());
                 GameDatabase.setLocalInstallPath(lst_games.getSelectedValue().toString(), tf_installPath.getText());
-                Globals.getClientFrame().setLaunchable(lst_games.getSelectedValue().toString(), true);
+                ChannelPanel channel = TabOrganizer.getChannelPanel(lst_games.getSelectedValue().toString());
+                if (channel != null) {
+                    channel.setLaunchable(true);
+                }
                 GameDatabase.saveLocalPaths();
             } else {
-                if(tf_path.getText().length()<1){
+                if (tf_path.getText().length() < 1) {
                     tf_path.showErrorMessage("Please set the path correctly!");
                 }
-                if(tf_installPath.getText().length()<1){
+                if (tf_installPath.getText().length() < 1) {
                     tf_installPath.showErrorMessage("Please set the path correctly!");
                 }
             }
@@ -321,7 +321,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
                 @Override
                 public void run() {
-                    try{
+                    try {
                         FileChooser mfc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
                         int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
@@ -329,7 +329,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                             File file = mfc.getSelectedFile();
                             tf_installPath.setText(file.getAbsolutePath());
                         }//else cancelled
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         ErrorHandler.handleException(e);
                     }
                 }
@@ -362,11 +362,11 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
 
 private void lst_gamesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lst_gamesValueChanged
     if (lst_games.getSelectedValue() != null) {
-            String path = GameDatabase.getLaunchPathWithExe(lst_games.getSelectedValue().toString(),null);
-            tf_path.setText(path);
-            String installpath = GameDatabase.getInstallPath(lst_games.getSelectedValue().toString());
-            tf_installPath.setText(installpath);
-        }
+        String path = GameDatabase.getLaunchPathWithExe(lst_games.getSelectedValue().toString(), null);
+        tf_path.setText(path);
+        String installpath = GameDatabase.getInstallPath(lst_games.getSelectedValue().toString());
+        tf_installPath.setText(installpath);
+    }
 }//GEN-LAST:event_lst_gamesValueChanged
 
 private void cb_showInstalledOnlyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_showInstalledOnlyActionPerformed
@@ -391,6 +391,5 @@ private void cb_showInstalledOnlyActionPerformed(java.awt.event.ActionEvent evt)
     private coopnetclient.frames.components.AdvancedJTextField tf_installPath;
     private coopnetclient.frames.components.AdvancedJTextField tf_path;
     // End of variables declaration//GEN-END:variables
-
 }
 

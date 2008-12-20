@@ -27,6 +27,7 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.ServerProtocolCommands;
 import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframe.tabs.ChannelPanel;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.Settings;
@@ -130,7 +131,7 @@ public class CommandHandler {
                     TabOrganizer.getRoomPanel().chat(information[0], information[1], ChatStyles.USER);
                     break;
                 case ADD_TO_PLAYERS:
-                    Globals.getClientFrame().addPlayerToChannel(GameDatabase.getGameName(information[0]), information[1]);
+                    TabOrganizer.getChannelPanel(GameDatabase.getGameName(information[0])).addPlayerToChannel(information[1]);
                     break;
                 case SET_GAMESETTING:
                     if(information[0].equals("map")){
@@ -210,8 +211,8 @@ public class CommandHandler {
                     TabOrganizer.closeRoomPanel();
                     break;
                 case REMOVE_ROOM:
-                    Globals.getClientFrame().removePlayerFromRoom(GameDatabase.getGameName(information[0]), information[1], information[1]);
-                    Globals.getClientFrame().removeRoomFromTable(GameDatabase.getGameName(information[0]), information[1]);
+                    TabOrganizer.getChannelPanel(GameDatabase.getGameName(information[0])).removePlayerFromRoom(information[1], information[1]);
+                    TabOrganizer.getChannelPanel(GameDatabase.getGameName(information[0])).removeRoomFromTable(information[1]);
                     break;
                 case CLOSE_ROOM:
                     TabOrganizer.closeRoomPanel();
@@ -228,7 +229,7 @@ public class CommandHandler {
                     TabOrganizer.getRoomPanel().removeMember(information[0]);
                     break;
                 case ADD_ROOM:
-                    Globals.getClientFrame().addRoomToTable(GameDatabase.getGameName(information[0]),
+                    TabOrganizer.getChannelPanel(GameDatabase.getGameName(information[0])).addRoomToTable(
                             information[1],
                             information[2],
                             new Integer(information[3]),
@@ -238,7 +239,7 @@ public class CommandHandler {
                     }
                     break;
                 case LEFT_CHANNEL:
-                    Globals.getClientFrame().removePlayerFromChannel(GameDatabase.getGameName(information[0]), information[1]);
+                    TabOrganizer.getChannelPanel(GameDatabase.getGameName(information[0])).removePlayerFromChannel( information[1]);
                     break;
                 case CHAT_PRIVATE:
                     Globals.getClientFrame().printPrivateChatMessage(information[0], information[1]);
@@ -283,14 +284,13 @@ public class CommandHandler {
                     if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().gameClosed(information[1]);
                     }
-                    Globals.getClientFrame().gameClosed(GameDatabase.getGameName(information[0]), information[1]);
-                    Globals.getClientFrame().repaint();
+                    TabOrganizer.getChannelPanel(GameDatabase.getGameName(information[0])).gameClosed(information[1]);
                     break;
                 case LAUNCH:
                     TabOrganizer.getRoomPanel().launch();
                     break;
                 case CHANNEL_PLAYING_STATUS:
-                    Globals.getClientFrame().setPlayingStatus(GameDatabase.getGameName(information[0]), information[1]);
+                    TabOrganizer.getChannelPanel(GameDatabase.getGameName(information[0])).setPlayingStatus(information[1]);
                     break;
                 case PASSWORD_CHANGED:
                     Globals.closeChangePasswordFrame();
@@ -314,10 +314,12 @@ public class CommandHandler {
                             information[3]);
                     break;
                 case JOINED_ROOM:
-                    Globals.getClientFrame().addPlayerToRoom(GameDatabase.getGameName(information[0]), information[1], information[2]);
+                    if (TabOrganizer.getChannelPanel(GameDatabase.getGameName(information[0])) != null) {
+                        TabOrganizer.getChannelPanel(GameDatabase.getGameName(information[0])).addPlayerToRoom(information[1], information[2]);
+                    }
                     break;
                 case LEFT_ROOM:
-                    Globals.getClientFrame().removePlayerFromRoom(GameDatabase.getGameName(information[0]), information[1], information[2]);
+                    TabOrganizer.getChannelPanel(GameDatabase.getGameName(information[0])).removePlayerFromRoom(information[1], information[2]);
                     break;
                 case INGAMENAME:
                     Globals.setThisPlayer_inGameName(information[0]);
@@ -446,6 +448,24 @@ public class CommandHandler {
                     break;
                 case YOUR_IP_IS:
                     Globals.setMyIP(information[0]);
+                    break;
+                case SETAWAYSTATUS:
+                    ChannelPanel cp = TabOrganizer.getChannelPanel(GameDatabase.getGameName(information[0]));
+                    if (cp != null) {
+                        cp.setAway(information[1]);
+                    }
+                    if (TabOrganizer.getRoomPanel() != null ) {
+                        TabOrganizer.getRoomPanel().setAway(information[1]);
+                    }
+                    break;
+                case UNSETAWAYSTATUS:
+                    ChannelPanel cp1 = TabOrganizer.getChannelPanel(GameDatabase.getGameName(information[0]));
+                    if (cp1 != null) {
+                        cp1.unSetAway(information[1]);
+                    }
+                    if (TabOrganizer.getRoomPanel() != null) {
+                        TabOrganizer.getRoomPanel().unSetAway(information[1]);
+                    }
                     break;
                 default:
                     Logger.log(LogTypes.ERROR, "Server sent a command which wasn't handled!");

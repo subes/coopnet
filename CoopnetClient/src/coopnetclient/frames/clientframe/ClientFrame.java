@@ -162,49 +162,6 @@ public class ClientFrame extends javax.swing.JFrame {
         }
     }
 
-    public void gameClosed(String channel, String playername) {
-        TabOrganizer.getChannelPanel(channel).gameClosed(playername);
-    }
-
-    public void setPlayingStatus(String channel, String player) {
-        ChannelPanel cp = TabOrganizer.getChannelPanel(channel);
-        cp.setPlayingStatus(player);
-    }
-
-    public void setLaunchable(String channelname, boolean value) {
-        ChannelPanel channel = TabOrganizer.getChannelPanel(channelname);
-        if (channel != null) {
-            channel.setLaunchable(value);
-        }
-    }
-
-    public void addRoomToTable(String channel, String roomname, String hostname, int maxplayers, int type) {
-        TabOrganizer.getChannelPanel(channel).addRoomToTable(roomname,
-                hostname, maxplayers, type);
-    }
-
-    public void removeRoomFromTable(String channel, String hostname) {
-        TabOrganizer.getChannelPanel(channel).removeRoomFromTable(hostname);
-    }
-
-    public void addPlayerToChannel(String channel, String name) {
-        TabOrganizer.getChannelPanel(channel).addPlayerToChannel(name);
-    }
-
-    public int getSelectedRoomListRowIndex(String channel) {
-        return TabOrganizer.getChannelPanel(channel).getSelectedRoomListRowIndex();
-    }
-
-    public void addPlayerToRoom(String channel, String hostname, String playername) {
-        if(TabOrganizer.getChannelPanel(channel)!=null){
-            TabOrganizer.getChannelPanel(channel).addPlayerToRoom(hostname, playername);
-        }
-    }
-
-    public void removePlayerFromRoom(String channel, String hostname, String playername) {
-        TabOrganizer.getChannelPanel(channel).removePlayerFromRoom(hostname, playername);
-    }
-
     public void printMainChatMessage(String channel, String name, String message, ChatStyles modeStyle) {
         ChannelPanel cp = TabOrganizer.getChannelPanel(channel);
         if (cp != null) {
@@ -226,10 +183,6 @@ public class ClientFrame extends javax.swing.JFrame {
         if (!privatechat.isVisible()) {
             printToVisibleChatbox(sender, message, ChatStyles.WHISPER_NOTIFICATION, false);
         }
-    }
-
-    public void removePlayerFromChannel(String channel, String playername) {
-        TabOrganizer.getChannelPanel(channel).removePlayerFromChannel(playername);
     }
 
     public boolean updatePlayerName(String oldname, String newname) {

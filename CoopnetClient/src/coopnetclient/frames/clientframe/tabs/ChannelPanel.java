@@ -110,6 +110,14 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         }
     }
 
+    public void setAway(String playername){
+        users.setAway(playername);
+    }
+
+    public void unSetAway(String playername){
+        users.unSetAway(playername);
+    }
+
     public void gameClosed(String playername) {
         users.playerClosedGame(playername);
         rooms.setLaunchedStatus(playername, false);

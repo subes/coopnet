@@ -20,6 +20,7 @@
 package coopnetclient.frames.renderers;
 
 import coopnetclient.Globals;
+import coopnetclient.enums.PlayerStatuses;
 import coopnetclient.frames.models.ChannelStatusListModel;
 import coopnetclient.utils.Icons;
 import coopnetclient.utils.Settings;
@@ -56,14 +57,22 @@ public class ChannelStatusListCellRenderer extends DefaultListCellRenderer {
                 setBackground(Settings.getBackgroundColor());
             }
         }
-        if (model.isPlaying(value)) {
-            setIcon(Icons.gameIcon);
-        } else if (model.isInRoom(value)) {
-            setIcon(Icons.lobbyIcon);
-        } else {
-            setIcon(Icons.chatIcon);
-        }
 
+        PlayerStatuses status = model.getPlayerStatus(value.toString());
+        switch(status){
+            case AWAY:
+                setIcon(Icons.awayIcon);
+                break;
+            case CHATTING:
+                setIcon(Icons.chatIcon);
+                break;
+            case IN_ROOM:
+                setIcon(Icons.lobbyIcon);
+                break;
+            case PLAYING:
+                setIcon(Icons.gameIcon);
+                break;
+        }
         return this;
     }
 }

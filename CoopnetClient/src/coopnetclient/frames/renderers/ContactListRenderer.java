@@ -97,6 +97,9 @@ public class ContactListRenderer extends DefaultListCellRenderer {
                 setIcon(UIManager.getIcon("Tree.collapsedIcon"));
                 setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
                 break;
+            case AWAY:
+                setIcon(Icons.awayIcon);
+                break;
         }
         return this;
     }
