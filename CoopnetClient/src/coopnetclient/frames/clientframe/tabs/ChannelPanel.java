@@ -289,6 +289,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         sp_chatVertical.setPreferredSize(new java.awt.Dimension(350, 100));
 
         scrl_chatOutput.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrl_chatOutput.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrl_chatOutput.setEnabled(false);
         scrl_chatOutput.setFocusable(false);
         scrl_chatOutput.setMinimumSize(new java.awt.Dimension(150, 50));
@@ -466,7 +467,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
                     .addComponent(btn_join)
                     .addComponent(btn_refresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
         );
 
         pnl_roomActionsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_create, btn_join, btn_refresh});

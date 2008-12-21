@@ -113,6 +113,7 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
         sp_chatVertical.setResizeWeight(1.0);
         sp_chatVertical.setFocusable(false);
 
+        scrl_chatOutput.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrl_chatOutput.setFocusable(false);
         scrl_chatOutput.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {

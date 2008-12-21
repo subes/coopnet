@@ -44,6 +44,7 @@
       <SubComponents>
         <Container class="javax.swing.JScrollPane" name="scrl_chatOutput">
           <Properties>
+            <Property name="verticalScrollBarPolicy" type="int" value="22"/>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
