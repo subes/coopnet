@@ -53,9 +53,9 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 if(e.getType() == TableModelEvent.UPDATE && e.getColumn() == 0 && e.getFirstRow() == e.getLastRow()){
                     String changedFav = (String) model.getValueAt(e.getFirstRow(), 1);
                     if((Boolean)model.getValueAt(e.getFirstRow(), 0)){
-                        Settings.addFavourite(changedFav);
+                        Settings.addFavouriteByName(changedFav);
                     }else{
-                        Settings.removeFavourite(changedFav);
+                        Settings.removeFavourite(GameDatabase.getIDofGame(changedFav));
                     }
                 }
             }
@@ -68,7 +68,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
             model.removeRow(0);
         }
 
-        Vector<String> favs = Settings.getFavourites();
+        Vector<String> favs = Settings.getFavouritesByName();
         for (String gameName : GameDatabase.getAllGameNamesAsStringArray()) {
             if (gameName.length() > 0) {
                 if (resetFilter || gameName.toLowerCase().contains(tf_filter.getText().toLowerCase())) {

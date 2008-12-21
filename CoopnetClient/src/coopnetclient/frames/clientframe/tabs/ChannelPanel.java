@@ -59,7 +59,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     /** Creates new form ChannelPanel */
     public ChannelPanel(String name) {
         this.name = name;
-        ID = GameDatabase.IDofGame(name);
+        ID = GameDatabase.getIDofGame(name);
         users = new ChannelStatusListModel();
         renderer = new ChannelStatusListCellRenderer(users);
         initComponents();

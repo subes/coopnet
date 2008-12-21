@@ -288,7 +288,6 @@ public class ClientFrame extends javax.swing.JFrame {
         m_channels = new javax.swing.JMenu();
         mi_channelList = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JSeparator();
-        mi_manageFavs = new javax.swing.JMenuItem();
         mi_addCurrentToFav = new javax.swing.JMenuItem();
         mi_makeHome = new javax.swing.JMenuItem();
         mi_seperator = new javax.swing.JSeparator();
@@ -510,15 +509,6 @@ public class ClientFrame extends javax.swing.JFrame {
         m_channels.add(mi_channelList);
         m_channels.add(jSeparator4);
 
-        mi_manageFavs.setMnemonic(KeyEvent.VK_M);
-        mi_manageFavs.setText("Manage Favourites...");
-        mi_manageFavs.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_manageFavsActionPerformed(evt);
-            }
-        });
-        m_channels.add(mi_manageFavs);
-
         mi_addCurrentToFav.setMnemonic(KeyEvent.VK_D);
         mi_addCurrentToFav.setText("Add Current to Favourites");
         mi_addCurrentToFav.addActionListener(new java.awt.event.ActionListener() {
@@ -717,7 +707,7 @@ public class ClientFrame extends javax.swing.JFrame {
 
     public void refreshFavourites() {
         clearFavourites();
-        for (String s : Settings.getFavourites()) {
+        for (String s : Settings.getFavouritesByName()) {
             addFavourite(s);
         }
         m_Favourites.revalidate();
@@ -811,15 +801,11 @@ public class ClientFrame extends javax.swing.JFrame {
         coopnetclient.utils.Settings.setSoundEnabled(mi_Sounds.isSelected());
 }//GEN-LAST:event_mi_SoundsActionPerformed
 
-    private void mi_manageFavsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_manageFavsActionPerformed
-        Globals.openFavouritesFrame();
-}//GEN-LAST:event_mi_manageFavsActionPerformed
-
     private void mi_addCurrentToFavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_addCurrentToFavActionPerformed
         Component c = tabpn_tabs.getSelectedComponent();
         if (c instanceof ChannelPanel) {
             ChannelPanel cp = (ChannelPanel) c;
-            Settings.addFavourite(cp.name);
+            Settings.addFavouriteByName(cp.name);
         }
 }//GEN-LAST:event_mi_addCurrentToFavActionPerformed
 
@@ -1022,7 +1008,6 @@ private Color getHoverEffectColor(){
     private javax.swing.JMenuItem mi_faq;
     private javax.swing.JMenuItem mi_guide;
     private javax.swing.JMenuItem mi_makeHome;
-    private javax.swing.JMenuItem mi_manageFavs;
     private javax.swing.JMenuItem mi_manageGames;
     private javax.swing.JMenuItem mi_nextTab;
     private javax.swing.JMenuItem mi_prevTab;

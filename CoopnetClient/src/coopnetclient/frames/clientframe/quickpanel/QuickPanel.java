@@ -72,10 +72,9 @@ public class QuickPanel extends javax.swing.JPanel {
     }
 
     public void refreshFavourites() {
-        final Vector<String> favs = Settings.getFavourites();
         lst_favouritesList.setModel(new javax.swing.AbstractListModel() {
 
-            Vector<String> strings = favs;
+            Vector<String> strings = Settings.getFavouritesByName();            
 
             @Override
             public int getSize() {

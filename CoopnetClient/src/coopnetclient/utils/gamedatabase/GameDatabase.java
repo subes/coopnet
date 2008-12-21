@@ -151,7 +151,7 @@ public class GameDatabase {
         return IDtoGameName.get(ID);
     }
 
-    public static String IDofGame(String gamename) {
+    public static String getIDofGame(String gamename) {
         String tmp = "";
         for (String s : IDtoGameName.keySet()) {
             tmp = IDtoGameName.get(s);

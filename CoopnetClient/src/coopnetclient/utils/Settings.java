@@ -175,12 +175,13 @@ public class Settings {
     private final static boolean def_contactStatusChangeTextNotification = true;
     private final static boolean def_contactStatusChangeSoundNotification = true;
     private final static boolean def_trayIconEnabled = false;
-    private static Vector<String> favourites;
     private final static int def_launchHotKeyMask = 10;
     private final static int def_launchHotKey = KeyEvent.VK_L;
     private final static boolean def_multiChannel = true;
     private final static boolean def_showOfflineContacts = false;
     private final static boolean def_quickTabIconSize = true;
+
+    private static Vector<String> favourites;
 
     /**
      * store the settings in options file
@@ -526,7 +527,7 @@ public class Settings {
     }
 
     public static void setHomeChannel(String channel) {
-        writeSetting(homeChannel, GameDatabase.IDofGame(channel));
+        writeSetting(homeChannel, GameDatabase.getIDofGame(channel));
     }
 
     //debugMode
@@ -749,19 +750,30 @@ public class Settings {
         return readBoolean(showOfflineContacts, def_showOfflineContacts);
     }
 
-    public static void addFavourite(String channel) {
-        if (!favourites.contains(channel)) {
-            favourites.add(channel);
+    public static void addFavouriteByName(String channel) {
+        String ID = GameDatabase.getIDofGame(channel);
+        if (!favourites.contains(ID)) {
+            favourites.add(ID);
             saveFavourites();
         }
     }
 
-    public static Vector<String> getFavourites() {
-        return favourites;
+    public static Vector<String> getFavouritesByID() {
+        Vector<String> favs = new Vector<String>();
+        favs.addAll(favourites);
+        return favs;
     }
 
-    public static void removeFavourite(String channel) {
-        favourites.remove(channel);
+    public static Vector<String> getFavouritesByName() {
+        Vector<String> favs = new Vector<String>();
+        for(String ID : favourites){
+            favs.add(GameDatabase.getGameName(ID));
+        }
+        return favs;
+    }
+
+    public static void removeFavourite(String ID) {
+        favourites.remove(ID);
         saveFavourites();
     }
 
@@ -772,7 +784,7 @@ public class Settings {
         } catch (Exception ex) {
         }
         for (String s : favourites) {
-            pw.println(GameDatabase.IDofGame(s));
+            pw.println(s);
         }
         pw.close();
 
@@ -801,9 +813,9 @@ public class Settings {
                 return;
             }
             if(input.length()==3){
-                favourites.add(GameDatabase.getGameName(input));
-            }else{
                 favourites.add(input);
+            }else{
+                favourites.add(GameDatabase.getIDofGame(input));
             }
         }
         try {
@@ -811,6 +823,5 @@ public class Settings {
         } catch (Exception e) {
         }
     }
-
     
 }

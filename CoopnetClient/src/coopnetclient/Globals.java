@@ -24,7 +24,6 @@ import coopnetclient.frames.ChangePasswordFrame;
 import coopnetclient.frames.ChannelListFrame;
 import coopnetclient.frames.CreateRoomFrame;
 import coopnetclient.frames.EditProfileFrame;
-import coopnetclient.frames.FavouritesFrame;
 import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.frames.ManageGamesFrame;
 import coopnetclient.frames.JoinRoomPasswordFrame;
@@ -73,7 +72,6 @@ public class Globals {
     private static ContactListModel contactList = new ContactListModel();
     private static ChangePasswordFrame changePasswordFrame;
     private static ChannelListFrame channelListFrame;
-    private static FavouritesFrame favouritesFrame;
     private static GameSettingsFrame gameSettingsFrame;
     private static SettingsFrame settingsFrame;
     private static ManageGamesFrame manageGamesFrame;
@@ -203,7 +201,6 @@ public class Globals {
         Colorizer.colorize(clientFrame);
         Colorizer.colorize(changePasswordFrame);
         Colorizer.colorize(channelListFrame);
-        Colorizer.colorize(favouritesFrame);
         Colorizer.colorize(gameSettingsFrame);
         Colorizer.colorize(settingsFrame);
         Colorizer.colorize(manageGamesFrame);
@@ -559,22 +556,6 @@ public class Globals {
             createRoomFrame = null;
         }
         closeJoinRoomPasswordFrame();
-    }
-
-    public static void openFavouritesFrame() {
-        if (favouritesFrame != null) {
-            favouritesFrame.setVisible(true);
-        } else {
-            favouritesFrame = new FavouritesFrame();
-            setupFrame(favouritesFrame);
-        }
-    }
-
-    public static void closeFavouritesFrame() {
-        if (favouritesFrame != null) {
-            favouritesFrame.dispose();
-            favouritesFrame = null;
-        }
     }
 
     public static void openSettingsFrame() {
