@@ -91,7 +91,6 @@ public class ChannelListFrame extends javax.swing.JFrame {
             tbl_list.changeSelection(-1, -1, false, false);
         }
 
-
         tbl_list.getColumnModel().getColumn(1).sizeWidthToFit();
     }
 

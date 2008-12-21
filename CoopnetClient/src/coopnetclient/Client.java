@@ -35,7 +35,9 @@ import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
+import java.awt.AWTEvent;
 import java.awt.SystemTray;
+import java.awt.Toolkit;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -95,7 +97,12 @@ public class Client {
      */
     public static void startup() {
 
-        new InactivityWatcher().start();
+        Toolkit.getDefaultToolkit().addAWTEventListener(new InactivityWatcher(),
+                 AWTEvent.MOUSE_EVENT_MASK
+                |AWTEvent.MOUSE_MOTION_EVENT_MASK
+                |AWTEvent.MOUSE_WHEEL_EVENT_MASK
+                |AWTEvent.KEY_EVENT_MASK);
+
         readServerAddress();        
         SwingUtilities.invokeLater(new Thread() {
 

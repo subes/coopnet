@@ -3,73 +3,48 @@ package coopnetclient.utils;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.launcher.Launcher;
+import java.awt.AWTEvent;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
-public class InactivityWatcher extends Thread {
+public class InactivityWatcher implements AWTEventListener, ActionListener {
 
-    private int inactivetime = 0;
+    private static final int TIMEOUT_MILLIS = 60*1000;
+
+    private long lastEventTimeStamp = System.currentTimeMillis();
     private boolean isAway = false;
 
+    private Timer afkToggler = new Timer(1000, this);
+
     public InactivityWatcher() {
-        super();
+        afkToggler.start();
     }
 
     @Override
-    public void run() {
-        while (true) {
-            try {
-                sleep(1000);
-            } catch (Exception e) {
+    public void eventDispatched(AWTEvent event) {
+        lastEventTimeStamp = System.currentTimeMillis();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (Globals.getLoggedInStatus()) {
+            if (Launcher.isPlaying()) {
+                return;
             }
-            if (Globals.getLoggedInStatus()) {
-                if (Launcher.isPlaying()) {
-                    continue;
-                }
-                boolean isActive = false;
-                JFrame frame = Globals.getClientFrame();
-                if (frame != null) {
-                    isActive = isActive || frame.isActive();
-                }
-                frame = Globals.getBugReportFrame();
-                if (frame != null) {
-                    isActive = isActive || frame.isActive();
-                }
-                frame = Globals.getChangePasswordFrame();
-                if (frame != null) {
-                    isActive = isActive || frame.isActive();
-                }
-                frame = Globals.getEditProfileFrame();
-                if (frame != null) {
-                    isActive = isActive || frame.isActive();
-                }
-                frame = Globals.getGameSettingsFrame();
-                if (frame != null) {
-                    isActive = isActive || frame.isActive();
-                }
-                frame = Globals.getMuteBanTableFrame();
-                if (frame != null) {
-                    isActive = isActive || frame.isActive();
-                }
-                frame = Globals.getManageGamesFrame();
-                if (frame != null) {
-                    isActive = isActive || frame.isActive();
-                }
-                if (!isActive) {
-                    inactivetime++;
-                } else {
-                    if (isAway) {//was away, not anymore
-                        isAway = false;
-                        Protocol.unSetAwayStatus();
-                        inactivetime = 0;
-                        continue;
-                    }
-                }
-                if (inactivetime >= 60) {
-                    if (!isAway) {//just became afk
-                        isAway = true;
-                        Protocol.setAwayStatus();
-                    }
-                }
+
+            boolean isTimedOut = System.currentTimeMillis() - lastEventTimeStamp > TIMEOUT_MILLIS;
+
+            if (!isTimedOut && isAway) {
+                isAway = false;
+                Protocol.unSetAwayStatus();
+            }else if(isTimedOut && !isAway){
+                isAway = true;
+                    Protocol.setAwayStatus();
             }
         }
     }
