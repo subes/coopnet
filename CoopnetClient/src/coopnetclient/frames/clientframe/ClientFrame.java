@@ -287,6 +287,7 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_showQuickbar = new javax.swing.JCheckBoxMenuItem();
         m_channels = new javax.swing.JMenu();
         mi_channelList = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JSeparator();
         mi_manageFavs = new javax.swing.JMenuItem();
         mi_addCurrentToFav = new javax.swing.JMenuItem();
         mi_makeHome = new javax.swing.JMenuItem();
@@ -295,14 +296,15 @@ public class ClientFrame extends javax.swing.JFrame {
         m_installedGames = new javax.swing.JMenu();
         m_options = new javax.swing.JMenu();
         mi_clientSettings = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JSeparator();
         mi_manageGames = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JSeparator();
         mi_Sounds = new javax.swing.JCheckBoxMenuItem();
         m_help = new javax.swing.JMenu();
         mi_guide = new javax.swing.JMenuItem();
         mi_faq = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JSeparator();
         mi_bugReport = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JSeparator();
         mi_about = new javax.swing.JMenuItem();
 
         tabpn_tabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -491,6 +493,7 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_channels.add(mi_channelList);
+        m_channels.add(jSeparator4);
 
         mi_manageFavs.setText("Manage Favourites...");
         mi_manageFavs.addActionListener(new java.awt.event.ActionListener() {
@@ -535,7 +538,6 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_options.add(mi_clientSettings);
-        m_options.add(jSeparator2);
 
         mi_manageGames.setText("Manage Games...");
         mi_manageGames.addActionListener(new java.awt.event.ActionListener() {
@@ -544,6 +546,7 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_options.add(mi_manageGames);
+        m_options.add(jSeparator2);
 
         mi_Sounds.setSelected(true);
         mi_Sounds.setText("Sounds");
@@ -582,6 +585,7 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_help.add(mi_bugReport);
+        m_help.add(jSeparator3);
 
         mi_about.setText("About");
         mi_about.addActionListener(new java.awt.event.ActionListener() {
@@ -884,6 +888,8 @@ private Color getHoverEffectColor(){
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JMenu m_Favourites;
     private javax.swing.JMenu m_channels;
     private javax.swing.JMenu m_help;
