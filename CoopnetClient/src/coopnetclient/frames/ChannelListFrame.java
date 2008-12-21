@@ -45,7 +45,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
 
         model = (DefaultTableModel) tbl_list.getModel();
 
-        initData();
+        initData(true);
 
         model.addTableModelListener(new TableModelListener() {
             @Override
@@ -60,17 +60,9 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 }
             }
         });
-
-
-        ArrayList<SortKey> keys = new ArrayList<SortKey>();
-        keys.add(new SortKey(0, SortOrder.DESCENDING));
-        keys.add(new SortKey(2, SortOrder.DESCENDING));
-        keys.add(new SortKey(1, SortOrder.ASCENDING));
-        tbl_list.getRowSorter().setSortKeys(keys);
-        ((TableRowSorter)tbl_list.getRowSorter()).sort();
     }
 
-    private void initData(){
+    private void initData(boolean resetFilter){
         int rows = model.getRowCount();
         for(int i = 0; i < rows; i++){
             model.removeRow(0);
@@ -79,15 +71,22 @@ public class ChannelListFrame extends javax.swing.JFrame {
         Vector<String> favs = Settings.getFavourites();
         for (String gameName : GameDatabase.getAllGameNamesAsStringArray()) {
             if (gameName.length() > 0) {
-                if(gameName.length() > 20){
-                    Object[] rowData = {favs.contains(gameName), gameName, true};
-                    model.addRow(rowData);
-                }else{
+                if (resetFilter || gameName.toLowerCase().contains(tf_filter.getText().toLowerCase())) {
                     Object[] rowData = {favs.contains(gameName), gameName, GameDatabase.getInstalledGameNames().contains(gameName)};
                     model.addRow(rowData);
                 }
-
             }
+        }
+
+        if(resetFilter){
+            tf_filter.setText("");
+            ArrayList<SortKey> keys = new ArrayList<SortKey>();
+            keys.add(new SortKey(0, SortOrder.DESCENDING));
+            keys.add(new SortKey(2, SortOrder.DESCENDING));
+            keys.add(new SortKey(1, SortOrder.ASCENDING));
+            tbl_list.getRowSorter().setSortKeys(keys);
+            ((TableRowSorter)tbl_list.getRowSorter()).sort();
+            tbl_list.changeSelection(-1, -1, false, false);
         }
     }
 
@@ -134,7 +133,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_cancel.setText("Cancel");
+        btn_cancel.setText("Close");
         btn_cancel.setNextFocusableComponent(tf_filter);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,9 +173,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
             }
         });
         scrl_list.setViewportView(tbl_list);
-        tbl_list.getColumnModel().getColumn(0).setPreferredWidth(0);
         tbl_list.getColumnModel().getColumn(0).setCellRenderer(new ChannelListFavouriteCellRenderer());
-        tbl_list.getColumnModel().getColumn(2).setPreferredWidth(0);
         tbl_list.getColumnModel().getColumn(2).setCellRenderer(new ChannelListInstalledCellRenderer());
 
         jButton1.setText("Reset");
@@ -234,24 +231,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_joinChannelButtonActionPerformed
 
     private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_filterActionPerformed
-        
-        int rows = model.getRowCount();
-        for(int i = 0; i < rows; i++){
-            model.removeRow(0);
-        }
-
-        Vector<String> favs = Settings.getFavourites();
-
-        for (String gameName : GameDatabase.getAllGameNamesAsStringArray()) {
-            if (gameName.toLowerCase().contains(tf_filter.getText().toLowerCase())) {
-                Object[] rowData = {favs.contains(gameName), gameName, GameDatabase.getInstalledGameNames().contains(gameName)};
-                model.addRow(rowData);
-            }
-        }
-
-        ((TableRowSorter)tbl_list.getRowSorter()).sort();
-
-        this.repaint();
+        initData(false);
 }//GEN-LAST:event_tf_filterActionPerformed
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
@@ -269,18 +249,7 @@ private void tbl_listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:ev
 }//GEN-LAST:event_tbl_listMouseClicked
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    ArrayList<SortKey> keys = new ArrayList<SortKey>();
-    keys.add(new SortKey(0, SortOrder.DESCENDING));
-    keys.add(new SortKey(2, SortOrder.DESCENDING));
-    keys.add(new SortKey(1, SortOrder.ASCENDING));
-    tbl_list.getRowSorter().setSortKeys(keys);
-    ((TableRowSorter)tbl_list.getRowSorter()).sort();
-
-    tf_filter.setText("");
-
-    initData();
-
-    tbl_list.changeSelection(-1, -1, false, false);
+    initData(true);
 }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

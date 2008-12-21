@@ -23,6 +23,7 @@ import coopnetclient.utils.Icons;
 import coopnetclient.utils.Settings;
 import java.awt.Component;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class ChannelListFavouriteCellRenderer extends DefaultTableCellRenderer {
@@ -35,6 +36,8 @@ public class ChannelListFavouriteCellRenderer extends DefaultTableCellRenderer {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, rowIndex, vColIndex);
         setText("");
 
+        setHorizontalAlignment(SwingConstants.CENTER);
+      
         if((Boolean)value == true){
             setIcon(Icons.starred);
         }else{
