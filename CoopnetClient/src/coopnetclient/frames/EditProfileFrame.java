@@ -71,6 +71,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
         tf_loginName.setText(name);
         tf_website.setText(webpage);
         tf_inGameName.setText(ingamename);
+        this.getRootPane().setDefaultButton(btn_save);
     }
     
     private int indexOfCountry(String name) {

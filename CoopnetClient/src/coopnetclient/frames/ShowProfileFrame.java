@@ -20,7 +20,6 @@
 package coopnetclient.frames;
 
 import coopnetclient.Globals;
-import java.awt.event.KeyEvent;
 
 public class ShowProfileFrame extends javax.swing.JFrame {
     
@@ -30,7 +29,8 @@ public class ShowProfileFrame extends javax.swing.JFrame {
         tf_name.setText(name);        
         tf_country.setText(country) ;
         tf_website.setText(webpage);
-        tf_ingamename.setText(ingameName);                
+        tf_ingamename.setText(ingameName);
+        this.getRootPane().setDefaultButton(btn_close);
     }
     
     /** This method is called from within the constructor to

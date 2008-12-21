@@ -55,6 +55,8 @@ public class SettingsFrame extends javax.swing.JFrame {
     /** Creates new form OptionsFrame */
     public SettingsFrame() {
         initComponents();
+
+        this.getRootPane().setDefaultButton(btn_save);
         
         List gamenames = Arrays.asList(GameDatabase.getAllGameNames());
         Collections.sort(gamenames);

@@ -55,6 +55,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             cb_instantroom.setVisible(false);
         }
         pnl_input.revalidate();
+        this.getRootPane().setDefaultButton(btn_create);
         pack();
     }
 

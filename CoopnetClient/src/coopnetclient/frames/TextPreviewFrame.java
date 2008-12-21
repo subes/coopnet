@@ -20,7 +20,6 @@
 package coopnetclient.frames;
 
 import coopnetclient.Globals;
-import java.awt.event.KeyEvent;
 
 public class TextPreviewFrame extends javax.swing.JFrame {
     
@@ -32,6 +31,7 @@ public class TextPreviewFrame extends javax.swing.JFrame {
         ta_text.setText(text);
         
         ta_text.setCaretPosition(0);
+        this.getRootPane().setDefaultButton(btn_close);
     }
     
     /** This method is called from within the constructor to

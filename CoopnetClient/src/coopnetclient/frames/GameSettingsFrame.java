@@ -68,6 +68,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         lbl_map.setVisible(false);
         cb_map.setVisible(false);
         customize();
+        this.getRootPane().setDefaultButton(btn_save);
     }
 
     /** Creates new form GameSettingsPanel */

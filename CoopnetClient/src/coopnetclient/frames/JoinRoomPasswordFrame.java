@@ -22,7 +22,6 @@ package coopnetclient.frames;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import java.awt.Color;
-import java.awt.event.KeyEvent;
 
 public class JoinRoomPasswordFrame extends javax.swing.JFrame {
 
@@ -36,12 +35,14 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         hideWrongPasswordNotification();
         this.host_name = host_name;
         this.channel=channel;
+        this.getRootPane().setDefaultButton(btn_join);
     }
     
     public JoinRoomPasswordFrame(String ID) {
         initComponents();
         hideWrongPasswordNotification();
-        this.ID = ID;        
+        this.ID = ID;
+        this.getRootPane().setDefaultButton(btn_join);
     }
     
     public void showWrongPasswordNotification(){
@@ -98,11 +99,6 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         lbl_roomPassword.setText("<html>This room is password protected,<br> please enter the correct password:");
 
         pf_roomPassword.setNextFocusableComponent(btn_join);
-        pf_roomPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pf_roomPasswordActionPerformed(evt);
-            }
-        });
 
         lbl_errormsg.setForeground(new java.awt.Color(255, 0, 0));
         lbl_errormsg.setText("Wrong Password!");
@@ -171,10 +167,6 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         Globals.closeRoomCreationFrame();
 }//GEN-LAST:event_btn_cancelActionPerformed
-
-private void pf_roomPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pf_roomPasswordActionPerformed
-    btn_join.doClick();
-}//GEN-LAST:event_pf_roomPasswordActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
     Globals.closeRoomCreationFrame();

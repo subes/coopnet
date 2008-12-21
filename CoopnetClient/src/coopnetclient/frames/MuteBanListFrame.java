@@ -44,6 +44,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         tbl_UserTable.getSelectionModel().addListSelectionListener(listener);
         tbl_UserTable.getColumnModel().getSelectionModel().addListSelectionListener(listener);
         tbl_UserTable.getColumnModel().getColumn(0).setCellRenderer(new TableTextCellRenderer());
+        this.getRootPane().setDefaultButton(btn_close);
     }
 
     public void updateTable() {
