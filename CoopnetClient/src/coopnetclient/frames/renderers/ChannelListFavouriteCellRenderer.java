@@ -28,9 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 public class ChannelListFavouriteCellRenderer extends DefaultTableCellRenderer {
 
-    public ChannelListFavouriteCellRenderer(){
-        removeAll();
-    }
+    public ChannelListFavouriteCellRenderer(){}
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
@@ -54,12 +52,24 @@ public class ChannelListFavouriteCellRenderer extends DefaultTableCellRenderer {
                 setBackground(Settings.getBackgroundColor());
             }
         }
-
         return this;
     }
     // The following methods override the defaults for performance reasons
 
+    @Override
+    public void validate() {
+    }
 
+    @Override
+    public void revalidate() {
+    }
 
+    @Override
+    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+    }
+
+    @Override
+    public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
+    }
 
 }

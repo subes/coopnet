@@ -23,15 +23,22 @@ import coopnetclient.Globals;
 import coopnetclient.frames.renderers.ChannelListFavouriteCellRenderer;
 import coopnetclient.frames.renderers.ChannelListInstalledCellRenderer;
 import coopnetclient.protocol.out.Protocol;
+import coopnetclient.utils.Icons;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import java.awt.Component;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JCheckBox;
+import javax.swing.JTable;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -62,6 +69,22 @@ public class ChannelListFrame extends javax.swing.JFrame {
         });
 
         tbl_list.getColumnModel().getColumn(1).setPreferredWidth(tbl_list.getWidth());
+
+        DefaultCellEditor editor = new DefaultCellEditor(new JCheckBox()){
+
+            @Override
+            public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+                row = tbl_list.convertRowIndexToModel(row);
+                column = tbl_list.convertColumnIndexToModel(column);
+                model.setValueAt(!((Boolean)value), row, column);
+                model.fireTableCellUpdated(row, column);
+                return null;
+            }
+
+
+        };
+
+        tbl_list.getColumnModel().getColumn(0).setCellEditor(editor);
     }
 
     private void initData(boolean resetFilter){
@@ -89,6 +112,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
             tbl_list.getRowSorter().setSortKeys(keys);
             ((TableRowSorter)tbl_list.getRowSorter()).sort();
             tbl_list.changeSelection(-1, -1, false, false);
+            btn_joinChannelButton.setEnabled(tbl_list.getSelectedRow() > -1);
         }
 
         tbl_list.getColumnModel().getColumn(1).sizeWidthToFit();
@@ -130,6 +154,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
         });
 
         btn_joinChannelButton.setText("Join selected channel");
+        btn_joinChannelButton.setEnabled(false);
         btn_joinChannelButton.setNextFocusableComponent(btn_cancel);
         btn_joinChannelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,6 +196,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
             }
         });
         tbl_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_list.getTableHeader().setReorderingAllowed(false);
         tbl_list.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_listMouseClicked(evt);
@@ -247,7 +273,9 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
 }//GEN-LAST:event_formWindowClosing
 
 private void tbl_listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_listMouseClicked
-    if(evt.getButton() == evt.BUTTON1 && evt.getClickCount() == 2){
+    btn_joinChannelButton.setEnabled(tbl_list.getSelectedRow() > -1);
+    
+    if(evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 2){
         btn_joinChannelButton.doClick();
     }
 }//GEN-LAST:event_tbl_listMouseClicked

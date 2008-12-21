@@ -96,7 +96,7 @@ public class Client {
      * 
      */
     public static void startup() {
-
+    
         Toolkit.getDefaultToolkit().addAWTEventListener(new InactivityWatcher(),
                  AWTEvent.MOUSE_EVENT_MASK
                 |AWTEvent.MOUSE_MOTION_EVENT_MASK
