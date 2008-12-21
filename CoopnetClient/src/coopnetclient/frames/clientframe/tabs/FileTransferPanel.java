@@ -70,7 +70,15 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
         TableTextCellRenderer rend = new TableTextCellRenderer();
         rend.setHorizontalAlignment(SwingConstants.CENTER);
         tbl_transfers.setDefaultRenderer(String.class, rend);
-        tbl_transfers.getColumnModel().getColumn(0).setPreferredWidth(40);
+        //set column widths
+        tbl_transfers.getColumnModel().getColumn(0).setPreferredWidth(20);
+        tbl_transfers.getColumnModel().getColumn(1).setPreferredWidth(90);
+        tbl_transfers.getColumnModel().getColumn(2).setPreferredWidth(100);
+        tbl_transfers.getColumnModel().getColumn(3).setPreferredWidth(200);
+        tbl_transfers.getColumnModel().getColumn(4).setPreferredWidth(80);
+        tbl_transfers.getColumnModel().getColumn(5).setPreferredWidth(60);
+        tbl_transfers.getColumnModel().getColumn(6).setPreferredWidth(60);
+        
         tbl_transfers.setComponentPopupMenu(new TransferPopupMenu(tbl_transfers));
         JTableButtonMouseListener mlsitener = new JTableButtonMouseListener(tbl_transfers);
         tbl_transfers.addMouseListener(mlsitener);
