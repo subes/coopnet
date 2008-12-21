@@ -60,6 +60,8 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 }
             }
         });
+
+        tbl_list.getColumnModel().getColumn(1).setPreferredWidth(tbl_list.getWidth());
     }
 
     private void initData(boolean resetFilter){
@@ -88,6 +90,9 @@ public class ChannelListFrame extends javax.swing.JFrame {
             ((TableRowSorter)tbl_list.getRowSorter()).sort();
             tbl_list.changeSelection(-1, -1, false, false);
         }
+
+
+        tbl_list.getColumnModel().getColumn(1).sizeWidthToFit();
     }
 
     /** This method is called from within the constructor to
