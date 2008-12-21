@@ -117,7 +117,7 @@ public class Globals {
         if (SystemTray.isSupported()) {
             tray = SystemTray.getSystemTray();
             
-            trayIcon = new TrayIcon(Icons.CoopnetnormalIcon.getImage(), "Coopnet client", new SystemTrayPopup());
+            trayIcon = new TrayIcon(Icons.coopnetNormalIcon.getImage(), "Coopnet client", new SystemTrayPopup());
             trayIcon.setImageAutoSize(true);
             trayIcon.addMouseListener(
                     new java.awt.event.MouseAdapter() {

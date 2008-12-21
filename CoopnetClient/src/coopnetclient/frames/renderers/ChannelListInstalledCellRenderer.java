@@ -1,4 +1,4 @@
-/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
+/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com),
  *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
  *
  *  This file is part of Coopnet.
@@ -16,9 +16,9 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package coopnetclient.frames.renderers;
 
-import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.utils.Icons;
 import coopnetclient.utils.Settings;
 import java.awt.Component;
@@ -26,21 +26,24 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class TransferTypeRenderer extends DefaultTableCellRenderer  {
+public class ChannelListInstalledCellRenderer extends DefaultTableCellRenderer {
 
-    public TransferTypeRenderer() {
-    }
+    public ChannelListInstalledCellRenderer(){}
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected, boolean hasFocus, int rowIndex, int vColIndex) {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, rowIndex, vColIndex);
         setText("");
-        if(Integer.valueOf(value.toString()) == TransferTableModel.RECIEVE_TYPE){
-            setIcon(Icons.downloadIcon);
+
+        setHorizontalAlignment(SwingConstants.CENTER);
+
+        if((Boolean)value == true){
+            setIcon(Icons.acceptIcon);
         }else{
-            setIcon(Icons.uploadIcon);
+            setIcon(null);
         }
+        
         if (Settings.getColorizeBody()) {
             setForeground(Settings.getForegroundColor());
             if (isSelected) {
@@ -49,9 +52,6 @@ public class TransferTypeRenderer extends DefaultTableCellRenderer  {
                 setBackground(Settings.getBackgroundColor());
             }
         }
-
-        setHorizontalAlignment(SwingConstants.CENTER);
-        
         return this;
     }
     // The following methods override the defaults for performance reasons
@@ -71,4 +71,5 @@ public class TransferTypeRenderer extends DefaultTableCellRenderer  {
     @Override
     public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
     }
+    
 }

@@ -95,7 +95,7 @@ public class Colorizer {
 
         if (root instanceof JFrame) {
             JFrame frame = (JFrame) root;
-            frame.setIconImage(Icons.CoopnetnormalIcon.getImage());
+            frame.setIconImage(Icons.coopnetNormalIcon.getImage());
         }
 
         //Dont colorize if following is the case

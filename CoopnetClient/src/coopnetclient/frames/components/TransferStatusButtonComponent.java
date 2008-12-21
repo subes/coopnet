@@ -65,8 +65,7 @@ public class TransferStatusButtonComponent extends javax.swing.JPanel  {
         });
         setLayout(new java.awt.GridBagLayout());
 
-        btn_accept.setIcon(Icons.transferAcceptIcon);
-        btn_accept.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btn_accept.setIcon(Icons.acceptIcon);
         btn_accept.setMaximumSize(new java.awt.Dimension(20, 20));
         btn_accept.setMinimumSize(new java.awt.Dimension(20, 20));
         btn_accept.setPreferredSize(new java.awt.Dimension(20, 20));
@@ -79,8 +78,7 @@ public class TransferStatusButtonComponent extends javax.swing.JPanel  {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         add(btn_accept, gridBagConstraints);
 
-        btn_refuse.setIcon(Icons.transferRefuseIcon);
-        btn_refuse.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btn_refuse.setIcon(Icons.refuseIcon);
         btn_refuse.setMaximumSize(new java.awt.Dimension(20, 20));
         btn_refuse.setMinimumSize(new java.awt.Dimension(20, 20));
         btn_refuse.setPreferredSize(new java.awt.Dimension(20, 20));
@@ -93,9 +91,8 @@ public class TransferStatusButtonComponent extends javax.swing.JPanel  {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         add(btn_refuse, gridBagConstraints);
 
-        btn_cancel.setIcon(Icons.transferCancelIcon);
+        btn_cancel.setIcon(Icons.cancelIcon);
         btn_cancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_cancel.setMargin(new java.awt.Insets(0, 0, 0, 0));
         btn_cancel.setMaximumSize(new java.awt.Dimension(20, 20));
         btn_cancel.setMinimumSize(new java.awt.Dimension(20, 20));
         btn_cancel.setPreferredSize(new java.awt.Dimension(20, 20));

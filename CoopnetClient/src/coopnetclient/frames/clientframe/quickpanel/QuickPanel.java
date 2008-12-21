@@ -92,11 +92,11 @@ public class QuickPanel extends javax.swing.JPanel {
     
     private void setTabIcons(){
         if(Settings.isquickTabIconSizeBig()){
-            tp_quickPanel.setIconAt(0, Icons.ContactListIconBig);
-            tp_quickPanel.setIconAt(1, Icons.FavouritesIconBig);
+            tp_quickPanel.setIconAt(0, Icons.contactListIconBig);
+            tp_quickPanel.setIconAt(1, Icons.favouritesIconBig);
         }else{//small icons
-            tp_quickPanel.setIconAt(0, Icons.ContactListIconSmall);
-            tp_quickPanel.setIconAt(1, Icons.FavouritesIconSmall);
+            tp_quickPanel.setIconAt(0, Icons.contactListIconSmall);
+            tp_quickPanel.setIconAt(1, Icons.favouritesIconSmall);
         }
     }
 

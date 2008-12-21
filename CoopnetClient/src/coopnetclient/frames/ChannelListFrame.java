@@ -20,14 +20,20 @@
 package coopnetclient.frames;
 
 import coopnetclient.Globals;
+import coopnetclient.frames.renderers.ChannelListFavouriteCellRenderer;
+import coopnetclient.frames.renderers.ChannelListInstalledCellRenderer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Vector;
+import javax.swing.RowSorter.SortKey;
+import javax.swing.SortOrder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class ChannelListFrame extends javax.swing.JFrame {
 
@@ -38,22 +44,8 @@ public class ChannelListFrame extends javax.swing.JFrame {
         initComponents();
 
         model = (DefaultTableModel) tbl_list.getModel();
-                
-        tbl_list.getRowSorter().toggleSortOrder(1);
 
-        int rows = model.getRowCount();
-        for(int i = 0; i < rows; i++){
-            model.removeRow(0);
-        }
-
-        Vector<String> favs = Settings.getFavourites();
-        for (String gameName : GameDatabase.getAllGameNamesAsStringArray()) {
-            if (gameName.length() > 0) {
-                Object[] rowData = {favs.contains(gameName), gameName, GameDatabase.getInstalledGameNames().contains(gameName)};
-                model.addRow(rowData);
-            }
-        }
-
+        initData();
 
         model.addTableModelListener(new TableModelListener() {
             @Override
@@ -68,6 +60,35 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 }
             }
         });
+
+
+        ArrayList<SortKey> keys = new ArrayList<SortKey>();
+        keys.add(new SortKey(0, SortOrder.DESCENDING));
+        keys.add(new SortKey(2, SortOrder.DESCENDING));
+        keys.add(new SortKey(1, SortOrder.ASCENDING));
+        tbl_list.getRowSorter().setSortKeys(keys);
+        ((TableRowSorter)tbl_list.getRowSorter()).sort();
+    }
+
+    private void initData(){
+        int rows = model.getRowCount();
+        for(int i = 0; i < rows; i++){
+            model.removeRow(0);
+        }
+
+        Vector<String> favs = Settings.getFavourites();
+        for (String gameName : GameDatabase.getAllGameNamesAsStringArray()) {
+            if (gameName.length() > 0) {
+                if(gameName.length() > 20){
+                    Object[] rowData = {favs.contains(gameName), gameName, true};
+                    model.addRow(rowData);
+                }else{
+                    Object[] rowData = {favs.contains(gameName), gameName, GameDatabase.getInstalledGameNames().contains(gameName)};
+                    model.addRow(rowData);
+                }
+
+            }
+        }
     }
 
     /** This method is called from within the constructor to
@@ -84,6 +105,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
         btn_cancel = new javax.swing.JButton();
         scrl_list = new javax.swing.JScrollPane();
         tbl_list = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setTitle("Join channel");
         setFocusable(false);
@@ -145,9 +167,24 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbl_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_list.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_listMouseClicked(evt);
+            }
+        });
         scrl_list.setViewportView(tbl_list);
-        tbl_list.getColumnModel().getColumn(0).setResizable(false);
-        tbl_list.getColumnModel().getColumn(2).setPreferredWidth(30);
+        tbl_list.getColumnModel().getColumn(0).setPreferredWidth(0);
+        tbl_list.getColumnModel().getColumn(0).setCellRenderer(new ChannelListFavouriteCellRenderer());
+        tbl_list.getColumnModel().getColumn(2).setPreferredWidth(0);
+        tbl_list.getColumnModel().getColumn(2).setCellRenderer(new ChannelListInstalledCellRenderer());
+
+        jButton1.setText("Reset");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -164,7 +201,9 @@ public class ChannelListFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)))
+                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -173,9 +212,10 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tf_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_filter))
+                    .addComponent(lbl_filter)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrl_list, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+                .addComponent(scrl_list, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_cancel)
@@ -189,7 +229,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_joinChannelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_joinChannelButtonActionPerformed
-        Protocol.joinChannel((String) model.getValueAt(tbl_list.getSelectedRow(), 1));
+        Protocol.joinChannel((String) model.getValueAt(tbl_list.convertRowIndexToModel(tbl_list.getSelectedRow()), 1));
         Globals.closeChannelListFrame();
 }//GEN-LAST:event_btn_joinChannelButtonActionPerformed
 
@@ -208,6 +248,9 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 model.addRow(rowData);
             }
         }
+
+        ((TableRowSorter)tbl_list.getRowSorter()).sort();
+
         this.repaint();
 }//GEN-LAST:event_tf_filterActionPerformed
 
@@ -219,9 +262,31 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     Globals.closeChannelListFrame();
 }//GEN-LAST:event_formWindowClosing
 
+private void tbl_listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_listMouseClicked
+    if(evt.getButton() == evt.BUTTON1 && evt.getClickCount() == 2){
+        btn_joinChannelButton.doClick();
+    }
+}//GEN-LAST:event_tbl_listMouseClicked
+
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    ArrayList<SortKey> keys = new ArrayList<SortKey>();
+    keys.add(new SortKey(0, SortOrder.DESCENDING));
+    keys.add(new SortKey(2, SortOrder.DESCENDING));
+    keys.add(new SortKey(1, SortOrder.ASCENDING));
+    tbl_list.getRowSorter().setSortKeys(keys);
+    ((TableRowSorter)tbl_list.getRowSorter()).sort();
+
+    tf_filter.setText("");
+
+    initData();
+
+    tbl_list.changeSelection(-1, -1, false, false);
+}//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_joinChannelButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lbl_filter;
     private javax.swing.JScrollPane scrl_list;
     private javax.swing.JTable tbl_list;
