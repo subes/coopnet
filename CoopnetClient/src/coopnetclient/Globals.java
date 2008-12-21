@@ -44,11 +44,9 @@ import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Point;
 import java.awt.SystemTray;
-import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 

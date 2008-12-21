@@ -36,6 +36,7 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -279,7 +280,6 @@ public class ClientFrame extends javax.swing.JFrame {
         m_main = new javax.swing.JMenu();
         mi_connection = new javax.swing.JMenuItem();
         mi_update = new javax.swing.JMenuItem();
-        mi_showTransfers = new javax.swing.JMenuItem();
         mi_quit = new javax.swing.JMenuItem();
         m_user = new javax.swing.JMenu();
         mi_profile = new javax.swing.JMenuItem();
@@ -294,6 +294,12 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_seperator = new javax.swing.JSeparator();
         m_Favourites = new javax.swing.JMenu();
         m_installedGames = new javax.swing.JMenu();
+        m_tabs = new javax.swing.JMenu();
+        mi_nextTab = new javax.swing.JMenuItem();
+        mi_prevTab = new javax.swing.JMenuItem();
+        mi_closeTab = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JSeparator();
+        mi_showTransfers = new javax.swing.JMenuItem();
         m_options = new javax.swing.JMenu();
         mi_clientSettings = new javax.swing.JMenuItem();
         mi_manageGames = new javax.swing.JMenuItem();
@@ -322,6 +328,13 @@ public class ClientFrame extends javax.swing.JFrame {
             }
             public void componentRemoved(java.awt.event.ContainerEvent evt) {
                 tabpn_tabsComponentRemoved(evt);
+            }
+        });
+        tabpn_tabs.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                tabpn_tabsCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 
@@ -417,8 +430,10 @@ public class ClientFrame extends javax.swing.JFrame {
 
         mbar.setFocusable(false);
 
+        m_main.setMnemonic(KeyEvent.VK_L);
         m_main.setText("Client");
 
+        mi_connection.setMnemonic(KeyEvent.VK_O);
         mi_connection.setText("Disconnect");
         mi_connection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -427,6 +442,7 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_main.add(mi_connection);
 
+        mi_update.setMnemonic(KeyEvent.VK_U);
         mi_update.setText("Update Client");
         mi_update.setEnabled(false);
         mi_update.addActionListener(new java.awt.event.ActionListener() {
@@ -436,14 +452,7 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_main.add(mi_update);
 
-        mi_showTransfers.setText("Show Transfers");
-        mi_showTransfers.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_showTransfersActionPerformed(evt);
-            }
-        });
-        m_main.add(mi_showTransfers);
-
+        mi_quit.setMnemonic(KeyEvent.VK_Q);
         mi_quit.setText("Quit");
         mi_quit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -454,9 +463,11 @@ public class ClientFrame extends javax.swing.JFrame {
 
         mbar.add(m_main);
 
+        m_user.setMnemonic(KeyEvent.VK_U);
         m_user.setText("User");
         m_user.setEnabled(false);
 
+        mi_profile.setMnemonic(KeyEvent.VK_P);
         mi_profile.setText("Edit Profile...");
         mi_profile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -465,6 +476,7 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_user.add(mi_profile);
 
+        mi_showMuteBanList.setMnemonic(KeyEvent.VK_M);
         mi_showMuteBanList.setText("Edit Mute/Ban List...");
         mi_showMuteBanList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -473,6 +485,7 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_user.add(mi_showMuteBanList);
 
+        mi_showQuickbar.setMnemonic(KeyEvent.VK_Q);
         mi_showQuickbar.setText("Show Quickbar");
         mi_showQuickbar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -483,9 +496,11 @@ public class ClientFrame extends javax.swing.JFrame {
 
         mbar.add(m_user);
 
+        m_channels.setMnemonic(KeyEvent.VK_A);
         m_channels.setText("Channels");
         m_channels.setEnabled(false);
 
+        mi_channelList.setMnemonic(KeyEvent.VK_C);
         mi_channelList.setText("Open Channel List");
         mi_channelList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -495,6 +510,7 @@ public class ClientFrame extends javax.swing.JFrame {
         m_channels.add(mi_channelList);
         m_channels.add(jSeparator4);
 
+        mi_manageFavs.setMnemonic(KeyEvent.VK_M);
         mi_manageFavs.setText("Manage Favourites...");
         mi_manageFavs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -503,6 +519,7 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_channels.add(mi_manageFavs);
 
+        mi_addCurrentToFav.setMnemonic(KeyEvent.VK_D);
         mi_addCurrentToFav.setText("Add Current to Favourites");
         mi_addCurrentToFav.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -511,7 +528,8 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_channels.add(mi_addCurrentToFav);
 
-        mi_makeHome.setText("Make this my homechannel");
+        mi_makeHome.setMnemonic(KeyEvent.VK_H);
+        mi_makeHome.setText("Make This my Homechannel");
         mi_makeHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_makeHomeActionPerformed(evt);
@@ -520,16 +538,66 @@ public class ClientFrame extends javax.swing.JFrame {
         m_channels.add(mi_makeHome);
         m_channels.add(mi_seperator);
 
+        m_Favourites.setMnemonic(KeyEvent.VK_F);
         m_Favourites.setText("Favourites");
         m_channels.add(m_Favourites);
 
+        m_installedGames.setMnemonic(KeyEvent.VK_I);
         m_installedGames.setText("Installed Games");
         m_channels.add(m_installedGames);
 
         mbar.add(m_channels);
 
+        m_tabs.setMnemonic(KeyEvent.VK_T);
+        m_tabs.setText("Tabs");
+
+        mi_nextTab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_DOWN, java.awt.event.InputEvent.CTRL_MASK));
+        mi_nextTab.setMnemonic(KeyEvent.VK_N);
+        mi_nextTab.setText("Next Tab");
+        mi_nextTab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_nextTabActionPerformed(evt);
+            }
+        });
+        m_tabs.add(mi_nextTab);
+
+        mi_prevTab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_UP, java.awt.event.InputEvent.CTRL_MASK));
+        mi_prevTab.setMnemonic(KeyEvent.VK_P);
+        mi_prevTab.setText("Previous Tab");
+        mi_prevTab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_prevTabActionPerformed(evt);
+            }
+        });
+        m_tabs.add(mi_prevTab);
+
+        mi_closeTab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
+        mi_closeTab.setMnemonic(KeyEvent.VK_C);
+        mi_closeTab.setText("CloseTab");
+        mi_closeTab.setEnabled(false);
+        mi_closeTab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_closeTabActionPerformed(evt);
+            }
+        });
+        m_tabs.add(mi_closeTab);
+        m_tabs.add(jSeparator5);
+
+        mi_showTransfers.setMnemonic(KeyEvent.VK_S);
+        mi_showTransfers.setText("Show Transfers");
+        mi_showTransfers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_showTransfersActionPerformed(evt);
+            }
+        });
+        m_tabs.add(mi_showTransfers);
+
+        mbar.add(m_tabs);
+
+        m_options.setMnemonic(KeyEvent.VK_O);
         m_options.setText("Options");
 
+        mi_clientSettings.setMnemonic(KeyEvent.VK_E);
         mi_clientSettings.setText("Edit Settings...");
         mi_clientSettings.setActionCommand("Client settings");
         mi_clientSettings.addActionListener(new java.awt.event.ActionListener() {
@@ -539,6 +607,7 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_options.add(mi_clientSettings);
 
+        mi_manageGames.setMnemonic(KeyEvent.VK_M);
         mi_manageGames.setText("Manage Games...");
         mi_manageGames.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -548,6 +617,7 @@ public class ClientFrame extends javax.swing.JFrame {
         m_options.add(mi_manageGames);
         m_options.add(jSeparator2);
 
+        mi_Sounds.setMnemonic(KeyEvent.VK_S);
         mi_Sounds.setSelected(true);
         mi_Sounds.setText("Sounds");
         mi_Sounds.addActionListener(new java.awt.event.ActionListener() {
@@ -559,8 +629,10 @@ public class ClientFrame extends javax.swing.JFrame {
 
         mbar.add(m_options);
 
+        m_help.setMnemonic(KeyEvent.VK_H);
         m_help.setText("Help");
 
+        mi_guide.setMnemonic(KeyEvent.VK_B);
         mi_guide.setText("Beginner's Guide");
         mi_guide.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -569,6 +641,7 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_help.add(mi_guide);
 
+        mi_faq.setMnemonic(KeyEvent.VK_F);
         mi_faq.setText("FAQ");
         mi_faq.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -578,6 +651,7 @@ public class ClientFrame extends javax.swing.JFrame {
         m_help.add(mi_faq);
         m_help.add(jSeparator1);
 
+        mi_bugReport.setMnemonic(KeyEvent.VK_R);
         mi_bugReport.setText("Report a Bug...");
         mi_bugReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -587,6 +661,7 @@ public class ClientFrame extends javax.swing.JFrame {
         m_help.add(mi_bugReport);
         m_help.add(jSeparator3);
 
+        mi_about.setMnemonic(KeyEvent.VK_A);
         mi_about.setText("About");
         mi_about.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -715,14 +790,17 @@ public class ClientFrame extends javax.swing.JFrame {
     private void tabpn_tabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabpn_tabsStateChanged
         TabOrganizer.putFocusOnTab(null);
         TabOrganizer.unMarkTab(tabpn_tabs.getSelectedComponent());
+        updateTabNavigationMenuItems();
 }//GEN-LAST:event_tabpn_tabsStateChanged
 
     private void tabpn_tabsComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tabpn_tabsComponentAdded
         TabOrganizer.putFocusOnTab(null);
+        updateTabNavigationMenuItems();
 }//GEN-LAST:event_tabpn_tabsComponentAdded
 
     private void tabpn_tabsComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tabpn_tabsComponentRemoved
         TabOrganizer.putFocusOnTab(null);
+        updateTabNavigationMenuItems();
 }//GEN-LAST:event_tabpn_tabsComponentRemoved
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -875,6 +953,40 @@ private void mi_showTransfersActionPerformed(java.awt.event.ActionEvent evt) {//
     TabOrganizer.openTransferPanel(true);
 }//GEN-LAST:event_mi_showTransfersActionPerformed
 
+private void mi_nextTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_nextTabActionPerformed
+    if (tabpn_tabs.getSelectedIndex() < (tabpn_tabs.getTabCount() - 1)) {
+        tabpn_tabs.setSelectedIndex((tabpn_tabs.getSelectedIndex() + 1));
+    } else {
+        tabpn_tabs.setSelectedIndex(0);
+    }
+    updateTabNavigationMenuItems();
+}//GEN-LAST:event_mi_nextTabActionPerformed
+
+private void mi_prevTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_prevTabActionPerformed
+    if (tabpn_tabs.getSelectedIndex() > 0 ) {
+        tabpn_tabs.setSelectedIndex((tabpn_tabs.getSelectedIndex() - 1));
+    } else {
+        tabpn_tabs.setSelectedIndex(tabpn_tabs.getTabCount());
+    }
+    updateTabNavigationMenuItems();
+}//GEN-LAST:event_mi_prevTabActionPerformed
+
+private void mi_closeTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_closeTabActionPerformed
+    if(tabpn_tabs.getSelectedComponent()instanceof ClosableTab ){
+            ((ClosableTab)tabpn_tabs.getSelectedComponent()).closeTab();
+        }
+    updateTabNavigationMenuItems();
+}//GEN-LAST:event_mi_closeTabActionPerformed
+
+private void tabpn_tabsCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_tabpn_tabsCaretPositionChanged
+    updateTabNavigationMenuItems() ;
+}//GEN-LAST:event_tabpn_tabsCaretPositionChanged
+
+private void updateTabNavigationMenuItems(){
+    mi_closeTab.setEnabled(
+        tabpn_tabs.getSelectedComponent()instanceof ClosableTab);
+}
+
 private Color getHoverEffectColor(){
     Color clr = null;
     clr = (Color) UIManager.get("List.selectionBackground"); 
@@ -889,12 +1001,14 @@ private Color getHoverEffectColor(){
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JMenu m_Favourites;
     private javax.swing.JMenu m_channels;
     private javax.swing.JMenu m_help;
     private javax.swing.JMenu m_installedGames;
     private javax.swing.JMenu m_main;
     private javax.swing.JMenu m_options;
+    private javax.swing.JMenu m_tabs;
     private javax.swing.JMenu m_user;
     private javax.swing.JMenuBar mbar;
     private javax.swing.JCheckBoxMenuItem mi_Sounds;
@@ -903,12 +1017,15 @@ private Color getHoverEffectColor(){
     private javax.swing.JMenuItem mi_bugReport;
     private javax.swing.JMenuItem mi_channelList;
     private javax.swing.JMenuItem mi_clientSettings;
+    private javax.swing.JMenuItem mi_closeTab;
     private javax.swing.JMenuItem mi_connection;
     private javax.swing.JMenuItem mi_faq;
     private javax.swing.JMenuItem mi_guide;
     private javax.swing.JMenuItem mi_makeHome;
     private javax.swing.JMenuItem mi_manageFavs;
     private javax.swing.JMenuItem mi_manageGames;
+    private javax.swing.JMenuItem mi_nextTab;
+    private javax.swing.JMenuItem mi_prevTab;
     private javax.swing.JMenuItem mi_profile;
     private javax.swing.JMenuItem mi_quit;
     private javax.swing.JSeparator mi_seperator;
