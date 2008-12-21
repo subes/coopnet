@@ -277,6 +277,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     }
 
     public void enableButtons() {
+        btn_ready.setText("Ready");
         btn_ready.setEnabled(true);
     }
 
@@ -303,7 +304,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         setLayout(new java.awt.GridBagLayout());
 
         btn_ready.setMnemonic(KeyEvent.VK_R);
-        btn_ready.setText("Ready");
+        btn_ready.setText("Initializing...");
         btn_ready.setEnabled(false);
         btn_ready.setFocusable(false);
         btn_ready.addActionListener(new java.awt.event.ActionListener() {
@@ -506,6 +507,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         if (btn_ready.getText().equals("Unready")) {
             btn_ready.doClick();
         }
+        btn_ready.setText("Reinitializing...");
         btn_ready.setEnabled(false);
         if (cb_useHamachi.isSelected()) {
             System.out.println("Hamachi support turning on");
