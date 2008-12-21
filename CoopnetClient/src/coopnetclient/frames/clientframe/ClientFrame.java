@@ -699,10 +699,12 @@ public class ClientFrame extends javax.swing.JFrame {
 
     private void clearFavourites() {
         m_Favourites.removeAll();
+        m_Favourites.setEnabled(false);
     }
 
     private void addFavourite(String channelname) {
         m_Favourites.add(new FavMenuItem(channelname));
+        m_Favourites.setEnabled(true);
     }
 
     public void refreshFavourites() {
@@ -716,10 +718,12 @@ public class ClientFrame extends javax.swing.JFrame {
 
     private void clearInstalledGames() {
         m_installedGames.removeAll();
+        m_installedGames.setEnabled(false);
     }
 
     private void addInstalledGame(String channelname) {
         m_installedGames.add(new FavMenuItem(channelname));
+        m_installedGames.setEnabled(true);
     }
 
     public void refreshInstalledGames() {
