@@ -242,7 +242,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         cb_SoundNotification = new javax.swing.JCheckBox();
         cb_showOfflineContacts = new javax.swing.JCheckBox();
         btn_save = new javax.swing.JButton();
-        btn_cancel = new javax.swing.JButton();
+        btn_close = new javax.swing.JButton();
         btn_apply = new javax.swing.JButton();
 
         setTitle("Client settings");
@@ -952,8 +952,8 @@ public class SettingsFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_cancel.setText("Cancel");
-        btn_cancel.addActionListener(new java.awt.event.ActionListener() {
+        btn_close.setText("Close");
+        btn_close.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancel(evt);
             }
@@ -976,8 +976,8 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_save)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_cancel)
-                .addContainerGap(436, Short.MAX_VALUE))
+                .addComponent(btn_close)
+                .addContainerGap(442, Short.MAX_VALUE))
             .addComponent(tabpn_settings, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -987,12 +987,12 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_save)
-                    .addComponent(btn_cancel)
+                    .addComponent(btn_close)
                     .addComponent(btn_apply))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_apply, btn_cancel, btn_save});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_apply, btn_close, btn_save});
 
         tabpn_settings.getAccessibleContext().setAccessibleName("General");
 
@@ -1249,7 +1249,7 @@ private void tf_playerMessagesSizeActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JButton btn_apply;
     private javax.swing.JButton btn_background;
     private javax.swing.JButton btn_browseReceiveDir;
-    private javax.swing.JButton btn_cancel;
+    private javax.swing.JButton btn_close;
     private javax.swing.JButton btn_foreground;
     private javax.swing.JButton btn_otherUsernames;
     private javax.swing.JButton btn_save;

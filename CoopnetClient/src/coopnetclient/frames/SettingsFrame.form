@@ -42,8 +42,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_save" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="btn_cancel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="436" max="32767" attributes="0"/>
+              <Component id="btn_close" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="442" max="32767" attributes="0"/>
           </Group>
           <Component id="tabpn_settings" alignment="0" pref="639" max="32767" attributes="0"/>
       </Group>
@@ -55,7 +55,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btn_save" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_cancel" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_close" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_apply" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -1247,9 +1247,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btn_cancel">
+    <Component class="javax.swing.JButton" name="btn_close">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cancel"/>
+        <Property name="text" type="java.lang.String" value="Close"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancel"/>
