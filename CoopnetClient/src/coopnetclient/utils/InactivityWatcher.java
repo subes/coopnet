@@ -64,7 +64,7 @@ public class InactivityWatcher extends Thread {
                         continue;
                     }
                 }
-                if (inactivetime >= 10) {
+                if (inactivetime >= 60) {
                     if (!isAway) {//just became afk
                         isAway = true;
                         Protocol.setAwayStatus();
