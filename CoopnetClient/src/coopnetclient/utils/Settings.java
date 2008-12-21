@@ -775,6 +775,8 @@ public class Settings {
             pw.println(GameDatabase.IDofGame(s));
         }
         pw.close();
+
+        Globals.getClientFrame().refreshFavourites();
     }
 
     public static void loadFavourites() {

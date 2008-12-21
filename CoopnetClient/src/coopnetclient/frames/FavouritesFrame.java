@@ -233,7 +233,6 @@ public class FavouritesFrame extends javax.swing.JFrame {
         if(lst_channels.getSelectedValue()!=null){
             Settings.addFavourite(lst_channels.getSelectedValue().toString());
             lst_favourites.setListData(Settings.getFavourites());
-            Globals.getClientFrame().refreshFavourites();
         }
 }//GEN-LAST:event_btn_addActionPerformed
 
@@ -241,7 +240,6 @@ public class FavouritesFrame extends javax.swing.JFrame {
         if(lst_favourites.getSelectedValue()!=null){
             Settings.removeFavourite(lst_favourites.getSelectedValue().toString());
             lst_favourites.setListData(Settings.getFavourites());
-            Globals.getClientFrame().refreshFavourites();
         }
 }//GEN-LAST:event_btn_removeActionPerformed
 

@@ -742,7 +742,6 @@ public class ClientFrame extends javax.swing.JFrame {
         if (c instanceof ChannelPanel) {
             ChannelPanel cp = (ChannelPanel) c;
             Settings.addFavourite(cp.name);
-            refreshFavourites();
         }
 }//GEN-LAST:event_mi_addCurrentToFavActionPerformed
 
