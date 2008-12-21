@@ -310,7 +310,10 @@ public class TabOrganizer {
             browserPanel = new BrowserPanel(url);
 
             //panelHolder.addTab("Browser", browserPanel);
-            tabHolder.addTab("Beginner's Guide", browserPanel); //For now this is ok            
+            String title = "Beginner's Guide";
+
+            tabHolder.addTab(title, browserPanel); //For now this is ok
+            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(browserPanel), new TabComponent(title, browserPanel) );
             tabHolder.setSelectedComponent(browserPanel);
         } else {
             tabHolder.setSelectedComponent(browserPanel);
