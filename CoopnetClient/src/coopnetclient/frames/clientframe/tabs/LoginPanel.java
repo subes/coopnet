@@ -138,6 +138,11 @@ public class LoginPanel extends javax.swing.JPanel {
                 pf_passwordActionPerformed(evt);
             }
         });
+        pf_password.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                pf_passwordFocusGained(evt);
+            }
+        });
 
         btn_login.setMnemonic(KeyEvent.VK_L);
         btn_login.setText("Login");
@@ -299,6 +304,11 @@ private void tf_nameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:even
     tf_name.setSelectionStart(0);
     tf_name.setSelectionEnd(tf_name.getText().length());
 }//GEN-LAST:event_tf_nameFocusGained
+
+private void pf_passwordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pf_passwordFocusGained
+    pf_password.setSelectionStart(0);
+    pf_password.setSelectionEnd(pf_password.getPassword().length);
+}//GEN-LAST:event_pf_passwordFocusGained
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_login;
