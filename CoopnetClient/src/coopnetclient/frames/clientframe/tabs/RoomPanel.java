@@ -263,9 +263,12 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         if (Launcher.isPlaying() ) {
             return;
         }
+        
+        if(Launcher.predictSuccessfulLaunch() == false){
+            return;
+        }
 
         new Thread() {
-
             @Override
             public void run() {
                 try{                 
@@ -502,6 +505,11 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 }//GEN-LAST:event_clickedbtn_launch
 
     private void clickedbtn_ready(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_ready
+        if(btn_ready.getText().equals("Ready") && !Launcher.predictSuccessfulLaunch()){
+            wasReadyBeforeReInit = true;
+            return;
+        }
+        
         Protocol.flipReadystatus();
         if (btn_ready.getText().equals("Ready")) {
             btn_ready.setText("Unready");

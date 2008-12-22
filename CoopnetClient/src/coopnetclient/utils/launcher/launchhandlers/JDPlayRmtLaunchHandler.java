@@ -21,9 +21,11 @@ package coopnetclient.utils.launcher.launchhandlers;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.clientframe.tabs.RoomPanel;
+import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.Settings;
@@ -66,9 +68,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
             }
             
             //print exec string
-            if (Globals.getDebug()) {
-                System.out.println("[RMT]\t" + command);
-            }
+            Logger.log(LogTypes.LAUNCHER, command);
             
             //run
             try {
@@ -76,7 +76,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                 out = jdplay.getOutputStream();
                 in = new BufferedReader(new InputStreamReader(jdplay.getInputStream()));
             } catch (IOException e) {
-                reinitJDPlay();
+                Logger.log(e);
                 
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "Error while initializing:" + e.getMessage(),
@@ -217,6 +217,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                     "Undetermined DirectPlay error.\nRecovering ...",
                     ChatStyles.SYSTEM,false);
         } else {
+            Logger.log(e);
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "DirectPlay error: " + e.getMessage() + "\nRecovering ...",
                     ChatStyles.SYSTEM,false);
@@ -224,6 +225,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
     }
     
     private void reinitJDPlay(){        
+        
         RoomPanel room = TabOrganizer.getRoomPanel();
         if(room != null){
             room.displayReInit();
@@ -255,7 +257,37 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
 
     @Override
     public boolean predictSuccessfulLaunch() {
-        return jdplay != null && out != null && in != null;
+        boolean ret = jdplay != null && out != null && in != null;
+        
+        if(ret == true){
+            try{
+                jdplay.exitValue();
+            }catch(NullPointerException e){
+                ret = false;
+            }catch(IllegalThreadStateException e){}
+        }
+        
+        if(ret == true){
+            try {
+                out.write("bla\n".getBytes());
+                out.flush();
+                in.readLine(); //Catch ERR message
+            } catch (IOException e) {
+                ret = false;
+            }
+        }
+        
+        if(ret == false){
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                "Launcher failed. Recovering ...",
+                ChatStyles.SYSTEM,false);
+            
+            reinitJDPlay();
+        }
+        
+        Logger.log(LogTypes.LAUNCHER, "Test prediction: "+ret);
+                
+        return ret;
     }
 
 }

@@ -64,21 +64,23 @@ public class Launcher {
         
         synchronized(launchHandler){
             isInitialized = launchHandler.initialize(launchInfo);
-            if(isInitialized == false){
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed initializing the "+launchHandler.getClass().toString()+", you won't be able to play the game!", ChatStyles.SYSTEM,false);
-            }else{
-                if(TabOrganizer.getRoomPanel() != null && 
-                        (!(launchInfo instanceof ParameterLaunchInfo) 
-                           || !TabOrganizer.getRoomPanel().isHost() 
-                           || GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() == 0 ) ){
-                    TabOrganizer.getRoomPanel().initDone();
-                }
+            if(isInitialized && TabOrganizer.getRoomPanel() != null && 
+                    (!(launchInfo instanceof ParameterLaunchInfo) 
+                       || !TabOrganizer.getRoomPanel().isHost() 
+                       || GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() == 0 ) ){
+                TabOrganizer.getRoomPanel().initDone();
             }
         }
     }
     
     public static boolean predictSuccessfulLaunch(){
-        return launchHandler.predictSuccessfulLaunch();
+        if(!isInitialized){
+            return false;
+        }else{
+            synchronized(launchHandler){
+                return launchHandler.predictSuccessfulLaunch();
+            }
+        }
     }
     
     public static void launch(){        
@@ -100,7 +102,7 @@ public class Launcher {
                 }
 
                 if(!launchHandler.launch()){
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, maybe the game is not setup properly or a process closed unexpectedly! Please rejoin the room to reinitialize the launcher.", ChatStyles.SYSTEM,false);
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, maybe the game is not setup properly or a process closed unexpectedly!", ChatStyles.SYSTEM,false);
                 }
 
                 Globals.setSleepModeStatus(false);

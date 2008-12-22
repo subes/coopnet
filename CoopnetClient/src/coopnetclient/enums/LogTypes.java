@@ -21,6 +21,7 @@ package coopnetclient.enums;
 
 public enum LogTypes {
     LOG,
+    LAUNCHER,
     IN,
     OUT,
     ERROR

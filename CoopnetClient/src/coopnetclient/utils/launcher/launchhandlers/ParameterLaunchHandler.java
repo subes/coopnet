@@ -21,6 +21,8 @@ package coopnetclient.utils.launcher.launchhandlers;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.enums.LogTypes;
+import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
 import java.io.File;
@@ -36,7 +38,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
             throw new IllegalArgumentException("expected launchInfo to be "+ParameterLaunchInfo.class.toString()+", but got "+launchInfo.getClass().toString());
         }
         
-        this.launchInfo =  (ParameterLaunchInfo) launchInfo;
+        this.launchInfo = (ParameterLaunchInfo) launchInfo;
         
         return true;
     }
@@ -46,9 +48,9 @@ public class ParameterLaunchHandler extends LaunchHandler {
         Process p = null;
         try {
             Runtime rt = Runtime.getRuntime();
-            if (Globals.getDebug()) {
-                System.out.println(launchInfo.getBinaryPath() + launchInfo.getParameters());
-            }
+            
+            Logger.log(LogTypes.LAUNCHER, launchInfo.getBinaryPath() + launchInfo.getParameters());
+            
             File installdir;
 
             installdir = new File(launchInfo.getInstallPath());
@@ -62,6 +64,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "Error while launching: " + e.getMessage(),
                     ChatStyles.SYSTEM, false);
+            Logger.log(e);
         }
         return (p.exitValue() == 0 ? true : false);
     }
@@ -73,6 +76,16 @@ public class ParameterLaunchHandler extends LaunchHandler {
     
     @Override
     public boolean predictSuccessfulLaunch() {
-        return true;
+        File exec = new File(launchInfo.getBinaryPath() + launchInfo.getParameters());
+        
+        boolean ret = exec.exists() && exec.canExecute();
+        
+        if(ret == false){
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                "Launcher failed.\nPlease make sure that the game is properly setup for launch.",
+                ChatStyles.SYSTEM,false);
+        }
+        
+        return ret;
     }
 }
