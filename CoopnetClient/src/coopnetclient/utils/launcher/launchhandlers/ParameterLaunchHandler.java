@@ -70,5 +70,9 @@ public class ParameterLaunchHandler extends LaunchHandler {
     public void updatePlayerName() {
         //do nothing
     }
-
+    
+    @Override
+    public boolean predictSuccessfulLaunch() {
+        return true;
+    }
 }

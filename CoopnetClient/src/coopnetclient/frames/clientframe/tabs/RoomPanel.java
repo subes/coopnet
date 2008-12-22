@@ -136,7 +136,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         return isHost;
     }
     
-    private void initLauncher() {
+    public void initLauncher() {
         new Thread() {
 
             @Override
@@ -288,7 +288,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         btn_launch.setEnabled(false);
     }
 
-    public void InitDone(){
+    public void initDone(){
         btn_ready.setText("Ready");
         btn_ready.setEnabled(true);
         if(wasReadyBeforeReInit){

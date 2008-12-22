@@ -22,6 +22,8 @@ package coopnetclient.utils.launcher.launchhandlers;
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.OperatingSystems;
+import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframe.tabs.RoomPanel;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.Settings;
@@ -74,7 +76,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                 out = jdplay.getOutputStream();
                 in = new BufferedReader(new InputStreamReader(jdplay.getInputStream()));
             } catch (IOException e) {
-                closeJDPlay();
+                reinitJDPlay();
                 
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "Error while initializing:" + e.getMessage(),
@@ -113,7 +115,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                 Process p = Runtime.getRuntime().exec("pkill -f dplaysvr.exe");
                 p.waitFor();
             }catch(Exception e){
-                printCommunicationError(e);
+                printError(e);
             }
         }
         
@@ -148,7 +150,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                     if (Globals.getDebug()) {
                         System.out.println("[RMT]\tRead null, JDPlay_rmt.exe closed");
                     }
-                    closeJDPlay();
+                    reinitJDPlay();
                     return -1;
                 }
 
@@ -158,13 +160,9 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                     }
                 }
             } while (true);
-        } catch (IOException e) {
-            closeJDPlay();
-            printCommunicationError(e);
-            return -1;
-        } catch (NullPointerException e){
-            closeJDPlay();
-            printCommunicationError(e);
+        } catch (Exception e) {
+            reinitJDPlay();
+            printError(e);
             return -1;
         }
     }
@@ -207,25 +205,30 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                 return false;
             }
         } catch (Exception e) {
-            closeJDPlay();
-            printCommunicationError(e);
+            reinitJDPlay();
+            printError(e);
             return false;
         }
     }
 
-    private void printCommunicationError(Exception e) {        
+    private void printError(Exception e) {        
         if (e == null) {
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "Undetermined DirectPlay communication error.",
+                    "Undetermined DirectPlay error.\nRecovering ...",
                     ChatStyles.SYSTEM,false);
         } else {
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "DirectPlay communication error: " + e.getMessage(),
+                    "DirectPlay error: " + e.getMessage() + "\nRecovering ...",
                     ChatStyles.SYSTEM,false);
         }
     }
     
-    private void closeJDPlay(){
+    private void reinitJDPlay(){        
+        RoomPanel room = TabOrganizer.getRoomPanel();
+        if(room != null){
+            room.displayReInit();
+        }
+        
         if(jdplay != null){
             jdplay.destroy();
             jdplay = null;
@@ -244,6 +247,15 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
             } catch (IOException ex) {}
             in = null;
         }
+        
+        if(room != null){
+            room.initLauncher();
+        }
+    }
+
+    @Override
+    public boolean predictSuccessfulLaunch() {
+        return jdplay != null && out != null && in != null;
     }
 
 }

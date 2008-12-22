@@ -21,7 +21,6 @@ package coopnetclient.utils.launcher;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
-import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.SoundPlayer;
@@ -48,9 +47,8 @@ public class Launcher {
     }
     
     public static void initialize(LaunchInfo launchInfo){
-        
         TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getChildName());
-        
+
         if(launchInfo instanceof DirectPlayLaunchInfo){
             launchHandler = new JDPlayRmtLaunchHandler();
         }else
@@ -64,17 +62,23 @@ public class Launcher {
             }
         }
         
-        isInitialized = launchHandler.initialize(launchInfo);
-        if(isInitialized == false){
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed initializing the "+launchHandler.getClass().toString()+", you won't be able to play the game!", ChatStyles.SYSTEM,false);
-        }else{
-            if(TabOrganizer.getRoomPanel() != null && 
-                    (!(launchInfo instanceof ParameterLaunchInfo) 
-                       || !TabOrganizer.getRoomPanel().isHost() 
-                       || GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() == 0 ) ){
-                TabOrganizer.getRoomPanel().InitDone();
+        synchronized(launchHandler){
+            isInitialized = launchHandler.initialize(launchInfo);
+            if(isInitialized == false){
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed initializing the "+launchHandler.getClass().toString()+", you won't be able to play the game!", ChatStyles.SYSTEM,false);
+            }else{
+                if(TabOrganizer.getRoomPanel() != null && 
+                        (!(launchInfo instanceof ParameterLaunchInfo) 
+                           || !TabOrganizer.getRoomPanel().isHost() 
+                           || GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() == 0 ) ){
+                    TabOrganizer.getRoomPanel().initDone();
+                }
             }
         }
+    }
+    
+    public static boolean predictSuccessfulLaunch(){
+        return launchHandler.predictSuccessfulLaunch();
     }
     
     public static void launch(){        
@@ -82,29 +86,31 @@ public class Launcher {
             throw new IllegalStateException("Another game has been launched already!");
         }
         if(isInitialized()){
-            isPlaying = true;
-            
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
-                            "Launching game ...", 
-                            ChatStyles.SYSTEM,false);
-            
-            SoundPlayer.playLaunchSound();
+            synchronized(launchHandler){
+                isPlaying = true;
 
-            if (Settings.getSleepEnabled()) {
-                Globals.setSleepModeStatus(true);
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
+                                "Launching game ...", 
+                                ChatStyles.SYSTEM,false);
+
+                SoundPlayer.playLaunchSound();
+
+                if (Settings.getSleepEnabled()) {
+                    Globals.setSleepModeStatus(true);
+                }
+
+                if(!launchHandler.launch()){
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, maybe the game is not setup properly or a process closed unexpectedly! Please rejoin the room to reinitialize the launcher.", ChatStyles.SYSTEM,false);
+                }
+
+                Globals.setSleepModeStatus(false);
+
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
+                                "Game closed.", 
+                                ChatStyles.SYSTEM,false);
+
+                isPlaying = false;
             }
-            
-            if(!launchHandler.launch()){
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, maybe the game is not setup properly or a process closed unexpectedly! Please rejoin the room to reinitialize the launcher.", ChatStyles.SYSTEM,false);
-            }
-            
-            Globals.setSleepModeStatus(false);
-            
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
-                            "Game closed.", 
-                            ChatStyles.SYSTEM,false);
-            
-            isPlaying = false;
         }else{
             throw new IllegalStateException("The game has to be initialized before launching it!");
         }
@@ -117,7 +123,9 @@ public class Launcher {
     
     public static void updatePlayerName(){
         if(launchHandler != null){
-            launchHandler.updatePlayerName();
+            synchronized(launchHandler){
+                launchHandler.updatePlayerName();
+            }
         }
     }
     
