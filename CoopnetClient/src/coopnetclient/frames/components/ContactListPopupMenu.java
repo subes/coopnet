@@ -240,7 +240,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             source.editCellAt(model.getSize() - 1, e);
             Component editorComp = source.getEditorComponent();
             if (editorComp != null) {
-                editorComp.requestFocus();
+                editorComp.requestFocusInWindow();
             }
         } else if (command.equals("Delete group")) {
             Protocol.deleteGroup(subject);
@@ -250,7 +250,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             source.editCellAt(source.getSelectedIndex(), e);
             Component editorComp = source.getEditorComponent();
             if (editorComp != null) {
-                editorComp.requestFocus();
+                editorComp.requestFocusInWindow();
             }
         } else if (command.equals("Whisper")) {
             if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {

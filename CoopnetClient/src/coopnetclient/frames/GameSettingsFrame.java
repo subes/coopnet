@@ -236,6 +236,12 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             //add items to internal array
             labels.add(label);
             inputfields.add(input);
+            //set focust traverse path
+            if(inputfields.size() == 1){ //first component
+                //cb_map.setn
+            }else{
+
+            }
 
             //add to panel
             if (gs.isLocal()) {
@@ -361,6 +367,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
 
         lbl_map.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbl_map.setText("Map:");
+        lbl_map.setFocusable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;

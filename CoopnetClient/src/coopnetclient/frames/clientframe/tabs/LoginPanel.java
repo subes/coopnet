@@ -39,7 +39,7 @@ public class LoginPanel extends javax.swing.JPanel {
 
     @Override
     public void requestFocus() {
-        tf_name.requestFocus();
+        tf_name.requestFocusInWindow();
     }
 
     private void login() {
@@ -267,7 +267,7 @@ public class LoginPanel extends javax.swing.JPanel {
 
     private void tf_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_nameActionPerformed
         if(!btn_login.isEnabled()){
-            pf_password.requestFocus();
+            pf_password.requestFocusInWindow();
         }else{
             btn_login.doClick();
         }

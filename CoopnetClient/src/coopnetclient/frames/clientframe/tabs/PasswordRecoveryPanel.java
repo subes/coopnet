@@ -37,7 +37,7 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
 
     @Override
     public void requestFocus() {
-         tf_name.requestFocus();        
+         tf_name.requestFocusInWindow();
     }
 
 

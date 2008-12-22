@@ -80,7 +80,7 @@ public class FileChooser extends javax.swing.JFrame {
         openDirectory(currentdir);
         
         this.setVisible(true);
-        tbl_display.requestFocus();
+        tbl_display.requestFocusInWindow();
         while (ischoosing) {
             try {
                 Thread.sleep(100);

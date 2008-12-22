@@ -61,7 +61,7 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
 
     @Override
     public void requestFocus() {
-        tp_chatInput.requestFocus();
+        tp_chatInput.requestFocusInWindow();
     }
 
     public void customCodeForColorizer() {
@@ -183,7 +183,7 @@ private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
     char c = evt.getKeyChar();
     if (!evt.isControlDown()) {
         tp_chatInput.setText(tp_chatInput.getText() + c);
-        tp_chatInput.requestFocus();
+        tp_chatInput.requestFocusInWindow();
     }
 }//GEN-LAST:event_tp_chatOutputKeyTyped
 
