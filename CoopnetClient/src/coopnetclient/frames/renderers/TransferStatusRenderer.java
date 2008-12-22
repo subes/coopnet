@@ -25,7 +25,6 @@ import coopnetclient.utils.Settings;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 public class TransferStatusRenderer implements TableCellRenderer{
@@ -36,7 +35,7 @@ public class TransferStatusRenderer implements TableCellRenderer{
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        TransferStatusButtonComponent renderer = (TransferStatusButtonComponent) Globals.getTransferModel().getValueAt(row, column);
+        TransferStatusButtonComponent renderer = (TransferStatusButtonComponent) Globals.getTransferModel().getValueAt(table.convertRowIndexToModel(row), table.convertColumnIndexToModel(column));
         renderer.prepare(table, value, isSelected, hasFocus, row, column);
         renderer.setOpaque(true);
         if (Settings.getColorizeBody()) {

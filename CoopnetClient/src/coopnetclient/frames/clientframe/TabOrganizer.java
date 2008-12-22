@@ -451,7 +451,6 @@ public class TabOrganizer {
             }
             tabHolder.insertTab("Transfers",null,transferPanel,null, index); //For now this is ok
             tabHolder.setTabComponentAt(index,  new TabComponent("Transfers",Icons.transferIcon,transferPanel));
-
             if(bringToFrontOnCreate){
                 tabHolder.setSelectedComponent(transferPanel);
             }else{

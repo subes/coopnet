@@ -212,6 +212,7 @@ public class RoomTableModel extends DefaultTableModel {
 
     public String getSelectedHostName(){
         int i = parent.getSelectedRow();
+        i = parent.convertRowIndexToModel(i);
         if (i == -1) {
             return null;
         }
@@ -220,6 +221,7 @@ public class RoomTableModel extends DefaultTableModel {
 
     public String getSelectedRoomName() {
         int i = parent.getSelectedRow();
+        i = parent.convertRowIndexToModel(i);
         if (i == -1) {
             return null;
         }
@@ -236,6 +238,7 @@ public class RoomTableModel extends DefaultTableModel {
 
     public boolean isSelectedRoomPassworded() {
         int i = parent.getSelectedRow();
+        i = parent.convertRowIndexToModel(i);
         if (i != -1) {
             return (rooms.get(i).getType() == NORMAL_PASSWORDED_ROOM) || (rooms.get(i).getType() == INSTANT_PASSWORDED_ROOM);
         }

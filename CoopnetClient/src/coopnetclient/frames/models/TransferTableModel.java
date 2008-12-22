@@ -347,9 +347,12 @@ public class TransferTableModel extends DefaultTableModel {
     @Override
     public Class getColumnClass(int col) {
         switch (col) {
+            case 1:
+                return TransferStatusButtonComponent.class;
             case 0:
-            case 4:
                 return Integer.class;
+            case 4:
+                return Float.class;
             default:
                 return String.class;
         }

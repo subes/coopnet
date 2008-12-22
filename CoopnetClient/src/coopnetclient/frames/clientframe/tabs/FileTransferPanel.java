@@ -39,7 +39,6 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab {
@@ -55,17 +54,15 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
         initComponents();
         this.model = transferModel;
         tbl_transfers.setModel(transferModel);
-
-        TableColumn col4 = tbl_transfers.getColumnModel().getColumn(4);
+        //progress renderer
         TransferProgressRenderer renderer = new TransferProgressRenderer(tbl_transfers);
-        col4.setCellRenderer(renderer);
-        TableColumn col0 = tbl_transfers.getColumnModel().getColumn(0);
+        tbl_transfers.setDefaultRenderer(Float.class, renderer);
+        //type renderer
         TransferTypeRenderer renderer2 = new TransferTypeRenderer();
-        col0.setCellRenderer(renderer2);
+        tbl_transfers.setDefaultRenderer(Integer.class, renderer2);
         //status render
-        TableColumn col1 = tbl_transfers.getColumnModel().getColumn(1);
         TransferStatusRenderer renderer3 = new TransferStatusRenderer();
-        col1.setCellRenderer(renderer3);
+        tbl_transfers.setDefaultRenderer(TransferStatusButtonComponent.class, renderer3);
         //align center
         TableTextCellRenderer rend = new TableTextCellRenderer();
         rend.setHorizontalAlignment(SwingConstants.CENTER);
@@ -78,10 +75,10 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
         tbl_transfers.getColumnModel().getColumn(4).setPreferredWidth(80);
         tbl_transfers.getColumnModel().getColumn(5).setPreferredWidth(60);
         tbl_transfers.getColumnModel().getColumn(6).setPreferredWidth(60);
-        
         tbl_transfers.setComponentPopupMenu(new TransferPopupMenu(tbl_transfers));
         JTableButtonMouseListener mlsitener = new JTableButtonMouseListener(tbl_transfers);
         tbl_transfers.addMouseListener(mlsitener);
+        tbl_transfers.getTableHeader().setReorderingAllowed(false);
 
         cb_resume.setVisible(false);
         btn_browse.setVisible(false);
@@ -90,11 +87,11 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
     }
 
     public int getSelectedIndex(){
-        return tbl_transfers.getSelectedRow();
+        return tbl_transfers.convertRowIndexToModel(tbl_transfers.getSelectedRow());
     }
 
     public void rowUpdated(int row) {
-        if (tbl_transfers.getSelectedRow() == row) {
+        if (tbl_transfers.convertRowIndexToModel(tbl_transfers.getSelectedRow()) == row) {
             UpdateDetails();
         }
     }
@@ -325,7 +322,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_browseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browseActionPerformed
-        final int idx = tbl_transfers.getSelectedRow();
+        final int idx = tbl_transfers.convertRowIndexToModel(tbl_transfers.getSelectedRow());
         if (idx >= 0) {
             new Thread() {
 
@@ -352,7 +349,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
     }//GEN-LAST:event_btn_browseActionPerformed
 
     private void cb_resumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_resumeActionPerformed
-        int idx = tbl_transfers.getSelectedRow();
+        int idx = tbl_transfers.convertRowIndexToModel(tbl_transfers.getSelectedRow());
         if (idx >= 0) {
             cb_resume.setSelected(model.setresume(idx, !cb_resume.isSelected()));
         } else {
@@ -361,7 +358,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
     }//GEN-LAST:event_cb_resumeActionPerformed
 
     private void tf_savePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_savePathActionPerformed
-        int idx = tbl_transfers.getSelectedRow();
+        int idx = tbl_transfers.convertRowIndexToModel(tbl_transfers.getSelectedRow());
         if (idx >= 0) {
             if (!Verification.verifyDirectory(tf_savePath.getText())) {
                 tf_savePath.showErrorMessage("Invalid directory!");
@@ -378,7 +375,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
     }//GEN-LAST:event_tbl_transfersMouseReleased
 
     public void UpdateDetails() {
-        int idx = tbl_transfers.getSelectedRow();
+        int idx = tbl_transfers.convertRowIndexToModel(tbl_transfers.getSelectedRow());
         if (idx >= 0) {
             lbl_filename.setText(model.getValueAt(idx, 3).toString());
             lbl_sendername.setText(model.getValueAt(idx, 2).toString());

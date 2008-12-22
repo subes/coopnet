@@ -4,12 +4,9 @@ import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.AWTEvent;
-import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
-import javax.swing.JFrame;
 import javax.swing.Timer;
 
 public class InactivityWatcher implements AWTEventListener, ActionListener {
