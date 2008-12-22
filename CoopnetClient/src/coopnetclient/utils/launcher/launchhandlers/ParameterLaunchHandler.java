@@ -82,7 +82,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
         
         if(ret == false){
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                "Launcher failed.\nPlease make sure that the game is properly setup for launch.",
+                "Launcher failed. Please make sure that the game is properly setup for launch.",
                 ChatStyles.SYSTEM,false);
         }
         
