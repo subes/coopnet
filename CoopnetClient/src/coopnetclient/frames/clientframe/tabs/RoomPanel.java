@@ -285,6 +285,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         }
         btn_ready.setText("Reinitializing...");
         btn_ready.setEnabled(false);
+        btn_launch.setEnabled(false);
     }
 
     public void InitDone(){
