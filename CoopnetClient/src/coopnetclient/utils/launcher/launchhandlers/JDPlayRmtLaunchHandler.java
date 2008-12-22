@@ -21,6 +21,7 @@ package coopnetclient.utils.launcher.launchhandlers;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.enums.OperatingSystems;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.Settings;
@@ -48,7 +49,13 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                 playerName = Globals.getThisPlayer_inGameName();
             }
             
-            String command = Settings.getWineCommand() + " lib/JDPlay_rmt.exe" +
+            String command = "";
+            
+            if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
+                command += Settings.getWineCommand();
+            }
+            
+            command += " lib/JDPlay_rmt.exe" +
                  " --playerName " + playerName + 
                  " --maxSearchRetries " + Globals.JDPLAY_MAXSEARCHRETRIES;
             
@@ -101,11 +108,13 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
         
         boolean ret = waitForCommandResult();
         
-        try{
-            Process p = Runtime.getRuntime().exec("pkill -f dplaysvr.exe");
-            p.waitFor();
-        }catch(Exception e){
-            printCommunicationError(e);
+        if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
+            try{
+                Process p = Runtime.getRuntime().exec("pkill -f dplaysvr.exe");
+                p.waitFor();
+            }catch(Exception e){
+                printCommunicationError(e);
+            }
         }
         
         return ret;

@@ -84,7 +84,7 @@ public class BugReportFrame extends javax.swing.JFrame {
                 "\n\t" + date.toLocaleString() +
                 "\n\t" + date.toGMTString();
 
-        report += "\n\nClient version:" + Globals.getClientVersion();
+        report += "\n\nClient version: \n\t" + Globals.getClientVersion();
         //EMail
         if (tf_email.getText().length() > 0) {
             report += "\n\nReporters E-Mail:\n\t" + tf_email.getText();
