@@ -275,7 +275,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         for (File f : files) {
             if (f.isFile()) {
                 String tmp = f.getName();
-                if (tmp.endsWith(extension)) {
+                if (tmp.toLowerCase().endsWith(extension.toLowerCase())) {
                     names.add(tmp.substring(0, tmp.length() - (extension.length() + 1)));
                 }
             }
