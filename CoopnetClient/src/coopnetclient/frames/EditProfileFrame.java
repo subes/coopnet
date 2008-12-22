@@ -100,12 +100,9 @@ public class EditProfileFrame extends javax.swing.JFrame {
     
     public void loginAlreadyUsed(){
         tf_loginName.showErrorMessage("Name already used!");
+        btn_save.setEnabled(true);
     }
     
-    public void preClose(){
-        Settings.setLastLoginName(tf_loginName.getText());
-    }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is

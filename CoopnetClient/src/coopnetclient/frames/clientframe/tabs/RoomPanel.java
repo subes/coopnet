@@ -69,6 +69,8 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     private HashMap<String, String> gamesettings = new HashMap<String, String>();
     private RoomPlayerStatusListCellRenderer roomStatusListCR;
 
+    private boolean wasReadyBeforeReInit = false;
+
     public RoomPanel(boolean isHost, String channel, String modindex, String hostIP, boolean compatible, String hamachiIp, int maxPlayers,String hostName,String roomName,String ID,String password) {
         this.gameName = channel;
         this.maxPlayers = maxPlayers;
@@ -276,9 +278,22 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         }.start();
     }
 
-    public void enableButtons() {
+    public void displayReInit(){
+        if (btn_ready.getText().equals("Unready")) {
+            btn_ready.doClick();
+            wasReadyBeforeReInit = true;
+        }
+        btn_ready.setText("Reinitializing...");
+        btn_ready.setEnabled(false);
+    }
+
+    public void InitDone(){
         btn_ready.setText("Ready");
         btn_ready.setEnabled(true);
+        if(wasReadyBeforeReInit){
+            btn_ready.doClick();
+            wasReadyBeforeReInit = false;
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -505,11 +520,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 }//GEN-LAST:event_lst_userListMouseClicked
 
     private void cb_useHamachiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_useHamachiActionPerformed
-        if (btn_ready.getText().equals("Unready")) {
-            btn_ready.doClick();
-        }
-        btn_ready.setText("Reinitializing...");
-        btn_ready.setEnabled(false);
+        displayReInit();
         if (cb_useHamachi.isSelected()) {
             System.out.println("Hamachi support turning on");
             cb_useHamachi.setEnabled(false);

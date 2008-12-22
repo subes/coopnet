@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.renderers;
 
 import coopnetclient.Globals;
@@ -44,9 +43,9 @@ public class ChannelStatusListCellRenderer extends DefaultListCellRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        super.getListCellRendererComponent(list, value, index, (value.toString().equals(Globals.getThisPlayer_loginName()))?false:isSelected, cellHasFocus);
+        super.getListCellRendererComponent(list, value, index, (value.toString().equals(Globals.getThisPlayer_loginName())) ? false : isSelected, cellHasFocus);
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
-        setToolTipText("<html><xmp>"+value.toString());
+        setToolTipText("<html><xmp>" + value.toString());
         setText(value.toString());
         //set foreground        
         if (Settings.getColorizeBody()) {
@@ -59,19 +58,21 @@ public class ChannelStatusListCellRenderer extends DefaultListCellRenderer {
         }
 
         PlayerStatuses status = model.getPlayerStatus(value.toString());
-        switch(status){
-            case AWAY:
-                setIcon(Icons.awayIcon);
-                break;
-            case CHATTING:
-                setIcon(Icons.chatIcon);
-                break;
-            case IN_ROOM:
-                setIcon(Icons.lobbyIcon);
-                break;
-            case PLAYING:
-                setIcon(Icons.gameIcon);
-                break;
+        if (status != null) {
+            switch (status) {
+                case AWAY:
+                    setIcon(Icons.awayIcon);
+                    break;
+                case CHATTING:
+                    setIcon(Icons.chatIcon);
+                    break;
+                case IN_ROOM:
+                    setIcon(Icons.lobbyIcon);
+                    break;
+                case PLAYING:
+                    setIcon(Icons.gameIcon);
+                    break;
+            }
         }
         return this;
     }

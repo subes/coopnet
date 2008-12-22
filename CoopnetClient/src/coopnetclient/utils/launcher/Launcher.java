@@ -72,7 +72,7 @@ public class Launcher {
                     (!(launchInfo instanceof ParameterLaunchInfo) 
                        || !TabOrganizer.getRoomPanel().isHost() 
                        || GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() == 0 ) ){
-                TabOrganizer.getRoomPanel().enableButtons();
+                TabOrganizer.getRoomPanel().InitDone();
             }
         }
     }

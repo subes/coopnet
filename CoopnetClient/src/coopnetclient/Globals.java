@@ -387,7 +387,6 @@ public class Globals {
 
     public static void closeEditProfileFrame() {
         if (editProfileFrame != null) {
-            editProfileFrame.preClose();
             closeChangePasswordFrame();
             editProfileFrame.dispose();
             editProfileFrame = null;

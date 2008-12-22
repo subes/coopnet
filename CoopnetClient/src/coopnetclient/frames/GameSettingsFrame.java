@@ -450,7 +450,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
 
         if (!isInstant) {
-            TabOrganizer.getRoomPanel().enableButtons();
+            TabOrganizer.getRoomPanel().InitDone();
         }
         Globals.closeGameSettingsFrame();
     } catch (Exception e) {
