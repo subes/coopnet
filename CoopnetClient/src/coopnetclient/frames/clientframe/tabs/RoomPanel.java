@@ -276,6 +276,13 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                 }
             }
         }.start();
+        try{
+                Thread.sleep(500);
+            }catch(Exception e){
+            }
+            if(Launcher.isPlaying()){
+                Protocol.launch();
+            }
     }
 
     public void displayReInit(){
@@ -477,7 +484,8 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     private void clickedbtn_launch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_launch
         if (isHost) {
-            Protocol.launch();
+            //Protocol.launch();
+            launch();
             new Thread(){
                 @Override
                 public void run() {
@@ -489,7 +497,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                         }
                     } catch (InterruptedException ex) {}
                 } 
-            }.start();
+            }.start();            
         }
 }//GEN-LAST:event_clickedbtn_launch
 
