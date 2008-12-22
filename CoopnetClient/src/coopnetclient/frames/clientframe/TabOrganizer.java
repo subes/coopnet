@@ -333,7 +333,7 @@ public class TabOrganizer {
         if (errorPanel == null || errorPanel.hasException() == false && e != null) {
             errorPanel = new ErrorPanel(mode, e);
             tabHolder.addTab("Error", null ,errorPanel);
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Room",Icons.errorIconSmall,errorPanel) );
+            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Error",Icons.errorIconSmall,errorPanel) );
             tabHolder.setSelectedComponent(errorPanel);
         } else {
             if (Globals.getDebug()) {
