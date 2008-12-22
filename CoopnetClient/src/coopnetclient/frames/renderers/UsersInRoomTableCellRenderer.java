@@ -29,8 +29,8 @@ public class UsersInRoomTableCellRenderer extends DefaultTableCellRenderer {
     // using this renderer needs to be rendered.
     RoomTableModel model;
 
-    public UsersInRoomTableCellRenderer(RoomTableModel model_) {
-        model = model_;
+    public UsersInRoomTableCellRenderer(RoomTableModel model) {
+        this.model = model;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class UsersInRoomTableCellRenderer extends DefaultTableCellRenderer {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, rowIndex, vColIndex);
 
         setToolTipText("<html>" +
-                model.getUserList(rowIndex) +
+                model.getUserList(table.convertRowIndexToModel(rowIndex)) +
                 "</html>");
 
         return this;

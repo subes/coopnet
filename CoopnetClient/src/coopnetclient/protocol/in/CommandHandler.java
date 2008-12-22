@@ -233,6 +233,7 @@ public class CommandHandler {
                 case ADD_ROOM:
                     TabOrganizer.getChannelPanel(currentChannelName).addRoomToTable(
                             information[1],
+                            GameDatabase.getModByIndex(currentChannelName, Integer.valueOf(information[5])),
                             information[2],
                             new Integer(information[3]),
                             new Integer(information[4]));

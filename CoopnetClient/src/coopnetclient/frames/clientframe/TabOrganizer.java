@@ -229,15 +229,16 @@ public class TabOrganizer {
             if (index != -1) {
                 tabHolder.setSelectedIndex(index);
             }
-            for (ChannelPanel cp : channelPanels) {
-                cp.enablebuttons();
-            }
-
+            
             if(roomPanel.isHost()){
                 Hotkeys.unbindHotKey(Hotkeys.ACTION_LAUNCH);
             }
 
             roomPanel = null;
+
+            for (ChannelPanel cp : channelPanels) {
+                cp.enablebuttons();
+            }
         }
     }
 

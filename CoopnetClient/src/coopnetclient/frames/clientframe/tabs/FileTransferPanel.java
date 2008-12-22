@@ -68,13 +68,20 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
         rend.setHorizontalAlignment(SwingConstants.CENTER);
         tbl_transfers.setDefaultRenderer(String.class, rend);
         //set column widths
-        tbl_transfers.getColumnModel().getColumn(0).setPreferredWidth(20);
-        tbl_transfers.getColumnModel().getColumn(1).setPreferredWidth(90);
-        tbl_transfers.getColumnModel().getColumn(2).setPreferredWidth(100);
-        tbl_transfers.getColumnModel().getColumn(3).setPreferredWidth(200);
-        tbl_transfers.getColumnModel().getColumn(4).setPreferredWidth(80);
-        tbl_transfers.getColumnModel().getColumn(5).setPreferredWidth(60);
-        tbl_transfers.getColumnModel().getColumn(6).setPreferredWidth(60);
+        tbl_transfers.getColumnModel().getColumn(0).setMinWidth(40);
+        tbl_transfers.getColumnModel().getColumn(0).setMaxWidth(40);
+        tbl_transfers.getColumnModel().getColumn(1).setMinWidth(80);
+        tbl_transfers.getColumnModel().getColumn(1).setMaxWidth(80);
+        tbl_transfers.getColumnModel().getColumn(2).setPreferredWidth(50);
+        tbl_transfers.getColumnModel().getColumn(2).setMaxWidth(100);
+        tbl_transfers.getColumnModel().getColumn(3).setPreferredWidth(100);
+        tbl_transfers.getColumnModel().getColumn(4).setMinWidth(70);
+        tbl_transfers.getColumnModel().getColumn(4).setMaxWidth(70);
+        tbl_transfers.getColumnModel().getColumn(5).setMinWidth(60);
+        tbl_transfers.getColumnModel().getColumn(5).setMaxWidth(60);
+        tbl_transfers.getColumnModel().getColumn(6).setMinWidth(70);
+        tbl_transfers.getColumnModel().getColumn(6).setMaxWidth(70);
+
         tbl_transfers.setComponentPopupMenu(new TransferPopupMenu(tbl_transfers));
         JTableButtonMouseListener mlsitener = new JTableButtonMouseListener(tbl_transfers);
         tbl_transfers.addMouseListener(mlsitener);

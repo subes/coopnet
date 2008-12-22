@@ -58,5 +58,6 @@ public class Icons {
     public static ImageIcon tabCloseIconMouseOver = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/actions/close_mouseover.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
     public static ImageIcon starred = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/favourites/starred.png")));
     public static ImageIcon unstarred = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/favourites/unstarred.png")));
+    public static ImageIcon modIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/coopnet.png")).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
 }

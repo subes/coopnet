@@ -33,6 +33,7 @@ import coopnetclient.frames.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.ChannelStatusListModel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
+import coopnetclient.frames.renderers.RoomNameRenderer;
 import coopnetclient.frames.renderers.TableTextCellRenderer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.UserListFileDropHandler;
@@ -73,25 +74,28 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         tbl_roomList.setAutoCreateRowSorter(true);
         tbl_roomList.setRowHeight(35);
         tbl_roomList.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-        tbl_roomList.getColumnModel().getColumn(0).setPreferredWidth(150);
+        tbl_roomList.getColumnModel().getColumn(0).setMinWidth(45);
+        tbl_roomList.getColumnModel().getColumn(0).setMaxWidth(45);
         tbl_roomList.getColumnModel().getColumn(1).setPreferredWidth(800);
         tbl_roomList.getColumnModel().getColumn(2).setPreferredWidth(300);
-        tbl_roomList.getColumnModel().getColumn(3).setPreferredWidth(150);
+        tbl_roomList.getColumnModel().getColumn(3).setMinWidth(65);
+        tbl_roomList.getColumnModel().getColumn(3).setMaxWidth(65);
                 
         ChannelRoomStatusRenderer picrend = new ChannelRoomStatusRenderer();
         picrend.setHorizontalAlignment(SwingConstants.CENTER);
-        tbl_roomList.setDefaultRenderer(Integer.class, picrend);
+        tbl_roomList.setDefaultRenderer(RoomTableModel.RoomType.class, picrend);
         
         DefaultTableCellRenderer rend = new DefaultTableCellRenderer();
         rend.setHorizontalAlignment(SwingConstants.CENTER);
+        rend.putClientProperty("html.disable", Boolean.TRUE);
         tbl_roomList.setDefaultRenderer(String.class, rend);
-        
-        TableColumn col = tbl_roomList.getColumnModel().getColumn(3);
+
         UsersInRoomTableCellRenderer userrend = new UsersInRoomTableCellRenderer(rooms);
         userrend.setHorizontalAlignment(SwingConstants.CENTER);
-        col.setCellRenderer(userrend);
-        tbl_roomList.getColumnModel().getColumn(1).setCellRenderer(new TableTextCellRenderer());
-        tbl_roomList.getColumnModel().getColumn(2).setCellRenderer(new TableTextCellRenderer());
+        tbl_roomList.setDefaultRenderer(RoomTableModel.PlayersInRoom.class, userrend);
+
+        RoomNameRenderer roomnamerenderer = new RoomNameRenderer(rooms);
+        tbl_roomList.setDefaultRenderer(RoomTableModel.RoomName.class, roomnamerenderer);
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.CHANNEL_CHAT_MODE, this.name));
 
@@ -175,8 +179,8 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         users.playerEnteredRoom(playername);
     }
 
-    public void addRoomToTable(String roomname, String hostname, int maxplayers, int type) {
-        rooms.addRoomToTable(roomname, hostname, maxplayers, type);
+    public void addRoomToTable(String roomname,String modName, String hostname, int maxplayers, int type) {
+        rooms.addRoomToTable(roomname, modName, hostname, maxplayers, type);
         users.playerEnteredRoom(hostname);
     }
 
@@ -190,7 +194,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     }
 
     public void enablebuttons() {
-        if (this.isLaunchable) {
+        if (this.isLaunchable && TabOrganizer.getRoomPanel() == null) {
             btn_create.setEnabled(true);
             btn_join.setEnabled(true);
         }

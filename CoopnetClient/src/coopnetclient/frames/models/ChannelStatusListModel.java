@@ -218,8 +218,11 @@ public class ChannelStatusListModel extends AbstractListModel {
             awayList.add(playerName);
             found = true;
         }
-        PlayerStatusData player = statuses.get(statuses.indexOf(oldname));
-        player.name = playerName;
+        int idx = statuses.indexOf(oldname);
+        if(idx >0){
+            PlayerStatusData player = statuses.get(idx);
+            player.name = playerName;
+        }
         return found;
     }
 
