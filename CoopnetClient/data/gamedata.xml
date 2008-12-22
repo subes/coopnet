@@ -1954,7 +1954,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>MAPEXT</PropertyName>
-            <PropertyValue>BSP</PropertyValue>
+            <PropertyValue>bsp</PropertyValue>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
