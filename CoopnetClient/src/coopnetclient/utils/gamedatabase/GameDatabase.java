@@ -41,14 +41,15 @@ public class GameDatabase {
     private static boolean registryOK = false;
     protected static HashMap<String, String> IDtoGameName;     // key is the ID    
     protected static HashMap<String, LaunchMethods> IDtoLaunchMethod;     // key is the ID    
-    private static HashMap<String, String> localExecutablePath; //shud point to the exe/binary
-    private static HashMap<String, String> localInstallPath; //shud point to the game basedir
+    private static HashMap<String, String> localExecutablePath; //should point to the exe/binary
+    private static HashMap<String, String> localInstallPath; //should point to the game basedir
+    private static HashMap<String, String> additionalParameters; //parameters to add on launch
     protected static ArrayList<String> isExperimental;
     protected static ArrayList<Game> gameData;
     public static int version = 0;
     private static XMLReader xmlReader = new XMLReader();
-    private static Vector<String> installedGameIDs ;
-    
+    private static Vector<String> installedGameIDs;
+
 
     static {
         if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
@@ -64,15 +65,24 @@ public class GameDatabase {
             }
         }
 
+        additionalParameters = new HashMap<String, String>();
         IDtoGameName = new HashMap<String, String>();
         IDtoLaunchMethod = new HashMap<String, LaunchMethods>();
         localExecutablePath = new HashMap<String, String>();
         localInstallPath = new HashMap<String, String>();
         isExperimental = new ArrayList<String>();
         gameData = new ArrayList<Game>();
-        installedGameIDs = new  Vector<String>();
+        installedGameIDs = new Vector<String>();
         load("", dataFilePath);
         loadLocalPaths();
+    }
+
+    public static void setAdditionalParameters(String ID, String params) {
+        additionalParameters.put(ID, params);
+    }
+
+    public static String getAdditionalParameters(String ID) {
+        return additionalParameters.get(ID);
     }
 
     public static void ClearInstalledGameList() {
@@ -89,7 +99,7 @@ public class GameDatabase {
             data.add(getGameName(ID));
         }
         for (String name : localExecutablePath.keySet()) {
-            if(!data.contains(name)){
+            if (!data.contains(name)) {
                 data.add(name);
             }
         }
@@ -112,6 +122,7 @@ public class GameDatabase {
         IDtoGameName = new HashMap<String, String>();
         isExperimental = new ArrayList<String>();
         gameData = new ArrayList<Game>();
+        additionalParameters = new HashMap<String, String>();
     }
 
     protected static int indexOfGame(String gamename) {
@@ -177,14 +188,14 @@ public class GameDatabase {
         }
         return "";
     }
-    
+
     public static String readRegistry(ArrayList<String> regkeys) {
-        if(regkeys == null){
+        if (regkeys == null) {
             return null;
         }
-        for(String key :regkeys ){
+        for (String key : regkeys) {
             String path = readRegistry(key);
-            if(path != null){
+            if (path != null) {
                 return path;
             }
         }
@@ -198,7 +209,7 @@ public class GameDatabase {
     public static ArrayList<GameSetting> getGameSettings(String gamename, String modname) {
         return gameData.get(indexOfGame(gamename)).getGameSettings(modname);
     }
-    
+
     public static String getMapPath(String gamename, String modname) {
         return gameData.get(indexOfGame(gamename)).getMapPath(modname);
     }
@@ -219,31 +230,31 @@ public class GameDatabase {
         return gameData.get(idx).getRelativeExePath(modname);
     }
 
-    public static String getLocalExecutablePath(String gamename) {
-        return localExecutablePath.get(gamename);
+    public static String getLocalExecutablePath(String ID) {
+        return localExecutablePath.get(ID);
     }
 
-    public static String getLocalInstallPath(String gamename) {
-        return localInstallPath.get(gamename);
+    public static String getLocalInstallPath(String ID) {
+        return localInstallPath.get(ID);
     }
 
-    public static void setLocalExecutablePath(String gamename, String path) {
-        localExecutablePath.put(gamename, path);
+    public static void setLocalExecutablePath(String ID, String path) {
+        localExecutablePath.put(ID, path);
     }
 
-    public static void setLocalInstallPath(String gamename, String path) {
-        localInstallPath.put(gamename, path);
+    public static void setLocalInstallPath(String ID, String path) {
+        localInstallPath.put(ID, path);
     }
 
     public static Object[] getAllGameNames() {
         return IDtoGameName.values().toArray(new String[0]);
     }
-    
+
     public static String[] getNonDPlayGameNames() {
         ArrayList<String> games = new ArrayList<String>();
-        for(String ID:IDtoGameName.keySet()){
+        for (String ID : IDtoGameName.keySet()) {
             LaunchMethods m = IDtoLaunchMethod.get(ID);
-            if(  m!= null && m.equals(LaunchMethods.PARAMETER)){
+            if (m != null && m.equals(LaunchMethods.PARAMETER)) {
                 games.add(IDtoGameName.get(ID));
             }
         }
@@ -258,15 +269,15 @@ public class GameDatabase {
         return gameData.get(indexOfGame(gamename)).getHostPattern(modname);
     }
 
-    public static String  getHostPasswordPattern(String gamename, String pattern) {
+    public static String getHostPasswordPattern(String gamename, String pattern) {
         return gameData.get(indexOfGame(gamename)).getHostPasswordPattern(pattern);
     }
-    
-    public static String  getWelcomeMessage(String gamename) {
+
+    public static String getWelcomeMessage(String gamename) {
         return gameData.get(indexOfGame(gamename)).getWelcomeMessage();
     }
 
-    public static String  getJoinPasswordPattern(String gamename, String pattern) {
+    public static String getJoinPasswordPattern(String gamename, String pattern) {
         return gameData.get(indexOfGame(gamename)).getJoinPasswordPattern(pattern);
     }
 
@@ -286,6 +297,10 @@ public class GameDatabase {
         return gameData.get(idx).getRegEntries(modname);
     }
 
+    public static LaunchMethods getLaunchMethod(String ID) {
+        return IDtoLaunchMethod.get(ID);
+    }
+
     public static LaunchMethods getLaunchMethod(String gamename, String modname) {
         int idx = indexOfGame(gamename);
         if (idx > -1) {
@@ -301,8 +316,9 @@ public class GameDatabase {
 
     public static boolean isLaunchable(String gamename) {
         String test = null;
+        String ID = getIDofGame(gamename);
 
-        if (getLaunchMethod(gamename, null) == LaunchMethods.DIRECTPLAY || getLaunchMethod(gamename, null) == LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY) {
+        if (getLaunchMethod(ID) == LaunchMethods.DIRECTPLAY || getLaunchMethod(gamename, null) == LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY) {
             return true;
         }
         test = getLaunchPathWithExe(gamename, null);
@@ -337,16 +353,17 @@ public class GameDatabase {
 
     public static String getLaunchPathWithExe(String gamename, String modName) {
         String path = "";
+        String ID = getIDofGame(gamename);
         switch (Globals.getOperatingSystem()) {
             case LINUX:
-                path = GameDatabase.getLocalExecutablePath(gamename);
+                path = GameDatabase.getLocalExecutablePath(ID);
                 break;
             case WINDOWS:
                 path = GameDatabase.readRegistry(GameDatabase.getRegEntry(gamename, modName));
 
                 //if its not detected try loading from local paths(given by user)
                 if (path == null || (path != null && path.length() == 0)) {
-                    String tmp = GameDatabase.getLocalExecutablePath(gamename);
+                    String tmp = GameDatabase.getLocalExecutablePath(ID);
                     if (tmp != null) {
                         path = tmp;
                     }
@@ -355,7 +372,7 @@ public class GameDatabase {
                 if (path != null && path.length() > 0 && !path.endsWith(".exe")) {
                     String tmp = GameDatabase.getRelativeExePath(gamename, modName);
                     if (tmp != null) {
-                        path = path + (( path.endsWith("\\") || path.endsWith("/") )?"":"/")+ tmp;
+                        path = path + ((path.endsWith("\\") || path.endsWith("/")) ? "" : "/") + tmp;
                     }
                 }
                 break;
@@ -388,24 +405,22 @@ public class GameDatabase {
 
     public static synchronized void load(String gamename, String datafilepath) {
         try {
-            System.out.println("loading gamedata from:"+datafilepath);
-            xmlReader.parseGameData(gamename, datafilepath,XMLReader.LOAD_GAMEDATA);
-            System.out.println("game database loaded");  
-        }
-        catch (Exception e) {
+            System.out.println("loading gamedata from:" + datafilepath);
+            xmlReader.parseGameData(gamename, datafilepath, XMLReader.LOAD_GAMEDATA);
+            System.out.println("game database loaded");
+        } catch (Exception e) {
             System.out.println("game database loading failed!");
             e.printStackTrace();
         }
     }
 
     public static synchronized void detectGames() {
-        ClearInstalledGameList();        
+        ClearInstalledGameList();
         try {
-            xmlReader.parseGameData(null, dataFilePath,XMLReader.DETECT_GAMES);
-        }
-        catch (Exception e) {
+            xmlReader.parseGameData(null, dataFilePath, XMLReader.DETECT_GAMES);
+        } catch (Exception e) {
             e.printStackTrace();
-        }        
+        }
     }
 
     public static void loadLocalPaths() {
@@ -422,6 +437,7 @@ public class GameDatabase {
         //reading data
         Boolean done = false;
         String input;
+        String currentID = "";
         while (!done) {
             try {
                 input = br.readLine();
@@ -433,13 +449,18 @@ public class GameDatabase {
                 System.out.println("Could not load localpaths");
                 return;
             }
-            String tmp[] = input.split("=");
-            if (tmp.length > 1) {
-                String tmp2[] = tmp[1].split(";");
-                localExecutablePath.put(tmp[0], tmp2[0]);
-                if (tmp2.length > 1) {
-                    localInstallPath.put(tmp[0], tmp2[1]);
-                }
+
+            if (input.startsWith("GAME=")) {
+                currentID = input.substring(5);
+            }
+            if (input.startsWith("EXEPATH=")) {
+                localExecutablePath.put(currentID, input.substring(8));
+            }
+            if (input.startsWith("INSTPATH=")) {
+                localInstallPath.put(currentID, input.substring(9));
+            }
+            if (input.startsWith("PARAMS=")) {
+                additionalParameters.put(currentID, input.substring(7));
             }
         }
         try {
@@ -456,11 +477,15 @@ public class GameDatabase {
         } catch (Exception ex) {
             System.out.println("Could not save gamedatabase");
         }
-        for (String gamename : localExecutablePath.keySet()) {
-            String execpath = localExecutablePath.get(gamename);
-            String installpath = localInstallPath.get(gamename);
-            if (execpath.length() > 0) {
-                pw.println(gamename + "=" + execpath + ";" + installpath);
+        for (String ID : localExecutablePath.keySet()) {
+            String execpath = localExecutablePath.get(ID);
+            String installpath = localInstallPath.get(ID);
+            String additionalParam = additionalParameters.get(ID);
+            if (ID.length() > 0) {
+                pw.println("GAME=" + ID);
+                pw.println("EXEPATH=" + execpath);
+                pw.println("INSTPATH=" + installpath);
+                pw.println("PARAMS=" + additionalParam);
                 pw.flush();
             }
         }

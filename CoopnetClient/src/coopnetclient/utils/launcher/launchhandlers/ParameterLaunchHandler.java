@@ -76,7 +76,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
     
     @Override
     public boolean predictSuccessfulLaunch() {
-        File exec = new File(launchInfo.getBinaryPath() + launchInfo.getParameters());
+        File exec = new File(launchInfo.getBinaryPath());
         
         boolean ret = exec.exists() && exec.canExecute();
         

@@ -34,20 +34,22 @@
                           <Group type="102" attributes="0">
                               <Component id="lbl_filter" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="tf_filter" pref="584" max="32767" attributes="0"/>
+                              <Component id="tf_filter" pref="611" max="32767" attributes="0"/>
                           </Group>
                           <Component id="lbl_games" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="scrl_games" alignment="1" pref="616" max="32767" attributes="1"/>
+                          <Component id="scrl_games" alignment="1" pref="643" max="32767" attributes="1"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="lbl_installPath" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="lbl_path" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_params" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="tf_installPath" pref="458" max="32767" attributes="0"/>
-                                  <Component id="tf_path" alignment="0" pref="458" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace pref="6" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="tf_path" alignment="1" max="32767" attributes="1"/>
+                                  <Component id="tf_installPath" alignment="1" max="32767" attributes="1"/>
+                                  <Component id="tf_parameters" alignment="1" max="32767" attributes="1"/>
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Component id="lbl_note" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="lbl_noteText" min="-2" max="-2" attributes="0"/>
@@ -103,10 +105,15 @@
                   </Group>
                   <Component id="tf_installPath" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="lbl_params" min="-2" max="-2" attributes="0"/>
+                  <Component id="tf_parameters" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lbl_note" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lbl_noteText" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lbl_note" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -147,7 +154,6 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lst_gamesMousePressed"/>
             <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="lst_gamesValueChanged"/>
           </Events>
         </Component>
@@ -268,6 +274,13 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cb_showInstalledOnlyActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_params">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Additional  parameters:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="tf_parameters">
     </Component>
   </SubComponents>
 </Form>
