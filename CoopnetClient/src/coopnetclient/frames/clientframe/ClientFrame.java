@@ -818,7 +818,7 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_manageGamesActionPerformed
 
     private void mi_guideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_guideActionPerformed
-        TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
+        HyperlinkMouseListener.openURL("http://coopnet.sourceforge.net/guide.html");
 }//GEN-LAST:event_mi_guideActionPerformed
 
 private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_updateActionPerformed
