@@ -349,6 +349,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         btn_close = new javax.swing.JButton();
 
         setTitle("Game settings");
+        setFocusTraversalPolicyProvider(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
