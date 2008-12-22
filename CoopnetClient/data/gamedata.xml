@@ -1622,7 +1622,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>+map {MAP}.bsp +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set g_gametype {GAMEMODE}</PropertyValue>
+            <PropertyValue>+map {MAP} +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set g_gametype {GAMEMODE}</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
@@ -1713,7 +1713,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>+map {MAP}.bsp +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set g_gametype {GAMEMODE}</PropertyValue>
+            <PropertyValue>+map {MAP} +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set g_gametype {GAMEMODE}</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
@@ -2068,7 +2068,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>+map {MAP}.bsp +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set scr_{GAMEMODE}_scorelimit {GOALSCORE} +set scr_{GAMEMODE}_timelimit {TIMELIMIT} +set cl_playintro 0 +set ui_skip_titlescreen 1 +set ui_skip_legalscreen 1 +set g_gametype {GAMEMODE}</PropertyValue>
+            <PropertyValue>+map {MAP} +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set scr_{GAMEMODE}_scorelimit {GOALSCORE} +set scr_{GAMEMODE}_timelimit {TIMELIMIT} +set cl_playintro 0 +set ui_skip_titlescreen 1 +set ui_skip_legalscreen 1 +set g_gametype {GAMEMODE}</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
@@ -2165,7 +2165,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>+map {MAP}.bsp {GAMEMODE} +set maxclients {MAXPLAYERS}  +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} {PASSWORD}</PropertyValue>
+            <PropertyValue>+map {MAP} {GAMEMODE} +set maxclients {MAXPLAYERS}  +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} {PASSWORD}</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
