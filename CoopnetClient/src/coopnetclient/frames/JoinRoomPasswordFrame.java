@@ -22,6 +22,12 @@ package coopnetclient.frames;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 public class JoinRoomPasswordFrame extends javax.swing.JFrame {
 
@@ -36,6 +42,16 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         this.host_name = host_name;
         this.channel=channel;
         this.getRootPane().setDefaultButton(btn_join);
+        AbstractAction act = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn_cancel.doClick();
+            }
+        };
+        getRootPane().getActionMap().put("close", act);
+        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
     }
     
     public JoinRoomPasswordFrame(String ID) {
@@ -43,6 +59,16 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         hideWrongPasswordNotification();
         this.ID = ID;
         this.getRootPane().setDefaultButton(btn_join);
+        AbstractAction act = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn_cancel.doClick();
+            }
+        };
+        getRootPane().getActionMap().put("close", act);
+        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
     }
     
     public void showWrongPasswordNotification(){

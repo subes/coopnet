@@ -27,9 +27,14 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Vector;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 public class ManageGamesFrame extends javax.swing.JFrame {
 
@@ -49,6 +54,16 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             lbl_installPath.setVisible(false);
             btn_browseInstallPath.setVisible(false);
         }
+        AbstractAction act = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn_close.doClick();
+            }
+        };
+        getRootPane().getActionMap().put("close", act);
+        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
         pack();
     }
 

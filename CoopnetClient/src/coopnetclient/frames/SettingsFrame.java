@@ -38,13 +38,18 @@ import coopnetclient.utils.Verification;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.SystemTray;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -57,6 +62,16 @@ public class SettingsFrame extends javax.swing.JFrame {
         initComponents();
 
         this.getRootPane().setDefaultButton(btn_save);
+        AbstractAction act = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn_close.doClick();
+            }
+        };
+        getRootPane().getActionMap().put("close", act);
+        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
         
         List gamenames = Arrays.asList(GameDatabase.getAllGameNames());
         Collections.sort(gamenames);

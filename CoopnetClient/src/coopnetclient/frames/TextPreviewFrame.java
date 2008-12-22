@@ -20,6 +20,12 @@
 package coopnetclient.frames;
 
 import coopnetclient.Globals;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 public class TextPreviewFrame extends javax.swing.JFrame {
     
@@ -32,6 +38,16 @@ public class TextPreviewFrame extends javax.swing.JFrame {
         
         ta_text.setCaretPosition(0);
         this.getRootPane().setDefaultButton(btn_close);
+        AbstractAction act = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn_close.doClick();
+            }
+        };
+        getRootPane().getActionMap().put("close", act);
+        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
     }
     
     /** This method is called from within the constructor to

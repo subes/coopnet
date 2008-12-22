@@ -30,6 +30,7 @@ import coopnetclient.utils.launcher.TempGameSettings;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -40,11 +41,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.InputMap;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
@@ -69,6 +74,16 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         cb_map.setVisible(false);
         customize();
         this.getRootPane().setDefaultButton(btn_save);
+        AbstractAction act = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn_close.doClick();
+            }
+        };
+        getRootPane().getActionMap().put("close", act);
+        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
     }
 
     /** Creates new form GameSettingsPanel */
@@ -85,6 +100,17 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         this.compatible = compatible;
         btn_save.setText("Launch");
         customize();
+        this.getRootPane().setDefaultButton(btn_save);
+        AbstractAction act = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn_close.doClick();
+            }
+        };
+        getRootPane().getActionMap().put("close", act);
+        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
         pack();
     }
 
@@ -314,6 +340,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         lbl_map = new javax.swing.JLabel();
         cb_map = new javax.swing.JComboBox();
         pnl_localSettings = new javax.swing.JPanel();
+        btn_close = new javax.swing.JButton();
 
         setTitle("Game settings");
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -354,6 +381,13 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         pnl_localSettings.setBorder(javax.swing.BorderFactory.createTitledBorder("Local settings"));
         pnl_localSettings.setLayout(new java.awt.GridBagLayout());
 
+        btn_close.setText("Close");
+        btn_close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_closeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -361,10 +395,15 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btn_save)
-                .addGap(395, 395, 395))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_close)
+                .addGap(318, 318, 318))
             .addComponent(pnl_serverSettings, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
             .addComponent(pnl_localSettings, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_close, btn_save});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -372,9 +411,13 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnl_localSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btn_save)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_save)
+                    .addComponent(btn_close))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_close, btn_save});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -458,7 +501,13 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
     Globals.closeGameSettingsFrame();
 }//GEN-LAST:event_formWindowClosing
+
+private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
+    Globals.closeGameSettingsFrame();
+}//GEN-LAST:event_btn_closeActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_close;
     private javax.swing.JButton btn_save;
     private javax.swing.JComboBox cb_map;
     private javax.swing.JLabel lbl_map;

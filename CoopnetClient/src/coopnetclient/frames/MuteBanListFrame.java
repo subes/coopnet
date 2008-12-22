@@ -23,8 +23,13 @@ import coopnetclient.enums.MuteBanStatuses;
 import coopnetclient.frames.renderers.TableTextCellRenderer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.MuteBanList;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
@@ -45,6 +50,16 @@ public class MuteBanListFrame extends javax.swing.JFrame {
         tbl_UserTable.getColumnModel().getSelectionModel().addListSelectionListener(listener);
         tbl_UserTable.getColumnModel().getColumn(0).setCellRenderer(new TableTextCellRenderer());
         this.getRootPane().setDefaultButton(btn_close);
+        AbstractAction act = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn_close.doClick();
+            }
+        };
+        getRootPane().getActionMap().put("close", act);
+        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
     }
 
     public void updateTable() {

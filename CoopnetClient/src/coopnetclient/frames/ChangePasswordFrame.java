@@ -23,7 +23,12 @@ import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.Verification;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 public class ChangePasswordFrame extends javax.swing.JFrame {
 
@@ -31,6 +36,16 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     public ChangePasswordFrame() {
         initComponents();
         this.getRootPane().setDefaultButton(btn_save);
+        AbstractAction act = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn_cancel.doClick();
+            }
+        };
+        getRootPane().getActionMap().put("close", act);
+        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
     }
 
     /** This method is called from within the constructor to
