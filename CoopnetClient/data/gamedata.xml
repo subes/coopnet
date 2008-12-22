@@ -1798,7 +1798,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>+map {MAP}.bsp +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set g_gametype {GAMEMODE}</PropertyValue>
+            <PropertyValue>+map {MAP} +set name "{NAME}" +set sv_hostname "{ROOMNAME}" {PASSWORD} + set net_port {PORT} +set sv_maxclients {MAXPLAYERS} +set fraglimit {GOALSCORE} +set timelimit {TIMELIMIT} +set g_gametype {GAMEMODE}</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
