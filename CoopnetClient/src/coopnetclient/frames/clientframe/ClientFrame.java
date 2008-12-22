@@ -956,7 +956,7 @@ private void mi_prevTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     if (tabpn_tabs.getSelectedIndex() > 0 ) {
         tabpn_tabs.setSelectedIndex((tabpn_tabs.getSelectedIndex() - 1));
     } else {
-        tabpn_tabs.setSelectedIndex(tabpn_tabs.getTabCount());
+        tabpn_tabs.setSelectedIndex(tabpn_tabs.getTabCount()-1);
     }
     updateTabNavigationMenuItems();
 }//GEN-LAST:event_mi_prevTabActionPerformed
@@ -969,12 +969,15 @@ private void mi_closeTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 }//GEN-LAST:event_mi_closeTabActionPerformed
 
 private void tabpn_tabsCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_tabpn_tabsCaretPositionChanged
-    updateTabNavigationMenuItems() ;
+    updateTabNavigationMenuItems();
 }//GEN-LAST:event_tabpn_tabsCaretPositionChanged
 
 private void updateTabNavigationMenuItems(){
     mi_closeTab.setEnabled(
-        tabpn_tabs.getSelectedComponent()instanceof ClosableTab);
+        tabpn_tabs.getSelectedComponent() instanceof ClosableTab);
+
+    mi_nextTab.setEnabled(tabpn_tabs.getTabCount() > 1);
+    mi_prevTab.setEnabled(tabpn_tabs.getTabCount() > 1);
 }
 
 private Color getHoverEffectColor(){
