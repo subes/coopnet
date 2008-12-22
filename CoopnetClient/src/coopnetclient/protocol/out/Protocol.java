@@ -53,7 +53,11 @@ public class Protocol {
             ex.printStackTrace();
         }
     }
-    
+
+    public static void sendVersion() {
+        new Message(ClientProtocolCommands.CLIENTVERSION, Globals.getClientVersion());
+    }
+
     public static void addToContacts(String contactName) {
         new Message(ClientProtocolCommands.SEND_CONTACT_REQUEST, contactName);
     }

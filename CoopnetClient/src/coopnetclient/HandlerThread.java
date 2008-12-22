@@ -122,6 +122,7 @@ public class HandlerThread extends Thread {
                 }
             }.start();
 
+            Protocol.sendVersion();
             //login
             if (coopnetclient.utils.Settings.getAutoLogin()) {
                 Protocol.autoLogin();
