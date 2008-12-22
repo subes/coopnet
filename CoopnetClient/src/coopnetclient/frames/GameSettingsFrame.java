@@ -288,7 +288,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             if (f.isDirectory()) {
                 getPK3Files(list, f);
             } else {
-                if (f.getName().endsWith("pk3") || f.getName().endsWith("pk4")) {
+                if (f.getName().toLowerCase().endsWith("pk3") || f.getName().endsWith("pk4")) {
                     list.add(f);
                 }
             }
@@ -297,8 +297,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }
 
     private String getMapNameFromEntry(String entry) {
-        Pattern pattern = Pattern.compile(GameDatabase.getMapPath(gamename, modname).replace('\\', '/') + "([\\p{Alnum}\\p{Punct}&&[^/\\\\]]+)\\." + GameDatabase.getMapExtension(gamename, modname));
-        Matcher matcher = pattern.matcher(entry);
+        Pattern pattern = Pattern.compile(GameDatabase.getMapPath(gamename, modname).replace('\\', '/') + "([\\p{Alnum}\\p{Punct}&&[^/\\\\]]+)\\." + GameDatabase.getMapExtension(gamename, modname).toLowerCase());
+        Matcher matcher = pattern.matcher(entry.toLowerCase());
         if (matcher.matches()) {
             return matcher.group(1);
         }
