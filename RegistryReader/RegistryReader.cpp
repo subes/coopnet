@@ -91,7 +91,7 @@ char* readEntry(char* fullEntryPath) {
 
     //do the actual reading
     HKEY final_hKey = 0;
-    static char buf[255] = {0};
+    static char buf[MAX_PATH] = {0};
     DWORD dwType = 0;
     DWORD dwBufSize = sizeof (buf);
 
