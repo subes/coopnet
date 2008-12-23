@@ -41,14 +41,29 @@ int main(int argc, char** argv) {
     while(true){
 
         //Flush stdin
+        char prev = 'a';
+        int sameCharCount = 0;
 	while(_kbhit()){
-            _getch();
+            char cur = _getch();
+            if(prev == cur){
+                sameCharCount++;
+                if(sameCharCount >= MAX_DONE_COUNT*5){
+                    exit(1);
+                }
+            }else{
+                prev = cur;
+            }
 	}
 
         char in[MAX_PATH];
         gets(in);
 
-        if(!strcmp(in, "DONE")){
+        string input(in);
+
+        cout << input.length() << endl;
+        fflush(stdout);
+
+        if(!input.compare("DONE") || input.length() < 1){
             doneCount++;
 
             if(doneCount >= MAX_DONE_COUNT){
