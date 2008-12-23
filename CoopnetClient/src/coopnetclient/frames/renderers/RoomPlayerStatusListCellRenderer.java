@@ -22,6 +22,7 @@ package coopnetclient.frames.renderers;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Colorizer;
+import coopnetclient.utils.Icons;
 import coopnetclient.utils.Settings;
 import java.awt.Color;
 import java.awt.Component;
@@ -121,14 +122,15 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
+        setHorizontalTextPosition(JLabel.RIGHT);
+        setHorizontalAlignment(JLabel.LEFT);
+        setIconTextGap(0);
         //set foreground
         setForeground(Color.black);
         setBorder(normalBorder);
         setToolTipText("<html><xmp>"+value.toString());
-        //set background color
-        if(awayList.contains(value.toString())){
-            setBackground(Color.GRAY);
-        }else if (readyList.contains(value.toString())) {
+        //set background color        
+        if (readyList.contains(value.toString())) {
             if (playingList.contains(value.toString())) {
                 setBackground(Color.yellow);
             } else {
@@ -142,6 +144,12 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
             setBorder(selectionBorder);
         } else {
             setText(" "+value.toString());            
+        }
+        //is away?
+        if(awayList.contains(value.toString())){
+            setIcon(Icons.awayIcon);
+        }else{
+            setIcon(null);
         }
         if(value.toString().equals( TabOrganizer.getRoomPanel().hostName )){
             setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
