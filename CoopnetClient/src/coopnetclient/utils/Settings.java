@@ -65,7 +65,7 @@ public class Settings {
     static {
         if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS){
             optionsDir = System.getenv("APPDATA")+"/Coopnet";
-            def_recievedest = GameDatabase.readRegistry("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Desktop");
+            def_recievedest = RegistryReader.read("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Desktop");
         }else{
             optionsDir = System.getenv("HOME")+"/.coopnet";
             def_recievedest = System.getenv("HOME");

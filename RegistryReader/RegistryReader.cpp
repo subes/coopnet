@@ -21,6 +21,8 @@
 #include <windows.h>
 #include <string>
 
+#define MAX_DONE_COUNT 10
+
 using namespace std;
 
 char* readEntry(char* fullEntryPath);
@@ -33,11 +35,23 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
+    int doneCount = 0;
+
     while(true){
+
         char in[256]; //should be enough
         gets(in);
 
-        cout << readEntry(in) << endl;
+        if(!strcmp(in, "DONE")){
+            doneCount++;
+
+            if(doneCount > MAX_DONE_COUNT){
+                exit(1);
+            }
+        }else{
+            doneCount = 0;
+            cout << readEntry(in) << endl;
+        }
     }
     
     return (EXIT_SUCCESS);
@@ -130,6 +144,10 @@ void printHelp(){
          << "If not, there will be an error message:" << endl
          << endl
          << "  ERR <DETAILS>" << endl
+         << endl
+         << "To ensure this application closes when the host application closes, you should print DONE after each command." << endl
+         << "This is a fix for running this application from java via wine on linux and java closing unexpectedly." << endl
+         << "Any command has to end with a newline." << endl
          << endl;
     fflush(stdout);
 }

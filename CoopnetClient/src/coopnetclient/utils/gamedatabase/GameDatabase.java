@@ -19,11 +19,10 @@
 package coopnetclient.utils.gamedatabase;
 
 import coopnetclient.*;
-import com.ice.jni.registry.Registry;
-import com.ice.jni.registry.RegistryKey;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.MapLoaderTypes;
 import coopnetclient.enums.OperatingSystems;
+import coopnetclient.utils.RegistryReader;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -38,7 +37,6 @@ public class GameDatabase {
 
     public static final String dataFilePath = Globals.getResourceAsString("data/gamedata.xml");
     private static final String localPathsFilePath = Globals.getResourceAsString("data/localpaths");
-    private static boolean registryOK = false;
     protected static HashMap<String, String> IDtoGameName;     // key is the ID    
     protected static HashMap<String, LaunchMethods> IDtoLaunchMethod;     // key is the ID    
     private static HashMap<String, String> localExecutablePath; //should point to the exe/binary
@@ -52,19 +50,6 @@ public class GameDatabase {
 
 
     static {
-        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
-            try {
-                System.loadLibrary("lib/ICE_JNIRegistry");
-                Class.forName("com.ice.jni.registry.Registry");
-                Class.forName("com.ice.jni.registry.RegistryKey");
-                registryOK = true;
-            } catch (UnsatisfiedLinkError er) {
-                System.out.println("Error while loading external dlls");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
         additionalParameters = new HashMap<String, String>();
         IDtoGameName = new HashMap<String, String>();
         IDtoLaunchMethod = new HashMap<String, LaunchMethods>();
@@ -168,35 +153,6 @@ public class GameDatabase {
             tmp = IDtoGameName.get(s);
             if (tmp.equals(gamename)) {
                 return s;
-            }
-        }
-        return null;
-    }
-
-    public static String readRegistry(String fullpath) {
-        if (registryOK) {
-            try {
-                String tmp[] = fullpath.split("\\\\");
-                RegistryKey current = Registry.getTopLevelKey(tmp[0]);
-                for (int i = 1; i < tmp.length - 1; i++) {
-                    current = current.openSubKey(tmp[i]);
-                }
-                return current.getStringValue(tmp[tmp.length - 1]);
-            } catch (Exception e) {
-                return "";
-            }
-        }
-        return "";
-    }
-
-    public static String readRegistry(ArrayList<String> regkeys) {
-        if (regkeys == null) {
-            return null;
-        }
-        for (String key : regkeys) {
-            String path = readRegistry(key);
-            if (path != null) {
-                return path;
             }
         }
         return null;
@@ -359,7 +315,7 @@ public class GameDatabase {
                 path = GameDatabase.getLocalExecutablePath(ID);
                 break;
             case WINDOWS:
-                path = GameDatabase.readRegistry(GameDatabase.getRegEntry(gamename, modName));
+                path = RegistryReader.readAny(GameDatabase.getRegEntry(gamename, modName));
 
                 //if its not detected try loading from local paths(given by user)
                 if (path == null || (path != null && path.length() == 0)) {

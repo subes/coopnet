@@ -19,6 +19,7 @@
 
 package coopnetclient.utils.gamedatabase;
 
+import coopnetclient.utils.RegistryReader;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -59,7 +60,7 @@ public class XmlHandler_DetectGames extends DefaultHandler{
             tmpID = tempVal.toString();
         } else if (qName.equalsIgnoreCase("RegKey")) {
             if (!inMod) {
-                String path = GameDatabase.readRegistry(tempVal.toString());
+                String path = RegistryReader.read(tempVal.toString());
                 if(path!=null && path.length() >0){
                     GameDatabase.addIDToInstalledList(tmpID);
                 }
