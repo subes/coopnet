@@ -21,7 +21,6 @@ package coopnetclient.utils.gamedatabase;
 import coopnetclient.*;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.MapLoaderTypes;
-import coopnetclient.enums.OperatingSystems;
 import coopnetclient.utils.RegistryReader;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -84,8 +83,8 @@ public class GameDatabase {
             data.add(getGameName(ID));
         }
         for (String ID : localExecutablePath.keySet()) {
-            if (!data.contains(ID)) {
-                data.add(ID);
+            if (!data.contains(getGameName(ID))) {
+                data.add(getGameName(ID));
             }
         }
 
