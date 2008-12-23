@@ -98,12 +98,15 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                         " isHost:" + this.launchInfo.getIsHost())){
             return false;
         }
+
+        boolean ret = waitForCommandResult();
         
-        return waitForCommandResult();
+        return ret;
     }
 
     @Override
     public boolean launch() {
+
         if (!write("LAUNCH doSearch:" + launchInfo.getCompatibility())){
             return false;
         }
@@ -125,7 +128,6 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
     @Override
     public void updatePlayerName() {
         write("UPDATE playerName:" + Globals.getThisPlayer_inGameName());
-        write("DONE");
     }
     
     private boolean read(String toRead) {
@@ -142,14 +144,10 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
         try {
             do {
                 String ret = in.readLine();
-                if (Globals.getDebug()) {
-                    System.out.println("[RMT]\tIN: " + ret);
-                }
+                Logger.log(LogTypes.LAUNCHER, "IN: "+ret);
 
                 if (ret == null) {
-                    if (Globals.getDebug()) {
-                        System.out.println("[RMT]\tRead null, JDPlay_rmt.exe closed");
-                    }
+                    Logger.log(LogTypes.LAUNCHER, "Read null, JDPlay_rmt.exe closed");
                     reinitJDPlay();
                     return -1;
                 }
@@ -171,8 +169,6 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
         String[] toRead = {"FIN", "ERR"};
         int ret = read(toRead);
         
-        write("DONE");
-        
         if(ret == 0){
             return true;
         }else{
@@ -181,6 +177,8 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
     }
     
     private synchronized boolean write(String toWrite) {
+        toWrite = toWrite.trim();
+
         //wait until jdplay is ready
         read("RDY");
         
@@ -190,9 +188,12 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
             }
             
             //write
-            if (Globals.getDebug()) {
-                System.out.print("[RMT]\tOUT: " + toWrite);
-            }
+            Logger.log(LogTypes.LAUNCHER, "OUT: " + toWrite);
+            out.write(toWrite.getBytes());
+            out.flush();
+
+            toWrite = "DONE\n";
+            Logger.log(LogTypes.LAUNCHER, "OUT: " + toWrite);
             out.write(toWrite.getBytes());
             out.flush();
             
@@ -284,8 +285,6 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
             
             reinitJDPlay();
         }
-        
-        Logger.log(LogTypes.LAUNCHER, "Test prediction: "+ret);
                 
         return ret;
     }

@@ -20,6 +20,7 @@
 #include <iostream>
 #include <windows.h>
 #include <string>
+#include <conio.h>
 
 #define MAX_DONE_COUNT 10
 
@@ -39,18 +40,30 @@ int main(int argc, char** argv) {
 
     while(true){
 
-        char in[256]; //should be enough
+        //Flush stdin
+	while(_kbhit()){
+            _getch();
+	}
+
+        char in[MAX_PATH];
         gets(in);
 
         if(!strcmp(in, "DONE")){
             doneCount++;
 
-            if(doneCount > MAX_DONE_COUNT){
+            if(doneCount >= MAX_DONE_COUNT){
                 exit(1);
             }
         }else{
             doneCount = 0;
             cout << readEntry(in) << endl;
+            fflush(stdout);
+        }
+
+        gets(in);
+        if(strcmp(in, "DONE")){
+            cout << "Your forgot to write DONE after each command!" << endl;
+            fflush(stdout);
         }
     }
     

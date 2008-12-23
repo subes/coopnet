@@ -74,6 +74,10 @@ public class Logger {
     }
     
     public static void log(LogTypes type, String message){
+        while(message.endsWith("\n")){
+            message = message.substring(0, message.length()-1);
+        }
+
         String entry = getHeader(type) + message;
         
         if(Globals.getDebug()){

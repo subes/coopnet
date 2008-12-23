@@ -19,7 +19,12 @@
 
 package coopnetclient.utils;
 
+import coopnetclient.Globals;
+import coopnetclient.enums.LogTypes;
+import coopnetclient.enums.OperatingSystems;
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
@@ -29,13 +34,101 @@ public class RegistryReader {
     private static OutputStream out;
     private static BufferedReader in;
 
-    public static String read(String fullpath) {
-        if(handler == null){
-            //init
+    private static void init(){
+        String command = "";
+
+        if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
+            command += Settings.getWineCommand();
         }
 
+        command += " lib/registryreader.exe";
 
-        return "";
+        Logger.log(LogTypes.REGISTRY, command);
+
+        try{
+            handler = Runtime.getRuntime().exec(command);
+            out = handler.getOutputStream();
+            in = new BufferedReader(new InputStreamReader(handler.getInputStream()));
+        }catch(IOException ex){
+            Logger.log(ex);
+        }
+    }
+
+    public static String read(String fullpath) {
+        if(handler == null){
+            init();
+        }
+
+        try {
+            return communicateRead(fullpath);
+        } catch (IOException ex) {
+            Logger.log(ex);
+            try {
+                return retryRead(fullpath);
+            } catch (IOException ex1) {
+                Logger.log(ex1);
+                return null;
+            }
+        }
+    }
+
+    private static String retryRead(String fullpath) throws IOException{
+        if(handler != null){
+            handler.destroy();
+            handler = null;
+        }
+
+        if(out != null){
+            try {
+                out.close();
+            } catch (IOException ex) {}
+            out = null;
+        }
+
+        if(in != null){
+            try {
+                in.close();
+            } catch (IOException ex) {}
+            in = null;
+        }
+
+        init();
+
+        return communicateRead(fullpath);
+    }
+
+    private static String communicateRead(String fullpath) throws IOException{
+
+        write(fullpath);
+
+        String ret = read();
+
+        if(ret.startsWith("ERR")){
+            return null;
+        }else{
+            return ret;
+        }
+    }
+
+    private static void write(String toWrite) throws IOException{
+        if(!toWrite.endsWith("\n")){
+            toWrite += "\n";
+        }
+
+        Logger.log(LogTypes.REGISTRY, "OUT: "+toWrite);
+        out.write(toWrite.getBytes());
+        out.flush();
+
+        toWrite = "DONE\n";
+        Logger.log(LogTypes.REGISTRY, "OUT: "+toWrite);
+        out.write(toWrite.getBytes());
+        out.flush();
+    }
+    
+    private static String read() throws IOException{
+        String ret = in.readLine();
+        Logger.log(LogTypes.REGISTRY, "IN: "+ret);
+        return ret;
     }
 
     public static String readAny(ArrayList<String> regkeys) {
