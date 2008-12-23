@@ -114,7 +114,7 @@ char* readEntry(char* fullEntryPath) {
 
 void printHelp(){
     cout << endl << "RegistryReader usage:" << endl
-         << "    RegistryReader.exe [--help]" << endl
+         << "    registryreader.exe [--help]" << endl
          << endl
          << "    --help          print this help and exit" << endl
          << endl
