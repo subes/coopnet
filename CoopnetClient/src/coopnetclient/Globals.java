@@ -18,6 +18,7 @@
  */
 package coopnetclient;
 
+import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.BugReportFrame;
 import coopnetclient.frames.ChangePasswordFrame;
@@ -97,13 +98,18 @@ public class Globals {
         } catch (Exception ex) {
             Logger.log(ex);
         }
+        try{
         //Detect OS
-        if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
+        if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
             operatingSystem = OperatingSystems.WINDOWS;
             lastOpenedDir = System.getenv("USERPROFILE");
+            Logger.log(LogTypes.LOG, "Windows detected");
         } else {
             operatingSystem = OperatingSystems.LINUX;
             lastOpenedDir = System.getenv("HOME");
+            Logger.log(LogTypes.LOG, "Linux detected");
+        }}catch(Exception e){
+            Logger.log(e);
         }
         //Set debug
         debug = Settings.getDebugMode();
