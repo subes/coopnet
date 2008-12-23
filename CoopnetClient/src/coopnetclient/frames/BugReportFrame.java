@@ -85,7 +85,11 @@ public class BugReportFrame extends javax.swing.JFrame {
                 "\n\t" + date.toGMTString();
 
         report += "\n\nClient version: \n\t" + Globals.getClientVersion();
+        try{
         report += "\n\nOperating System: \n\t" + System.getProperty("os.name");
+        }catch(Exception e){
+            report += "\n\nOperating System: cannot be determined \n\t" ;
+        }
         //EMail
         if (tf_email.getText().length() > 0) {
             report += "\n\nReporters E-Mail:\n\t" + tf_email.getText();
