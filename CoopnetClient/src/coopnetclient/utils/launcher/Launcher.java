@@ -25,7 +25,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.SoundPlayer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.utils.launcher.launchhandlers.JDPlayRmtLaunchHandler;
+import coopnetclient.utils.launcher.launchhandlers.JDPlayLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.LaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.ParameterLaunchHandler;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
@@ -50,7 +50,7 @@ public class Launcher {
         TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getChildName());
 
         if(launchInfo instanceof DirectPlayLaunchInfo){
-            launchHandler = new JDPlayRmtLaunchHandler();
+            launchHandler = new JDPlayLaunchHandler();
         }else
         if(launchInfo instanceof ParameterLaunchInfo){
             launchHandler = new ParameterLaunchHandler();

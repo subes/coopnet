@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
-public class JDPlayRmtLaunchHandler extends LaunchHandler {
+public class JDPlayLaunchHandler extends LaunchHandler {
     
     private static Process jdplay;
     private static OutputStream out;
@@ -59,7 +59,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                 command += Settings.getWineCommand();
             }
             
-            command += " lib/JDPlay_rmt.exe" +
+            command += " lib/jdplay.exe" +
                  " --playerName " + playerName + 
                  " --maxSearchRetries " + Globals.JDPLAY_MAXSEARCHRETRIES;
             
@@ -147,7 +147,7 @@ public class JDPlayRmtLaunchHandler extends LaunchHandler {
                 Logger.log(LogTypes.LAUNCHER, "IN: "+ret);
 
                 if (ret == null) {
-                    Logger.log(LogTypes.LAUNCHER, "Read null, JDPlay_rmt.exe closed");
+                    Logger.log(LogTypes.LAUNCHER, "Read null, jdplay.exe closed");
                     reinitJDPlay();
                     return -1;
                 }
