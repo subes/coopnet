@@ -49,12 +49,12 @@ LDLIBSOPTIONS=
 
 dist/Release/${PLATFORM}/registryreader.exe: ${OBJECTFILES}
 	${MKDIR} -p dist/Release/${PLATFORM}
-	${LINK.cc} -o dist/Release/${PLATFORM}/registryreader ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${LINK.cc} -o dist/Release/${PLATFORM}/registryreader -s ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/RegistryReader.o: RegistryReader.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/RegistryReader.o RegistryReader.cpp
+	$(COMPILE.cc) -O2 -s -MMD -MP -MF $@.d -o ${OBJECTDIR}/RegistryReader.o RegistryReader.cpp
 
 # Subprojects
 .build-subprojects:

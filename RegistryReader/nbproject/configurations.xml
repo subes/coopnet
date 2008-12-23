@@ -50,11 +50,13 @@
         </cCompilerTool>
         <ccCompilerTool>
           <developmentMode>5</developmentMode>
+          <stripSymbols>true</stripSymbols>
         </ccCompilerTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
         </fortranCompilerTool>
         <linkerTool>
+          <stripSymbols>true</stripSymbols>
           <linkerLibItems>
           </linkerLibItems>
         </linkerTool>
