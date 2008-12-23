@@ -102,7 +102,7 @@ public class XmlHandler_LoadGameData extends DefaultHandler{
                 }
                 GameDatabase.gameData.add(tmpGame);
                 if (beta) {
-                    GameDatabase.isExperimental.add(tmpGame.getGameName());
+                    GameDatabase.isExperimental.add(tmpID);
                 }
             }
         } else if (qName.equalsIgnoreCase("Mod")) {

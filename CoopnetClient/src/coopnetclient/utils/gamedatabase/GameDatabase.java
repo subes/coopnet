@@ -98,17 +98,17 @@ public class GameDatabase {
         for (String ID : installedGameIDs) {
             data.add(getGameName(ID));
         }
-        for (String name : localExecutablePath.keySet()) {
-            if (!data.contains(name)) {
-                data.add(name);
+        for (String ID : localExecutablePath.keySet()) {
+            if (!data.contains(ID)) {
+                data.add(ID);
             }
         }
 
         return data;
     }
 
-    public static boolean isBeta(String channelname) {
-        return isExperimental.contains(channelname);
+    public static boolean isBeta(String ID) {
+        return isExperimental.contains(ID);
     }
 
     public static boolean isInstantLaunchable(String gamename) {
@@ -477,15 +477,18 @@ public class GameDatabase {
         } catch (Exception ex) {
             System.out.println("Could not save gamedatabase");
         }
-        for (String ID : localExecutablePath.keySet()) {
+        for (String ID : IDtoGameName.keySet()) {
             String execpath = localExecutablePath.get(ID);
             String installpath = localInstallPath.get(ID);
             String additionalParam = additionalParameters.get(ID);
-            if (ID.length() > 0) {
+            if ( (execpath!= null && execpath.length() > 0)
+                    || (installpath!= null &&  installpath.length() > 0)
+                    || (additionalParam!= null &&  additionalParam.length() > 0)
+                    ) {
                 pw.println("GAME=" + ID);
-                pw.println("EXEPATH=" + execpath);
-                pw.println("INSTPATH=" + installpath);
-                pw.println("PARAMS=" + additionalParam);
+                pw.println("EXEPATH=" + (execpath==null?"":execpath));
+                pw.println("INSTPATH=" + (installpath==null?"":installpath));
+                pw.println("PARAMS=" + (additionalParam==null?"":additionalParam));
                 pw.flush();
             }
         }

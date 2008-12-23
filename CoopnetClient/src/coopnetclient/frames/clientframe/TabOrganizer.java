@@ -107,7 +107,7 @@ public class TabOrganizer {
             } else {
                 currentchannel.setLaunchable(true);
             }
-            if (GameDatabase.isBeta(channelname)) {
+            if (GameDatabase.isBeta(GameDatabase.getIDofGame(channelname))) {
                 currentchannel.printMainChatMessage("SYSTEM", "Support for this game is experimental," +
                         " email coopnetbugs@gmail.com if you have problems!",
                         ChatStyles.SYSTEM);

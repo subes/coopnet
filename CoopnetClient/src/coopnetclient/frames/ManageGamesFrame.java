@@ -297,38 +297,44 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
-            if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0 && Verification.verifyFile(tf_path.getText())) {
-                GameDatabase.setLocalExecutablePath(GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()), tf_path.getText());
-                GameDatabase.setLocalInstallPath(GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()), tf_installPath.getText());
-                ChannelPanel channel = TabOrganizer.getChannelPanel(lst_games.getSelectedValue().toString());
-                if (channel != null) {
-                    channel.setLaunchable(true);
-                }
-                GameDatabase.saveLocalPaths();
-            } else {
-                tf_path.showErrorMessage("Please set the path correctly!");
-            }
-        } else {
-            if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0 && tf_installPath.getText().length() > 0 && Verification.verifyFile(tf_path.getText()) && Verification.verifyDirectory(tf_installPath.getText())) {
-                GameDatabase.setLocalExecutablePath(GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()), tf_path.getText());
-                GameDatabase.setLocalInstallPath(GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()), tf_installPath.getText());
-                ChannelPanel channel = TabOrganizer.getChannelPanel(lst_games.getSelectedValue().toString());
-                if (channel != null) {
-                    channel.setLaunchable(true);
-                }
-                GameDatabase.saveLocalPaths();
-            } else {
-                if (tf_path.getText().length() < 1) {
+            if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0) {
+                if (Verification.verifyFile(tf_path.getText())) {
+                    GameDatabase.setLocalExecutablePath(GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()), tf_path.getText());
+                    GameDatabase.setLocalInstallPath(GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()), tf_installPath.getText());
+                    ChannelPanel channel = TabOrganizer.getChannelPanel(lst_games.getSelectedValue().toString());
+                    if (channel != null) {
+                        channel.setLaunchable(true);
+                    }
+                    GameDatabase.saveLocalPaths();
+                } else {
                     tf_path.showErrorMessage("Please set the path correctly!");
                 }
-                if (tf_installPath.getText().length() < 1) {
-                    tf_installPath.showErrorMessage("Please set the path correctly!");
+            }
+        } else {
+            if (lst_games.getSelectedValue() != null && tf_path.getText().length() > 0 && tf_installPath.getText().length() > 0) {
+                if (Verification.verifyFile(tf_path.getText()) && Verification.verifyDirectory(tf_installPath.getText())) {
+                    GameDatabase.setLocalExecutablePath(GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()), tf_path.getText());
+                    GameDatabase.setLocalInstallPath(GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()), tf_installPath.getText());
+                    ChannelPanel channel = TabOrganizer.getChannelPanel(lst_games.getSelectedValue().toString());
+                    if (channel != null) {
+                        channel.setLaunchable(true);
+                    }
+                    GameDatabase.saveLocalPaths();
+                } else {
+                    if (tf_path.getText().length() < 1) {
+                        tf_path.showErrorMessage("Please set the path correctly!");
+                    }
+                    if (tf_installPath.getText().length() < 1) {
+                        tf_installPath.showErrorMessage("Please set the path correctly!");
+                    }
                 }
             }
         }
-        GameDatabase.setAdditionalParameters(
-                GameDatabase.getIDofGame(lst_games.getSelectedValue().toString())
-                , tf_parameters.getText());
+        if (tf_parameters.getText().length() > 0) {
+            GameDatabase.setAdditionalParameters(
+                    GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()), tf_parameters.getText());
+            GameDatabase.saveLocalPaths();
+        }
 }//GEN-LAST:event_btn_saveActionPerformed
 
     private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
@@ -382,12 +388,16 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
 
 private void lst_gamesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lst_gamesValueChanged
     if (lst_games.getSelectedValue() != null) {
-        String path = GameDatabase.getLaunchPathWithExe(GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()), null);
+        String path = GameDatabase.getLaunchPathWithExe(lst_games.getSelectedValue().toString(), null);
         tf_path.setText(path);
         String installpath = GameDatabase.getInstallPath(GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()));
         tf_installPath.setText(installpath);
         String params = GameDatabase.getAdditionalParameters(GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()));
-        tf_parameters.setText(params);
+        if(params != null){
+            tf_parameters.setText(params);
+        }else{
+            tf_parameters.setText("");
+        }
     }
 }//GEN-LAST:event_lst_gamesValueChanged
 
