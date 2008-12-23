@@ -99,7 +99,13 @@ public class SettingsFrame extends javax.swing.JFrame {
         tf_dplayEnv.setText(coopnetclient.utils.Settings.getWineCommand());
         tf_transferPort.setText(coopnetclient.utils.Settings.getFiletTansferPort()+"");
 
-        cb_autoLogin.setSelected(coopnetclient.utils.Settings.getAutoLogin());
+        if(coopnetclient.utils.Settings.getAutoLogin()){
+            cb_autoLogin.setSelected(true);
+        }else{
+            cb_autoLogin.setSelected(false);
+            cb_autoLogin.setToolTipText("Autologin can only be enabled on login!");
+        }
+        
         cb_timeStamps.setSelected(coopnetclient.utils.Settings.getTimeStampEnabled());
 
         tf_receiveDir.setText(coopnetclient.utils.Settings.getRecieveDestination());
@@ -1143,8 +1149,14 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             
             Settings.setContactStatusChangeTextNotification(cb_TextNotification.isSelected());
             Settings.setContactStatusChangeSoundNotification(cb_SoundNotification.isSelected());
-            
-            Settings.setAutoLogin(cb_autoLogin.isSelected());
+
+            if(cb_autoLogin.isSelected()){
+                Settings.setAutoLogin(true);
+            }else{
+                Settings.setAutoLogin(false);
+                Settings.setLastLoginPassword("");
+            }
+
             Settings.setSoundEnabled(cb_sounds.isSelected());
             Settings.setTrayIconEnabled(cb_TrayIconEnabled.isSelected());
             if(cb_TrayIconEnabled.isSelected()){
