@@ -261,6 +261,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     public void launch() {
         if (Launcher.isPlaying() ) {
+            Protocol.launch();
             return;
         }
         
