@@ -192,19 +192,23 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             out.write(toWrite.getBytes());
             out.flush();
 
-            toWrite = "DONE\n";
-            Logger.log(LogTypes.LAUNCHER, "OUT: " + toWrite);
-            out.write(toWrite.getBytes());
-            out.flush();
-            
-            //verify if jdplay understood
-            String[] toRead = {"ACK", "NAK"};
-            int ret = read(toRead);            
-            if(ret == 0){
-                return true;
-            }else{
-                return false;
+            if(!toWrite.equals("DONE\n")){
+                toWrite = "DONE\n";
+                Logger.log(LogTypes.LAUNCHER, "OUT: " + toWrite);
+                out.write(toWrite.getBytes());
+                out.flush();
+
+                //verify if jdplay understood
+                String[] toRead = {"ACK", "NAK"};
+                int ret = read(toRead);
+                if(ret == 0){
+                    return true;
+                }else{
+                    return false;
+                }
             }
+
+            return true;
         } catch (Exception e) {
             reinitJDPlay();
             printError(e);
@@ -269,20 +273,10 @@ public class JDPlayLaunchHandler extends LaunchHandler {
         }
         
         if(ret == true){
-            try {
-                out.write("bla\n".getBytes());
-                out.flush();
-                in.readLine(); //Catch ERR message
-            } catch (IOException e) {
-                ret = false;
-            }
+            write("DONE");
         }
         
         if(ret == false){
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                "Launcher failed. Recovering ...",
-                ChatStyles.SYSTEM,false);
-            
             reinitJDPlay();
         }
                 

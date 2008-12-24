@@ -64,16 +64,16 @@ int main(int argc, char** argv) {
 
         if(!input.compare("DONE") || input.length() < 1){
             doneCount++;
-
-            if(doneCount >= MAX_DONE_COUNT){
-                exit(1);
-            }
         }else{
             waitForDone = true;
 
             doneCount = 0;
             cout << readEntry(in) << endl;
             fflush(stdout);
+        }
+
+        if(doneCount >= MAX_DONE_COUNT){
+            exit(1);
         }
 
         if(waitForDone){
