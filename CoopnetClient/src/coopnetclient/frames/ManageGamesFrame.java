@@ -286,7 +286,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
         lbl_params.setDisplayedMnemonic(KeyEvent.VK_A);
         lbl_params.setLabelFor(tf_parameters);
-        lbl_params.setText("Additional  Parameters:");
+        lbl_params.setText("Additional Parameters:");
         lbl_params.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -359,8 +359,8 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                         .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cb_showInstalledOnly))
-                    .addComponent(scrl_games, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 524, Short.MAX_VALUE)
+                    .addComponent(scrl_games, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_save)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -480,6 +480,8 @@ private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         }
     }
     this.repaint();
+
+    lst_games.setSelectedIndex(-1);
 }//GEN-LAST:event_tf_filterActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

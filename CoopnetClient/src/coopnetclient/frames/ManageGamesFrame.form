@@ -36,8 +36,8 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="cb_showInstalledOnly" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="scrl_games" alignment="0" pref="524" max="32767" attributes="1"/>
-                  <Component id="jPanel1" alignment="1" pref="524" max="32767" attributes="0"/>
+                  <Component id="scrl_games" alignment="0" pref="569" max="32767" attributes="1"/>
+                  <Component id="jPanel1" alignment="1" pref="569" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btn_save" linkSize="3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -263,7 +263,7 @@
             <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="tf_parameters"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Additional  Parameters:"/>
+            <Property name="text" type="java.lang.String" value="Additional Parameters:"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Constraints>
