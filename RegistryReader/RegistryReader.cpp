@@ -40,6 +40,8 @@ int main(int argc, char** argv) {
 
     while(true){
 
+        bool waitForDone = false;
+
         //Flush stdin
         char prev = 'a';
         int sameCharCount = 0;
@@ -60,9 +62,6 @@ int main(int argc, char** argv) {
 
         string input(in);
 
-        cout << input.length() << endl;
-        fflush(stdout);
-
         if(!input.compare("DONE") || input.length() < 1){
             doneCount++;
 
@@ -70,15 +69,19 @@ int main(int argc, char** argv) {
                 exit(1);
             }
         }else{
+            waitForDone = true;
+
             doneCount = 0;
             cout << readEntry(in) << endl;
             fflush(stdout);
         }
 
-        gets(in);
-        if(strcmp(in, "DONE")){
-            cout << "Your forgot to write DONE after each command!" << endl;
-            fflush(stdout);
+        if(waitForDone){
+            gets(in);
+            if(strcmp(in, "DONE")){
+                cout << "Your forgot to write DONE after each command!" << endl;
+                fflush(stdout);
+            }
         }
     }
     
