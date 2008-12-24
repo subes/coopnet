@@ -32,7 +32,6 @@ public class Main {
         //See if we have security problems
         try{
             System.getProperty("os.name");
-            throw new SecurityException("GAY");
         }catch(SecurityException e){
             JOptionPane.showMessageDialog(null,
                     "An error occured while trying to detect you operating system!" +
