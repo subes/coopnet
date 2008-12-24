@@ -59,7 +59,7 @@ public class Hotkeys {
         }
         if (action == ACTION_LAUNCH) {
             if (Settings.getLaunchHotKey() != KeyEvent.VK_UNDEFINED) {
-                Logger.log(LogTypes.LOG, "Binding Launch hotkey");
+                Logger.log(LogTypes.HOTKEYS, "Binding Launch hotkey");
                 handler.registerHotkey(ACTION_LAUNCH, Settings.getLaunchHotKeyMask(), Settings.getLaunchHotKey());
             }
         }
@@ -74,7 +74,7 @@ public class Hotkeys {
         if(handler==null){
             return;
         }
-        Logger.log(LogTypes.LOG, "UnBinding hotkey:" +action);
+        Logger.log(LogTypes.HOTKEYS, "UnBinding hotkey:" +action);
         handler.unregisterHotkey(action);
     }
 

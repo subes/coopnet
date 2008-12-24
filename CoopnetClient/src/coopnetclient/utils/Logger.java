@@ -74,7 +74,8 @@ public class Logger {
     }
     
     public static void log(LogTypes type, String message){
-        while(message.endsWith("\n")){
+        message = message.trim();
+        while(message.endsWith("\n\n")){
             message = message.substring(0, message.length()-1);
         }
 
