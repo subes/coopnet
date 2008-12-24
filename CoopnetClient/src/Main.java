@@ -34,7 +34,7 @@ public class Main {
             System.getProperty("os.name");
         }catch(SecurityException e){
             JOptionPane.showMessageDialog(null,
-                    "An error occured while trying to detect you operating system!" +
+                    "An error occured while trying to detect your operating system!" +
                     "\nPlease make sure that your security policy in java is not set too tight." +
                     "\nException message: "+e.getLocalizedMessage(),
                     "ERROR",
