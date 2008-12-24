@@ -329,7 +329,7 @@ public class TabOrganizer {
         browserPanel = null;
     }
 
-    public static void openErrorPanel(ErrorPanelStyle mode, Exception e) {
+    public static synchronized void openErrorPanel(ErrorPanelStyle mode, Exception e) {
         if (errorPanel == null || errorPanel.hasException() == false && e != null) {
             errorPanel = new ErrorPanel(mode, e);
             tabHolder.addTab("Error", null ,errorPanel);
@@ -348,7 +348,7 @@ public class TabOrganizer {
         tabHolder.remove(errorPanel);
     }
 
-    public static void openLoginPanel() {
+    public static synchronized void openLoginPanel() {
         if (loginPanel == null) {
             //Thread is needed here to get rid of an exception at startup
             SwingUtilities.invokeLater(new Thread() {
