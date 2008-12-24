@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 25 -->
+<!--Version 26 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?,(NoSpaces)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
@@ -1589,9 +1589,21 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
             <PropertyName>GUID</PropertyName>
-            <PropertyValue>{FBA662E0-904E-11D2-A07E-00C0DFA88F97}}</PropertyValue>
+            <PropertyValue>{FBA662E0-904E-11D2-A07E-00C0DFA88F97}</PropertyValue>
         </Property>
-    </GameData>
+            </GameData>
+    <!--<GameData>
+        <GameName>O.R.B.</GameName>
+        <ChannelID>237</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{9F4AD6FC-D90D-4D58-8DAF-50021646D151}</PropertyValue>
+        </Property>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\DirectPlay8\Applications\{9F4AD6FC-D90D-4D58-8DAF-50021646D151}\ExecutablePath </RegKey>
+        </RegistryEntry>
+    </GameData>-->
     <GameData>
         <GameName>Quake 3</GameName>
         <ChannelID>228</ChannelID>
