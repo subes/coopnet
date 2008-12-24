@@ -98,25 +98,18 @@ public class Globals {
         } catch (Exception ex) {
             Logger.log(ex);
         }
-        try{
         //Detect OS
         if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
             operatingSystem = OperatingSystems.WINDOWS;
             lastOpenedDir = System.getenv("USERPROFILE");
-            Logger.log(LogTypes.LOG, "Windows detected");
         } else {
             operatingSystem = OperatingSystems.LINUX;
             lastOpenedDir = System.getenv("HOME");
-            Logger.log(LogTypes.LOG, "Linux detected");
-        }}catch(Exception e){
-            Logger.log(e);
         }
         //Set debug
         debug = Settings.getDebugMode();
 
-        if (debug) {
-            System.out.println("[L]\tOperatingSystem: " + operatingSystem.toString());
-        }
+        Logger.log(LogTypes.LOG, "Operating System is "+operatingSystem.toString() +" ("+System.getProperty("os.name")+")");
         //initialise and add trayicon if needed
         if (SystemTray.isSupported()) {
             tray = SystemTray.getSystemTray();

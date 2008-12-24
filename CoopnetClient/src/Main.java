@@ -23,10 +23,26 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.utils.Logger;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.JOptionPane;
 
 public class Main {
 
     public static void main(String[] args) {
+
+        //See if we have security problems
+        try{
+            System.getProperty("os.name");
+            throw new SecurityException("GAY");
+        }catch(SecurityException e){
+            JOptionPane.showMessageDialog(null,
+                    "An error occured while trying to detect you operating system!" +
+                    "\nPlease make sure that your security policy in java is not set too tight." +
+                    "\nException message: "+e.getLocalizedMessage(),
+                    "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
+
         checkArgs(args);
 
         Logger.log(LogTypes.LOG, "Starting ...");
