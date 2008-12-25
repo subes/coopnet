@@ -22,6 +22,7 @@ import bugreportmailsender.BugReportMailSender;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Colorizer;
+import coopnetclient.utils.Logger;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.Date;
@@ -63,6 +64,9 @@ public class BugReportFrame extends javax.swing.JFrame {
         Colorizer.colorize(this);
         setLocationRelativeTo(null);
         setVisible(true);
+
+        this.trafficLog = Logger.getEndOfLog();
+
         AbstractAction act = new AbstractAction() {
 
             @Override
@@ -131,15 +135,15 @@ public class BugReportFrame extends javax.swing.JFrame {
             if (exc.getCause() != null) {
                 report += "\nThis exception has a cause, look at the log snippet to see it.";
             }
-
-            //Log
-            report += "\n\nLog snippet:";
-
-            for (String line : trafficLog.split("\n")) {
-                report += "\n\t" + line;
-            }
         } else {
             report += "\nThere is no Exception for this report.";
+        }
+
+        //Log
+        report += "\n\nLog snippet:";
+
+        for (String line : trafficLog.split("\n")) {
+            report += "\n\t" + line;
         }
 
         return report;
