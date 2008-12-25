@@ -56,6 +56,7 @@ public class Globals {
     public static final int JDPLAY_MAXSEARCHRETRIES = 20;
     //Set via static{}
     private static OperatingSystems operatingSystem;
+    private static final String detectionOSname;
     private static String lastOpenedDir;
     //Preset value
     private static boolean debug = false;
@@ -99,7 +100,8 @@ public class Globals {
             Logger.log(ex);
         }
         //Detect OS
-        if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
+        detectionOSname = System.getProperty("os.name");
+        if (detectionOSname.toUpperCase().contains("WINDOWS")) {
             operatingSystem = OperatingSystems.WINDOWS;
             lastOpenedDir = System.getenv("USERPROFILE");
         } else {
@@ -135,6 +137,10 @@ public class Globals {
                         }
                     });
         }
+    }
+
+    public static String getDetectionOSname(){
+        return detectionOSname;
     }
 
     public static TransferTableModel getTransferModel(){

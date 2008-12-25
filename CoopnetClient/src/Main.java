@@ -28,7 +28,6 @@ import javax.swing.JOptionPane;
 public class Main {
 
     public static void main(String[] args) {
-
         //See if we have security problems
         try{
             System.getProperty("os.name");

@@ -85,8 +85,17 @@ public class BugReportFrame extends javax.swing.JFrame {
                 "\n\t" + date.toGMTString();
 
         report += "\n\nClient version: \n\t" + Globals.getClientVersion();
+
+        report += "\n\nJava version: \n\t" + System.getProperty("java.vm.name")+ " " + System.getProperty("java.runtime.version");
         
-        report += "\n\nOperating System: \n\t" +Globals.getOperatingSystem().toString() +" ("+System.getProperty("os.name")+")";
+        report += "\n\nOperating System: \n\t" + Globals.getDetectionOSname();
+        if(!Globals.getDetectionOSname().toUpperCase().equals(Globals.getOperatingSystem().toString())){
+            report += " ("+Globals.getOperatingSystem().toString()+")";
+        }
+        String curOSname = System.getProperty("os.name");
+        if(!curOSname.equals(Globals.getDetectionOSname())){
+            report += " - OS mismatch! Current value is \""+curOSname+"\".";
+        }
 
         //EMail
         if (tf_email.getText().length() > 0) {
