@@ -100,31 +100,6 @@ public class BugReportFrame extends javax.swing.JFrame {
             report += " ("+Globals.getOperatingSystem().toString()+")";
         }
 
-        report += "\n\tcontainsWindowsDetection: ";
-        if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
-            report += "WINDOWS";
-        }else{
-            report += "LINUX";
-        }
-
-        report += "\n\tfileSeparatorDetection: ";
-        if (System.getProperty("file.separator").equals("\\")) {
-            report += "WINDOWS";
-        }else{
-            report += "LINUX";
-        }
-
-        report += "\n\tlineSeparatorDetection: ";
-        if (System.getProperty("line.separator").equals("\r\n")) {
-            report += "WINDOWS";
-        }else{
-            if(System.getProperty("line.separator").equals("\r")){
-                report += "MACOS";
-            }else{
-                report += "LINUX";
-            }
-        }
-
         //EMail
         if (tf_email.getText().length() > 0) {
             report += "\n\nReporters E-Mail:\n\t" + tf_email.getText();
