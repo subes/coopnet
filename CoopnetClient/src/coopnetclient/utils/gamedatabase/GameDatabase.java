@@ -291,7 +291,7 @@ public class GameDatabase {
         if (exepath != null && exepath.length() > 0 && relativexepath != null) {
             return exepath.substring(0, exepath.length() - relativexepath.length());
         } else {
-            return "";
+            return getLocalInstallPath(getIDofGame(gamename));
         }
     }
 
