@@ -18,12 +18,11 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//Needs to be linked to psapi (in MinGW/lib/libpsapi.a)
+
 #include <iostream>
-#include <string.h>
 #include <windows.h>
 #include <psapi.h>
-#include <stdio.h>
-#include <tchar.h>
 
 using namespace std;
 
