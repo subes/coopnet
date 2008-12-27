@@ -131,7 +131,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
         if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
             pgrepCommand = "pgrep";
         }else{
-            pgrepCommand = "lib\\pgrep.exe";
+            pgrepCommand = "lib\\winpgrep.exe";
         }
 
         try {
