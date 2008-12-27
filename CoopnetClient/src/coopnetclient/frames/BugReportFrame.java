@@ -91,14 +91,36 @@ public class BugReportFrame extends javax.swing.JFrame {
         report += "\n\nClient version: \n\t" + Globals.getClientVersion();
 
         report += "\n\nJava version: \n\t" + System.getProperty("java.vm.name")+ " " + System.getProperty("java.runtime.version");
-        
-        report += "\n\nOperating System: \n\t" + Globals.getDetectionOSname();
-        if(!Globals.getDetectionOSname().toUpperCase().equals(Globals.getOperatingSystem().toString())){
+
+        String osName = System.getProperty("os.name");
+        report += "\n\nOperating System: \n\t" + osName;
+        if(!osName.toUpperCase().equals(Globals.getOperatingSystem().toString())){
             report += " ("+Globals.getOperatingSystem().toString()+")";
         }
-        String curOSname = System.getProperty("os.name");
-        if(!curOSname.equals(Globals.getDetectionOSname())){
-            report += " - OS mismatch! Current value is \""+curOSname+"\".";
+
+        report += "\n\tcontainsWindowsDetection: ";
+        if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
+            report += "WINDOWS";
+        }else{
+            report += "LINUX";
+        }
+
+        report += "\n\tfileSeparatorDetection: ";
+        if (System.getProperty("file.separator").equals("\\")) {
+            report += "WINDOWS";
+        }else{
+            report += "LINUX";
+        }
+
+        report += "\n\tlineSeparatorDetection: ";
+        if (System.getProperty("line.separator").equals("\r\n")) {
+            report += "WINDOWS";
+        }else{
+            if(System.getProperty("line.separator").equals("\r")){
+                report += "MACOS";
+            }else{
+                report += "LINUX";
+            }
         }
 
         //EMail

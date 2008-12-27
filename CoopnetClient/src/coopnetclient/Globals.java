@@ -56,7 +56,6 @@ public class Globals {
     public static final int JDPLAY_MAXSEARCHRETRIES = 20;
     //Set via static{}
     private static OperatingSystems operatingSystem;
-    private static final String detectionOSname;
     private static String lastOpenedDir;
     //Preset value
     private static boolean debug = false;
@@ -99,19 +98,29 @@ public class Globals {
         } catch (Exception ex) {
             Logger.log(ex);
         }
-        //Detect OS
-        detectionOSname = System.getProperty("os.name");
-        if (detectionOSname.toUpperCase().contains("WINDOWS")) {
+
+        if (System.getProperty("line.separator").equals("\r\n")) {
             operatingSystem = OperatingSystems.WINDOWS;
-            lastOpenedDir = System.getenv("USERPROFILE");
-        } else {
-            operatingSystem = OperatingSystems.LINUX;
-            lastOpenedDir = System.getenv("HOME");
+        }else{
+            if(System.getProperty("line.separator").equals("\r")){
+                //MacOS, currently treated as Linux coz unsupported
+                operatingSystem = OperatingSystems.LINUX;
+            }else{
+                operatingSystem = OperatingSystems.LINUX;
+            }
         }
-        //Set debug
-        debug = Settings.getDebugMode();
 
         Logger.log(LogTypes.LOG, "Operating System is "+operatingSystem.toString() +" ("+System.getProperty("os.name")+")");
+
+        if (operatingSystem == OperatingSystems.WINDOWS) {
+            lastOpenedDir = System.getenv("USERPROFILE");
+        } else {
+            lastOpenedDir = System.getenv("HOME");
+        }
+        
+        //Set debug
+        debug = Settings.getDebugMode();
+        
         //initialise and add trayicon if needed
         if (SystemTray.isSupported()) {
             tray = SystemTray.getSystemTray();
@@ -137,10 +146,6 @@ public class Globals {
                         }
                     });
         }
-    }
-
-    public static String getDetectionOSname(){
-        return detectionOSname;
     }
 
     public static TransferTableModel getTransferModel(){
