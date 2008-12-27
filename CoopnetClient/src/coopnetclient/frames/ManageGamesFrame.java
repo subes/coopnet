@@ -20,7 +20,6 @@ package coopnetclient.frames;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
-import coopnetclient.enums.OperatingSystems;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
 import coopnetclient.utils.Verification;
@@ -49,13 +48,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             if (st.length() > 0) {
                 channels.add(st);
             }
-        }
-        //installpath only required on linux:
-        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
-            tf_installPath.setVisible(false);
-            lbl_installPath.setVisible(false);
-            btn_browseInstallPath.setVisible(false);
-        }
+        }        
         AbstractAction act = new AbstractAction() {
 
             @Override
@@ -70,38 +63,28 @@ public class ManageGamesFrame extends javax.swing.JFrame {
     }
 
     /**
-        saves any unsaved temporary data and returns if it was succesfull
+    saves any unsaved temporary data and returns if it was succesfull
      */
     private boolean saveTempData() {
         boolean error = false;
         if (lst_games.getSelectedValue() != null) {
-            if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
-                if ( tf_exePath.getText().length() > 0) {
-                    if (Verification.verifyFile(tf_exePath.getText())) {
-                        tempExePath.put(lst_games.getSelectedValue().toString(), tf_exePath.getText());
-                    } else {
-                        tf_exePath.showErrorMessage("Please set the path correctly!");
-                        error = true;
-                    }
-                }
-            } else {
-                if (tf_exePath.getText().length() > 0) {
-                    if (Verification.verifyFile(tf_exePath.getText())) {
-                        tempExePath.put(lst_games.getSelectedValue().toString(), tf_exePath.getText());
-                    } else {
-                        tf_exePath.showErrorMessage("Please set the path correctly!");
-                        error = true;
-                    }
-                }
-                if (tf_installPath.getText().length() > 0) {
-                    if (Verification.verifyFile(tf_installPath.getText())) {
-                        tempInstallPath.put(lst_games.getSelectedValue().toString(), tf_installPath.getText());
-                    } else {
-                        tf_installPath.showErrorMessage("Please set the path correctly!");
-                        error = true;
-                    }
+            if (tf_exePath.getText().length() > 0) {
+                if (Verification.verifyFile(tf_exePath.getText())) {
+                    tempExePath.put(lst_games.getSelectedValue().toString(), tf_exePath.getText());
+                } else {
+                    tf_exePath.showErrorMessage("Please set the path correctly!");
+                    error = true;
                 }
             }
+            if (tf_installPath.getText().length() > 0) {
+                if (Verification.verifyDirectory(tf_installPath.getText())) {
+                    tempInstallPath.put(lst_games.getSelectedValue().toString(), tf_installPath.getText());
+                } else {
+                    tf_installPath.showErrorMessage("Please set the path correctly!");
+                    error = true;
+                }
+            }
+
             if (tf_parameters.getText().length() > 0) {
                 tempParams.put(lst_games.getSelectedValue().toString(), tf_parameters.getText());
             }
@@ -418,18 +401,18 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_browsePathActionPerformed
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
-        if(saveTempData()){
-            for(String gamename : tempExePath.keySet()){
+        if (saveTempData()) {
+            for (String gamename : tempExePath.keySet()) {
                 String ID = GameDatabase.getIDofGame(gamename);
-                GameDatabase.setLocalExecutablePath( ID,tempExePath.get(gamename));
+                GameDatabase.setLocalExecutablePath(ID, tempExePath.get(gamename));
             }
-            for(String gamename : tempInstallPath.keySet()){
+            for (String gamename : tempInstallPath.keySet()) {
                 String ID = GameDatabase.getIDofGame(gamename);
-                GameDatabase.setLocalInstallPath( ID,tempInstallPath.get(gamename));
+                GameDatabase.setLocalInstallPath(ID, tempInstallPath.get(gamename));
             }
-            for(String gamename : tempParams.keySet()){
+            for (String gamename : tempParams.keySet()) {
                 String ID = GameDatabase.getIDofGame(gamename);
-                GameDatabase.setAdditionalParameters( ID,tempParams.get(gamename));
+                GameDatabase.setAdditionalParameters(ID, tempParams.get(gamename));
             }
             GameDatabase.saveLocalPaths();
             Globals.closeManageGamesFrame();
@@ -501,17 +484,17 @@ private void lst_gamesValueChanged(javax.swing.event.ListSelectionEvent evt) {//
         btn_revert.setEnabled(true);
 
         String path = tempExePath.get(lst_games.getSelectedValue().toString());
-        if(path == null){
+        if (path == null) {
             path = GameDatabase.getLaunchPathWithExe(lst_games.getSelectedValue().toString(), null);
         }
         tf_exePath.setText(path);
         String installpath = tempInstallPath.get(lst_games.getSelectedValue().toString());
-        if(installpath == null){
+        if (installpath == null) {
             installpath = GameDatabase.getInstallPath(lst_games.getSelectedValue().toString());
         }
         tf_installPath.setText(installpath);
         String params = tempParams.get(lst_games.getSelectedValue().toString());
-        if(params==null){
+        if (params == null) {
             params = GameDatabase.getAdditionalParameters(GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()));
         }
         if (params != null) {
@@ -565,12 +548,12 @@ private void tf_parametersFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:
 }//GEN-LAST:event_tf_parametersFocusLost
 
 private void btn_revertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_revertActionPerformed
-        if (lst_games.getSelectedValue() != null) {
-            tempExePath.remove(lst_games.getSelectedValue().toString());
-            tempInstallPath.remove(lst_games.getSelectedValue().toString());
-            tempParams.remove(lst_games.getSelectedValue().toString());
-            lst_gamesValueChanged(null);
-        }
+    if (lst_games.getSelectedValue() != null) {
+        tempExePath.remove(lst_games.getSelectedValue().toString());
+        tempInstallPath.remove(lst_games.getSelectedValue().toString());
+        tempParams.remove(lst_games.getSelectedValue().toString());
+        lst_gamesValueChanged(null);
+    }
 }//GEN-LAST:event_btn_revertActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
