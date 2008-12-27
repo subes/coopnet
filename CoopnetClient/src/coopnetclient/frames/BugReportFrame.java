@@ -88,6 +88,8 @@ public class BugReportFrame extends javax.swing.JFrame {
                 "\n\t" + date.toLocaleString() +
                 "\n\t" + date.toGMTString();
 
+        report += "\n\nCountry and Language codes:\n\t" + System.getProperty("user.country") + " - " + System.getProperty("user.language");
+
         report += "\n\nClient version: \n\t" + Globals.getClientVersion();
 
         report += "\n\nJava version: \n\t" + System.getProperty("java.vm.name")+ " " + System.getProperty("java.runtime.version");
