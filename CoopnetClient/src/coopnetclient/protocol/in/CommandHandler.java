@@ -453,20 +453,19 @@ public class CommandHandler {
                     Globals.setMyIP(information[0]);
                     break;
                 case SETAWAYSTATUS:
-                    ChannelPanel cp = TabOrganizer.getChannelPanel(currentChannelName);
-                    if (cp != null) {
-                        cp.setAway(information[1]);
+                    ChannelPanel cp ;
+                    for(int j = 0; (cp = TabOrganizer.getChannelPanel(j) )!= null;++j ){
+                        cp.setAway(information[0]);
                     }
                     if (TabOrganizer.getRoomPanel() != null ) {
                         TabOrganizer.getRoomPanel().setAway(information[1]);
                     }
                     break;
                 case UNSETAWAYSTATUS:
-                    ChannelPanel cp1 = TabOrganizer.getChannelPanel(currentChannelName);
-                    if (cp1 != null) {
-                        cp1.unSetAway(information[1]);
+                    for(int j = 0; (cp = TabOrganizer.getChannelPanel(j) )!= null;++j ){
+                        cp.unSetAway(information[0]);
                     }
-                    if (TabOrganizer.getRoomPanel() != null) {
+                    if (TabOrganizer.getRoomPanel() != null ) {
                         TabOrganizer.getRoomPanel().unSetAway(information[1]);
                     }
                     break;
