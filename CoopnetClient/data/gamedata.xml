@@ -1687,7 +1687,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </NumberSetting>
             <NumberSetting>
                 <SettingName>port</SettingName>
-                <SettingType>NUMBER</SettingType>
+                <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27960</SettingDefaultValue>
             </NumberSetting>            
@@ -1774,7 +1774,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </NumberSetting>
             <NumberSetting>
                 <SettingName>port</SettingName>
-                <SettingType>NUMBER</SettingType>
+                <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27960</SettingDefaultValue>
             </NumberSetting>           
@@ -1863,7 +1863,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </NumberSetting>
             <NumberSetting>
                 <SettingName>port</SettingName>
-                <SettingType>NUMBER</SettingType>
+                <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27960</SettingDefaultValue>
             </NumberSetting>            
@@ -1938,7 +1938,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </NumberSetting>
             <NumberSetting>
                 <SettingName>port</SettingName>
-                <SettingType>NUMBER</SettingType>
+                <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>14567</SettingDefaultValue>
             </NumberSetting>            
@@ -1992,7 +1992,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </NumberSetting>
             <NumberSetting>
                 <SettingName>port</SettingName>
-                <SettingType>NUMBER</SettingType>
+                <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27010</SettingDefaultValue>
             </NumberSetting>            
@@ -2038,7 +2038,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </NumberSetting>
             <NumberSetting>
                 <SettingName>port</SettingName>
-                <SettingType>NUMBER</SettingType>
+                <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27010</SettingDefaultValue>
             </NumberSetting>
@@ -2141,7 +2141,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </NumberSetting>
             <NumberSetting>
                 <SettingName>port</SettingName>
-                <SettingType>NUMBER</SettingType>
+                <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>28960</SettingDefaultValue>
             </NumberSetting>            
@@ -2231,7 +2231,9 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         <ChannelID>236</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
-        <RegistryEntry></RegistryEntry>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Unreal Technology\Installed Apps\UT2004\Folder</RegKey>
+        </RegistryEntry>
         <Property>
             <PropertyName>EXE</PropertyName>
             <PropertyValue>hl2.exe</PropertyValue>
@@ -2389,7 +2391,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </NumberSetting>
             <NumberSetting>
                 <SettingName>port</SettingName>
-                <SettingType>NUMBER</SettingType>
+                <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>7777</SettingDefaultValue>
             </NumberSetting>
@@ -2496,7 +2498,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </NumberSetting>
             <NumberSetting>
                 <SettingName>port</SettingName>
-                <SettingType>NUMBER</SettingType>
+                <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>7777</SettingDefaultValue>
             </NumberSetting>
@@ -2531,7 +2533,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </NumberSetting>
             <NumberSetting>
                 <SettingName>port</SettingName>
-                <SettingType>NUMBER</SettingType>
+                <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>7777</SettingDefaultValue>
             </NumberSetting>
