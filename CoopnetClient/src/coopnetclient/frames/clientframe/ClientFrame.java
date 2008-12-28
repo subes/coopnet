@@ -94,7 +94,7 @@ public class ClientFrame extends javax.swing.JFrame {
     //Callback for Globals
     public void updateStatus() {
         if(Globals.getLoggedInStatus() == false){
-            setQuickBarVisibility(false);
+            setQuickPanelVisibility(false);
             lastdividerposition = null;
         }
         
@@ -203,7 +203,7 @@ public class ClientFrame extends javax.swing.JFrame {
         return found;
     }
 
-    public void setQuickBarVisibility(boolean visibility) {
+    public void setQuickPanelVisibility(boolean visibility) {
         
         if (visibility) {
             if (lastdividerposition == null) {
@@ -875,7 +875,7 @@ private void pnl_toggleQuickBarLeftMouseExited(java.awt.event.MouseEvent evt) {/
 private void pnl_toggleQuickBarLeftMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleQuickBarLeftMousePressed
     if (Globals.getLoggedInStatus()) {
         quickPanelVisibility = !quickPanelVisibility;
-        setQuickBarVisibility(quickPanelVisibility);
+        setQuickPanelVisibility(quickPanelVisibility);
         quickPanelFlashing = false;
     }
 }//GEN-LAST:event_pnl_toggleQuickBarLeftMousePressed
@@ -903,7 +903,7 @@ private void pnl_toggleQuickBarRightMouseExited(java.awt.event.MouseEvent evt) {
 private void pnl_toggleQuickBarRightMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleQuickBarRightMousePressed
     if (Globals.getLoggedInStatus()) {
         quickPanelVisibility = !quickPanelVisibility;
-        setQuickBarVisibility(quickPanelVisibility);
+        setQuickPanelVisibility(quickPanelVisibility);
         quickPanelFlashing = false;
     }
 }//GEN-LAST:event_pnl_toggleQuickBarRightMousePressed
@@ -915,14 +915,14 @@ private void mi_showMuteBanListActionPerformed(java.awt.event.ActionEvent evt) {
 }//GEN-LAST:event_mi_showMuteBanListActionPerformed
 
 private void mi_showQuickbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_showQuickbarActionPerformed
-    setQuickBarVisibility(mi_showQuickbar.isSelected());
+    setQuickPanelVisibility(mi_showQuickbar.isSelected());
 }//GEN-LAST:event_mi_showQuickbarActionPerformed
 
 private void mi_connectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_connectionActionPerformed
     if(!Globals.getConnectionStatus()){
         Client.startConnection();
     }else{
-        setQuickBarVisibility(false);
+        setQuickPanelVisibility(false);
         Client.disconnect();        
     }
 }//GEN-LAST:event_mi_connectionActionPerformed

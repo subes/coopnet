@@ -153,7 +153,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="lbl_dplayEnvNote" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="32" max="32767" attributes="0"/>
+                      <EmptySpace pref="30" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="cb_TrayIconEnabled" min="-2" max="-2" attributes="0"/>
@@ -431,7 +431,7 @@
                           <Component id="pnl_textColors" alignment="0" min="-2" max="-2" attributes="1"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="pnl_textStyle" min="-2" max="-2" attributes="1"/>
-                              <EmptySpace pref="39" max="32767" attributes="0"/>
+                              <EmptySpace pref="35" max="32767" attributes="0"/>
                               <Component id="cb_timeStamps" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -457,7 +457,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="pnl_preview" alignment="0" max="32767" attributes="0"/>
-                              <Component id="lbl_playerNames" alignment="0" pref="325" max="32767" attributes="0"/>
+                              <Component id="lbl_playerNames" alignment="0" pref="327" max="32767" attributes="0"/>
                               <Component id="lbl_playerMessages" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -468,9 +468,9 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Component id="tf_playerMessagesSize" min="-2" pref="25" max="-2" attributes="0"/>
-                                          <EmptySpace pref="268" max="32767" attributes="0"/>
+                                          <EmptySpace pref="270" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="cmb_playerMessagesType" pref="293" max="32767" attributes="0"/>
+                                      <Component id="cmb_playerMessagesType" pref="295" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -482,9 +482,9 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Component id="tf_playerNamesSize" min="-2" pref="24" max="-2" attributes="0"/>
-                                          <EmptySpace pref="269" max="32767" attributes="0"/>
+                                          <EmptySpace pref="271" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="cmb_playerNamesType" pref="293" max="32767" attributes="0"/>
+                                      <Component id="cmb_playerNamesType" pref="295" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -663,11 +663,11 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btn_whisperMessages" alignment="0" pref="124" max="32767" attributes="1"/>
-                                      <Component id="btn_otherUsernames" alignment="1" pref="124" max="32767" attributes="1"/>
-                                      <Component id="btn_yourUsername" alignment="1" pref="124" max="32767" attributes="1"/>
-                                      <Component id="btn_userMessages" alignment="1" pref="124" max="32767" attributes="1"/>
-                                      <Component id="btn_systemMessages" pref="124" max="32767" attributes="1"/>
+                                      <Component id="btn_whisperMessages" alignment="0" pref="118" max="32767" attributes="1"/>
+                                      <Component id="btn_otherUsernames" alignment="1" pref="118" max="32767" attributes="1"/>
+                                      <Component id="btn_yourUsername" alignment="1" pref="118" max="32767" attributes="1"/>
+                                      <Component id="btn_userMessages" alignment="1" pref="118" max="32767" attributes="1"/>
+                                      <Component id="btn_systemMessages" pref="118" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                               <Component id="cb_colorizeText" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -854,9 +854,9 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btn_foreground" alignment="0" pref="170" max="32767" attributes="1"/>
-                                      <Component id="btn_selection" pref="170" max="32767" attributes="1"/>
-                                      <Component id="btn_background" alignment="1" pref="170" max="32767" attributes="1"/>
+                                      <Component id="btn_foreground" alignment="0" pref="166" max="32767" attributes="1"/>
+                                      <Component id="btn_selection" pref="166" max="32767" attributes="1"/>
+                                      <Component id="btn_background" alignment="1" pref="166" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                               <Component id="cb_colorizeBody" alignment="0" min="-2" max="-2" attributes="1"/>
@@ -1016,8 +1016,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Quckbar">
-                <Property name="tabTitle" type="java.lang.String" value="Quckbar"/>
+              <JTabbedPaneConstraints tabName="QuickPanel">
+                <Property name="tabTitle" type="java.lang.String" value="QuickPanel"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -1192,7 +1192,7 @@
                                   <Component id="cb_SoundNotification" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="80" max="32767" attributes="0"/>
+                          <EmptySpace pref="76" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

@@ -380,7 +380,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                     .addComponent(tf_dplayEnv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(lbl_dplayEnvNote)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnl_generalLayout.createSequentialGroup()
                         .addComponent(cb_TrayIconEnabled)
@@ -541,7 +541,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pnl_preview, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbl_playerNames, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                    .addComponent(lbl_playerNames, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
                     .addComponent(lbl_playerMessages, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_textStyleLayout.createSequentialGroup()
                         .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -551,8 +551,8 @@ public class SettingsFrame extends javax.swing.JFrame {
                         .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnl_textStyleLayout.createSequentialGroup()
                                 .addComponent(tf_playerMessagesSize, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 268, Short.MAX_VALUE))
-                            .addComponent(cmb_playerMessagesType, 0, 293, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 270, Short.MAX_VALUE))
+                            .addComponent(cmb_playerMessagesType, 0, 295, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnl_textStyleLayout.createSequentialGroup()
                         .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_playerNamesType)
@@ -561,8 +561,8 @@ public class SettingsFrame extends javax.swing.JFrame {
                         .addGroup(pnl_textStyleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnl_textStyleLayout.createSequentialGroup()
                                 .addComponent(tf_playerNamesSize, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 269, Short.MAX_VALUE))
-                            .addComponent(cmb_playerNamesType, 0, 293, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 271, Short.MAX_VALUE))
+                            .addComponent(cmb_playerNamesType, 0, 295, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         pnl_textStyleLayout.setVerticalGroup(
@@ -636,11 +636,11 @@ public class SettingsFrame extends javax.swing.JFrame {
                             .addComponent(lbl_whisperMessages, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnl_textColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_whisperMessages, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                            .addComponent(btn_otherUsernames, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                            .addComponent(btn_yourUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                            .addComponent(btn_userMessages, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                            .addComponent(btn_systemMessages, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)))
+                            .addComponent(btn_whisperMessages, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                            .addComponent(btn_otherUsernames, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                            .addComponent(btn_yourUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                            .addComponent(btn_userMessages, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                            .addComponent(btn_systemMessages, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)))
                     .addComponent(cb_colorizeText))
                 .addContainerGap())
         );
@@ -695,7 +695,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                     .addComponent(pnl_textColors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_textLayout.createSequentialGroup()
                         .addComponent(pnl_textStyle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                         .addComponent(cb_timeStamps)))
                 .addContainerGap())
         );
@@ -740,9 +740,9 @@ public class SettingsFrame extends javax.swing.JFrame {
                             .addComponent(lbl_selection))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnl_bodyColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_foreground, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                            .addComponent(btn_selection, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                            .addComponent(btn_background, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)))
+                            .addComponent(btn_foreground, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                            .addComponent(btn_selection, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                            .addComponent(btn_background, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)))
                     .addComponent(cb_colorizeBody))
                 .addContainerGap())
         );
@@ -921,7 +921,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                         .addComponent(cb_TextNotification)
                         .addGap(18, 18, 18)
                         .addComponent(cb_SoundNotification)))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         pnl_ContactListLayout.setVerticalGroup(
             pnl_ContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -964,7 +964,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addGap(98, 98, 98))
         );
 
-        tabpn_settings.addTab("Quckbar", pnl_QuckPanel);
+        tabpn_settings.addTab("QuickPanel", pnl_QuckPanel);
 
         btn_save.setText("Save");
         btn_save.addActionListener(new java.awt.event.ActionListener() {

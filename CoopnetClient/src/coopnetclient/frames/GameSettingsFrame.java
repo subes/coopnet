@@ -486,7 +486,11 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }.start();
     }
 
-    this.setVisible(false);
+    if(isInstant){
+        Globals.closeGameSettingsFrame();
+    }else{
+        this.setVisible(false);
+    }
 
 }//GEN-LAST:event_btn_saveActionPerformed
 
@@ -518,12 +522,20 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
     if(btn_close.isEnabled() == false){
         btn_save.doClick();
     }else{
-        this.setVisible(false);
+        if(isInstant){
+            Globals.closeGameSettingsFrame();
+        }else{
+            this.setVisible(false);
+        }
     }
 }//GEN-LAST:event_formWindowClosing
 
 private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
-    this.setVisible(false);
+    if(isInstant){
+        Globals.closeGameSettingsFrame();
+    }else{
+        this.setVisible(false);
+    }
 }//GEN-LAST:event_btn_closeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

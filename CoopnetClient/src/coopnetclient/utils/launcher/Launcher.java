@@ -94,9 +94,6 @@ public class Launcher {
     }
     
     public static void launch(){        
-        if(isPlaying()){
-            throw new IllegalStateException("Another game has been launched already!");
-        }
         if(isInitialized()){
             synchronized(launchHandler){
                 isPlaying = true;
