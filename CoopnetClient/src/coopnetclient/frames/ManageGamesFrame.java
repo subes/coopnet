@@ -22,6 +22,7 @@ import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
+import coopnetclient.utils.Icons;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.event.ActionEvent;
@@ -48,7 +49,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             if (st.length() > 0) {
                 channels.add(st);
             }
-        }        
+        }
         AbstractAction act = new AbstractAction() {
 
             @Override
@@ -109,7 +110,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         tf_filter = new javax.swing.JTextField();
         lbl_filter = new javax.swing.JLabel();
         cb_showInstalledOnly = new javax.swing.JCheckBox();
-        jPanel1 = new javax.swing.JPanel();
+        pnl_settings = new javax.swing.JPanel();
         lbl_path = new javax.swing.JLabel();
         tf_exePath = new coopnetclient.frames.components.AdvancedJTextField();
         btn_browsePath = new javax.swing.JButton();
@@ -121,6 +122,8 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         lbl_note = new javax.swing.JLabel();
         lbl_noteText = new javax.swing.JLabel();
         btn_revert = new javax.swing.JButton();
+        lbl_installDirIcon = new javax.swing.JLabel();
+        lbl_exePathIcon = new javax.swing.JLabel();
 
         setTitle("Manage games");
         setResizable(false);
@@ -174,8 +177,8 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Edit Game Settings"));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        pnl_settings.setBorder(javax.swing.BorderFactory.createTitledBorder("Edit Game Settings"));
+        pnl_settings.setLayout(new java.awt.GridBagLayout());
 
         lbl_path.setDisplayedMnemonic(KeyEvent.VK_E);
         lbl_path.setLabelFor(tf_exePath);
@@ -186,10 +189,15 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(lbl_path, gridBagConstraints);
+        pnl_settings.add(lbl_path, gridBagConstraints);
 
         tf_exePath.setEnabled(false);
         tf_exePath.setNextFocusableComponent(tf_installPath);
+        tf_exePath.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tf_exePathCaretUpdate(evt);
+            }
+        });
         tf_exePath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_exePathActionPerformed(evt);
@@ -207,7 +215,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(tf_exePath, gridBagConstraints);
+        pnl_settings.add(tf_exePath, gridBagConstraints);
 
         btn_browsePath.setText("Browse");
         btn_browsePath.setEnabled(false);
@@ -217,10 +225,10 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(btn_browsePath, gridBagConstraints);
+        pnl_settings.add(btn_browsePath, gridBagConstraints);
 
         lbl_installPath.setDisplayedMnemonic(KeyEvent.VK_I);
         lbl_installPath.setLabelFor(tf_installPath);
@@ -231,10 +239,15 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(lbl_installPath, gridBagConstraints);
+        pnl_settings.add(lbl_installPath, gridBagConstraints);
 
         tf_installPath.setEnabled(false);
         tf_installPath.setNextFocusableComponent(btn_save);
+        tf_installPath.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tf_installPathCaretUpdate(evt);
+            }
+        });
         tf_installPath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_installPathActionPerformed(evt);
@@ -252,7 +265,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(tf_installPath, gridBagConstraints);
+        pnl_settings.add(tf_installPath, gridBagConstraints);
 
         btn_browseInstallPath.setText("Browse");
         btn_browseInstallPath.setEnabled(false);
@@ -262,10 +275,10 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(btn_browseInstallPath, gridBagConstraints);
+        pnl_settings.add(btn_browseInstallPath, gridBagConstraints);
 
         lbl_params.setDisplayedMnemonic(KeyEvent.VK_A);
         lbl_params.setLabelFor(tf_parameters);
@@ -276,7 +289,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(lbl_params, gridBagConstraints);
+        pnl_settings.add(lbl_params, gridBagConstraints);
 
         tf_parameters.setEnabled(false);
         tf_parameters.addActionListener(new java.awt.event.ActionListener() {
@@ -296,7 +309,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(tf_parameters, gridBagConstraints);
+        pnl_settings.add(tf_parameters, gridBagConstraints);
 
         lbl_note.setText("<html><b>Note:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -304,17 +317,17 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(lbl_note, gridBagConstraints);
+        pnl_settings.add(lbl_note, gridBagConstraints);
 
         lbl_noteText.setText("<html>DirectPlay games must be properly installed in order to be launched.<br>Run dxdiag.exe and look at the network tab to find out!<br>If the game is installed properly <br> it should be present in the middle list with status \"OK\".");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(lbl_noteText, gridBagConstraints);
+        pnl_settings.add(lbl_noteText, gridBagConstraints);
 
         btn_revert.setMnemonic(KeyEvent.VK_R);
         btn_revert.setText("Revert");
@@ -327,7 +340,19 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        jPanel1.add(btn_revert, gridBagConstraints);
+        pnl_settings.add(btn_revert, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnl_settings.add(lbl_installDirIcon, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        pnl_settings.add(lbl_exePathIcon, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -339,11 +364,11 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cb_showInstalledOnly))
                     .addComponent(scrl_games, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                    .addComponent(pnl_settings, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_save)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -364,7 +389,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrl_games, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnl_settings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_save)
@@ -390,7 +415,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                         if (returnVal == FileChooser.SELECT_ACTION) {
                             File file = mfc.getSelectedFile();
                             tf_exePath.setText(file.getAbsolutePath());
-                            saveTempData();
+                            //saveTempData();
                         }//else cancelled
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
@@ -436,7 +461,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                         if (returnVal == FileChooser.SELECT_ACTION) {
                             File file = mfc.getSelectedFile();
                             tf_installPath.setText(file.getAbsolutePath());
-                            saveTempData();
+                            //saveTempData();
                         }//else cancelled
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
@@ -482,6 +507,8 @@ private void lst_gamesValueChanged(javax.swing.event.ListSelectionEvent evt) {//
         btn_browseInstallPath.setEnabled(true);
         btn_browsePath.setEnabled(true);
         btn_revert.setEnabled(true);
+        lbl_installDirIcon.setIcon(null);
+        lbl_exePathIcon.setIcon(null);
 
         String path = tempExePath.get(lst_games.getSelectedValue().toString());
         if (path == null) {
@@ -515,6 +542,8 @@ private void lst_gamesValueChanged(javax.swing.event.ListSelectionEvent evt) {//
         btn_browseInstallPath.setEnabled(false);
         btn_browsePath.setEnabled(false);
         btn_revert.setEnabled(false);
+        lbl_installDirIcon.setIcon(null);
+        lbl_exePathIcon.setIcon(null);
     }
 }//GEN-LAST:event_lst_gamesValueChanged
 
@@ -556,6 +585,34 @@ private void btn_revertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     }
 }//GEN-LAST:event_btn_revertActionPerformed
 
+private void tf_installPathCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tf_installPathCaretUpdate
+    if (tf_installPath.getText().length() > 0) {
+        if (Verification.verifyDirectory(tf_installPath.getText())) {
+            lbl_installDirIcon.setIcon(Icons.acceptIcon);
+            tempInstallPath.put(lst_games.getSelectedValue().toString(), tf_installPath.getText());
+        } else {
+            lbl_installDirIcon.setIcon(Icons.refuseIcon);
+        }
+    } else {
+        lbl_installDirIcon.setIcon(null);
+        tempInstallPath.put(lst_games.getSelectedValue().toString(), tf_installPath.getText());
+    }
+}//GEN-LAST:event_tf_installPathCaretUpdate
+
+private void tf_exePathCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tf_exePathCaretUpdate
+    if (tf_exePath.getText().length() > 0) {
+        if (Verification.verifyFile(tf_exePath.getText())) {
+            lbl_exePathIcon.setIcon(Icons.acceptIcon);
+            tempExePath.put(lst_games.getSelectedValue().toString(), tf_exePath.getText());
+        } else {
+            lbl_exePathIcon.setIcon(Icons.refuseIcon);
+        }
+    } else {
+        lbl_exePathIcon.setIcon(null);
+        tempExePath.put(lst_games.getSelectedValue().toString(), tf_exePath.getText());
+    }
+}//GEN-LAST:event_tf_exePathCaretUpdate
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_browseInstallPath;
     private javax.swing.JButton btn_browsePath;
@@ -563,14 +620,16 @@ private void btn_revertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JButton btn_revert;
     private javax.swing.JButton btn_save;
     private javax.swing.JCheckBox cb_showInstalledOnly;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lbl_exePathIcon;
     private javax.swing.JLabel lbl_filter;
+    private javax.swing.JLabel lbl_installDirIcon;
     private javax.swing.JLabel lbl_installPath;
     private javax.swing.JLabel lbl_note;
     private javax.swing.JLabel lbl_noteText;
     private javax.swing.JLabel lbl_params;
     private javax.swing.JLabel lbl_path;
     private javax.swing.JList lst_games;
+    private javax.swing.JPanel pnl_settings;
     private javax.swing.JScrollPane scrl_games;
     private coopnetclient.frames.components.AdvancedJTextField tf_exePath;
     private javax.swing.JTextField tf_filter;
