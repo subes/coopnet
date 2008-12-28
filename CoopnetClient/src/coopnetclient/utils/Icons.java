@@ -49,8 +49,8 @@ public class Icons {
     public static ImageIcon offlineIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/offline.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     public static ImageIcon downloadIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/download.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     public static ImageIcon uploadIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/upload.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon transferIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/transfers.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-    public static ImageIcon errorIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/error.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon transferIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filetransfer/transfers.png")).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+    public static ImageIcon errorIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/error.png")).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
     public static ImageIcon acceptIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/actions/accept.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
     public static ImageIcon refuseIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/actions/decline.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
     public static ImageIcon cancelIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/actions/cancel.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
