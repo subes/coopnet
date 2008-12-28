@@ -359,7 +359,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         add(btn_ready, gridBagConstraints);
 
         btn_launch.setMnemonic(KeyEvent.VK_L);
@@ -375,7 +375,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         add(btn_launch, gridBagConstraints);
 
         sp_chatHorizontal.setBorder(null);
@@ -479,7 +479,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         add(cb_useHamachi, gridBagConstraints);
 
         btn_gameSettings.setMnemonic(KeyEvent.VK_G);
@@ -494,7 +494,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 0);
         add(btn_gameSettings, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
     private void tp_chatOutputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tp_chatOutputFocusLost
