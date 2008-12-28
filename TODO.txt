@@ -1,0 +1,11 @@
+This Branch is used to increase the quaility of the VoiceChat feature before merging it back into trunk.
+
+Todo includes:
+
+-- high priority --
+- use audio compression to lower the bandwidth usage (mp4? if not ogg... look at JMF transcoding)
+- implement a noise reduction algorithm
+
+-- low priority --
+- switch to UDP
+- set playback volume for each person locally (boost/lower volume, range 10% to 600%)
