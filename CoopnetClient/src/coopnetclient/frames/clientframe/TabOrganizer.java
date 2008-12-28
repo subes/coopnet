@@ -210,7 +210,7 @@ public class TabOrganizer {
             for (ChannelPanel cp : channelPanels) {
                 cp.disableButtons();
             }
-
+            
             roomPanel.initLauncher();
 
         } else {
