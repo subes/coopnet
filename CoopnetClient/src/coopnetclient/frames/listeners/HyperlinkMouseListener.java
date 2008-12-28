@@ -95,6 +95,8 @@ public class HyperlinkMouseListener extends MouseAdapter {
             //do nothing
         } catch (FileNotFoundException fne) {
             //do nothing cuz mozzilla's restore dialogue does this
+        } catch (java.io.IOException ioe) {
+            //do nothing cuz opera does this sometimes
         } catch (Exception e) {
             ErrorHandler.handleException(e);
         }
