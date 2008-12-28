@@ -46,7 +46,8 @@ public class Launcher {
         return isPlaying;
     }
     
-    public static void initialize(LaunchInfo launchInfo){
+    public static void initialize(LaunchInfo launchInfo){        
+        
         TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getChildName());
 
         if(launchInfo instanceof DirectPlayLaunchInfo){
@@ -54,21 +55,29 @@ public class Launcher {
         }else
         if(launchInfo instanceof ParameterLaunchInfo){
             launchHandler = new ParameterLaunchHandler();
-            if((!launchInfo.getIsInstantLaunch())
-                    && TabOrganizer.getRoomPanel()!= null 
+        }
+
+        synchronized(launchHandler){
+
+            isInitialized = launchHandler.initialize(launchInfo);
+
+            boolean processExists = launchHandler.processExists();
+
+            if(TabOrganizer.getRoomPanel() != null){
+                int numSettings = GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size();
+                if(isInitialized && (numSettings == 0 || isPlaying() || processExists)){
+                    TabOrganizer.getRoomPanel().initDone(processExists);
+                }else{
+                    TabOrganizer.getRoomPanel().initDoneReadyDisabled();
+                }
+            }
+
+            if(launchInfo instanceof ParameterLaunchInfo){
+                if(!launchInfo.getIsInstantLaunch() && !isPlaying() && !processExists
+                    && TabOrganizer.getRoomPanel()!= null
                     && TabOrganizer.getRoomPanel().isHost()
                     && GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() > 0){
-                Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getChildName(),launchInfo.getIsHost());
-            }
-        }
-        
-        synchronized(launchHandler){
-            isInitialized = launchHandler.initialize(launchInfo);
-            if(TabOrganizer.getRoomPanel() != null){
-                if(isInitialized){
-                    TabOrganizer.getRoomPanel().initDone();
-                }else{
-                    TabOrganizer.getRoomPanel().initFailed();
+                    Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getChildName(),launchInfo.getIsHost());
                 }
             }
         }

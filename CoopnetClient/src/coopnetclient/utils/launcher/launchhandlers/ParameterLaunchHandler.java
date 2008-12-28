@@ -46,7 +46,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
         this.launchInfo = (ParameterLaunchInfo) launchInfo;
 
         String binaryPath = new File(this.launchInfo.getBinaryPath()).getAbsolutePath();
-        this.binary = binaryPath.substring(binaryPath.lastIndexOf(File.pathSeparatorChar)+1);
+        this.binary = binaryPath.substring(binaryPath.lastIndexOf(File.separatorChar)+1);
         
         return true;
     }
@@ -95,7 +95,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
         }else{
             while(processExists()){
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException ex) {
                     Logger.log(ex);
                 }
@@ -125,7 +125,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
         return ret;
     }
 
-    private boolean processExists(){
+    public boolean processExists(){
 
         String pgrepCommand;
         if(Globals.getOperatingSystem() == OperatingSystems.LINUX){

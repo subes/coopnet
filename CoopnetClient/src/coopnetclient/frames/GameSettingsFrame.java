@@ -84,6 +84,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         getRootPane().getActionMap().put("close", act);
         InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
+
+        btn_close.setEnabled(false);
     }
 
     /** Creates new form GameSettingsPanel */
@@ -112,6 +114,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
         pack();
+
+        btn_close.setEnabled(false);
     }
 
     private void customize() {
@@ -431,6 +435,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
+    btn_close.setEnabled(true);
+
     //update the launcher
     try {
         //if somethings unselected an exception is thrown        
@@ -458,9 +464,9 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
 
         if (!isInstant) {
-            TabOrganizer.getRoomPanel().initDone();
+            TabOrganizer.getRoomPanel().initDone(false);
         }
-        Globals.closeGameSettingsFrame();
+        
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -479,6 +485,8 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             }
         }.start();
     }
+
+    this.setVisible(false);
 
 }//GEN-LAST:event_btn_saveActionPerformed
 
@@ -507,11 +515,15 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     }
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-    Globals.closeGameSettingsFrame();
+    if(btn_close.isEnabled() == false){
+        btn_save.doClick();
+    }else{
+        this.setVisible(false);
+    }
 }//GEN-LAST:event_formWindowClosing
 
 private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
-    Globals.closeGameSettingsFrame();
+    this.setVisible(false);
 }//GEN-LAST:event_btn_closeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

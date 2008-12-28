@@ -29,6 +29,7 @@ import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.Settings;
+import coopnetclient.utils.launcher.Launcher;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -281,6 +282,11 @@ public class JDPlayLaunchHandler extends LaunchHandler {
         }
                 
         return ret;
+    }
+
+    @Override
+    public boolean processExists() {
+        return false;
     }
 
 }

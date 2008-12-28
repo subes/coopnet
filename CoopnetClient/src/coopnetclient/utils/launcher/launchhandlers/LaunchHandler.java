@@ -37,6 +37,8 @@ public abstract class LaunchHandler {
     public abstract boolean predictSuccessfulLaunch();
     
     public abstract boolean launch();
+
+    public abstract boolean processExists();
     
     public abstract void updatePlayerName();
 }

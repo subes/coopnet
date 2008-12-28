@@ -129,6 +129,10 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
         chat("", roomName, ChatStyles.USER);
         chat("", "room://"+ID, ChatStyles.USER);
+
+        if(Launcher.isPlaying()){
+            btn_gameSettings.setEnabled(false);
+        }
     }
 
     public boolean isHost(){
@@ -172,6 +176,10 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     @Override
     public void requestFocus() {
         tp_chatInput.requestFocusInWindow();
+    }
+
+    public void disableGameSettingsFrameButton(){
+        btn_gameSettings.setEnabled(false);
     }
 
     public void customCodeForColorizer() {
@@ -275,6 +283,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                 try{                 
                     Launcher.launch();
                     Protocol.gameClosed(gameName);
+                    btn_gameSettings.setEnabled(true);
                 }catch(Exception e){
                     ErrorHandler.handleException(e);
                 }
@@ -299,7 +308,11 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         btn_launch.setEnabled(false);
     }
 
-    public void initDone(){
+    public void initDone(boolean processExists){
+        if(processExists){
+            btn_gameSettings.setEnabled(false);
+        }
+
         btn_ready.setText("Ready");
         btn_ready.setEnabled(true);
         if(wasReadyBeforeReInit){
@@ -308,8 +321,9 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         }
     }
 
-    public void initFailed(){
+    public void initDoneReadyDisabled(){
         btn_ready.setText("Ready");
+        btn_gameSettings.setEnabled(false);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
