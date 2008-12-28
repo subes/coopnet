@@ -458,7 +458,7 @@ public class CommandHandler {
                         cp.setAway(information[0]);
                     }
                     if (TabOrganizer.getRoomPanel() != null ) {
-                        TabOrganizer.getRoomPanel().setAway(information[1]);
+                        TabOrganizer.getRoomPanel().setAway(information[0]);
                     }
                     break;
                 case UNSETAWAYSTATUS:
@@ -466,7 +466,7 @@ public class CommandHandler {
                         cp.unSetAway(information[0]);
                     }
                     if (TabOrganizer.getRoomPanel() != null ) {
-                        TabOrganizer.getRoomPanel().unSetAway(information[1]);
+                        TabOrganizer.getRoomPanel().unSetAway(information[0]);
                     }
                     break;
                 default:
