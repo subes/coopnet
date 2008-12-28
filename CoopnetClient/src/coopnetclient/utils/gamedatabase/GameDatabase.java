@@ -23,6 +23,7 @@ import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.MapLoaderTypes;
 import coopnetclient.utils.RegistryReader;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -285,52 +286,44 @@ public class GameDatabase {
     }
 
     public static String getInstallPath(String gamename) {
-        String exepath = getLaunchPathWithExe(gamename, null);
-        String relativexepath = GameDatabase.getRelativeExePath(gamename, null);
+        //path set by manage frame is pimary
+        String path = getLocalInstallPath(getIDofGame(gamename));
 
-        if (exepath != null && exepath.length() > 0 && relativexepath != null) {
-            return exepath.substring(0, exepath.length() - relativexepath.length());
-        } else {
-            return getLocalInstallPath(getIDofGame(gamename));
+        if(path != null && path.length() > 0){
+            return path;
         }
+
+        //if not overridden try to detect it
+        String exepath = getLaunchPathWithExe(gamename, null);
+        //requires the gamedata to be loaded
+        //TODO rethink this
+        String relativexepath = GameDatabase.getRelativeExePath(gamename, null);
+        return exepath.substring(0, exepath.length() - relativexepath.length());
     }
 
     public static String getFullMapPath(String gamename, String modName) {
-        String tmp = getLaunchPathWithExe(gamename, modName);
+        String tmp = getInstallPath(gamename);
         if (tmp == null || tmp.length() == 0) {
             return null;
         }
-        String relativeexepath = GameDatabase.getRelativeExePath(gamename, modName);
         String mappath = GameDatabase.getMapPath(gamename, modName);
-        tmp = tmp.replace(relativeexepath, mappath);
+        //add path seperator if needed
+        if( ! tmp.endsWith(File.separator) || !mappath.startsWith(File.separator) ){
+            tmp += File.separator;
+        }
+        tmp += mappath;
         return tmp;
     }
 
     public static String getLaunchPathWithExe(String gamename, String modName) {
         String path = "";
         String ID = getIDofGame(gamename);
-        switch (Globals.getOperatingSystem()) {
-            case LINUX:
-                path = GameDatabase.getLocalExecutablePath(ID);
-                break;
-            case WINDOWS:
-                path = RegistryReader.readAny(GameDatabase.getRegEntry(gamename, modName));
+        //path set in manage frame is primary
+        path = GameDatabase.getLocalExecutablePath(ID);
 
-                //if its not detected try loading from local paths(given by user)
-                if (path == null || (path != null && path.length() == 0)) {
-                    String tmp = GameDatabase.getLocalExecutablePath(ID);
-                    if (tmp != null) {
-                        path = tmp;
-                    }
-                }
-                // make sure ret points to the exe
-                if (path != null && path.length() > 0 && !path.endsWith(".exe")) {
-                    String tmp = GameDatabase.getRelativeExePath(gamename, modName);
-                    if (tmp != null) {
-                        path = path + ((path.endsWith("\\") || path.endsWith("/")) ? "" : "/") + tmp;
-                    }
-                }
-                break;
+        //if its not overridden try detecting
+        if (path == null || (path != null && path.length() == 0)) {
+            path = RegistryReader.readAny(GameDatabase.getRegEntry(gamename, modName));
         }
         return path;
     }
