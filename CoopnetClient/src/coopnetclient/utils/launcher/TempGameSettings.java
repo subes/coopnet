@@ -66,6 +66,7 @@ public class TempGameSettings {
                     setting.setValue(value, TabOrganizer.getRoomPanel().isHost() && broadcast);
                     return;
                 }else{
+                    setting.setValue(value, broadcast);
                     return;
                 }
             }
