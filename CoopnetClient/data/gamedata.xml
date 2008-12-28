@@ -1650,7 +1650,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Settings>
             <ChoiceSetting>
-                <SettingName>GameMode</SettingName>
+                <SettingName>GameMode:</SettingName>
                 <SettingType>CHOICE</SettingType>
                 <KeyWord>GAMEMODE</KeyWord>
                 <ChoiceItem>
@@ -1671,22 +1671,22 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 </ChoiceItem>
             </ChoiceSetting>
             <NumberSetting>
-                <SettingName>goalscore</SettingName>
+                <SettingName>Goalscore:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>GOALSCORE</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>timelimit</SettingName>
+                <SettingName>Timelimit:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>TIMELIMIT</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>maxplayers</SettingName>
+                <SettingName>Maxplayers:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>MAXPLAYERS</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>port</SettingName>
+                <SettingName>Port:</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27960</SettingDefaultValue>
@@ -1741,7 +1741,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Settings>
             <ChoiceSetting>
-                <SettingName>GameMode</SettingName>
+                <SettingName>GameMode:</SettingName>
                 <SettingType>CHOICE</SettingType>
                 <KeyWord>GAMEMODE</KeyWord>
                 <ChoiceItem>
@@ -1758,22 +1758,22 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 </ChoiceItem>
             </ChoiceSetting>
             <NumberSetting>
-                <SettingName>goalscore</SettingName>
+                <SettingName>Goalscore:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>GOALSCORE</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>timelimit</SettingName>
+                <SettingName>Timelimit:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>TIMELIMIT</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>maxplayers</SettingName>
+                <SettingName>Maxplayers:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>MAXPLAYERS</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>port</SettingName>
+                <SettingName>Port:</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27960</SettingDefaultValue>
@@ -1826,7 +1826,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Settings>
             <ChoiceSetting>
-                <SettingName>GameMode</SettingName>
+                <SettingName>GameMode:</SettingName>
                 <SettingType>CHOICE</SettingType>
                 <KeyWord>GAMEMODE</KeyWord>
                 <ChoiceItem>
@@ -1847,22 +1847,22 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 </ChoiceItem>
             </ChoiceSetting>
             <NumberSetting>
-                <SettingName>goalscore</SettingName>
+                <SettingName>Goalscore:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>GOALSCORE</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>timelimit</SettingName>
+                <SettingName>Timelimit:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>TIMELIMIT</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>maxplayers</SettingName>
+                <SettingName>Maxplayers:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>MAXPLAYERS</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>port</SettingName>
+                <SettingName>Port:</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27960</SettingDefaultValue>
@@ -1911,7 +1911,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Settings>
             <ChoiceSetting>
-                <SettingName>GameMode</SettingName>
+                <SettingName>GameMode:</SettingName>
                 <SettingType>CHOICE</SettingType>
                 <KeyWord>GAMEMODE</KeyWord>
                 <ChoiceItem>
@@ -1932,12 +1932,12 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 </ChoiceItem>
             </ChoiceSetting>
             <NumberSetting>
-                <SettingName>maxplayers</SettingName>
+                <SettingName>Maxplayers:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>MAXPLAYERS</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>port</SettingName>
+                <SettingName>Port:</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>14567</SettingDefaultValue>
@@ -1986,12 +1986,12 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Settings>
             <NumberSetting>
-                <SettingName>maxplayers</SettingName>
+                <SettingName>Maxplayers:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>MAXPLAYERS</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>port</SettingName>
+                <SettingName>Port:</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27010</SettingDefaultValue>
@@ -2032,12 +2032,12 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Settings>
             <NumberSetting>
-                <SettingName>maxplayers</SettingName>
+                <SettingName>Maxplayers:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>MAXPLAYERS</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>port</SettingName>
+                <SettingName>Port:</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27010</SettingDefaultValue>
@@ -2096,7 +2096,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Settings>
             <ChoiceSetting>
-                <SettingName>GameMode</SettingName>
+                <SettingName>GameMode:</SettingName>
                 <SettingType>CHOICE</SettingType>
                 <KeyWord>GAMEMODE</KeyWord>
                 <ChoiceItem>
@@ -2125,22 +2125,22 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 </ChoiceItem>                
             </ChoiceSetting>
             <NumberSetting>
-                <SettingName>goalscore</SettingName>
+                <SettingName>Goalscore:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>GOALSCORE</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>timelimit</SettingName>
+                <SettingName>Timelimit:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>TIMELIMIT</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>maxplayers</SettingName>
+                <SettingName>Maxplayers:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>MAXPLAYERS</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>port</SettingName>
+                <SettingName>Port:</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>28960</SettingDefaultValue>
@@ -2193,22 +2193,22 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Settings>
             <NumberSetting>
-                <SettingName>goalscore</SettingName>
+                <SettingName>Goalscore:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>GOALSCORE</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>timelimit</SettingName>
+                <SettingName>Timelimit:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>TIMELIMIT</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>maxplayers</SettingName>
+                <SettingName>Maxplayers:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>MAXPLAYERS</KeyWord>
             </NumberSetting>            
             <ChoiceSetting>
-                <SettingName>GameMode</SettingName>
+                <SettingName>GameMode:</SettingName>
                 <SettingType>CHOICE</SettingType>
                 <KeyWord>GAMEMODE</KeyWord>
                 <ChoiceItem>
@@ -2268,7 +2268,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Settings>
             <ChoiceSetting>
-                <SettingName>Difficulty</SettingName>
+                <SettingName>Difficulty:</SettingName>
                 <SettingType>CHOICE</SettingType>
                 <KeyWord>DIFFICULTY</KeyWord>
                 <ChoiceItem>
@@ -2289,7 +2289,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 </ChoiceItem>
             </ChoiceSetting>
             <ChoiceSetting>
-                <SettingName>Desired team</SettingName>
+                <SettingName>Desired team:</SettingName>
                 <SettingType>CHOICE</SettingType>
                 <KeyWord>TEAM</KeyWord>
                 <IsLocalSetting/>
@@ -2351,7 +2351,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Settings>
             <ChoiceSetting>
-                <SettingName>GameMode</SettingName>
+                <SettingName>GameMode:</SettingName>
                 <SettingType>CHOICE</SettingType>
                 <KeyWord>GAMEMODE</KeyWord>
                 <ChoiceItem>
@@ -2380,17 +2380,17 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 </ChoiceItem>
             </ChoiceSetting>
             <NumberSetting>
-                <SettingName>timelimit</SettingName>
+                <SettingName>Timelimit:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>TIMELIMIT</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>maxplayers</SettingName>
+                <SettingName>Maxplayers:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>MAXPLAYERS</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>port</SettingName>
+                <SettingName>Port:</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>7777</SettingDefaultValue>
@@ -2432,7 +2432,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Settings>
             <ChoiceSetting>
-                <SettingName>GameMode</SettingName>
+                <SettingName>GameMode:</SettingName>
                 <SettingType>CHOICE</SettingType>
                 <KeyWord>GAMEMODE</KeyWord>
                 <ChoiceItem>
@@ -2477,27 +2477,27 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 </ChoiceItem>
             </ChoiceSetting>
             <NumberSetting>
-                <SettingName>timelimit</SettingName>
+                <SettingName>Timelimit:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>TIMELIMIT</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>maxplayers</SettingName>
+                <SettingName>Maxplayers:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>MAXPLAYERS</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>bots</SettingName>
+                <SettingName>Bots:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>BOTS</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>goalscore</SettingName>
+                <SettingName>Goalscore:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>GOALSCORE</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>port</SettingName>
+                <SettingName>Port:</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>7777</SettingDefaultValue>
@@ -2527,12 +2527,12 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Settings> 
             <NumberSetting>
-                <SettingName>maxplayers</SettingName>
+                <SettingName>Maxplayers:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>MAXPLAYERS</KeyWord>
             </NumberSetting>
             <NumberSetting>
-                <SettingName>port</SettingName>
+                <SettingName>Port:</SettingName>
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>7777</SettingDefaultValue>
