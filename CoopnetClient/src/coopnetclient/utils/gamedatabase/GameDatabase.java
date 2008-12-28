@@ -298,7 +298,7 @@ public class GameDatabase {
         //requires the gamedata to be loaded
         //TODO rethink this
         String relativexepath = GameDatabase.getRelativeExePath(gamename, null);
-        if(relativexepath!= null){
+        if(exepath != null && relativexepath!= null){
             return exepath.substring(0, exepath.length() - relativexepath.length());
         }else{
             return "";

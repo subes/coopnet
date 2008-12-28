@@ -34,7 +34,6 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.ChannelStatusListModel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.frames.renderers.RoomNameRenderer;
-import coopnetclient.frames.renderers.TableTextCellRenderer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.UserListFileDropHandler;
 import java.awt.Rectangle;
@@ -44,7 +43,6 @@ import javax.swing.DropMode;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumn;
 import javax.swing.text.StyledDocument;
 
 public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {

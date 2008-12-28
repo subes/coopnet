@@ -54,8 +54,8 @@ public class Icons {
     public static ImageIcon acceptIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/actions/accept.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
     public static ImageIcon refuseIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/actions/decline.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
     public static ImageIcon cancelIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/actions/cancel.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
-    public static ImageIcon tabCloseIconNormal = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/actions/close.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
-    public static ImageIcon tabCloseIconMouseOver = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/actions/close_mouseover.png")).getScaledInstance(18, 18, Image.SCALE_SMOOTH));
+    public static ImageIcon tabCloseIconNormal = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/actions/close.png")));
+    public static ImageIcon tabCloseIconMouseOver = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/actions/close_mouseover.png")));
     public static ImageIcon starred = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/favourites/starred.png")));
     public static ImageIcon unstarred = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/favourites/unstarred.png")));
     public static ImageIcon modIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/roomtype/mod.png")));

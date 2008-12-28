@@ -146,7 +146,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         //setup constraints
         firstcolumn.gridwidth = 1;
         firstcolumn.gridheight = 1;
-        firstcolumn.fill = GridBagConstraints.NONE;
+        firstcolumn.fill = GridBagConstraints.HORIZONTAL;
         firstcolumn.ipadx = 40;
         firstcolumn.anchor = GridBagConstraints.EAST;
         firstcolumn.weightx = 0;
@@ -508,7 +508,11 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                         if (input instanceof JTextField) {
                             ((JTextField) input).setText(value);
                         } else if (input instanceof JSpinner) {
-                            ((JSpinner) input).setValue(value);
+                            int j;
+                            try{
+                                j = Integer.valueOf(value);
+                                ((JSpinner) input).setValue(j);
+                            }catch(NumberFormatException nfe){}
                         } else if (input instanceof JComboBox) {
                             ((JComboBox) input).setSelectedItem(value);
                         }
