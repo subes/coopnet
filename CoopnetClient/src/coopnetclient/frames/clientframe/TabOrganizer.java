@@ -211,6 +211,8 @@ public class TabOrganizer {
                 cp.disableButtons();
             }
 
+            roomPanel.initLauncher();
+
         } else {
             if (Globals.getDebug()) {
                 System.out.println("[W]\tClose the current RoomPanel before opening a new one!");

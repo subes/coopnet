@@ -84,19 +84,25 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         this.password = password;
         users.add(Globals.getThisPlayer_loginName());
         this.compatible = compatible;
-        
+
+        initComponents();
+
         if (Integer.valueOf(modindex) == -1) {
             this.childName = null;
         } else {
             this.childName = GameDatabase.getGameModNames(channel)[Integer.valueOf(modindex)].toString();
         }
-        initComponents();
-        
+
         if(hamachiIp.length()>0 ) {
             cb_useHamachi.setEnabled(true);
             cb_useHamachi.setToolTipText("<html>Don't use this unless you have connection issues!<br>If you really need to use this consult with the room host!<br>Both you and the host have to be connected to <br>the same hamachi network!Otherwise it won't work!");
         }
         
+        ArrayList<GameSetting> settings = GameDatabase.getGameSettings(channel, childName);
+        if (settings == null || settings.size() == 0) {
+            btn_gameSettings.setVisible(false);
+        }
+
         if (isHost) {
             popup = new PlayerListPopupMenu(PlayerListPopupMenu.HOST_MODE, lst_userList);
             cb_useHamachi.setVisible(false);
@@ -105,7 +111,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             popup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
         }
         lst_userList.setComponentPopupMenu(popup);
-        
+
         roomStatusListCR = new RoomPlayerStatusListCellRenderer();
         lst_userList.setCellRenderer(roomStatusListCR);
         lst_userList.setDragEnabled(true);
@@ -121,13 +127,6 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
         coopnetclient.utils.Colorizer.colorize(this);
 
-        initLauncher();
-
-        ArrayList<GameSetting> settings = GameDatabase.getGameSettings(channel, childName);
-        if (settings == null || settings.size() == 0) {
-            btn_gameSettings.setVisible(false);
-        }
-        
         chat("", roomName, ChatStyles.USER);
         chat("", "room://"+ID, ChatStyles.USER);
     }
@@ -155,6 +154,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                     }else{
                         launchInfo = new DirectPlayLaunchInfo(gameName, childName, ip, isHost, false, compatible,password);
                     }
+
                     Launcher.initialize(launchInfo);
                 }catch(Exception e){
                     ErrorHandler.handleException(e);
@@ -306,6 +306,10 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             btn_ready.doClick();
             wasReadyBeforeReInit = false;
         }
+    }
+
+    public void initFailed(){
+        btn_ready.setText("Ready");
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

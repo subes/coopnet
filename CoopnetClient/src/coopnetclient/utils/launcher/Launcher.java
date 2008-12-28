@@ -64,11 +64,12 @@ public class Launcher {
         
         synchronized(launchHandler){
             isInitialized = launchHandler.initialize(launchInfo);
-            if(isInitialized && TabOrganizer.getRoomPanel() != null && 
-                    (!(launchInfo instanceof ParameterLaunchInfo) 
-                       || !TabOrganizer.getRoomPanel().isHost() 
-                       || GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() == 0 ) ){
-                TabOrganizer.getRoomPanel().initDone();
+            if(TabOrganizer.getRoomPanel() != null){
+                if(isInitialized){
+                    TabOrganizer.getRoomPanel().initDone();
+                }else{
+                    TabOrganizer.getRoomPanel().initFailed();
+                }
             }
         }
     }
