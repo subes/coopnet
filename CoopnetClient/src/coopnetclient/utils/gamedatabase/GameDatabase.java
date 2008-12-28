@@ -298,7 +298,11 @@ public class GameDatabase {
         //requires the gamedata to be loaded
         //TODO rethink this
         String relativexepath = GameDatabase.getRelativeExePath(gamename, null);
-        return exepath.substring(0, exepath.length() - relativexepath.length());
+        if(relativexepath!= null){
+            return exepath.substring(0, exepath.length() - relativexepath.length());
+        }else{
+            return "";
+        }
     }
 
     public static String getFullMapPath(String gamename, String modName) {
