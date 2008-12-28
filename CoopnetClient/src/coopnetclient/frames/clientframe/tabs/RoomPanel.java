@@ -323,7 +323,6 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     public void initDoneReadyDisabled(){
         btn_ready.setText("Ready");
-        btn_gameSettings.setEnabled(false);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
