@@ -81,7 +81,7 @@ public class TabComponent extends javax.swing.JPanel {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         add(lbl_text, gridBagConstraints);
 
         lbl_close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
