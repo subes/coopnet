@@ -28,16 +28,13 @@ import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.FileDownloader;
 import coopnetclient.utils.Verification;
 import coopnetclient.protocol.out.Message;
-import coopnetclient.utils.InactivityWatcher;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
-import java.awt.AWTEvent;
 import java.awt.SystemTray;
-import java.awt.Toolkit;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -82,6 +79,7 @@ public class Client {
                     while (iadrs.hasMoreElements()) {
                         InetAddress iadr = iadrs.nextElement();
                         ip = iadr.getHostAddress();
+                        System.out.println("Hamachi found!");
                         return ip;
                     }
                 }
@@ -96,12 +94,6 @@ public class Client {
      * 
      */
     public static void startup() {
-    
-        Toolkit.getDefaultToolkit().addAWTEventListener(new InactivityWatcher(),
-                 AWTEvent.MOUSE_EVENT_MASK
-                |AWTEvent.MOUSE_MOTION_EVENT_MASK
-                |AWTEvent.MOUSE_WHEEL_EVENT_MASK
-                |AWTEvent.KEY_EVENT_MASK);
 
         readServerAddress();        
         SwingUtilities.invokeLater(new Thread() {
@@ -112,12 +104,11 @@ public class Client {
                     Colorizer.initLAF();
                     GameDatabase.loadVersion();
                     GameDatabase.load("", GameDatabase.dataFilePath);
-                    GameDatabase.detectGames();
                     SwingUtilities.invokeLater(new Runnable() {
 
                         @Override
                         public void run() {
-                            Globals.openClientFrame();                            
+                            Globals.openClientFrame();
                             if (Settings.getFirstRun()) {
                                 TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
                                 Settings.setFirstRun(false);
@@ -176,7 +167,6 @@ public class Client {
             //trayicon disabled or overridden
             //cancel any filesendings
             TabOrganizer.cancelFileSendingOnClose();
-            try{Thread.sleep(500);}catch(Exception e){}
             //close connection
             Client.stopConnection();
             //save sizes

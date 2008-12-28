@@ -23,7 +23,6 @@ import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Verification;
-import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 public class PasswordRecoveryPanel extends javax.swing.JPanel {
@@ -37,7 +36,7 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
 
     @Override
     public void requestFocus() {
-         tf_name.requestFocusInWindow();
+         tf_name.requestFocus();        
     }
 
 
@@ -104,16 +103,12 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
         pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Password recovery"));
         pnl_input.setFocusable(false);
 
-        lbl_name.setDisplayedMnemonic(KeyEvent.VK_N);
-        lbl_name.setLabelFor(tf_name);
         lbl_name.setText("Name:");
         lbl_name.setFocusable(false);
 
-        lbl_email.setDisplayedMnemonic(KeyEvent.VK_E);
         lbl_email.setText("E-Mail:");
         lbl_email.setFocusable(false);
 
-        btn_send.setMnemonic(KeyEvent.VK_S);
         btn_send.setText("Send");
         btn_send.setNextFocusableComponent(tf_name);
         btn_send.addActionListener(new java.awt.event.ActionListener() {
@@ -138,7 +133,6 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
             }
         });
 
-        btn_cancel.setMnemonic(KeyEvent.VK_C);
         btn_cancel.setText("Cancel");
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,10 +147,10 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
             .addGroup(pnl_inputLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+                    .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                     .addGroup(pnl_inputLayout.createSequentialGroup()
                         .addComponent(btn_send)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
                         .addComponent(btn_cancel))
                     .addGroup(pnl_inputLayout.createSequentialGroup()
                         .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,8 +158,8 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
                             .addComponent(lbl_email))
                         .addGap(10, 10, 10)
                         .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tf_email, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
-                            .addComponent(tf_name, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE))))
+                            .addComponent(tf_email, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                            .addComponent(tf_name, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         pnl_inputLayout.setVerticalGroup(

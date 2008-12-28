@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 26 -->
+<!--Version 22 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?,(NoSpaces)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
@@ -16,12 +16,12 @@
 <!ELEMENT Settings ((ChoiceSetting|TextSetting|NumberSetting)*)>
 <!ELEMENT ChoiceSetting (SettingName, SettingType, KeyWord, (IsSharedSetting)?, (SettingDefaultValue)?,(ChoiceItem)*)>
 <!ELEMENT TextSetting (SettingName, SettingType, KeyWord, (IsSharedSetting)?, (SettingDefaultValue)?)>
-<!ELEMENT NumberSetting (SettingName, SettingType, KeyWord, (IsLocalSetting)?, (SettingDefaultValue)?, SettingMinValue, SettingMaxValue)>
+<!ELEMENT NumberSetting (SettingName, SettingType, KeyWord, (IsSharedSetting)?, (SettingDefaultValue)?, SettingMinValue, SettingMaxValue)>
 <!ELEMENT ChoiceItem (ChoiceDisplayName,ChoiceRealValue)>
 <!ELEMENT SettingName (CDATA)>
 <!ELEMENT SettingType (CDATA)>
 <!ELEMENT KeyWord (CDATA)>
-<!ELEMENT IsLocalSetting (EMPTY)>
+<!ELEMENT IsSharedSetting (EMPTY)>
 <!ELEMENT SettingDefaultValue (CDATA)>
 <!ELEMENT SettingMinValue (CDATA)>
 <!ELEMENT SettingMaxValue (CDATA)>
@@ -1589,21 +1589,9 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
             <PropertyName>GUID</PropertyName>
-            <PropertyValue>{FBA662E0-904E-11D2-A07E-00C0DFA88F97}</PropertyValue>
+            <PropertyValue>{FBA662E0-904E-11D2-A07E-00C0DFA88F97}}</PropertyValue>
         </Property>
-            </GameData>
-    <!--<GameData>
-        <GameName>O.R.B.</GameName>
-        <ChannelID>237</ChannelID>
-        <LaunchMethod>DIRECTPLAY</LaunchMethod>
-        <Property>
-            <PropertyName>GUID</PropertyName>
-            <PropertyValue>{9F4AD6FC-D90D-4D58-8DAF-50021646D151}</PropertyValue>
-        </Property>
-        <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\DirectPlay8\Applications\{9F4AD6FC-D90D-4D58-8DAF-50021646D151}\ExecutablePath </RegKey>
-        </RegistryEntry>
-    </GameData>-->
+    </GameData>
     <GameData>
         <GameName>Quake 3</GameName>
         <ChannelID>228</ChannelID>
@@ -1689,6 +1677,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
                 <SettingDefaultValue>27960</SettingDefaultValue>
             </NumberSetting>            
         </Settings>
@@ -1776,8 +1765,15 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
                 <SettingDefaultValue>27960</SettingDefaultValue>
-            </NumberSetting>           
+            </NumberSetting>
+            <TextSetting>
+                <SettingName>map</SettingName>
+                <SettingType>TEXT</SettingType>
+                <KeyWord>MAP</KeyWord>
+                <SettingDefaultValue>assault</SettingDefaultValue>
+            </TextSetting>
         </Settings>
     </GameData>
     <GameData>
@@ -1865,6 +1861,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
                 <SettingDefaultValue>27960</SettingDefaultValue>
             </NumberSetting>            
         </Settings>
@@ -1895,7 +1892,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>+restart 1 +hostServer 1 +fullscreen 1 +playerName "{NAME}" +loadLevel "{MAP}.rfa" +maxPlayers {MAXPLAYERS} +gameMode {GAMEMODE} +port {PORT}</PropertyValue>
+            <PropertyValue>+restart 1 +hostServer 1 +fullscreen 1 +playerName "{NAME}" +loadLevel "{MAP}" +maxPlayers {MAXPLAYERS} +gameMode {GAMEMODE} +port {PORT}</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
@@ -1940,6 +1937,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
                 <SettingDefaultValue>14567</SettingDefaultValue>
             </NumberSetting>            
         </Settings>
@@ -1966,11 +1964,11 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>MAPEXT</PropertyName>
-            <PropertyValue>bsp</PropertyValue>
+            <PropertyValue>BSP</PropertyValue>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>+sv_lan 1 +sv_setmaster none +maxplayers {MAXPLAYERS} +map {MAP}.bsp +hostname "{ROOMNAME}" +port {PORT}</PropertyValue>
+            <PropertyValue>+sv_lan 1 +sv_setmaster none +maxplayers {MAXPLAYERS} +map {MAP} +hostname "{ROOMNAME}" +port {PORT}</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
@@ -1994,6 +1992,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
                 <SettingDefaultValue>27010</SettingDefaultValue>
             </NumberSetting>            
         </Settings>
@@ -2040,6 +2039,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
                 <SettingDefaultValue>27010</SettingDefaultValue>
             </NumberSetting>
             <TextSetting>
@@ -2143,6 +2143,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
                 <SettingDefaultValue>28960</SettingDefaultValue>
             </NumberSetting>            
         </Settings>
@@ -2227,94 +2228,6 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Settings>
     </GameData>
     <GameData>
-        <GameName>Left 4 Dead</GameName>
-        <ChannelID>236</ChannelID>
-        <LaunchMethod>PARAMETER</LaunchMethod>
-        <InstantLaunch/>
-        <RegistryEntry></RegistryEntry>
-        <Property>
-            <PropertyName>EXE</PropertyName>
-            <PropertyValue>hl2.exe</PropertyValue>
-        </Property>        
-        <Property>
-            <PropertyName>MAPLOADERTYPE</PropertyName>
-            <PropertyValue>FILE</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>MAPPATH</PropertyName>
-            <PropertyValue>left4dead\maps</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>MAPEXT</PropertyName>
-            <PropertyValue>bsp</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>-game left4dead -console -novid +sv_cheats 0 +sv_allow_lobby_connect_only 0 +z_difficulty {DIFFICULTY} +sv_lan 0 +map {MAP}.bsp +name "{NAME}" +team_desired "{TEAM}" {SHOULDERVIEW}</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>JOINPATTERN</PropertyName>
-            <PropertyValue>-game left4dead -console -novid +connect {HOSTIP} +name "{NAME}" +team_desired "{TEAM}" {SHOULDERVIEW}</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
-            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>JOINPASSWORDPATTERN</PropertyName>
-            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
-        </Property>
-        <Settings>
-            <ChoiceSetting>
-                <SettingName>Difficulty</SettingName>
-                <SettingType>CHOICE</SettingType>
-                <KeyWord>DIFFICULTY</KeyWord>
-                <ChoiceItem>
-                    <ChoiceDisplayName>Easy</ChoiceDisplayName>
-                    <ChoiceRealValue>easy</ChoiceRealValue>
-                </ChoiceItem>
-                <ChoiceItem>
-                    <ChoiceDisplayName>Normal</ChoiceDisplayName>
-                    <ChoiceRealValue>normal</ChoiceRealValue>
-                </ChoiceItem>
-                <ChoiceItem>
-                    <ChoiceDisplayName>hard</ChoiceDisplayName>
-                    <ChoiceRealValue>hard</ChoiceRealValue>
-                </ChoiceItem>
-                <ChoiceItem>
-                    <ChoiceDisplayName>Impossible</ChoiceDisplayName>
-                    <ChoiceRealValue>impossible</ChoiceRealValue>
-                </ChoiceItem>
-            </ChoiceSetting>
-            <ChoiceSetting>
-                <SettingName>Desired team</SettingName>
-                <SettingType>CHOICE</SettingType>
-                <KeyWord>TEAM</KeyWord>
-                <IsLocalSetting/>
-                <ChoiceItem>
-                    <ChoiceDisplayName>Bill</ChoiceDisplayName>
-                    <ChoiceRealValue>Survivor Bill</ChoiceRealValue>
-                </ChoiceItem>
-                <ChoiceItem>
-                    <ChoiceDisplayName>Zoey</ChoiceDisplayName>
-                    <ChoiceRealValue>Survivor Zoey</ChoiceRealValue>
-                </ChoiceItem>
-                <ChoiceItem>
-                    <ChoiceDisplayName>Francis</ChoiceDisplayName>
-                    <ChoiceRealValue>Survivor Francis</ChoiceRealValue>
-                </ChoiceItem>
-                <ChoiceItem>
-                    <ChoiceDisplayName>Louis</ChoiceDisplayName>
-                    <ChoiceRealValue>Survivor Louis</ChoiceRealValue>
-                </ChoiceItem>
-                <ChoiceItem>
-                    <ChoiceDisplayName>Infected(versus mode only)</ChoiceDisplayName>
-                    <ChoiceRealValue>Infected</ChoiceRealValue>
-                </ChoiceItem>
-            </ChoiceSetting>
-        </Settings>
-    </GameData>
-    <GameData>
         <GameName>Unreal Tournament</GameName>
         <InstantLaunch/>
         <NoSpaces/>
@@ -2322,7 +2235,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue> Unreal://{MAP}.unr?game=Botpack.{GAMEMODE}?Name={NAME}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?Listen?port={PORT}</PropertyValue>
+            <PropertyValue> Unreal://{MAP}?game=Botpack.{GAMEMODE}?Name={NAME}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?Listen?port={PORT}</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
@@ -2391,6 +2304,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
                 <SettingDefaultValue>7777</SettingDefaultValue>
             </NumberSetting>
         </Settings>
@@ -2403,7 +2317,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>server {MAP}.ut2?Listen?Name={NAME}?game={GAMEMODE}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?NumBots={BOTS}?GoalScore={GOALSCORE} -port={PORT}</PropertyValue>
+            <PropertyValue>server {MAP}?Listen?Name={NAME}?game={GAMEMODE}?TimeLimit={TIMELIMIT}?MaxPlayers={MAXPLAYERS}?NumBots={BOTS}?GoalScore={GOALSCORE} -port={PORT}</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
@@ -2498,44 +2412,9 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingName>port</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>PORT</KeyWord>
+                <IsSharedSetting/>
                 <SettingDefaultValue>7777</SettingDefaultValue>
             </NumberSetting>
         </Settings>
-        <Mod>
-            <GameName>Alien Swarm</GameName>
-            <Property>
-            <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>server {MAP}?Listen?Name={NAME} -port={PORT} -Mod=AlienSwarm</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>JOINPATTERN</PropertyName>
-            <PropertyValue>{HOSTIP}:{PORT}/?Name={NAME} -Mod=AlienSwarm</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>MAPLOADERTYPE</PropertyName>
-            <PropertyValue>FILE</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>MAPPATH</PropertyName>
-            <PropertyValue>\AlienSwarm\Maps\</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>MAPEXT</PropertyName>
-            <PropertyValue>ut2</PropertyValue>
-        </Property>
-        <Settings> 
-            <NumberSetting>
-                <SettingName>maxplayers</SettingName>
-                <SettingType>NUMBER</SettingType>
-                <KeyWord>MAXPLAYERS</KeyWord>
-            </NumberSetting>
-            <NumberSetting>
-                <SettingName>port</SettingName>
-                <SettingType>NUMBER</SettingType>
-                <KeyWord>PORT</KeyWord>
-                <SettingDefaultValue>7777</SettingDefaultValue>
-            </NumberSetting>
-        </Settings>
-        </Mod>
     </GameData>
 </GameDataBase>

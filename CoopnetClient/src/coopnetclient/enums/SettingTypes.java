@@ -23,4 +23,5 @@ public enum SettingTypes {
     TEXT,
     CHOICE,
     NUMBER
+
 }

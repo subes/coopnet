@@ -16,16 +16,18 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package coopnetclient.frames.renderers;
 
 import coopnetclient.Globals;
-import coopnetclient.enums.PlayerStatuses;
 import coopnetclient.frames.models.ChannelStatusListModel;
-import coopnetclient.utils.Icons;
 import coopnetclient.utils.Settings;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
 import javax.swing.JList;
 
 /**
@@ -33,6 +35,9 @@ import javax.swing.JList;
  */
 public class ChannelStatusListCellRenderer extends DefaultListCellRenderer {
 
+    public static ImageIcon chatIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/inchat.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon lobbyIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/inlobby.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+    public static ImageIcon gameIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/playerstatus/ingame.png")).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
     private ChannelStatusListModel model;
 
     public ChannelStatusListCellRenderer(ChannelStatusListModel model) {
@@ -43,9 +48,9 @@ public class ChannelStatusListCellRenderer extends DefaultListCellRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        super.getListCellRendererComponent(list, value, index, (value.toString().equals(Globals.getThisPlayer_loginName())) ? false : isSelected, cellHasFocus);
+        super.getListCellRendererComponent(list, value, index, (value.toString().equals(Globals.getThisPlayer_loginName()))?false:isSelected, cellHasFocus);
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
-        setToolTipText("<html><xmp>" + value.toString());
+        setToolTipText("<html><xmp>"+value.toString());
         setText(value.toString());
         //set foreground        
         if (Settings.getColorizeBody()) {
@@ -56,24 +61,14 @@ public class ChannelStatusListCellRenderer extends DefaultListCellRenderer {
                 setBackground(Settings.getBackgroundColor());
             }
         }
-
-        PlayerStatuses status = model.getPlayerStatus(value.toString());
-        if (status != null) {
-            switch (status) {
-                case AWAY:
-                    setIcon(Icons.awayIcon);
-                    break;
-                case CHATTING:
-                    setIcon(Icons.chatIcon);
-                    break;
-                case IN_ROOM:
-                    setIcon(Icons.lobbyIcon);
-                    break;
-                case PLAYING:
-                    setIcon(Icons.gameIcon);
-                    break;
-            }
+        if (model.isPlaying(value)) {
+            setIcon(gameIcon);
+        } else if (model.isInRoom(value)) {
+            setIcon(lobbyIcon);
+        } else {
+            setIcon(chatIcon);
         }
+
         return this;
     }
 }

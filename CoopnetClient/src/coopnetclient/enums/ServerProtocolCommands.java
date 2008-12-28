@@ -95,7 +95,5 @@ public enum ServerProtocolCommands {
     GROUP_RENAME_ACKNOWLEDGE,
     REMOVE_CONTACT_REQUEST,
     ROOM_INVITE,
-    YOUR_IP_IS,
-    SETAWAYSTATUS,
-    UNSETAWAYSTATUS
+    YOUR_IP_IS
 }

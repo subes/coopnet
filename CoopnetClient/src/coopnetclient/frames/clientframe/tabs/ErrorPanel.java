@@ -21,13 +21,11 @@ package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ErrorPanelStyle;
-import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.FrameIconFlasher;
 import coopnetclient.utils.Logger;
-import java.awt.event.KeyEvent;
 
-public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
+public class ErrorPanel extends javax.swing.JPanel {
     
     private Exception exception;
     private String trafficLog;
@@ -93,6 +91,7 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
 
         pnl_top = new javax.swing.JPanel();
         lbl_errorText = new javax.swing.JLabel();
+        btn_close = new javax.swing.JButton();
         pnl_button = new javax.swing.JPanel();
         btn_report = new javax.swing.JButton();
 
@@ -120,6 +119,17 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
         gridBagConstraints.weighty = 1.0;
         pnl_top.add(lbl_errorText, gridBagConstraints);
 
+        btn_close.setText("Close");
+        btn_close.setFocusable(false);
+        btn_close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_closeActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        pnl_top.add(btn_close, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
@@ -129,7 +139,6 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
         pnl_button.setFocusable(false);
         pnl_button.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 1, 10));
 
-        btn_report.setMnemonic(KeyEvent.VK_R);
         btn_report.setText("Report this bug");
         btn_report.setAlignmentX(0.5F);
         btn_report.setAlignmentY(0.0F);
@@ -155,16 +164,16 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
         Globals.openBugReportFrame(exception, trafficLog);
 }//GEN-LAST:event_btn_reportActionPerformed
 
+private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
+    TabOrganizer.closeErrorPanel();
+}//GEN-LAST:event_btn_closeActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_close;
     private javax.swing.JButton btn_report;
     private javax.swing.JLabel lbl_errorText;
     private javax.swing.JPanel pnl_button;
     private javax.swing.JPanel pnl_top;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void closeTab() {
-        TabOrganizer.closeErrorPanel();
-    }
     
 }

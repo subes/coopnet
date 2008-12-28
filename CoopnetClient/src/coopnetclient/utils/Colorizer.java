@@ -19,6 +19,7 @@
 
 package coopnetclient.utils;
 
+import coopnetclient.Globals;
 import coopnetclient.frames.components.ui.CustomScrollBarUI;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import java.awt.*;
@@ -52,7 +53,9 @@ public class Colorizer {
     //difference to bg color (calculated later)
     private final static int BTN_DIFF = 20;
     private final static int TF_DIFF = 10;
-    private final static int DISABLED_DIFF = 75;   
+    private final static int DISABLED_DIFF = 75;
+    private static Image frameIcon = Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/coopnet.png"));
+    
 
     static {
         //init colors on first usage
@@ -95,7 +98,7 @@ public class Colorizer {
 
         if (root instanceof JFrame) {
             JFrame frame = (JFrame) root;
-            frame.setIconImage(Icons.coopnetNormalIcon.getImage());
+            frame.setIconImage(frameIcon);
         }
 
         //Dont colorize if following is the case

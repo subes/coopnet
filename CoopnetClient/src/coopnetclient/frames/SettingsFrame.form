@@ -42,8 +42,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_save" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="btn_close" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="442" max="32767" attributes="0"/>
+              <Component id="btn_cancel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="430" max="32767" attributes="0"/>
           </Group>
           <Component id="tabpn_settings" alignment="0" pref="639" max="32767" attributes="0"/>
       </Group>
@@ -55,7 +55,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btn_save" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btn_close" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_cancel" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_apply" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -113,7 +113,7 @@
                                   <Component id="cb_sounds" min="-2" max="-2" attributes="0"/>
                                   <Component id="cb_TrayIconEnabled" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="170" max="32767" attributes="0"/>
+                              <EmptySpace pref="174" max="32767" attributes="0"/>
                               <Component id="pnl_hotkeys" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -153,7 +153,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="lbl_dplayEnvNote" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="32" max="32767" attributes="0"/>
+                      <EmptySpace pref="37" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="cb_TrayIconEnabled" min="-2" max="-2" attributes="0"/>
@@ -316,17 +316,27 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Component id="tf_receiveDir" pref="421" max="32767" attributes="0"/>
+                                      <Component id="tf_receiveDir" pref="431" max="32767" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="btn_browseReceiveDir" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="tf_transferPort" min="-2" pref="70" max="-2" attributes="1"/>
+                                  <Component id="tf_voiceChatPort" alignment="0" min="-2" pref="70" max="-2" attributes="1"/>
                               </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
-                          <Component id="cb_autoLogin" min="-2" max="-2" attributes="0"/>
-                          <Component id="cb_sleepMode" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="cb_autoLogin" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cb_sleepMode" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace pref="509" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="lbl_voiceChatPort" linkSize="9" pref="112" max="32767" attributes="1"/>
+                              <EmptySpace min="-2" pref="524" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -344,7 +354,12 @@
                           <Component id="lbl_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tf_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="185" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lbl_voiceChatPort" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tf_voiceChatPort" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="162" max="32767" attributes="0"/>
                       <Component id="cb_sleepMode" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cb_autoLogin" min="-2" max="-2" attributes="0"/>
@@ -395,6 +410,13 @@
                 <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tf_receiveDirFocusLost"/>
               </Events>
             </Component>
+            <Component class="javax.swing.JLabel" name="lbl_voiceChatPort">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="VoiceChat port:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="tf_voiceChatPort">
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnl_text">
@@ -431,7 +453,7 @@
                           <Component id="pnl_textColors" alignment="0" min="-2" max="-2" attributes="1"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="pnl_textStyle" min="-2" max="-2" attributes="1"/>
-                              <EmptySpace pref="39" max="32767" attributes="0"/>
+                              <EmptySpace pref="46" max="32767" attributes="0"/>
                               <Component id="cb_timeStamps" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -457,7 +479,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="pnl_preview" alignment="0" max="32767" attributes="0"/>
-                              <Component id="lbl_playerNames" alignment="0" pref="325" max="32767" attributes="0"/>
+                              <Component id="lbl_playerNames" alignment="0" pref="321" max="32767" attributes="0"/>
                               <Component id="lbl_playerMessages" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -468,9 +490,9 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Component id="tf_playerMessagesSize" min="-2" pref="25" max="-2" attributes="0"/>
-                                          <EmptySpace pref="268" max="32767" attributes="0"/>
+                                          <EmptySpace pref="264" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="cmb_playerMessagesType" pref="293" max="32767" attributes="0"/>
+                                      <Component id="cmb_playerMessagesType" pref="289" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -482,9 +504,9 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Component id="tf_playerNamesSize" min="-2" pref="24" max="-2" attributes="0"/>
-                                          <EmptySpace pref="269" max="32767" attributes="0"/>
+                                          <EmptySpace pref="265" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="cmb_playerNamesType" pref="293" max="32767" attributes="0"/>
+                                      <Component id="cmb_playerNamesType" pref="289" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -663,11 +685,11 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btn_whisperMessages" alignment="0" pref="124" max="32767" attributes="1"/>
-                                      <Component id="btn_otherUsernames" alignment="1" pref="124" max="32767" attributes="1"/>
-                                      <Component id="btn_yourUsername" alignment="1" pref="124" max="32767" attributes="1"/>
-                                      <Component id="btn_userMessages" alignment="1" pref="124" max="32767" attributes="1"/>
-                                      <Component id="btn_systemMessages" pref="124" max="32767" attributes="1"/>
+                                      <Component id="btn_whisperMessages" alignment="0" pref="136" max="32767" attributes="1"/>
+                                      <Component id="btn_otherUsernames" alignment="1" pref="136" max="32767" attributes="1"/>
+                                      <Component id="btn_yourUsername" alignment="1" pref="136" max="32767" attributes="1"/>
+                                      <Component id="btn_userMessages" alignment="1" pref="136" max="32767" attributes="1"/>
+                                      <Component id="btn_systemMessages" pref="136" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                               <Component id="cb_colorizeText" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -854,9 +876,9 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btn_foreground" alignment="0" pref="170" max="32767" attributes="1"/>
-                                      <Component id="btn_selection" pref="170" max="32767" attributes="1"/>
-                                      <Component id="btn_background" alignment="1" pref="170" max="32767" attributes="1"/>
+                                      <Component id="btn_foreground" alignment="0" pref="178" max="32767" attributes="1"/>
+                                      <Component id="btn_selection" pref="178" max="32767" attributes="1"/>
+                                      <Component id="btn_background" alignment="1" pref="178" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                               <Component id="cb_colorizeBody" alignment="0" min="-2" max="-2" attributes="1"/>
@@ -1192,7 +1214,7 @@
                                   <Component id="cb_SoundNotification" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="80" max="32767" attributes="0"/>
+                          <EmptySpace pref="88" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1207,7 +1229,7 @@
                               <Component id="cb_TextNotification" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="cb_SoundNotification" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="24" max="32767" attributes="0"/>
+                          <EmptySpace pref="20" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1237,6 +1259,286 @@
             </Container>
           </SubComponents>
         </Container>
+        <Container class="javax.swing.JPanel" name="pnl_VoiceChat">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="VoiceChat">
+                <Property name="tabTitle" type="java.lang.String" value="VoiceChat"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="10" pref="10" max="10" attributes="0"/>
+                              <Component id="cmb_device_ports" pref="604" max="32767" attributes="1"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="10" pref="10" max="10" attributes="0"/>
+                              <Component id="cmb_CaptureDevice" pref="604" max="32767" attributes="1"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="10" pref="10" max="10" attributes="0"/>
+                              <Component id="cmb_Playbackdevice" pref="604" max="32767" attributes="1"/>
+                          </Group>
+                          <Component id="lbl_playbackdevice" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbl_capturedevice" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="rbtn_voiceActivation" linkSize="4" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="lbl_sensitivity" linkSize="5" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="rbtn_pushToTalk" linkSize="4" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="lbl_PushToTalkKeyLabel" linkSize="5" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="sl_sensitivity" linkSize="6" min="-2" pref="114" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="4" pref="4" max="4" attributes="0"/>
+                                              <Component id="tf_pushToTalkHotKey" linkSize="6" min="-2" pref="111" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                                  <Component id="lbl_playbackVolume" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="sl_playbackVolume" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="sl_captureVolume" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_captureVolume" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="lbl_highSensitivityLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="208" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="lbl_hotkeyNoteText1" pref="310" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lbl_playbackdevice" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="cmb_Playbackdevice" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lbl_capturedevice" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="cmb_CaptureDevice" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="cmb_device_ports" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="rbtn_pushToTalk" linkSize="8" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_PushToTalkKeyLabel" linkSize="8" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="rbtn_voiceActivation" linkSize="7" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_sensitivity" linkSize="7" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="tf_pushToTalkHotKey" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_hotkeyNoteText1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="sl_sensitivity" linkSize="7" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lbl_highSensitivityLabel" linkSize="7" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lbl_playbackVolume" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbl_captureVolume" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="sl_playbackVolume" min="-2" max="-2" attributes="0"/>
+                          <Component id="sl_captureVolume" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="lbl_playbackdevice">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Playback device:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cmb_Playbackdevice">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cmb_CaptureDevice">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmb_CaptureDeviceActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_capturedevice">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Capture device"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cmb_device_ports">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Capture port"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel4">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Capture mode:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="rbtn_pushToTalk">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="bg_captureMode"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Push to talk"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtn_pushToTalkActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JRadioButton" name="rbtn_voiceActivation">
+              <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="bg_captureMode"/>
+                </Property>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Voice activation"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtn_voiceActivationActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_sensitivity">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Sensitivity:  low"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JSlider" name="sl_sensitivity">
+              <Properties>
+                <Property name="maximum" type="int" value="128"/>
+                <Property name="minimum" type="int" value="50"/>
+                <Property name="value" type="int" value="110"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="coopnetclient.frames.components.KeyGrabberTextField" name="tf_pushToTalkHotKey">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="btn_apply"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new KeyGrabberTextField(Hotkeys.PUSH_TO_TALK, true)"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_PushToTalkKeyLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Key:"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_hotkeyNoteText1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Click anywhere to cancel assignment,&lt;br&gt;press backspace to disable the hotkey."/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_highSensitivityLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="high"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Volumes:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_playbackVolume">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Playback:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JSlider" name="sl_playbackVolume">
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_captureVolume">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Capture:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JSlider" name="sl_captureVolume">
+            </Component>
+          </SubComponents>
+        </Container>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JButton" name="btn_save">
@@ -1247,9 +1549,9 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btn_close">
+    <Component class="javax.swing.JButton" name="btn_cancel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Close"/>
+        <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancel"/>

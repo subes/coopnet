@@ -65,13 +65,7 @@ public class Settings {
     static {
         if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS){
             optionsDir = System.getenv("APPDATA")+"/Coopnet";
-
-            String recvdir = RegistryReader.read("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Desktop");
-            if(recvdir == null){
-                recvdir = System.getenv("HOMEPATH");
-            }
-
-            def_recievedest = recvdir;
+            def_recievedest = GameDatabase.readRegistry("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Desktop");
         }else{
             optionsDir = System.getenv("HOME")+"/.coopnet";
             def_recievedest = System.getenv("HOME");
@@ -136,12 +130,30 @@ public class Settings {
             launchHotKey = "HotKey",
             multiChannel = "MultiChannel",
             showOfflineContacts = "ShowOfflineContacts",
-            quickTabIconSizeIsBig="QuickTabIconSizeIsBig";
+            quickTabIconSizeIsBig="QuickTabIconSizeIsBig",
+            captureDeviceIndex = "CaptureDeviceIndex",
+            capturePortIndex = "CapturePortIndex",
+            playbackDeviceIndex="PlaybackDeviceIndex",
+            voiceChatPort= "VoiceChatPort",
+            voiceChatIsVoiceActivated = "VoiceChatIsVoiceActivated",
+            voiceSensitivity="VoiceSensitivity",
+            pushToTalkHotKey = "PushToTalkHotKey",
+            pushToTalkHotKeyMask = "PushToTalkHotKeyMask",
+            playbackVolume = "PlaybackVolume",
+            captureVolume = "CaptureVolume";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
-    private final static int def_lastValidServerPort = 6667;    
+    private final static int def_lastValidServerPort = 6667;
+    private final static int def_capturePortIndex = -1;
+    private final static int def_captureDeviceIndex = -1;
+    private final static int def_playbackDeviceIndex = -1;
+    private final static int def_voiceChatPort = 2301;
+    private final static int def_voiceSensitivity = 20;
+    private final static float def_playbackVolume = 1.0f;
+    private final static float def_captureVolume = 1.0f;
     private final static boolean def_firstRun = true;
+    private final static boolean def_voiceChatIsVoiceActivated = true;
     private final static boolean def_sleepEnabled = true;
     private final static boolean def_autoLogin = false;
     private final static boolean def_debugMode = false; // new Color(new Integer(""));
@@ -181,13 +193,14 @@ public class Settings {
     private final static boolean def_contactStatusChangeTextNotification = true;
     private final static boolean def_contactStatusChangeSoundNotification = true;
     private final static boolean def_trayIconEnabled = false;
+    private static Vector<String> favourites;
     private final static int def_launchHotKeyMask = 10;
     private final static int def_launchHotKey = KeyEvent.VK_L;
+    private final static int def_pushToTalkHotKey = KeyEvent.VK_F2;
+    private final static int def_pushToTalkHotKeyMask = 0;
     private final static boolean def_multiChannel = true;
     private final static boolean def_showOfflineContacts = false;
     private final static boolean def_quickTabIconSize = true;
-
-    private static Vector<String> favourites;
 
     /**
      * store the settings in options file
@@ -338,12 +351,92 @@ public class Settings {
         save();
     }
 
+    public static float getPlaybackVolume(){
+        return readFloat(playbackVolume, def_playbackVolume);
+    }
+
+    public static void setPlaybackVolume(float value){
+        writeSetting(playbackVolume, String.valueOf(value));
+    }
+
+    public static float getCaptureVolume(){
+        return readFloat(captureVolume, def_captureVolume);
+    }
+
+    public static void setCaptureVolume(float value){
+        writeSetting(captureVolume, String.valueOf(value));
+    }
+
+    public static int getVoiceSensitivity(){
+        return readInteger(voiceSensitivity, def_voiceSensitivity);
+    }
+    
+    public static void setVoiceSensitivity(int value){
+        writeSetting(voiceSensitivity, String.valueOf(value));
+    }
+    
+    public static boolean isVoiceActivated() {
+         return readBoolean(voiceChatIsVoiceActivated, def_voiceChatIsVoiceActivated);
+    }
+    
+    public static void setVoiceActivated(boolean bool) {
+        writeSetting(voiceChatIsVoiceActivated, String.valueOf(bool));
+    }
+    
+    public static int getVoiceChatPort() {
+        return readInteger(voiceChatPort, def_voiceChatPort);
+    }
+    
+    public static void setVoiceChatPort(int key) {
+        writeSetting(voiceChatPort, String.valueOf(key));
+    }
+    
+    public static int getCaptureDeviceIndex() {
+        return readInteger(captureDeviceIndex, def_captureDeviceIndex);
+    }
+    
+    public static void setCaptureDeviceIndex(int key) {
+        writeSetting(captureDeviceIndex, String.valueOf(key));
+    }
+    
+    public static int getCapturePortIndex() {
+        return readInteger(capturePortIndex, def_capturePortIndex);
+    }
+    
+    public static void setCapturePortIndex(int key) {
+        writeSetting(capturePortIndex, String.valueOf(key));
+    }
+    
+    public static int getPlaybackDeviceIndex() {
+        return readInteger(playbackDeviceIndex, def_playbackDeviceIndex);
+    }
+    
+    public static void setPlaybackDeviceIndex(int key) {
+        writeSetting(playbackDeviceIndex, String.valueOf(key));
+    }
+    
     public static int getLaunchHotKey() {
         return readInteger(launchHotKey, def_launchHotKey);
     }
     
     public static void setLaunchHotKey(int key) {
         writeSetting(launchHotKey, String.valueOf(key));
+    }
+
+    public static int getPushToTalkHotKey() {
+        return readInteger(pushToTalkHotKey, def_pushToTalkHotKey);
+    }
+
+    public static void setPushToTalkHotKey(int key) {
+        writeSetting(pushToTalkHotKey, String.valueOf(key));
+    }
+
+    public static int getPushToTalkHotKeyMask() {
+        return readInteger(pushToTalkHotKeyMask, def_pushToTalkHotKeyMask);
+    }
+
+    public static void setPushToTalkHotKeyMask(int key) {
+        writeSetting(pushToTalkHotKeyMask, String.valueOf(key));
     }
     
     public static int getLaunchHotKeyMask() {
@@ -533,7 +626,7 @@ public class Settings {
     }
 
     public static void setHomeChannel(String channel) {
-        writeSetting(homeChannel, GameDatabase.getIDofGame(channel));
+        writeSetting(homeChannel, GameDatabase.IDofGame(channel));
     }
 
     //debugMode
@@ -756,30 +849,19 @@ public class Settings {
         return readBoolean(showOfflineContacts, def_showOfflineContacts);
     }
 
-    public static void addFavouriteByName(String channel) {
-        String ID = GameDatabase.getIDofGame(channel);
-        if (!favourites.contains(ID)) {
-            favourites.add(ID);
+    public static void addFavourite(String channel) {
+        if (!favourites.contains(channel)) {
+            favourites.add(channel);
             saveFavourites();
         }
     }
 
-    public static Vector<String> getFavouritesByID() {
-        Vector<String> favs = new Vector<String>();
-        favs.addAll(favourites);
-        return favs;
+    public static Vector<String> getFavourites() {
+        return favourites;
     }
 
-    public static Vector<String> getFavouritesByName() {
-        Vector<String> favs = new Vector<String>();
-        for(String ID : favourites){
-            favs.add(GameDatabase.getGameName(ID));
-        }
-        return favs;
-    }
-
-    public static void removeFavourite(String ID) {
-        favourites.remove(ID);
+    public static void removeFavourite(String channel) {
+        favourites.remove(channel);
         saveFavourites();
     }
 
@@ -790,11 +872,9 @@ public class Settings {
         } catch (Exception ex) {
         }
         for (String s : favourites) {
-            pw.println(s);
+            pw.println(GameDatabase.IDofGame(s));
         }
         pw.close();
-
-        Globals.getClientFrame().refreshFavourites();
     }
 
     public static void loadFavourites() {
@@ -819,9 +899,9 @@ public class Settings {
                 return;
             }
             if(input.length()==3){
-                favourites.add(input);
+                favourites.add(GameDatabase.getGameName(input));
             }else{
-                favourites.add(GameDatabase.getIDofGame(input));
+                favourites.add(input);
             }
         }
         try {
@@ -829,5 +909,6 @@ public class Settings {
         } catch (Exception e) {
         }
     }
+
     
 }

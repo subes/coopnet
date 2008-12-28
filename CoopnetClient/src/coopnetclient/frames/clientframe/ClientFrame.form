@@ -17,7 +17,6 @@
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="tabpn_tabsStateChanged"/>
         <EventHandler event="componentAdded" listener="java.awt.event.ContainerListener" parameters="java.awt.event.ContainerEvent" handler="tabpn_tabsComponentAdded"/>
         <EventHandler event="componentRemoved" listener="java.awt.event.ContainerListener" parameters="java.awt.event.ContainerEvent" handler="tabpn_tabsComponentRemoved"/>
-        <EventHandler event="caretPositionChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="tabpn_tabsCaretPositionChanged"/>
       </Events>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
@@ -29,17 +28,11 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="m_main">
           <Properties>
-            <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="KeyEvent.VK_L" type="code"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Client"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mi_connection">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_O" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Disconnect"/>
               </Properties>
               <Events>
@@ -48,9 +41,6 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_update">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_U" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Update Client"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
@@ -60,9 +50,6 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_quit">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_Q" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Quit"/>
               </Properties>
               <Events>
@@ -73,18 +60,12 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="m_user">
           <Properties>
-            <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="KeyEvent.VK_U" type="code"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="User"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mi_profile">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_P" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Edit Profile..."/>
               </Properties>
               <Events>
@@ -93,9 +74,6 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_showMuteBanList">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_M" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Edit Mute/Ban List..."/>
               </Properties>
               <Events>
@@ -104,9 +82,6 @@
             </MenuItem>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="mi_showQuickbar">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_Q" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Show Quickbar"/>
               </Properties>
               <Events>
@@ -117,31 +92,28 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="m_channels">
           <Properties>
-            <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="KeyEvent.VK_A" type="code"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Channels"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mi_channelList">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_C" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Open Channel List"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_channelListActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JSeparator" name="jSeparator4">
+            <MenuItem class="javax.swing.JMenuItem" name="mi_manageFavs">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Manage Favourites..."/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_manageFavsActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_addCurrentToFav">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_D" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Add Current to Favourites"/>
               </Properties>
               <Events>
@@ -150,10 +122,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_makeHome">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_H" type="code"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Make This my Homechannel"/>
+                <Property name="text" type="java.lang.String" value="Make this my homechannel"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_makeHomeActionPerformed"/>
@@ -161,103 +130,61 @@
             </MenuItem>
             <MenuItem class="javax.swing.JSeparator" name="mi_seperator">
             </MenuItem>
-            <Menu class="javax.swing.JMenu" name="m_Favourites">
+            <MenuItem class="javax.swing.JMenuItem" name="mi_favourites">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_F" type="code"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Favourites"/>
-              </Properties>
-            </Menu>
-            <Menu class="javax.swing.JMenu" name="m_installedGames">
-              <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_I" type="code"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Installed Games"/>
-              </Properties>
-            </Menu>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="m_tabs">
-          <Properties>
-            <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="KeyEvent.VK_T" type="code"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Tabs"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="mi_nextTab">
-              <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+PAGE_DOWN"/>
-                </Property>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_N" type="code"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Next Tab"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_nextTabActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mi_prevTab">
-              <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+PAGE_UP"/>
-                </Property>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_P" type="code"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Previous Tab"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_prevTabActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mi_closeTab">
-              <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+W"/>
-                </Property>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_C" type="code"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="CloseTab"/>
+                <Property name="text" type="java.lang.String" value="Favourites:"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_closeTabActionPerformed"/>
-              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JSeparator" name="jSeparator5">
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mi_showTransfers">
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="m_voiceChat">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="VoiceChat"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="mi_start">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_S" type="code"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Show Transfers"/>
+                <Property name="text" type="java.lang.String" value="Start local service"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_showTransfersActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_startActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mi_copyURL">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Copy URL to clipboard"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_copyURLActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mi_connect">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Connect To..."/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_connectActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mi_lock">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Lock"/>
+                <Property name="toolTipText" type="java.lang.String" value="Locking will prevent anyone from connecting or changing channels!"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_lockActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="m_options">
           <Properties>
-            <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="KeyEvent.VK_O" type="code"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Options"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mi_clientSettings">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_E" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Edit Settings..."/>
                 <Property name="actionCommand" type="java.lang.String" value="Client settings"/>
               </Properties>
@@ -267,22 +194,14 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_manageGames">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_M" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Manage Games..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_manageGamesActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JSeparator" name="jSeparator2">
-            </MenuItem>
             <MenuItem class="javax.swing.JCheckBoxMenuItem" name="mi_Sounds">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_S" type="code"/>
-                </Property>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Sounds"/>
               </Properties>
@@ -294,54 +213,35 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="m_help">
           <Properties>
-            <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="KeyEvent.VK_H" type="code"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Help"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mi_guide">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_B" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Beginner&apos;s Guide"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_guideActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mi_faq">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_F" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="FAQ"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_faqActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
               </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JSeparator" name="jSeparator1">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_bugReport">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_R" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Report a Bug..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mi_bugReportActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JSeparator" name="jSeparator3">
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mi_about">
               <Properties>
-                <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="KeyEvent.VK_A" type="code"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="About"/>
               </Properties>
               <Events>

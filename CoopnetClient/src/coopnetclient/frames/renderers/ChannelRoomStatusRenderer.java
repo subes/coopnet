@@ -19,8 +19,11 @@
 
 package coopnetclient.frames.renderers;
 
+import coopnetclient.Globals;
 import coopnetclient.frames.models.RoomTableModel;
-import coopnetclient.utils.Icons;
+import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class ChannelRoomStatusRenderer extends DefaultTableCellRenderer{
@@ -28,6 +31,12 @@ public class ChannelRoomStatusRenderer extends DefaultTableCellRenderer{
     /**
      * this renders the picture in the room list showing if its public or password protected
      */
+    private static ImageIcon normalOpenRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/roomtype/lobby.png")).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+    private static ImageIcon normalPasswordedRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/roomtype/lobby_private.png")).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+    private static ImageIcon normalOpenRoomLaunchedIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/roomtype/lobby_busy.png")).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+    private static ImageIcon normalPasswordedRoomLaucnhedIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/roomtype/lobby_private_busy.png")).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+    private static ImageIcon instantOpenRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/roomtype/instantlaunch.png")).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+    private static ImageIcon instantPasswordedRoomIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/roomtype/instantlaunch_private.png")).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
     /** Creates a new instance of MyPasswordrenderer */
     public ChannelRoomStatusRenderer() {
     }
@@ -38,32 +47,32 @@ public class ChannelRoomStatusRenderer extends DefaultTableCellRenderer{
         
         switch(intvalue){
            case RoomTableModel.NORMAL_UNPASSWORDED_ROOM:
-                setIcon(Icons.normalOpenRoomIcon);
+                setIcon(normalOpenRoomIcon);
                 setToolTipText("Lobby is not password protected");  
                 break;   
                 
            case RoomTableModel.NORMAL_UNPASSWORDED_ROOM_LAUNCHED:
-                setIcon(Icons.normalOpenRoomLaunchedIcon);
+                setIcon(normalOpenRoomLaunchedIcon);
                 setToolTipText("Lobby is launched");  
                 break;
                 
            case RoomTableModel.NORMAL_PASSWORDED_ROOM:
-                setIcon(Icons.normalPasswordedRoomIcon);
+                setIcon(normalPasswordedRoomIcon);
                 setToolTipText("Password protected lobby");  
                 break;
                 
            case RoomTableModel.NORMAL_PASSWORDED_ROOM_LAUNCHED:
-                setIcon(Icons.normalPasswordedRoomLaucnhedIcon);
+                setIcon(normalPasswordedRoomLaucnhedIcon);
                 setToolTipText("Lobby is password protected and launched");  
                 break;
                 
            case RoomTableModel.INSTANT_UNPASSWORDED_ROOM:
-                setIcon(Icons.instantOpenRoomIcon);
+                setIcon(instantOpenRoomIcon);
                 setToolTipText("<html>Not password protected instant-launch-room <br>(directly launches game for every player joining the room)");  
                 break;
                 
            case RoomTableModel.INSTANT_PASSWORDED_ROOM:
-                setIcon(Icons.instantPasswordedRoomIcon);
+                setIcon(instantPasswordedRoomIcon);
                 setToolTipText("<html>Password protected instant-launch-room <br>(directly launches game for every player joining the room)");  
                 break;
         }

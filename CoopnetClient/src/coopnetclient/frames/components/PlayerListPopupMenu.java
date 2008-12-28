@@ -24,6 +24,7 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.MuteBanList;
+import coopnetclient.utils.Settings;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -41,6 +42,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
     private JList source;
     private JMenuItem playerName;
     private JMenuItem roomInvite;
+    private JMenuItem talkInvite;
     private JMenuItem mute_UnMute;
     private JMenuItem ban_UnBan;
     private JMenuItem addContact;
@@ -60,8 +62,10 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
         this.add(new JSeparator());
         this.add(makeMenuItem("Nudge"));
-        roomInvite = makeMenuItem("Invite to room");        
+        roomInvite = makeMenuItem("Invite to room");
+        talkInvite = makeMenuItem("Invite to voiceChat");
         this.add(roomInvite);
+        this.add(talkInvite);
         this.add(makeMenuItem("Whisper"));
         this.add(makeMenuItem("Send file"));
         addContact = makeMenuItem("Add to contacts");
@@ -123,6 +127,8 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             Protocol.requestProfile(subject);
         } else if (command.equals("Invite to room")) {
             Protocol.sendRoomInvite(subject);
+        } else if (command.equals("Invite to voiceChat")) {
+            Protocol.privateChat(subject, "Lets talk! voice://" + Globals.getMyIP() + ":" + Settings.getVoiceChatPort());
         } else if (command.equals("Nudge")) {
             Protocol.nudge(subject);
             Globals.getClientFrame().printToVisibleChatbox("System", "You have nudged "+subject +" !", ChatStyles.SYSTEM , false);
@@ -141,10 +147,9 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
                         if (returnVal == FileChooser.SELECT_ACTION) {
                             inputfile = mfc.getSelectedFile();
                             if (inputfile != null) {
-                                if(TabOrganizer.sendFile(subject, inputfile)){
-                                    Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
-                                    Globals.setLastOpenedDir(inputfile.getParent());
-                                }
+                                Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
+                                TabOrganizer.openFileTransferSendPanel(subject, inputfile);
+                                Globals.setLastOpenedDir(inputfile.getParent());
                             }
                         }
                     } catch (Exception e) {
@@ -175,7 +180,11 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             roomInvite.setVisible(true);
         }
         
-        
+        if(Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().isServerRunning()){
+            talkInvite.setVisible(true);
+        }else{
+            talkInvite.setVisible(false);
+        }
         
         if (MuteBanList.getMuteBanStatus(playerName.getText()) == null) {
             mute_UnMute.setText("Mute");

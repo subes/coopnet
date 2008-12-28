@@ -26,14 +26,8 @@ import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
 
 public class CreateRoomFrame extends javax.swing.JFrame {
 
@@ -48,9 +42,9 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         this.channel = channel;
         this.modnames = GameDatabase.getGameModNames(channel);
         if (modnames != null && modnames.length > 0) {
-            cmb_mod.setModel(new DefaultComboBoxModel(modnames));
+            cb_mod.setModel(new DefaultComboBoxModel(modnames));
         } else {
-            cmb_mod.setVisible(false);
+            cb_mod.setVisible(false);
             lbl_mod.setVisible(false);
         }
         if (GameDatabase.getLaunchMethod(channel, null) != LaunchMethods.DIRECTPLAY) {
@@ -60,19 +54,6 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             cb_instantroom.setVisible(false);
         }
         pnl_input.revalidate();
-        this.getRootPane().setDefaultButton(btn_create);
-
-        AbstractAction act = new AbstractAction() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn_cancel.doClick();
-            }
-        };
-        getRootPane().getActionMap().put("close", act);
-        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
-
         pack();
     }
 
@@ -111,7 +92,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         spn_maxPlayers = new javax.swing.JSpinner();
         lbl_limitNote = new javax.swing.JLabel();
         lbl_mod = new javax.swing.JLabel();
-        cmb_mod = new javax.swing.JComboBox();
+        cb_mod = new javax.swing.JComboBox();
         cb_instantroom = new javax.swing.JCheckBox();
         btn_create = new javax.swing.JButton();
         btn_cancel = new javax.swing.JButton();
@@ -134,21 +115,14 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             }
         });
 
-        cb_compatibility.setMnemonic(KeyEvent.VK_A);
         cb_compatibility.setText("Compatibility mode");
         cb_compatibility.setToolTipText("Launching will be slower but allows cooperation with already existing lobby made by other application");
-        cb_compatibility.setNextFocusableComponent(cb_instantroom);
+        cb_compatibility.setNextFocusableComponent(btn_create);
 
-        lbl_name.setDisplayedMnemonic(KeyEvent.VK_N);
-        lbl_name.setLabelFor(tf_name);
         lbl_name.setText("Name:");
 
-        lbl_password.setDisplayedMnemonic(KeyEvent.VK_P);
-        lbl_password.setLabelFor(pf_password);
         lbl_password.setText("Password:");
 
-        lbl_maxPlayers.setDisplayedMnemonic(KeyEvent.VK_M);
-        lbl_maxPlayers.setLabelFor(spn_maxPlayers);
         lbl_maxPlayers.setText("Max players:");
 
         pf_password.setNextFocusableComponent(spn_maxPlayers);
@@ -164,16 +138,10 @@ public class CreateRoomFrame extends javax.swing.JFrame {
 
         lbl_limitNote.setText("( 0 == infinite )");
 
-        lbl_mod.setDisplayedMnemonic(KeyEvent.VK_O);
-        lbl_mod.setLabelFor(cmb_mod);
         lbl_mod.setText("Mod:");
 
-        cmb_mod.setNextFocusableComponent(cb_compatibility);
-
-        cb_instantroom.setMnemonic(KeyEvent.VK_I);
         cb_instantroom.setText("Instant room");
         cb_instantroom.setToolTipText("There will be no lobby, the game launches immediately");
-        cb_instantroom.setNextFocusableComponent(btn_create);
         cb_instantroom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_instantroomActionPerformed(evt);
@@ -206,12 +174,12 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cb_compatibility)
-                            .addComponent(cmb_mod, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cb_mod, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cb_instantroom))))
                 .addContainerGap(10, Short.MAX_VALUE))
         );
 
-        pnl_inputLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cb_compatibility, cb_instantroom, cmb_mod, pf_password, tf_name});
+        pnl_inputLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cb_compatibility, cb_instantroom, cb_mod, pf_password, tf_name});
 
         pnl_inputLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lbl_maxPlayers, lbl_mod, lbl_name, lbl_password});
 
@@ -236,7 +204,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_mod)
-                    .addComponent(cmb_mod, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cb_mod, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cb_compatibility)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -250,10 +218,9 @@ public class CreateRoomFrame extends javax.swing.JFrame {
 
         pnl_inputLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_limitNote, lbl_maxPlayers, spn_maxPlayers});
 
-        pnl_inputLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmb_mod, lbl_mod});
+        pnl_inputLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cb_mod, lbl_mod});
 
         btn_create.setText("Create");
-        btn_create.setNextFocusableComponent(btn_cancel);
         btn_create.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 create(evt);
@@ -261,7 +228,6 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         });
 
         btn_cancel.setText("Cancel");
-        btn_cancel.setNextFocusableComponent(tf_name);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancel(evt);
@@ -277,7 +243,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 .addComponent(btn_create)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addContainerGap(306, Short.MAX_VALUE))
+                .addContainerGap(298, Short.MAX_VALUE))
             .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -297,7 +263,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private void create(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_create
         passw = new String(pf_password.getPassword());
-        modindex = cmb_mod.getSelectedIndex();
+        modindex = cb_mod.getSelectedIndex();
         if (modindex == 0) { //if none selected set index as -1
             modindex = -1;
         }
@@ -373,7 +339,7 @@ private void cb_instantroomActionPerformed(java.awt.event.ActionEvent evt) {//GE
     private javax.swing.JButton btn_create;
     private javax.swing.JCheckBox cb_compatibility;
     private javax.swing.JCheckBox cb_instantroom;
-    private javax.swing.JComboBox cmb_mod;
+    private javax.swing.JComboBox cb_mod;
     private javax.swing.JLabel lbl_limitNote;
     private javax.swing.JLabel lbl_maxPlayers;
     private javax.swing.JLabel lbl_mod;

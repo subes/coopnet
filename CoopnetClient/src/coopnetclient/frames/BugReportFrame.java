@@ -16,138 +16,96 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package coopnetclient.frames;
 
 import bugreportmailsender.BugReportMailSender;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Colorizer;
-import coopnetclient.utils.Logger;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.util.Date;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
-import javax.swing.AbstractAction;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
 
 public class BugReportFrame extends javax.swing.JFrame {
-
+    
     private Exception exc;
     private String trafficLog;
-
+    
     /** Creates new form BugReport */
     public BugReportFrame(Exception e, String trafficLog) {
         //Exception mode
         initComponents();
-        this.exc = e;
+        this.exc=e;
         this.trafficLog = trafficLog;
-        AbstractAction act = new AbstractAction() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn_cancel.doClick();
-            }
-        };
-        getRootPane().getActionMap().put("close", act);
-        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
     }
-
+    
     public BugReportFrame() {
         //Message mode
         initComponents();
         Colorizer.colorize(this);
         setLocationRelativeTo(null);
         setVisible(true);
-
-        this.trafficLog = Logger.getEndOfLog();
-
-        AbstractAction act = new AbstractAction() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn_cancel.doClick();
-            }
-        };
-        getRootPane().getActionMap().put("close", act);
-        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
     }
-
+    
     //Returns the final report as a String
-    private String compileReport() {
+    private String compileReport(){
         //Date
         Date date = new Date();
-        String report = "Date:" +
-                "\n\t" + date.toLocaleString() +
+        String report =   "Date:" +
+                "\n\t"+ date.toLocaleString() +
                 "\n\t" + date.toGMTString();
-
-        report += "\n\nCountry and Language codes:\n\t" + System.getProperty("user.country") + " - " + System.getProperty("user.language");
-
-        report += "\n\nClient version: \n\t" + Globals.getClientVersion();
-
-        report += "\n\nJava version: \n\t" + System.getProperty("java.vm.name")+ " " + System.getProperty("java.runtime.version");
-
-        String osName = System.getProperty("os.name");
-        report += "\n\nOperating System: \n\t" + osName;
-        if(!osName.toUpperCase().equals(Globals.getOperatingSystem().toString())){
-            report += " ("+Globals.getOperatingSystem().toString()+")";
-        }
-
+        
+        report+= "\n\nClient version:" + Globals.getClientVersion();
         //EMail
-        if (tf_email.getText().length() > 0) {
+        if(tf_email.getText().length() > 0){
             report += "\n\nReporters E-Mail:\n\t" + tf_email.getText();
         }
-
+                        
         report += "\n\n******************************************************************************************\n";
-
+        
         //Short desc
         report += "\nShort description: " +
-                "\n\t" + tf_shortDescription.getText() +
-                "\n";
-
+                  "\n\t" + tf_shortDescription.getText() +
+                  "\n";
+        
         //Long desc
         report += "\nDetailed description: ";
-
-        for (String line : ta_LongDescription.getText().split("\n")) {
-            report += "\n\t" + line;
+        
+        for(String line : ta_LongDescription.getText().split("\n")){
+            report += "\n\t"+line;
         }
-
+        
         report += "\n\n******************************************************************************************\n";
-
-        if (exc != null) {
+        
+        if(exc != null){
             //Stacktrace
             report += "\nException that caused this report: ";
-            report += "\n\t" + exc.getClass().toString() + ": " + exc.getMessage();
+            report += "\n\t"+exc.getClass().toString()+": "+exc.getMessage();
 
             StackTraceElement[] trace = exc.getStackTrace();
-            for (int i = 0; i < trace.length; i++) {
-                report += "\n\t\tat " + trace[i].toString();
+            for(int i = 0; i < trace.length; i++){
+                report += "\n\t\tat "+trace[i].toString();
             }
-
-            if (exc.getCause() != null) {
+            
+            if(exc.getCause() != null){
                 report += "\nThis exception has a cause, look at the log snippet to see it.";
             }
-        } else {
+
+            //Log
+            report += "\n\nLog snippet:";
+
+            for(String line : trafficLog.split("\n")){
+                report += "\n\t"+line;
+            }        
+        }else{
             report += "\nThere is no Exception for this report.";
         }
-
-        //Log
-        report += "\n\nLog snippet:";
-
-        for (String line : trafficLog.split("\n")) {
-            report += "\n\t" + line;
-        }
-
+        
         return report;
     }
-
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -183,17 +141,13 @@ public class BugReportFrame extends javax.swing.JFrame {
 
         lbl_email.setText("<HTML>Please give us your E-Mail address,<br>so we may contact you if we need further information:</HTML>");
 
-        tf_email.setNextFocusableComponent(tf_shortDescription);
-
         lbl_longDescription.setText("<HTML>Here you can get more in detail and tell us how to reproduce the error,<br>so we can actually get some clues about how to fix it:</HTML>");
 
         ta_LongDescription.setColumns(20);
         ta_LongDescription.setRows(5);
-        ta_LongDescription.setNextFocusableComponent(btn_send);
         scrl_longDescription.setViewportView(ta_LongDescription);
 
         btn_send.setText("Send");
-        btn_send.setNextFocusableComponent(btn_cancel);
         btn_send.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_sendActionPerformed(evt);
@@ -201,7 +155,6 @@ public class BugReportFrame extends javax.swing.JFrame {
         });
 
         btn_cancel.setText("Cancel");
-        btn_cancel.setNextFocusableComponent(btn_review);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cancelActionPerformed(evt);
@@ -212,13 +165,9 @@ public class BugReportFrame extends javax.swing.JFrame {
 
         lbl_info.setText("<HTML>You can help the development of this project by submitting a report.<br>Only known problems can be fixed and we appreciate your help.</HTML>");
 
-        tf_shortDescription.setNextFocusableComponent(ta_LongDescription);
-
         lbl_shortDescription.setText("<HTML>Write a short, but proper description of the problem:</HTML>");
 
-        btn_review.setMnemonic(KeyEvent.VK_R);
         btn_review.setText("Review this report");
-        btn_review.setNextFocusableComponent(tf_email);
         btn_review.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_reviewActionPerformed(evt);
@@ -254,7 +203,7 @@ public class BugReportFrame extends javax.swing.JFrame {
                                 .addComponent(btn_send)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_cancel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
                                 .addComponent(btn_review))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -320,35 +269,35 @@ public class BugReportFrame extends javax.swing.JFrame {
 
     private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sendActionPerformed
 
-        if (tf_shortDescription.getText().length() < 1 || ta_LongDescription.getText().length() < 1) {
+        if(tf_shortDescription.getText().length() < 1 || ta_LongDescription.getText().length() < 1){
             JOptionPane.showMessageDialog(Globals.getBugReportFrame(),
-                    "Sorry, but please take some time to fill out the " +
-                    "\nshort and detailed description fields." +
-                    "\nWe can't guess what has happened if you don't tell us anything.",
-                    "Warning", JOptionPane.WARNING_MESSAGE);
-        } else {
+                        "Sorry, but please take some time to fill out the " +
+                      "\nshort and detailed description fields." +
+                      "\nWe can't guess what has happened if you don't tell us anything.",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
+        }else{
             boolean error = false;
 
-            try {
-                BugReportMailSender.sendBugReportMail("CLIENT BUGREPORT: " + tf_shortDescription.getText(), compileReport());
-            } catch (AddressException e) {
+            try{
+                BugReportMailSender.sendBugReportMail("CLIENT BUGREPORT: "+tf_shortDescription.getText(), compileReport());
+            }catch(AddressException e){
                 error = true;
-            } catch (MessagingException e) {
+            }catch(MessagingException e){
                 error = true;
             }
 
-            if (error) {
+            if(error){
                 JOptionPane.showMessageDialog(Globals.getBugReportFrame(),
-                        "Sending bugreport failed!" +
+                          "Sending bugreport failed!" +
                         "\nPlease verify that you are " +
                         "\nconnected to the internet " +
                         "\nand try again.",
                         "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
+            }else{
                 JOptionPane.showMessageDialog(Globals.getBugReportFrame(),
                         "Your bugreport was sent successfully,\nthank you for your help!",
                         "Success", JOptionPane.PLAIN_MESSAGE);
-
+                
                 //TabOrganizer.closeAllTabs();
                 TabOrganizer.closeErrorPanel();
                 Globals.closeBugReportFrame();
@@ -376,4 +325,5 @@ public class BugReportFrame extends javax.swing.JFrame {
     private javax.swing.JTextField tf_email;
     private javax.swing.JTextField tf_shortDescription;
     // End of variables declaration//GEN-END:variables
+    
 }

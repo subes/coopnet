@@ -34,8 +34,6 @@ public abstract class LaunchHandler {
     }
     protected abstract boolean doInitialize(LaunchInfo launchInfo);
     
-    public abstract boolean predictSuccessfulLaunch();
-    
     public abstract boolean launch();
     
     public abstract void updatePlayerName();

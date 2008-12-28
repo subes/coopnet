@@ -22,12 +22,6 @@ package coopnetclient.frames;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import javax.swing.AbstractAction;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
 
 public class JoinRoomPasswordFrame extends javax.swing.JFrame {
 
@@ -41,34 +35,12 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         hideWrongPasswordNotification();
         this.host_name = host_name;
         this.channel=channel;
-        this.getRootPane().setDefaultButton(btn_join);
-        AbstractAction act = new AbstractAction() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn_cancel.doClick();
-            }
-        };
-        getRootPane().getActionMap().put("close", act);
-        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
     }
     
     public JoinRoomPasswordFrame(String ID) {
         initComponents();
         hideWrongPasswordNotification();
-        this.ID = ID;
-        this.getRootPane().setDefaultButton(btn_join);
-        AbstractAction act = new AbstractAction() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn_cancel.doClick();
-            }
-        };
-        getRootPane().getActionMap().put("close", act);
-        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
+        this.ID = ID;        
     }
     
     public void showWrongPasswordNotification(){
@@ -105,7 +77,6 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         });
 
         btn_join.setText("Join");
-        btn_join.setNextFocusableComponent(btn_cancel);
         btn_join.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 join(evt);
@@ -113,7 +84,6 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
         });
 
         btn_cancel.setText("Cancel");
-        btn_cancel.setNextFocusableComponent(pf_roomPassword);
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cancelActionPerformed(evt);
@@ -124,7 +94,11 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
 
         lbl_roomPassword.setText("<html>This room is password protected,<br> please enter the correct password:");
 
-        pf_roomPassword.setNextFocusableComponent(btn_join);
+        pf_roomPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pf_roomPasswordActionPerformed(evt);
+            }
+        });
 
         lbl_errormsg.setForeground(new java.awt.Color(255, 0, 0));
         lbl_errormsg.setText("Wrong Password!");
@@ -161,7 +135,7 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addContainerGap(310, Short.MAX_VALUE))
+                .addContainerGap(302, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,6 +167,10 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         Globals.closeRoomCreationFrame();
 }//GEN-LAST:event_btn_cancelActionPerformed
+
+private void pf_roomPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pf_roomPasswordActionPerformed
+    btn_join.doClick();
+}//GEN-LAST:event_pf_roomPasswordActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
     Globals.closeRoomCreationFrame();

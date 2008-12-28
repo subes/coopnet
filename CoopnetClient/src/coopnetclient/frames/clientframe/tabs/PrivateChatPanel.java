@@ -21,15 +21,13 @@ package coopnetclient.frames.clientframe.tabs;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.MuteBanStatuses;
-import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.MuteBanList;
 import coopnetclient.frames.listeners.ChatInputKeyListener;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
-import java.awt.event.KeyEvent;
 import javax.swing.text.StyledDocument;
 
-public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab {
+public class PrivateChatPanel extends javax.swing.JPanel {
 
     private String partner;
 
@@ -61,7 +59,7 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
 
     @Override
     public void requestFocus() {
-        tp_chatInput.requestFocusInWindow();
+        tp_chatInput.requestFocus();
     }
 
     public void customCodeForColorizer() {
@@ -97,15 +95,24 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btn_close = new javax.swing.JButton();
         sp_chatVertical = new javax.swing.JSplitPane();
         scrl_chatOutput = new javax.swing.JScrollPane();
         tp_chatOutput = new javax.swing.JTextPane();
-        jPanel1 = new javax.swing.JPanel();
-        btn_mute = new javax.swing.JButton();
         scrl_chatInput = new javax.swing.JScrollPane();
         tp_chatInput = new javax.swing.JTextPane();
+        btn_mute = new javax.swing.JButton();
 
         setFocusable(false);
+
+        btn_close.setText("Close");
+        btn_close.setAlignmentX(0.5F);
+        btn_close.setFocusable(false);
+        btn_close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                close(evt);
+            }
+        });
 
         sp_chatVertical.setBorder(null);
         sp_chatVertical.setDividerSize(3);
@@ -113,7 +120,6 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
         sp_chatVertical.setResizeWeight(1.0);
         sp_chatVertical.setFocusable(false);
 
-        scrl_chatOutput.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrl_chatOutput.setFocusable(false);
         scrl_chatOutput.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
@@ -135,7 +141,14 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
 
         sp_chatVertical.setLeftComponent(scrl_chatOutput);
 
-        btn_mute.setMnemonic(KeyEvent.VK_M);
+        scrl_chatInput.setFocusable(false);
+
+        tp_chatInput.setMinimumSize(new java.awt.Dimension(6, 24));
+        tp_chatInput.setNextFocusableComponent(tp_chatInput);
+        scrl_chatInput.setViewportView(tp_chatInput);
+
+        sp_chatVertical.setRightComponent(scrl_chatInput);
+
         btn_mute.setText("Mute");
         btn_mute.setFocusable(false);
         btn_mute.addActionListener(new java.awt.event.ActionListener() {
@@ -144,46 +157,40 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
             }
         });
 
-        scrl_chatInput.setFocusable(false);
-
-        tp_chatInput.setMinimumSize(new java.awt.Dimension(6, 24));
-        tp_chatInput.setNextFocusableComponent(tp_chatInput);
-        scrl_chatInput.setViewportView(tp_chatInput);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(scrl_chatInput, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_mute, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btn_mute)
-            .addComponent(scrl_chatInput, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
-        sp_chatVertical.setRightComponent(jPanel1);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sp_chatVertical)
+            .addComponent(sp_chatVertical, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(208, 208, 208)
+                .addComponent(btn_mute)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_close))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sp_chatVertical, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_close)
+                    .addComponent(btn_mute))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sp_chatVertical, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_close, btn_mute});
+
     }// </editor-fold>//GEN-END:initComponents
+
+    private void close(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close
+        TabOrganizer.closePrivateChatPanel(this);
+    }//GEN-LAST:event_close
 
 private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tp_chatOutputKeyTyped
     char c = evt.getKeyChar();
     if (!evt.isControlDown()) {
         tp_chatInput.setText(tp_chatInput.getText() + c);
-        tp_chatInput.requestFocusInWindow();
+        tp_chatInput.requestFocus();
     }
 }//GEN-LAST:event_tp_chatOutputKeyTyped
 
@@ -206,17 +213,12 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
 }//GEN-LAST:event_scrl_chatOutputComponentResized
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_close;
     private javax.swing.JButton btn_mute;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane scrl_chatInput;
     private javax.swing.JScrollPane scrl_chatOutput;
     private javax.swing.JSplitPane sp_chatVertical;
     private javax.swing.JTextPane tp_chatInput;
     private javax.swing.JTextPane tp_chatOutput;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void closeTab() {
-        TabOrganizer.closePrivateChatPanel(this);
-    }
 }

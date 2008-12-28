@@ -23,12 +23,7 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 public class RoomTableModel extends DefaultTableModel {
-
-    //dummy classes to associate with columns:
-    public static class RoomType{};
-    public static class RoomName{};
-    public static class PlayersInRoom{};
-
+    
     /*
      * launcehd status is indicated by +10 intvalue
      * rooms that can have launched status msut be 
@@ -48,15 +43,13 @@ public class RoomTableModel extends DefaultTableModel {
         private int type;
         private String name;
         private String hostName;
-        private String modName;
         private int maxPlayers;
         private boolean launched;
         private ArrayList<String> playersInRoom = new ArrayList<String>();
 
-        public Room(int type, String name,String modName, String hostName, int maxplayers) {
+        public Room(int type, String name, String hostName, int maxplayers) {
             this.type = type;
             this.name = name;
-            this.modName = modName;
             this.hostName = hostName;
             this.maxPlayers = maxplayers;
             this.launched= false;
@@ -182,13 +175,13 @@ public class RoomTableModel extends DefaultTableModel {
     public Class getColumnClass(int col) {
         switch (col) {
             case 0:
-                return RoomType.class;
+                return Integer.class;
             case 1:
-                return RoomName.class;
+                return String.class;
             case 2:
                 return String.class;
             case 3:
-                return PlayersInRoom.class;
+                return String.class;
         }
         return String.class;
     }
@@ -204,7 +197,7 @@ public class RoomTableModel extends DefaultTableModel {
         if (index >= 0) {
             rooms.remove(index);
         }
-        fireTableRowsDeleted(index, index);
+        fireTableDataChanged();
     }
 
     @Override
@@ -219,7 +212,6 @@ public class RoomTableModel extends DefaultTableModel {
 
     public String getSelectedHostName(){
         int i = parent.getSelectedRow();
-        i = parent.convertRowIndexToModel(i);
         if (i == -1) {
             return null;
         }
@@ -228,7 +220,6 @@ public class RoomTableModel extends DefaultTableModel {
 
     public String getSelectedRoomName() {
         int i = parent.getSelectedRow();
-        i = parent.convertRowIndexToModel(i);
         if (i == -1) {
             return null;
         }
@@ -245,17 +236,16 @@ public class RoomTableModel extends DefaultTableModel {
 
     public boolean isSelectedRoomPassworded() {
         int i = parent.getSelectedRow();
-        i = parent.convertRowIndexToModel(i);
         if (i != -1) {
             return (rooms.get(i).getType() == NORMAL_PASSWORDED_ROOM) || (rooms.get(i).getType() == INSTANT_PASSWORDED_ROOM);
         }
         return false;
     }
 
-    public void addRoomToTable(String name, String modName ,String hostName, int maxPlayers, int type) {
+    public void addRoomToTable(String name, String hostName, int maxPlayers, int type) {
         if( indexOf(hostName)== -1 ){
-            rooms.add(new Room(type, name, modName, hostName, maxPlayers));
-            fireTableRowsInserted(rooms.size()-1, rooms.size()-1);
+            rooms.add(new Room(type, name, hostName, maxPlayers));
+            fireTableDataChanged();
         }
     }
 
@@ -265,45 +255,35 @@ public class RoomTableModel extends DefaultTableModel {
         if (index >= 0) {
             rooms.get(index).addPlayer(playerName);
         }
-        fireTableCellUpdated(index, 3);
+        fireTableDataChanged();
     }
 
     public void removePlayerFromRoom(String hostName, String playerName) {
         int index = indexOf(hostName);
         if (index >= 0) {
             rooms.get(index).removePlayer(playerName);
-            fireTableCellUpdated(index, 3);
+            fireTableDataChanged();
         }
     }
 
     public boolean updateName(String oldName, String newName) {
         boolean found = false;
-        for (int index = 0; index <rooms.size();++index) {
-            Room room = rooms.get(index);
-            boolean foundhere = room.updatename(oldName, newName) ;
-            found = foundhere || found;
-            if(foundhere){
-                fireTableCellUpdated(index, 2);
-                fireTableCellUpdated(index, 3);
-            }
-        }        
+        for (Room room : rooms) {
+            found = room.updatename(oldName, newName) || found;
+        }
+        fireTableDataChanged();
         return found;
     }
 
     public String getUserList(int row) {
         return rooms.get(row).getUserlist();
     }
-
-    public String getModName(int row) {
-        return rooms.get(row).modName;
-    }
-
-
+    
     public void setLaunchedStatus(String possibleHost, boolean newLaunchedState){
         int index = indexOf(possibleHost);
         if (index >= 0) {
             rooms.get(index).setLaunched(newLaunchedState);
         }
-        fireTableCellUpdated(index, 0);
+        fireTableDataChanged();
     }
 }

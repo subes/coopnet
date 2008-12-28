@@ -18,28 +18,38 @@
  */
 package coopnetclient.frames.clientframe.quickpanel;
 
+import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframe.quickpanel.tabs.VoiceChatPanel;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.components.ContactListPopupMenu;
 import coopnetclient.frames.components.mutablelist.DefaultListCellEditor;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.frames.renderers.ContactListRenderer;
 import coopnetclient.utils.ContactListFileDropHandler;
-import coopnetclient.utils.Icons;
 import java.awt.Cursor;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 import javax.swing.DropMode;
+import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 public class QuickPanel extends javax.swing.JPanel {
 
+    public static ImageIcon ContactListIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/contacts.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon FavouritesIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/favourites.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon ContactListIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/contacts_small.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon FavouritesIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/favourites_small.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon VoiceChatIconBig = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/voicechat.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+    public static ImageIcon VoiceChatIconSmall = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/quicktab/voicechat_small.png")));//.getScaledInstance(56, 56, Image.SCALE_SMOOTH));
     private static ContactListPopupMenu popup;
     ContactListModel model;
+    VoiceChatPanel voiceChatPanel;
 
     /** Creates new form PlayerListPanel */
     public QuickPanel() {
@@ -49,6 +59,8 @@ public class QuickPanel extends javax.swing.JPanel {
     public QuickPanel(ContactListModel model) {
         this.model = model;
         initComponents();
+        voiceChatPanel = new VoiceChatPanel();
+        tp_quickPanel.add("",voiceChatPanel);
         lst_contactList.setModel(model);
         lst_contactList.setCellRenderer(new ContactListRenderer(model));
         lst_contactList.setListCellEditor(new DefaultListCellEditor(new JTextField()));
@@ -61,7 +73,11 @@ public class QuickPanel extends javax.swing.JPanel {
         lst_favouritesList.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));        
         setTabIcons();
     }
-
+        
+    public VoiceChatPanel getVoiceChatPanel(){
+        return voiceChatPanel;
+    }
+    
     public void setTabAlignment(boolean left){
         if(left){
             tp_quickPanel.setTabPlacement(JTabbedPane.LEFT);
@@ -72,9 +88,10 @@ public class QuickPanel extends javax.swing.JPanel {
     }
 
     public void refreshFavourites() {
+        final Vector<String> favs = Settings.getFavourites();
         lst_favouritesList.setModel(new javax.swing.AbstractListModel() {
 
-            Vector<String> strings = Settings.getFavouritesByName();            
+            Vector<String> strings = favs;
 
             @Override
             public int getSize() {
@@ -91,11 +108,13 @@ public class QuickPanel extends javax.swing.JPanel {
     
     private void setTabIcons(){
         if(Settings.isquickTabIconSizeBig()){
-            tp_quickPanel.setIconAt(0, Icons.contactListIconBig);
-            tp_quickPanel.setIconAt(1, Icons.favouritesIconBig);
+            tp_quickPanel.setIconAt(0, ContactListIconBig);
+            tp_quickPanel.setIconAt(1, FavouritesIconBig);           
+            tp_quickPanel.setIconAt(2, VoiceChatIconBig);            
         }else{//small icons
-            tp_quickPanel.setIconAt(0, Icons.contactListIconSmall);
-            tp_quickPanel.setIconAt(1, Icons.favouritesIconSmall);
+            tp_quickPanel.setIconAt(0, ContactListIconSmall);
+            tp_quickPanel.setIconAt(1, FavouritesIconSmall);
+            tp_quickPanel.setIconAt(2, VoiceChatIconSmall);
         }
     }
 

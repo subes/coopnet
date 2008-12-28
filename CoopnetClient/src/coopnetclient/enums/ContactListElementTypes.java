@@ -22,12 +22,12 @@ package coopnetclient.enums;
 public enum ContactListElementTypes {
 
     PENDING_REQUEST, //0 request to this palyer
-    PENDING_CONTACT, //1 the requests of this player to others
+    PENDING_CONTACT, //1 the requests of this palyer to others
     CHATTING,        //2
     IN_ROOM,         //3
     PLAYING,         //4
     OFFLINE,         //5
     GROUPNAME_OPEN,  //6
-    GROUPNAME_CLOSED,//7
-    AWAY             //8
+    GROUPNAME_CLOSED //7
+
 }

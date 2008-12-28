@@ -31,7 +31,7 @@
               <Component id="btn_save" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_cancel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="150" max="32767" attributes="0"/>
+              <EmptySpace pref="140" max="32767" attributes="0"/>
               <Component id="btn_changePassword" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -69,13 +69,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btn_changePassword">
       <Properties>
-        <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="KeyEvent.VK_H" type="code"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Change password"/>
-        <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="tf_loginName"/>
-        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="changepassword"/>
@@ -104,7 +98,10 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="tf_website" alignment="1" pref="304" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="tf_website" pref="304" max="32767" attributes="0"/>
+                      </Group>
                       <Component id="cmb_country" alignment="1" pref="304" max="32767" attributes="1"/>
                       <Component id="tf_loginName" alignment="0" pref="304" max="32767" attributes="0"/>
                       <Component id="tf_inGameName" alignment="0" pref="304" max="32767" attributes="0"/>
@@ -149,57 +146,27 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="lbl_loginName">
           <Properties>
-            <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="KeyEvent.VK_L" type="code"/>
-            </Property>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="tf_loginName"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Login name:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_inGameName">
           <Properties>
-            <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="KeyEvent.VK_I" type="code"/>
-            </Property>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="tf_inGameName"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Ingame name:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_emailAddress">
           <Properties>
-            <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="KeyEvent.VK_E" type="code"/>
-            </Property>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="tf_emailAddress"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="E-Mail address:"/>
             <Property name="toolTipText" type="java.lang.String" value="Only used to send password reminders and such, no spam or advertisement"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_country">
           <Properties>
-            <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="KeyEvent.VK_O" type="code"/>
-            </Property>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="cmb_country"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Country:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_website">
           <Properties>
-            <Property name="displayedMnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="KeyEvent.VK_W        " type="code"/>
-            </Property>
-            <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="tf_website"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Website:"/>
           </Properties>
         </Component>
@@ -214,32 +181,12 @@
           </Properties>
         </Component>
         <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_loginName">
-          <Properties>
-            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="tf_inGameName"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_inGameName">
-          <Properties>
-            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="tf_emailAddress"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_emailAddress">
-          <Properties>
-            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="cmb_country"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_website">
-          <Properties>
-            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="btn_save"/>
-            </Property>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>

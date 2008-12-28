@@ -27,7 +27,7 @@ public class GameSetting {
     private String visibleName; //text of the label left to setting
     private SettingTypes type;       //setting tpye
     private String keyWord; //the keyword to replace in callString
-    private boolean isLocal; //shared settings need to be sent to other roommembers
+    private boolean shared; //shared settings need to be sent to other roommembers
     private int minValue = Integer.MIN_VALUE;   //spinner property
     private int maxValue = Integer.MAX_VALUE;   //spinner property
     private String defaultValue;    //default value for all types
@@ -35,9 +35,9 @@ public class GameSetting {
     private ArrayList<String> comboboxValues = new ArrayList<String>();      //combobox property, the value to be set(that replaces the keyword)
     private String currentValue = "";     //this is the actual setting at the given time(to replace the keyword on launch)
 
-    public GameSetting(boolean isLocal, String name, SettingTypes type, String keyWord, String defaultValue) {
+    public GameSetting(boolean shared, String name, SettingTypes type, String keyWord, String defaultValue) {
         this.visibleName = name;
-        this.isLocal = isLocal;
+        this.shared = shared;
         this.keyWord = keyWord;
         this.type = type;
         this.defaultValue = defaultValue;
@@ -91,12 +91,12 @@ public class GameSetting {
         this.maxValue = value;
     }
 
-    public boolean isLocal() {
-        return isLocal;
+    public boolean isShared() {
+        return shared;
     }
 
-    public void setLocal(boolean val) {
-        isLocal = val;
+    public void setShared(boolean val) {
+        shared = val;
     }
 
     public void reset() {
@@ -110,7 +110,7 @@ public class GameSetting {
                 break;
             }
             case CHOICE: {
-                currentValue = value;
+                currentValue = comboboxValues.get(comboboxSelectNames.indexOf(value));
                 break;
             }
             case NUMBER: {
@@ -118,29 +118,13 @@ public class GameSetting {
                 break;
             }
         }
-        if (!isLocal && broadcast) {
+        if (shared && broadcast) {
             Protocol.sendSetting(visibleName, value);
         }
     }
 
     public String getValue() {
         return currentValue;
-    }
-
-    public String getRealValue(){
-        switch (type) {
-            case TEXT: {
-                return currentValue ;
-            }
-            case CHOICE: {
-                return comboboxValues.get(comboboxSelectNames.indexOf(currentValue));
-            }
-            case NUMBER: {
-                return currentValue;
-            }
-        }
-        return null;
-
     }
 
     public void setComboboxSelectNames(ArrayList<String> names) {
@@ -162,5 +146,44 @@ public class GameSetting {
     @Override
     public String toString() {
         return visibleName;
+    }
+
+    protected String getStorageString() {
+        String tmp = "";
+        switch (type) {
+            case CHOICE: {
+                tmp += "<ChoiceSetting>";
+                tmp += "<SettingName>" + visibleName + "</SettingName>";
+                tmp += "<SettingType>" + type + "</SettingType>";
+                tmp += "<KeyWord>" + keyWord + "</KeyWord>";
+                for (int i = 0; i < comboboxSelectNames.size(); i++) {
+                    tmp += "<ChoiceItem><ChoiceDisplayName>" + comboboxSelectNames.get(i) + "</ChoiceDisplayName><ChoiceRealValue>" + comboboxValues.get(i) + "</ChoiceRealValue></ChoiceItem>";
+                }
+                tmp += "</ChoiceSetting>";
+                break;
+            }
+            case NUMBER: {
+                tmp += "<NumberSetting>";
+                tmp += "<SettingName>" + visibleName + "</SettingName>";
+                tmp += "<SettingType>" + type + "</SettingType>";
+                tmp += "<KeyWord>" + keyWord + "</KeyWord>";
+                if (minValue > Integer.MIN_VALUE) {
+                    tmp += "<SettingMinValue>" + minValue + "</SettingMinValue>";
+                }
+                if (maxValue < Integer.MAX_VALUE) {
+                    tmp += "<SettingMaxValue>" + maxValue + "</SettingMaxValue>";
+                }
+                tmp += "</NumberSetting>";
+                break;
+            }
+            case TEXT:
+                tmp += "<TextSetting>";
+                tmp += "<SettingName>" + visibleName + "</SettingName>";
+                tmp += "<SettingType>" + type + "</SettingType>";
+                tmp += "<KeyWord>" + keyWord + "</KeyWord>";
+                tmp += "</TextSetting>";
+                break;
+        }
+        return tmp;
     }
 }

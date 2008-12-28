@@ -19,12 +19,11 @@
 
 package coopnetclient.frames.clientframe.tabs;
 
-import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Colorizer;
 import java.io.IOException;
 
-public class BrowserPanel extends javax.swing.JPanel implements ClosableTab {
+public class BrowserPanel extends javax.swing.JPanel {
     
     /** Creates new form browser */
     public BrowserPanel(String url) {
@@ -51,29 +50,43 @@ public class BrowserPanel extends javax.swing.JPanel implements ClosableTab {
 
         scrl_browser = new javax.swing.JScrollPane();
         tp_browser = new javax.swing.JTextPane();
+        btn_close = new javax.swing.JButton();
 
         tp_browser.setEditable(false);
         scrl_browser.setViewportView(tp_browser);
+
+        btn_close.setText("Close");
+        btn_close.setAlignmentX(0.5F);
+        btn_close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_closeclose(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btn_close))
             .addComponent(scrl_browser, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrl_browser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(btn_close)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrl_browser, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+private void btn_closeclose(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeclose
+    TabOrganizer.closeBrowserPanel();
+}//GEN-LAST:event_btn_closeclose
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_close;
     private javax.swing.JScrollPane scrl_browser;
     private javax.swing.JTextPane tp_browser;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void closeTab() {
-        TabOrganizer.closeBrowserPanel();
-    }
 }

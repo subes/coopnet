@@ -16,31 +16,22 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package coopnetclient.frames;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
+import coopnetclient.enums.OperatingSystems;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Vector;
-import javax.swing.AbstractAction;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
 
 public class ManageGamesFrame extends javax.swing.JFrame {
 
     private SortedListModel channels = new SortedListModel();
-    private HashMap<String, String> tempExePath = new HashMap<String, String>();
-    private HashMap<String, String> tempInstallPath = new HashMap<String, String>();
-    private HashMap<String, String> tempParams = new HashMap<String, String>();
-
+    
     /** Creates new form ManageGamesFrame */
     public ManageGamesFrame() {
         initComponents();
@@ -48,49 +39,14 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             if (st.length() > 0) {
                 channels.add(st);
             }
-        }        
-        AbstractAction act = new AbstractAction() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn_cancel.doClick();
-            }
-        };
-        getRootPane().getActionMap().put("close", act);
-        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
-        pack();
-    }
-
-    /**
-    saves any unsaved temporary data and returns if it was succesfull
-     */
-    private boolean saveTempData() {
-        boolean error = false;
-        if (lst_games.getSelectedValue() != null) {
-            if (tf_exePath.getText().length() > 0) {
-                if (Verification.verifyFile(tf_exePath.getText())) {
-                    tempExePath.put(lst_games.getSelectedValue().toString(), tf_exePath.getText());
-                } else {
-                    tf_exePath.showErrorMessage("Please set the path correctly!");
-                    error = true;
-                }
-            }
-            if (tf_installPath.getText().length() > 0) {
-                if (Verification.verifyDirectory(tf_installPath.getText())) {
-                    tempInstallPath.put(lst_games.getSelectedValue().toString(), tf_installPath.getText());
-                } else {
-                    tf_installPath.showErrorMessage("Please set the path correctly!");
-                    error = true;
-                }
-            }
-
-            if (tf_parameters.getText().length() > 0) {
-                tempParams.put(lst_games.getSelectedValue().toString(), tf_parameters.getText());
-            }
         }
-
-        return !error;
+        //installpath only required on linux:
+        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
+            tf_installPath.setVisible(false);
+            lbl_installPath.setVisible(false);
+            btn_browseInstallPath.setVisible(false);            
+        }
+        pack();
     }
 
     /** This method is called from within the constructor to
@@ -100,27 +56,22 @@ public class ManageGamesFrame extends javax.swing.JFrame {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
+        lbl_games = new javax.swing.JLabel();
         scrl_games = new javax.swing.JScrollPane();
         lst_games = new javax.swing.JList();
         btn_save = new javax.swing.JButton();
-        btn_cancel = new javax.swing.JButton();
+        lbl_path = new javax.swing.JLabel();
+        btn_browsePath = new javax.swing.JButton();
+        btn_close = new javax.swing.JButton();
+        lbl_noteText = new javax.swing.JLabel();
+        lbl_installPath = new javax.swing.JLabel();
+        btn_browseInstallPath = new javax.swing.JButton();
         tf_filter = new javax.swing.JTextField();
         lbl_filter = new javax.swing.JLabel();
-        cb_showInstalledOnly = new javax.swing.JCheckBox();
-        jPanel1 = new javax.swing.JPanel();
-        lbl_path = new javax.swing.JLabel();
-        tf_exePath = new coopnetclient.frames.components.AdvancedJTextField();
-        btn_browsePath = new javax.swing.JButton();
-        lbl_installPath = new javax.swing.JLabel();
-        tf_installPath = new coopnetclient.frames.components.AdvancedJTextField();
-        btn_browseInstallPath = new javax.swing.JButton();
-        lbl_params = new javax.swing.JLabel();
-        tf_parameters = new javax.swing.JTextField();
         lbl_note = new javax.swing.JLabel();
-        lbl_noteText = new javax.swing.JLabel();
-        btn_revert = new javax.swing.JButton();
+        tf_path = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_installPath = new coopnetclient.frames.components.AdvancedJTextField();
 
         setTitle("Manage games");
         setResizable(false);
@@ -130,8 +81,14 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             }
         });
 
+        lbl_games.setText("Games:");
+
         lst_games.setModel(channels);
-        lst_games.setNextFocusableComponent(tf_exePath);
+        lst_games.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lst_gamesMousePressed(evt);
+            }
+        });
         lst_games.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 lst_gamesValueChanged(evt);
@@ -146,188 +103,42 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_cancel.setText("Cancel");
-        btn_cancel.setNextFocusableComponent(tf_filter);
-        btn_cancel.addActionListener(new java.awt.event.ActionListener() {
+        lbl_path.setText("Executable:");
+
+        btn_browsePath.setText("Browse");
+        btn_browsePath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_cancelActionPerformed(evt);
+                btn_browsePathActionPerformed(evt);
             }
         });
 
-        tf_filter.setNextFocusableComponent(cb_showInstalledOnly);
+        btn_close.setText("Close");
+        btn_close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_closeActionPerformed(evt);
+            }
+        });
+
+        lbl_noteText.setText("<html>DirectPlay games must be properly installed in order to be launched.<br>Run dxdiag.exe and look at the network tab to find out!<br>If the game is installed properly, it should be present in the middle list with status \"OK\".");
+
+        lbl_installPath.setText("Install directory:");
+
+        btn_browseInstallPath.setText("Browse");
+        btn_browseInstallPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_browseInstallPathActionPerformed(evt);
+            }
+        });
+
         tf_filter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_filterActionPerformed(evt);
             }
         });
 
-        lbl_filter.setDisplayedMnemonic(KeyEvent.VK_F);
-        lbl_filter.setLabelFor(tf_filter);
         lbl_filter.setText("Filter:");
 
-        cb_showInstalledOnly.setMnemonic(KeyEvent.VK_H);
-        cb_showInstalledOnly.setText("Show installed games only");
-        cb_showInstalledOnly.setNextFocusableComponent(lst_games);
-        cb_showInstalledOnly.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_showInstalledOnlyActionPerformed(evt);
-            }
-        });
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Edit Game Settings"));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        lbl_path.setDisplayedMnemonic(KeyEvent.VK_E);
-        lbl_path.setLabelFor(tf_exePath);
-        lbl_path.setText("Executable:");
-        lbl_path.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(lbl_path, gridBagConstraints);
-
-        tf_exePath.setEnabled(false);
-        tf_exePath.setNextFocusableComponent(tf_installPath);
-        tf_exePath.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_exePathActionPerformed(evt);
-            }
-        });
-        tf_exePath.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tf_exePathFocusLost(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(tf_exePath, gridBagConstraints);
-
-        btn_browsePath.setText("Browse");
-        btn_browsePath.setEnabled(false);
-        btn_browsePath.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_browsePathActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(btn_browsePath, gridBagConstraints);
-
-        lbl_installPath.setDisplayedMnemonic(KeyEvent.VK_I);
-        lbl_installPath.setLabelFor(tf_installPath);
-        lbl_installPath.setText("Install Directory:");
-        lbl_installPath.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(lbl_installPath, gridBagConstraints);
-
-        tf_installPath.setEnabled(false);
-        tf_installPath.setNextFocusableComponent(btn_save);
-        tf_installPath.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_installPathActionPerformed(evt);
-            }
-        });
-        tf_installPath.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tf_installPathFocusLost(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(tf_installPath, gridBagConstraints);
-
-        btn_browseInstallPath.setText("Browse");
-        btn_browseInstallPath.setEnabled(false);
-        btn_browseInstallPath.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_browseInstallPathActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(btn_browseInstallPath, gridBagConstraints);
-
-        lbl_params.setDisplayedMnemonic(KeyEvent.VK_A);
-        lbl_params.setLabelFor(tf_parameters);
-        lbl_params.setText("Additional Parameters:");
-        lbl_params.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(lbl_params, gridBagConstraints);
-
-        tf_parameters.setEnabled(false);
-        tf_parameters.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_parametersActionPerformed(evt);
-            }
-        });
-        tf_parameters.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tf_parametersFocusLost(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(tf_parameters, gridBagConstraints);
-
         lbl_note.setText("<html><b>Note:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(lbl_note, gridBagConstraints);
-
-        lbl_noteText.setText("<html>DirectPlay games must be properly installed in order to be launched.<br>Run dxdiag.exe and look at the network tab to find out!<br>If the game is installed properly <br> it should be present in the middle list with status \"OK\".");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
-        jPanel1.add(lbl_noteText, gridBagConstraints);
-
-        btn_revert.setMnemonic(KeyEvent.VK_R);
-        btn_revert.setText("Revert");
-        btn_revert.setEnabled(false);
-        btn_revert.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_revertActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        jPanel1.add(btn_revert, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -339,43 +150,73 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cb_showInstalledOnly))
-                    .addComponent(scrl_games, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE))
+                    .addComponent(lbl_games)
+                    .addComponent(scrl_games, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_installPath)
+                            .addComponent(lbl_path))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tf_installPath, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                            .addComponent(tf_path, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbl_note)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbl_noteText)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_browseInstallPath, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btn_browsePath, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_save)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_cancel)))
+                        .addComponent(btn_close)))
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_cancel, btn_save});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tf_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_filter)
-                    .addComponent(cb_showInstalledOnly))
+                    .addComponent(lbl_filter))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbl_games)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrl_games, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrl_games, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_path)
+                    .addComponent(btn_browsePath)
+                    .addComponent(tf_path, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbl_installPath)
+                        .addComponent(btn_browseInstallPath))
+                    .addComponent(tf_installPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_note)
+                    .addComponent(lbl_noteText))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_save)
-                    .addComponent(btn_cancel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btn_close))
+                .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_cancel, btn_save});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_close, btn_save});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_browseInstallPath, btn_browsePath});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private void lst_gamesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_gamesMousePressed
+        
+}//GEN-LAST:event_lst_gamesMousePressed
 
     private void btn_browsePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browsePathActionPerformed
         if (lst_games.getSelectedValue() != null) {
@@ -383,16 +224,15 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
                 @Override
                 public void run() {
-                    try {
+                    try{
                         FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
                         int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
                         if (returnVal == FileChooser.SELECT_ACTION) {
                             File file = mfc.getSelectedFile();
-                            tf_exePath.setText(file.getAbsolutePath());
-                            saveTempData();
+                            tf_path.setText(file.getAbsolutePath());
                         }//else cancelled
-                    } catch (Exception e) {
+                    }catch(Exception e){
                         ErrorHandler.handleException(e);
                     }
                 }
@@ -401,27 +241,43 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_browsePathActionPerformed
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
-        if (saveTempData()) {
-            for (String gamename : tempExePath.keySet()) {
-                String ID = GameDatabase.getIDofGame(gamename);
-                GameDatabase.setLocalExecutablePath(ID, tempExePath.get(gamename));
+        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
+            if (lst_games.getSelectedValue() != null 
+                    && tf_path.getText().length() > 0
+                    && Verification.verifyFile(tf_path.getText())) {
+                GameDatabase.setLocalExecutablePath(lst_games.getSelectedValue().toString(), tf_path.getText());
+                GameDatabase.setLocalInstallPath(lst_games.getSelectedValue().toString(), tf_installPath.getText());
+                Globals.getClientFrame().setLaunchable(lst_games.getSelectedValue().toString(), true);
+                GameDatabase.saveLocalPaths();
+            } else {
+                tf_path.showErrorMessage("Please set the path correctly!");
             }
-            for (String gamename : tempInstallPath.keySet()) {
-                String ID = GameDatabase.getIDofGame(gamename);
-                GameDatabase.setLocalInstallPath(ID, tempInstallPath.get(gamename));
+        } else {
+            if (lst_games.getSelectedValue() != null 
+                    && tf_path.getText().length() > 0 
+                    && tf_installPath.getText().length() > 0
+                    && Verification.verifyFile(tf_path.getText())
+                    && Verification.verifyDirectory(tf_installPath.getText())) {
+                GameDatabase.setLocalExecutablePath(lst_games.getSelectedValue().toString(), tf_path.getText());
+                GameDatabase.setLocalInstallPath(lst_games.getSelectedValue().toString(), tf_installPath.getText());
+                Globals.getClientFrame().setLaunchable(lst_games.getSelectedValue().toString(), true);
+                GameDatabase.saveLocalPaths();
+            } else {
+                if(tf_path.getText().length()<1){
+                    tf_path.showErrorMessage("Please set the path correctly!");
+                }
+                if(tf_installPath.getText().length()<1){
+                    tf_installPath.showErrorMessage("Please set the path correctly!");
+                }
             }
-            for (String gamename : tempParams.keySet()) {
-                String ID = GameDatabase.getIDofGame(gamename);
-                GameDatabase.setAdditionalParameters(ID, tempParams.get(gamename));
-            }
-            GameDatabase.saveLocalPaths();
-            Globals.closeManageGamesFrame();
         }
+
+
 }//GEN-LAST:event_btn_saveActionPerformed
 
-    private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
+    private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
         Globals.closeManageGamesFrame();
-}//GEN-LAST:event_btn_cancelActionPerformed
+}//GEN-LAST:event_btn_closeActionPerformed
 
     private void btn_browseInstallPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browseInstallPathActionPerformed
         if (lst_games.getSelectedValue() != null) {
@@ -429,16 +285,15 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
                 @Override
                 public void run() {
-                    try {
+                    try{
                         FileChooser mfc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
                         int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
                         if (returnVal == FileChooser.SELECT_ACTION) {
                             File file = mfc.getSelectedFile();
                             tf_installPath.setText(file.getAbsolutePath());
-                            saveTempData();
                         }//else cancelled
-                    } catch (Exception e) {
+                    }catch(Exception e){
                         ErrorHandler.handleException(e);
                     }
                 }
@@ -449,22 +304,13 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_filterActionPerformed
     lst_games.removeAll();
     channels.clear();
-    Vector<String> installedgames = GameDatabase.getInstalledGameNames();
     String filter = tf_filter.getText();
-    for (String gameName : GameDatabase.getNonDPlayGameNames()) {
-        if (gameName.toLowerCase().contains(filter.toLowerCase())) {
-            if (cb_showInstalledOnly.isSelected()) {
-                if (installedgames.contains(gameName)) {
-                    channels.add(gameName);
-                }
-            } else {
-                channels.add(gameName);
-            }
+    for (String st : GameDatabase.getAllGameNamesAsStringArray()) {
+        if (st.toLowerCase().contains(filter.toLowerCase())) {
+            channels.add(st);
         }
     }
     this.repaint();
-
-    lst_games.setSelectedIndex(-1);
 }//GEN-LAST:event_tf_filterActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -473,109 +319,30 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
 
 private void lst_gamesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lst_gamesValueChanged
     if (lst_games.getSelectedValue() != null) {
-        tf_exePath.setEnabled(true);
-        tf_installPath.setEnabled(true);
-        tf_parameters.setEnabled(true);
-        lbl_installPath.setEnabled(true);
-        lbl_params.setEnabled(true);
-        lbl_path.setEnabled(true);
-        btn_browseInstallPath.setEnabled(true);
-        btn_browsePath.setEnabled(true);
-        btn_revert.setEnabled(true);
-
-        String path = tempExePath.get(lst_games.getSelectedValue().toString());
-        if (path == null) {
-            path = GameDatabase.getLaunchPathWithExe(lst_games.getSelectedValue().toString(), null);
+            String path = GameDatabase.getLaunchPathWithExe(lst_games.getSelectedValue().toString(),null);
+            tf_path.setText(path);
+            String installpath = GameDatabase.getInstallPath(lst_games.getSelectedValue().toString());
+            tf_installPath.setText(installpath);
         }
-        tf_exePath.setText(path);
-        String installpath = tempInstallPath.get(lst_games.getSelectedValue().toString());
-        if (installpath == null) {
-            installpath = GameDatabase.getInstallPath(lst_games.getSelectedValue().toString());
-        }
-        tf_installPath.setText(installpath);
-        String params = tempParams.get(lst_games.getSelectedValue().toString());
-        if (params == null) {
-            params = GameDatabase.getAdditionalParameters(GameDatabase.getIDofGame(lst_games.getSelectedValue().toString()));
-        }
-        if (params != null) {
-            tf_parameters.setText(params);
-        } else {
-            tf_parameters.setText("");
-        }
-    } else {
-        tf_exePath.setEnabled(false);
-        tf_exePath.setText("");
-        tf_installPath.setEnabled(false);
-        tf_installPath.setText("");
-        tf_parameters.setEnabled(false);
-        tf_parameters.setText("");
-        lbl_installPath.setEnabled(false);
-        lbl_params.setEnabled(false);
-        lbl_path.setEnabled(false);
-        btn_browseInstallPath.setEnabled(false);
-        btn_browsePath.setEnabled(false);
-        btn_revert.setEnabled(false);
-    }
 }//GEN-LAST:event_lst_gamesValueChanged
-
-private void cb_showInstalledOnlyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_showInstalledOnlyActionPerformed
-    tf_filterActionPerformed(null);
-    lst_games.clearSelection();
-}//GEN-LAST:event_cb_showInstalledOnlyActionPerformed
-
-private void tf_installPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_installPathActionPerformed
-    saveTempData();
-}//GEN-LAST:event_tf_installPathActionPerformed
-
-private void tf_installPathFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_installPathFocusLost
-    saveTempData();
-}//GEN-LAST:event_tf_installPathFocusLost
-
-private void tf_exePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_exePathActionPerformed
-    saveTempData();
-}//GEN-LAST:event_tf_exePathActionPerformed
-
-private void tf_exePathFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_exePathFocusLost
-    saveTempData();
-}//GEN-LAST:event_tf_exePathFocusLost
-
-private void tf_parametersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_parametersActionPerformed
-    saveTempData();
-}//GEN-LAST:event_tf_parametersActionPerformed
-
-private void tf_parametersFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_parametersFocusLost
-    saveTempData();
-}//GEN-LAST:event_tf_parametersFocusLost
-
-private void btn_revertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_revertActionPerformed
-    if (lst_games.getSelectedValue() != null) {
-        tempExePath.remove(lst_games.getSelectedValue().toString());
-        tempInstallPath.remove(lst_games.getSelectedValue().toString());
-        tempParams.remove(lst_games.getSelectedValue().toString());
-        lst_gamesValueChanged(null);
-    }
-}//GEN-LAST:event_btn_revertActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_browseInstallPath;
     private javax.swing.JButton btn_browsePath;
-    private javax.swing.JButton btn_cancel;
-    private javax.swing.JButton btn_revert;
+    private javax.swing.JButton btn_close;
     private javax.swing.JButton btn_save;
-    private javax.swing.JCheckBox cb_showInstalledOnly;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbl_filter;
+    private javax.swing.JLabel lbl_games;
     private javax.swing.JLabel lbl_installPath;
     private javax.swing.JLabel lbl_note;
     private javax.swing.JLabel lbl_noteText;
-    private javax.swing.JLabel lbl_params;
     private javax.swing.JLabel lbl_path;
     private javax.swing.JList lst_games;
     private javax.swing.JScrollPane scrl_games;
-    private coopnetclient.frames.components.AdvancedJTextField tf_exePath;
     private javax.swing.JTextField tf_filter;
     private coopnetclient.frames.components.AdvancedJTextField tf_installPath;
-    private javax.swing.JTextField tf_parameters;
+    private coopnetclient.frames.components.AdvancedJTextField tf_path;
     // End of variables declaration//GEN-END:variables
+
 }
 

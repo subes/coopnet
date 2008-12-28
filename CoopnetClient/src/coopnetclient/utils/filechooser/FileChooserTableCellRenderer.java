@@ -19,13 +19,20 @@
 
 package coopnetclient.utils.filechooser;
 
-import coopnetclient.utils.Icons;
+import coopnetclient.Globals;
 import java.awt.Component;
+import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 class FileChooserTableCellRenderer extends DefaultTableCellRenderer {
 
+    private static ImageIcon dirIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filechooser/folder.png")).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+    private static ImageIcon dirIconHidden = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filechooser/folder_hidden.png")).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+    private static ImageIcon fileIcon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filechooser/file.png")).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+    private static ImageIcon fileIconHidden = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString("data/icons/filechooser/file_hidden.png")).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
     
     public FileChooserTableCellRenderer() {
         super();
@@ -43,15 +50,15 @@ class FileChooserTableCellRenderer extends DefaultTableCellRenderer {
             
             if(value.equals("..") || value.equals(".") ||table.getModel().getValueAt(rowIndex, vColIndex+1).equals("dir")){
                 if(isHidden){
-                    setIcon(Icons.dirIconHidden);
+                    setIcon(dirIconHidden);
                 }else{
-                    setIcon(Icons.dirIcon);
+                    setIcon(dirIcon);
                 }
             } else {
                 if(isHidden){
-                    setIcon(Icons.fileIconHidden);
+                    setIcon(fileIconHidden);
                 }else{
-                    setIcon(Icons.fileIcon);
+                    setIcon(fileIcon);
                 }
             }
         }

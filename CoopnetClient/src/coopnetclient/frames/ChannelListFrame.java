@@ -20,116 +20,24 @@
 package coopnetclient.frames;
 
 import coopnetclient.Globals;
-import coopnetclient.frames.renderers.ChannelListFavouriteCellRenderer;
-import coopnetclient.frames.renderers.ChannelListInstalledCellRenderer;
-import coopnetclient.protocol.out.Protocol;
-import coopnetclient.utils.Icons;
-import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import coopnetclient.protocol.out.Protocol;
+import coopnetclient.frames.models.SortedListModel;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Vector;
-import javax.swing.AbstractAction;
-import javax.swing.DefaultCellEditor;
-import javax.swing.InputMap;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JTable;
-import javax.swing.KeyStroke;
-import javax.swing.RowSorter.SortKey;
-import javax.swing.SortOrder;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 
 public class ChannelListFrame extends javax.swing.JFrame {
 
-    private DefaultTableModel model;
-
+    private SortedListModel channels = new SortedListModel();
+    
     /** Creates new form ChannelListFrame */
     public ChannelListFrame() {
         initComponents();
-
-        model = (DefaultTableModel) tbl_list.getModel();
-
-        initData(true);
-
-        model.addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                if(e.getType() == TableModelEvent.UPDATE && e.getColumn() == 0 && e.getFirstRow() == e.getLastRow()){
-                    String changedFav = (String) model.getValueAt(e.getFirstRow(), 1);
-                    if((Boolean)model.getValueAt(e.getFirstRow(), 0)){
-                        Settings.addFavouriteByName(changedFav);
-                    }else{
-                        Settings.removeFavourite(GameDatabase.getIDofGame(changedFav));
-                    }
-                }
-            }
-        });
-
-        tbl_list.getColumnModel().getColumn(1).setPreferredWidth(tbl_list.getWidth());
-
-        DefaultCellEditor editor = new DefaultCellEditor(new JCheckBox()){
-
-            @Override
-            public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-                row = tbl_list.convertRowIndexToModel(row);
-                column = tbl_list.convertColumnIndexToModel(column);
-                model.setValueAt(!((Boolean)value), row, column);
-                model.fireTableCellUpdated(row, column);
-                return null;
-            }
-
-
-        };
-
-        tbl_list.getColumnModel().getColumn(0).setCellEditor(editor);
-        AbstractAction act = new AbstractAction() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn_cancel.doClick();
-            }
-        };
-        getRootPane().getActionMap().put("close", act);
-        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
-    }
-
-    private void initData(boolean resetFilter){
-        int rows = model.getRowCount();
-        for(int i = 0; i < rows; i++){
-            model.removeRow(0);
-        }
-
-        Vector<String> favs = Settings.getFavouritesByName();
-        for (String gameName : GameDatabase.getAllGameNamesAsStringArray()) {
-            if (gameName.length() > 0) {
-                if (resetFilter || gameName.toLowerCase().contains(tf_filter.getText().toLowerCase())) {
-                    Object[] rowData = {favs.contains(gameName), gameName, GameDatabase.getInstalledGameNames().contains(gameName)};
-                    model.addRow(rowData);
-                }
+        lst_channelList.removeAll();
+        for (String st : GameDatabase.getAllGameNamesAsStringArray()) {
+            if (st.length() > 0) {
+                channels.add(st);
             }
         }
-
-        if(resetFilter){
-            tf_filter.setText("");
-            ArrayList<SortKey> keys = new ArrayList<SortKey>();
-            keys.add(new SortKey(0, SortOrder.DESCENDING));
-            keys.add(new SortKey(2, SortOrder.DESCENDING));
-            keys.add(new SortKey(1, SortOrder.ASCENDING));
-            tbl_list.getRowSorter().setSortKeys(keys);
-            ((TableRowSorter)tbl_list.getRowSorter()).sort();
-            tbl_list.changeSelection(-1, -1, false, false);
-            btn_joinChannelButton.setEnabled(tbl_list.getSelectedRow() > -1);
-        }
-
-        tbl_list.getColumnModel().getColumn(1).sizeWidthToFit();
     }
 
     /** This method is called from within the constructor to
@@ -142,11 +50,11 @@ public class ChannelListFrame extends javax.swing.JFrame {
 
         lbl_filter = new javax.swing.JLabel();
         tf_filter = new javax.swing.JTextField();
-        btn_joinChannelButton = new javax.swing.JButton();
+        scrl_channelList = new javax.swing.JScrollPane();
+        lst_channelList = new javax.swing.JList();
+        jb_joinChannelButton = new javax.swing.JButton();
+        lbl_channellist = new javax.swing.JLabel();
         btn_cancel = new javax.swing.JButton();
-        scrl_list = new javax.swing.JScrollPane();
-        tbl_list = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
 
         setTitle("Join channel");
         setFocusable(false);
@@ -156,8 +64,6 @@ public class ChannelListFrame extends javax.swing.JFrame {
             }
         });
 
-        lbl_filter.setDisplayedMnemonic(KeyEvent.VK_F);
-        lbl_filter.setLabelFor(tf_filter);
         lbl_filter.setText("Filter:");
         lbl_filter.setFocusable(false);
 
@@ -167,63 +73,29 @@ public class ChannelListFrame extends javax.swing.JFrame {
             }
         });
 
-        btn_joinChannelButton.setText("Join selected channel");
-        btn_joinChannelButton.setEnabled(false);
-        btn_joinChannelButton.setNextFocusableComponent(btn_cancel);
-        btn_joinChannelButton.addActionListener(new java.awt.event.ActionListener() {
+        scrl_channelList.setFocusable(false);
+
+        lst_channelList.setModel(channels);
+        lst_channelList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lst_channelListMouseClicked(evt);
+            }
+        });
+        scrl_channelList.setViewportView(lst_channelList);
+
+        jb_joinChannelButton.setText("Join selected channel");
+        jb_joinChannelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_joinChannelButtonActionPerformed(evt);
+                jb_joinChannelButtonActionPerformed(evt);
             }
         });
 
-        btn_cancel.setText("Close");
-        btn_cancel.setNextFocusableComponent(tf_filter);
+        lbl_channellist.setText("Available Channels:");
+
+        btn_cancel.setText("Cancel");
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_cancelActionPerformed(evt);
-            }
-        });
-
-        tbl_list.setAutoCreateRowSorter(true);
-        tbl_list.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, "Welcome", null},
-                {null, "FOT", null}
-            },
-            new String [] {
-                "Favourite", "Name", "Installed"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                true, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tbl_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbl_list.getTableHeader().setReorderingAllowed(false);
-        tbl_list.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbl_listMouseClicked(evt);
-            }
-        });
-        scrl_list.setViewportView(tbl_list);
-        tbl_list.getColumnModel().getColumn(0).setCellRenderer(new ChannelListFavouriteCellRenderer());
-        tbl_list.getColumnModel().getColumn(2).setCellRenderer(new ChannelListInstalledCellRenderer());
-
-        jButton1.setText("Reset");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
             }
         });
 
@@ -234,17 +106,16 @@ public class ChannelListFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(scrl_list, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(btn_joinChannelButton)
-                        .addGap(10, 10, 10)
-                        .addComponent(btn_cancel))
+                    .addComponent(scrl_channelList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jb_joinChannelButton)
+                        .addGap(10, 10, 10)
+                        .addComponent(btn_cancel))
+                    .addComponent(lbl_channellist, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -253,58 +124,61 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tf_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_filter)
-                    .addComponent(jButton1))
+                    .addComponent(lbl_filter))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbl_channellist, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrl_list, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                .addComponent(scrl_channelList, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_cancel)
-                    .addComponent(btn_joinChannelButton))
+                    .addComponent(jb_joinChannelButton))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_cancel, btn_joinChannelButton});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_cancel, jb_joinChannelButton});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_joinChannelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_joinChannelButtonActionPerformed
-        Protocol.joinChannel((String) model.getValueAt(tbl_list.convertRowIndexToModel(tbl_list.getSelectedRow()), 1));
+    private void jb_joinChannelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_joinChannelButtonActionPerformed
+        Protocol.joinChannel((String) lst_channelList.getSelectedValue());
         Globals.closeChannelListFrame();
-}//GEN-LAST:event_btn_joinChannelButtonActionPerformed
+}//GEN-LAST:event_jb_joinChannelButtonActionPerformed
 
     private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_filterActionPerformed
-        initData(false);
+        lst_channelList.removeAll();
+        channels.clear();
+        String filter = tf_filter.getText();
+        for (String st : GameDatabase.getAllGameNamesAsStringArray()) {
+            if (st.toLowerCase().contains(filter.toLowerCase())) {
+                channels.add(st);
+            }
+        }
+        this.repaint();
 }//GEN-LAST:event_tf_filterActionPerformed
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         Globals.closeChannelListFrame();
 }//GEN-LAST:event_btn_cancelActionPerformed
 
+private void lst_channelListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_channelListMouseClicked
+    if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
+        jb_joinChannelButton.doClick();
+    }
+}//GEN-LAST:event_lst_channelListMouseClicked
+
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
     Globals.closeChannelListFrame();
 }//GEN-LAST:event_formWindowClosing
 
-private void tbl_listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_listMouseClicked
-    btn_joinChannelButton.setEnabled(tbl_list.getSelectedRow() > -1);
-    
-    if(evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 2){
-        btn_joinChannelButton.doClick();
-    }
-}//GEN-LAST:event_tbl_listMouseClicked
-
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    initData(true);
-}//GEN-LAST:event_jButton1ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
-    private javax.swing.JButton btn_joinChannelButton;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jb_joinChannelButton;
+    private javax.swing.JLabel lbl_channellist;
     private javax.swing.JLabel lbl_filter;
-    private javax.swing.JScrollPane scrl_list;
-    private javax.swing.JTable tbl_list;
+    private javax.swing.JList lst_channelList;
+    private javax.swing.JScrollPane scrl_channelList;
     private javax.swing.JTextField tf_filter;
     // End of variables declaration//GEN-END:variables
 

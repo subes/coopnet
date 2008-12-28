@@ -44,9 +44,6 @@ public enum ClientProtocolCommands {
     SET_SLEEP,
     REFUSE_FILE,
     ACCEPT_FILE,
-    SETAWAYSTATUS,
-    UNSETAWAYSTATUS,
-    CLIENTVERSION,
     DIVIDER,//divides fast commands from slow(operations that require DataBase operations)
     SEND_CONTACT_REQUEST,
     ACCEPT_CONTACT_REQUEST,

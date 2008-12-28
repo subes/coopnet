@@ -27,18 +27,15 @@ import coopnetclient.frames.models.RoomTableModel;
 import coopnetclient.frames.components.PlayerListPopupMenu;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
-import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.ChannelStatusListModel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
-import coopnetclient.frames.renderers.RoomNameRenderer;
 import coopnetclient.frames.renderers.TableTextCellRenderer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.UserListFileDropHandler;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import javax.swing.DropMode;
 import javax.swing.JTable;
@@ -47,7 +44,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.text.StyledDocument;
 
-public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
+public class ChannelPanel extends javax.swing.JPanel {
 
     public String ID;
     private ChannelStatusListModel users;
@@ -60,10 +57,11 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     /** Creates new form ChannelPanel */
     public ChannelPanel(String name) {
         this.name = name;
-        ID = GameDatabase.getIDofGame(name);
+        ID = GameDatabase.IDofGame(name);
         users = new ChannelStatusListModel();
         renderer = new ChannelStatusListCellRenderer(users);
         initComponents();
+        btn_leaveChannel1.setVisible(false);
         coopnetclient.utils.Colorizer.colorize(this);
 
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
@@ -74,28 +72,25 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         tbl_roomList.setAutoCreateRowSorter(true);
         tbl_roomList.setRowHeight(35);
         tbl_roomList.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-        tbl_roomList.getColumnModel().getColumn(0).setMinWidth(45);
-        tbl_roomList.getColumnModel().getColumn(0).setMaxWidth(45);
+        tbl_roomList.getColumnModel().getColumn(0).setPreferredWidth(150);
         tbl_roomList.getColumnModel().getColumn(1).setPreferredWidth(800);
         tbl_roomList.getColumnModel().getColumn(2).setPreferredWidth(300);
-        tbl_roomList.getColumnModel().getColumn(3).setMinWidth(65);
-        tbl_roomList.getColumnModel().getColumn(3).setMaxWidth(65);
+        tbl_roomList.getColumnModel().getColumn(3).setPreferredWidth(150);
                 
         ChannelRoomStatusRenderer picrend = new ChannelRoomStatusRenderer();
         picrend.setHorizontalAlignment(SwingConstants.CENTER);
-        tbl_roomList.setDefaultRenderer(RoomTableModel.RoomType.class, picrend);
+        tbl_roomList.setDefaultRenderer(Integer.class, picrend);
         
         DefaultTableCellRenderer rend = new DefaultTableCellRenderer();
         rend.setHorizontalAlignment(SwingConstants.CENTER);
-        rend.putClientProperty("html.disable", Boolean.TRUE);
         tbl_roomList.setDefaultRenderer(String.class, rend);
-
+        
+        TableColumn col = tbl_roomList.getColumnModel().getColumn(3);
         UsersInRoomTableCellRenderer userrend = new UsersInRoomTableCellRenderer(rooms);
         userrend.setHorizontalAlignment(SwingConstants.CENTER);
-        tbl_roomList.setDefaultRenderer(RoomTableModel.PlayersInRoom.class, userrend);
-
-        RoomNameRenderer roomnamerenderer = new RoomNameRenderer(rooms);
-        tbl_roomList.setDefaultRenderer(RoomTableModel.RoomName.class, roomnamerenderer);
+        col.setCellRenderer(userrend);
+        tbl_roomList.getColumnModel().getColumn(1).setCellRenderer(new TableTextCellRenderer());
+        tbl_roomList.getColumnModel().getColumn(2).setCellRenderer(new TableTextCellRenderer());
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.CHANNEL_CHAT_MODE, this.name));
 
@@ -114,14 +109,6 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         }
     }
 
-    public void setAway(String playername){
-        users.setAway(playername);
-    }
-
-    public void unSetAway(String playername){
-        users.unSetAway(playername);
-    }
-
     public void gameClosed(String playername) {
         users.playerClosedGame(playername);
         rooms.setLaunchedStatus(playername, false);
@@ -130,6 +117,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     public void hideRoomList() {
         pnl_roomActions.setVisible(false);
         sp_vertical.setDividerSize(0);
+        btn_leaveChannel1.setVisible(true);
     }
 
     public void setPlayingStatus(String player) {
@@ -148,7 +136,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
 
     @Override
     public void requestFocus() {        
-        tp_chatInput.requestFocusInWindow();
+        tp_chatInput.requestFocus();
     }
 
     public void customCodeForColorizer() {
@@ -179,8 +167,8 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         users.playerEnteredRoom(playername);
     }
 
-    public void addRoomToTable(String roomname,String modName, String hostname, int maxplayers, int type) {
-        rooms.addRoomToTable(roomname, modName, hostname, maxplayers, type);
+    public void addRoomToTable(String roomname, String hostname, int maxplayers, int type) {
+        rooms.addRoomToTable(roomname, hostname, maxplayers, type);
         users.playerEnteredRoom(hostname);
     }
 
@@ -194,7 +182,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     }
 
     public void enablebuttons() {
-        if (this.isLaunchable && TabOrganizer.getRoomPanel() == null) {
+        if (this.isLaunchable) {
             btn_create.setEnabled(true);
             btn_join.setEnabled(true);
         }
@@ -262,17 +250,18 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         pnl_userList = new javax.swing.JPanel();
         scrl_userList = new javax.swing.JScrollPane();
         lst_userList = new javax.swing.JList();
+        btn_leaveChannel1 = new javax.swing.JButton();
         pnl_roomActions = new javax.swing.JPanel();
         btn_create = new javax.swing.JButton();
         btn_join = new javax.swing.JButton();
         btn_refresh = new javax.swing.JButton();
         scrl_roomList = new javax.swing.JScrollPane();
         tbl_roomList = new javax.swing.JTable();
+        btn_leaveChannel = new javax.swing.JButton();
 
         setFocusable(false);
         setPreferredSize(new java.awt.Dimension(350, 400));
 
-        sp_vertical.setDividerSize(10);
         sp_vertical.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         sp_vertical.setResizeWeight(0.5);
         sp_vertical.setFocusable(false);
@@ -293,7 +282,6 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         sp_chatVertical.setPreferredSize(new java.awt.Dimension(350, 100));
 
         scrl_chatOutput.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrl_chatOutput.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrl_chatOutput.setEnabled(false);
         scrl_chatOutput.setFocusable(false);
         scrl_chatOutput.setMinimumSize(new java.awt.Dimension(150, 50));
@@ -339,10 +327,10 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
 
         sp_chatHorizontal.setLeftComponent(sp_chatVertical);
 
-        pnl_userList.setFocusable(false);
         pnl_userList.setPreferredSize(new java.awt.Dimension(100, 80));
         pnl_userList.setLayout(new java.awt.GridBagLayout());
 
+        scrl_userList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrl_userList.setFocusable(false);
         scrl_userList.setMinimumSize(new java.awt.Dimension(100, 50));
 
@@ -371,11 +359,28 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         pnl_userList.add(scrl_userList, gridBagConstraints);
+
+        btn_leaveChannel1.setText("Leave");
+        btn_leaveChannel1.setFocusable(false);
+        btn_leaveChannel1.setMaximumSize(new java.awt.Dimension(100, 23));
+        btn_leaveChannel1.setMinimumSize(new java.awt.Dimension(100, 23));
+        btn_leaveChannel1.setPreferredSize(new java.awt.Dimension(100, 23));
+        btn_leaveChannel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_leaveChannel1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        pnl_userList.add(btn_leaveChannel1, gridBagConstraints);
 
         sp_chatHorizontal.setRightComponent(pnl_userList);
 
@@ -385,7 +390,6 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         pnl_roomActions.setMinimumSize(new java.awt.Dimension(100, 70));
         pnl_roomActions.setPreferredSize(new java.awt.Dimension(350, 200));
 
-        btn_create.setMnemonic(KeyEvent.VK_C);
         btn_create.setText("Create");
         btn_create.setFocusable(false);
         btn_create.addActionListener(new java.awt.event.ActionListener() {
@@ -394,7 +398,6 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
             }
         });
 
-        btn_join.setMnemonic(KeyEvent.VK_J);
         btn_join.setText("Join");
         btn_join.setFocusable(false);
         btn_join.addActionListener(new java.awt.event.ActionListener() {
@@ -403,7 +406,6 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
             }
         });
 
-        btn_refresh.setMnemonic(KeyEvent.VK_R);
         btn_refresh.setText("Refresh");
         btn_refresh.setFocusable(false);
         btn_refresh.addActionListener(new java.awt.event.ActionListener() {
@@ -449,33 +451,44 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         });
         scrl_roomList.setViewportView(tbl_roomList);
 
+        btn_leaveChannel.setText("Leave");
+        btn_leaveChannel.setFocusable(false);
+        btn_leaveChannel.setMaximumSize(new java.awt.Dimension(100, 23));
+        btn_leaveChannel.setMinimumSize(new java.awt.Dimension(100, 23));
+        btn_leaveChannel.setPreferredSize(new java.awt.Dimension(100, 23));
+        btn_leaveChannel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_leaveChannelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnl_roomActionsLayout = new javax.swing.GroupLayout(pnl_roomActions);
         pnl_roomActions.setLayout(pnl_roomActionsLayout);
         pnl_roomActionsLayout.setHorizontalGroup(
             pnl_roomActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_roomActionsLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(btn_create)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_refresh)
-                .addContainerGap(139, Short.MAX_VALUE))
-            .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(btn_leaveChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(scrl_roomList, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         pnl_roomActionsLayout.setVerticalGroup(
             pnl_roomActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_roomActionsLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(pnl_roomActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_create)
                     .addComponent(btn_join)
-                    .addComponent(btn_refresh))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                    .addComponent(btn_refresh)
+                    .addComponent(btn_leaveChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
         );
 
-        pnl_roomActionsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_create, btn_join, btn_refresh});
+        pnl_roomActionsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_create, btn_join, btn_leaveChannel, btn_refresh});
 
         sp_vertical.setLeftComponent(pnl_roomActions);
 
@@ -563,13 +576,21 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         tp_chatOutput.setSelectionEnd(doc.getLength());
 }//GEN-LAST:event_tp_chatOutputFocusLost
 
+    private void btn_leaveChannelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveChannelActionPerformed
+        TabOrganizer.closeChannelPanel(this);
+}//GEN-LAST:event_btn_leaveChannelActionPerformed
+
 private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tp_chatOutputKeyTyped
     char c = evt.getKeyChar();
     if (!evt.isControlDown()) {
         tp_chatInput.setText(tp_chatInput.getText() + c);
-        tp_chatInput.requestFocusInWindow();
+        tp_chatInput.requestFocus();
     }
 }//GEN-LAST:event_tp_chatOutputKeyTyped
+
+private void btn_leaveChannel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_leaveChannel1ActionPerformed
+    btn_leaveChannelActionPerformed(evt);
+}//GEN-LAST:event_btn_leaveChannel1ActionPerformed
 
 private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
     if (!popup.isVisible()) {
@@ -632,6 +653,8 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_create;
     private javax.swing.JButton btn_join;
+    private javax.swing.JButton btn_leaveChannel;
+    private javax.swing.JButton btn_leaveChannel1;
     private javax.swing.JButton btn_refresh;
     private javax.swing.JList lst_userList;
     private javax.swing.JPanel pnl_roomActions;
@@ -647,10 +670,5 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
     private javax.swing.JTextPane tp_chatInput;
     private javax.swing.JTextPane tp_chatOutput;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void closeTab() {
-        TabOrganizer.closeChannelPanel(this);
-    }
 
 }

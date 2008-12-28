@@ -27,7 +27,8 @@ import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.tabs.BrowserPanel;
 import coopnetclient.frames.clientframe.tabs.ChannelPanel;
 import coopnetclient.frames.clientframe.tabs.ErrorPanel;
-import coopnetclient.frames.clientframe.tabs.FileTransferPanel;
+import coopnetclient.frames.clientframe.tabs.FileTransferRecievePanel;
+import coopnetclient.frames.clientframe.tabs.FileTransferSendPanel;
 import coopnetclient.frames.clientframe.tabs.LoginPanel;
 import coopnetclient.frames.clientframe.tabs.PasswordRecoveryPanel;
 import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
@@ -37,7 +38,6 @@ import coopnetclient.frames.components.TabComponent;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.utils.Icons;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
@@ -61,13 +61,14 @@ public class TabOrganizer {
     private static LoginPanel loginPanel;
     private static RegisterPanel registerPanel;
     private static PasswordRecoveryPanel passwordRecoveryPanel;
-    private static FileTransferPanel transferPanel;
+    private static Vector<FileTransferSendPanel> fileTransferSendPanels = new Vector<FileTransferSendPanel>();
+    private static Vector<FileTransferRecievePanel> fileTransferReceivePanels = new Vector<FileTransferRecievePanel>();
     
-    
+
     static {
         tabHolder = Globals.getClientFrame().getTabHolder();
     }
-
+    
     public static void openChannelPanel(String channelname) {
         
         int index = -1;
@@ -90,7 +91,7 @@ public class TabOrganizer {
         ChannelPanel currentchannel = new ChannelPanel(channelname);
         tabHolder.add(currentchannel, 0);
         tabHolder.setTitleAt(0, channelname);
-        tabHolder.setTabComponentAt(0, new TabComponent(channelname,currentchannel) );
+        tabHolder.setTabComponentAt(0, new TabComponent(channelname) );
         channelPanels.add(currentchannel);
         
         //chatonly or game?
@@ -107,7 +108,7 @@ public class TabOrganizer {
             } else {
                 currentchannel.setLaunchable(true);
             }
-            if (GameDatabase.isBeta(GameDatabase.getIDofGame(channelname))) {
+            if (GameDatabase.isBeta(channelname)) {
                 currentchannel.printMainChatMessage("SYSTEM", "Support for this game is experimental," +
                         " email coopnetbugs@gmail.com if you have problems!",
                         ChatStyles.SYSTEM);
@@ -204,14 +205,12 @@ public class TabOrganizer {
             roomPanel = new RoomPanel(isHost, channel, modindex, ip, compatible, hamachiIp, maxPlayers, hostName,roomName,ID,password);
             Globals.closeJoinRoomPasswordFrame();
             tabHolder.insertTab("Room", null, roomPanel, null, channelPanels.size());
-            tabHolder.setTabComponentAt(channelPanels.size(), new TabComponent("Room",roomPanel) );
+            tabHolder.setTabComponentAt(channelPanels.size(), new TabComponent("Room") );
             tabHolder.setSelectedComponent(roomPanel);
 
             for (ChannelPanel cp : channelPanels) {
                 cp.disableButtons();
             }
-            
-            roomPanel.initLauncher();
 
         } else {
             if (Globals.getDebug()) {
@@ -231,16 +230,15 @@ public class TabOrganizer {
             if (index != -1) {
                 tabHolder.setSelectedIndex(index);
             }
+            for (ChannelPanel cp : channelPanels) {
+                cp.enablebuttons();
+            }
             
             if(roomPanel.isHost()){
                 Hotkeys.unbindHotKey(Hotkeys.ACTION_LAUNCH);
             }
 
             roomPanel = null;
-
-            for (ChannelPanel cp : channelPanels) {
-                cp.enablebuttons();
-            }
         }
     }
 
@@ -253,7 +251,7 @@ public class TabOrganizer {
         if (index == -1) {
             PrivateChatPanel pc = new PrivateChatPanel(title);
             tabHolder.add(title, pc);
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(pc), new TabComponent(title,pc) );
+            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(pc), new TabComponent(title) );
             privateChatPanels.add(pc);
             if (setFocus) {
                 tabHolder.setSelectedComponent(pc);
@@ -313,10 +311,7 @@ public class TabOrganizer {
             browserPanel = new BrowserPanel(url);
 
             //panelHolder.addTab("Browser", browserPanel);
-            String title = "Beginner's Guide";
-
-            tabHolder.addTab(title, browserPanel); //For now this is ok
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(browserPanel), new TabComponent(title, browserPanel) );
+            tabHolder.addTab("Beginner's Guide", browserPanel); //For now this is ok            
             tabHolder.setSelectedComponent(browserPanel);
         } else {
             tabHolder.setSelectedComponent(browserPanel);
@@ -331,11 +326,10 @@ public class TabOrganizer {
         browserPanel = null;
     }
 
-    public static synchronized void openErrorPanel(ErrorPanelStyle mode, Exception e) {
+    public static void openErrorPanel(ErrorPanelStyle mode, Exception e) {
         if (errorPanel == null || errorPanel.hasException() == false && e != null) {
             errorPanel = new ErrorPanel(mode, e);
-            tabHolder.addTab("Error", null ,errorPanel);
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Error",Icons.errorIconSmall,errorPanel) );
+            tabHolder.addTab("Error", errorPanel);
             tabHolder.setSelectedComponent(errorPanel);
         } else {
             if (Globals.getDebug()) {
@@ -343,6 +337,7 @@ public class TabOrganizer {
             }
             tabHolder.setSelectedComponent(errorPanel);
         }
+
         Globals.getClientFrame().repaint();
     }
     
@@ -350,7 +345,7 @@ public class TabOrganizer {
         tabHolder.remove(errorPanel);
     }
 
-    public static synchronized void openLoginPanel() {
+    public static void openLoginPanel() {
         if (loginPanel == null) {
             //Thread is needed here to get rid of an exception at startup
             SwingUtilities.invokeLater(new Thread() {
@@ -445,57 +440,52 @@ public class TabOrganizer {
         return registerPanel;
     }
 
-    public static void openTransferPanel(boolean bringToFrontOnCreate){
-        if (transferPanel == null) {
-            transferPanel = new FileTransferPanel(Globals.getTransferModel());
-            int index = channelPanels.size();
-            if(roomPanel != null){
-                ++index;
+    public static void openFileTransferSendPanel(String reciever, File file) {
+        FileTransferSendPanel panel = new FileTransferSendPanel(reciever, file);
+        fileTransferSendPanels.add(panel);
+        tabHolder.add("Send file to " + reciever, panel);
+    }
+
+    public static void closeFileTransferSendPanel(FileTransferSendPanel which) {
+        fileTransferSendPanels.remove(which);
+        tabHolder.remove(which);
+    }
+
+    public static FileTransferSendPanel getFileTransferSendPanel(String receiver, String fileName) {
+        for (int i = 0; i < fileTransferSendPanels.size(); i++) {
+            if (fileTransferSendPanels.get(i).getFilename().equals(fileName) && fileTransferSendPanels.get(i).getReciever().equals(receiver)) {
+                return fileTransferSendPanels.get(i);
             }
-            tabHolder.insertTab("Transfers",null,transferPanel,null, index); //For now this is ok
-            tabHolder.setTabComponentAt(index,  new TabComponent("Transfers",Icons.transferIcon,transferPanel));
-            if(bringToFrontOnCreate){
-                tabHolder.setSelectedComponent(transferPanel);
-            }else{
-                markTab(transferPanel);
-            }
-        } else {
-            tabHolder.setSelectedComponent(transferPanel);
         }
-
-        Globals.getClientFrame().repaint();
-    }
-
-    public static void closeTransferPanel(){
-        tabHolder.remove(transferPanel);
-        transferPanel = null;
-    }
-
-    public static FileTransferPanel getTransferPanel() {
-        return transferPanel;
-    }
-
-    public static boolean  sendFile(String reciever, File file){
-        if(transferPanel != null){
-            markTab(transferPanel);
-        }else{
-            openTransferPanel(false);
-        }
-        return Globals.getTransferModel().addSendTransfer(reciever, file.getName(), file);
-    }
-
-    public static void recieveFile( String peerName, String size, String fileName, String ip, String port){
-        if(transferPanel != null){
-            markTab(transferPanel);
-        }else{
-            openTransferPanel(false);
-        }
-        Globals.getTransferModel().addRecieveTransfer(peerName, size, fileName, ip, port);
-    }
-    public static void cancelFileSendingOnClose(){
-       Globals.getTransferModel().cancelOrRefuseOnQuit();
+        return null;
     }
     
+    public static void cancelFileSendingOnClose(){
+        for (int i = 0; i < fileTransferSendPanels.size(); i++) {
+            fileTransferSendPanels.get(i).cancelTransfer();
+        }
+    }
+
+    public static void openFileTransferReceivePanel(String sender, String size, String filename, String ip, String port) {
+        FileTransferRecievePanel panel = new FileTransferRecievePanel(sender, new Long(size), filename, ip, port);
+        fileTransferReceivePanels.add(panel);
+        tabHolder.add("Recieve file from " + sender, panel);
+    }
+
+    public static void closeFileTransferReceivePanel(FileTransferRecievePanel which) {
+        fileTransferReceivePanels.remove(which);
+        tabHolder.remove(which);
+    }
+
+    public static FileTransferRecievePanel getFileTransferReceivePanel(String sender, String fileName) {
+        for (int i = 0; i < fileTransferReceivePanels.size(); i++) {
+            if (fileTransferReceivePanels.get(i).getFilename().equals(fileName) && fileTransferReceivePanels.get(i).getSender().equals(sender)) {
+                return fileTransferReceivePanels.get(i);
+            }
+        }
+        return null;
+    }
+
     /*******************************************************************/
     public static void updateTitleOnTab(String oldTitle, String newTitle) {
         int index = -1;
@@ -532,6 +522,7 @@ public class TabOrganizer {
         errorPanel = null;
         browserPanel = null;
         loginPanel = null;
-        transferPanel = null;
+        fileTransferSendPanels.clear();
+        fileTransferReceivePanels.clear();
     }
 }

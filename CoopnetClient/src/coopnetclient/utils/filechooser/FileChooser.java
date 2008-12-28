@@ -21,7 +21,6 @@ package coopnetclient.utils.filechooser;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.OperatingSystems;
-import coopnetclient.utils.RegistryReader;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -81,7 +80,7 @@ public class FileChooser extends javax.swing.JFrame {
         openDirectory(currentdir);
         
         this.setVisible(true);
-        tbl_display.requestFocusInWindow();
+        tbl_display.requestFocus();
         while (ischoosing) {
             try {
                 Thread.sleep(100);
@@ -441,6 +440,7 @@ private void tbl_displayKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:eve
         String filename = displaymodel.getSelectedFile();
         
         File file = new File(currentdir.getPath() + File.separatorChar + filename);
+        //System.out.println("File selected:" + file);
         if (file.isDirectory()) {//open directory
             openDirectory(file);
         } else {//file was selected            
@@ -487,6 +487,7 @@ private void tbl_displayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
         
         if(filename != null){
             File file = new File(currentdir.getPath() + File.separatorChar + filename);
+            //System.out.println("File selected:" + file);
             if (file.isDirectory()) {//open directory
                 openDirectory(file);
             } else {//file was selected   
@@ -515,10 +516,10 @@ private void cb_showHiddenActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
 private void cmb_placesPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cmb_placesPopupMenuWillBecomeInvisible
     if(cmb_places.getSelectedItem().toString().equals("Desktop")){
-        openDirectory(new File(RegistryReader.read("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Desktop")));
+        openDirectory(new File(GameDatabase.readRegistry("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Desktop")));
     }else
         if(cmb_places.getSelectedItem().toString().equals("Documents")){
-        openDirectory(new File(RegistryReader.read("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Personal")));
+        openDirectory(new File(GameDatabase.readRegistry("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Personal")));
     }else
     if(cmb_places.getSelectedItem().toString().contains("/") || cmb_places.getSelectedItem().toString().contains("\\")){
         openDirectory(new File(cmb_places.getSelectedItem().toString()));

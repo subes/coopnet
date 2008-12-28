@@ -29,14 +29,17 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.clientframe.quickpanel.QuickPanel;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.components.FavMenuItem;
+import coopnetclient.frames.clientframe.tabs.FileTransferRecievePanel;
+import coopnetclient.frames.clientframe.tabs.FileTransferSendPanel;
 import coopnetclient.frames.clientframe.tabs.LoginPanel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.utils.FileDownloader;
-import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -68,7 +71,6 @@ public class ClientFrame extends javax.swing.JFrame {
         setQuickPanelPosition(Settings.getQuickPanelPostionisLeft());
         slp_mainSplitPanel.setDividerSize(0);        
         refreshFavourites();
-        refreshInstalledGames();
 
         //load the size from options
         int width = Settings.getMainFrameWidth();
@@ -106,6 +108,7 @@ public class ClientFrame extends javax.swing.JFrame {
         
         m_user.setEnabled(Globals.getLoggedInStatus());
         m_channels.setEnabled(Globals.getLoggedInStatus());
+        m_voiceChat.setEnabled(Globals.getLoggedInStatus());
     }
     
     public void enableUpdate() {
@@ -163,6 +166,90 @@ public class ClientFrame extends javax.swing.JFrame {
         }
     }
 
+    public void turnAroundTransfer(String peer, String filename) {
+        FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(peer, filename);
+        FileTransferRecievePanel recvPanel = TabOrganizer.getFileTransferReceivePanel(peer, filename);
+
+        if (sendPanel != null) {
+            sendPanel.turnAround();
+        }
+        if (recvPanel != null) {
+            recvPanel.turnAround();
+        }
+    }
+
+    public void startSending(String ip, String reciever, String filename, String port, long firstByte) {
+        FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(reciever, filename);
+
+        if (sendPanel != null) {
+            sendPanel.startSending(ip, port, firstByte);
+        }
+    }
+
+    public void refusedTransfer(String reciever, String filename) {
+        FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(reciever, filename);
+
+        if (sendPanel != null) {
+            sendPanel.refused();
+        }
+    }
+
+    public void cancelledTransfer(String sender, String filename) {
+        FileTransferRecievePanel recvPanel = TabOrganizer.getFileTransferReceivePanel(sender, filename);
+
+        if (recvPanel != null) {
+            recvPanel.cancelled();
+        }else{
+            FileTransferSendPanel sendPanel = TabOrganizer.getFileTransferSendPanel(sender, filename);
+            if (sendPanel != null) {
+            sendPanel.cancelled();
+        }
+        }
+    }
+
+    public void gameClosed(String channel, String playername) {
+        TabOrganizer.getChannelPanel(channel).gameClosed(playername);
+    }
+
+    public void setPlayingStatus(String channel, String player) {
+        ChannelPanel cp = TabOrganizer.getChannelPanel(channel);
+        cp.setPlayingStatus(player);
+    }
+
+    public void setLaunchable(String channelname, boolean value) {
+        ChannelPanel channel = TabOrganizer.getChannelPanel(channelname);
+        if (channel != null) {
+            channel.setLaunchable(value);
+        }
+    }
+
+    public void addRoomToTable(String channel, String roomname, String hostname, int maxplayers, int type) {
+        TabOrganizer.getChannelPanel(channel).addRoomToTable(roomname,
+                hostname, maxplayers, type);
+    }
+
+    public void removeRoomFromTable(String channel, String hostname) {
+        TabOrganizer.getChannelPanel(channel).removeRoomFromTable(hostname);
+    }
+
+    public void addPlayerToChannel(String channel, String name) {
+        TabOrganizer.getChannelPanel(channel).addPlayerToChannel(name);
+    }
+
+    public int getSelectedRoomListRowIndex(String channel) {
+        return TabOrganizer.getChannelPanel(channel).getSelectedRoomListRowIndex();
+    }
+
+    public void addPlayerToRoom(String channel, String hostname, String playername) {
+        if(TabOrganizer.getChannelPanel(channel)!=null){
+            TabOrganizer.getChannelPanel(channel).addPlayerToRoom(hostname, playername);
+        }
+    }
+
+    public void removePlayerFromRoom(String channel, String hostname, String playername) {
+        TabOrganizer.getChannelPanel(channel).removePlayerFromRoom(hostname, playername);
+    }
+
     public void printMainChatMessage(String channel, String name, String message, ChatStyles modeStyle) {
         ChannelPanel cp = TabOrganizer.getChannelPanel(channel);
         if (cp != null) {
@@ -184,6 +271,10 @@ public class ClientFrame extends javax.swing.JFrame {
         if (!privatechat.isVisible()) {
             printToVisibleChatbox(sender, message, ChatStyles.WHISPER_NOTIFICATION, false);
         }
+    }
+
+    public void removePlayerFromChannel(String channel, String playername) {
+        TabOrganizer.getChannelPanel(channel).removePlayerFromChannel(playername);
     }
 
     public boolean updatePlayerName(String oldname, String newname) {
@@ -287,29 +378,24 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_showQuickbar = new javax.swing.JCheckBoxMenuItem();
         m_channels = new javax.swing.JMenu();
         mi_channelList = new javax.swing.JMenuItem();
-        jSeparator4 = new javax.swing.JSeparator();
+        mi_manageFavs = new javax.swing.JMenuItem();
         mi_addCurrentToFav = new javax.swing.JMenuItem();
         mi_makeHome = new javax.swing.JMenuItem();
         mi_seperator = new javax.swing.JSeparator();
-        m_Favourites = new javax.swing.JMenu();
-        m_installedGames = new javax.swing.JMenu();
-        m_tabs = new javax.swing.JMenu();
-        mi_nextTab = new javax.swing.JMenuItem();
-        mi_prevTab = new javax.swing.JMenuItem();
-        mi_closeTab = new javax.swing.JMenuItem();
-        jSeparator5 = new javax.swing.JSeparator();
-        mi_showTransfers = new javax.swing.JMenuItem();
+        mi_favourites = new javax.swing.JMenuItem();
+        m_voiceChat = new javax.swing.JMenu();
+        mi_start = new javax.swing.JMenuItem();
+        mi_copyURL = new javax.swing.JMenuItem();
+        mi_connect = new javax.swing.JMenuItem();
+        mi_lock = new javax.swing.JMenuItem();
         m_options = new javax.swing.JMenu();
         mi_clientSettings = new javax.swing.JMenuItem();
         mi_manageGames = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JSeparator();
         mi_Sounds = new javax.swing.JCheckBoxMenuItem();
         m_help = new javax.swing.JMenu();
         mi_guide = new javax.swing.JMenuItem();
-        mi_faq = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JSeparator();
+        jMenuItem1 = new javax.swing.JMenuItem();
         mi_bugReport = new javax.swing.JMenuItem();
-        jSeparator3 = new javax.swing.JSeparator();
         mi_about = new javax.swing.JMenuItem();
 
         tabpn_tabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -327,13 +413,6 @@ public class ClientFrame extends javax.swing.JFrame {
             }
             public void componentRemoved(java.awt.event.ContainerEvent evt) {
                 tabpn_tabsComponentRemoved(evt);
-            }
-        });
-        tabpn_tabs.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                tabpn_tabsCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 
@@ -429,10 +508,8 @@ public class ClientFrame extends javax.swing.JFrame {
 
         mbar.setFocusable(false);
 
-        m_main.setMnemonic(KeyEvent.VK_L);
         m_main.setText("Client");
 
-        mi_connection.setMnemonic(KeyEvent.VK_O);
         mi_connection.setText("Disconnect");
         mi_connection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -441,7 +518,6 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_main.add(mi_connection);
 
-        mi_update.setMnemonic(KeyEvent.VK_U);
         mi_update.setText("Update Client");
         mi_update.setEnabled(false);
         mi_update.addActionListener(new java.awt.event.ActionListener() {
@@ -451,7 +527,6 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_main.add(mi_update);
 
-        mi_quit.setMnemonic(KeyEvent.VK_Q);
         mi_quit.setText("Quit");
         mi_quit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -462,11 +537,9 @@ public class ClientFrame extends javax.swing.JFrame {
 
         mbar.add(m_main);
 
-        m_user.setMnemonic(KeyEvent.VK_U);
         m_user.setText("User");
         m_user.setEnabled(false);
 
-        mi_profile.setMnemonic(KeyEvent.VK_P);
         mi_profile.setText("Edit Profile...");
         mi_profile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -475,7 +548,6 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_user.add(mi_profile);
 
-        mi_showMuteBanList.setMnemonic(KeyEvent.VK_M);
         mi_showMuteBanList.setText("Edit Mute/Ban List...");
         mi_showMuteBanList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -484,7 +556,6 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_user.add(mi_showMuteBanList);
 
-        mi_showQuickbar.setMnemonic(KeyEvent.VK_Q);
         mi_showQuickbar.setText("Show Quickbar");
         mi_showQuickbar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -495,11 +566,9 @@ public class ClientFrame extends javax.swing.JFrame {
 
         mbar.add(m_user);
 
-        m_channels.setMnemonic(KeyEvent.VK_A);
         m_channels.setText("Channels");
         m_channels.setEnabled(false);
 
-        mi_channelList.setMnemonic(KeyEvent.VK_C);
         mi_channelList.setText("Open Channel List");
         mi_channelList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -507,9 +576,15 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_channels.add(mi_channelList);
-        m_channels.add(jSeparator4);
 
-        mi_addCurrentToFav.setMnemonic(KeyEvent.VK_D);
+        mi_manageFavs.setText("Manage Favourites...");
+        mi_manageFavs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_manageFavsActionPerformed(evt);
+            }
+        });
+        m_channels.add(mi_manageFavs);
+
         mi_addCurrentToFav.setText("Add Current to Favourites");
         mi_addCurrentToFav.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -518,8 +593,7 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_channels.add(mi_addCurrentToFav);
 
-        mi_makeHome.setMnemonic(KeyEvent.VK_H);
-        mi_makeHome.setText("Make This my Homechannel");
+        mi_makeHome.setText("Make this my homechannel");
         mi_makeHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mi_makeHomeActionPerformed(evt);
@@ -528,66 +602,51 @@ public class ClientFrame extends javax.swing.JFrame {
         m_channels.add(mi_makeHome);
         m_channels.add(mi_seperator);
 
-        m_Favourites.setMnemonic(KeyEvent.VK_F);
-        m_Favourites.setText("Favourites");
-        m_channels.add(m_Favourites);
-
-        m_installedGames.setMnemonic(KeyEvent.VK_I);
-        m_installedGames.setText("Installed Games");
-        m_channels.add(m_installedGames);
+        mi_favourites.setText("Favourites:");
+        mi_favourites.setEnabled(false);
+        m_channels.add(mi_favourites);
 
         mbar.add(m_channels);
 
-        m_tabs.setMnemonic(KeyEvent.VK_T);
-        m_tabs.setText("Tabs");
+        m_voiceChat.setText("VoiceChat");
 
-        mi_nextTab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_DOWN, java.awt.event.InputEvent.CTRL_MASK));
-        mi_nextTab.setMnemonic(KeyEvent.VK_N);
-        mi_nextTab.setText("Next Tab");
-        mi_nextTab.addActionListener(new java.awt.event.ActionListener() {
+        mi_start.setText("Start local service");
+        mi_start.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_nextTabActionPerformed(evt);
+                mi_startActionPerformed(evt);
             }
         });
-        m_tabs.add(mi_nextTab);
+        m_voiceChat.add(mi_start);
 
-        mi_prevTab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_UP, java.awt.event.InputEvent.CTRL_MASK));
-        mi_prevTab.setMnemonic(KeyEvent.VK_P);
-        mi_prevTab.setText("Previous Tab");
-        mi_prevTab.addActionListener(new java.awt.event.ActionListener() {
+        mi_copyURL.setText("Copy URL to clipboard");
+        mi_copyURL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_prevTabActionPerformed(evt);
+                mi_copyURLActionPerformed(evt);
             }
         });
-        m_tabs.add(mi_prevTab);
+        m_voiceChat.add(mi_copyURL);
 
-        mi_closeTab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
-        mi_closeTab.setMnemonic(KeyEvent.VK_C);
-        mi_closeTab.setText("CloseTab");
-        mi_closeTab.setEnabled(false);
-        mi_closeTab.addActionListener(new java.awt.event.ActionListener() {
+        mi_connect.setText("Connect To...");
+        mi_connect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_closeTabActionPerformed(evt);
+                mi_connectActionPerformed(evt);
             }
         });
-        m_tabs.add(mi_closeTab);
-        m_tabs.add(jSeparator5);
+        m_voiceChat.add(mi_connect);
 
-        mi_showTransfers.setMnemonic(KeyEvent.VK_S);
-        mi_showTransfers.setText("Show Transfers");
-        mi_showTransfers.addActionListener(new java.awt.event.ActionListener() {
+        mi_lock.setText("Lock");
+        mi_lock.setToolTipText("Locking will prevent anyone from connecting or changing channels!");
+        mi_lock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_showTransfersActionPerformed(evt);
+                mi_lockActionPerformed(evt);
             }
         });
-        m_tabs.add(mi_showTransfers);
+        m_voiceChat.add(mi_lock);
 
-        mbar.add(m_tabs);
+        mbar.add(m_voiceChat);
 
-        m_options.setMnemonic(KeyEvent.VK_O);
         m_options.setText("Options");
 
-        mi_clientSettings.setMnemonic(KeyEvent.VK_E);
         mi_clientSettings.setText("Edit Settings...");
         mi_clientSettings.setActionCommand("Client settings");
         mi_clientSettings.addActionListener(new java.awt.event.ActionListener() {
@@ -597,7 +656,6 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_options.add(mi_clientSettings);
 
-        mi_manageGames.setMnemonic(KeyEvent.VK_M);
         mi_manageGames.setText("Manage Games...");
         mi_manageGames.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -605,9 +663,7 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_options.add(mi_manageGames);
-        m_options.add(jSeparator2);
 
-        mi_Sounds.setMnemonic(KeyEvent.VK_S);
         mi_Sounds.setSelected(true);
         mi_Sounds.setText("Sounds");
         mi_Sounds.addActionListener(new java.awt.event.ActionListener() {
@@ -619,10 +675,8 @@ public class ClientFrame extends javax.swing.JFrame {
 
         mbar.add(m_options);
 
-        m_help.setMnemonic(KeyEvent.VK_H);
         m_help.setText("Help");
 
-        mi_guide.setMnemonic(KeyEvent.VK_B);
         mi_guide.setText("Beginner's Guide");
         mi_guide.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -631,17 +685,14 @@ public class ClientFrame extends javax.swing.JFrame {
         });
         m_help.add(mi_guide);
 
-        mi_faq.setMnemonic(KeyEvent.VK_F);
-        mi_faq.setText("FAQ");
-        mi_faq.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setText("FAQ");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_faqActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        m_help.add(mi_faq);
-        m_help.add(jSeparator1);
+        m_help.add(jMenuItem1);
 
-        mi_bugReport.setMnemonic(KeyEvent.VK_R);
         mi_bugReport.setText("Report a Bug...");
         mi_bugReport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -649,9 +700,7 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_help.add(mi_bugReport);
-        m_help.add(jSeparator3);
 
-        mi_about.setMnemonic(KeyEvent.VK_A);
         mi_about.setText("About");
         mi_about.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -698,40 +747,24 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_aboutActionPerformed
 
     private void clearFavourites() {
-        m_Favourites.removeAll();
-        m_Favourites.setEnabled(false);
+        for (Component mi : m_channels.getMenuComponents()) {
+            if (mi instanceof FavMenuItem) {
+                m_channels.remove(mi);
+            }
+        }
     }
 
     private void addFavourite(String channelname) {
-        m_Favourites.add(new FavMenuItem(channelname));
-        m_Favourites.setEnabled(true);
+        m_channels.add(new FavMenuItem(channelname));
     }
 
     public void refreshFavourites() {
         clearFavourites();
-        for (String s : Settings.getFavouritesByName()) {
+        for (String s : Settings.getFavourites()) {
             addFavourite(s);
         }
-        m_Favourites.revalidate();
+        m_channels.revalidate();
         pnl_QuickPanel.refreshFavourites();
-    }
-
-    private void clearInstalledGames() {
-        m_installedGames.removeAll();
-        m_installedGames.setEnabled(false);
-    }
-
-    private void addInstalledGame(String channelname) {
-        m_installedGames.add(new FavMenuItem(channelname));
-        m_installedGames.setEnabled(true);
-    }
-
-    public void refreshInstalledGames() {
-        clearInstalledGames();
-        for (String s : GameDatabase.getInstalledGameNames()) {
-            addInstalledGame(s);
-        }
-        m_installedGames.revalidate();
     }
 
     /**
@@ -784,17 +817,14 @@ public class ClientFrame extends javax.swing.JFrame {
     private void tabpn_tabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabpn_tabsStateChanged
         TabOrganizer.putFocusOnTab(null);
         TabOrganizer.unMarkTab(tabpn_tabs.getSelectedComponent());
-        updateTabNavigationMenuItems();
 }//GEN-LAST:event_tabpn_tabsStateChanged
 
     private void tabpn_tabsComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tabpn_tabsComponentAdded
         TabOrganizer.putFocusOnTab(null);
-        updateTabNavigationMenuItems();
 }//GEN-LAST:event_tabpn_tabsComponentAdded
 
     private void tabpn_tabsComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tabpn_tabsComponentRemoved
         TabOrganizer.putFocusOnTab(null);
-        updateTabNavigationMenuItems();
 }//GEN-LAST:event_tabpn_tabsComponentRemoved
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -805,11 +835,16 @@ public class ClientFrame extends javax.swing.JFrame {
         coopnetclient.utils.Settings.setSoundEnabled(mi_Sounds.isSelected());
 }//GEN-LAST:event_mi_SoundsActionPerformed
 
+    private void mi_manageFavsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_manageFavsActionPerformed
+        Globals.openFavouritesFrame();
+}//GEN-LAST:event_mi_manageFavsActionPerformed
+
     private void mi_addCurrentToFavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_addCurrentToFavActionPerformed
         Component c = tabpn_tabs.getSelectedComponent();
         if (c instanceof ChannelPanel) {
             ChannelPanel cp = (ChannelPanel) c;
-            Settings.addFavouriteByName(cp.name);
+            Settings.addFavourite(cp.name);
+            refreshFavourites();
         }
 }//GEN-LAST:event_mi_addCurrentToFavActionPerformed
 
@@ -818,7 +853,7 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_manageGamesActionPerformed
 
     private void mi_guideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_guideActionPerformed
-        HyperlinkMouseListener.openURL("http://coopnet.sourceforge.net/guide.html");
+        TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
 }//GEN-LAST:event_mi_guideActionPerformed
 
 private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_updateActionPerformed
@@ -935,49 +970,77 @@ private void mi_makeHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         }
 }//GEN-LAST:event_mi_makeHomeActionPerformed
 
-private void mi_faqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_faqActionPerformed
+private void mi_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_startActionPerformed
+    if(mi_start.getText().equals("Start local service")){
+        mi_start.setText("Stop local service");
+        pnl_QuickPanel.getVoiceChatPanel().startServer();
+        return;
+    }
+    if(mi_start.getText().equals("Stop local service")){
+        mi_start.setText("Start local service");
+        pnl_QuickPanel.getVoiceChatPanel().stopServer();
+        return;
+    }
+    if(mi_start.getText().equals("Disconnect")){
+        mi_start.setText("Start local service");
+        pnl_QuickPanel.getVoiceChatPanel().disconnect();
+        return;
+    }
+}//GEN-LAST:event_mi_startActionPerformed
+
+private void mi_copyURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_copyURLActionPerformed
+    StringSelection stringSelection = new StringSelection( "voice://"+Globals.getMyIP()+":"+Settings.getVoiceChatPort() );
+    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+    clipboard.setContents( stringSelection, null );
+}//GEN-LAST:event_mi_copyURLActionPerformed
+
+private void mi_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_connectActionPerformed
+    Globals.openConnectToVoiceChatFrame();
+}//GEN-LAST:event_mi_connectActionPerformed
+
+private void mi_lockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_lockActionPerformed
+   if (mi_lock.getText().equals("Lock")) {
+        Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().setServerLockedStatus(true);
+        mi_lock.setText("UnLock");
+    } else if (mi_lock.getText().equals("UnLock")) {
+        Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().setServerLockedStatus(false);
+        mi_lock.setText("Lock");
+    }
+}//GEN-LAST:event_mi_lockActionPerformed
+
+private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
     HyperlinkMouseListener.openURL("http://coopnet.sourceforge.net/faq.html");
-}//GEN-LAST:event_mi_faqActionPerformed
+}//GEN-LAST:event_jMenuItem1ActionPerformed
 
-private void mi_showTransfersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_showTransfersActionPerformed
-    TabOrganizer.openTransferPanel(true);
-}//GEN-LAST:event_mi_showTransfersActionPerformed
-
-private void mi_nextTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_nextTabActionPerformed
-    if (tabpn_tabs.getSelectedIndex() < (tabpn_tabs.getTabCount() - 1)) {
-        tabpn_tabs.setSelectedIndex((tabpn_tabs.getSelectedIndex() + 1));
-    } else {
-        tabpn_tabs.setSelectedIndex(0);
+public void updateVoiceServerStatus(boolean isrunning){
+    if(isrunning){
+        mi_start.setText("Stop local service");
+        mi_lock.setEnabled(true);
+        mi_connect.setEnabled(false);
+    }else{
+        mi_start.setText("Start local service");
+        mi_lock.setEnabled(false);
+        mi_connect.setEnabled(true);
+        mi_lock.setText("Lock");
     }
-    updateTabNavigationMenuItems();
-}//GEN-LAST:event_mi_nextTabActionPerformed
+}
 
-private void mi_prevTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_prevTabActionPerformed
-    if (tabpn_tabs.getSelectedIndex() > 0 ) {
-        tabpn_tabs.setSelectedIndex((tabpn_tabs.getSelectedIndex() - 1));
-    } else {
-        tabpn_tabs.setSelectedIndex(tabpn_tabs.getTabCount()-1);
-    }
-    updateTabNavigationMenuItems();
-}//GEN-LAST:event_mi_prevTabActionPerformed
-
-private void mi_closeTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_closeTabActionPerformed
-    if(tabpn_tabs.getSelectedComponent()instanceof ClosableTab ){
-            ((ClosableTab)tabpn_tabs.getSelectedComponent()).closeTab();
+public void updateVoiceServerLockStatus(boolean isLocked){
+        if (isLocked) {
+            mi_lock.setText("UnLock");
+        } else {
+            mi_lock.setText("Lock");
         }
-    updateTabNavigationMenuItems();
-}//GEN-LAST:event_mi_closeTabActionPerformed
+}
 
-private void tabpn_tabsCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_tabpn_tabsCaretPositionChanged
-    updateTabNavigationMenuItems();
-}//GEN-LAST:event_tabpn_tabsCaretPositionChanged
-
-private void updateTabNavigationMenuItems(){
-    mi_closeTab.setEnabled(
-        tabpn_tabs.getSelectedComponent() instanceof ClosableTab);
-
-    mi_nextTab.setEnabled(tabpn_tabs.getTabCount() > 1);
-    mi_prevTab.setEnabled(tabpn_tabs.getTabCount() > 1);
+public void updateVoiceClientStatus(boolean isrunning){
+    if(isrunning){
+        mi_start.setText("Disconnect");
+        mi_lock.setEnabled(false);
+    }else{
+        mi_start.setText("Start local service");
+        mi_lock.setEnabled(false);
+    }
 }
 
 private Color getHoverEffectColor(){
@@ -990,19 +1053,13 @@ private Color getHoverEffectColor(){
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JMenu m_Favourites;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu m_channels;
     private javax.swing.JMenu m_help;
-    private javax.swing.JMenu m_installedGames;
     private javax.swing.JMenu m_main;
     private javax.swing.JMenu m_options;
-    private javax.swing.JMenu m_tabs;
     private javax.swing.JMenu m_user;
+    private javax.swing.JMenu m_voiceChat;
     private javax.swing.JMenuBar mbar;
     private javax.swing.JCheckBoxMenuItem mi_Sounds;
     private javax.swing.JMenuItem mi_about;
@@ -1010,20 +1067,21 @@ private Color getHoverEffectColor(){
     private javax.swing.JMenuItem mi_bugReport;
     private javax.swing.JMenuItem mi_channelList;
     private javax.swing.JMenuItem mi_clientSettings;
-    private javax.swing.JMenuItem mi_closeTab;
+    private javax.swing.JMenuItem mi_connect;
     private javax.swing.JMenuItem mi_connection;
-    private javax.swing.JMenuItem mi_faq;
+    private javax.swing.JMenuItem mi_copyURL;
+    private javax.swing.JMenuItem mi_favourites;
     private javax.swing.JMenuItem mi_guide;
+    private javax.swing.JMenuItem mi_lock;
     private javax.swing.JMenuItem mi_makeHome;
+    private javax.swing.JMenuItem mi_manageFavs;
     private javax.swing.JMenuItem mi_manageGames;
-    private javax.swing.JMenuItem mi_nextTab;
-    private javax.swing.JMenuItem mi_prevTab;
     private javax.swing.JMenuItem mi_profile;
     private javax.swing.JMenuItem mi_quit;
     private javax.swing.JSeparator mi_seperator;
     private javax.swing.JMenuItem mi_showMuteBanList;
     private javax.swing.JCheckBoxMenuItem mi_showQuickbar;
-    private javax.swing.JMenuItem mi_showTransfers;
+    private javax.swing.JMenuItem mi_start;
     private javax.swing.JMenuItem mi_update;
     private javax.swing.JPanel pnl_toggleQuickBarLeft;
     private javax.swing.JPanel pnl_toggleQuickBarRight;

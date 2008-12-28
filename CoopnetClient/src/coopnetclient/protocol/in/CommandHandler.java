@@ -25,9 +25,7 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.ServerProtocolCommands;
-import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.frames.clientframe.tabs.ChannelPanel;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.Settings;
@@ -48,7 +46,7 @@ public class CommandHandler {
 
     public static void execute(String[] data) {
         ServerProtocolCommands command = null;
-        
+
         //Answer heartbeat
         if (data[0].equals(Protocol.HEARTBEAT)) {
             Logger.logInTraffic(data);
@@ -112,16 +110,14 @@ public class CommandHandler {
                     break;
             }
         } else {//logged-in commands
-            String currentChannelName = null; //current channelname , correct where its expected, garbage otherwise
-            if(information.length > 0){
-                currentChannelName = GameDatabase.getGameName(information[0]);
-            }
             switch (command) {
                 case CHAT_MAIN:
                     if (information.length < 2) {
                         return;
                     }
-                    Globals.getClientFrame().printMainChatMessage( currentChannelName, information[1], information[2], ChatStyles.USER);
+                    Globals.getClientFrame().printMainChatMessage(
+                            GameDatabase.getGameName(information[0]) //aka currentchannel
+                            , information[1], information[2], ChatStyles.USER);
                     if (Settings.getSleepEnabled() && Globals.getSleepModeStatus()) {
                         Globals.setSleepModeStatus(false);
                     }
@@ -133,26 +129,18 @@ public class CommandHandler {
                     TabOrganizer.getRoomPanel().chat(information[0], information[1], ChatStyles.USER);
                     break;
                 case ADD_TO_PLAYERS:
-                    TabOrganizer.getChannelPanel(currentChannelName).addPlayerToChannel(information[1]);
+                    Globals.getClientFrame().addPlayerToChannel(GameDatabase.getGameName(information[0]), information[1]);
                     break;
                 case SET_GAMESETTING:
-                    if(information[0].equals("map")){
-                        TempGameSettings.setMap(information[1]);
-                    }else{
-                        TempGameSettings.setGameSetting(information[0], information[1], false);
-                    }
-                    GameSettingsFrame gf = Globals.getGameSettingsFrame();
-                    if(gf!= null){
-                        gf.updateValues();
-                    }
+                    TempGameSettings.setGameSetting(information[0], information[1], false);
                     break;
                 case JOIN_CHANNEL:
-                    GameDatabase.load(currentChannelName, GameDatabase.dataFilePath);
-                    TabOrganizer.openChannelPanel(currentChannelName);
+                    GameDatabase.load(GameDatabase.getGameName(information[0]), GameDatabase.dataFilePath);
+                    TabOrganizer.openChannelPanel(GameDatabase.getGameName(information[0]));
                     break;
                 case JOIN_ROOM:
                     TabOrganizer.openRoomPanel(false,
-                            currentChannelName, //channel
+                            GameDatabase.getGameName(information[0]), //channel
                             information[5],//modindex
                             information[1],//ip
                             information[2].equals("true"),//compatible
@@ -198,7 +186,7 @@ public class CommandHandler {
                     break;
                 case CREATE_ROOM:
                     TabOrganizer.openRoomPanel(true,
-                            currentChannelName,
+                            GameDatabase.getGameName(information[0]),
                             information[3],//modindex
                             "",//ip
                             information[1].equals("true"),//compatible
@@ -213,12 +201,12 @@ public class CommandHandler {
                     TabOrganizer.closeRoomPanel();
                     break;
                 case REMOVE_ROOM:
-                    TabOrganizer.getChannelPanel(currentChannelName).removePlayerFromRoom(information[1], information[1]);
-                    TabOrganizer.getChannelPanel(currentChannelName).removeRoomFromTable(information[1]);
+                    Globals.getClientFrame().removePlayerFromRoom(GameDatabase.getGameName(information[0]), information[1], information[1]);
+                    Globals.getClientFrame().removeRoomFromTable(GameDatabase.getGameName(information[0]), information[1]);
                     break;
                 case CLOSE_ROOM:
                     TabOrganizer.closeRoomPanel();
-                    Globals.getClientFrame().printMainChatMessage(currentChannelName, "SYSTEM", "The Room has been closed!", ChatStyles.SYSTEM);
+                    Globals.getClientFrame().printMainChatMessage(GameDatabase.getGameName(information[0]), "SYSTEM", "The Room has been closed!", ChatStyles.SYSTEM);
                     break;
                 case KICKED:
                     TabOrganizer.closeRoomPanel();
@@ -231,9 +219,8 @@ public class CommandHandler {
                     TabOrganizer.getRoomPanel().removeMember(information[0]);
                     break;
                 case ADD_ROOM:
-                    TabOrganizer.getChannelPanel(currentChannelName).addRoomToTable(
+                    Globals.getClientFrame().addRoomToTable(GameDatabase.getGameName(information[0]),
                             information[1],
-                            GameDatabase.getModByIndex(currentChannelName, Integer.valueOf(information[5])),
                             information[2],
                             new Integer(information[3]),
                             new Integer(information[4]));
@@ -242,7 +229,7 @@ public class CommandHandler {
                     }
                     break;
                 case LEFT_CHANNEL:
-                    TabOrganizer.getChannelPanel(currentChannelName).removePlayerFromChannel( information[1]);
+                    Globals.getClientFrame().removePlayerFromChannel(GameDatabase.getGameName(information[0]), information[1]);
                     break;
                 case CHAT_PRIVATE:
                     Globals.getClientFrame().printPrivateChatMessage(information[0], information[1]);
@@ -287,13 +274,14 @@ public class CommandHandler {
                     if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().gameClosed(information[1]);
                     }
-                    TabOrganizer.getChannelPanel(currentChannelName).gameClosed(information[1]);
+                    Globals.getClientFrame().gameClosed(GameDatabase.getGameName(information[0]), information[1]);
+                    Globals.getClientFrame().repaint();
                     break;
                 case LAUNCH:
                     TabOrganizer.getRoomPanel().launch();
                     break;
                 case CHANNEL_PLAYING_STATUS:
-                    TabOrganizer.getChannelPanel(currentChannelName).setPlayingStatus(information[1]);
+                    Globals.getClientFrame().setPlayingStatus(GameDatabase.getGameName(information[0]), information[1]);
                     break;
                 case PASSWORD_CHANGED:
                     Globals.closeChangePasswordFrame();
@@ -317,12 +305,10 @@ public class CommandHandler {
                             information[3]);
                     break;
                 case JOINED_ROOM:
-                    if (TabOrganizer.getChannelPanel(currentChannelName) != null) {
-                        TabOrganizer.getChannelPanel(currentChannelName).addPlayerToRoom(information[1], information[2]);
-                    }
+                    Globals.getClientFrame().addPlayerToRoom(GameDatabase.getGameName(information[0]), information[1], information[2]);
                     break;
                 case LEFT_ROOM:
-                    TabOrganizer.getChannelPanel(currentChannelName).removePlayerFromRoom(information[1], information[2]);
+                    Globals.getClientFrame().removePlayerFromRoom(GameDatabase.getGameName(information[0]), information[1], information[2]);
                     break;
                 case INGAMENAME:
                     Globals.setThisPlayer_inGameName(information[0]);
@@ -339,20 +325,20 @@ public class CommandHandler {
                     Globals.getClientFrame().repaint();
                     break;
                 case SENDING_FILE:
-                    TabOrganizer.recieveFile(information[0], information[1], information[2], information[3], information[4]);
+                    TabOrganizer.openFileTransferReceivePanel(information[0], information[1], information[2], information[3], information[4]);
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " wants to send you a file!", ChatStyles.SYSTEM, false);
                     break;
                 case ACCEPTED_FILE:
-                    Globals.getTransferModel().startSending(information[0], information[1], information[2], information[3], new Long(information[4]));
+                    Globals.getClientFrame().startSending(information[0], information[1], information[2], information[3], new Long(information[4]));
                     break;
                 case REFUSED_FILE:
-                    Globals.getTransferModel().peerRefusedTransfer(information[0], information[1]);
+                    Globals.getClientFrame().refusedTransfer(information[0], information[1]);
                     break;
                 case CANCELED_FILE:
-                    Globals.getTransferModel().peerCancelledTransfer(information[0], information[1]);
+                    Globals.getClientFrame().cancelledTransfer(information[0], information[1]);
                     break;
                 case TURN_AROUND_FILE:
-                    Globals.getTransferModel().turnAroundTransfer(information[0], information[1]);
+                    Globals.getClientFrame().turnAroundTransfer(information[0], information[1]);
                     break;
                 case CONTACT_REQUESTED:
                     Globals.getContactList().addContact(information[0], "", ContactListElementTypes.PENDING_REQUEST);
@@ -403,7 +389,7 @@ public class CommandHandler {
                 case INSTANT_LAUNCH:
                     final String tmp[] = new String[information.length];
                     System.arraycopy(information, 0, tmp, 0, tmp.length);
-                    tmp[0] = currentChannelName;
+                    tmp[0] = GameDatabase.getGameName(information[0]);
                     new Thread() {
 
                         @Override
@@ -451,24 +437,6 @@ public class CommandHandler {
                     break;
                 case YOUR_IP_IS:
                     Globals.setMyIP(information[0]);
-                    break;
-                case SETAWAYSTATUS:
-                    ChannelPanel cp = TabOrganizer.getChannelPanel(currentChannelName);
-                    if (cp != null) {
-                        cp.setAway(information[1]);
-                    }
-                    if (TabOrganizer.getRoomPanel() != null ) {
-                        TabOrganizer.getRoomPanel().setAway(information[1]);
-                    }
-                    break;
-                case UNSETAWAYSTATUS:
-                    ChannelPanel cp1 = TabOrganizer.getChannelPanel(currentChannelName);
-                    if (cp1 != null) {
-                        cp1.unSetAway(information[1]);
-                    }
-                    if (TabOrganizer.getRoomPanel() != null) {
-                        TabOrganizer.getRoomPanel().unSetAway(information[1]);
-                    }
                     break;
                 default:
                     Logger.log(LogTypes.ERROR, "Server sent a command which wasn't handled!");

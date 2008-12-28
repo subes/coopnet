@@ -48,10 +48,10 @@ public class TempGameSettings {
         return gameSettings;
     }
     
-    public static String getGameSettingValue(String settingName) {
+    public static String getGameSetting(String settingName) {
         if(settingName != null){
             for(GameSetting gs : gameSettings){
-                if(gs.getName().equalsIgnoreCase(settingName)){
+                if(gs.getName().equals(settingName)){
                     return gs.getValue();
                 }
             }
@@ -59,9 +59,9 @@ public class TempGameSettings {
         return null;
     }
     
-    public static void setGameSetting(String settingName, String value, boolean broadcast){
+    public static void setGameSetting(String settingname, String value, boolean broadcast){
         for(GameSetting setting : gameSettings){
-            if(setting.getName().equalsIgnoreCase(settingName)){
+            if(setting.getName().equals(settingname)){
                 if(TabOrganizer.getRoomPanel()!=null){
                     setting.setValue(value, TabOrganizer.getRoomPanel().isHost() && broadcast);
                     return;

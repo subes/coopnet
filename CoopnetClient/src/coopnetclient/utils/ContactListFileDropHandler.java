@@ -89,9 +89,8 @@ public class ContactListFileDropHandler extends TransferHandler {
             }
             for (File inputfile : l) {
                 //process files
-                if(TabOrganizer.sendFile(subject, inputfile)){
-                    Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
-                }
+                Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
+                TabOrganizer.openFileTransferSendPanel(subject, inputfile);
             }
         } catch (UnsupportedFlavorException e) {
             return false;

@@ -23,11 +23,13 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
+import coopnetclient.utils.voicechat.VoicePlayback;
 import java.awt.event.KeyEvent;
 
 public class Hotkeys {
 
     public static int ACTION_LAUNCH = 1;
+    public static int PUSH_TO_TALK = 2;
     private static HotkeyHandler handler;
 
 
@@ -59,8 +61,15 @@ public class Hotkeys {
         }
         if (action == ACTION_LAUNCH) {
             if (Settings.getLaunchHotKey() != KeyEvent.VK_UNDEFINED) {
-                Logger.log(LogTypes.HOTKEYS, "Binding Launch hotkey");
+                Logger.log(LogTypes.LOG, "Binding Launch hotkey");
                 handler.registerHotkey(ACTION_LAUNCH, Settings.getLaunchHotKeyMask(), Settings.getLaunchHotKey());
+            }
+        }
+
+        if (action == PUSH_TO_TALK) {
+            if (Settings.getPushToTalkHotKey() != KeyEvent.VK_UNDEFINED) {
+                Logger.log(LogTypes.LOG, "Binding Talk hotkey");
+                handler.registerHotkey(PUSH_TO_TALK, Settings.getPushToTalkHotKeyMask(), Settings.getPushToTalkHotKey());
             }
         }
     }
@@ -74,7 +83,7 @@ public class Hotkeys {
         if(handler==null){
             return;
         }
-        Logger.log(LogTypes.HOTKEYS, "UnBinding hotkey:" +action);
+        Logger.log(LogTypes.LOG, "UnBinding hotkey:" +action);
         handler.unregisterHotkey(action);
     }
 
@@ -90,6 +99,8 @@ public class Hotkeys {
             if (TabOrganizer.getRoomPanel() != null) {
                 TabOrganizer.getRoomPanel().pressLaunch();
             }
+        } else if (id == PUSH_TO_TALK) {
+            VoicePlayback.pushToTalk();
         }
     }
 }

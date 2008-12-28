@@ -21,11 +21,13 @@ package coopnetclient.utils.launcher;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.SoundPlayer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.utils.launcher.launchhandlers.JDPlayLaunchHandler;
+import coopnetclient.utils.launcher.launchhandlers.JDPlayJniLaunchHandler;
+import coopnetclient.utils.launcher.launchhandlers.JDPlayRmtLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.LaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.ParameterLaunchHandler;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
@@ -47,10 +49,15 @@ public class Launcher {
     }
     
     public static void initialize(LaunchInfo launchInfo){
+        
         TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getChildName());
-
+        
         if(launchInfo instanceof DirectPlayLaunchInfo){
-            launchHandler = new JDPlayLaunchHandler();
+            if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS){
+                launchHandler = new JDPlayJniLaunchHandler();
+            }else{
+                launchHandler = new JDPlayRmtLaunchHandler();
+            }
         }else
         if(launchInfo instanceof ParameterLaunchInfo){
             launchHandler = new ParameterLaunchHandler();
@@ -58,28 +65,19 @@ public class Launcher {
                     && TabOrganizer.getRoomPanel()!= null 
                     && TabOrganizer.getRoomPanel().isHost()
                     && GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() > 0){
-                Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getChildName(),launchInfo.getIsHost());
+                Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getChildName());
             }
         }
         
-        synchronized(launchHandler){
-            isInitialized = launchHandler.initialize(launchInfo);
-            if(TabOrganizer.getRoomPanel() != null){
-                if(isInitialized){
-                    TabOrganizer.getRoomPanel().initDone();
-                }else{
-                    TabOrganizer.getRoomPanel().initFailed();
-                }
-            }
-        }
-    }
-    
-    public static boolean predictSuccessfulLaunch(){
-        if(!isInitialized){
-            return false;
+        isInitialized = launchHandler.initialize(launchInfo);
+        if(isInitialized == false){
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Failed initializing the "+launchHandler.getClass().toString()+", you won't be able to play the game!", ChatStyles.SYSTEM,false);
         }else{
-            synchronized(launchHandler){
-                return launchHandler.predictSuccessfulLaunch();
+            if(TabOrganizer.getRoomPanel() != null && 
+                    (!(launchInfo instanceof ParameterLaunchInfo) 
+                       || !TabOrganizer.getRoomPanel().isHost() 
+                       || GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() == 0 ) ){
+                TabOrganizer.getRoomPanel().enableButtons();
             }
         }
     }
@@ -89,31 +87,29 @@ public class Launcher {
             throw new IllegalStateException("Another game has been launched already!");
         }
         if(isInitialized()){
-            synchronized(launchHandler){
-                isPlaying = true;
+            isPlaying = true;
+            
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
+                            "Launching game ...", 
+                            ChatStyles.SYSTEM,false);
+            
+            SoundPlayer.playLaunchSound();
 
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
-                                "Launching game ...", 
-                                ChatStyles.SYSTEM,false);
-
-                SoundPlayer.playLaunchSound();
-
-                if (Settings.getSleepEnabled()) {
-                    Globals.setSleepModeStatus(true);
-                }
-
-                if(!launchHandler.launch()){
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, maybe the game is not setup properly or a process closed unexpectedly!", ChatStyles.SYSTEM,false);
-                }
-
-                Globals.setSleepModeStatus(false);
-
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
-                                "Game closed.", 
-                                ChatStyles.SYSTEM,false);
-
-                isPlaying = false;
+            if (Settings.getSleepEnabled()) {
+                Globals.setSleepModeStatus(true);
             }
+            
+            if(!launchHandler.launch()){
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, maybe the game is not setup properly or a process closed unexpectedly! Please rejoin the room to reinitialize the launcher.", ChatStyles.SYSTEM,false);
+            }
+            
+            Globals.setSleepModeStatus(false);
+            
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
+                            "Game closed.", 
+                            ChatStyles.SYSTEM,false);
+            
+            isPlaying = false;
         }else{
             throw new IllegalStateException("The game has to be initialized before launching it!");
         }
@@ -126,9 +122,7 @@ public class Launcher {
     
     public static void updatePlayerName(){
         if(launchHandler != null){
-            synchronized(launchHandler){
-                launchHandler.updatePlayerName();
-            }
+            launchHandler.updatePlayerName();
         }
     }
     

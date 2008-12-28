@@ -18,13 +18,14 @@
  */
 package coopnetclient;
 
-import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.BugReportFrame;
 import coopnetclient.frames.ChangePasswordFrame;
 import coopnetclient.frames.ChannelListFrame;
+import coopnetclient.frames.ConnectToVoiceChatFrame;
 import coopnetclient.frames.CreateRoomFrame;
 import coopnetclient.frames.EditProfileFrame;
+import coopnetclient.frames.FavouritesFrame;
 import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.frames.ManageGamesFrame;
 import coopnetclient.frames.JoinRoomPasswordFrame;
@@ -38,15 +39,15 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.SystemTrayPopup;
 import coopnetclient.frames.models.ContactListModel;
-import coopnetclient.frames.models.TransferTableModel;
-import coopnetclient.utils.Icons;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Point;
 import java.awt.SystemTray;
+import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -59,7 +60,7 @@ public class Globals {
     private static String lastOpenedDir;
     //Preset value
     private static boolean debug = false;
-    private static final String clientVersion = "0.100.0";
+    private static final String clientVersion = "0.99.3";
     private static boolean connectionStatus = false;
     private static boolean loggedInStatus = false;
     private static boolean sleepModeStatus = false;
@@ -73,6 +74,7 @@ public class Globals {
     private static ContactListModel contactList = new ContactListModel();
     private static ChangePasswordFrame changePasswordFrame;
     private static ChannelListFrame channelListFrame;
+    private static FavouritesFrame favouritesFrame;
     private static GameSettingsFrame gameSettingsFrame;
     private static SettingsFrame settingsFrame;
     private static ManageGamesFrame manageGamesFrame;
@@ -83,12 +85,12 @@ public class Globals {
     private static BugReportFrame bugReportFrame;
     private static TextPreviewFrame textPreviewFrame;
     private static MuteBanListFrame muteBanTableFrame = null;
+    private static ConnectToVoiceChatFrame connectToVoiceChatFrame;
     private static SystemTray tray = null;
     private static TrayIcon trayIcon = null;
     private static boolean trayAdded = false;
     private static String MyIP = null;
     private static String currentPath = "";
-    private static TransferTableModel transferModel = new TransferTableModel();
     /*******************************************************************/
 
 
@@ -98,34 +100,27 @@ public class Globals {
         } catch (Exception ex) {
             Logger.log(ex);
         }
-
-        if (System.getProperty("line.separator").equals("\r\n")) {
+        //Detect OS
+        if (System.getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1) {
             operatingSystem = OperatingSystems.WINDOWS;
-        }else{
-            if(System.getProperty("line.separator").equals("\r")){
-                //MacOS, currently treated as Linux coz unsupported
-                operatingSystem = OperatingSystems.LINUX;
-            }else{
-                operatingSystem = OperatingSystems.LINUX;
-            }
-        }
-
-        Logger.log(LogTypes.LOG, "Operating System is "+operatingSystem.toString() +" ("+System.getProperty("os.name")+")");
-
-        if (operatingSystem == OperatingSystems.WINDOWS) {
             lastOpenedDir = System.getenv("USERPROFILE");
         } else {
+            operatingSystem = OperatingSystems.LINUX;
             lastOpenedDir = System.getenv("HOME");
         }
-        
         //Set debug
         debug = Settings.getDebugMode();
-        
+
+        if (debug) {
+            System.out.println("[L]\tOperatingSystem: " + operatingSystem.toString());
+        }
         //initialise and add trayicon if needed
         if (SystemTray.isSupported()) {
             tray = SystemTray.getSystemTray();
-            
-            trayIcon = new TrayIcon(Icons.coopnetNormalIcon.getImage(), "Coopnet client", new SystemTrayPopup());
+            ImageIcon normalIcon = new ImageIcon(
+                    Toolkit.getDefaultToolkit().createImage(
+                    Globals.getResourceAsString("data/icons/coopnet.png")));
+            trayIcon = new TrayIcon(normalIcon.getImage(), "Coopnet client", new SystemTrayPopup());
             trayIcon.setImageAutoSize(true);
             trayIcon.addMouseListener(
                     new java.awt.event.MouseAdapter() {
@@ -146,10 +141,6 @@ public class Globals {
                         }
                     });
         }
-    }
-
-    public static TransferTableModel getTransferModel(){
-        return transferModel;
     }
 
     public static File getResource(String name) {
@@ -185,6 +176,22 @@ public class Globals {
         }
     }
 
+    public static void closeConnectToVoiceChatFrame() {
+        if (connectToVoiceChatFrame != null) {
+            connectToVoiceChatFrame.dispose();
+            connectToVoiceChatFrame = null;
+        }
+    }
+
+    public static void openConnectToVoiceChatFrame() {
+        if (connectToVoiceChatFrame != null) {
+            connectToVoiceChatFrame.setVisible(true);
+        } else {
+            connectToVoiceChatFrame = new ConnectToVoiceChatFrame();
+            setupFrame(connectToVoiceChatFrame);
+        }
+    }
+
     public static void removeTrayIcon() {
         if (SystemTray.isSupported()) {
             try {
@@ -211,6 +218,7 @@ public class Globals {
         Colorizer.colorize(clientFrame);
         Colorizer.colorize(changePasswordFrame);
         Colorizer.colorize(channelListFrame);
+        Colorizer.colorize(favouritesFrame);
         Colorizer.colorize(gameSettingsFrame);
         Colorizer.colorize(settingsFrame);
         Colorizer.colorize(manageGamesFrame);
@@ -397,6 +405,7 @@ public class Globals {
 
     public static void closeEditProfileFrame() {
         if (editProfileFrame != null) {
+            editProfileFrame.preClose();
             closeChangePasswordFrame();
             editProfileFrame.dispose();
             editProfileFrame = null;
@@ -443,7 +452,7 @@ public class Globals {
         }
     }
 
-    public static void openGameSettingsFrame(final String gameName, final String modName,final boolean isHost) {
+    public static void openGameSettingsFrame(final String gameName, final String modName) {
         SwingUtilities.invokeLater(
                 new Runnable() {
 
@@ -452,7 +461,7 @@ public class Globals {
                         if (gameSettingsFrame != null) {
                             gameSettingsFrame.setVisible(true);
                         } else {
-                            gameSettingsFrame = new GameSettingsFrame(gameName, modName, isHost);
+                            gameSettingsFrame = new GameSettingsFrame(gameName, modName);
                             setupFrame(gameSettingsFrame);
                         }
                     }
@@ -475,10 +484,6 @@ public class Globals {
                 });
     }
 
-    public static GameSettingsFrame getGameSettingsFrame() {
-        return gameSettingsFrame;
-    }
-
     public static void closeGameSettingsFrame() {
         if (gameSettingsFrame != null) {
             gameSettingsFrame.dispose();
@@ -498,14 +503,14 @@ public class Globals {
             createRoomFrame.dispose();
             createRoomFrame = null;
             if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two RoomJoinFrames! Closing the other one. (openJoinRoomPasswordFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
             }
         }
         if (roomJoinPasswordFrame != null) {
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
             if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two roomJoinPasswordFrames! Closing the other one. (openJoinRoomPasswordFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
             }
         }
 
@@ -518,14 +523,14 @@ public class Globals {
             createRoomFrame.dispose();
             createRoomFrame = null;
             if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two createRoomFrames! Closing the other one. (openJoinRoomPasswordFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
             }
         }
         if (roomJoinPasswordFrame != null) {
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
             if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two roomJoinPasswordFrames! Closing the other one. (openJoinRoomPasswordFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
             }
         }
 
@@ -544,14 +549,14 @@ public class Globals {
             createRoomFrame.dispose();
             createRoomFrame = null;
             if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two createRoomFrames! Closing the other one. (openCreateRoomFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (CreateRoomFrame)");
             }
         }
         if (roomJoinPasswordFrame != null) {
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
             if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two roomJoinPasswordFrames! Closing the other one. (openCreateRoomFrame)");
+                System.out.println("[W]\tIt shouldn't be possible to create two RoomCreationFrames! Closing the other one. (RoomJoinPasswordFrame)");
             }
         }
 
@@ -565,6 +570,22 @@ public class Globals {
             createRoomFrame = null;
         }
         closeJoinRoomPasswordFrame();
+    }
+
+    public static void openFavouritesFrame() {
+        if (favouritesFrame != null) {
+            favouritesFrame.setVisible(true);
+        } else {
+            favouritesFrame = new FavouritesFrame();
+            setupFrame(favouritesFrame);
+        }
+    }
+
+    public static void closeFavouritesFrame() {
+        if (favouritesFrame != null) {
+            favouritesFrame.dispose();
+            favouritesFrame = null;
+        }
     }
 
     public static void openSettingsFrame() {

@@ -19,6 +19,7 @@
 
 package coopnetclient.frames.components;
 
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.hotkeys.Hotkeys;
@@ -109,7 +110,10 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
             setBackground((Color) UIManager.get("TextArea.background"));
             setForeground((Color) UIManager.get("TextArea.foreground"));
         }
-        printText();        
+        printText();
+        if(action ==Hotkeys.PUSH_TO_TALK || (action ==Hotkeys.ACTION_LAUNCH && TabOrganizer.getRoomPanel()!= null && TabOrganizer.getRoomPanel().isHost()) ){
+            Hotkeys.bindHotKey(action);
+        }
     }
 
     @Override

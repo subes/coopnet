@@ -20,12 +20,10 @@
 package coopnetclient.utils.hotkeys;
 
 import coopnetclient.Globals;
-import coopnetclient.enums.LogTypes;
-import coopnetclient.utils.Logger;
-import jxgrabkey.HotkeyListenerDebugEnabled;
+import jxgrabkey.HotkeyListener;
 import jxgrabkey.JXGrabKey;
 
-public class JXGrabKeyHandler extends HotkeyHandler implements HotkeyListenerDebugEnabled{
+public class JXGrabKeyHandler extends HotkeyHandler implements HotkeyListener{
 
     public JXGrabKeyHandler() {
         JXGrabKey.setDebugOutput(Globals.getDebug());
@@ -50,11 +48,6 @@ public class JXGrabKeyHandler extends HotkeyHandler implements HotkeyListenerDeb
     @Override
     public void onHotkey(int id) {
         Hotkeys.onHotkey(id);
-    }
-
-    @Override
-    public void debugCallback(String message) {
-        Logger.log(LogTypes.HOTKEYS, message);
     }
 
 }

@@ -57,6 +57,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem whisper;
     private JMenuItem sendFile;
     private JMenuItem roomInvite;
+    private JMenuItem talkInvite;
     private JMenuItem refresh;
     private JMenu moveto;
     private JSeparator sep_group;
@@ -92,6 +93,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         showOffline = new JCheckBoxMenuItem("Show offline contacts", Settings.getShowOfflineContacts());
         showOffline.addActionListener(this);
         roomInvite = makeMenuItem("Invite to room");
+        talkInvite = makeMenuItem("Invite to voiceChat");
         mute_UnMute = makeMenuItem("Mute");
         ban_UnBan = makeMenuItem("Ban");
 
@@ -107,6 +109,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(whisper);
         this.add(sendFile);
         this.add(roomInvite);
+        this.add(talkInvite);
         this.add(mute_UnMute);
         this.add(ban_UnBan);
         this.add(showProfile);
@@ -164,7 +167,12 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             roomInvite.setVisible(false);
         } else {
             roomInvite.setVisible(isVisible);
-        }        
+        }
+        if(Globals.getClientFrame().getQuickPanel().getVoiceChatPanel().isServerRunning()){
+            talkInvite.setVisible(isVisible);
+        }else{
+            talkInvite.setVisible(false);
+        }
         sep_group.setVisible(isVisible);
     }
 
@@ -240,7 +248,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             source.editCellAt(model.getSize() - 1, e);
             Component editorComp = source.getEditorComponent();
             if (editorComp != null) {
-                editorComp.requestFocusInWindow();
+                editorComp.requestFocus();
             }
         } else if (command.equals("Delete group")) {
             Protocol.deleteGroup(subject);
@@ -250,7 +258,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             source.editCellAt(source.getSelectedIndex(), e);
             Component editorComp = source.getEditorComponent();
             if (editorComp != null) {
-                editorComp.requestFocusInWindow();
+                editorComp.requestFocus();
             }
         } else if (command.equals("Whisper")) {
             if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {
@@ -261,6 +269,8 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             Globals.getClientFrame().printToVisibleChatbox("System", "You have nudged "+subject +" !", ChatStyles.SYSTEM , false);
         } else if (command.equals("Invite to room")) {
             Protocol.sendRoomInvite(subject);
+        } else if (command.equals("Invite to voiceChat")) {
+            Protocol.privateChat(subject, "Lets talk! voice://" + Globals.getMyIP() + ":" + Settings.getVoiceChatPort());
         } else if (command.equals("Show profile")) {
             Protocol.requestProfile(subject);
         } else if (command.equals("Ban")) {
@@ -288,10 +298,9 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                             if (returnVal == FileChooser.SELECT_ACTION) {
                                 inputfile = mfc.getSelectedFile();
                                 if (inputfile != null) {
-                                    if(TabOrganizer.sendFile(subject, inputfile)){
-                                        Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
-                                        Globals.setLastOpenedDir(inputfile.getParent());
-                                    }
+                                    Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
+                                    TabOrganizer.openFileTransferSendPanel(subject, inputfile);
+                                    Globals.setLastOpenedDir(inputfile.getParent());
                                 }
                             }
                         } catch (Exception e) {
