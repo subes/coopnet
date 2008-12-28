@@ -33,7 +33,8 @@ public class TabComponent extends javax.swing.JPanel {
     public TabComponent(ClosableTab closeMe) {
         initComponents();
         putClientProperty("html.disable", Boolean.TRUE);
-        lbl_text.setHorizontalTextPosition(JLabel.RIGHT);
+        lbl_text.setVerticalTextPosition(JLabel.BOTTOM);
+        lbl_close.setIcon(Icons.tabCloseIconNormal);
         this.closeMe = closeMe;
     }
 
@@ -45,7 +46,7 @@ public class TabComponent extends javax.swing.JPanel {
 
     public TabComponent(String title, Icon icon,ClosableTab closeMe){
         this(title,closeMe);
-        lbl_text.setIcon(icon);        
+        lbl_icon.setIcon(icon);
     }
 
     /** This method is called from within the constructor to
@@ -59,7 +60,8 @@ public class TabComponent extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         lbl_text = new javax.swing.JLabel();
-        btn_close = new javax.swing.JButton();
+        lbl_close = new javax.swing.JLabel();
+        lbl_icon = new javax.swing.JLabel();
 
         setFocusable(false);
         setMinimumSize(new java.awt.Dimension(45, 25));
@@ -69,53 +71,56 @@ public class TabComponent extends javax.swing.JPanel {
         lbl_text.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_text.setText("text");
         lbl_text.setFocusable(false);
+        lbl_text.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lbl_text.setMaximumSize(null);
+        lbl_text.setMinimumSize(null);
+        lbl_text.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
         add(lbl_text, gridBagConstraints);
 
-        btn_close.setFont(new java.awt.Font("Tahoma", 0, 10));
-        btn_close.setIcon(Icons.tabCloseIconNormal);
-        btn_close.setFocusable(false);
-        btn_close.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btn_close.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        btn_close.setMaximumSize(new java.awt.Dimension(20, 20));
-        btn_close.setMinimumSize(new java.awt.Dimension(20, 20));
-        btn_close.setOpaque(false);
-        btn_close.setPreferredSize(new java.awt.Dimension(20, 20));
-        btn_close.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbl_close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_close.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        lbl_close.setIconTextGap(0);
+        lbl_close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_closeMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn_closeMouseEntered(evt);
+                lbl_closeMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                btn_closeMouseExited(evt);
-            }
-        });
-        btn_close.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_closeActionPerformed(evt);
+                lbl_closeMouseExited(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 0, 0, 0);
-        add(btn_close, gridBagConstraints);
-        btn_close.getAccessibleContext().setAccessibleName("Close");
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        add(lbl_close, gridBagConstraints);
+
+        lbl_icon.setText(null);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        add(lbl_icon, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_closeMouseEntered
-        btn_close.setIcon(Icons.tabCloseIconMouseOver);
-    }//GEN-LAST:event_btn_closeMouseEntered
-
-    private void btn_closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_closeMouseExited
-        btn_close.setIcon(Icons.tabCloseIconNormal);
-    }//GEN-LAST:event_btn_closeMouseExited
-
-    private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
+    private void lbl_closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_closeMouseClicked
         closeMe.closeTab();
-    }//GEN-LAST:event_btn_closeActionPerformed
+    }//GEN-LAST:event_lbl_closeMouseClicked
+
+    private void lbl_closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_closeMouseEntered
+         lbl_close.setIcon(Icons.tabCloseIconMouseOver);
+    }//GEN-LAST:event_lbl_closeMouseEntered
+
+    private void lbl_closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_closeMouseExited
+        lbl_close.setIcon(Icons.tabCloseIconNormal);
+    }//GEN-LAST:event_lbl_closeMouseExited
 
     @Override
     public Font getFont(){
@@ -132,7 +137,8 @@ public class TabComponent extends javax.swing.JPanel {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_close;
+    private javax.swing.JLabel lbl_close;
+    private javax.swing.JLabel lbl_icon;
     private javax.swing.JLabel lbl_text;
     // End of variables declaration//GEN-END:variables
 
