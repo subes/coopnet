@@ -136,6 +136,11 @@ public class Launcher {
     }
     
     public static void deInitialize(){
+        if(launchHandler != null && launchHandler instanceof JDPlayLaunchHandler){
+            JDPlayLaunchHandler handler = (JDPlayLaunchHandler)launchHandler;
+            handler.abortSearch();
+        }
+
         isInitialized = false;
         launchHandler = null;
     }

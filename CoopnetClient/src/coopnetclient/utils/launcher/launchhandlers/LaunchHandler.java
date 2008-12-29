@@ -62,19 +62,37 @@ public abstract class LaunchHandler {
         boolean doNormalLaunch = true;
 
         //Detect if executable is already running
-        if(processExists()){
+        if(launchInfo.getIsHost()){
+            if(processExists()){
 
-            JOptionPane.showMessageDialog(null,
-                    "<html>Coopnet has detected that the game \"<b>"+getBinaryName()+"</b>\" is already running.<br>" +
-                    "Please make sure the other players can <b>connect to a running server</b> there<br>" +
-                    "or <b>close the game</b> before confirming this message.<br>" +
-                    "<br>" +
-                    "<br>If the game is still running after you have confirmed this message," +
-                    "<br>Coopnet will launch everyone in your room except you.",
-                    "WARNING: Game is already running",
-                    JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "<html>Coopnet has detected that the game \"<b>"+getBinaryName()+"</b>\" is already running.<br>" +
+                        "Please make sure the other players can <b>connect to a running server</b> there<br>" +
+                        "or <b>close the game</b> before confirming this message.<br>" +
+                        "<br>" +
+                        "<br>If the game is still running after you have confirmed this message," +
+                        "<br>Coopnet will launch everyone in your room except you.",
+                        "WARNING: Game is already running",
+                        JOptionPane.WARNING_MESSAGE);
 
-            doNormalLaunch = !processExists();
+                doNormalLaunch = !processExists();
+            }
+        }else{
+            while(processExists()){
+                int option = JOptionPane.showConfirmDialog(null,
+                        "<html>Coopnet has detected that the game \"<b>"+getBinaryName()+"</b>\" is already running.<br>" +
+                        "Please <b>close the game</b>, so you can actually join the hosts game.<br>" +
+                        "<br>" +
+                        "Press ok to retry or press cancel to abort the launch.",
+                        "WARNING: Game is already running",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+
+                if(option == JOptionPane.CANCEL_OPTION){
+                    return true;
+                }
+            }
+            doNormalLaunch = true;
         }
 
         Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
@@ -119,14 +137,14 @@ public abstract class LaunchHandler {
         try {
             String command = pgrepCommand + " " + getBinaryName();
 
-            Logger.log(LogTypes.LAUNCHER, command);
-
             Process p = Runtime.getRuntime().exec(command);
             try {
                 p.waitFor();
             } catch (InterruptedException ex) {
                 Logger.log(ex);
             }
+
+            Logger.log(LogTypes.LAUNCHER, command + "; ReturnCode = " + p.exitValue());
 
             return p.exitValue() == 0;
 

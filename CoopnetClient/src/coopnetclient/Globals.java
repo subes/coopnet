@@ -53,7 +53,8 @@ import javax.swing.SwingUtilities;
 public class Globals {
 
     //Constants
-    public static final int JDPLAY_MAXSEARCHRETRIES = 20;
+    public static final int JDPLAY_MAXSEARCHRETRIES = 10;
+    public static final int JDPLAY_SEARCHVALIDATIONCOUNT = 1;
     //Set via static{}
     private static OperatingSystems operatingSystem;
     private static String lastOpenedDir;

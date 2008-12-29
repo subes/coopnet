@@ -35,6 +35,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.logging.Level;
+import sun.security.x509.IssuerAlternativeNameExtension;
 
 public class JDPlayLaunchHandler extends LaunchHandler {
     
@@ -44,6 +46,10 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     
     private DirectPlayLaunchInfo launchInfo;
     private String binary;
+
+    private String lastRead = "";
+    private boolean isSearching = false;
+    private boolean abortSearch = false;
     
     @Override
     public boolean doInitialize(LaunchInfo launchInfo) {
@@ -64,7 +70,8 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             
             command += " lib/jdplay.exe" +
                  " --playerName " + playerName + 
-                 " --maxSearchRetries " + Globals.JDPLAY_MAXSEARCHRETRIES;
+                 " --maxSearchRetries " + Globals.JDPLAY_MAXSEARCHRETRIES +
+                 " --searchValidationCount " + Globals.JDPLAY_SEARCHVALIDATIONCOUNT;
             
             if(Globals.getDebug()){
                 command += " --debug";
@@ -121,17 +128,49 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             return false;
         }
 
-        String[] toRead = {"FOUND", "NOTFOUND"};
-        if(read(toRead) == 1){
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "Launch failed! Found no session to join! The host maybe failed to launch or a firewall blocked your join attempt.",
-                    ChatStyles.SYSTEM,false);
+        if(!launchInfo.getIsHost()){
+            boolean done = false;
+
+            isSearching = true;
+            boolean returnDirectly = false;
+
+            while(!done){
+                if(abortSearch){
+                    try {
+                        out.write("DONE\n".getBytes());
+                    } catch (IOException ex) {}
+                }
+
+                String[] toRead = {"SEARCHTRY", "FOUND", "NOTFOUND"};
+                switch(read(toRead)){
+                    case 0:
+                        //TODO: update progressbar
+                        break;
+                    case 1:
+                        done = true;
+                        break;
+                    case 2:
+
+                    default:
+                        throw new IllegalStateException("Went into default case! Check for inconsistencies!");
+                }
+            }
+
+            if(returnDirectly && abortSearch){
+                Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                                "Launch failed! Found no session to join! The host maybe failed to launch or a firewall blocked your join attempt.",
+                                ChatStyles.SYSTEM,false);
+            }
+            isSearching = false;
+            abortSearch = false;
+
+            if(returnDirectly){
                 return false;
+            }
         }
 
-        boolean ret;
         String[] toRead2 = {"FIN", "ERR"};
-        ret = read(toRead2) == 0;
+        boolean ret = read(toRead2) == 0;
         
         if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
             try{
@@ -173,7 +212,8 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                 }
 
                 for (int i = 0; i < toRead.length; i++) {
-                    if (toRead[i].equals(ret)) {
+                    if (toRead[i].contains(ret)) {
+                        lastRead = toRead[i];
                         return i;
                     }
                 }
@@ -295,6 +335,12 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     @Override
     protected String getBinaryName() {
         return binary;
+    }
+
+    public void abortSearch(){
+        if(isSearching){
+            abortSearch = true;
+        }
     }
 
 }
