@@ -107,7 +107,15 @@ public class ClientFrame extends javax.swing.JFrame {
         m_user.setEnabled(Globals.getLoggedInStatus());
         m_channels.setEnabled(Globals.getLoggedInStatus());
     }
-    
+
+    public void clientTooOldMode(){
+        if(Globals.getConnectionStatus()){
+            Client.disconnect();
+        }
+        enableUpdate();
+        mi_connection.setEnabled(false);
+    }
+
     public void enableUpdate() {
         SwingUtilities.invokeLater(
                 new Runnable() {
@@ -821,31 +829,34 @@ public class ClientFrame extends javax.swing.JFrame {
         HyperlinkMouseListener.openURL("http://coopnet.sourceforge.net/guide.html");
 }//GEN-LAST:event_mi_guideActionPerformed
 
-private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_updateActionPerformed
-    new Thread() {
-
-        @Override
-        public void run() {
-            try {
-                int n = JOptionPane.showConfirmDialog(null,
-                        "<html>Would you like to update your CoopnetClient now?<br>" +
-                        "(The client will close and update itself)", "Client outdated",
-                        JOptionPane.YES_NO_OPTION);
-                if (n == JOptionPane.YES_OPTION) {
-                    try {
-                        FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", Globals.getResourceAsString("CoopnetUpdater.jar"));
-                        Runtime rt = Runtime.getRuntime();
-                        rt.exec("java -jar CoopnetUpdater.jar",null,Client.getCurrentDirectory()  );
-                        Client.quit(true);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+    public void invokeUpdate(){
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    int n = JOptionPane.showConfirmDialog(null,
+                            "<html>Would you like to update your CoopnetClient now?<br>" +
+                            "(The client will close and update itself)", "Client outdated",
+                            JOptionPane.YES_NO_OPTION);
+                    if (n == JOptionPane.YES_OPTION) {
+                        try {
+                            FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", Globals.getResourceAsString("CoopnetUpdater.jar"));
+                            Runtime rt = Runtime.getRuntime();
+                            rt.exec("java -jar CoopnetUpdater.jar",null,Client.getCurrentDirectory()  );
+                            Client.quit(true);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
                     }
+                } catch (Exception e) {
+                    ErrorHandler.handleException(e);
                 }
-            } catch (Exception e) {
-                ErrorHandler.handleException(e);
             }
-        }
-    }.start();
+        }.start();
+    }
+
+private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_updateActionPerformed
+    invokeUpdate();
 }//GEN-LAST:event_mi_updateActionPerformed
 
 private void mi_bugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_bugReportActionPerformed
@@ -922,7 +933,6 @@ private void mi_connectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     if(!Globals.getConnectionStatus()){
         Client.startConnection();
     }else{
-        setQuickPanelVisibility(false);
         Client.disconnect();        
     }
 }//GEN-LAST:event_mi_connectionActionPerformed
@@ -963,8 +973,11 @@ private void mi_prevTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
 private void mi_closeTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_closeTabActionPerformed
     if(tabpn_tabs.getSelectedComponent()instanceof ClosableTab ){
-            ((ClosableTab)tabpn_tabs.getSelectedComponent()).closeTab();
+        ClosableTab ctab = ((ClosableTab)tabpn_tabs.getSelectedComponent());
+        if(ctab.isCurrentlyClosable()){
+            ctab.closeTab();
         }
+    }
     updateTabNavigationMenuItems();
 }//GEN-LAST:event_mi_closeTabActionPerformed
 
@@ -973,8 +986,10 @@ private void tabpn_tabsCaretPositionChanged(java.awt.event.InputMethodEvent evt)
 }//GEN-LAST:event_tabpn_tabsCaretPositionChanged
 
 private void updateTabNavigationMenuItems(){
-    mi_closeTab.setEnabled(
-        tabpn_tabs.getSelectedComponent() instanceof ClosableTab);
+    if(tabpn_tabs.getSelectedComponent() instanceof ClosableTab){
+        ClosableTab ctab = (ClosableTab) tabpn_tabs.getSelectedComponent();
+        mi_closeTab.setEnabled(ctab.isCurrentlyClosable());
+    }
 
     mi_nextTab.setEnabled(tabpn_tabs.getTabCount() > 1);
     mi_prevTab.setEnabled(tabpn_tabs.getTabCount() > 1);

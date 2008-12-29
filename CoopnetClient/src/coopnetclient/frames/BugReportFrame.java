@@ -21,6 +21,7 @@ package coopnetclient.frames;
 import bugreportmailsender.BugReportMailSender;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.Logger;
 import java.awt.event.ActionEvent;
@@ -88,9 +89,9 @@ public class BugReportFrame extends javax.swing.JFrame {
                 "\n\t" + date.toLocaleString() +
                 "\n\t" + date.toGMTString();
 
-        report += "\n\nCountry and Language codes:\n\t" + System.getProperty("user.country") + " - " + System.getProperty("user.language");
+        report += "\n\nClient version:\n\t" + Globals.getClientVersion();
 
-        report += "\n\nClient version: \n\t" + Globals.getClientVersion();
+        report += "\n\nProtocol version:\n\t" + Protocol.PROTOCOL_VERSION;
 
         report += "\n\nJava version: \n\t" + System.getProperty("java.vm.name")+ " " + System.getProperty("java.runtime.version");
 
@@ -99,6 +100,9 @@ public class BugReportFrame extends javax.swing.JFrame {
         if(!osName.toUpperCase().equals(Globals.getOperatingSystem().toString())){
             report += " ("+Globals.getOperatingSystem().toString()+")";
         }
+
+        report += "\n\nCountry and Language codes:\n\t" + System.getProperty("user.country") + "-" + System.getProperty("user.language");
+
 
         //EMail
         if (tf_email.getText().length() > 0) {

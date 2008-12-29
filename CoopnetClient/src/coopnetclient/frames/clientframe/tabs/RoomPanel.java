@@ -657,4 +657,9 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
             Protocol.leaveRoom();
         }
     }
+
+    @Override
+    public boolean isCurrentlyClosable() {
+        return true;
+    }
 }

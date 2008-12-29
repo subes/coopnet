@@ -72,6 +72,9 @@ public class CommandHandler {
 
         if (!Globals.getLoggedInStatus()) {//not-logged-in commands
             switch (command) {
+                case PROTOCOL_VERSION:
+                    CommandMethods.checkProtocolVersion(information[0]);
+                    break;
                 case OK_LOGIN:
                     Globals.setLoggedInStatus(true);
                     Globals.setThisPlayer_loginName(information[0]);
@@ -117,6 +120,9 @@ public class CommandHandler {
                 currentChannelName = GameDatabase.getGameName(information[0]);
             }
             switch (command) {
+                case PROTOCOL_VERSION:
+                    CommandMethods.checkProtocolVersion(information[0]);
+                    break;
                 case CHAT_MAIN:
                     if (information.length < 2) {
                         return;

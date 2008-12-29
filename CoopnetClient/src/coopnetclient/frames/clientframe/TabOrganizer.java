@@ -332,16 +332,24 @@ public class TabOrganizer {
     }
 
     public static synchronized void openErrorPanel(ErrorPanelStyle mode, Exception e) {
-        if (errorPanel == null || errorPanel.hasException() == false && e != null) {
-            errorPanel = new ErrorPanel(mode, e);
-            tabHolder.addTab("Error", null ,errorPanel);
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Error",Icons.errorIconSmall,errorPanel) );
+        if(mode == ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH){
+            //Protocol version mismatch has higher priority
+            errorPanel = new ErrorPanel(mode, null); //anyway no exception
+            tabHolder.addTab("Client too old", null ,errorPanel);
+            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Client too old",Icons.errorIconSmall,errorPanel) );
             tabHolder.setSelectedComponent(errorPanel);
-        } else {
-            if (Globals.getDebug()) {
-                System.out.println("[W]\tWe don't need another error tab, this error may be caused by the first one!");
+        }else{
+            if (errorPanel == null || errorPanel.hasException() == false && e != null) {
+                errorPanel = new ErrorPanel(mode, e);
+                tabHolder.addTab("Error", null ,errorPanel);
+                tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Error",Icons.errorIconSmall,errorPanel) );
+                tabHolder.setSelectedComponent(errorPanel);
+            } else {
+                if (Globals.getDebug()) {
+                    System.out.println("[W]\tWe don't need another error tab, this error may be caused by the first one!");
+                }
+                tabHolder.setSelectedComponent(errorPanel);
             }
-            tabHolder.setSelectedComponent(errorPanel);
         }
         Globals.getClientFrame().repaint();
     }

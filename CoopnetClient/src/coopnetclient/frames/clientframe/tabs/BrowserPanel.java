@@ -76,4 +76,9 @@ public class BrowserPanel extends javax.swing.JPanel implements ClosableTab {
     public void closeTab() {
         TabOrganizer.closeBrowserPanel();
     }
+
+    @Override
+    public boolean isCurrentlyClosable() {
+        return true;
+    }
 }

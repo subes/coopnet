@@ -42,8 +42,11 @@ public class Protocol {
     public static final String MESSAGE_DELIMITER = "\uAB04"; // 0x04 = EOT = End Of Transmission
     public static byte[] ENCODED_MESSAGE_DELIMITER;
     
-    //Heartbeat characters
+    //Heartbeat character
     public static final String HEARTBEAT = "\u2665";
+
+    //Increment this, when changes to the protocol commands have been done
+    public static final int PROTOCOL_VERSION = 1;
     
     static{
         try{

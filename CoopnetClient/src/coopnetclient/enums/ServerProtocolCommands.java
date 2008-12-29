@@ -19,7 +19,8 @@
 
 package coopnetclient.enums;
 
-public enum ServerProtocolCommands { 
+public enum ServerProtocolCommands {
+    PROTOCOL_VERSION,
     CONTACT_REQUESTED,
     SET_CONTACTSTATUS,
     ACCEPTED_CONTACT_REQUEST,

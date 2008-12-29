@@ -21,4 +21,5 @@ package coopnetclient.frames.clientframe;
 
 public interface ClosableTab {
     public void closeTab();
+    public boolean isCurrentlyClosable();
 }

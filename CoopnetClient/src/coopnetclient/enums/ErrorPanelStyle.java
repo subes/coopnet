@@ -23,6 +23,6 @@ public enum ErrorPanelStyle {
     UNKNOWN,
     UNKNOWN_IO,
     CONNECTION_REFUSED,
-    CONNECTION_RESET
-    
+    CONNECTION_RESET,
+    PROTOCOL_VERSION_MISMATCH,
 }

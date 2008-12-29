@@ -135,14 +135,17 @@ public class Client {
     }
 
     public static void startConnection() {
-        TabOrganizer.closeAllTabs();
-        Globals.setConnectionStatus(true);
-        handlerThread = new HandlerThread();
-        handlerThread.start();
+        if(!Globals.getConnectionStatus()){
+            TabOrganizer.closeAllTabs();
+            Globals.setConnectionStatus(true);
+            handlerThread = new HandlerThread();
+            handlerThread.start();
+        }else{
+            throw new IllegalStateException("Client is already connected, you shouldn't be able to reconnect!");
+        }
     }
 
-    public static void stopConnection() {
-
+    private static void stopConnection() {
         Protocol.quit();
         Globals.setConnectionStatus(false);
 
@@ -160,12 +163,17 @@ public class Client {
     }
 
     public static void disconnect() {
-        Client.stopConnection();
-        TabOrganizer.closeAllTabs();
-        Globals.closeChannelListFrame();
-        Globals.closeChangePasswordFrame();
-        Globals.closeShowProfileFrame();
-        Globals.closeEditProfileFrame();
+        if(Globals.getConnectionStatus()){
+            Globals.getClientFrame().setQuickPanelVisibility(false);
+            Client.stopConnection();
+            TabOrganizer.closeAllTabs();
+            Globals.closeChannelListFrame();
+            Globals.closeChangePasswordFrame();
+            Globals.closeShowProfileFrame();
+            Globals.closeEditProfileFrame();
+        }else{
+            throw new IllegalStateException("Client is already disconnected, you shouldn't be able to disconnect again!");
+        }
     }
 
     public static void quit(boolean override) {

@@ -651,4 +651,9 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
         TabOrganizer.closeChannelPanel(this);
     }
 
+    @Override
+    public boolean isCurrentlyClosable() {
+        return true;
+    }
+
 }

@@ -499,6 +499,12 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
             __forwardEventToButton(e);
         }       
     }
+
+    @Override
+    public boolean isCurrentlyClosable() {
+        return true;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_browse;
     private javax.swing.JCheckBox cb_resume;

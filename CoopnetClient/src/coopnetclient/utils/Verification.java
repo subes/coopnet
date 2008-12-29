@@ -20,9 +20,25 @@
 package coopnetclient.utils;
 
 import coopnetclient.Globals;
+import coopnetclient.protocol.out.Protocol;
 import java.io.File;
 
 public class Verification {
+
+
+    public static boolean verifyProtocolVersion(String version){
+        try{
+            int v = Integer.parseInt(version);
+            if(v != Protocol.PROTOCOL_VERSION){
+                return false;
+            }
+        }catch(NumberFormatException e){
+            Logger.log(e);
+            return false;
+        }
+
+        return true;
+    }
 
     public static boolean verifyClientVersion(String checkAgainst) {
         //Here we have a number scheme x.x.x

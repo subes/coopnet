@@ -19,6 +19,7 @@
 
 package coopnetclient.frames.clientframe.tabs;
 
+import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.enums.ErrorPanelStyle;
 import coopnetclient.frames.clientframe.ClosableTab;
@@ -31,6 +32,7 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
     
     private Exception exception;
     private String trafficLog;
+    private ErrorPanelStyle mode;
 
     //Message constants
     private static final String CONNECTION_REFUSED = "<HTML><p style=\"text-align: center;\"><b>Unable to connect to the server!</b><BR>" +
@@ -40,8 +42,12 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
             "Please help us fix this problem by sending a bug report.</p>";
     private static final String CONNECTION_RESET = "<HTML><p style=\"text-align: center;\"><b>Connection to the server was lost!</b><BR></p>";
     private static final String UNKNOWN_IO = "<HTML><p style=\"text-align: center;\"><b>An unknown IO error occured!</b><BR></p>";
-    
+    private static final String PROTOCOL_VERSION_MISMATCH = "<HTML><p style=\"text-align: center;\"><b>Your client is too old!</b><BR>" +
+            "Currently your client uses an outdated protocol, so communication with the server is impossible.<br>To continue using Coopnet, please update your client to the latest version.</p>";
+
     public ErrorPanel(ErrorPanelStyle mode, Exception exception) {
+        this.mode = mode;
+        
         initComponents();
         FrameIconFlasher.flash("data/icons/error.png", "An error occured!", true);
         
@@ -53,18 +59,35 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
             }
             case CONNECTION_REFUSED: {
                 lbl_errorText.setText(CONNECTION_REFUSED);
-                btn_report.setVisible(false);
+                if(!Globals.getConnectionStatus()){
+                    btn_report.setText("Reconnect");
+                }else{
+                    btn_report.setVisible(false);
+                }
                 break;
             }
             case CONNECTION_RESET: {
                 lbl_errorText.setText(CONNECTION_RESET);
-                btn_report.setVisible(false);
+                if(!Globals.getConnectionStatus()){
+                    btn_report.setText("Reconnect");
+                }else{
+                    btn_report.setVisible(false);
+                }
                 break;
             }
             case UNKNOWN_IO: {
                 lbl_errorText.setText(UNKNOWN_IO + exception.getMessage());
-                btn_report.setVisible(false);
+                if(!Globals.getConnectionStatus()){
+                    btn_report.setText("Reconnect");
+                }else{
+                    btn_report.setVisible(false);
+                }
                 break;
+            }
+            case PROTOCOL_VERSION_MISMATCH: {
+                Globals.getClientFrame().clientTooOldMode();
+                lbl_errorText.setText(PROTOCOL_VERSION_MISMATCH);
+                btn_report.setText("Update");
             }
         }
         
@@ -152,7 +175,16 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_reportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reportActionPerformed
-        Globals.openBugReportFrame(exception, trafficLog);
+        if(btn_report.getText().equals("Reconnect")){
+            Client.startConnection();
+            btn_report.setEnabled(false);
+        }else
+        if(btn_report.getText().equals("Update")){
+            Globals.getClientFrame().invokeUpdate();
+            btn_report.setEnabled(false);
+        }else{
+            Globals.openBugReportFrame(exception, trafficLog);
+        }
 }//GEN-LAST:event_btn_reportActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -165,6 +197,11 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
     @Override
     public void closeTab() {
         TabOrganizer.closeErrorPanel();
+    }
+
+    @Override
+    public boolean isCurrentlyClosable() {
+        return mode != ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH;
     }
     
 }
