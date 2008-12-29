@@ -294,7 +294,7 @@ public class GameDatabase {
         String test = null;
         String ID = getIDofGame(gamename);
 
-        if (getLaunchMethod(ID) == LaunchMethods.DIRECTPLAY || getLaunchMethod(gamename, null) == LaunchMethods.DIRECTPLAY_FORCED_COMPATIBILITY) {
+        if (getLaunchMethod(ID) == LaunchMethods.DIRECTPLAY ) {
             return true;
         }
         test = getLaunchPathWithExe(gamename, null);
