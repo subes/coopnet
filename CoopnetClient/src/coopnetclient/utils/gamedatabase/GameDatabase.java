@@ -166,6 +166,26 @@ public class GameDatabase {
         return gameData.get(indexOfGame(gamename)).getGameSettings(modname);
     }
 
+    public static int getServerSettingCount(String gamename, String modname){
+        int i = 0;
+        for(GameSetting gs : gameData.get(indexOfGame(gamename)).getGameSettings(modname)){
+            if(!gs.isLocal()){
+                ++i;
+            }
+        }
+        return i;
+    }
+
+    public static int getLocalSettingCount(String gamename, String modname){
+        int i = 0;
+        for(GameSetting gs : gameData.get(indexOfGame(gamename)).getGameSettings(modname)){
+            if(gs.isLocal()){
+                ++i;
+            }
+        }
+        return i;
+    }
+
     public static String getMapPath(String gamename, String modname) {
         return gameData.get(indexOfGame(gamename)).getMapPath(modname);
     }
