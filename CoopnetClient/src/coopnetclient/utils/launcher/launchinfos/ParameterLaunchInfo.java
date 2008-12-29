@@ -85,7 +85,10 @@ public class ParameterLaunchInfo extends LaunchInfo {
             ret = ret.replace("{" + gs.getKeyWord() + "}", gs.getRealValue());
         }
 
-        ret += GameDatabase.getAdditionalParameters(" "+gameName);
+        String params = GameDatabase.getAdditionalParameters(GameDatabase.getIDofGame(gameName));
+        if( params != null && params.length() >0){
+            ret += " " + params;
+        }
         
         return ret;
     }
