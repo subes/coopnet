@@ -131,11 +131,10 @@ public class Launcher {
                                 "Game closed.", 
                                 ChatStyles.SYSTEM,false);
 
+                launchedGame = null;
                 for (int i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
                     TabOrganizer.getChannelPanel(i).enablebuttons();
-                }
-
-                launchedGame = null;
+                }                
             }
         }else{
             throw new IllegalStateException("The game has to be initialized before launching it!");
