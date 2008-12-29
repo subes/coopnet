@@ -64,14 +64,7 @@ public class TabComponent extends javax.swing.JPanel {
         lbl_close = new javax.swing.JLabel();
         lbl_icon = new javax.swing.JLabel();
 
-        setFocusable(false);
-        setMinimumSize(new java.awt.Dimension(45, 25));
         setOpaque(false);
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                formMouseEntered(evt);
-            }
-        });
         setLayout(new java.awt.GridBagLayout());
 
         lbl_text.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -91,8 +84,12 @@ public class TabComponent extends javax.swing.JPanel {
         add(lbl_text, gridBagConstraints);
 
         lbl_close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_close.setFocusable(false);
         lbl_close.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         lbl_close.setIconTextGap(0);
+        lbl_close.setMaximumSize(null);
+        lbl_close.setMinimumSize(null);
+        lbl_close.setPreferredSize(null);
         lbl_close.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbl_closeMouseClicked(evt);
@@ -110,6 +107,10 @@ public class TabComponent extends javax.swing.JPanel {
         add(lbl_close, gridBagConstraints);
 
         lbl_icon.setText(null);
+        lbl_icon.setFocusable(false);
+        lbl_icon.setMaximumSize(null);
+        lbl_icon.setMinimumSize(null);
+        lbl_icon.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -129,11 +130,6 @@ public class TabComponent extends javax.swing.JPanel {
     private void lbl_closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_closeMouseExited
         lbl_close.setIcon(Icons.tabCloseIconNormal);
     }//GEN-LAST:event_lbl_closeMouseExited
-
-    private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        //used to update the close button visibility
-        lbl_close.setVisible(closeMe.isCurrentlyClosable());
-    }//GEN-LAST:event_formMouseEntered
 
     @Override
     public Font getFont(){
