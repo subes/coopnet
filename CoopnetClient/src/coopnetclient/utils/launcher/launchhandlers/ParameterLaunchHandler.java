@@ -22,15 +22,11 @@ package coopnetclient.utils.launcher.launchhandlers;
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LogTypes;
-import coopnetclient.enums.OperatingSystems;
-import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import javax.swing.JOptionPane;
 
 public class ParameterLaunchHandler extends LaunchHandler {
 
