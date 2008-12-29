@@ -20,6 +20,8 @@ package coopnetclient.frames;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
+import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframe.tabs.ChannelPanel;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
 import coopnetclient.utils.Icons;
@@ -76,6 +78,8 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                     tf_exePath.showErrorMessage("Please set the path correctly!");
                     error = true;
                 }
+            } else {
+                tempExePath.put(lst_games.getSelectedValue().toString(), tf_exePath.getText());
             }
             if (tf_installPath.getText().length() > 0) {
                 if (Verification.verifyDirectory(tf_installPath.getText())) {
@@ -84,9 +88,13 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                     tf_installPath.showErrorMessage("Please set the path correctly!");
                     error = true;
                 }
+            } else {
+                tempInstallPath.put(lst_games.getSelectedValue().toString(), tf_installPath.getText());
             }
 
             if (tf_parameters.getText().length() > 0) {
+                tempParams.put(lst_games.getSelectedValue().toString(), tf_parameters.getText());
+            } else {
                 tempParams.put(lst_games.getSelectedValue().toString(), tf_parameters.getText());
             }
         }
@@ -292,6 +300,11 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         pnl_settings.add(lbl_params, gridBagConstraints);
 
         tf_parameters.setEnabled(false);
+        tf_parameters.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                tf_parametersCaretUpdate(evt);
+            }
+        });
         tf_parameters.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tf_parametersActionPerformed(evt);
@@ -415,7 +428,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                         if (returnVal == FileChooser.SELECT_ACTION) {
                             File file = mfc.getSelectedFile();
                             tf_exePath.setText(file.getAbsolutePath());
-                            //saveTempData();
+                        //saveTempData();
                         }//else cancelled
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
@@ -440,6 +453,14 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 GameDatabase.setAdditionalParameters(ID, tempParams.get(gamename));
             }
             GameDatabase.saveLocalPaths();
+            for (String gamename : tempExePath.keySet()) {
+                ChannelPanel cp = TabOrganizer.getChannelPanel(gamename);
+                if (cp != null) {
+                    cp.setLaunchable(true);
+                }
+            }
+
+            Globals.getClientFrame().refreshInstalledGames();
             Globals.closeManageGamesFrame();
         }
 }//GEN-LAST:event_btn_saveActionPerformed
@@ -461,7 +482,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                         if (returnVal == FileChooser.SELECT_ACTION) {
                             File file = mfc.getSelectedFile();
                             tf_installPath.setText(file.getAbsolutePath());
-                            //saveTempData();
+                        //saveTempData();
                         }//else cancelled
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
@@ -612,6 +633,10 @@ private void tf_exePathCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRS
         tempExePath.put(lst_games.getSelectedValue().toString(), tf_exePath.getText());
     }
 }//GEN-LAST:event_tf_exePathCaretUpdate
+
+private void tf_parametersCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tf_parametersCaretUpdate
+    tempParams.put(lst_games.getSelectedValue().toString(), tf_parameters.getText());
+}//GEN-LAST:event_tf_parametersCaretUpdate
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_browseInstallPath;
