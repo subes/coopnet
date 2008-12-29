@@ -53,7 +53,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     <GameData>
         <GameName>Age of Empires 2</GameName>
         <ChannelID>AE2</ChannelID>
-        <LaunchMethod>DIRECTPLAY_FORCED_COMPATIBILITY</LaunchMethod>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{FB69A260-5031-11d3-A2D4-006097BA6550}</PropertyValue>
@@ -65,7 +65,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     <GameData>
         <GameName>Heroes of Might and Magic III</GameName>
         <ChannelID>HM3</ChannelID>
-        <LaunchMethod>DIRECTPLAY_FORCED_COMPATIBILITY</LaunchMethod>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{8b743aa0-53b2-11d2-808a-00600895fb43}</PropertyValue>
@@ -77,7 +77,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     <GameData>
         <GameName>Heroes of Might and Magic III: Armageddon's Blade</GameName>
         <ChannelID>HMA</ChannelID>
-        <LaunchMethod>DIRECTPLAY_FORCED_COMPATIBILITY</LaunchMethod>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{19BD0A20-5B10-11D3-B7C6-005004B1F94B}</PropertyValue>
@@ -413,7 +413,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     <GameData>
         <GameName>Total Annihilation</GameName>
         <ChannelID>127</ChannelID>
-        <LaunchMethod>DIRECTPLAY_FORCED_COMPATIBILITY</LaunchMethod>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{99797420-F5F5-11CF-9827-00A0241496C8}</PropertyValue>
