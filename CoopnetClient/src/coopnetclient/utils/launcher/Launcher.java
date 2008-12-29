@@ -37,7 +37,7 @@ import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
 public class Launcher {
     
     private static boolean isInitialized;
-    private static boolean isPlaying;
+    private static String launchedGame;
     private static LaunchHandler launchHandler;
     
     public static boolean isInitialized(){
@@ -45,7 +45,11 @@ public class Launcher {
     }
     
     public static boolean isPlaying(){
-        return isPlaying;
+        return launchedGame == null;
+    }
+
+    public static String getLaunchedGame(){
+        return launchedGame;
     }
     
     public static void initialize(LaunchInfo launchInfo){
@@ -59,7 +63,7 @@ public class Launcher {
             launchHandler = new ParameterLaunchHandler();
         }
 
-        if(!isPlaying){
+        if(!isPlaying()){
             synchronized(launchHandler){
                 isInitialized = launchHandler.initialize(launchInfo);
 
@@ -89,7 +93,7 @@ public class Launcher {
     }
     
     public static boolean predictSuccessfulLaunch(){
-        if(isPlaying){
+        if(isPlaying()){
             return true;
         }else
         if(!isInitialized ){
@@ -105,7 +109,7 @@ public class Launcher {
     public static void launch(){        
         if(isInitialized()){
             synchronized(launchHandler){
-                isPlaying = true;
+                launchedGame = launchHandler.getGameName();
 
                 Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
                                 "Launching game ...", 
@@ -127,7 +131,7 @@ public class Launcher {
                                 "Game closed.", 
                                 ChatStyles.SYSTEM,false);
 
-                isPlaying = false;
+                launchedGame = null;
             }
         }else{
             throw new IllegalStateException("The game has to be initialized before launching it!");

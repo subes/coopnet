@@ -103,7 +103,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
     }
 
     @Override
-    public String getBinaryName() {
+    protected String getBinaryName() {
         return binary;
     }
 }
