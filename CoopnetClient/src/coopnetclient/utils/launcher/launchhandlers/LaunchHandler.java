@@ -24,6 +24,8 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.Settings;
+import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -31,12 +33,16 @@ import javax.swing.JOptionPane;
 public abstract class LaunchHandler {
     
     private boolean firstInitDone = false;
+    private LaunchInfo launchInfo;
     
     public boolean initialize(LaunchInfo launchInfo){
         if(firstInitDone){
             updatePlayerName();
         }
         firstInitDone = true;
+
+        this.launchInfo = launchInfo;
+
         return doInitialize(launchInfo);
     }
     protected abstract boolean doInitialize(LaunchInfo launchInfo);
@@ -86,7 +92,11 @@ public abstract class LaunchHandler {
     public boolean processExists(){
         String pgrepCommand;
         if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
-            pgrepCommand = "pgrep";
+            if(launchInfo instanceof DirectPlayLaunchInfo){
+                pgrepCommand = Globals.getWineCommand() + " lib\\winpgrep.exe";
+            }else{
+                pgrepCommand = "pgrep";
+            }
         }else{
             pgrepCommand = "lib\\winpgrep.exe";
         }

@@ -59,7 +59,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             String command = "";
             
             if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
-                command += Settings.getWineCommand();
+                command += Globals.getWineCommand();
             }
             
             command += " lib/jdplay.exe" +

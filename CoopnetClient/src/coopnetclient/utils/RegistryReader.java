@@ -38,7 +38,7 @@ public class RegistryReader {
         String command = "";
 
         if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
-            command += Settings.getWineCommand();
+            command += Globals.getWineCommand();
         }
 
         command += " lib/registryreader.exe";

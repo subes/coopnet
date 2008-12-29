@@ -57,6 +57,7 @@ public class Globals {
     //Set via static{}
     private static OperatingSystems operatingSystem;
     private static String lastOpenedDir;
+    private static final String wineCommand;
     //Preset value
     private static boolean debug = false;
     private static final String clientVersion = "0.100.0";
@@ -146,6 +147,12 @@ public class Globals {
                         }
                     });
         }
+
+        wineCommand = Settings.getWineCommand();
+    }
+
+    public static String getWineCommand(){
+        return wineCommand;
     }
 
     public static TransferTableModel getTransferModel(){

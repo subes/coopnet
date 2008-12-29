@@ -96,7 +96,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         cb_TextNotification.setSelected(Settings.getContactStatusChangeTextNotification());
         cb_SoundNotification.setSelected(Settings.getContactStatusChangeSoundNotification());
                 
-        tf_dplayEnv.setText(coopnetclient.utils.Settings.getWineCommand());
+        tf_dplayEnv.setText(Globals.getWineCommand());
         tf_transferPort.setText(coopnetclient.utils.Settings.getFiletTansferPort()+"");
 
         if(coopnetclient.utils.Settings.getAutoLogin()){
