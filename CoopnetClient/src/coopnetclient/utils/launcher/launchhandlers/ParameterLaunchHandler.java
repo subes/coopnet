@@ -53,69 +53,37 @@ public class ParameterLaunchHandler extends LaunchHandler {
     }
 
     @Override
-    public boolean launch() {
-
-        boolean ret = false;
-        boolean doNormalLaunch = true;
-
-        //Detect if executable is already running
-        if(processExists()){
-
-            JOptionPane.showMessageDialog(null,
-                    "<html>Coopnet has detected that the game \"<b>"+binary+"</b>\" is already running.<br>" +
-                    "Please make sure the other players can <b>connect to a running server</b> there<br>" +
-                    "or <b>close the game</b> before confirming this message.<br>" +
-                    "<br>" +
-                    "<br>If the game is still running after you have confirmed this message," +
-                    "<br>Coopnet will launch everyone in your room except you.",
-                    "WARNING: Game is already running",
-                    JOptionPane.WARNING_MESSAGE);
-            
-            doNormalLaunch = !processExists();
-        }
+    protected boolean doLaunch() {
 
         if(Globals.getGameSettingsFrame() != null && launchInfo.getIsHost()){
             Globals.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(false);
         }
-        if(doNormalLaunch){
-            Process p = null;
+
+        Process p = null;
+        try {
+            Runtime rt = Runtime.getRuntime();
+
+            Logger.log(LogTypes.LAUNCHER, launchInfo.getBinaryPath() + launchInfo.getParameters());
+
+            File installdir = new File(launchInfo.getInstallPath());
+            p = rt.exec(launchInfo.getBinaryPath() + launchInfo.getParameters(), null, installdir);
+
             try {
-                Runtime rt = Runtime.getRuntime();
-
-                Logger.log(LogTypes.LAUNCHER, launchInfo.getBinaryPath() + launchInfo.getParameters());
-
-                File installdir = new File(launchInfo.getInstallPath());
-                p = rt.exec(launchInfo.getBinaryPath() + launchInfo.getParameters(), null, installdir);
-
-                try {
-                    p.waitFor();
-                } catch (InterruptedException ex) {
-                }
-            } catch (IOException e) {
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                        "Error while launching: " + e.getMessage(),
-                        ChatStyles.SYSTEM, false);
-                Logger.log(e);
+                p.waitFor();
+            } catch (InterruptedException ex) {
             }
-
-            ret = (p.exitValue() == 0 ? true : false);
-        }else{
-            while(processExists()){
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException ex) {
-                    Logger.log(ex);
-                }
-            }
-
-            ret = true;
+        } catch (IOException e) {
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                    "Error while launching: " + e.getMessage(),
+                    ChatStyles.SYSTEM, false);
+            Logger.log(e);
         }
 
         if(Globals.getGameSettingsFrame() != null && launchInfo.getIsHost()){
             Globals.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(true);
         }
 
-        return ret;
+        return (p.exitValue() == 0 ? true : false);
     }
 
     @Override
@@ -138,33 +106,8 @@ public class ParameterLaunchHandler extends LaunchHandler {
         return ret;
     }
 
-    public boolean processExists(){
-
-        String pgrepCommand;
-        if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
-            pgrepCommand = "pgrep";
-        }else{
-            pgrepCommand = "lib\\winpgrep.exe";
-        }
-
-        try {
-            String command = pgrepCommand + " " + binary;
-
-            Logger.log(LogTypes.LAUNCHER, command);
-
-            Process p = Runtime.getRuntime().exec(command);
-            try {
-                p.waitFor();
-            } catch (InterruptedException ex) {
-                Logger.log(ex);
-            }
-
-            return p.exitValue() == 0;
-
-        } catch (IOException ex) {
-            Logger.log(ex);
-        }
-
-        return false;
+    @Override
+    public String getBinaryName() {
+        return binary;
     }
 }

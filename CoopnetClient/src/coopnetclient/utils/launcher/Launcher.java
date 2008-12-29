@@ -50,7 +50,7 @@ public class Launcher {
     
     public static void initialize(LaunchInfo launchInfo){
 
-        TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getChildName());
+        TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getModName());
 
         if(launchInfo instanceof DirectPlayLaunchInfo){
             launchHandler = new JDPlayLaunchHandler();
@@ -64,7 +64,7 @@ public class Launcher {
                 isInitialized = launchHandler.initialize(launchInfo);
 
                 if(TabOrganizer.getRoomPanel() != null){
-                    int numSettings = GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size();
+                    int numSettings = GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getModName()).size();
                     if(isInitialized && numSettings == 0){
                         TabOrganizer.getRoomPanel().initDone();
                     }else{
@@ -77,8 +77,8 @@ public class Launcher {
                 if(!launchInfo.getIsInstantLaunch()
                     && TabOrganizer.getRoomPanel()!= null
                     && TabOrganizer.getRoomPanel().isHost()
-                    && GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() > 0){
-                    Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getChildName(),launchInfo.getIsHost());
+                    && GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getModName()).size() > 0){
+                    Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getModName(),launchInfo.getIsHost());
                 }
             }
         }else{

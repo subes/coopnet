@@ -55,7 +55,7 @@ public class ParameterLaunchInfo extends LaunchInfo {
         String ret = parameters;
         
         ret = ret.replace("{HOSTIP}", this.getHostIP());
-        if(GameDatabase.getNoSpacesFlag(getGameName(), getChildName())){
+        if(GameDatabase.getNoSpacesFlag(getGameName(), getModName())){
             ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName().replace(" ", "_"));
         }else{
             ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName());

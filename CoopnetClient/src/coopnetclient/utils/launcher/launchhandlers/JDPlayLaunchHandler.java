@@ -26,9 +26,11 @@ import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.clientframe.tabs.RoomPanel;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.RegistryReader;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.Settings;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -41,6 +43,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     private static BufferedReader in;
     
     private DirectPlayLaunchInfo launchInfo;
+    private String binary;
     
     @Override
     public boolean doInitialize(LaunchInfo launchInfo) {
@@ -85,6 +88,9 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                 return false;
             }   
         }
+
+        String regPath = GameDatabase.getRegEntry(launchInfo.getGameName(), launchInfo.getModName()).get(0);
+        binary = RegistryReader.read(regPath.substring(0, regPath.lastIndexOf("\\")+1)+"File");
         
         if(!(launchInfo instanceof DirectPlayLaunchInfo)){
             throw new IllegalArgumentException("expected launchInfo to be "+DirectPlayLaunchInfo.class.toString()+", but got "+launchInfo.getClass().toString());
@@ -105,9 +111,9 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     }
 
     @Override
-    public boolean launch() {
+    protected boolean doLaunch() {
 
-        if (!write("LAUNCH doSearch:" + launchInfo.getCompatibility())){
+        if (!write("LAUNCH doSearch:" + true)){
             return false;
         }
         
@@ -284,8 +290,8 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     }
 
     @Override
-    public boolean processExists() {
-        return false;
+    public String getBinaryName() {
+        return binary;
     }
 
 }

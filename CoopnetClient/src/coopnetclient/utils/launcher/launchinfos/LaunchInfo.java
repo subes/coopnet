@@ -41,7 +41,7 @@ public abstract class LaunchInfo {
         return gameName;
     }
     
-    public String getChildName(){
+    public String getModName(){
         return childName;
     }
     
