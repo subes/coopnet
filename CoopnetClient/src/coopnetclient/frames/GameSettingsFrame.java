@@ -66,7 +66,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     private String modname;
     private String roomname,  password;
     private int modindex,  maxPlayers;
-    private boolean compatible,  isInstant,  isHost;
+    private boolean  isInstant,  isHost;
 
     /** Creates new form GameSettingsPanel */
     public GameSettingsFrame(String gamename, String modname, boolean isHost) {
@@ -94,7 +94,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }
 
     /** Creates new form GameSettingsPanel */
-    public GameSettingsFrame(String gamename, String modname, String roomname, String password, int modindex, int maxPlayers, boolean compatible) {
+    public GameSettingsFrame(String gamename, String modname, String roomname, String password, int modindex, int maxPlayers) {
         initComponents();
         isInstant = true;
         isHost = true;
@@ -104,7 +104,6 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         this.password = password;
         this.modindex = modindex;
         this.maxPlayers = maxPlayers;
-        this.compatible = compatible;
         btn_save.setText("Launch");
         customize();
         this.getRootPane().setDefaultButton(btn_save);
@@ -502,7 +501,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         e.printStackTrace();
     }
     if (btn_save.getText().equals("Launch")) {
-        Protocol.createRoom(gamename, roomname, modindex, password, maxPlayers, compatible, true);
+        Protocol.createRoom(gamename, roomname, modindex, password, maxPlayers, true);
         Globals.closeRoomCreationFrame();
         new Thread() {
 

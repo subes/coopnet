@@ -200,29 +200,29 @@ public class Client {
         }
     }
 
-    public static void initInstantLaunch(final String game, final String mod, final String hostIP, final int maxPlayers, final boolean compatible, final boolean isHost, final String roomName, String password) {
+    public static void initInstantLaunch(final String gameName, final String mod, final String hostIP, final int maxPlayers, final boolean isHost, final String roomName, String password) {
         Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                 "Initializing game ...",
                 ChatStyles.SYSTEM, false);
 
         LaunchInfo launchInfo;
 
-        LaunchMethods method = GameDatabase.getLaunchMethod(game, mod);
+        LaunchMethods method = GameDatabase.getLaunchMethod(gameName, mod);
 
         if (method == LaunchMethods.PARAMETER) {
-            launchInfo = new ParameterLaunchInfo(game, mod, hostIP, isHost, true, roomName, password);
+            launchInfo = new ParameterLaunchInfo(gameName, mod, hostIP, isHost, true, roomName, password);
         } else if (method == LaunchMethods.CHAT_ONLY) {
-            throw new IllegalArgumentException("You can't launch from CHAT_ONLY channel! GameName: " + game + " ChildName: " + mod);
+            throw new IllegalArgumentException("You can't launch from CHAT_ONLY channel! GameName: " + gameName + " ChildName: " + mod);
         } else {
-            launchInfo = new DirectPlayLaunchInfo(game, mod, hostIP, isHost, true, compatible, password);
+            launchInfo = new DirectPlayLaunchInfo(gameName, mod, hostIP, isHost, true, password);
         }
 
         Launcher.initialize(launchInfo);
 
         if (!Launcher.isInitialized()) {
             Protocol.closeRoom();
-            Protocol.gameClosed(game);
-            TabOrganizer.getChannelPanel(game).enablebuttons();
+            Protocol.gameClosed(gameName);
+            TabOrganizer.getChannelPanel(gameName).enablebuttons();
         }
     }
 

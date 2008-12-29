@@ -159,15 +159,14 @@ public class CommandHandler {
                 case JOIN_ROOM:
                     TabOrganizer.openRoomPanel(false,
                             currentChannelName, //channel
-                            information[5],//modindex
+                            information[4],//modindex
                             information[1],//ip
-                            information[2].equals("true"),//compatible
-                            information[3],//hamachip
-                            new Integer(information[4]),//maxplayers
-                            information[6],//hostname
-                            information[7],//roomname
-                            information[8],//roomID
-                            information[9]); //password
+                            information[2],//hamachip
+                            new Integer(information[3]),//maxplayers
+                            information[5],//hostname
+                            information[6],//roomname
+                            information[7],//roomID
+                            information[8]); //password
                     break;
                 case MUTE_BAN_LIST:
                     int i = 0;
@@ -205,15 +204,14 @@ public class CommandHandler {
                 case CREATE_ROOM:
                     TabOrganizer.openRoomPanel(true,
                             currentChannelName,
-                            information[3],//modindex
+                            information[2],//modindex
                             "",//ip
-                            information[1].equals("true"),//compatible
                             "",//hamachi ip
-                            new Integer(information[2]),//maxplayers
+                            new Integer(information[1]),//maxplayers
                             Globals.getThisPlayer_loginName(),
-                            information[4],//roomname
-                            information[5],//roomid
-                            information[6]);//password
+                            information[3],//roomname
+                            information[4],//roomid
+                            information[5]);//password
                     break;
                 case LEAVE_ROOM:
                     TabOrganizer.closeRoomPanel();
@@ -414,7 +412,8 @@ public class CommandHandler {
 
                         @Override
                         public void run() {
-                            Client.initInstantLaunch(tmp[0], GameDatabase.getModByIndex(tmp[0], new Integer(tmp[1])), tmp[2], new Integer(tmp[3]), tmp[4].equals("true"), false,tmp[5],tmp[6]);
+                            String gameName = GameDatabase.getGameName(tmp[0]);
+                            Client.initInstantLaunch(gameName,GameDatabase.getModByIndex(gameName, new Integer(tmp[1])) , tmp[2] ,Integer.valueOf(tmp[3]) , false ,"", tmp[4]);
                             Client.instantLaunch(tmp[0]);
                         }
                     }.start();

@@ -23,7 +23,6 @@ import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.enums.LaunchMethods;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import java.awt.event.ActionEvent;
@@ -52,9 +51,6 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         } else {
             cmb_mod.setVisible(false);
             lbl_mod.setVisible(false);
-        }
-        if (GameDatabase.getLaunchMethod(channel, null) != LaunchMethods.DIRECTPLAY) {
-            cb_compatibility.setVisible(false);
         }
         if (!GameDatabase.isInstantLaunchable(channel)) {
             cb_instantroom.setVisible(false);
@@ -103,7 +99,6 @@ public class CreateRoomFrame extends javax.swing.JFrame {
 
         pnl_input = new javax.swing.JPanel();
         tf_name = new javax.swing.JTextField();
-        cb_compatibility = new javax.swing.JCheckBox();
         lbl_name = new javax.swing.JLabel();
         lbl_password = new javax.swing.JLabel();
         lbl_maxPlayers = new javax.swing.JLabel();
@@ -134,11 +129,6 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             }
         });
 
-        cb_compatibility.setMnemonic(KeyEvent.VK_A);
-        cb_compatibility.setText("Compatibility mode");
-        cb_compatibility.setToolTipText("Launching will be slower but allows cooperation with already existing lobby made by other application");
-        cb_compatibility.setNextFocusableComponent(cb_instantroom);
-
         lbl_name.setDisplayedMnemonic(KeyEvent.VK_N);
         lbl_name.setLabelFor(tf_name);
         lbl_name.setText("Name:");
@@ -160,15 +150,12 @@ public class CreateRoomFrame extends javax.swing.JFrame {
 
         spn_maxPlayers.setModel(new javax.swing.SpinnerNumberModel(0, 0, 999, 1));
         spn_maxPlayers.setToolTipText("The maximum number of players. 0 = infinite");
-        spn_maxPlayers.setNextFocusableComponent(cb_compatibility);
 
         lbl_limitNote.setText("( 0 == infinite )");
 
         lbl_mod.setDisplayedMnemonic(KeyEvent.VK_O);
         lbl_mod.setLabelFor(cmb_mod);
         lbl_mod.setText("Mod:");
-
-        cmb_mod.setNextFocusableComponent(cb_compatibility);
 
         cb_instantroom.setMnemonic(KeyEvent.VK_I);
         cb_instantroom.setText("Instant room");
@@ -205,13 +192,12 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                         .addComponent(lbl_mod)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cb_compatibility)
-                            .addComponent(cmb_mod, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cb_instantroom))))
+                            .addComponent(cb_instantroom)
+                            .addComponent(cmb_mod, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(10, Short.MAX_VALUE))
         );
 
-        pnl_inputLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cb_compatibility, cb_instantroom, cmb_mod, pf_password, tf_name});
+        pnl_inputLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cb_instantroom, cmb_mod, pf_password, tf_name});
 
         pnl_inputLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lbl_maxPlayers, lbl_mod, lbl_name, lbl_password});
 
@@ -237,11 +223,9 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_mod)
                     .addComponent(cmb_mod, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cb_compatibility)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cb_instantroom)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pnl_inputLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_name, tf_name});
@@ -304,17 +288,17 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         btn_create.setEnabled(false);
         if (btn_create.getText().equals("Create")) {
             //normal lobby stuff
-            Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(), cb_instantroom.isSelected());
+            Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(),  cb_instantroom.isSelected());
             Globals.closeRoomCreationFrame();
         } else if (btn_create.getText().equals("Launch")) {
             //simple instantlaunch
-            Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(), true);
+            Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(), true);
             Globals.closeRoomCreationFrame();
             new Thread() {
                 @Override
                 public void run() {
                     try {
-                        Client.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(),true,tf_name.getText(),passw);
+                        Client.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), true,tf_name.getText(),passw);
                         Client.instantLaunch(channel);
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
@@ -334,8 +318,8 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     try {
-                        Client.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected(),true,tf_name.getText(),passw);
-                        Globals.openGameSettingsFrame(channel, finalmodname, tf_name.getText(), passw, modindex, (Integer) spn_maxPlayers.getValue(), cb_compatibility.isSelected());
+                        Client.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), true,tf_name.getText(),passw);
+                        Globals.openGameSettingsFrame(channel, finalmodname, tf_name.getText(), passw, modindex, (Integer) spn_maxPlayers.getValue());
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
                     }
@@ -371,7 +355,6 @@ private void cb_instantroomActionPerformed(java.awt.event.ActionEvent evt) {//GE
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_create;
-    private javax.swing.JCheckBox cb_compatibility;
     private javax.swing.JCheckBox cb_instantroom;
     private javax.swing.JComboBox cmb_mod;
     private javax.swing.JLabel lbl_limitNote;

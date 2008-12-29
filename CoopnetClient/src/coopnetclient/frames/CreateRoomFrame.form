@@ -87,9 +87,8 @@
                           <Component id="lbl_mod" linkSize="4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="cb_compatibility" linkSize="3" alignment="0" min="-2" max="-2" attributes="1"/>
-                              <Component id="cmb_mod" linkSize="3" alignment="0" min="-2" pref="350" max="-2" attributes="1"/>
                               <Component id="cb_instantroom" linkSize="3" alignment="0" min="-2" max="-2" attributes="1"/>
+                              <Component id="cmb_mod" linkSize="3" alignment="0" min="-2" pref="350" max="-2" attributes="1"/>
                           </Group>
                       </Group>
                   </Group>
@@ -125,11 +124,9 @@
                       <Component id="lbl_mod" linkSize="8" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cmb_mod" linkSize="8" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="cb_compatibility" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="cb_instantroom" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="25" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -145,18 +142,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_nameActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JCheckBox" name="cb_compatibility">
-          <Properties>
-            <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="KeyEvent.VK_A" type="code"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Compatibility mode"/>
-            <Property name="toolTipText" type="java.lang.String" value="Launching will be slower but allows cooperation with already existing lobby made by other application"/>
-            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="cb_instantroom"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_name">
           <Properties>
@@ -207,9 +192,6 @@
               <SpinnerModel initial="0" maximum="999" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="The maximum number of players. 0 = infinite"/>
-            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="cb_compatibility"/>
-            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_limitNote">
@@ -232,9 +214,6 @@
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
-            </Property>
-            <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="cb_compatibility"/>
             </Property>
           </Properties>
         </Component>

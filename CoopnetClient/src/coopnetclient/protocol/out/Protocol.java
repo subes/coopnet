@@ -46,7 +46,7 @@ public class Protocol {
     public static final String HEARTBEAT = "\u2665";
 
     //Increment this, when changes to the protocol commands have been done
-    public static final int PROTOCOL_VERSION = 1;
+    public static final int PROTOCOL_VERSION = 2;
     
     static{
         try{
@@ -136,8 +136,8 @@ public class Protocol {
         new Message(ClientProtocolCommands.CANCEL_FILE, info);
     }
 
-    public static void createRoom(String channelName, String name, int modIndex, String password, int maxPlayers, boolean compatible, boolean instantLaunch) {
-        String[] info = {GameDatabase.getIDofGame(channelName), name, password, String.valueOf(maxPlayers), String.valueOf(compatible), String.valueOf(instantLaunch), Client.getHamachiAddress(), String.valueOf(modIndex)};
+    public static void createRoom(String channelName, String name, int modIndex, String password, int maxPlayers, boolean instantLaunch) {
+        String[] info = {GameDatabase.getIDofGame(channelName), name, password, String.valueOf(maxPlayers), String.valueOf(instantLaunch), Client.getHamachiAddress(), String.valueOf(modIndex)};
         new Message(ClientProtocolCommands.CREATE_ROOM, info);
     }
 

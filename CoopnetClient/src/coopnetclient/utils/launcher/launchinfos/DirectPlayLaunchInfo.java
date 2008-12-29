@@ -24,20 +24,13 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 public class DirectPlayLaunchInfo extends LaunchInfo {
     
     private String gameGUID;
-    private boolean compatibility;
     
-    public DirectPlayLaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch, boolean compatibility,String password){
+    public DirectPlayLaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch, String password){
         super(gameName, childName, hostIP, isHost, isInstantLaunch,password);
-        
         this.gameGUID = GameDatabase.getGuid(gameName, childName);
-        this.compatibility = compatibility;
     }
     
     public String getGameGUID(){
         return gameGUID;
-    }
-    
-    public boolean getCompatibility(){
-        return compatibility;
     }
 }

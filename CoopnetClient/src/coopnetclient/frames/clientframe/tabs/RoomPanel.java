@@ -54,7 +54,6 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     private LaunchInfo launchInfo;
     
     private boolean isHost = false;
-    private boolean compatible = true;
     private SortedListModel users;
     private PlayerListPopupMenu popup;
     public String gameName;
@@ -71,7 +70,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     private boolean wasReadyBeforeReInit = false;
 
-    public RoomPanel(boolean isHost, String channel, String modindex, String hostIP, boolean compatible, String hamachiIp, int maxPlayers,String hostName,String roomName,String ID,String password) {
+    public RoomPanel(boolean isHost, String channel, String modindex, String hostIP, String hamachiIp, int maxPlayers,String hostName,String roomName,String ID,String password) {
         this.gameName = channel;
         this.maxPlayers = maxPlayers;
         this.isHost = isHost;
@@ -83,7 +82,6 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         this.ID = ID;
         this.password = password;
         users.add(Globals.getThisPlayer_loginName());
-        this.compatible = compatible;
 
         initComponents();
 
@@ -156,7 +154,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                     if(method == LaunchMethods.PARAMETER){
                         launchInfo = new ParameterLaunchInfo(gameName, childName, ip, isHost, false,roomName,password);
                     }else{
-                        launchInfo = new DirectPlayLaunchInfo(gameName, childName, ip, isHost, false, compatible,password);
+                        launchInfo = new DirectPlayLaunchInfo(gameName, childName, ip, isHost, false, password);
                     }
 
                     Launcher.initialize(launchInfo);
