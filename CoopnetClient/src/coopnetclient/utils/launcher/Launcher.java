@@ -45,7 +45,7 @@ public class Launcher {
     }
     
     public static boolean isPlaying(){
-        return launchedGame == null;
+        return launchedGame != null;
     }
 
     public static String getLaunchedGame(){

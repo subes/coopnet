@@ -36,6 +36,7 @@ import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.frames.renderers.RoomNameRenderer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.UserListFileDropHandler;
+import coopnetclient.utils.launcher.Launcher;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -192,9 +193,18 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     }
 
     public void enablebuttons() {
-        if (this.isLaunchable && TabOrganizer.getRoomPanel() == null) {
-            btn_create.setEnabled(true);
-            btn_join.setEnabled(true);
+        if(this.isLaunchable){
+            if(Launcher.isPlaying()){
+                 if(TabOrganizer.getRoomPanel()==null && Launcher.getLaunchedGame().equals(name)){
+                    btn_create.setEnabled(true);
+                    btn_join.setEnabled(true);
+                 }
+            }else{
+                if(TabOrganizer.getRoomPanel()==null){
+                    btn_create.setEnabled(true);
+                    btn_join.setEnabled(true);
+                }
+            }
         }
     }
 
