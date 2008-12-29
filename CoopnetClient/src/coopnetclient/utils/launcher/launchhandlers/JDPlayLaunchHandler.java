@@ -124,7 +124,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
         String[] toRead = {"FOUND", "NOTFOUND"};
         if(read(toRead) == 1){
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "Launch failed! Found no session to join! The host maybe failed to launch or his firewall blocked you.",
+                    "Launch failed! Found no session to join! The host maybe failed to launch or a firewall blocked your join attempt.",
                     ChatStyles.SYSTEM,false);
                 return false;
         }
