@@ -131,6 +131,10 @@ public class Launcher {
                                 "Game closed.", 
                                 ChatStyles.SYSTEM,false);
 
+                for (int i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
+                    TabOrganizer.getChannelPanel(i).enablebuttons();
+                }
+
                 launchedGame = null;
             }
         }else{
