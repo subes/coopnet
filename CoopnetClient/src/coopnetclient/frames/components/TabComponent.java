@@ -27,6 +27,9 @@ import javax.swing.JLabel;
 
 public class TabComponent extends javax.swing.JPanel {
 
+    //TODO: If we ever use the isCurrentlyClosable dynamically,
+    //we have to implement a way to update the close button visibility
+
     ClosableTab closeMe;
 
     /** Creates new form TabComponent */

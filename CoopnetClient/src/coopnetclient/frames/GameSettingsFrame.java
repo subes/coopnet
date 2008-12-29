@@ -57,6 +57,11 @@ public class GameSettingsFrame extends javax.swing.JFrame {
 
     private ArrayList<JLabel> labels = new ArrayList<JLabel>();
     private ArrayList<Component> inputfields = new ArrayList<Component>();
+    
+    private boolean[] enabledInputfieldsBeforeDisable;
+    private boolean mapsEnabledBeforeDisable;
+    private boolean lastEnableAction = true;
+
     private String gamename;
     private String modname;
     private String roomname,  password;
@@ -116,6 +121,32 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         pack();
 
         btn_close.setEnabled(false);
+    }
+
+    public void setEnabledOfGameSettingsFrameSettings(boolean enabled){
+        if(!enabled && lastEnableAction){
+            enabledInputfieldsBeforeDisable = new boolean[inputfields.size()];
+            for(int i = 0; i < enabledInputfieldsBeforeDisable.length; i++){
+                enabledInputfieldsBeforeDisable[i] = inputfields.get(i).isEnabled();
+                inputfields.get(i).setEnabled(false);
+            }
+            mapsEnabledBeforeDisable = cb_map.isEnabled();
+            cb_map.setEnabled(false);
+        }else
+        if(enabled && !lastEnableAction){
+            for(int i = 0; i < enabledInputfieldsBeforeDisable.length; i++){
+                if(enabledInputfieldsBeforeDisable[i]){
+                    inputfields.get(i).setEnabled(true);
+                }
+            }
+            if(mapsEnabledBeforeDisable){
+                cb_map.setEnabled(true);
+            }
+        }else{
+            throw new IllegalStateException("setEnabledOfGameSettingsFrameSettings should only supports toggle!");
+        }
+
+        lastEnableAction = enabled;
     }
 
     private void customize() {
@@ -464,7 +495,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
 
         if (!isInstant) {
-            TabOrganizer.getRoomPanel().initDone(false);
+            TabOrganizer.getRoomPanel().initDone();
         }
         
     } catch (Exception e) {

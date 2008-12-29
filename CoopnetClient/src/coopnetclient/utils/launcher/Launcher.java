@@ -61,19 +61,17 @@ public class Launcher {
 
             isInitialized = launchHandler.initialize(launchInfo);
 
-            boolean processExists = launchHandler.processExists();
-
             if(TabOrganizer.getRoomPanel() != null){
                 int numSettings = GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size();
-                if(isInitialized && (numSettings == 0 || isPlaying() || processExists)){
-                    TabOrganizer.getRoomPanel().initDone(processExists);
+                if(isInitialized && (numSettings == 0 || isPlaying())){
+                    TabOrganizer.getRoomPanel().initDone();
                 }else{
                     TabOrganizer.getRoomPanel().initDoneReadyDisabled();
                 }
             }
 
             if(launchInfo instanceof ParameterLaunchInfo){
-                if(!launchInfo.getIsInstantLaunch() && !isPlaying() && !processExists
+                if(!launchInfo.getIsInstantLaunch() && !isPlaying()
                     && TabOrganizer.getRoomPanel()!= null
                     && TabOrganizer.getRoomPanel().isHost()
                     && GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() > 0){

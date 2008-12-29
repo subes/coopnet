@@ -23,6 +23,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
@@ -54,10 +55,12 @@ public class ParameterLaunchHandler extends LaunchHandler {
     @Override
     public boolean launch() {
 
+        boolean ret = false;
         boolean doNormalLaunch = true;
 
         //Detect if executable is already running
         if(processExists()){
+
             JOptionPane.showMessageDialog(null,
                     "<html>Coopnet has detected that the game \"<b>"+binary+"</b>\" is already running.<br>" +
                     "Please make sure the other players can <b>connect to a running server</b> there<br>" +
@@ -71,6 +74,9 @@ public class ParameterLaunchHandler extends LaunchHandler {
             doNormalLaunch = !processExists();
         }
 
+        if(Globals.getGameSettingsFrame() != null && launchInfo.getIsHost()){
+            Globals.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(false);
+        }
         if(doNormalLaunch){
             Process p = null;
             try {
@@ -91,7 +97,8 @@ public class ParameterLaunchHandler extends LaunchHandler {
                         ChatStyles.SYSTEM, false);
                 Logger.log(e);
             }
-            return (p.exitValue() == 0 ? true : false);
+
+            ret = (p.exitValue() == 0 ? true : false);
         }else{
             while(processExists()){
                 try {
@@ -101,8 +108,14 @@ public class ParameterLaunchHandler extends LaunchHandler {
                 }
             }
 
-            return true;
+            ret = true;
         }
+
+        if(TabOrganizer.getRoomPanel() != null && launchInfo.getIsHost()){
+            Globals.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(true);
+        }
+
+        return ret;
     }
 
     @Override

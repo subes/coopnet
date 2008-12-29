@@ -308,11 +308,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         btn_launch.setEnabled(false);
     }
 
-    public void initDone(boolean processExists){
-        if(processExists){
-            btn_gameSettings.setEnabled(false);
-        }
-
+    public void initDone(){
         btn_ready.setText("Ready");
         btn_ready.setEnabled(true);
         if(wasReadyBeforeReInit){
