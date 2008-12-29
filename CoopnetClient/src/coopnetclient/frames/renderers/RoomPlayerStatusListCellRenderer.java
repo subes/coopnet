@@ -137,7 +137,11 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
                 setBackground(Color.green);
             }
         } else {
-            setBackground(Color.red);
+            if (playingList.contains(value.toString())) {
+                setBackground(Color.yellow);
+            } else {
+                setBackground(Color.red);
+            }
         }
         if (isSelected && !(value.toString().equals(Globals.getThisPlayer_loginName()))) {
             setText(" "+value.toString());
