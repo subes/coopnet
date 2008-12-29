@@ -105,19 +105,33 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             return false;
         }
 
-        boolean ret = waitForCommandResult();
-        
-        return ret;
+        String[] toRead = {"FIN", "ERR"};
+        int ret = read(toRead);
+        if(ret == 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
     protected boolean doLaunch() {
 
-        if (!write("LAUNCH doSearch:" + true)){
+        if (!write("LAUNCH")){
             return false;
         }
-        
-        boolean ret = waitForCommandResult();
+
+        String[] toRead = {"FOUND", "NOTFOUND"};
+        if(read(toRead) == 1){
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                    "Launch failed! Found no session to join! The host maybe failed to launch or his firewall blocked you.",
+                    ChatStyles.SYSTEM,false);
+                return false;
+        }
+
+        boolean ret;
+        String[] toRead2 = {"FIN", "ERR"};
+        ret = read(toRead2) == 0;
         
         if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
             try{
@@ -168,17 +182,6 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             reinitJDPlay();
             printError(e);
             return -1;
-        }
-    }
-    
-    private boolean waitForCommandResult(){
-        String[] toRead = {"FIN", "ERR"};
-        int ret = read(toRead);
-        
-        if(ret == 0){
-            return true;
-        }else{
-            return false;
         }
     }
     

@@ -20,11 +20,13 @@
 package coopnetclient.utils.launcher.launchhandlers;
 
 import coopnetclient.Globals;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
+import coopnetclient.utils.SoundPlayer;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import java.io.IOException;
@@ -74,6 +76,12 @@ public abstract class LaunchHandler {
 
             doNormalLaunch = !processExists();
         }
+
+        Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                                "Launching game, please wait ...",
+                                ChatStyles.SYSTEM,false);
+
+        SoundPlayer.playLaunchSound();
 
         Protocol.launch();
 

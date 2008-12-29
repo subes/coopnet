@@ -111,12 +111,6 @@ public class Launcher {
             synchronized(launchHandler){
                 launchedGame = launchHandler.getGameName();
 
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
-                                "Launching game ...", 
-                                ChatStyles.SYSTEM,false);
-
-                SoundPlayer.playLaunchSound();
-
                 if (Settings.getSleepEnabled()) {
                     Globals.setSleepModeStatus(true);
                 }
