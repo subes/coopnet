@@ -111,7 +111,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
             ret = true;
         }
 
-        if(TabOrganizer.getRoomPanel() != null && launchInfo.getIsHost()){
+        if(Globals.getGameSettingsFrame() != null && launchInfo.getIsHost()){
             Globals.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(true);
         }
 

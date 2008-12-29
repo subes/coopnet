@@ -21,7 +21,9 @@ package coopnetclient.utils.launcher;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.SoundPlayer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -46,8 +48,8 @@ public class Launcher {
         return isPlaying;
     }
     
-    public static void initialize(LaunchInfo launchInfo){        
-        
+    public static void initialize(LaunchInfo launchInfo){
+
         TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getChildName());
 
         if(launchInfo instanceof DirectPlayLaunchInfo){
@@ -57,32 +59,41 @@ public class Launcher {
             launchHandler = new ParameterLaunchHandler();
         }
 
-        synchronized(launchHandler){
+        if(!isPlaying){
+            synchronized(launchHandler){
+                isInitialized = launchHandler.initialize(launchInfo);
 
-            isInitialized = launchHandler.initialize(launchInfo);
-
-            if(TabOrganizer.getRoomPanel() != null){
-                int numSettings = GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size();
-                if(isInitialized && (numSettings == 0 || isPlaying())){
-                    TabOrganizer.getRoomPanel().initDone();
-                }else{
-                    TabOrganizer.getRoomPanel().initDoneReadyDisabled();
+                if(TabOrganizer.getRoomPanel() != null){
+                    int numSettings = GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size();
+                    if(isInitialized && numSettings == 0){
+                        TabOrganizer.getRoomPanel().initDone();
+                    }else{
+                        TabOrganizer.getRoomPanel().initDoneReadyDisabled();
+                    }
                 }
             }
 
             if(launchInfo instanceof ParameterLaunchInfo){
-                if(!launchInfo.getIsInstantLaunch() && !isPlaying()
+                if(!launchInfo.getIsInstantLaunch()
                     && TabOrganizer.getRoomPanel()!= null
                     && TabOrganizer.getRoomPanel().isHost()
                     && GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getChildName()).size() > 0){
                     Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getChildName(),launchInfo.getIsHost());
                 }
             }
+        }else{
+            if(TabOrganizer.getRoomPanel() != null){
+                TabOrganizer.getRoomPanel().initDone();
+            }
         }
     }
     
     public static boolean predictSuccessfulLaunch(){
-        if(!isInitialized){
+        if(isPlaying){
+            return true;
+        }else
+        if(!isInitialized ){
+            Logger.log(LogTypes.LAUNCHER, "predictSuccessfulLaunch() called while Launcher was not initialized!");
             return false;
         }else{
             synchronized(launchHandler){
