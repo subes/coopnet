@@ -509,8 +509,7 @@ private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         }
     }
     this.repaint();
-
-    lst_games.setSelectedIndex(-1);
+    lst_games.clearSelection();
 }//GEN-LAST:event_tf_filterActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
