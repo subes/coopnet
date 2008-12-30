@@ -53,8 +53,8 @@ import javax.swing.SwingUtilities;
 public class Globals {
 
     //Constants
-    public static final int JDPLAY_MAXSEARCHRETRIES = 10;
-    public static final int JDPLAY_SEARCHVALIDATIONCOUNT = 1;
+    public static final int JDPLAY_MAXSEARCHRETRIES = 20;
+    public static final int JDPLAY_SEARCHVALIDATIONCOUNT = 0;
     //Set via static{}
     private static OperatingSystems operatingSystem;
     private static String lastOpenedDir;
@@ -333,9 +333,7 @@ public class Globals {
             clientFrame = new ClientFrame();
             setupFrame(clientFrame);
         } else {
-            if (getDebug()) {
-                System.out.println("[W]\tClientFrame is supposed to be created only once!");
-            }
+            Logger.log(LogTypes.WARNING, "ClientFrame is supposed to be created only once!");
         }
     }
 
@@ -514,16 +512,12 @@ public class Globals {
         if (createRoomFrame != null) {
             createRoomFrame.dispose();
             createRoomFrame = null;
-            if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two RoomJoinFrames! Closing the other one. (openJoinRoomPasswordFrame)");
-            }
+            Logger.log(LogTypes.WARNING, "It shouldn't be possible to create two RoomJoinFrames! Closing the other one. (openJoinRoomPasswordFrame)");
         }
         if (roomJoinPasswordFrame != null) {
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
-            if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two roomJoinPasswordFrames! Closing the other one. (openJoinRoomPasswordFrame)");
-            }
+            Logger.log(LogTypes.WARNING, "It shouldn't be possible to create two roomJoinPasswordFrames! Closing the other one. (openJoinRoomPasswordFrame)");
         }
 
         roomJoinPasswordFrame = new JoinRoomPasswordFrame(roomHost, channel);
@@ -534,16 +528,12 @@ public class Globals {
         if (createRoomFrame != null) {
             createRoomFrame.dispose();
             createRoomFrame = null;
-            if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two createRoomFrames! Closing the other one. (openJoinRoomPasswordFrame)");
-            }
+            Logger.log(LogTypes.WARNING, "It shouldn't be possible to create two createRoomFrames! Closing the other one. (openJoinRoomPasswordFrame)");
         }
         if (roomJoinPasswordFrame != null) {
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
-            if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two roomJoinPasswordFrames! Closing the other one. (openJoinRoomPasswordFrame)");
-            }
+            Logger.log(LogTypes.WARNING, "It shouldn't be possible to create two roomJoinPasswordFrames! Closing the other one. (openJoinRoomPasswordFrame)");
         }
 
         roomJoinPasswordFrame = new JoinRoomPasswordFrame(ID);
@@ -560,16 +550,12 @@ public class Globals {
         if (createRoomFrame != null) {
             createRoomFrame.dispose();
             createRoomFrame = null;
-            if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two createRoomFrames! Closing the other one. (openCreateRoomFrame)");
-            }
+            Logger.log(LogTypes.WARNING, "It shouldn't be possible to create two createRoomFrames! Closing the other one. (openCreateRoomFrame)");
         }
         if (roomJoinPasswordFrame != null) {
             roomJoinPasswordFrame.dispose();
             roomJoinPasswordFrame = null;
-            if (getDebug()) {
-                System.out.println("[W]\tIt shouldn't be possible to create two roomJoinPasswordFrames! Closing the other one. (openCreateRoomFrame)");
-            }
+            Logger.log(LogTypes.WARNING, "It shouldn't be possible to create two roomJoinPasswordFrames! Closing the other one. (openCreateRoomFrame)");
         }
 
         createRoomFrame = new CreateRoomFrame(channel);

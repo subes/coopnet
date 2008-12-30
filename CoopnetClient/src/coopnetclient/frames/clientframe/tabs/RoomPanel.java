@@ -28,12 +28,14 @@ import coopnetclient.frames.models.SortedListModel;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
+import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.SoundPlayer;
 import coopnetclient.frames.renderers.RoomPlayerStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
+import coopnetclient.utils.Logger;
 import coopnetclient.utils.UserListFileDropHandler;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.hotkeys.Hotkeys;
@@ -551,12 +553,12 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     private void cb_useHamachiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_useHamachiActionPerformed
         displayReInit();
         if (cb_useHamachi.isSelected()) {
-            System.out.println("Hamachi support turning on");
+            Logger.log(LogTypes.LOG, "Hamachi support turning on");
             cb_useHamachi.setEnabled(false);
             initLauncher();
             cb_useHamachi.setEnabled(true);
         } else {
-            System.out.println("Hamachi support turning off");
+            Logger.log(LogTypes.LOG, "Hamachi support turning off");
             cb_useHamachi.setEnabled(false);
             initLauncher();
             cb_useHamachi.setEnabled(true);

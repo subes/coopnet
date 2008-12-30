@@ -19,11 +19,13 @@
 package coopnetclient.frames.models;
 
 import coopnetclient.Globals;
+import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.TransferStatuses;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.components.TransferStatusButtonComponent;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.FileTransferHandler;
+import coopnetclient.utils.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -116,7 +118,7 @@ public class TransferTableModel extends DefaultTableModel {
         if (t.status == TransferStatuses.Waiting) {
             t.handler.startRecieve();
         }else{
-            System.out.println("Cant accept file, bad status:" + t.status);
+            Logger.log(LogTypes.WARNING, "Cant accept file, bad status:" + t.status);
         }
         fireTableCellUpdated(index, 1);
     }

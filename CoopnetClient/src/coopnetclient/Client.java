@@ -21,6 +21,7 @@ package coopnetclient;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
+import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -252,9 +253,7 @@ public class Client {
                 br.close();
                 br = null;
                 server = temp.toString().trim();
-                if (Globals.getDebug()) {
-                    System.out.println("[L]\tServer address read: " + server);
-                }
+                Logger.log(LogTypes.LOG, "Server address read: " + server);
             } catch (Exception e) {
                 e.printStackTrace();
                 server = null;
@@ -298,9 +297,7 @@ public class Client {
                     lastversion = new Integer(parts[1]);
                     GameDatabase.loadVersion();
                     if (GameDatabase.version < lastversion) {
-                        if (Globals.getDebug()) {
-                            System.out.println("downloading new gamedata");
-                        }
+                        Logger.log(LogTypes.LOG, "Downloading new gamedata");
                         BufferedOutputStream bo = null;
                         File destfile = new File(GameDatabase.dataFilePath);
                         if (!destfile.createNewFile()) {

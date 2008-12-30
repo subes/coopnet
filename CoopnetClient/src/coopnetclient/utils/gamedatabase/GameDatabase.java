@@ -20,7 +20,9 @@ package coopnetclient.utils.gamedatabase;
 
 import coopnetclient.*;
 import coopnetclient.enums.LaunchMethods;
+import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.MapLoaderTypes;
+import coopnetclient.utils.Logger;
 import coopnetclient.utils.RegistryReader;
 import java.io.BufferedReader;
 import java.io.File;
@@ -356,9 +358,9 @@ public class GameDatabase {
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(dataFilePath));
-        } catch (FileNotFoundException ex) {
-            //ex.printStackTrace();            
-            System.out.println("Could not load gamedatabase");
+        } catch (FileNotFoundException ex) {         
+            Logger.log(LogTypes.ERROR, "Could not load gamedatabase");
+            Logger.log(ex);
             return;
         }
         //read version
@@ -368,21 +370,21 @@ public class GameDatabase {
             String[] parts = br.readLine().split(" ");
             version = new Integer(parts[1]);
         } catch (IOException ex) {
-            //ex.printStackTrace();
             version = 0;
-            System.out.println("Could not load gamedatabase");
+            Logger.log(LogTypes.ERROR, "Could not load gamedatabase");
+            Logger.log(ex);
             return;
         }
     }
 
     public static synchronized void load(String gamename, String datafilepath) {
         try {
-            System.out.println("loading gamedata from:" + datafilepath);
+            Logger.log(LogTypes.LOG, "Loading gamedata from:" + datafilepath);
             xmlReader.parseGameData(gamename, datafilepath, XMLReader.LOAD_GAMEDATA);
-            System.out.println("game database loaded");
+            Logger.log(LogTypes.LOG, "Game database loaded");
         } catch (Exception e) {
-            System.out.println("game database loading failed!");
-            e.printStackTrace();
+            Logger.log(LogTypes.ERROR, "Game database loading failed!");
+            Logger.log(e);
         }
     }
 
@@ -402,7 +404,8 @@ public class GameDatabase {
             br = new BufferedReader(new FileReader(localPathsFilePath));
 
         } catch (FileNotFoundException ex) {
-            System.out.println("Could not load localpaths");
+            Logger.log(LogTypes.ERROR, "Could not load localpaths");
+            Logger.log(ex);
             return;
         }
 
@@ -418,7 +421,8 @@ public class GameDatabase {
                     continue;
                 }
             } catch (IOException ex) {
-                System.out.println("Could not load localpaths");
+                Logger.log(LogTypes.ERROR, "Could not load localpaths");
+                Logger.log(ex);
                 return;
             }
 
@@ -439,7 +443,7 @@ public class GameDatabase {
             br.close();
         } catch (Exception e) {
         }
-        System.out.println("localpaths loaded");
+        Logger.log(LogTypes.LOG, "localpaths loaded");
     }
 
     public static void saveLocalPaths() {
@@ -447,7 +451,8 @@ public class GameDatabase {
         try {
             pw = new PrintWriter(new FileWriter(localPathsFilePath));
         } catch (Exception ex) {
-            System.out.println("Could not save gamedatabase");
+            Logger.log(LogTypes.ERROR, "Could not save gamedatabase");
+            Logger.log(ex);
         }
         for (String ID : IDtoGameName.keySet()) {
             String execpath = localExecutablePath.get(ID);
@@ -466,6 +471,6 @@ public class GameDatabase {
         }
         pw.flush();
         pw.close();
-        System.out.println("localpaths saved");
+        Logger.log(LogTypes.LOG, "localpaths saved");
     }
 }

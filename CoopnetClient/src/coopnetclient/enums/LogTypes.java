@@ -26,5 +26,6 @@ public enum LogTypes {
     HOTKEYS,
     IN,
     OUT,
-    ERROR
+    ERROR,
+    WARNING
 }

@@ -537,15 +537,7 @@ private void cmb_placesPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEve
 private void tf_currentDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_currentDirActionPerformed
     openDirectory(new File(tf_currentDir.getText()));
 }//GEN-LAST:event_tf_currentDirActionPerformed
-    /*
-    public static void main(String args[]) {
-    MyFileChooser mfc =new MyFileChooser(MyFileChooser.ANY_MODE);
-    int ret = mfc.choose(null);
-    File selected = mfc.getSelectedFile();
-    System.out.println("Selected: "+ selected);
-    System.out.println("Action: "+ ret);
-    }
-     */
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_select;

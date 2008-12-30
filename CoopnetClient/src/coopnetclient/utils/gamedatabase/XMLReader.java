@@ -19,6 +19,8 @@
 package coopnetclient.utils.gamedatabase;
 
 import coopnetclient.Globals;
+import coopnetclient.enums.LogTypes;
+import coopnetclient.utils.Logger;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -49,15 +51,15 @@ public class XMLReader {
                     @Override
                     public void run() {
                         try {
-                            System.out.println("detecting games");
+                            Logger.log(LogTypes.LOG, "Detecting games");
                             sp.parse(new File(loadFrom), new XmlHandler_DetectGames());
-                            System.out.println("done detecting games");
+                            Logger.log(LogTypes.LOG, "Done detecting games");
                             if(Globals.getClientFrame()!=null){
                                 Globals.getClientFrame().refreshInstalledGames();
                             }
                         } catch (Exception e) {
-                            System.out.println("game detecting failed!");
-                            e.printStackTrace();
+                            Logger.log(LogTypes.ERROR, "Game detection failed!");
+                            Logger.log(e);
                         }
                     }
                 }.start();

@@ -21,10 +21,12 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
+import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.MapLoaderTypes;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Colorizer;
+import coopnetclient.utils.Logger;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.TempGameSettings;
@@ -319,7 +321,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     private String[] loadFileMaps() {
         String extension = GameDatabase.getMapExtension(gamename, modname);
         String path = GameDatabase.getFullMapPath(gamename, modname);
-        System.out.println("loading maps from: " + path);
+        Logger.log(LogTypes.LOG, "Loading maps from: " + path);
         if (path.endsWith("\\") || path.endsWith("/")) {
             path = path.substring(0, path.length() - 1);
         }

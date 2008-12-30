@@ -68,11 +68,8 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             command += " lib/jdplay.exe" +
                  " --playerName " + playerName + 
                  " --maxSearchRetries " + Globals.JDPLAY_MAXSEARCHRETRIES +
-                 " --searchValidationCount " + Globals.JDPLAY_SEARCHVALIDATIONCOUNT;
-            
-            if(Globals.getDebug()){
-                command += " --debug";
-            }
+                 " --searchValidationCount " + Globals.JDPLAY_SEARCHVALIDATIONCOUNT +
+                 " --debug";
             
             //print exec string
             Logger.log(LogTypes.LAUNCHER, command);

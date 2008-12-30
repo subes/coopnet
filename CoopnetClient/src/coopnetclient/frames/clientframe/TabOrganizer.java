@@ -24,6 +24,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ErrorPanelStyle;
 import coopnetclient.enums.LaunchMethods;
+import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.tabs.BrowserPanel;
 import coopnetclient.frames.clientframe.tabs.ChannelPanel;
 import coopnetclient.frames.clientframe.tabs.ErrorPanel;
@@ -38,6 +39,7 @@ import coopnetclient.utils.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Icons;
+import coopnetclient.utils.Logger;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
@@ -214,9 +216,7 @@ public class TabOrganizer {
             roomPanel.initLauncher();
 
         } else {
-            if (Globals.getDebug()) {
-                System.out.println("[W]\tClose the current RoomPanel before opening a new one!");
-            }
+            Logger.log(LogTypes.WARNING, "Close the current RoomPanel before opening a new one!");
         }
     }
 
@@ -299,9 +299,7 @@ public class TabOrganizer {
             if (panel instanceof PrivateChatPanel) {
                 return (PrivateChatPanel) panel;
             } else {
-                if (Globals.getDebug()) {
-                    System.out.println("[W]\tThe Panel \"" + title + "\" is not a PrivateChatPanel!");
-                }
+                Logger.log(LogTypes.WARNING, "The Panel \"" + title + "\" is not a PrivateChatPanel!");
             }
         }
 
@@ -345,9 +343,7 @@ public class TabOrganizer {
                 tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Error",Icons.errorIconSmall,errorPanel) );
                 tabHolder.setSelectedComponent(errorPanel);
             } else {
-                if (Globals.getDebug()) {
-                    System.out.println("[W]\tWe don't need another error tab, this error may be caused by the first one!");
-                }
+                Logger.log(LogTypes.WARNING, "We don't need another error tab, this error may be caused by the first one!");
                 tabHolder.setSelectedComponent(errorPanel);
             }
         }
@@ -375,10 +371,8 @@ public class TabOrganizer {
                 }
             });
         } else {
-            if (Globals.getDebug()) {
-                System.out.println("[W]\tThere's an open LoginPanel already!");
-                tabHolder.setSelectedComponent(loginPanel);
-            }
+            Logger.log(LogTypes.WARNING, "There's already a LoginPanel !");
+            tabHolder.setSelectedComponent(loginPanel);
         }
     }
 
@@ -404,10 +398,8 @@ public class TabOrganizer {
                 }
             });
         } else {
-            if (Globals.getDebug()) {
-                System.out.println("[W]\tThere's an open LoginPanel already!");
-                tabHolder.setSelectedComponent(registerPanel);
-            }
+            Logger.log(LogTypes.WARNING, "There's an open LoginPanel already!");
+            tabHolder.setSelectedComponent(registerPanel);
         }
     }
 
@@ -433,10 +425,8 @@ public class TabOrganizer {
                 }
             });
         } else {
-            if (Globals.getDebug()) {
-                System.out.println("[W]\tThere's an open LoginPanel already!");
-                tabHolder.setSelectedComponent(passwordRecoveryPanel);
-            }
+            Logger.log(LogTypes.WARNING, "There's an open LoginPanel already!");
+            tabHolder.setSelectedComponent(passwordRecoveryPanel);
         }
     }
 

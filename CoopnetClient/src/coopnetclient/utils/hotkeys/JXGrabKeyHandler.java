@@ -28,7 +28,7 @@ import jxgrabkey.JXGrabKey;
 public class JXGrabKeyHandler extends HotkeyHandler implements HotkeyListenerDebugEnabled{
 
     public JXGrabKeyHandler() {
-        JXGrabKey.setDebugOutput(Globals.getDebug());
+        JXGrabKey.setDebugOutput(true);
         JXGrabKey.getInstance().addHotkeyListener(this);
     }
     

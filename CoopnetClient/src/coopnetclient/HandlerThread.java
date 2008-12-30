@@ -18,10 +18,12 @@
  */
 package coopnetclient;
 
+import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.ServerProtocolCommands;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Message;
+import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.SwingWorker;
 import java.io.IOException;
@@ -161,7 +163,7 @@ public class HandlerThread extends Thread {
                 input = "";
                 sleep(20);
             }
-            System.out.println("handlerthread stopped");
+            Logger.log(LogTypes.LOG, "handlerthread stopped");
         } catch (Exception e) {
             //disconnect
             if (Globals.getConnectionStatus()) {
@@ -172,9 +174,7 @@ public class HandlerThread extends Thread {
                 ErrorHandler.handleException(e);
             }
         }
-        if (Globals.getDebug()) {
-            System.out.println("[L]\tHandlerThreads main loop ended");
-        }
+        Logger.log(LogTypes.LOG, "HandlerThreads main loop ended");
     }
 
     private String process(ByteBuffer packet) {
@@ -328,7 +328,7 @@ public class HandlerThread extends Thread {
                     lastMessageSentAt = System.currentTimeMillis();
                 }
             } catch (Exception e) {
-                System.out.println("Failed to send: " + rawdata);
+                Logger.log(LogTypes.ERROR, "Failed to send: " + rawdata);
                 ErrorHandler.handleException(e);
             }
             return true;
