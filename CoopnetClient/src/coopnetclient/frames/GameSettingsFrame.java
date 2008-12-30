@@ -109,6 +109,10 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         if(!isHost && GameDatabase.getLocalSettingCount(gamename, modname) > 0){
             btn_close.setEnabled(false);
             setVisible(true);
+        }else{
+            if (!isInstant) {
+                TabOrganizer.getRoomPanel().initDone();
+            }
         }
     }
 
