@@ -108,7 +108,10 @@ public class Launcher {
     
     public static void launch(){        
         if(isInitialized()){
-            synchronized(launchHandler){
+            for (int i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
+                TabOrganizer.getChannelPanel(i).disableButtons();
+            }
+            synchronized (launchHandler) {
                 launchedGame = launchHandler.getGameName();
 
                 if (Settings.getSleepEnabled()) {

@@ -29,14 +29,11 @@ import coopnetclient.utils.Logger;
 import coopnetclient.utils.RegistryReader;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
-import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.logging.Level;
-import sun.security.x509.IssuerAlternativeNameExtension;
 
 public class JDPlayLaunchHandler extends LaunchHandler {
     

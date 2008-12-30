@@ -20,6 +20,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.Globals;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -192,6 +193,7 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         Globals.closeRoomCreationFrame();
+        TabOrganizer.getChannelPanel(channel).enablebuttons();
 }//GEN-LAST:event_btn_cancelActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

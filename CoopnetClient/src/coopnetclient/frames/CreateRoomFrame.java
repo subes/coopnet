@@ -22,6 +22,7 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
+import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
@@ -290,10 +291,12 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             //normal lobby stuff
             Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(),  cb_instantroom.isSelected());
             Globals.closeRoomCreationFrame();
+            TabOrganizer.getChannelPanel(channel).disableButtons();
         } else if (btn_create.getText().equals("Launch")) {
             //simple instantlaunch
             Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(), true);
             Globals.closeRoomCreationFrame();
+            TabOrganizer.getChannelPanel(channel).disableButtons();
             new Thread() {
                 @Override
                 public void run() {
