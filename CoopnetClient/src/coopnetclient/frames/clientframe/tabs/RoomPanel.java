@@ -19,6 +19,7 @@
 
 package coopnetclient.frames.clientframe.tabs;
 
+import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.frames.listeners.ChatInputKeyListener;
@@ -91,7 +92,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             this.childName = GameDatabase.getGameModNames(channel)[Integer.valueOf(modindex)].toString();
         }
 
-        if(hamachiIp.length()>0 ) {
+        if(hamachiIp.length() > 0 && Client.getHamachiAddress().length() > 0 ) {
             cb_useHamachi.setEnabled(true);
             cb_useHamachi.setToolTipText("<html>Don't use this unless you have connection issues!<br>If you really need to use this consult with the room host!<br>Both you and the host have to be connected to <br>the same hamachi network!Otherwise it won't work!");
         }
