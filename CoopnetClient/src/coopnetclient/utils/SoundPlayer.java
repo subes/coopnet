@@ -23,16 +23,58 @@ import coopnetclient.*;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.utils.launcher.Launcher;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.Mixer;
 
 public class SoundPlayer {
     
     private static int soundsPlaying = 0;
     private static boolean delayOtherSounds = false;
-    
+    private static DataLine.Info info;
+
+    static {
+        try {
+            AudioInputStream stream = AudioSystem.getAudioInputStream(Globals.getResource("data/sounds/launch.wav"));
+            info = new DataLine.Info(Clip.class, stream.getFormat());
+        } catch (Exception e) {
+            //failed to initialise
+        }
+    }
+
+    public static int indexOfAudioDevice(Mixer.Info info) {
+        return Arrays.asList(AudioSystem.getMixerInfo()).indexOf(info);
+    }
+
+    public static Mixer.Info[] getUsablePlayBackDevices() {
+        ArrayList<Mixer.Info> usabledevices = new ArrayList<Mixer.Info>();
+        Mixer.Info minfo[] = AudioSystem.getMixerInfo();
+        for (int i = 0; i < minfo.length; ++i) {
+            Mixer mixer = AudioSystem.getMixer(minfo[i]);
+            if (mixer.isLineSupported(info)) {
+                usabledevices.add(minfo[i]);
+            }
+        }
+        return usabledevices.toArray(new Mixer.Info[usabledevices.size()]);
+    }
+
+    public static void autoDetect() {
+        //TODO OS dependant default device selection
+        if (Settings.getaudioPlaybackDeviceIndex() < 0) {
+            Mixer.Info minfo[] = AudioSystem.getMixerInfo();
+            for (int i = 0; i < minfo.length; ++i) {
+                Mixer mixer = AudioSystem.getMixer(minfo[i]);
+                if (mixer.isLineSupported(info)) {
+                    Settings.setaudioPlaybackDeviceIndex(i);
+                    break;
+                }
+            }
+        }}
+
     //Threadsafe use of variable
     private synchronized static void updateSoundsPlaying(int additor){
         soundsPlaying+=additor;
@@ -120,9 +162,13 @@ public class SoundPlayer {
     private static void playSound(String file) {
         updateSoundsPlaying(1);
         try {
+            autoDetect();
             AudioInputStream stream = AudioSystem.getAudioInputStream(new File(file));
-            DataLine.Info info = new DataLine.Info(Clip.class, stream.getFormat());
-            Clip clip = (Clip) AudioSystem.getLine(info);
+            DataLine.Info linfo = new DataLine.Info(Clip.class, stream.getFormat());
+            Mixer.Info minfo[] = AudioSystem.getMixerInfo();
+            Mixer mixer = AudioSystem.getMixer(minfo[Settings.getaudioPlaybackDeviceIndex()]);
+            //Clip clip = (Clip) AudioSystem.getLine(info);
+            Clip clip = (Clip) mixer.getLine(linfo);
             clip.open(stream);
             clip.start();
             do {
