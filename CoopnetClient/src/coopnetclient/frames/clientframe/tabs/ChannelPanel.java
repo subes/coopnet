@@ -192,17 +192,21 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         btn_join.setEnabled(false);
     }
 
-    public void enablebuttons() {
+    public void enablebuttons(){
+        enablebuttons(false);
+    }
+
+    public void enablebuttons(boolean enableJoin) {
         if(this.isLaunchable){
             if(Launcher.isPlaying()){
                  if(TabOrganizer.getRoomPanel()==null && Launcher.getLaunchedGame().equals(name)){
                     btn_create.setEnabled(true);
-                    btn_join.setEnabled(true);
+                    btn_join.setEnabled(enableJoin);
                  }
             }else{
                 if(TabOrganizer.getRoomPanel()==null){
                     btn_create.setEnabled(true);
-                    btn_join.setEnabled(true);
+                    btn_join.setEnabled(enableJoin);
                 }
             }
         }
@@ -454,6 +458,9 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbl_roomListMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tbl_roomListMousePressed(evt);
+            }
         });
         scrl_roomList.setViewportView(tbl_roomList);
 
@@ -622,6 +629,12 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
     tp_chatOutput.setSelectionStart(start);
     tp_chatOutput.setSelectionEnd(end);
 }//GEN-LAST:event_scrl_chatOutputComponentResized
+
+private void tbl_roomListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_roomListMousePressed
+    if(tbl_roomList.getSelectedRow() != -1){
+        enablebuttons(true);
+    }
+}//GEN-LAST:event_tbl_roomListMousePressed
 
     public int getChannelChatHorizontalposition() {
         return sp_chatHorizontal.getDividerLocation();
