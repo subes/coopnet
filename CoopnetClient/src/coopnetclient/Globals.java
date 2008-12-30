@@ -457,6 +457,8 @@ public class Globals {
     }
 
     public static void openGameSettingsFrame(final String gameName, final String modName,final boolean isHost) {
+        //isHost depends
+
         SwingUtilities.invokeLater(
                 new Runnable() {
 
@@ -466,13 +468,15 @@ public class Globals {
                             gameSettingsFrame.setVisible(true);
                         } else {
                             gameSettingsFrame = new GameSettingsFrame(gameName, modName, isHost);
-                            setupFrame(gameSettingsFrame);
+                            //Frame decides if visible
                         }
                     }
                 });
     }
 
     public static void openGameSettingsFrame(final String gameName,final String modName,final String roomName,final String password,final int modIndex,final int maxPlayers) {
+        //isHost = true
+
         SwingUtilities.invokeLater(
                 new Runnable() {
 
@@ -482,7 +486,7 @@ public class Globals {
                             gameSettingsFrame.setVisible(true);
                         } else {
                             gameSettingsFrame = new GameSettingsFrame(gameName, modName, roomName, password, modIndex, maxPlayers);
-                            setupFrame(gameSettingsFrame);
+                            //Frame decides if visible
                         }
                     }
                 });
@@ -670,9 +674,9 @@ public class Globals {
         frame.setLocationRelativeTo(null);
         Colorizer.colorize(frame);
         frame.pack();
+
         SwingUtilities.invokeLater(
                 new Runnable() {
-
                     @Override
                     public void run() {
                         frame.setVisible(true);
@@ -682,8 +686,6 @@ public class Globals {
 
     private static void setupFrame(JFrame frame, Point position) {
         frame.setLocation(position);
-        Colorizer.colorize(frame);
-        frame.pack();
-        frame.setVisible(true);
+        setupFrame(frame);
     }
 }

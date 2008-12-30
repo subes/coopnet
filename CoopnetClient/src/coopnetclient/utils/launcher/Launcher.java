@@ -80,8 +80,8 @@ public class Launcher {
             if(launchInfo instanceof ParameterLaunchInfo){
                 if(!launchInfo.getIsInstantLaunch()
                     && TabOrganizer.getRoomPanel()!= null
-                    && TabOrganizer.getRoomPanel().isHost()
                     && GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getModName()).size() > 0){
+                    //Frame decides if visible
                     Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getModName(),launchInfo.getIsHost());
                 }
             }

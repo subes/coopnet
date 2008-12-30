@@ -24,6 +24,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.MapLoaderTypes;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.TempGameSettings;
@@ -77,6 +78,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         isInstant = false;
         lbl_map.setVisible(false);
         cb_map.setVisible(false);
+        cb_map.setEnabled(false);
         customize();
         this.getRootPane().setDefaultButton(btn_save);
         AbstractAction act = new AbstractAction() {
@@ -90,7 +92,24 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
 
-        btn_close.setEnabled(false);
+        this.setLocationRelativeTo(null);
+        Colorizer.colorize(this);
+        this.pack();
+
+        decideVisibility();
+    }
+
+    private void decideVisibility(){
+        if(isHost &&
+                GameDatabase.getLocalSettingCount(gamename, modname)
+              + GameDatabase.getServerSettingCount(gamename, modname) > 0 ){
+              btn_close.setEnabled(false);
+              setVisible(true);
+        }else
+        if(!isHost && GameDatabase.getLocalSettingCount(gamename, modname) > 0){
+            btn_close.setEnabled(false);
+            setVisible(true);
+        }
     }
 
     /** Creates new form GameSettingsPanel */
@@ -119,17 +138,17 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
         pack();
 
-        btn_close.setEnabled(false);
+        decideVisibility();
     }
 
     public void setEnabledOfGameSettingsFrameSettings(boolean enabled){
         if(!enabled && lastEnableAction){
             enabledInputfieldsBeforeDisable = new boolean[inputfields.size()];
             for(int i = 0; i < enabledInputfieldsBeforeDisable.length; i++){
-                enabledInputfieldsBeforeDisable[i] = inputfields.get(i).isEnabled();
+                enabledInputfieldsBeforeDisable[i] = inputfields.get(i).isEnabled() && inputfields.get(i).isVisible();
                 inputfields.get(i).setEnabled(false);
             }
-            mapsEnabledBeforeDisable = cb_map.isEnabled();
+            mapsEnabledBeforeDisable = cb_map.isEnabled() && cb_map.isVisible();
             cb_map.setEnabled(false);
         }else
         if(enabled && !lastEnableAction){
@@ -465,8 +484,6 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
-    btn_close.setEnabled(true);
-
     //update the launcher
     try {
         //if somethings unselected an exception is thrown        
@@ -493,7 +510,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             }
         }
 
-        if (!isInstant) {
+        if (!isInstant && !btn_close.isEnabled()) {
             TabOrganizer.getRoomPanel().initDone();
         }
         
@@ -522,6 +539,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         this.setVisible(false);
     }
 
+    btn_close.setEnabled(true);
 }//GEN-LAST:event_btn_saveActionPerformed
 
     public void updateValues() {
@@ -550,6 +568,18 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 }
             }
         });
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        super.setVisible(b);
+        
+        boolean foundEnabledField = cb_map.isEnabled() && cb_map.isVisible();
+        for(int i = 0; i < inputfields.size() && !foundEnabledField; i++){
+           foundEnabledField = inputfields.get(i).isEnabled();
+        }
+
+        btn_save.setEnabled(foundEnabledField);
     }
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
