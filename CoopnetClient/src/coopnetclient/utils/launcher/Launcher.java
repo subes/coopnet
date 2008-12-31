@@ -118,15 +118,29 @@ public class Launcher {
                     Globals.setSleepModeStatus(true);
                 }
 
-                if(!launchHandler.launch()){
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, maybe the game is not setup properly or a process closed unexpectedly!", ChatStyles.SYSTEM,false);
-                }
+                boolean launchResult = launchHandler.launch();
+                
 
                 Globals.setSleepModeStatus(false);
 
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", 
-                                "Game closed.", 
-                                ChatStyles.SYSTEM,false);
+                boolean doPrint = true;
+                if(launchHandler instanceof JDPlayLaunchHandler){
+                    JDPlayLaunchHandler handler = (JDPlayLaunchHandler) launchHandler;
+                    if(handler.isSearchAborted()){
+                        handler.resetAbortSearchFlag();
+                        doPrint = false;
+                    }
+                }
+
+
+                if(doPrint){
+                    if(!launchResult){
+                        Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, maybe the game is not setup properly or a process closed unexpectedly!", ChatStyles.SYSTEM,false);
+                    }
+                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                                    "Game closed.",
+                                    ChatStyles.SYSTEM,false);
+                }
 
                 launchedGame = null;
                 for (int i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {

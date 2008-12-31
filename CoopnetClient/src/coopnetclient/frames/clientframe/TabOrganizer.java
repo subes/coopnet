@@ -222,9 +222,6 @@ public class TabOrganizer {
 
     public static void closeRoomPanel() {
         if (roomPanel != null) {
-            Launcher.deInitialize();
-            Globals.closeGameSettingsFrame();
-
             tabHolder.remove(roomPanel);
 
             int index = tabHolder.indexOfTab(roomPanel.gameName);
@@ -237,6 +234,9 @@ public class TabOrganizer {
             }
 
             roomPanel = null;
+
+            Launcher.deInitialize(); //roomPanel has to be null now!
+            Globals.closeGameSettingsFrame();
 
             for (ChannelPanel cp : channelPanels) {
                 cp.enablebuttons();

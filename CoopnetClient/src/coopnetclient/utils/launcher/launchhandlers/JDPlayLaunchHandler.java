@@ -34,6 +34,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.logging.Level;
 
 public class JDPlayLaunchHandler extends LaunchHandler {
     
@@ -45,9 +46,19 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     private String binary;
 
     private String lastRead = "";
-    private boolean isSearching = false;
-    private boolean abortSearch = false;
-    
+    private static boolean isSearching = false;
+    private static boolean abortSearch = false;
+
+    private static Thread progressBarHider;
+
+    public boolean isSearchAborted(){
+        return abortSearch;
+    }
+
+    public void resetAbortSearchFlag(){
+        abortSearch = false;
+    }
+
     @Override
     public boolean doInitialize(LaunchInfo launchInfo) {
         if(jdplay == null){
@@ -123,43 +134,78 @@ public class JDPlayLaunchHandler extends LaunchHandler {
         }
 
         if(!launchInfo.getIsHost()){
+
+            if(TabOrganizer.getRoomPanel() != null){
+                TabOrganizer.getRoomPanel().getConnectingProgressBar().setProgress(0, 100);
+                TabOrganizer.getRoomPanel().getConnectingProgressBar().setVisible(true);
+            }else{
+                return false;
+            }
+
             boolean done = false;
 
-            isSearching = true;
-            boolean returnDirectly = false;
+            JDPlayLaunchHandler.isSearching = true;
+            
+            while(!done && !abortSearch){
+                boolean noSessionFound = false;
 
-            while(!done){
-                if(abortSearch){
-                    try {
-                        out.write("DONE\n".getBytes());
-                    } catch (IOException ex) {}
-                }
-
-                String[] toRead = {"SEARCHTRY", "FOUND", "NOTFOUND"};
+                String[] toRead = {"SEARCHTRY", "NOTFOUND", "FOUND"};
                 switch(read(toRead)){
                     case 0:
-                        //TODO: update progressbar
+                        String progress = lastRead.substring(10);
+                        int cur = Integer.parseInt(progress.split("/")[0])-1;
+                        int max = Integer.parseInt(progress.split("/")[1]);
+                        if(TabOrganizer.getRoomPanel() != null){
+                            TabOrganizer.getRoomPanel().getConnectingProgressBar().setProgress(cur, max);
+                        }else{
+                            abortSearch();
+                        }
                         break;
                     case 1:
-                        done = true;
+                        noSessionFound = true;
                         break;
                     case 2:
-
+                        done = true;
+                        break;
                     default:
-                        throw new IllegalStateException("Went into default case! Check for inconsistencies!");
+                        //nothing, though might happen on abort
+                }
+
+                if(noSessionFound){
+                    abortSearch = true;
+                    if(TabOrganizer.getRoomPanel() != null){
+                        TabOrganizer.getRoomPanel().getConnectingProgressBar().setProgress(100, 100);
+                        try {
+                            Thread.sleep(500); //let the 100% be visible for a bit
+                        } catch (InterruptedException ex) {}
+                        Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                                    "Launch failed! Found no session to join! The host maybe failed to launch or a firewall blocked your join attempt.",
+                                    ChatStyles.SYSTEM,false);
+                        TabOrganizer.getRoomPanel().getConnectingProgressBar().setVisible(false);
+                    }
+                    return false;
+                }else
+                if(abortSearch){
+                    return false;
                 }
             }
 
-            if(returnDirectly && abortSearch){
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                                "Launch failed! Found no session to join! The host maybe failed to launch or a firewall blocked your join attempt.",
-                                ChatStyles.SYSTEM,false);
-            }
-            isSearching = false;
-            abortSearch = false;
+            JDPlayLaunchHandler.isSearching = false;
 
-            if(returnDirectly){
-                return false;
+            if(TabOrganizer.getRoomPanel() != null){
+                TabOrganizer.getRoomPanel().getConnectingProgressBar().setProgress(100, 100);
+                progressBarHider = new Thread(){
+                @Override
+                public void run() {
+                        try {
+                            sleep(30000);
+                        } catch (InterruptedException ex) {}
+                        if(TabOrganizer.getRoomPanel() != null){
+                            TabOrganizer.getRoomPanel().getConnectingProgressBar().setVisible(false);
+                        }
+                    }
+                };
+                progressBarHider.start();
             }
         }
 
@@ -171,8 +217,12 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                 Process p = Runtime.getRuntime().exec("pkill -f dplaysvr.exe");
                 p.waitFor();
             }catch(Exception e){
-                printError(e);
+                Logger.log(e);
             }
+        }
+
+        if(progressBarHider != null){
+            progressBarHider.interrupt();
         }
         
         return ret;
@@ -206,8 +256,8 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                 }
 
                 for (int i = 0; i < toRead.length; i++) {
-                    if (toRead[i].contains(ret)) {
-                        lastRead = toRead[i];
+                    if (ret.contains(toRead[i])) {
+                        lastRead = ret;
                         return i;
                     }
                 }
@@ -332,8 +382,10 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     }
 
     public void abortSearch(){
-        if(isSearching){
+        if(JDPlayLaunchHandler.isSearching){
+            Logger.log(LogTypes.LAUNCHER, "Aborting search");
             abortSearch = true;
+            reinitJDPlay();
         }
     }
 

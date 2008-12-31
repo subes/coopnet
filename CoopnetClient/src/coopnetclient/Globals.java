@@ -53,8 +53,8 @@ import javax.swing.SwingUtilities;
 public class Globals {
 
     //Constants
-    public static final int JDPLAY_MAXSEARCHRETRIES = 20;
-    public static final int JDPLAY_SEARCHVALIDATIONCOUNT = 0;
+    public static final int JDPLAY_MAXSEARCHRETRIES = 12; //1 try = 5 secs; 12 tries = 60 secs
+    public static final int JDPLAY_SEARCHVALIDATIONCOUNT = 1; //set to 1 to be sure the joined session is not a temp one, though slower launch!
     //Set via static{}
     private static OperatingSystems operatingSystem;
     private static String lastOpenedDir;

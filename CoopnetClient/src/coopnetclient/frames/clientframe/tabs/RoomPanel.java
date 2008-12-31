@@ -31,6 +31,7 @@ import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.components.ConnectingProgressBar;
 import coopnetclient.utils.SoundPlayer;
 import coopnetclient.frames.renderers.RoomPlayerStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -128,6 +129,8 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         chat("", roomName, ChatStyles.USER);
         chat("", "room://"+ID, ChatStyles.USER);
 
+        prgbar_connecting.setVisible(false);
+
         decideGameSettingsButtonVisility();
     }
 
@@ -140,6 +143,10 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
               + GameDatabase.getServerSettingCount(gameName, modName) == 0 ){
               btn_gameSettings.setVisible(false);
         }
+    }
+
+    public ConnectingProgressBar getConnectingProgressBar(){
+        return prgbar_connecting;
     }
 
     public boolean isHost(){
@@ -337,6 +344,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         tp_chatInput = new javax.swing.JTextPane();
         cb_useHamachi = new javax.swing.JCheckBox();
         btn_gameSettings = new javax.swing.JButton();
+        prgbar_connecting = new coopnetclient.frames.components.ConnectingProgressBar();
 
         setFocusable(false);
         setNextFocusableComponent(tp_chatInput);
@@ -491,6 +499,12 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
         add(btn_gameSettings, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        add(prgbar_connecting, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
     private void tp_chatOutputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tp_chatOutputFocusLost
         StyledDocument doc = tp_chatOutput.getStyledDocument();
@@ -636,6 +650,7 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
     private javax.swing.JButton btn_ready;
     private javax.swing.JCheckBox cb_useHamachi;
     private javax.swing.JList lst_userList;
+    private coopnetclient.frames.components.ConnectingProgressBar prgbar_connecting;
     private javax.swing.JScrollPane scrl_chatInput;
     private javax.swing.JScrollPane scrl_chatOutput;
     private javax.swing.JScrollPane scrl_userList;
