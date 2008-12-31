@@ -144,7 +144,7 @@ public class Launcher {
 
                 launchedGame = null;
                 for (int i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
-                    TabOrganizer.getChannelPanel(i).enablebuttons();
+                    TabOrganizer.getChannelPanel(i).enableButtons();
                 }                
             }
         }else{

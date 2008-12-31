@@ -193,7 +193,7 @@ public class JoinRoomPasswordFrame extends javax.swing.JFrame {
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         Globals.closeRoomCreationFrame();
-        TabOrganizer.getChannelPanel(channel).enablebuttons();
+        TabOrganizer.getChannelPanel(channel).enableButtons();
 }//GEN-LAST:event_btn_cancelActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

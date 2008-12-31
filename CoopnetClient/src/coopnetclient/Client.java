@@ -223,7 +223,7 @@ public class Client {
         if (!Launcher.isInitialized()) {
             Protocol.closeRoom();
             Protocol.gameClosed(gameName);
-            TabOrganizer.getChannelPanel(gameName).enablebuttons();
+            TabOrganizer.getChannelPanel(gameName).enableButtons();
         }
     }
 
@@ -232,7 +232,7 @@ public class Client {
             TabOrganizer.getChannelPanel(channel).disableButtons();
             Launcher.launch();
             Protocol.gameClosed(channel);
-            TabOrganizer.getChannelPanel(channel).enablebuttons();
+            TabOrganizer.getChannelPanel(channel).enableButtons();
             Launcher.deInitialize();
         }
     }

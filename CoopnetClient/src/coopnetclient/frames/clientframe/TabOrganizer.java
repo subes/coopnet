@@ -239,7 +239,7 @@ public class TabOrganizer {
             Globals.closeGameSettingsFrame();
 
             for (ChannelPanel cp : channelPanels) {
-                cp.enablebuttons();
+                cp.enableButtons();
             }
         }
     }

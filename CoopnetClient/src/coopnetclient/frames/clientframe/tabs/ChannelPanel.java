@@ -43,6 +43,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.DropMode;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.text.StyledDocument;
 
@@ -103,9 +105,9 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         lst_userList.setDragEnabled(true);
         lst_userList.setDropMode(DropMode.USE_SELECTION);
         lst_userList.setTransferHandler(new UserListFileDropHandler());
-        
+ 
         disableButtons();
-        enablebuttons();
+        enableButtons();
         
         String message = GameDatabase.getWelcomeMessage(name);
         if(message != null && message.length()> 0){
@@ -170,7 +172,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
 
     public void setLaunchable(boolean value) {
         this.isLaunchable = value;
-        enablebuttons();
+        enableButtons();
     }
 
     public void addPlayerToRoom(String hostname, String playername) {
@@ -192,21 +194,25 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         btn_join.setEnabled(false);
     }
 
-    public void enablebuttons(){
-        enablebuttons(false);
-    }
-
-    public void enablebuttons(boolean enableJoin) {
+    public void enableButtons() {
         if(this.isLaunchable){
             if(Launcher.isPlaying()){
                  if(TabOrganizer.getRoomPanel()==null && Launcher.getLaunchedGame().equals(name)){
                     btn_create.setEnabled(true);
-                    btn_join.setEnabled(enableJoin);
+                    if(tbl_roomList.getSelectedRow() != -1){
+                        btn_join.setEnabled(true);
+                    }else{
+                        btn_join.setEnabled(false);
+                    }
                  }
             }else{
                 if(TabOrganizer.getRoomPanel()==null){
                     btn_create.setEnabled(true);
-                    btn_join.setEnabled(enableJoin);
+                    if(tbl_roomList.getSelectedRow() != -1){
+                        btn_join.setEnabled(true);
+                    }else{
+                        btn_join.setEnabled(false);
+                    }
                 }
             }
         }
@@ -241,6 +247,11 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         if (idx == -1) {
             return;
         }
+        if(idx == tbl_roomList.getSelectedRow()){
+            tbl_roomList.clearSelection();
+            enableButtons();
+        }
+
         String _users = rooms.getUserList(idx);
         String tmp[] = _users.split("<br>");
         for (String s : tmp) {
@@ -631,9 +642,7 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
 }//GEN-LAST:event_scrl_chatOutputComponentResized
 
 private void tbl_roomListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_roomListMousePressed
-    if(tbl_roomList.getSelectedRow() != -1){
-        enablebuttons(true);
-    }
+    enableButtons();
 }//GEN-LAST:event_tbl_roomListMousePressed
 
     public int getChannelChatHorizontalposition() {

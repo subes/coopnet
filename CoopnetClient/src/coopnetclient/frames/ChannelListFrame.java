@@ -125,7 +125,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
             keys.add(new SortKey(1, SortOrder.ASCENDING));
             tbl_list.getRowSorter().setSortKeys(keys);
             ((TableRowSorter)tbl_list.getRowSorter()).sort();
-            tbl_list.changeSelection(-1, -1, false, false);
+            tbl_list.clearSelection();
             btn_joinChannelButton.setEnabled(tbl_list.getSelectedRow() > -1);
         }
 

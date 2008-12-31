@@ -186,19 +186,19 @@ public class CommandHandler {
                 case ERROR_YOU_ARE_BANNED:
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "You are banned by the rooms host!", ChatStyles.SYSTEM, true);
                     for (i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
-                        TabOrganizer.getChannelPanel(i).enablebuttons();
+                        TabOrganizer.getChannelPanel(i).enableButtons();
                     }
                     break;
                 case ERROR_ROOM_IS_FULL:
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "The room is full!", ChatStyles.SYSTEM, true);
                     for (i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
-                        TabOrganizer.getChannelPanel(i).enablebuttons();
+                        TabOrganizer.getChannelPanel(i).enableButtons();
                     }
                     break;
                 case ERROR_ROOM_DOES_NOT_EXIST:
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "The room doesn't exist", ChatStyles.SYSTEM, true);
                     for (i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
-                        TabOrganizer.getChannelPanel(i).enablebuttons();
+                        TabOrganizer.getChannelPanel(i).enableButtons();
                     }
                     break;
                 case ERROR_LOGINNAME_IS_ALREADY_USED:
