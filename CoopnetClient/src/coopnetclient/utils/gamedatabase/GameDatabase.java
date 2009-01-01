@@ -405,7 +405,6 @@ public class GameDatabase {
 
         } catch (FileNotFoundException ex) {
             Logger.log(LogTypes.ERROR, "Could not load localpaths");
-            Logger.log(ex);
             return;
         }
 

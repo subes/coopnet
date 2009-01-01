@@ -42,7 +42,7 @@ public class SoundPlayer {
             AudioInputStream stream = AudioSystem.getAudioInputStream(Globals.getResource("data/sounds/launch.wav"));
             info = new DataLine.Info(Clip.class, stream.getFormat());
         } catch (Exception e) {
-            //failed to initialise
+            Logger.log(e);
         }
     }
 
