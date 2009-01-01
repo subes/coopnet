@@ -34,7 +34,7 @@ public class JXGrabKeyHandler extends HotkeyHandler implements HotkeyListenerDeb
     
     @Override
     public void registerHotkey(int id, int mask, int key) {
-        JXGrabKey.getInstance().registerSwingHotkey(id, mask, key);
+        JXGrabKey.getInstance().registerAWTHotkey(id, mask, key);
     }
 
     @Override
