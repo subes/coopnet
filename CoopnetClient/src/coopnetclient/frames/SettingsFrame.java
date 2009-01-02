@@ -76,15 +76,6 @@ public class SettingsFrame extends javax.swing.JFrame {
         InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
 
-        cmb_playbackDevice.setModel(new DefaultComboBoxModel(SoundPlayer.getUsablePlayBackDevices()));
-        if(Settings.getaudioPlaybackDeviceIndex() >= 0){
-            try {
-                cmb_playbackDevice.setSelectedItem(AudioSystem.getMixerInfo()[Settings.getaudioPlaybackDeviceIndex()]);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
         List gamenames = Arrays.asList(GameDatabase.getAllGameNames());
         Collections.sort(gamenames);
         cmb_homeChannel.setModel(new DefaultComboBoxModel(gamenames.toArray()));
@@ -210,8 +201,6 @@ public class SettingsFrame extends javax.swing.JFrame {
         tf_launchKey = new KeyGrabberTextField(Hotkeys.ACTION_LAUNCH,false);
         lbl_hotkeyNoteText = new javax.swing.JLabel();
         cb_multiChannel = new javax.swing.JCheckBox();
-        lbl_soundPlayback = new javax.swing.JLabel();
-        cmb_playbackDevice = new javax.swing.JComboBox();
         pnl_network = new javax.swing.JPanel();
         cb_autoLogin = new javax.swing.JCheckBox();
         lbl_transferPort = new javax.swing.JLabel();
@@ -348,10 +337,6 @@ public class SettingsFrame extends javax.swing.JFrame {
 
         cb_multiChannel.setText("Open channels as new tabs");
 
-        lbl_soundPlayback.setText("Sound Playback Device:");
-
-        cmb_playbackDevice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         javax.swing.GroupLayout pnl_generalLayout = new javax.swing.GroupLayout(pnl_general);
         pnl_general.setLayout(pnl_generalLayout);
         pnl_generalLayout.setHorizontalGroup(
@@ -375,17 +360,12 @@ public class SettingsFrame extends javax.swing.JFrame {
                         .addComponent(lbl_dplayEnvNote))
                     .addGroup(pnl_generalLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cb_multiChannel, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
-                            .addComponent(lbl_soundPlayback)))
+                        .addComponent(cb_multiChannel, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE))
                     .addGroup(pnl_generalLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(lbl_homeChannel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmb_homeChannel, 0, 495, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_generalLayout.createSequentialGroup()
-                        .addGap(159, 159, 159)
-                        .addComponent(cmb_playbackDevice, 0, 512, Short.MAX_VALUE)))
+                        .addComponent(cmb_homeChannel, 0, 495, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -400,11 +380,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                     .addComponent(cmb_homeChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cb_multiChannel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_soundPlayback)
-                    .addComponent(cmb_playbackDevice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(13, 13, 13)
+                .addGap(42, 42, 42)
                 .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_dplayEnv)
                     .addComponent(tf_dplayEnv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1170,9 +1146,6 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
         boolean error = false;
 
         try {
-            int idx = SoundPlayer.indexOfAudioDevice((Mixer.Info)cmb_playbackDevice.getSelectedItem());
-            Settings.setaudioPlaybackDeviceIndex(idx);
-
             Settings.setLaunchHotKey(tf_launchKey.getKey());
             Settings.setLaunchHotKeymask(tf_launchKey.getModifiers());
 
@@ -1332,7 +1305,6 @@ private void tf_playerMessagesSizeActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JCheckBox cb_timeStamps;
     private javax.swing.JComboBox cmb_QuickPanelPosition;
     private javax.swing.JComboBox cmb_homeChannel;
-    private javax.swing.JComboBox cmb_playbackDevice;
     private javax.swing.JComboBox cmb_playerMessagesType;
     private javax.swing.JComboBox cmb_playerNamesType;
     private javax.swing.JComboBox cmb_style;
@@ -1360,7 +1332,6 @@ private void tf_playerMessagesSizeActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JLabel lbl_quickpanelposition;
     private javax.swing.JLabel lbl_receiveDir;
     private javax.swing.JLabel lbl_selection;
-    private javax.swing.JLabel lbl_soundPlayback;
     private javax.swing.JLabel lbl_style;
     private javax.swing.JLabel lbl_systemMessages;
     private javax.swing.JLabel lbl_transferPort;

@@ -136,13 +136,11 @@ public class Settings {
             launchHotKey = "HotKey",
             multiChannel = "MultiChannel",
             showOfflineContacts = "ShowOfflineContacts",
-            quickTabIconSizeIsBig="QuickTabIconSizeIsBig",
-            audioPlaybackDeviceIndex = "AudioPlaybackDeviceIndex";
+            quickTabIconSizeIsBig="QuickTabIconSizeIsBig";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
     private final static int def_lastValidServerPort = 6667;
-    private final static int def_audioPlaybackDeviceIndex = -1;
     private final static boolean def_firstRun = true;
     private final static boolean def_sleepEnabled = true;
     private final static boolean def_autoLogin = false;
@@ -338,15 +336,6 @@ public class Settings {
         //using this one, so everytime the settings get saved on a change
         data.setProperty(entry, value);
         save();
-    }
-
-
-    public static int getaudioPlaybackDeviceIndex() {
-        return readInteger(audioPlaybackDeviceIndex, def_audioPlaybackDeviceIndex);
-    }
-
-    public static void setaudioPlaybackDeviceIndex(int index) {
-        writeSetting(audioPlaybackDeviceIndex, String.valueOf(index));
     }
 
     public static int getLaunchHotKey() {

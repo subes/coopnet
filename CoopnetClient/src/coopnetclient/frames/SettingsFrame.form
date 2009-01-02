@@ -122,20 +122,13 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="cb_multiChannel" alignment="0" pref="659" max="32767" attributes="0"/>
-                                  <Component id="lbl_soundPlayback" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="cb_multiChannel" pref="659" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" max="-2" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="lbl_homeChannel" linkSize="10" min="-2" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cmb_homeChannel" pref="495" max="32767" attributes="1"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="-2" pref="159" max="-2" attributes="0"/>
-                              <Component id="cmb_playbackDevice" pref="512" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -152,12 +145,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cb_multiChannel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lbl_soundPlayback" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cmb_playbackDevice" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbl_dplayEnv" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tf_dplayEnv" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -292,23 +280,6 @@
             <Component class="javax.swing.JCheckBox" name="cb_multiChannel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Open channels as new tabs"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lbl_soundPlayback">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Sound Playback Device:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="cmb_playbackDevice">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
-                  </StringArray>
-                </Property>
               </Properties>
             </Component>
           </SubComponents>
