@@ -27,6 +27,7 @@ import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.tabs.BrowserPanel;
 import coopnetclient.frames.clientframe.tabs.ChannelPanel;
+import coopnetclient.frames.clientframe.tabs.ConnectingPanel;
 import coopnetclient.frames.clientframe.tabs.ErrorPanel;
 import coopnetclient.frames.clientframe.tabs.FileTransferPanel;
 import coopnetclient.frames.clientframe.tabs.LoginPanel;
@@ -64,6 +65,7 @@ public class TabOrganizer {
     private static RegisterPanel registerPanel;
     private static PasswordRecoveryPanel passwordRecoveryPanel;
     private static FileTransferPanel transferPanel;
+    private static ConnectingPanel connectingPanel;
     
     
     static {
@@ -362,6 +364,7 @@ public class TabOrganizer {
                 @Override
                 public void run() {
                     try {
+                        closeConnectingPanel();
                         loginPanel = new LoginPanel();
                         tabHolder.addTab("Login", loginPanel);
                         tabHolder.setSelectedComponent(loginPanel);
@@ -398,7 +401,7 @@ public class TabOrganizer {
                 }
             });
         } else {
-            Logger.log(LogTypes.WARNING, "There's an open LoginPanel already!");
+            Logger.log(LogTypes.WARNING, "There's an opened RegisterPanel already!");
             tabHolder.setSelectedComponent(registerPanel);
         }
     }
@@ -406,6 +409,33 @@ public class TabOrganizer {
     public static void closeRegisterPanel() {
         tabHolder.remove(registerPanel);
         registerPanel = null;
+    }
+
+    public static void openConnectingPanel() {
+        if (connectingPanel == null) {
+            //Thread is needed here to get rid of an exception at startup
+            SwingUtilities.invokeLater(new Thread() {
+
+                @Override
+                public void run() {
+                    try {
+                        connectingPanel = new ConnectingPanel();
+                        tabHolder.addTab("Connecting", connectingPanel);
+                        tabHolder.setSelectedComponent(connectingPanel);
+                    } catch (Exception e) {
+                        ErrorHandler.handleException(e);
+                    }
+                }
+            });
+        } else {
+            Logger.log(LogTypes.WARNING, "There's an opened ConnectingPanel already!");
+            tabHolder.setSelectedComponent(connectingPanel);
+        }
+    }
+
+    public static void closeConnectingPanel() {
+        tabHolder.remove(connectingPanel);
+        connectingPanel = null;
     }
     
     public static void openPasswordRecoveryPanel() {
@@ -531,5 +561,6 @@ public class TabOrganizer {
         browserPanel = null;
         loginPanel = null;
         transferPanel = null;
+        connectingPanel = null;
     }
 }

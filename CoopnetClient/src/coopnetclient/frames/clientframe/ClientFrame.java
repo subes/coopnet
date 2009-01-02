@@ -85,6 +85,7 @@ public class ClientFrame extends javax.swing.JFrame {
         if (Settings.getTrayIconEnabled()) {
             Globals.addTrayIcon();
         }
+
     }
     
     public QuickPanel getQuickPanel(){

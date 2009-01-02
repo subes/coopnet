@@ -138,6 +138,7 @@ public class Client {
     public static void startConnection() {
         if(!Globals.getConnectionStatus()){
             TabOrganizer.closeAllTabs();
+            TabOrganizer.openConnectingPanel();
             Globals.setConnectionStatus(true);
             handlerThread = new HandlerThread();
             handlerThread.start();
