@@ -79,7 +79,7 @@ public class HandlerThread extends Thread {
         try {
             socketChannel = null;
             socketChannel = SocketChannel.open();
-            socketChannel.connect(new InetSocketAddress(Globals.getServerIP(), Globals.getServerPort()));
+            socketChannel.socket().connect(new InetSocketAddress(Globals.getServerIP(), Globals.getServerPort()), 15000);
             //start sender thread
             sender = new Thread() {
 
@@ -186,7 +186,7 @@ public class HandlerThread extends Thread {
                 return readedString;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.log(e);
         }
         return null;
     }
