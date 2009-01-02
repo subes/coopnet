@@ -302,8 +302,8 @@ public class ClientFrame extends javax.swing.JFrame {
         m_Favourites = new javax.swing.JMenu();
         m_installedGames = new javax.swing.JMenu();
         m_tabs = new javax.swing.JMenu();
-        mi_nextTab = new javax.swing.JMenuItem();
         mi_prevTab = new javax.swing.JMenuItem();
+        mi_nextTab = new javax.swing.JMenuItem();
         mi_closeTab = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JSeparator();
         mi_showTransfers = new javax.swing.JMenuItem();
@@ -338,10 +338,10 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         tabpn_tabs.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 tabpn_tabsCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 
@@ -549,16 +549,6 @@ public class ClientFrame extends javax.swing.JFrame {
         m_tabs.setMnemonic(KeyEvent.VK_T);
         m_tabs.setText("Tabs");
 
-        mi_nextTab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_DOWN, java.awt.event.InputEvent.CTRL_MASK));
-        mi_nextTab.setMnemonic(KeyEvent.VK_N);
-        mi_nextTab.setText("Next Tab");
-        mi_nextTab.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mi_nextTabActionPerformed(evt);
-            }
-        });
-        m_tabs.add(mi_nextTab);
-
         mi_prevTab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_UP, java.awt.event.InputEvent.CTRL_MASK));
         mi_prevTab.setMnemonic(KeyEvent.VK_P);
         mi_prevTab.setText("Previous Tab");
@@ -568,6 +558,16 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         m_tabs.add(mi_prevTab);
+
+        mi_nextTab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_DOWN, java.awt.event.InputEvent.CTRL_MASK));
+        mi_nextTab.setMnemonic(KeyEvent.VK_N);
+        mi_nextTab.setText("Next Tab");
+        mi_nextTab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mi_nextTabActionPerformed(evt);
+            }
+        });
+        m_tabs.add(mi_nextTab);
 
         mi_closeTab.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
         mi_closeTab.setMnemonic(KeyEvent.VK_C);
