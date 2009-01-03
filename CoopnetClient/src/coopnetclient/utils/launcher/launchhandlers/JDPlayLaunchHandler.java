@@ -366,6 +366,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
         }
         
         if(ret == true){
+            write("STILLALIVETEST");
             write("DONE");
         }
         

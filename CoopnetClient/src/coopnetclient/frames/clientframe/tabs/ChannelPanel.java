@@ -40,9 +40,14 @@ import coopnetclient.utils.launcher.Launcher;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.lang.Object;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DropMode;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -546,21 +551,39 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         }
         
         //Disable button for some secs, so that user cant spam refresh
-        new Thread() {
-
+        btn_refresh.setEnabled(false);
+        new SwingWorker() {
+            @Override
+            protected Object doInBackground() throws Exception {
+                Thread.sleep(3000);
+                return null;
+            }
+            @Override
+            protected void done() {
+                btn_refresh.setEnabled(true);
+            }
+        }.execute();
+        //Same via invokeLater -- for reference
+        /*new Thread(){
             @Override
             public void run() {
-                try{
-                    btn_refresh.setEnabled(false);
-                    try {
-                        sleep(3000);
-                    } catch (InterruptedException ex) {}
-                    btn_refresh.setEnabled(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                SwingUtilities.invokeLater(new Thread(){
+                    @Override
+                    public void run() {
+                        btn_refresh.setEnabled(false);
+                    }
+                });
+                try {
+                    sleep(3000);
+                } catch (InterruptedException ex) {}
+                SwingUtilities.invokeLater(new Thread(){
+                    @Override
+                    public void run() {
+                        btn_refresh.setEnabled(true);
+                    }
+                });
             }
-        }.start();
+        }.start();*/
     }//GEN-LAST:event_refresh
 
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked

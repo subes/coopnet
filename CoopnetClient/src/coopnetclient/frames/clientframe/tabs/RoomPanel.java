@@ -49,6 +49,7 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import javax.swing.DropMode;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.text.StyledDocument;
 
 public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
@@ -69,6 +70,9 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     private int maxPlayers;
     private HashMap<String, String> gamesettings = new HashMap<String, String>();
     private RoomPlayerStatusListCellRenderer roomStatusListCR;
+
+    private SwingWorker readyDisablerThread;
+    private SwingWorker launchDisablerThread;
 
     private boolean wasReadyBeforeReInit = false;
 
@@ -304,13 +308,24 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     }
 
     public void displayReInit(){
-        if (btn_ready.getText().equals("Unready")) {
-            btn_ready.doClick();
-            wasReadyBeforeReInit = true;
-        }
-        btn_ready.setText("Reinitializing...");
-        btn_ready.setEnabled(false);
-        btn_launch.setEnabled(false);
+        SwingUtilities.invokeLater(new Thread(){
+            @Override
+            public void run() {
+                if (btn_ready.getText().equals("Unready")) {
+                    btn_ready.doClick();
+                    wasReadyBeforeReInit = true;
+                }
+                btn_ready.setText("Reinitializing...");
+                if(readyDisablerThread != null){
+                    readyDisablerThread.cancel(true);
+                }
+                btn_ready.setEnabled(false);
+                if(launchDisablerThread != null){
+                    launchDisablerThread.cancel(true);
+                }
+                btn_launch.setEnabled(false);
+            }
+        });
     }
 
     public void initDone(){
@@ -513,24 +528,45 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     private void clickedbtn_launch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_launch
         if (isHost) {
-            //Protocol.launch();
-            launch();
-            new Thread(){
+            btn_launch.setEnabled(false);
+            launchDisablerThread = new SwingWorker(){
                 @Override
-                public void run() {
-                    try {
-                        btn_launch.setEnabled(false);
-                        sleep(1000);
-                        if(btn_ready.isEnabled()){
-                            btn_launch.setEnabled(true);
-                        }
-                    } catch (InterruptedException ex) {}
-                } 
-            }.start();            
+                protected Object doInBackground() throws Exception {
+                    Thread.sleep(1000);
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                   if(!isCancelled() && btn_ready.isEnabled()){
+                        btn_launch.setEnabled(true);
+                    }
+                }
+            };
+            launchDisablerThread.execute();
+
+            launch();
         }
 }//GEN-LAST:event_clickedbtn_launch
 
     private void clickedbtn_ready(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_ready
+        btn_ready.setEnabled(false);
+        readyDisablerThread = new SwingWorker(){
+            @Override
+            protected Object doInBackground() throws Exception {
+                Thread.sleep(1000);
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                if(!isCancelled()){
+                    btn_ready.setEnabled(true);
+                }
+            }
+        };
+        readyDisablerThread.execute();
+
         if(btn_ready.getText().equals("Ready") && !Launcher.predictSuccessfulLaunch()){
             wasReadyBeforeReInit = true;
             return;
@@ -543,6 +579,9 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             SoundPlayer.playReadySound();
         } else {
             btn_ready.setText("Ready");
+            if(launchDisablerThread != null){
+                launchDisablerThread.cancel(true);
+            }
             btn_launch.setEnabled(false);
             SoundPlayer.playUnreadySound();
         }
