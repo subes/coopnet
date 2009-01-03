@@ -87,8 +87,12 @@ public class CommandHandler {
                     }
                     break;
                 case LOGIN_INCORRECT:
-                    TabOrganizer.getLoginPanel().showError("Wrong username/password, please try again!", Color.red);
-                    TabOrganizer.getLoginPanel().enableButtons();
+                    if(TabOrganizer.getLoginPanel() != null){
+                        TabOrganizer.getLoginPanel().showError("Wrong username/password, please try again!", Color.red);
+                        TabOrganizer.getLoginPanel().enableButtons();
+                    }else{
+                        TabOrganizer.openLoginPanel();
+                    }
                     break;
                 case OK_REGISTER:
                     TabOrganizer.closeRegisterPanel();
