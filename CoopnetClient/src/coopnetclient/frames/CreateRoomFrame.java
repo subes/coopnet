@@ -97,6 +97,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         pnl_input = new javax.swing.JPanel();
         tf_name = new javax.swing.JTextField();
@@ -121,6 +122,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         });
 
         pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Create room"));
+        pnl_input.setLayout(new java.awt.GridBagLayout());
 
         tf_name.setText("My room, come and play!");
         tf_name.setNextFocusableComponent(pf_password);
@@ -129,18 +131,49 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 tf_nameActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnl_input.add(tf_name, gridBagConstraints);
 
         lbl_name.setDisplayedMnemonic(KeyEvent.VK_N);
         lbl_name.setLabelFor(tf_name);
         lbl_name.setText("Name:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weighty = 0.3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnl_input.add(lbl_name, gridBagConstraints);
 
         lbl_password.setDisplayedMnemonic(KeyEvent.VK_P);
         lbl_password.setLabelFor(pf_password);
         lbl_password.setText("Password:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weighty = 0.3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnl_input.add(lbl_password, gridBagConstraints);
 
         lbl_maxPlayers.setDisplayedMnemonic(KeyEvent.VK_M);
         lbl_maxPlayers.setLabelFor(spn_maxPlayers);
         lbl_maxPlayers.setText("Max players:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weighty = 0.3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnl_input.add(lbl_maxPlayers, gridBagConstraints);
 
         pf_password.setNextFocusableComponent(spn_maxPlayers);
         pf_password.addActionListener(new java.awt.event.ActionListener() {
@@ -148,15 +181,54 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 pf_passwordActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 0.3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnl_input.add(pf_password, gridBagConstraints);
 
         spn_maxPlayers.setModel(new javax.swing.SpinnerNumberModel(0, 0, 999, 1));
         spn_maxPlayers.setToolTipText("The maximum number of players. 0 = infinite");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weighty = 0.3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnl_input.add(spn_maxPlayers, gridBagConstraints);
 
         lbl_limitNote.setText("( 0 == infinite )");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnl_input.add(lbl_limitNote, gridBagConstraints);
 
         lbl_mod.setDisplayedMnemonic(KeyEvent.VK_O);
         lbl_mod.setLabelFor(cmb_mod);
         lbl_mod.setText("Mod:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnl_input.add(lbl_mod, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnl_input.add(cmb_mod, gridBagConstraints);
 
         cb_instantroom.setMnemonic(KeyEvent.VK_I);
         cb_instantroom.setText("Instant room");
@@ -167,74 +239,15 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 cb_instantroomActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout pnl_inputLayout = new javax.swing.GroupLayout(pnl_input);
-        pnl_input.setLayout(pnl_inputLayout);
-        pnl_inputLayout.setHorizontalGroup(
-            pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_inputLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_inputLayout.createSequentialGroup()
-                        .addComponent(lbl_name)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnl_inputLayout.createSequentialGroup()
-                        .addComponent(lbl_password)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pf_password, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnl_inputLayout.createSequentialGroup()
-                        .addComponent(lbl_maxPlayers)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spn_maxPlayers, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)
-                        .addComponent(lbl_limitNote))
-                    .addGroup(pnl_inputLayout.createSequentialGroup()
-                        .addComponent(lbl_mod)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cb_instantroom)
-                            .addComponent(cmb_mod, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(10, Short.MAX_VALUE))
-        );
-
-        pnl_inputLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cb_instantroom, cmb_mod, pf_password, tf_name});
-
-        pnl_inputLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lbl_maxPlayers, lbl_mod, lbl_name, lbl_password});
-
-        pnl_inputLayout.setVerticalGroup(
-            pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_inputLayout.createSequentialGroup()
-                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_name)
-                    .addComponent(tf_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_password)
-                    .addComponent(pf_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lbl_maxPlayers)
-                    .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(spn_maxPlayers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(pnl_inputLayout.createSequentialGroup()
-                            .addGap(2, 2, 2)
-                            .addComponent(lbl_limitNote))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_inputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_mod)
-                    .addComponent(cmb_mod, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cb_instantroom))
-        );
-
-        pnl_inputLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_name, tf_name});
-
-        pnl_inputLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_password, pf_password});
-
-        pnl_inputLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_limitNote, lbl_maxPlayers, spn_maxPlayers});
-
-        pnl_inputLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmb_mod, lbl_mod});
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnl_input.add(cb_instantroom, gridBagConstraints);
 
         btn_create.setText("Create");
         btn_create.setNextFocusableComponent(btn_cancel);
@@ -262,7 +275,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
                 .addContainerGap(306, Short.MAX_VALUE))
-            .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
