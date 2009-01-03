@@ -61,7 +61,7 @@ public class Globals {
     private static final String wineCommand;
     //Preset value
     private static boolean debug = false;
-    private static final String clientVersion = "0.100.1";
+    private static final String clientVersion = "0.101.0";
     private static boolean connectionStatus = false;
     private static boolean loggedInStatus = false;
     private static boolean sleepModeStatus = false;
