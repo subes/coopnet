@@ -428,7 +428,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                         if (returnVal == FileChooser.SELECT_ACTION) {
                             File file = mfc.getSelectedFile();
                             tf_exePath.setText(file.getAbsolutePath());
-                        //saveTempData();
+                            saveTempData();
                         }//else cancelled
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
@@ -482,7 +482,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                         if (returnVal == FileChooser.SELECT_ACTION) {
                             File file = mfc.getSelectedFile();
                             tf_installPath.setText(file.getAbsolutePath());
-                        //saveTempData();
+                            saveTempData();
                         }//else cancelled
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
