@@ -24,7 +24,7 @@ import coopnetclient.ErrorHandler;
 import coopnetclient.protocol.out.Protocol;
 import java.util.ArrayList;
 
-public class SwingWorker implements Runnable {
+public class SwingTask implements Runnable {
 
     private String command;
       private static StringBuilder sb = new StringBuilder();
@@ -48,7 +48,7 @@ public class SwingWorker implements Runnable {
         return array.toArray(info);
     }
 
-    public SwingWorker(String command) {
+    public SwingTask(String command) {
         this.command = command;
     }
 
