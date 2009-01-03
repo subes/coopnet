@@ -98,10 +98,10 @@ public class HandlerThread extends Thread {
                     }
                 }
             };
-            SwingUtilities.invokeLater(sender);
+            sender.start();
             
             //send heartbeat
-            SwingUtilities.invokeLater(new Thread() {
+            new Thread() {
 
                 @Override
                 public void run() {
@@ -122,7 +122,7 @@ public class HandlerThread extends Thread {
                         ErrorHandler.handleException(e);
                     }
                 }
-            });
+            }.start();
 
             Protocol.sendVersion();
             //login

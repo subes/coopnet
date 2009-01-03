@@ -40,7 +40,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
-import javax.swing.SwingUtilities;
 
 public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
 
@@ -190,7 +189,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         super.setVisible(visible);
         
         if(visible == false && isClosing == false){
-             SwingUtilities.invokeLater(new Thread(){
+            new Thread(){
                 @Override
                 public void run() {
                     isClosing = true;
@@ -199,7 +198,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                     } catch (InterruptedException ex) {}
                     isClosing = false;
                 }
-            });
+            }.start();
         }
     }
 
@@ -276,7 +275,8 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         } else if (command.equals("Send file")) {
             if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {
 
-                SwingUtilities.invokeLater(new Thread() {
+                new Thread() {
+
                     @Override
                     public void run() {
                         try {
@@ -298,7 +298,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                             ErrorHandler.handleException(e);
                         }
                     }
-                });
+                }.start();
             }
         } else if (model.getGroupNames().contains(command)) {//otherwise the action name is a groupname and the selected user must be moved there
             Protocol.moveToGroup(subject, command);

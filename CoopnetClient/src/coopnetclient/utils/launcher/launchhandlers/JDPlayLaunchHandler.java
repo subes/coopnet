@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.logging.Level;
-import javax.swing.SwingUtilities;
 
 public class JDPlayLaunchHandler extends LaunchHandler {
     
@@ -206,7 +205,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                         }
                     }
                 };
-                SwingUtilities.invokeLater(progressBarHider);
+                progressBarHider.start();
             }
         }
 

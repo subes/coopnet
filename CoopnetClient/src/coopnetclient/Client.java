@@ -141,7 +141,7 @@ public class Client {
             TabOrganizer.openConnectingPanel();
             Globals.setConnectionStatus(true);
             handlerThread = new HandlerThread();
-            SwingUtilities.invokeLater(handlerThread);
+            handlerThread.start();
         }else{
             throw new IllegalStateException("Client is already connected, you shouldn't be able to reconnect!");
         }
@@ -275,7 +275,7 @@ public class Client {
     }
 
     public static void checkAndUpdateGameData() {
-        SwingUtilities.invokeLater(new Thread() {
+        new Thread() {
 
             @Override
             public void run() {
@@ -328,7 +328,7 @@ public class Client {
                     ErrorHandler.handleException(e);
                 }
             }
-        });
+        }.start();
     }
 
     public static File getCurrentDirectory() throws URISyntaxException {
@@ -341,7 +341,7 @@ public class Client {
     }
 
     public static void checkAndUpdateClient() {
-        SwingUtilities.invokeLater(new Thread() {
+        new Thread() {
 
             @Override
             public void run() {
@@ -353,7 +353,7 @@ public class Client {
                     String version = br.readLine();
                     if (!Verification.verifyClientVersion(version)) {
                         Globals.getClientFrame().enableUpdate();
-                        SwingUtilities.invokeLater(new Thread() {
+                        new Thread() {
 
                             @Override
                             public void run() {
@@ -376,13 +376,13 @@ public class Client {
                                     ErrorHandler.handleException(e);
                                 }
                             }
-                        });
+                        }.start();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                     return;
                 }
             }
-        });
+        }.start();
     }
 }

@@ -34,7 +34,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 
 public class CreateRoomFrame extends javax.swing.JFrame {
 
@@ -310,7 +309,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(), true);
             Globals.closeRoomCreationFrame();
             TabOrganizer.getChannelPanel(channel).disableButtons();
-             SwingUtilities.invokeLater(new Thread() {
+            new Thread() {
                 @Override
                 public void run() {
                     try {
@@ -320,7 +319,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                         ErrorHandler.handleException(e);
                     }
                 }
-            });
+            }.start();
         } else if (btn_create.getText().equals("Setup & Launch")) {
             //show settings with launch button
             String modname = null;
@@ -330,7 +329,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             
             final String finalmodname = modname;
             Globals.closeRoomCreationFrame();
-             SwingUtilities.invokeLater(new Thread() {
+            new Thread() {
                 @Override
                 public void run() {
                     try {
@@ -340,7 +339,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                         ErrorHandler.handleException(e);
                     }
                 }
-            });
+            }.start();
         }
     }//GEN-LAST:event_create
 

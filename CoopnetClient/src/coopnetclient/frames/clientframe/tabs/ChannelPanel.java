@@ -43,7 +43,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.DropMode;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -547,7 +546,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         }
         
         //Disable button for some secs, so that user cant spam refresh
-        SwingUtilities.invokeLater(new Thread() {
+        new Thread() {
 
             @Override
             public void run() {
@@ -561,7 +560,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
                     e.printStackTrace();
                 }
             }
-        });
+        }.start();
     }//GEN-LAST:event_refresh
 
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked

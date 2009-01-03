@@ -27,7 +27,6 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
-import javax.swing.SwingUtilities;
 
 public class SoundPlayer {
 
@@ -59,7 +58,7 @@ public class SoundPlayer {
         {
             delayOtherSounds = true;
 
-            SwingUtilities.invokeLater(new Thread(){
+            new Thread(){
                 @Override
                 public void run() {
                     try {
@@ -67,7 +66,7 @@ public class SoundPlayer {
                     } catch (InterruptedException ex) {}
                     delayOtherSounds = false;
                 }
-            });
+            }.start();
         }
     }
 
@@ -101,7 +100,7 @@ public class SoundPlayer {
 
         if (forkThread) {
             //On windows this works parallel, even when playing
-            SwingUtilities.invokeLater(new Thread() {
+            new Thread() {
                 @Override
                 public void run() {
                     try{
@@ -110,7 +109,7 @@ public class SoundPlayer {
                         ErrorHandler.handleException(e);
                     }
                 }
-            });
+            }.start();
         } else {
             //On linux, we have to wait until the sound has stopped before launching game
             //or else the game may crash

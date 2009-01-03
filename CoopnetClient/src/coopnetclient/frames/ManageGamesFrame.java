@@ -36,7 +36,6 @@ import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 
 public class ManageGamesFrame extends javax.swing.JFrame {
 
@@ -418,7 +417,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
     private void btn_browsePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browsePathActionPerformed
         if (lst_games.getSelectedValue() != null) {
-            SwingUtilities.invokeLater(new Thread() {
+            new Thread() {
 
                 @Override
                 public void run() {
@@ -435,7 +434,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                         ErrorHandler.handleException(e);
                     }
                 }
-            });
+            }.start();
         }
 }//GEN-LAST:event_btn_browsePathActionPerformed
 
@@ -472,7 +471,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
     private void btn_browseInstallPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browseInstallPathActionPerformed
         if (lst_games.getSelectedValue() != null) {
-            SwingUtilities.invokeLater(new Thread() {
+            new Thread() {
 
                 @Override
                 public void run() {
@@ -489,7 +488,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                         ErrorHandler.handleException(e);
                     }
                 }
-            });
+            }.start();
         }
 }//GEN-LAST:event_btn_browseInstallPathActionPerformed
 

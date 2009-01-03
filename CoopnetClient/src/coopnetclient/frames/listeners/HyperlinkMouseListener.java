@@ -29,7 +29,6 @@ import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.JTextPane;
-import javax.swing.SwingUtilities;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Document;
@@ -66,12 +65,12 @@ public class HyperlinkMouseListener extends MouseAdapter {
             AttributeSet a = el.getAttributes();
             final String href = (String) a.getAttribute(HTML.Attribute.HREF);
             if (href != null) {
-                 SwingUtilities.invokeLater(new Thread(){
+                new Thread(){
                     @Override
                     public void run() {
                          openURL(href);
                     }
-                });                
+                }.start();                
             }
         }
     }
