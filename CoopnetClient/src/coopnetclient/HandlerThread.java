@@ -127,27 +127,7 @@ public class HandlerThread extends Thread {
             Protocol.sendVersion();
             //login
             if (coopnetclient.utils.Settings.getAutoLogin()) {
-                Protocol.autoLogin();
-                String input = null;
-                try {
-                    input = read();
-                } catch (Exception q) {
-                    ErrorHandler.handleException(q);
-                }
-                if (input == null) {
-                    TabOrganizer.openLoginPanel();
-                } else if (SwingWorker.getParts(input)[0].equals(ServerProtocolCommands.OK_LOGIN.ordinal()+"")) {
-                    Globals.setThisPlayer_loginName(SwingWorker.getParts(input)[1]);
-                    Globals.setLoggedInStatus(true);
-                    TabOrganizer.closeLoginPanel();
-                    Protocol.setSleep(Settings.getSleepEnabled());
-                    String s = coopnetclient.utils.Settings.getHomeChannel();
-                    if (s.length() > 0) {
-                        Protocol.joinChannel(s);
-                    }
-                } else {
-                    TabOrganizer.openLoginPanel();
-                }
+                Protocol.autoLogin();                
             } else {
                 TabOrganizer.openLoginPanel();
             }

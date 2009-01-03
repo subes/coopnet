@@ -78,6 +78,7 @@ public class CommandHandler {
                 case OK_LOGIN:
                     Globals.setLoggedInStatus(true);
                     Globals.setThisPlayer_loginName(information[0]);
+                    TabOrganizer.closeConnectingPanel();
                     TabOrganizer.closeLoginPanel();
                     Protocol.setSleep(Settings.getSleepEnabled());
                     Protocol.refreshContacts();
