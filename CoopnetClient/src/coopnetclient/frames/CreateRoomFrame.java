@@ -225,8 +225,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                     .addComponent(lbl_mod)
                     .addComponent(cmb_mod, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cb_instantroom)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addComponent(cb_instantroom))
         );
 
         pnl_inputLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_name, tf_name});

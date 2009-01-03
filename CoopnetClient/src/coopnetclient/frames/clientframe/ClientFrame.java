@@ -240,6 +240,7 @@ public class ClientFrame extends javax.swing.JFrame {
         }
         pnl_QuickPanel.setVisible(visibility);
         quickPanelVisibility = visibility;
+        mi_showQuickbar.setSelected(visibility);
     }
 
     /**
