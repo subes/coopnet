@@ -526,8 +526,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     if (btn_save.getText().equals("Launch")) {
         Protocol.createRoom(gamename, roomname, modindex, password, maxPlayers, true);
         Globals.closeRoomCreationFrame();
-        new Thread() {
-
+         SwingUtilities.invokeLater(new Thread() {
             @Override
             public void run() {
                 try {
@@ -536,7 +535,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                     ErrorHandler.handleException(e);
                 }
             }
-        }.start();
+        });
     }
 
     if(isInstant){

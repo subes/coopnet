@@ -33,6 +33,7 @@ import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
 
 public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
@@ -127,8 +128,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             Protocol.nudge(subject);
             Globals.getClientFrame().printToVisibleChatbox("System", "You have nudged "+subject +" !", ChatStyles.SYSTEM , false);
         } else if (command.equals("Send file")) {
-
-            new Thread() {
+             SwingUtilities.invokeLater(new Thread() {
 
                 @Override
                 public void run() {
@@ -151,7 +151,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
                         ErrorHandler.handleException(e);
                     }
                 }
-            }.start();
+            });
         }
     }
 

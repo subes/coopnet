@@ -1041,7 +1041,7 @@ public class SettingsFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_apply_ActionPerformed
 
     private void btn_browseReceiveDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browseReceiveDirActionPerformed
-        new Thread() {
+        SwingUtilities.invokeLater(new Thread() {
 
             @Override
             public void run() {
@@ -1060,7 +1060,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                     ErrorHandler.handleException(e);
                 }
             }
-        }.start();
+        });
 }//GEN-LAST:event_btn_browseReceiveDirActionPerformed
 
     //Enables or disables the corresponding buttons of Text Colors

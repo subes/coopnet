@@ -25,6 +25,7 @@ import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Verification;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class PasswordRecoveryPanel extends javax.swing.JPanel {
 
@@ -64,7 +65,7 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
     
     private void disableButtons(){
         if(btn_send.isEnabled()){
-            new Thread(){
+            SwingUtilities.invokeLater(new Thread(){
                 @Override
                 public void run() {
                     btn_send.setEnabled(false);
@@ -77,7 +78,7 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
                         btn_cancel.setEnabled(true);
                     }
                 }
-            }.start();
+            });
         }
     }
 

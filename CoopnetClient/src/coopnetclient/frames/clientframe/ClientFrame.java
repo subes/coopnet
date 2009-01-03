@@ -132,7 +132,7 @@ public class ClientFrame extends javax.swing.JFrame {
     public void flashQuickPanelToggler() {
         if (!quickPanelFlashing && !quickPanelVisibility) {
             quickPanelFlashing = true;
-            new Thread() {
+            SwingUtilities.invokeLater(new Thread() {
 
                 @Override
                 public void run() {
@@ -168,7 +168,7 @@ public class ClientFrame extends javax.swing.JFrame {
                         pnl_toggleQuickBarLeft.setBackground((Color) UIManager.get("Panel.background"));
                     }
                 }
-            }.start();
+            });
         }
     }
 
@@ -832,7 +832,7 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_guideActionPerformed
 
     public void invokeUpdate(){
-        new Thread() {
+        SwingUtilities.invokeLater(new Thread() {
             @Override
             public void run() {
                 try {
@@ -854,7 +854,7 @@ public class ClientFrame extends javax.swing.JFrame {
                     ErrorHandler.handleException(e);
                 }
             }
-        }.start();
+        });
     }
 
 private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_updateActionPerformed

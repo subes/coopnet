@@ -277,12 +277,12 @@ public class Globals {
 
     public static void setThisPlayer_inGameName(String value) {
         thisPlayer_inGameName = value;
-        new Thread(){
+        SwingUtilities.invokeLater(new Thread(){
             @Override
             public void run(){
                 Launcher.updatePlayerName();
             }
-        }.start();
+        });
     }
 
     public static String getThisPlayer_inGameName() {

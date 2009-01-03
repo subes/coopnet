@@ -34,6 +34,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.UUID;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class FileTransferHandler {
 
@@ -80,7 +81,7 @@ public class FileTransferHandler {
     }
 
     private void startObserving() {
-        new Thread() {
+        SwingUtilities.invokeLater(new Thread() {
 
             long lastBytePosition = 0;
 
@@ -109,7 +110,7 @@ public class FileTransferHandler {
                     lastBytePosition = processedBytes;
                 }
             }
-        }.start();
+        });
     }
 
     public File getSentFile(){
@@ -265,7 +266,7 @@ public class FileTransferHandler {
 
     //binds download to the port, sender connects here
     private void recieve1() {
-        new Thread() {
+        SwingUtilities.invokeLater(new Thread() {
 
             @Override
             public void run() {
@@ -359,12 +360,12 @@ public class FileTransferHandler {
                     }
                 }
             }
-        }.start();
+        });
     }
 
     //turns around the connection(connect to the sender )
     private void recieve2() {
-        new Thread() {
+        SwingUtilities.invokeLater(new Thread() {
 
             BufferedOutputStream bo = null;
 
@@ -440,12 +441,12 @@ public class FileTransferHandler {
                     }
                 }
             }
-        }.start();
+        });
     }
 
     private void send1(final String ip, final String port, long firstByte) {
         firstByteToSend = firstByte;
-        new Thread() {
+        SwingUtilities.invokeLater(new Thread() {
 
             @Override
             public void run() {
@@ -514,12 +515,12 @@ public class FileTransferHandler {
                     }
                 }
             }
-        }.start();
+        });
     }
 
     //turns around the connection, connect to the reciever
     private void send2() {
-        new Thread() {
+        SwingUtilities.invokeLater(new Thread() {
 
             long starttime;
 
@@ -597,6 +598,6 @@ public class FileTransferHandler {
                     }
                 }
             }
-        }.start();
+        });
     }
 }

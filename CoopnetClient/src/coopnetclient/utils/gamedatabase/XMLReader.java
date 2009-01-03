@@ -23,6 +23,7 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.utils.Logger;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.SwingUtilities;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -46,7 +47,7 @@ public class XMLReader {
         final SAXParser sp = spf.newSAXParser();
         switch (action) {
             case DETECT_GAMES:
-                new Thread() {
+                SwingUtilities.invokeLater(new Thread() {
 
                     @Override
                     public void run() {
@@ -62,7 +63,7 @@ public class XMLReader {
                             Logger.log(e);
                         }
                     }
-                }.start();
+                });
                 break;
             case LOAD_GAMEDATA:
                 sp.parse(new File(loadFrom), new XmlHandler_LoadGameData(gamename));

@@ -39,6 +39,7 @@ import coopnetclient.utils.MuteBanList;
 import coopnetclient.utils.launcher.TempGameSettings;
 import java.awt.Color;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  * Searches for known command, gets the parameters and executes it
@@ -422,7 +423,7 @@ public class CommandHandler {
                     final String tmp[] = new String[information.length];
                     System.arraycopy(information, 0, tmp, 0, tmp.length);
                     tmp[0] = currentChannelName;
-                    new Thread() {
+                    SwingUtilities.invokeLater(new Thread() {
 
                         @Override
                         public void run() {
@@ -430,7 +431,7 @@ public class CommandHandler {
                             Client.initInstantLaunch(gameName,GameDatabase.getModByIndex(gameName, new Integer(tmp[1])) , tmp[2] ,Integer.valueOf(tmp[3]) , false ,"", tmp[4]);
                             Client.instantLaunch(tmp[0]);
                         }
-                    }.start();
+                    });
                     break;
                 case VERIFICATION_ERROR:
                     break;//do nothing, should never come anyways

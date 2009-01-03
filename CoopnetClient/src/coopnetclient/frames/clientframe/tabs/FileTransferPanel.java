@@ -39,6 +39,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.TableColumnModel;
 
 public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab {
@@ -331,8 +332,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
     private void btn_browseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browseActionPerformed
         final int idx = tbl_transfers.convertRowIndexToModel(tbl_transfers.getSelectedRow());
         if (idx >= 0) {
-            new Thread() {
-
+            SwingUtilities.invokeLater(new Thread() {
                 @Override
                 public void run() {
                     try {
@@ -351,7 +351,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
                         ErrorHandler.handleException(e);
                     }
                 }
-            }.start();
+            });
         }
     }//GEN-LAST:event_btn_browseActionPerformed
 

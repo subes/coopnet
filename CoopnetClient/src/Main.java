@@ -24,6 +24,7 @@ import coopnetclient.utils.Logger;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 public class Main {
 
@@ -96,7 +97,7 @@ public class Main {
         
         if(tmpDir.exists() || updaterFile.exists()){
             Logger.log(LogTypes.LOG, "Updater files queued for deletion ...");
-            new Thread() {
+            SwingUtilities.invokeLater(new Thread() {
 
                 @Override
                 public void run() {
@@ -116,7 +117,7 @@ public class Main {
                         }
                     }catch(IOException e){}
                 }
-            }.start();
+            });
         }
     }
 

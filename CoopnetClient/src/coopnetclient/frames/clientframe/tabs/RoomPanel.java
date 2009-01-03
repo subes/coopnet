@@ -152,7 +152,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     }
     
     public void initLauncher() {
-        new Thread() {
+        SwingUtilities.invokeLater(new Thread() {
 
             @Override
             public void run() {
@@ -176,7 +176,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                     ErrorHandler.handleException(e);
                 }
             }
-        }.start();
+        });
     }
 
     public void showSettings() {
@@ -289,7 +289,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             return;
         }
 
-        new Thread() {
+        SwingUtilities.invokeLater(new Thread() {
             @Override
             public void run() {
                 try{                 
@@ -300,7 +300,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                     ErrorHandler.handleException(e);
                 }
             }
-        }.start();
+        });
     }
 
     public void displayReInit(){
@@ -515,7 +515,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         if (isHost) {
             //Protocol.launch();
             launch();
-            new Thread(){
+            SwingUtilities.invokeLater(new Thread(){
                 @Override
                 public void run() {
                     try {
@@ -526,7 +526,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                         }
                     } catch (InterruptedException ex) {}
                 } 
-            }.start();            
+            });            
         }
 }//GEN-LAST:event_clickedbtn_launch
 
@@ -579,7 +579,6 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     private void btn_gameSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_gameSettingsActionPerformed
         SwingUtilities.invokeLater(new Thread() {
-
             @Override
             public void run() {
                 try{
