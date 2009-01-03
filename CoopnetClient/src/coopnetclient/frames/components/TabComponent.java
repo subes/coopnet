@@ -67,22 +67,24 @@ public class TabComponent extends javax.swing.JPanel {
         lbl_close = new javax.swing.JLabel();
         lbl_icon = new javax.swing.JLabel();
 
+        setFocusable(false);
+        setMinimumSize(new java.awt.Dimension(1, 20));
         setOpaque(false);
+        setPreferredSize(null);
         setLayout(new java.awt.GridBagLayout());
 
         lbl_text.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_text.setText("text");
         lbl_text.setFocusable(false);
         lbl_text.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        lbl_text.setMaximumSize(null);
-        lbl_text.setMinimumSize(null);
+        lbl_text.setMaximumSize(new java.awt.Dimension(1000, 20));
+        lbl_text.setMinimumSize(new java.awt.Dimension(1, 20));
         lbl_text.setPreferredSize(null);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         add(lbl_text, gridBagConstraints);
 
