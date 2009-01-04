@@ -20,7 +20,7 @@ public class ConnectingProgressBar extends javax.swing.JPanel {
                     progressbar.setMaximum(max);
                     progressbar.setValue(cur);
                     progressbar.setMaximum(max); //Need to do again to be sure it updates
-                    progressbar.setString("retry "+progressbar.getValue()+"/"+progressbar.getMaximum());
+                    progressbar.setString("try "+progressbar.getValue()+"/"+progressbar.getMaximum());
                     progressbar.repaint();
                 }catch(Exception e){
                     Logger.log(e);
