@@ -1,3 +1,8 @@
+2009/01/04: CoopnetClient 0.101.0
+  - detection of already running game
+  - GUI changes
+  - DirectPlay support changes
+
 2008/12/24: CoopnetClient 0.100.0
   - removed voiceChat
   - better GUI
