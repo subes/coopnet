@@ -172,6 +172,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                         noSessionFound = true;
                         break;
                     case 2:
+                        sessionFound = true;
                         done = true;
                         break;
                     default:
