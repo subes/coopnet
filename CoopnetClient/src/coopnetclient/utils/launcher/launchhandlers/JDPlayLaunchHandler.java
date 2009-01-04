@@ -48,6 +48,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     private String lastRead = "";
     private static boolean isSearching = false;
     private static boolean abortSearch = false;
+    private static boolean sessionFound = false;
 
     private static Thread progressBarHider;
 
@@ -101,6 +102,8 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             }   
         }
 
+        sessionFound = false;
+
         String regPath = GameDatabase.getRegEntry(launchInfo.getGameName(), launchInfo.getModName()).get(0);
         binary = RegistryReader.read(regPath.substring(0, regPath.lastIndexOf("\\")+1)+"File");
         
@@ -133,10 +136,14 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             return false;
         }
 
-        if(!launchInfo.getIsHost()){
+        if(!launchInfo.getIsHost() && !sessionFound){
+
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                                "Connecting to host ...",
+                                ChatStyles.SYSTEM,false);
 
             if(TabOrganizer.getRoomPanel() != null){
-                TabOrganizer.getRoomPanel().getConnectingProgressBar().setProgress(0, 100);
+                TabOrganizer.getRoomPanel().getConnectingProgressBar().setProgress(0, Globals.JDPLAY_MAXSEARCHRETRIES);
                 TabOrganizer.getRoomPanel().getConnectingProgressBar().setVisible(true);
             }else{
                 return false;
@@ -153,7 +160,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                 switch(read(toRead)){
                     case 0:
                         String progress = lastRead.substring(10);
-                        int cur = Integer.parseInt(progress.split("/")[0])-1;
+                        int cur = Integer.parseInt(progress.split("/")[0]);
                         int max = Integer.parseInt(progress.split("/")[1]);
                         if(TabOrganizer.getRoomPanel() != null){
                             TabOrganizer.getRoomPanel().getConnectingProgressBar().setProgress(cur, max);
@@ -174,10 +181,6 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                 if(noSessionFound){
                     abortSearch = true;
                     if(TabOrganizer.getRoomPanel() != null){
-                        TabOrganizer.getRoomPanel().getConnectingProgressBar().setProgress(100, 100);
-                        try {
-                            Thread.sleep(500); //let the 100% be visible for a bit
-                        } catch (InterruptedException ex) {}
                         Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                                     "Launch failed! Found no session to join! The host maybe failed to launch or a firewall blocked your join attempt.",
                                     ChatStyles.SYSTEM,false);
@@ -193,7 +196,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             JDPlayLaunchHandler.isSearching = false;
 
             if(TabOrganizer.getRoomPanel() != null){
-                TabOrganizer.getRoomPanel().getConnectingProgressBar().setProgress(100, 100);
+                TabOrganizer.getRoomPanel().getConnectingProgressBar().setDone();
                 progressBarHider = new Thread(){
                 @Override
                 public void run() {
@@ -208,6 +211,10 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                 progressBarHider.start();
             }
         }
+
+        Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                                "Launching game, please wait ...",
+                                ChatStyles.SYSTEM,false);
 
         String[] toRead2 = {"FIN", "ERR"};
         boolean ret = read(toRead2) == 0;

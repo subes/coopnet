@@ -51,6 +51,10 @@ public class ParameterLaunchHandler extends LaunchHandler {
     @Override
     protected boolean doLaunch() {
 
+        Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                                "Launching game, please wait ...",
+                                ChatStyles.SYSTEM,false);
+
         if(Globals.getGameSettingsFrame() != null && launchInfo.getIsHost()){
             Globals.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(false);
         }

@@ -95,10 +95,6 @@ public abstract class LaunchHandler {
             doNormalLaunch = true;
         }
 
-        Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                                "Launching game, please wait ...",
-                                ChatStyles.SYSTEM,false);
-
         SoundPlayer.playLaunchSound();
 
         Protocol.launch();

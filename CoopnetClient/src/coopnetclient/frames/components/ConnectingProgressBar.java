@@ -20,7 +20,7 @@ public class ConnectingProgressBar extends javax.swing.JPanel {
                     progressbar.setMaximum(max);
                     progressbar.setValue(cur);
                     progressbar.setMaximum(max); //Need to do again to be sure it updates
-                    progressbar.setString((int)(progressbar.getPercentComplete() * 100)+"%");
+                    progressbar.setString("retry "+progressbar.getValue()+"/"+progressbar.getMaximum());
                     progressbar.repaint();
                 }catch(Exception e){
                     Logger.log(e);
@@ -28,6 +28,12 @@ public class ConnectingProgressBar extends javax.swing.JPanel {
             }
         });
     }
+
+    public void setDone(){
+        progressbar.setValue(progressbar.getMaximum());
+        progressbar.setString("Host found!");
+    }
+
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -44,7 +50,7 @@ public class ConnectingProgressBar extends javax.swing.JPanel {
         setLayout(new java.awt.GridLayout(2, 1));
 
         lbl_connecting.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_connecting.setText("Connecting ...");
+        lbl_connecting.setText("Searching for host ...");
         add(lbl_connecting);
         add(progressbar);
     }// </editor-fold>//GEN-END:initComponents
