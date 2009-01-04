@@ -141,7 +141,9 @@ public class CommandHandler {
                     if (information.length < 2) {
                         return;
                     }
-                    TabOrganizer.getRoomPanel().chat(information[0], information[1], ChatStyles.USER);
+                    if(TabOrganizer.getRoomPanel() != null){
+                        TabOrganizer.getRoomPanel().chat(information[0], information[1], ChatStyles.USER);
+                    }
                     break;
                 case ADD_TO_PLAYERS:
                     TabOrganizer.getChannelPanel(currentChannelName).addPlayerToChannel(information[1]);
@@ -243,10 +245,14 @@ public class CommandHandler {
                     Globals.getClientFrame().printMainChatMessage(TabOrganizer.getRoomPanel().gameName, "SYSTEM", "You have been kicked by the host!", ChatStyles.SYSTEM);
                     break;
                 case ADD_MEMBER_TO_ROOM:
-                    TabOrganizer.getRoomPanel().addmember(information[0]);
+                    if(TabOrganizer.getRoomPanel() != null){
+                        TabOrganizer.getRoomPanel().addmember(information[0]);
+                    }
                     break;
                 case REMOVE_MEMBER_FROM_ROOM:
-                    TabOrganizer.getRoomPanel().removeMember(information[0]);
+                    if(TabOrganizer.getRoomPanel() != null){
+                        TabOrganizer.getRoomPanel().removeMember(information[0]);
+                    }
                     break;
                 case ADD_ROOM:
                     TabOrganizer.getChannelPanel(currentChannelName).addRoomToTable(
@@ -293,13 +299,19 @@ public class CommandHandler {
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been unmuted!", ChatStyles.SYSTEM, false);
                     break;
                 case NOT_READY_STATUS:
-                    TabOrganizer.getRoomPanel().unReadyPlayer(information[0]);
+                    if(TabOrganizer.getRoomPanel() != null){
+                        TabOrganizer.getRoomPanel().unReadyPlayer(information[0]);
+                    }
                     break;
                 case READY_STATUS:
-                    TabOrganizer.getRoomPanel().readyPlayer(information[0]);
+                    if(TabOrganizer.getRoomPanel() != null){
+                        TabOrganizer.getRoomPanel().readyPlayer(information[0]);
+                    }
                     break;
                 case ROOM_PLAYING_STATUS:
-                    TabOrganizer.getRoomPanel().setPlaying(information[0]);
+                    if(TabOrganizer.getRoomPanel() != null){
+                        TabOrganizer.getRoomPanel().setPlaying(information[0]);
+                    }
                     break;
                 case GAME_CLOSED:
                     if (TabOrganizer.getRoomPanel() != null) {
@@ -308,7 +320,9 @@ public class CommandHandler {
                     TabOrganizer.getChannelPanel(currentChannelName).gameClosed(information[1]);
                     break;
                 case LAUNCH:
-                    TabOrganizer.getRoomPanel().launch();
+                    if(TabOrganizer.getRoomPanel() != null){
+                        TabOrganizer.getRoomPanel().launch();
+                    }
                     break;
                 case CHANNEL_PLAYING_STATUS:
                     TabOrganizer.getChannelPanel(currentChannelName).setPlayingStatus(information[1]);
