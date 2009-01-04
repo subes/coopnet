@@ -1594,7 +1594,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </GameData>
     <!--<GameData>
         <GameName>O.R.B.</GameName>
-        <ChannelID>237</ChannelID>
+        <ChannelID></ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
             <PropertyName>GUID</PropertyName>
@@ -2252,11 +2252,11 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>-game left4dead -console -novid +sv_cheats 0 +sv_allow_lobby_connect_only 0 +z_difficulty {DIFFICULTY} +sv_lan 0 +map {MAP}.bsp +name "{NAME}" +team_desired "{TEAM}" {SHOULDERVIEW}</PropertyValue>
+            <PropertyValue>-game left4dead -console -novid +sv_cheats 0 +sv_allow_lobby_connect_only 0 +z_difficulty {DIFFICULTY} +sv_lan 0 +map {MAP}.bsp +name "{NAME}" +team_desired "{TEAM}"</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
-            <PropertyValue>-game left4dead -console -novid +connect {HOSTIP} +name "{NAME}" +team_desired "{TEAM}" {SHOULDERVIEW}</PropertyValue>
+            <PropertyValue>-game left4dead -console -novid +connect {HOSTIP} +name "{NAME}" +team_desired "{TEAM}"</PropertyValue>
         </Property>
         <Property>
             <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
@@ -2316,6 +2316,48 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </ChoiceSetting>
         </Settings>
     </GameData>
+    <!--<GameData>
+        <GameName>Aliens vs. Predator 2</GameName>
+        <InstantLaunch/>
+        <NoSpaces/>
+        <ChannelID>237</ChannelID>
+        <LaunchMethod>PARAMETER</LaunchMethod>
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue>-windowtitle "Aliens vs. Predator 2" -rez AVP2.REZ -rez SOUNDS.REZ -rez AVP2L.REZ -rez AVP2DLL.REZ -rez MULTI.REZ -rez avp2p.rez -rez avp2p1.rez +DisableMovies 1 +gsa 1 +gsa_name "{NAME}" {PASSWORD}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue>-windowtitle "Aliens vs. Predator 2" -rez AVP2.REZ -rez SOUNDS.REZ -rez AVP2L.REZ -rez AVP2DLL.REZ -rez MULTI.REZ -rez avp2p.rez -rez avp2p1.rez +DisableMovies 1 +gsa 1 +gsa_ip {HOSTIP} +gsa_port {PORT} +gsa_name "{NAME}" {PASSWORD}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+gsa_pw {PASSWORD}</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+gsa_pw {PASSWORD}</PropertyValue>
+        </Property>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\Software\Monolith Productions\Aliens vs. Predator 2\1.0\InstallDir</RegKey>
+        </RegistryEntry>
+        <Property>
+            <PropertyName>EXE</PropertyName>
+            <PropertyValue>lithtech.exe</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPLOADERTYPE</PropertyName>
+            <PropertyValue>NONE</PropertyValue>
+        </Property>
+        <Settings>
+            <NumberSetting>
+                <SettingName>Port:</SettingName>
+                <SettingType>TEXT</SettingType>
+                <KeyWord>PORT</KeyWord>
+                <SettingDefaultValue>7777</SettingDefaultValue>
+            </NumberSetting>
+        </Settings>
+    </GameData>-->
     <GameData>
         <GameName>Unreal Tournament</GameName>
         <InstantLaunch/>
