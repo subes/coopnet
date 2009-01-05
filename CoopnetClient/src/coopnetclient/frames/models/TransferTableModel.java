@@ -56,7 +56,7 @@ public class TransferTableModel extends DefaultTableModel {
             this.peerName = peer;
             this.fileName = filename;
             this.ID = UUID.randomUUID();
-            this.handler = new FileTransferHandler(ID, sentFile);
+            this.handler = new FileTransferHandler(ID,peer, sentFile);
             this.status = TransferStatuses.Waiting;
             this.render = new TransferStatusButtonComponent();
         }
@@ -188,7 +188,7 @@ public class TransferTableModel extends DefaultTableModel {
     public void turnAroundTransfer(String peerName, String fileName) {
         Transfer tf = null;
         for (Transfer t : transfers) {
-            if (t.type == SEND_TYPE && t.peerName.equals(peerName) && t.fileName.equals(fileName) && (t.status == TransferStatuses.Waiting || t.status == TransferStatuses.Starting || t.status == TransferStatuses.Transferring)) {
+            if (t.peerName.equals(peerName) && t.fileName.equals(fileName) && (t.status == TransferStatuses.Waiting || t.status == TransferStatuses.Starting || t.status == TransferStatuses.Transferring)) {
                 tf = t;
             }
         }

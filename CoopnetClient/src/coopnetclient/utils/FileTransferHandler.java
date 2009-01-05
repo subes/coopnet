@@ -62,11 +62,13 @@ public class FileTransferHandler {
     long speedtmptime;
     int progress;
 
-    public FileTransferHandler(UUID ID, File sentFile) {
+    public FileTransferHandler(UUID ID, String peerName, File sentFile) {
         this.mode = SEND_MODE;
         this.ID = ID;
         this.sentFile = sentFile;
         this.totalsize = sentFile.length();
+        this.peerName = peerName;
+        this.fileName = sentFile.getName();
     }
 
     public FileTransferHandler(UUID ID, String peerName, long size, String fileName, String ip, String port) {
@@ -282,7 +284,7 @@ public class FileTransferHandler {
                             serverSocket.close();
                         }
                     } catch (Exception e) {
-                        if (e instanceof java.net.BindException) {
+                        if (e instanceof java.net.BindException || e instanceof java.net.SocketException) {
                             if (serverSocket != null) {
                                 serverSocket.close();
                                 serverSocket = null;
