@@ -430,15 +430,15 @@ public class TransferTableModel extends DefaultTableModel {
         fireTableDataChanged();
     }
 
-    private String getTimeLeft(long time) {
+    private String getTimeLeft(long timeInSeconds) {
         final int seconds;
         final int minutes;
         final long hours;
-        seconds = (int) (time % 60);
-        time = time / 60;   //scale to minutes
-        minutes = (int) (time % 60);
-        time = time / 60;
-        hours = (int) time;
+        seconds = (int) (timeInSeconds % 60);
+        timeInSeconds = timeInSeconds / 60;   //scale to minutes
+        minutes = (int) (timeInSeconds % 60);
+        timeInSeconds = timeInSeconds / 60;
+        hours = (int) timeInSeconds;
         return (hours + ":" + minutes + ":" + seconds);
     }
 }

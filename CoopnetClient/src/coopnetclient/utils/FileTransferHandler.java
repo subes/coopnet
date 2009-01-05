@@ -39,6 +39,7 @@ public class FileTransferHandler {
 
     public static final int SEND_MODE = 1;
     public static final int RECIEVE_MODE = 2;
+    public static final int FLUSH_INTERVAL = 1000000;
     private static final Object lock = new Object();
     private int mode;
     private String fileName;
@@ -98,15 +99,17 @@ public class FileTransferHandler {
                     //DO stuff
                     currenttime = System.currentTimeMillis();
                     long tmp = currenttime - speedtmptime;
-                    feedBackSpeed((int) ((processedBytes - lastBytePosition) / tmp));
+                    int speed = (int)((processedBytes - lastBytePosition) / tmp); //Byte per millisec / kilobyte per sec
+                    feedBackSpeed( speed ); 
                     speedtmptime = currenttime;
                     progress = (int) ((((processedBytes) * 1.0) / (totalsize - firstByteToSend)) * 100);
                     feedBackProgress(progress);
-                    
-                    timeelapsed = currenttime - starttime;
-                    timeelapsed = timeelapsed / 1000;
-                    feedBackTime((long) (((totalsize - firstByteToSend) - processedBytes) / (processedBytes * 1.0) * timeelapsed));
 
+                    if (processedBytes > 0) {
+                        timeelapsed = currenttime - starttime;
+                        timeelapsed = timeelapsed / 1000;
+                        feedBackTime( (long) ((((totalsize - firstByteToSend) - processedBytes) / ( speed*1.0f ))/1000.0f));
+                    }
 
                     lastBytePosition = processedBytes;
                 }
@@ -152,8 +155,8 @@ public class FileTransferHandler {
         Globals.getTransferModel().updateStatus(ID, status);
     }
 
-    private void feedBackTime(long time) {
-        Globals.getTransferModel().updateTime(ID, time);
+    private void feedBackTime(long timeInSeconds) {
+        Globals.getTransferModel().updateTime(ID, timeInSeconds);
     }
 
     private void feedBackProgress(int value) {
@@ -327,7 +330,7 @@ public class FileTransferHandler {
                         bo.write(readedbyte);
                         ++processedBytes;
                         ++tmp;
-                        if (tmp > 1000) {
+                        if (tmp > FLUSH_INTERVAL) {
                             bo.flush();
                             tmp = 0;
                         }
@@ -402,13 +405,13 @@ public class FileTransferHandler {
                     //Read data
                     while (running && ((socket.read(buffer)) != -1)) {
                         buffer.flip();
+                        processedBytes += buffer.limit();
                         bo.write(buffer.array(), 0, buffer.limit());
                         ++tmp;
-                        if (tmp > 1000) {
+                        if (tmp > FLUSH_INTERVAL) {
                             bo.flush();
                             tmp = 0;
                         }
-                        processedBytes += buffer.limit();
                         buffer.rewind();
                     }
                     bo.flush();
@@ -547,6 +550,7 @@ public class FileTransferHandler {
                         ++i;
                     }
 
+                    processedBytes = 0;
                     feedBackStatus(TransferStatuses.Transferring);
                     starttime = System.currentTimeMillis();
                     int tmp = 0;
@@ -562,7 +566,7 @@ public class FileTransferHandler {
                         }
                         ++processedBytes;
                         ++tmp;
-                        if (tmp > 1000) {
+                        if (tmp > FLUSH_INTERVAL) {
                             bo.flush();
                             tmp = 0;
                         }
