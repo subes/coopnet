@@ -1,3 +1,7 @@
+2009/01/05: CoopnetClient 0.101.1
+  - fixed DirectPlay support
+  - fixed file-transfer bug
+
 2009/01/04: CoopnetClient 0.101.0
   - detection of already running game
   - GUI changes
