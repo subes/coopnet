@@ -54,6 +54,10 @@ public class Launcher {
     
     public static void initialize(LaunchInfo launchInfo){
 
+        if(launchInfo == null){
+            throw new IllegalArgumentException("launchInfo must not be null!");
+        }
+
         TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getModName());
 
         if(launchInfo instanceof DirectPlayLaunchInfo){
