@@ -172,7 +172,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                     if(method == LaunchMethods.PARAMETER){
                         launchInfo = new ParameterLaunchInfo(gameName, modName, ip, isHost, false,roomName,password);
                     }else{
-                        launchInfo = new DirectPlayLaunchInfo(gameName, modName, ip, isHost, false, password);
+                        launchInfo = new DirectPlayLaunchInfo(gameName, modName, ip, isHost, false, password, false);
                     }
 
                     Launcher.initialize(launchInfo);

@@ -29,7 +29,7 @@ import java.util.Date;
 public class Logger {
 
     private static ArrayList<String> log = new ArrayList<String>();
-    private static final int TAIL_LENGTH = 50;
+    private static final int TAIL_LENGTH = 300;
     
     public static String getEndOfLog(){
         String ret = new String();
