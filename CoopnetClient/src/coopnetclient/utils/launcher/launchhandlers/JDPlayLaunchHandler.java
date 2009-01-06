@@ -46,7 +46,6 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     private String binary;
 
     private String lastRead = "";
-    private boolean doSearch = false;
     private static boolean isSearching = false;
     private static boolean abortSearch = false;
     private static boolean sessionFound = false;
@@ -132,6 +131,8 @@ public class JDPlayLaunchHandler extends LaunchHandler {
 
     @Override
     protected boolean doLaunch() {
+
+        boolean doSearch = launchInfo.isSearchEnabled();
 
         if (!write("LAUNCH doSearch:"+doSearch)){
             return false;
