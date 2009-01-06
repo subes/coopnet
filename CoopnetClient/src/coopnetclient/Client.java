@@ -213,10 +213,8 @@ public class Client {
 
         if (method == LaunchMethods.PARAMETER) {
             launchInfo = new ParameterLaunchInfo(gameName, mod, hostIP, isHost, true, roomName, password);
-        } else if (method == LaunchMethods.CHAT_ONLY) {
-            throw new IllegalArgumentException("You can't launch from CHAT_ONLY channel! GameName: " + gameName + " ChildName: " + mod);
         } else {
-            launchInfo = new DirectPlayLaunchInfo(gameName, mod, hostIP, isHost, true, password);
+            throw new IllegalArgumentException("You can't instantlaunch from "+method.toString()+" channel! GameName: " + gameName + " ChildName: " + mod);
         }
 
         Launcher.initialize(launchInfo);
