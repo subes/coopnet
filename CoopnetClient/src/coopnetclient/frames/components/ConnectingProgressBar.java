@@ -31,7 +31,7 @@ public class ConnectingProgressBar extends javax.swing.JPanel {
 
     public void setDone(){
         progressbar.setValue(progressbar.getMaximum());
-        progressbar.setString("Host found!");
+        progressbar.setString("Session found!");
     }
 
 
@@ -50,7 +50,7 @@ public class ConnectingProgressBar extends javax.swing.JPanel {
         setLayout(new java.awt.GridLayout(2, 1));
 
         lbl_connecting.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_connecting.setText("Searching for host ...");
+        lbl_connecting.setText("Searching for session ...");
         add(lbl_connecting);
         add(progressbar);
     }// </editor-fold>//GEN-END:initComponents

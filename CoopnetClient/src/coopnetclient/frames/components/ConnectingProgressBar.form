@@ -22,7 +22,7 @@
     <Component class="javax.swing.JLabel" name="lbl_connecting">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Searching for host ..."/>
+        <Property name="text" type="java.lang.String" value="Searching for session ..."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JProgressBar" name="progressbar">
