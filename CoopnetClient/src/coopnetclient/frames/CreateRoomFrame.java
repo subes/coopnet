@@ -110,6 +110,8 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         lbl_mod = new javax.swing.JLabel();
         cmb_mod = new javax.swing.JComboBox();
         cb_instantroom = new javax.swing.JCheckBox();
+        cb_searchEnabled = new javax.swing.JCheckBox();
+        jLabel1 = new javax.swing.JLabel();
         btn_create = new javax.swing.JButton();
         btn_cancel = new javax.swing.JButton();
 
@@ -249,6 +251,23 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnl_input.add(cb_instantroom, gridBagConstraints);
 
+        cb_searchEnabled.setSelected(true);
+        cb_searchEnabled.setText("Search Enabled");
+        cb_searchEnabled.setToolTipText("Search makes connecting slower but detects firewall blockage and makes the session compatible with other applications such as GameSpy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        pnl_input.add(cb_searchEnabled, gridBagConstraints);
+
+        jLabel1.setText("(No search might not work with some games)");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
+        pnl_input.add(jLabel1, gridBagConstraints);
+
         btn_create.setText("Create");
         btn_create.setNextFocusableComponent(btn_cancel);
         btn_create.addActionListener(new java.awt.event.ActionListener() {
@@ -281,7 +300,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(pnl_input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_create, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_cancel))
@@ -301,12 +320,12 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         btn_create.setEnabled(false);
         if (btn_create.getText().equals("Create")) {
             //normal lobby stuff
-            Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(),  cb_instantroom.isSelected());
+            Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(),  cb_instantroom.isSelected(), cb_searchEnabled.isSelected());
             Globals.closeRoomCreationFrame();
             TabOrganizer.getChannelPanel(channel).disableButtons();
         } else if (btn_create.getText().equals("Launch")) {
             //simple instantlaunch
-            Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(), true);
+            Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(), true, cb_searchEnabled.isSelected());
             Globals.closeRoomCreationFrame();
             TabOrganizer.getChannelPanel(channel).disableButtons();
             new Thread() {
@@ -371,7 +390,9 @@ private void cb_instantroomActionPerformed(java.awt.event.ActionEvent evt) {//GE
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_create;
     private javax.swing.JCheckBox cb_instantroom;
+    private javax.swing.JCheckBox cb_searchEnabled;
     private javax.swing.JComboBox cmb_mod;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lbl_limitNote;
     private javax.swing.JLabel lbl_maxPlayers;
     private javax.swing.JLabel lbl_mod;

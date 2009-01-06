@@ -454,7 +454,7 @@ public class Globals {
         }
     }
 
-    public static void openGameSettingsFrame(final String gameName, final String modName,final boolean isHost) {
+    public static void openGameSettingsFrame(final String gameName, final String modName,final boolean isHost, final boolean doSearch) {
         //isHost depends
 
         SwingUtilities.invokeLater(
@@ -465,7 +465,7 @@ public class Globals {
                         if (gameSettingsFrame != null) {
                             gameSettingsFrame.setVisible(true);
                         } else {
-                            gameSettingsFrame = new GameSettingsFrame(gameName, modName, isHost);
+                            gameSettingsFrame = new GameSettingsFrame(gameName, modName, isHost,doSearch);
                             //Frame decides if visible
                         }
                     }

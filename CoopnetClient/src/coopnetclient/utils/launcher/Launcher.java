@@ -86,7 +86,7 @@ public class Launcher {
                     && TabOrganizer.getRoomPanel()!= null
                     && GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getModName()).size() > 0){
                     //Frame decides if visible
-                    Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getModName(),launchInfo.getIsHost());
+                    Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getModName(),launchInfo.getIsHost(),false);
                 }
             }
         }else{

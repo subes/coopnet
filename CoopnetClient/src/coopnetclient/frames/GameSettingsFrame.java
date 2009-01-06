@@ -69,14 +69,15 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     private String modname;
     private String roomname,  password;
     private int modindex,  maxPlayers;
-    private boolean  isInstant,  isHost;
+    private boolean  isInstant,  isHost, doSearch;
 
     /** Creates new form GameSettingsPanel */
-    public GameSettingsFrame(String gamename, String modname, boolean isHost) {
+    public GameSettingsFrame(String gamename, String modname, boolean isHost,boolean doSearch) {
         initComponents();
         this.gamename = gamename;
         this.modname = modname;
         this.isHost = isHost;
+        this.doSearch = doSearch;
         isInstant = false;
         lbl_map.setVisible(false);
         cb_map.setVisible(false);
@@ -524,7 +525,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         e.printStackTrace();
     }
     if (btn_save.getText().equals("Launch")) {
-        Protocol.createRoom(gamename, roomname, modindex, password, maxPlayers, true);
+        Protocol.createRoom(gamename, roomname, modindex, password, maxPlayers, true,doSearch);
         Globals.closeRoomCreationFrame();
         new Thread() {
 

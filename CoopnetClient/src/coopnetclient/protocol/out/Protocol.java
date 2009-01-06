@@ -136,8 +136,8 @@ public class Protocol {
         new Message(ClientProtocolCommands.CANCEL_FILE, info);
     }
 
-    public static void createRoom(String channelName, String name, int modIndex, String password, int maxPlayers, boolean instantLaunch) {
-        String[] info = {GameDatabase.getIDofGame(channelName), name, password, String.valueOf(maxPlayers), String.valueOf(instantLaunch), Client.getHamachiAddress(), String.valueOf(modIndex)};
+    public static void createRoom(String channelName, String name, int modIndex, String password, int maxPlayers, boolean instantLaunch, boolean doSearch) {
+        String[] info = {GameDatabase.getIDofGame(channelName), name, password, String.valueOf(maxPlayers), String.valueOf(instantLaunch), Client.getHamachiAddress(), String.valueOf(modIndex), String.valueOf(doSearch)};
         new Message(ClientProtocolCommands.CREATE_ROOM, info);
     }
 

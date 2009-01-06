@@ -173,7 +173,8 @@ public class CommandHandler {
                             information[5],//hostname
                             information[6],//roomname
                             information[7],//roomID
-                            information[8]); //password
+                            information[8],//password
+                            information[8]); //doSearch
                     break;
                 case MUTE_BAN_LIST:
                     int i = 0;
@@ -227,7 +228,8 @@ public class CommandHandler {
                             Globals.getThisPlayer_loginName(),
                             information[3],//roomname
                             information[4],//roomid
-                            information[5]);//password
+                            information[5],
+                            information[6]);//password
                     break;
                 case LEAVE_ROOM:
                     TabOrganizer.closeRoomPanel();

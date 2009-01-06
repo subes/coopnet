@@ -70,13 +70,14 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     private int maxPlayers;
     private HashMap<String, String> gamesettings = new HashMap<String, String>();
     private RoomPlayerStatusListCellRenderer roomStatusListCR;
+    private boolean doSearch ;
 
     private SwingWorker readyDisablerThread;
     private SwingWorker launchDisablerThread;
 
     private boolean wasReadyBeforeReInit = false;
 
-    public RoomPanel(boolean isHost, String channel, String modindex, String hostIP, String hamachiIp, int maxPlayers,String hostName,String roomName,String ID,String password) {
+    public RoomPanel(boolean isHost, String channel, String modindex, String hostIP, String hamachiIp, int maxPlayers,String hostName,String roomName,String ID,String password, String doSearch) {
         this.gameName = channel;
         this.maxPlayers = maxPlayers;
         this.isHost = isHost;
@@ -87,6 +88,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         this.roomName = roomName;
         this.ID = ID;
         this.password = password;
+        this.doSearch = Boolean.valueOf(doSearch);
         users.add(Globals.getThisPlayer_loginName());
 
         initComponents();
@@ -172,7 +174,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                     if(method == LaunchMethods.PARAMETER){
                         launchInfo = new ParameterLaunchInfo(gameName, modName, ip, isHost, false,roomName,password);
                     }else{
-                        launchInfo = new DirectPlayLaunchInfo(gameName, modName, ip, isHost, false, password, false);
+                        launchInfo = new DirectPlayLaunchInfo(gameName, modName, ip, isHost, false, password, doSearch);
                     }
 
                     Launcher.initialize(launchInfo);
@@ -185,7 +187,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     public void showSettings() {
         if (btn_gameSettings.isVisible()) {
-            Globals.openGameSettingsFrame(gameName, modName,isHost);
+            Globals.openGameSettingsFrame(gameName, modName,isHost,doSearch);
         }
     }
 
