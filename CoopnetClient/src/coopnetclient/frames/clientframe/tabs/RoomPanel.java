@@ -70,7 +70,8 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     private int maxPlayers;
     private HashMap<String, String> gamesettings = new HashMap<String, String>();
     private RoomPlayerStatusListCellRenderer roomStatusListCR;
-    private boolean doSearch ;
+    private boolean doSearch;
+    private boolean hamachiWasEnabled = false;
 
     private SwingWorker readyDisablerThread;
     private SwingWorker launchDisablerThread;
@@ -102,7 +103,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         if(Client.getHamachiAddress().length() <= 0){
             cb_useHamachi.setVisible(false);
         } else if(hamachiIp.length() > 0 ) {
-            cb_useHamachi.setEnabled(true);
+            hamachiWasEnabled = true;
             cb_useHamachi.setToolTipText("<html>Don't use this unless you have connection issues!<br>If you really need to use this consult with the room host!<br>Both you and the host have to be connected to <br>the same hamachi network!Otherwise it won't work!");
         }
 
@@ -314,7 +315,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             @Override
             public void run() {
                 if (btn_ready.getText().equals("Unready")) {
-                    btn_ready.doClick();
+                    flipReadyStatus();
                     wasReadyBeforeReInit = true;
                 }
                 btn_ready.setText("Reinitializing...");
@@ -326,6 +327,8 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                     launchDisablerThread.cancel(true);
                 }
                 btn_launch.setEnabled(false);
+                hamachiWasEnabled = cb_useHamachi.isEnabled();
+                cb_useHamachi.setEnabled(false);
             }
         });
     }
@@ -333,8 +336,11 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     public void initDone(){
         btn_ready.setText("Ready");
         btn_ready.setEnabled(true);
+
+        cb_useHamachi.setEnabled(hamachiWasEnabled);
+
         if(wasReadyBeforeReInit){
-            btn_ready.doClick();
+            flipReadyStatus();
             wasReadyBeforeReInit = false;
         }
     }
@@ -574,6 +580,10 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             return;
         }
         
+        flipReadyStatus();
+}//GEN-LAST:event_clickedbtn_ready
+
+    private void flipReadyStatus(){
         Protocol.flipReadystatus();
         if (btn_ready.getText().equals("Ready")) {
             btn_ready.setText("Unready");
@@ -587,7 +597,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             btn_launch.setEnabled(false);
             SoundPlayer.playUnreadySound();
         }
-}//GEN-LAST:event_clickedbtn_ready
+    }
 
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
         if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
