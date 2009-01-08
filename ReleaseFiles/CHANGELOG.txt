@@ -1,3 +1,6 @@
+2009/01/08: CoopnetClient 0.101.2
+  - re-added quick DPlay launch
+
 2009/01/05: CoopnetClient 0.101.1
   - fixed DirectPlay support
   - fixed file-transfer bug
