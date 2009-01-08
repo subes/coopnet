@@ -46,7 +46,7 @@ public class Protocol {
     public static final String HEARTBEAT = "\u2665";
 
     //Increment this, when changes to the protocol commands have been done
-    public static final int PROTOCOL_VERSION = 2;
+    public static final int PROTOCOL_VERSION = 3;
     
     static{
         try{
