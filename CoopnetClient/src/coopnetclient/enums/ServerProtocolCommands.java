@@ -20,7 +20,7 @@
 package coopnetclient.enums;
 
 public enum ServerProtocolCommands {
-    PROTOCOL_VERSION,
+    PROTOCOL_VERSION, //DO NOT MOVE THIS! IT HAS TO BE KEPT ON FIRST INDEX!
     CONTACT_REQUESTED,
     SET_CONTACTSTATUS,
     ACCEPTED_CONTACT_REQUEST,
