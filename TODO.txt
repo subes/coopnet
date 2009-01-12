@@ -4,8 +4,29 @@ Todo includes:
 
 -- high priority --
 - use audio compression to lower the bandwidth usage (mp4? if not ogg... look at JMF transcoding)
-- implement a noise reduction algorithm
+- implement a noise reduction algorithm -- JMF plugins?
 
 -- low priority --
-- switch to UDP
+- switch to UDP -- see JMF with RTP/RTCP
 - set playback volume for each person locally (boost/lower volume, range 10% to 600%)
+
+
+---------------------------------------------------------------------------------------------------------------------------
+(20:06:41) subes: hi
+(20:07:21) subes: i got some more information regarding our voice feature
+(20:09:12) subes: we should really read up on jmf (java media framework)
+it supports processing plugins like silence suppression and so on (maybe even noise reduction?) gotta see, maybe search online for more plugins
+it also supports media streaming via rtp/rtcp -> specially designed for media streaming. drops unnecessary stuff and should increase quality a lot
+(20:09:33) subes: also the compression is directly supported by jmf
+(20:09:55) subes: so if we get into this, we should get into jmf ;)
+(20:13:09) subes: RTP uses UDP :D
+(20:13:28) subes: rtp = Real-Time Transport Protocol
+(20:13:37) subes: and RTCP = Real-Time Control Protocol
+(20:14:52) subes: we currently use JavaSound right?
+(20:15:13) subes: http://forums.sun.com/thread.jspa?threadID=5358573&tstart=0
+(20:15:23) subes: Audio-GSM is recommended for audio streaming
+(20:17:12) subes: http://java.sun.com/javase/technologies/desktop/media/jmf/2.1.1/solutions/index.html
+(20:17:17) subes: http://www.javazoom.net/vorbisspi/vorbisspi.html
+(20:17:22) subes: http://www.jcraft.com/jorbis/index.html
+(20:17:27) subes: http://www.jcraft.com/jroar/index.html
+(20:17:54) subes: im not able to do more research right now, ill put this stuff into the todo file
