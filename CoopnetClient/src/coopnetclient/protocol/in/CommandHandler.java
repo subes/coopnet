@@ -445,7 +445,7 @@ public class CommandHandler {
                             String gameName = GameDatabase.getGameName(tmp[0]);
                             boolean launch = Launcher.initInstantLaunch(gameName,GameDatabase.getModByIndex(gameName, new Integer(tmp[1])) , tmp[2] ,Integer.valueOf(tmp[3]) , false ,"", tmp[4]);
                             if(launch){
-                                Launcher.instantLaunch(tmp[0]);
+                                Launcher.instantLaunch(gameName);
                             }
                         }
                     }.start();
