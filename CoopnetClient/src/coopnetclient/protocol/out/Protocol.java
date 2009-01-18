@@ -196,7 +196,11 @@ public class Protocol {
     }
 
     public static void login(String name, String password) {
-        String[] info = {name, PasswordEncrypter.encryptPassword(password),String.valueOf(Launcher.isPlaying())};
+        String[] info = {name,
+                PasswordEncrypter.encryptPassword(password),
+                String.valueOf(Launcher.isPlaying()),
+                String.valueOf(GameDatabase.getIDofGame(Launcher.getLaunchedGame()))
+        };
         new Message(ClientProtocolCommands.LOGIN, info);
     }
     
