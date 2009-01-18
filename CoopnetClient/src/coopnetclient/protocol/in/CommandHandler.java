@@ -438,7 +438,6 @@ public class CommandHandler {
                 case INSTANT_LAUNCH:
                     final String tmp[] = new String[information.length];
                     System.arraycopy(information, 0, tmp, 0, tmp.length);
-                    tmp[0] = currentChannelName;
                     new Thread() {
 
                         @Override
