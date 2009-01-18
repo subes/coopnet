@@ -224,7 +224,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="lbl_search">
           <Properties>
             <Property name="text" type="java.lang.String" value="(No search might not work with some games)"/>
           </Properties>

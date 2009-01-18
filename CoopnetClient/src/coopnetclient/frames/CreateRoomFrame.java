@@ -22,6 +22,7 @@ package coopnetclient.frames;
 import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
+import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -58,6 +59,11 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         }
         pnl_input.revalidate();
         this.getRootPane().setDefaultButton(btn_create);
+
+        if(GameDatabase.getLaunchMethod(channel,null) != LaunchMethods.DIRECTPLAY ){
+            cb_searchEnabled.setVisible(false);
+            lbl_search.setVisible(false);
+        }
 
         AbstractAction act = new AbstractAction() {
 
@@ -111,7 +117,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         cmb_mod = new javax.swing.JComboBox();
         cb_instantroom = new javax.swing.JCheckBox();
         cb_searchEnabled = new javax.swing.JCheckBox();
-        jLabel1 = new javax.swing.JLabel();
+        lbl_search = new javax.swing.JLabel();
         btn_create = new javax.swing.JButton();
         btn_cancel = new javax.swing.JButton();
 
@@ -260,13 +266,13 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
         pnl_input.add(cb_searchEnabled, gridBagConstraints);
 
-        jLabel1.setText("(No search might not work with some games)");
+        lbl_search.setText("(No search might not work with some games)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 5, 5);
-        pnl_input.add(jLabel1, gridBagConstraints);
+        pnl_input.add(lbl_search, gridBagConstraints);
 
         btn_create.setText("Create");
         btn_create.setNextFocusableComponent(btn_cancel);
@@ -392,12 +398,12 @@ private void cb_instantroomActionPerformed(java.awt.event.ActionEvent evt) {//GE
     private javax.swing.JCheckBox cb_instantroom;
     private javax.swing.JCheckBox cb_searchEnabled;
     private javax.swing.JComboBox cmb_mod;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lbl_limitNote;
     private javax.swing.JLabel lbl_maxPlayers;
     private javax.swing.JLabel lbl_mod;
     private javax.swing.JLabel lbl_name;
     private javax.swing.JLabel lbl_password;
+    private javax.swing.JLabel lbl_search;
     private javax.swing.JPasswordField pf_password;
     private javax.swing.JPanel pnl_input;
     private javax.swing.JSpinner spn_maxPlayers;

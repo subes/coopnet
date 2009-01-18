@@ -26,6 +26,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.utils.launcher.Launcher;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
@@ -195,7 +196,7 @@ public class Protocol {
     }
 
     public static void login(String name, String password) {
-        String[] info = {name, PasswordEncrypter.encryptPassword(password)};
+        String[] info = {name, PasswordEncrypter.encryptPassword(password),String.valueOf(Launcher.isPlaying())};
         new Message(ClientProtocolCommands.LOGIN, info);
     }
     
