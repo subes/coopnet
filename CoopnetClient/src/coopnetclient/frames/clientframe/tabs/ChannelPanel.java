@@ -40,16 +40,10 @@ import coopnetclient.utils.launcher.Launcher;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.lang.Object;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DropMode;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.text.StyledDocument;
 
@@ -202,7 +196,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     public void enableButtons() {
         if(this.isLaunchable){
             if(Launcher.isPlaying()){
-                 if(TabOrganizer.getRoomPanel()==null && Launcher.getLaunchedGame().equals(name)){
+                 if(TabOrganizer.getRoomPanel()==null && Launcher.getLaunchedGame().equals(name) && !Launcher.isPlayingInstantLaunch()){
                     btn_create.setEnabled(true);
                     if(tbl_roomList.getSelectedRow() != -1){
                         btn_join.setEnabled(true);

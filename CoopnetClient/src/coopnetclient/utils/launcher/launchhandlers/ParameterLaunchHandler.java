@@ -77,6 +77,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
                     "Error while launching: " + e.getMessage(),
                     ChatStyles.SYSTEM, false);
             Logger.log(e);
+            return false;
         }
 
         if(Globals.getGameSettingsFrame() != null && launchInfo.getIsHost()){
@@ -107,7 +108,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
     }
 
     @Override
-    protected String getBinaryName() {
+    public String getBinaryName() {
         return binary;
     }
 }

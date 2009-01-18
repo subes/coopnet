@@ -27,6 +27,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
+import coopnetclient.utils.launcher.Launcher;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -331,15 +332,18 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             TabOrganizer.getChannelPanel(channel).disableButtons();
         } else if (btn_create.getText().equals("Launch")) {
             //simple instantlaunch
-            Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(), true, cb_searchEnabled.isSelected());
+            
             Globals.closeRoomCreationFrame();
             TabOrganizer.getChannelPanel(channel).disableButtons();
             new Thread() {
                 @Override
                 public void run() {
                     try {
-                        Client.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), true,tf_name.getText(),passw);
-                        Client.instantLaunch(channel);
+                        boolean launch = Launcher.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), true,tf_name.getText(),passw);
+                        if(launch){
+                            Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(), true, cb_searchEnabled.isSelected());
+                            Launcher.instantLaunch(channel);
+                        }
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
                     }
@@ -358,8 +362,10 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     try {
-                        Client.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), true,tf_name.getText(), passw);
-                        Globals.openGameSettingsFrame(channel, finalmodname, tf_name.getText(), passw, modindex, (Integer) spn_maxPlayers.getValue());
+                        boolean launch = Launcher.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), true,tf_name.getText(), passw);
+                        if(launch){
+                            Globals.openGameSettingsFrame(channel, finalmodname, tf_name.getText(), passw, modindex, (Integer) spn_maxPlayers.getValue());
+                        }
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
                     }

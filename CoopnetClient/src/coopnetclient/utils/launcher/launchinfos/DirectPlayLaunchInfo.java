@@ -26,8 +26,8 @@ public class DirectPlayLaunchInfo extends LaunchInfo {
     private String gameGUID;
     private boolean doSearch;
     
-    public DirectPlayLaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch, String password, boolean doSearch){
-        super(gameName, childName, hostIP, isHost, isInstantLaunch,password);
+    public DirectPlayLaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch, String password, String roomID, boolean doSearch){
+        super(gameName, childName, hostIP, isHost, isInstantLaunch,password,roomID);
         this.gameGUID = GameDatabase.getGuid(gameName, childName);
         this.doSearch = doSearch;
     }

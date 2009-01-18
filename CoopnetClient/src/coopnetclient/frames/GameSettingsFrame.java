@@ -18,7 +18,6 @@
  */
 package coopnetclient.frames;
 
-import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
@@ -29,6 +28,7 @@ import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
+import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.TempGameSettings;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -143,7 +143,10 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         getRootPane().getActionMap().put("close", act);
         InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
-        pack();
+        
+        this.setLocationRelativeTo(null);
+        Colorizer.colorize(this);
+        this.pack();
 
         decideVisibility();
     }
@@ -532,7 +535,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             @Override
             public void run() {
                 try {
-                    Client.instantLaunch(gamename);
+                    Launcher.instantLaunch(gamename);
                 } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }

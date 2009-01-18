@@ -388,7 +388,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     }
 
     @Override
-    protected String getBinaryName() {
+    public String getBinaryName() {
         return binary;
     }
 

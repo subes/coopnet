@@ -30,8 +30,8 @@ public class ParameterLaunchInfo extends LaunchInfo {
     private String parameters;
     private String roomName;
     
-    public ParameterLaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch, String roomName,String password){
-        super(gameName, childName, hostIP, isHost, isInstantLaunch,password);
+    public ParameterLaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch, String roomName,String password, String roomID){
+        super(gameName, childName, hostIP, isHost, isInstantLaunch,password, roomID);
         
         binaryPath = GameDatabase.getLaunchPathWithExe(gameName, childName);
         

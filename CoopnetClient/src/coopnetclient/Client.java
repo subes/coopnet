@@ -23,6 +23,7 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframe.tabs.RoomPanel;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.Colorizer;
@@ -33,7 +34,6 @@ import coopnetclient.utils.InactivityWatcher;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.Launcher;
-import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
 import java.awt.AWTEvent;
@@ -199,40 +199,6 @@ public class Client {
             //unbind hotkeys
             Hotkeys.cleanUp();
             System.exit(0);
-        }
-    }
-
-    public static void initInstantLaunch(final String gameName, final String mod, final String hostIP, final int maxPlayers, final boolean isHost, final String roomName, String password) {
-        Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                "Initializing game ...",
-                ChatStyles.SYSTEM, false);
-
-        LaunchInfo launchInfo;
-
-        LaunchMethods method = GameDatabase.getLaunchMethod(gameName, mod);
-
-        if (method == LaunchMethods.PARAMETER) {
-            launchInfo = new ParameterLaunchInfo(gameName, mod, hostIP, isHost, true, roomName, password);
-        } else {
-            throw new IllegalArgumentException("You can't instantlaunch from "+method.toString()+" channel! GameName: " + gameName + " ChildName: " + mod);
-        }
-
-        Launcher.initialize(launchInfo);
-
-        if (!Launcher.isInitialized()) {
-            Protocol.closeRoom();
-            Protocol.gameClosed(gameName);
-            TabOrganizer.getChannelPanel(gameName).enableButtons();
-        }
-    }
-
-    public static void instantLaunch(String channel) {
-        if (Launcher.isInitialized()) {
-            TabOrganizer.getChannelPanel(channel).disableButtons();
-            Launcher.launch();
-            Protocol.gameClosed(channel);
-            TabOrganizer.getChannelPanel(channel).enableButtons();
-            Launcher.deInitialize();
         }
     }
 

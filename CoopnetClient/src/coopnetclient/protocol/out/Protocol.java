@@ -31,6 +31,8 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import passwordencrypter.PasswordEncrypter;
 
 public class Protocol {
@@ -48,7 +50,9 @@ public class Protocol {
 
     //Increment this, when changes to the protocol commands have been done
     public static final int PROTOCOL_VERSION = 4;
-    
+
+    private static Thread delayCreateRoomThread;
+
     static{
         try{
             CharsetEncoder encoder = Charset.forName("UTF-8").newEncoder();
@@ -138,8 +142,28 @@ public class Protocol {
     }
 
     public static void createRoom(String channelName, String name, int modIndex, String password, int maxPlayers, boolean instantLaunch, boolean doSearch) {
-        String[] info = {GameDatabase.getIDofGame(channelName), name, password, String.valueOf(maxPlayers), String.valueOf(instantLaunch), Client.getHamachiAddress(), String.valueOf(modIndex), String.valueOf(doSearch)};
-        new Message(ClientProtocolCommands.CREATE_ROOM, info);
+        final String[] info = {GameDatabase.getIDofGame(channelName), name, password, String.valueOf(maxPlayers), String.valueOf(instantLaunch), Client.getHamachiAddress(), String.valueOf(modIndex), String.valueOf(doSearch)};
+
+        if(instantLaunch){
+            Launcher.setRoomCreationDelayed(true);
+            //delay until playing
+            delayCreateRoomThread = new Thread(){
+                @Override
+                public void run() {
+                    try {
+                        while(Launcher.isRoomCreationDelayed()){
+                            sleep(1000);
+                        }
+                        new Message(ClientProtocolCommands.CREATE_ROOM, info);
+                    } catch (InterruptedException ex) {
+                        Launcher.setRoomCreationDelayed(false);
+                    }
+                }
+            };
+            delayCreateRoomThread.start();
+        }else{
+            new Message(ClientProtocolCommands.CREATE_ROOM, info);
+        }
     }
 
     public static void sendSetting(String name,String value) {
@@ -270,7 +294,11 @@ public class Protocol {
     }
 
     public static void closeRoom() {
-        new Message(ClientProtocolCommands.CLOSE_ROOM);
+        if(delayCreateRoomThread != null && delayCreateRoomThread.isAlive()){
+            delayCreateRoomThread.interrupt();
+        }else{
+            new Message(ClientProtocolCommands.CLOSE_ROOM);
+        }
     }
 
     public static void leaveRoom() {
@@ -278,6 +306,7 @@ public class Protocol {
     }
 
     public static void launch() {
+        Launcher.setRoomCreationDelayed(false);
         new Message(ClientProtocolCommands.LAUNCH);
     }
 

@@ -27,14 +27,16 @@ public abstract class LaunchInfo {
     protected boolean isHost;
     protected boolean isInstantLaunch;
     protected String password;
+    protected String roomID;
     
-    public LaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch, String password){  
+    public LaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch, String password, String roomID){
         this.gameName = gameName;
         this.childName = childName;
         this.hostIP = hostIP;
         this.isHost = isHost;
         this.isInstantLaunch = isInstantLaunch;
         this.password = password;
+        this.roomID = roomID;
     }
     
     public String getGameName(){
@@ -55,5 +57,9 @@ public abstract class LaunchInfo {
     
     public boolean getIsInstantLaunch(){
         return isInstantLaunch;
+    }
+    
+    public String getRoomID(){
+        return roomID;
     }
 }

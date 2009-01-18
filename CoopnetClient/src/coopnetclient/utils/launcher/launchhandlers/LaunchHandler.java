@@ -35,11 +35,8 @@ public abstract class LaunchHandler {
     private boolean firstInitDone = false;
     private LaunchInfo launchInfo;
 
-    public String getGameName(){
-        if(launchInfo == null){
-            return null;
-        }
-        return launchInfo.getGameName();
+    public LaunchInfo getLaunchInfo(){
+        return launchInfo;
     }
 
     public boolean initialize(LaunchInfo launchInfo){
@@ -113,7 +110,7 @@ public abstract class LaunchHandler {
 
     protected abstract boolean doLaunch();
 
-    protected abstract String getBinaryName();
+    public abstract String getBinaryName();
 
     public boolean processExists(){
         String pgrepCommand;
@@ -147,6 +144,6 @@ public abstract class LaunchHandler {
 
         return false;
     }
-    
+
     public abstract void updatePlayerName();
 }

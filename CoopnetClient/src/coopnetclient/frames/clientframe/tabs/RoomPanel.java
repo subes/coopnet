@@ -36,6 +36,7 @@ import coopnetclient.utils.SoundPlayer;
 import coopnetclient.frames.renderers.RoomPlayerStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
+import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.UserListFileDropHandler;
 import coopnetclient.utils.hotkeys.Hotkeys;
@@ -53,6 +54,8 @@ import javax.swing.SwingWorker;
 import javax.swing.text.StyledDocument;
 
 public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
+
+    public static final String ROOMID_UNSUPPORTED = "ROOMID_UNSUPPORTED";
 
     private LaunchInfo launchInfo;
     
@@ -129,7 +132,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             convertToJoinPanel();
         }
 
-        coopnetclient.utils.Colorizer.colorize(this);
+        Colorizer.colorize(this);
 
         chat("", roomName, ChatStyles.USER);
         chat("", "room://"+ID, ChatStyles.USER);
@@ -173,9 +176,9 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                     
                     LaunchMethods method = GameDatabase.getLaunchMethod(gameName, modName);
                     if(method == LaunchMethods.PARAMETER){
-                        launchInfo = new ParameterLaunchInfo(gameName, modName, ip, isHost, false,roomName,password);
+                        launchInfo = new ParameterLaunchInfo(gameName, modName, ip, isHost, false, roomName,password, ID);
                     }else{
-                        launchInfo = new DirectPlayLaunchInfo(gameName, modName, ip, isHost, false, password, doSearch);
+                        launchInfo = new DirectPlayLaunchInfo(gameName, modName, ip, isHost, false, password, ID, doSearch);
                     }
 
                     Launcher.initialize(launchInfo);
@@ -308,6 +311,10 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                 }
             }
         }.start();
+    }
+
+    public void displayDelayedReinit(){
+        btn_ready.setText("Waiting for game to exit...");
     }
 
     public void displayReInit(){
