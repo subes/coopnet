@@ -237,7 +237,9 @@ public class TabOrganizer {
 
             roomPanel = null;
 
-            Launcher.deInitialize(); //roomPanel has to be null now!
+            if(!Launcher.isPlaying()){
+                Launcher.deInitialize(); //roomPanel has to be null now!
+            }
             Globals.closeGameSettingsFrame();
 
             for (ChannelPanel cp : channelPanels) {
@@ -553,14 +555,29 @@ public class TabOrganizer {
     }
 
     public static void closeAllTabs() {
-        tabHolder.removeAll();
-        channelPanels.clear();
-        roomPanel = null;
-        privateChatPanels.clear();
-        errorPanel = null;
-        browserPanel = null;
-        loginPanel = null;
-        transferPanel = null;
-        connectingPanel = null;
+        closeRoomPanel();
+        closeBrowserPanel();
+        closeErrorPanel();
+        closeLoginPanel();
+        closeTransferPanel();
+        closeConnectingPanel();
+        closePasswordRecoveryPanel();
+        closeRegisterPanel();
+        while(channelPanels.size() > 0){
+            closeChannelPanel(channelPanels.get(0));
+        }
+        while(privateChatPanels.size() > 0){
+            closePrivateChatPanel(privateChatPanels.get(0));
+        }
+
+        //throw exception if this method doesnt work properly manually! hopefully we get bugreports by this :)
+        //tabHolder.removeAll() is bad practice and should not be used!
+        if(tabHolder.getTabCount() > 0){
+            String text = "TabOrganizer.closeAllTabs() did not manually close all tabs! The following tabs were still open:";
+            for(int i = 0; i < tabHolder.getTabCount(); i++){
+                text += "\n\t\t" + tabHolder.getComponentAt(i).getClass().getName();
+            }
+            ErrorHandler.handleException(new IllegalStateException(text));
+        }
     }
 }

@@ -20,12 +20,10 @@
 package coopnetclient.utils.launcher.launchhandlers;
 
 import coopnetclient.Globals;
-import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
-import coopnetclient.utils.Settings;
 import coopnetclient.utils.SoundPlayer;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
@@ -64,7 +62,6 @@ public abstract class LaunchHandler {
         //Detect if executable is already running
         if(launchInfo.getIsHost()){
             if(processExists()){
-
                 JOptionPane.showMessageDialog(null,
                         "<html>Coopnet has detected that the game \"<b>"+getBinaryName()+"</b>\" is already running.<br>" +
                         "Please make sure the other players can <b>connect to a running server</b> there<br>" +

@@ -25,7 +25,6 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
-import coopnetclient.utils.SoundPlayer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.launcher.launchhandlers.JDPlayLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.LaunchHandler;
@@ -58,16 +57,16 @@ public class Launcher {
             throw new IllegalArgumentException("launchInfo must not be null!");
         }
 
-        TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getModName());
-
-        if(launchInfo instanceof DirectPlayLaunchInfo){
-            launchHandler = new JDPlayLaunchHandler();
-        }else
-        if(launchInfo instanceof ParameterLaunchInfo){
-            launchHandler = new ParameterLaunchHandler();
-        }
-
         if(!isPlaying()){
+            if(launchInfo instanceof DirectPlayLaunchInfo){
+                launchHandler = new JDPlayLaunchHandler();
+            }else
+            if(launchInfo instanceof ParameterLaunchInfo){
+                launchHandler = new ParameterLaunchHandler();
+            }
+
+            TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getModName());
+
             synchronized(launchHandler){
                 isInitialized = launchHandler.initialize(launchInfo);
 
@@ -161,7 +160,7 @@ public class Launcher {
             JDPlayLaunchHandler handler = (JDPlayLaunchHandler)launchHandler;
             handler.abortSearch();
         }
-
+        
         isInitialized = false;
         launchHandler = null;
     }
