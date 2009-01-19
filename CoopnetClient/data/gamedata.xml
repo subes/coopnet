@@ -1962,7 +1962,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>MAPPATH</PropertyName>
-            <PropertyValue>valve\maps\</PropertyValue>
+            <PropertyValue>\valve\maps\</PropertyValue>
         </Property>
         <Property>
             <PropertyName>MAPEXT</PropertyName>
@@ -1998,14 +1998,14 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </NumberSetting>            
         </Settings>
         <Mod>
-            <GameName>The Wastes</GameName>
+            <GameName>Wasteland</GameName>
             <Property>
                 <PropertyName>LAUNCHPATTERN</PropertyName>
-                <PropertyValue>-game thewastes +sv_lan 1 +sv_setmaster none +maxplayers {MAXPLAYERS} +map {MAP}.bsp +hostname "{ROOMNAME}" +port {PORT}</PropertyValue>
+                <PropertyValue>-game wasteland +sv_lan 1 +sv_setmaster none +maxplayers {MAXPLAYERS} +map {MAP}.bsp +hostname "{ROOMNAME}" +port {PORT}</PropertyValue>
             </Property>
             <Property>
                 <PropertyName>JOINPATTERN</PropertyName>
-                <PropertyValue>-game thewastes +connect {HOSTIP}:{PORT}</PropertyValue>
+                <PropertyValue>-game wasteland +connect {HOSTIP}:{PORT}</PropertyValue>
             </Property>
             <Property>
                 <PropertyName>MAPLOADERTYPE</PropertyName>
@@ -2086,14 +2086,14 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </TextSetting>
         </Settings>
         <Mod>
-            <GameName>The Wastes</GameName>
+            <GameName>Wasteland</GameName>
             <Property>
                 <PropertyName>LAUNCHPATTERN</PropertyName>
-                <PropertyValue>-game thewastes +sv_lan 1 +sv_setmaster none +maxplayers {MAXPLAYERS} +map {MAP}.bsp +hostname "{ROOMNAME}" +port {PORT}</PropertyValue>
+                <PropertyValue>-game wasteland +sv_lan 1 +sv_setmaster none +maxplayers {MAXPLAYERS} +map {MAP}.bsp +hostname "{ROOMNAME}" +port {PORT}</PropertyValue>
             </Property>
             <Property>
                 <PropertyName>JOINPATTERN</PropertyName>
-                <PropertyValue>-game thewastes +connect {HOSTIP}:{PORT}</PropertyValue>
+                <PropertyValue>-game wasteland +connect {HOSTIP}:{PORT}</PropertyValue>
             </Property>
             <Property>
                 <PropertyName>MAPLOADERTYPE</PropertyName>
