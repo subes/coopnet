@@ -73,13 +73,13 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         tbl_roomList.setModel(rooms);
         tbl_roomList.setAutoCreateRowSorter(true);
         tbl_roomList.setRowHeight(35);
-        tbl_roomList.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        tbl_roomList.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
         tbl_roomList.getColumnModel().getColumn(0).setMinWidth(45);
-        tbl_roomList.getColumnModel().getColumn(0).setMaxWidth(45);
+        tbl_roomList.getColumnModel().getColumn(0).setMaxWidth(46);
         tbl_roomList.getColumnModel().getColumn(1).setPreferredWidth(800);
         tbl_roomList.getColumnModel().getColumn(2).setPreferredWidth(300);
         tbl_roomList.getColumnModel().getColumn(3).setMinWidth(65);
-        tbl_roomList.getColumnModel().getColumn(3).setMaxWidth(65);
+        tbl_roomList.getColumnModel().getColumn(3).setMaxWidth(66);
                 
         ChannelRoomStatusRenderer picrend = new ChannelRoomStatusRenderer();
         picrend.setHorizontalAlignment(SwingConstants.CENTER);
