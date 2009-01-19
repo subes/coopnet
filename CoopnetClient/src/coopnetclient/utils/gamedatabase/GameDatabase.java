@@ -350,6 +350,15 @@ public class GameDatabase {
         //if its not overridden try detecting
         if (path == null || (path != null && path.length() == 0)) {
             path = RegistryReader.readAny(GameDatabase.getRegEntry(gamename, modName));
+            String relativexepath = GameDatabase.getRelativeExePath(gamename, null);
+            if (path != null && path.endsWith(relativexepath)) {
+                return path;
+            } else {
+                if (!path.endsWith(File.separator) || !relativexepath.startsWith(File.separator)) {
+                    path += File.separator;
+                }
+                return path + relativexepath;
+            }
         }
         return path;
     }
@@ -358,7 +367,7 @@ public class GameDatabase {
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(dataFilePath));
-        } catch (FileNotFoundException ex) {         
+        } catch (FileNotFoundException ex) {
             Logger.log(LogTypes.ERROR, "Could not load gamedatabase");
             Logger.log(ex);
             return;
