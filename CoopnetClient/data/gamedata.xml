@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 27 -->
+<!--Version 28 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?,(NoSpaces)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
@@ -1997,6 +1997,42 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingDefaultValue>27010</SettingDefaultValue>
             </NumberSetting>            
         </Settings>
+        <Mod>
+            <GameName>The Wastes</GameName>
+            <Property>
+                <PropertyName>LAUNCHPATTERN</PropertyName>
+                <PropertyValue>-game thewastes +sv_lan 1 +sv_setmaster none +maxplayers {MAXPLAYERS} +map {MAP}.bsp +hostname "{ROOMNAME}" +port {PORT}</PropertyValue>
+            </Property>
+            <Property>
+                <PropertyName>JOINPATTERN</PropertyName>
+                <PropertyValue>-game thewastes +connect {HOSTIP}:{PORT}</PropertyValue>
+            </Property>
+            <Property>
+                <PropertyName>MAPLOADERTYPE</PropertyName>
+                <PropertyValue>FILE</PropertyValue>
+            </Property>
+            <Property>
+                <PropertyName>MAPPATH</PropertyName>
+                <PropertyValue>\thewastes\maps\</PropertyValue>
+            </Property>
+            <Property>
+                <PropertyName>MAPEXT</PropertyName>
+                <PropertyValue>bsp</PropertyValue>
+            </Property>
+            <Settings>
+                <NumberSetting>
+                    <SettingName>Maxplayers:</SettingName>
+                    <SettingType>NUMBER</SettingType>
+                    <KeyWord>MAXPLAYERS</KeyWord>
+                </NumberSetting>
+                <NumberSetting>
+                    <SettingName>Port:</SettingName>
+                    <SettingType>TEXT</SettingType>
+                    <KeyWord>PORT</KeyWord>
+                    <SettingDefaultValue>27010</SettingDefaultValue>
+                </NumberSetting>
+            </Settings>
+        </Mod>
     </GameData>
     <GameData>
         <GameName>Half-Life - Steam</GameName>
@@ -2049,6 +2085,42 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
                 <SettingDefaultValue></SettingDefaultValue>
             </TextSetting>
         </Settings>
+        <Mod>
+            <GameName>The Wastes</GameName>
+            <Property>
+                <PropertyName>LAUNCHPATTERN</PropertyName>
+                <PropertyValue>-game thewastes +sv_lan 1 +sv_setmaster none +maxplayers {MAXPLAYERS} +map {MAP}.bsp +hostname "{ROOMNAME}" +port {PORT}</PropertyValue>
+            </Property>
+            <Property>
+                <PropertyName>JOINPATTERN</PropertyName>
+                <PropertyValue>-game thewastes +connect {HOSTIP}:{PORT}</PropertyValue>
+            </Property>
+            <Property>
+                <PropertyName>MAPLOADERTYPE</PropertyName>
+                <PropertyValue>FILE</PropertyValue>
+            </Property>
+            <Property>
+                <PropertyName>MAPPATH</PropertyName>
+                <PropertyValue>\thewastes\maps\</PropertyValue>
+            </Property>
+            <Property>
+                <PropertyName>MAPEXT</PropertyName>
+                <PropertyValue>bsp</PropertyValue>
+            </Property>
+            <Settings>
+                <NumberSetting>
+                    <SettingName>Maxplayers:</SettingName>
+                    <SettingType>NUMBER</SettingType>
+                    <KeyWord>MAXPLAYERS</KeyWord>
+                </NumberSetting>
+                <NumberSetting>
+                    <SettingName>Port:</SettingName>
+                    <SettingType>TEXT</SettingType>
+                    <KeyWord>PORT</KeyWord>
+                    <SettingDefaultValue>27010</SettingDefaultValue>
+                </NumberSetting>
+            </Settings>
+        </Mod>
     </GameData>
     <GameData>
         <GameName>Call of Duty</GameName>
