@@ -27,6 +27,10 @@ public class Verification {
 
 
     public static boolean verifyProtocolVersion(String version){
+        if(version == null){
+            return false;
+        }
+
         try{
             int v = Integer.parseInt(version);
             if(v != Protocol.PROTOCOL_VERSION){
@@ -41,20 +45,36 @@ public class Verification {
     }
 
     public static boolean verifyClientVersion(String checkAgainst) {
+        if(checkAgainst == null){
+            return false;
+        }
+
         //Here we have a number scheme x.x.x
         String[] checkAgainstSplit = checkAgainst.split("\\.");
-        String[] clientVersionSplit = Globals.getClientVersion().split("\\.");
+        String[] clientVersionSplit = Globals.CLIENT_VERSION.split("\\.");
 
-        for (int i = 0; i < clientVersionSplit.length ; i++) {
-            if (Integer.parseInt(clientVersionSplit[i]) < Integer.parseInt(checkAgainstSplit[i])) {
-                return Integer.parseInt(clientVersionSplit[i-1]) > Integer.parseInt(checkAgainstSplit[i-1]);
+        try{
+            for (int i = 0; i < clientVersionSplit.length ; i++) {
+                if (Integer.parseInt(clientVersionSplit[i]) < Integer.parseInt(checkAgainstSplit[i])) {
+                    return Integer.parseInt(clientVersionSplit[i-1]) > Integer.parseInt(checkAgainstSplit[i-1]);
+                }
             }
+        }catch(NumberFormatException e){
+            Logger.log(e);
+            return false;
+        }catch(ArrayIndexOutOfBoundsException e){
+            Logger.log(e);
+            return false;
         }
 
         return true;
     }
 
     public static boolean verifyPassword(String password) {
+        if(password == null){
+            return false;
+        }
+
         if (password.length() < 5) {
             return false;
         }
@@ -62,11 +82,19 @@ public class Verification {
         return true;
     }
 
-    public static boolean verifyLoginName(String loginName) {        
+    public static boolean verifyLoginName(String loginName) {
+        if(loginName == null){
+            return false;
+        }
+
         return loginName.matches("\\p{Graph}{3,30}");
     }
     
     public static boolean verifyIngameName(String ingameName){
+        if(ingameName == null){
+            return false;
+        }
+
         if(ingameName.length() < 1 || ingameName.length() > 30){
             return false;
         }
@@ -75,14 +103,23 @@ public class Verification {
     }
     
     public static boolean verifyEMail(String email){
+        if(email == null){
+            return false;
+        }
+
         if(email.length() > 320 || email.length()<5){
             return false;
         }
-        
-        return email.matches("^.+@[^\\.].*\\.[a-z]{2,}$");
+
+        //See http://www.regular-expressions.info/email.html (more practical implementation of RFC 2822)
+        return email.matches("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
     }
     
     public static boolean verifyWebsite(String website){
+        if(website == null){
+            return false;
+        }
+
         if(website.length() > 320){
             return false;
         }
@@ -91,6 +128,10 @@ public class Verification {
     }
     
     public static boolean verifyCountry(String country){
+        if(country == null){
+            return false;
+        }
+
         if(country.length() > 60){
             return false;
         }
@@ -99,6 +140,10 @@ public class Verification {
     }
     
     public static boolean verifyGroupName(String groupName){
+        if(groupName == null){
+            return false;
+        }
+
         if(groupName.length() < 1 || groupName.length() > 30){
             return false;
         }
@@ -106,8 +151,12 @@ public class Verification {
         return true;
     }
     
-    public static boolean verifyDirectory(String DIRName){
-        File dir = new File(DIRName);
+    public static boolean verifyDirectory(String DirName){
+        if(DirName == null){
+            return false;
+        }
+
+        File dir = new File(DirName);
         if(dir.isDirectory() && dir.exists()){
             return true;
         }else{
@@ -115,8 +164,12 @@ public class Verification {
         }
     }
     
-    public static boolean verifyFile(String FileName){
-        File file = new File(FileName);
+    public static boolean verifyFile(String fileName){
+        if(fileName == null){
+            return false;
+        }
+
+        File file = new File(fileName);
         if(file.isFile() && file.exists()){
             return true;
         }else{

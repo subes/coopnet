@@ -340,14 +340,14 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         tabpn_tabs.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 tabpn_tabsCaretPositionChanged(evt);
             }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
         });
 
-        setTitle("CoopnetClient "+ Globals.getClientVersion());
+        setTitle("CoopnetClient "+ Globals.CLIENT_VERSION);
         setMinimumSize(new java.awt.Dimension(600, 400));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {

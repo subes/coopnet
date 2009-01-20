@@ -53,15 +53,17 @@ import javax.swing.SwingUtilities;
 public class Globals {
 
     //Constants
+    public static final String CLIENT_VERSION = "0.101.2";
+
     public static final int JDPLAY_MAXSEARCHRETRIES = 12; //1 try = 5 secs; 12 tries = 60 secs
     public static final int JDPLAY_SEARCHVALIDATIONCOUNT = 1; //set to 1 to be sure the joined session is not a temp one, though slower launch!
+
     //Set via static{}
     private static OperatingSystems operatingSystem;
     private static String lastOpenedDir;
     private static final String wineCommand;
     //Preset value
     private static boolean debug = false;
-    private static final String clientVersion = "0.101.2";
     private static boolean connectionStatus = false;
     private static boolean loggedInStatus = false;
     private static boolean sleepModeStatus = false;
@@ -239,10 +241,6 @@ public class Globals {
 
     public static boolean getDebug() {
         return debug;
-    }
-
-    public static String getClientVersion() {
-        return clientVersion;
     }
 
     public static ContactListModel getContactList() {
