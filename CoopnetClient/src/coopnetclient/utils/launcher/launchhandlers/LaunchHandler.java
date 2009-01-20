@@ -91,8 +91,6 @@ public abstract class LaunchHandler {
 
         SoundPlayer.playLaunchSound();
 
-        Protocol.launch();
-
         if(doNormalLaunch){
             return doLaunch();
         }else{
