@@ -19,7 +19,6 @@
 
 package coopnetclient.frames;
 
-import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.LaunchMethods;

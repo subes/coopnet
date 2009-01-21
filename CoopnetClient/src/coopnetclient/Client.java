@@ -19,11 +19,8 @@
 package coopnetclient;
 
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.enums.ChatStyles;
-import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.frames.clientframe.tabs.RoomPanel;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.Colorizer;
@@ -33,9 +30,6 @@ import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.InactivityWatcher;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.Logger;
-import coopnetclient.utils.launcher.Launcher;
-import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
-import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
 import java.awt.AWTEvent;
 import java.awt.SystemTray;
 import java.awt.Toolkit;

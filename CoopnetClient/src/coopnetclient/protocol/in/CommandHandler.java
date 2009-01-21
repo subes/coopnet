@@ -443,8 +443,25 @@ public class CommandHandler {
                         @Override
                         public void run() {
                             String gameName = GameDatabase.getGameName(tmp[0]);
-                            boolean launch = Launcher.initInstantLaunch(gameName,GameDatabase.getModByIndex(gameName, new Integer(tmp[1])) , tmp[2] ,Integer.valueOf(tmp[3]) , false ,"", tmp[4]);
+                            String modName = GameDatabase.getModByIndex(gameName, new Integer(tmp[1]));
+                            boolean launch = Launcher.initInstantLaunch(gameName,modName , tmp[2] ,Integer.valueOf(tmp[3]) , false ,"", tmp[4]);
                             if(launch){
+                                int idx = 5;//start of settigns
+                                while (idx < tmp.length) {
+                                    if (tmp[idx].equals("map")) {
+                                        TempGameSettings.setMap(tmp[idx+1]);
+                                    } else {
+                                        TempGameSettings.setGameSetting(tmp[idx], tmp[idx+1], false);
+                                    }
+                                    GameSettingsFrame gf = Globals.getGameSettingsFrame();
+                                    if (gf != null) {
+                                        gf.updateValues();
+                                    }
+                                }
+                                //launch game
+                                if(GameDatabase.getLocalSettingCount(gameName, modName) > 0 ) {
+                                    
+                                }
                                 Launcher.instantLaunch(gameName);
                             }
                         }

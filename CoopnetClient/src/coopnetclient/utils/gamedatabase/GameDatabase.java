@@ -350,8 +350,11 @@ public class GameDatabase {
         //if its not overridden try detecting
         if (path == null || (path != null && path.length() == 0)) {
             path = RegistryReader.readAny(GameDatabase.getRegEntry(gamename, modName));
+            if(path == null){
+                return path;
+            }
             String relativexepath = GameDatabase.getRelativeExePath(gamename, null);
-            if (path != null && path.endsWith(relativexepath)) {
+            if (path.endsWith(relativexepath)) {
                 return path;
             } else {
                 if (!path.endsWith(File.separator) || !relativexepath.startsWith(File.separator)) {

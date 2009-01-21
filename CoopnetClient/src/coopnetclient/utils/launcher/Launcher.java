@@ -19,7 +19,6 @@
 
 package coopnetclient.utils.launcher;
 
-import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
@@ -36,7 +35,6 @@ import coopnetclient.utils.launcher.launchhandlers.ParameterLaunchHandler;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
-import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
@@ -45,16 +43,7 @@ public class Launcher {
     private static boolean isInitialized;
     private static LaunchInfo launchedGameInfo;
     private static LaunchHandler launchHandler;
-    private static SwingWorker delayedReinitThread;
-    private static boolean delayRoomCreation = false;
-
-    public static boolean isRoomCreationDelayed(){
-        return delayRoomCreation;
-    }
-
-    public static void setRoomCreationDelayed(boolean value){
-        delayRoomCreation = value;
-    }
+    private static SwingWorker delayedReinitThread;    
 
     public static boolean isInitialized(){
         return isInitialized;
@@ -324,7 +313,6 @@ public class Launcher {
                     "WARNING: Game is already running",
                     JOptionPane.WARNING_MESSAGE);
 
-                setRoomCreationDelayed(false);
 
                 while(isPlaying()){
                     try {

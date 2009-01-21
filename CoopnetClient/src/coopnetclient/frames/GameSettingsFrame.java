@@ -494,6 +494,10 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
+    //create the room at server
+    if (isInstant && isHost) {
+        Protocol.createRoom(gamename, roomname, modindex, password, maxPlayers, true,doSearch);
+    }
     //update the launcher
     try {
         //if somethings unselected an exception is thrown        
@@ -527,9 +531,9 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     } catch (Exception e) {
         e.printStackTrace();
     }
-    if (btn_save.getText().equals("Launch")) {
-        Protocol.createRoom(gamename, roomname, modindex, password, maxPlayers, true,doSearch);
-        Globals.closeRoomCreationFrame();
+    
+    if(isInstant){
+        Globals.closeGameSettingsFrame();
         new Thread() {
 
             @Override
@@ -541,10 +545,6 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 }
             }
         }.start();
-    }
-
-    if(isInstant){
-        Globals.closeGameSettingsFrame();
     }else{
         this.setVisible(false);
     }

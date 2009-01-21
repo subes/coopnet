@@ -31,8 +31,6 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import passwordencrypter.PasswordEncrypter;
 
 public class Protocol {
@@ -143,27 +141,7 @@ public class Protocol {
 
     public static void createRoom(String channelName, String name, int modIndex, String password, int maxPlayers, boolean instantLaunch, boolean doSearch) {
         final String[] info = {GameDatabase.getIDofGame(channelName), name, password, String.valueOf(maxPlayers), String.valueOf(instantLaunch), Client.getHamachiAddress(), String.valueOf(modIndex), String.valueOf(doSearch)};
-
-        if(instantLaunch){
-            Launcher.setRoomCreationDelayed(true);
-            //delay until playing
-            delayCreateRoomThread = new Thread(){
-                @Override
-                public void run() {
-                    try {
-                        while(Launcher.isRoomCreationDelayed()){
-                            sleep(1000);
-                        }
-                        new Message(ClientProtocolCommands.CREATE_ROOM, info);
-                    } catch (InterruptedException ex) {
-                        Launcher.setRoomCreationDelayed(false);
-                    }
-                }
-            };
-            delayCreateRoomThread.start();
-        }else{
-            new Message(ClientProtocolCommands.CREATE_ROOM, info);
-        }
+        new Message(ClientProtocolCommands.CREATE_ROOM, info);
     }
 
     public static void sendSetting(String name,String value) {
@@ -306,7 +284,6 @@ public class Protocol {
     }
 
     public static void launch() {
-        Launcher.setRoomCreationDelayed(false);
         new Message(ClientProtocolCommands.LAUNCH);
     }
 
