@@ -1,25 +1,126 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * EventsPanel.java
+/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com),
+ *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
  *
- * Created on 2009.01.13., 15:55:34
+ *  This file is part of Coopnet.
+ *
+ *  Coopnet is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Coopnet is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.clientframe.tabs;
 
-/**
- *
- * @author user
- */
+import coopnetclient.utils.Settings;
+import coopnetclient.utils.gamedatabase.GameDatabase;
+import java.util.Enumeration;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeSelectionModel;
+
 public class EventsPanel extends javax.swing.JPanel {
+
+    private DefaultMutableTreeNode root = new DefaultMutableTreeNode("Event browser");
+    private DefaultMutableTreeNode favsNode = new DefaultMutableTreeNode("Favourites");
+    private DefaultMutableTreeNode installedNode = new DefaultMutableTreeNode("Installed Games");
+    private DefaultMutableTreeNode allGamesNode = new DefaultMutableTreeNode("All Games");
+    private Long currentlyDisplayedEventID = null;
+
+    private static class EventNode extends DefaultMutableTreeNode {
+
+        private Long ID;
+
+        public EventNode(Long ID, String title) {
+            super(title);
+            this.ID = ID;
+        }
+
+        public Long getID() {
+            return ID;
+        }
+    }
 
     /** Creates new form EventsPanel */
     public EventsPanel() {
         initComponents();
+        initNodes();
+        tr_games.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        tr_games.setShowsRootHandles(true);
+        DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+        //custom icons possible
+        renderer.setLeafIcon(null);
+        renderer.setClosedIcon(null);
+        renderer.setOpenIcon(null);
+        tr_games.setCellRenderer(renderer);
+        tr_games.putClientProperty("JTree.lineStyle", "Angled");//None for no lines
+    }
+
+    private void initNodes() {
+        root.removeAllChildren();
+        root.add(favsNode);
+        root.add(installedNode);
+        root.add(allGamesNode);
+        updateFavouritesNode();
+        allGamesNode.removeAllChildren();
+        for (String gameName : GameDatabase.getAllGameNamesAsStringArray()) {
+            allGamesNode.add(new DefaultMutableTreeNode(gameName));
+        }
+        installedNode.removeAllChildren();
+        for (String gameName : GameDatabase.getInstalledGameNames()) {
+            installedNode.add(new DefaultMutableTreeNode(gameName));
+        }
+    }
+
+    public synchronized void updateFavouritesNode() {
+        favsNode.removeAllChildren();
+        for (String gameName : Settings.getFavouritesByName()) {
+            favsNode.add(new DefaultMutableTreeNode(gameName));
+        }
+    }
+
+    public void addEvent(String gameName, Long eventID, String eventTitle) {
+        EventNode newEvent = new EventNode(eventID, eventTitle);
+        Enumeration e = installedNode.children();
+        while (e.hasMoreElements()) {
+            Object o = e.nextElement();
+            if (o instanceof EventNode) {
+                EventNode oldEvent = (EventNode) o;
+                if (oldEvent.getID().equals(eventID)) {
+                    installedNode.remove(oldEvent);
+                    installedNode.add(newEvent);
+                }
+            }
+        }
+        e = favsNode.children();
+        while (e.hasMoreElements()) {
+            Object o = e.nextElement();
+            if (o instanceof EventNode) {
+                EventNode oldEvent = (EventNode) o;
+                if (oldEvent.getID().equals(eventID)) {
+                    favsNode.remove(oldEvent);
+                    favsNode.add(newEvent);
+                }
+            }
+        }
+        e = allGamesNode.children();
+        while (e.hasMoreElements()) {
+            Object o = e.nextElement();
+            if (o instanceof EventNode) {
+                EventNode oldEvent = (EventNode) o;
+                if (oldEvent.getID().equals(eventID)) {
+                    allGamesNode.remove(oldEvent);
+                    allGamesNode.add(newEvent);
+                }
+            }
+        }
     }
 
     /** This method is called from within the constructor to
@@ -33,9 +134,8 @@ public class EventsPanel extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         lbl_description = new javax.swing.JLabel();
-        lbl_games = new javax.swing.JLabel();
         sp_games = new javax.swing.JScrollPane();
-        tr_games = new javax.swing.JTree();
+        tr_games = new JTree(root);
         btn_post = new javax.swing.JButton();
         btn_edit = new javax.swing.JButton();
         btn_signUp = new javax.swing.JButton();
@@ -61,19 +161,11 @@ public class EventsPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(lbl_description, gridBagConstraints);
 
-        lbl_games.setText("Games:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        add(lbl_games, gridBagConstraints);
-
         sp_games.setViewportView(tr_games);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 100;
@@ -97,7 +189,7 @@ public class EventsPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btn_edit, gridBagConstraints);
 
-        btn_signUp.setText("Sign Up");
+        btn_signUp.setText("Participate");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -170,7 +262,7 @@ public class EventsPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 4);
         add(sp_comments, gridBagConstraints);
 
-        lbl_users.setText("Users:");
+        lbl_users.setText("Participants:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
@@ -187,8 +279,6 @@ public class EventsPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(jScrollPane2, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_edit;
     private javax.swing.JButton btn_post;
@@ -199,7 +289,6 @@ public class EventsPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_comments;
     private javax.swing.JLabel lbl_description;
-    private javax.swing.JLabel lbl_games;
     private javax.swing.JLabel lbl_users;
     private javax.swing.JList lst_users;
     private javax.swing.JScrollPane sp_comments;
@@ -209,5 +298,4 @@ public class EventsPanel extends javax.swing.JPanel {
     private javax.swing.JTextPane tp_postComment;
     private javax.swing.JTree tr_games;
     // End of variables declaration//GEN-END:variables
-
 }
