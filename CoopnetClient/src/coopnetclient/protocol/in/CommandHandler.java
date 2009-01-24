@@ -457,6 +457,7 @@ public class CommandHandler {
                                     if (gf != null) {
                                         gf.updateValues();
                                     }
+                                    idx+=2;
                                 }
                                 //launch game
                                 if(GameDatabase.getLocalSettingCount(gameName, modName) > 0 ) {
