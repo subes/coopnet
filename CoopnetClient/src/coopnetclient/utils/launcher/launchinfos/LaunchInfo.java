@@ -51,11 +51,11 @@ public abstract class LaunchInfo {
         return hostIP;
     }
     
-    public boolean getIsHost(){
+    public boolean isHost(){
         return isHost;
     }
     
-    public boolean getIsInstantLaunch(){
+    public boolean isInstantLaunch(){
         return isInstantLaunch;
     }
     

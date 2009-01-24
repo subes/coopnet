@@ -54,7 +54,7 @@ public class Launcher {
     }
 
     public static boolean isPlayingInstantLaunch(){
-        return launchedGameInfo != null && launchedGameInfo.getIsInstantLaunch();
+        return launchedGameInfo != null && launchedGameInfo.isInstantLaunch();
     }
 
     public static String getLaunchedGame(){
@@ -98,11 +98,11 @@ public class Launcher {
             }
 
             if(launchInfo instanceof ParameterLaunchInfo){
-                if(!launchInfo.getIsInstantLaunch()
+                if(!launchInfo.isInstantLaunch()
                     && TabOrganizer.getRoomPanel()!= null
                     && GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getModName()).size() > 0){
                     //Frame decides if visible
-                    Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getModName(),launchInfo.getIsHost(),false);
+                    Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getModName(),launchInfo.isHost(),false);
                 }
             }
         }else{
@@ -111,13 +111,13 @@ public class Launcher {
     }
 
     private static void determineInitializeActionWhenAlreadyPlaying(LaunchInfo curLaunchInfo){
-        if(curLaunchInfo.getIsInstantLaunch()){
+        if(curLaunchInfo.isInstantLaunch()){
             //now joining/hosting instant launch
             //not allowed
             //print warning
             //done via joptionpane
         }else
-        if(launchedGameInfo.getIsHost() && curLaunchInfo.getIsHost()
+        if(launchedGameInfo.isHost() && curLaunchInfo.isHost()
                 || curLaunchInfo.getRoomID().equals(launchedGameInfo.getRoomID())){
             //Previously hosted and now hosting again
             //or previously joined and now joining same room again
@@ -306,7 +306,7 @@ public class Launcher {
         if (Launcher.isInitialized()) {
             TabOrganizer.getChannelPanel(channel).disableButtons();
 
-            if(launchHandler.getLaunchInfo().getIsHost() && (isPlaying() || launchHandler.processExists())){
+            if(launchHandler.getLaunchInfo().isHost() && (isPlaying() || launchHandler.processExists())){
                 JOptionPane.showMessageDialog(null,
                     "<html>Coopnet has detected that the game \"<b>"+launchHandler.getBinaryName()+"</b>\" is already running.<br>" +
                     "Please make sure the other players can <b>connect to a running server</b> there<br>" +
@@ -322,9 +322,9 @@ public class Launcher {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {}
                 }
-            } else if ( !launchHandler.getLaunchInfo().getIsHost() && !launchClickedFromGameSettingsFrame ) {
+            } else if ( !launchHandler.getLaunchInfo().isHost() && !launchClickedFromGameSettingsFrame ) {
                 //room data is dummy , its not gona be used in this case at all
-                Globals.openGameSettingsFrame(channel, launchHandler.getLaunchInfo().getModName(), "", "", -1, -1,launchHandler.getLaunchInfo().getIsHost());
+                Globals.openGameSettingsFrame(channel, launchHandler.getLaunchInfo().getModName(), "", "", -1, -1,launchHandler.getLaunchInfo().isHost());
             } else {
                 Launcher.launch();
                 Launcher.deInitialize();

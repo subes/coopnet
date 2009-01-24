@@ -117,7 +117,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
         if(!write("INITIALIZE" +
                         " gameGUID:" + this.launchInfo.getGameGUID() +
                         " hostIP:" + this.launchInfo.getHostIP() +
-                        " isHost:" + this.launchInfo.getIsHost())){
+                        " isHost:" + this.launchInfo.isHost())){
             return false;
         }
 
@@ -139,7 +139,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             return false;
         }
 
-        if(doSearch && !launchInfo.getIsHost() && !sessionFound){
+        if(doSearch && !launchInfo.isHost() && !sessionFound){
 
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                                 "Connecting to host ...",
@@ -220,7 +220,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                                 "Launching game, please wait ...",
                                 ChatStyles.SYSTEM,false);
 
-        if(launchInfo.getIsHost() && !launchInfo.getIsInstantLaunch()){
+        if(launchInfo.isHost() && !launchInfo.isInstantLaunch()){
             Protocol.launch();
         }
 
