@@ -23,6 +23,7 @@ import coopnetclient.protocol.*;
 import coopnetclient.*;
 import coopnetclient.enums.ClientProtocolCommands;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.utils.RoomData;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -137,8 +138,8 @@ public class Protocol {
         new Message(ClientProtocolCommands.CANCEL_FILE, info);
     }
 
-    public static void createRoom(String channelName, String name, int modIndex, String password, int maxPlayers, boolean instantLaunch, boolean doSearch) {
-        final String[] info = {GameDatabase.getIDofGame(channelName), name, password, String.valueOf(maxPlayers), String.valueOf(instantLaunch), Client.getHamachiAddress(), String.valueOf(modIndex), String.valueOf(doSearch)};
+    public static void createRoom(RoomData rd) {
+        final String[] info = {GameDatabase.getIDofGame(rd.getChannel()), rd.getRoomName(), rd.getPassword(), String.valueOf(rd.getMaxPlayers()), String.valueOf(rd.isInstant()), Client.getHamachiAddress(), String.valueOf(rd.getModIndex()), String.valueOf(rd.DoSearch())};
         new Message(ClientProtocolCommands.CREATE_ROOM, info);
     }
 

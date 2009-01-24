@@ -35,7 +35,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.logging.Level;
 
 public class JDPlayLaunchHandler extends LaunchHandler {
     
@@ -105,7 +104,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
 
         sessionFound = false;
 
-        String regPath = GameDatabase.getRegEntry(launchInfo.getGameName(), launchInfo.getModName()).get(0);
+        String regPath = GameDatabase.getRegEntry(launchInfo.getRoomData().getChannel(), launchInfo.getRoomData().getModName()).get(0);
         binary = RegistryReader.read(regPath.substring(0, regPath.lastIndexOf("\\")+1)+"File");
         
         if(!(launchInfo instanceof DirectPlayLaunchInfo)){
@@ -116,8 +115,8 @@ public class JDPlayLaunchHandler extends LaunchHandler {
         
         if(!write("INITIALIZE" +
                         " gameGUID:" + this.launchInfo.getGameGUID() +
-                        " hostIP:" + this.launchInfo.getHostIP() +
-                        " isHost:" + this.launchInfo.isHost())){
+                        " hostIP:" + this.launchInfo.getRoomData().getIP() +
+                        " isHost:" + this.launchInfo.getRoomData().isHost())){
             return false;
         }
 
@@ -139,7 +138,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             return false;
         }
 
-        if(doSearch && !launchInfo.isHost() && !sessionFound){
+        if(doSearch && !launchInfo.getRoomData().isHost() && !sessionFound){
 
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                                 "Connecting to host ...",
@@ -220,7 +219,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                                 "Launching game, please wait ...",
                                 ChatStyles.SYSTEM,false);
 
-        if(launchInfo.isHost() && !launchInfo.isInstantLaunch()){
+        if(launchInfo.getRoomData().isHost() && !launchInfo.isInstantLaunch()){
             Protocol.launch();
         }
 

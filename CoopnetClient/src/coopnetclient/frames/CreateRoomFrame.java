@@ -24,6 +24,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
+import coopnetclient.utils.RoomData;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.Launcher;
@@ -326,7 +327,8 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         btn_create.setEnabled(false);
         if (btn_create.getText().equals("Create")) {
             //normal lobby stuff
-            Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(),  cb_instantroom.isSelected(), cb_searchEnabled.isSelected());
+            RoomData rd = new RoomData(true,channel,modindex,"","",(Integer) spn_maxPlayers.getValue(),"",tf_name.getText(),0l,passw,cb_searchEnabled.isSelected(),cb_instantroom.isSelected());
+            Protocol.createRoom(rd);
             Globals.closeRoomCreationFrame();
             TabOrganizer.getChannelPanel(channel).disableButtons();
         } else if (btn_create.getText().equals("Launch")) {
@@ -338,9 +340,10 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     try {
-                        boolean launch = Launcher.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), true,tf_name.getText(),passw);
+                        RoomData rd = new RoomData(true,channel,modindex,"","",(Integer) spn_maxPlayers.getValue(),"",tf_name.getText(),0l,passw,cb_searchEnabled.isSelected(),cb_instantroom.isSelected());
+                        boolean launch = Launcher.initInstantLaunch(rd);
                         if(launch){
-                            Protocol.createRoom(channel, tf_name.getText(), modindex, passw, (Integer) spn_maxPlayers.getValue(), true, cb_searchEnabled.isSelected());
+                            Protocol.createRoom(rd);
                             Launcher.instantLaunch(channel);
                         }
                     } catch (Exception e) {
@@ -350,20 +353,15 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             }.start();
         } else if (btn_create.getText().equals("Setup & Launch")) {
             //show settings with launch button
-            String modname = null;
-            if (modnames.length > 0 && modindex > 0) {
-                modname = modnames[modindex].toString();
-            }
-            
-            final String finalmodname = modname;
             Globals.closeRoomCreationFrame();
             new Thread() {
                 @Override
                 public void run() {
                     try {
-                        boolean launch = Launcher.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), true,tf_name.getText(), passw);
+                        RoomData rd = new RoomData(true,channel,modindex,"","",(Integer) spn_maxPlayers.getValue(),"",tf_name.getText(),0l,passw,cb_searchEnabled.isSelected(),cb_instantroom.isSelected());
+                        boolean launch = Launcher.initInstantLaunch(rd);
                         if(launch){
-                            Globals.openGameSettingsFrame(channel, finalmodname, tf_name.getText(), passw, modindex, (Integer) spn_maxPlayers.getValue(),true);
+                            Globals.openGameSettingsFrame(rd);
                         }
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);

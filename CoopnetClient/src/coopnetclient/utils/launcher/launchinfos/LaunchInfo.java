@@ -19,47 +19,21 @@
 
 package coopnetclient.utils.launcher.launchinfos;
 
+import coopnetclient.utils.RoomData;
+
 public abstract class LaunchInfo {
     
-    protected String gameName;
-    protected String childName; //null, if original game
-    protected String hostIP;
-    protected boolean isHost;
-    protected boolean isInstantLaunch;
-    protected String password;
-    protected String roomID;
+    protected RoomData roomData;
     
-    public LaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch, String password, String roomID){
-        this.gameName = gameName;
-        this.childName = childName;
-        this.hostIP = hostIP;
-        this.isHost = isHost;
-        this.isInstantLaunch = isInstantLaunch;
-        this.password = password;
-        this.roomID = roomID;
+    public LaunchInfo(RoomData roomData ){
+        this.roomData = roomData;
     }
     
-    public String getGameName(){
-        return gameName;
+    public RoomData getRoomData(){
+        return roomData;
     }
-    
-    public String getModName(){
-        return childName;
-    }
-    
-    public String getHostIP(){
-        return hostIP;
-    }
-    
-    public boolean isHost(){
-        return isHost;
-    }
-    
+
     public boolean isInstantLaunch(){
-        return isInstantLaunch;
-    }
-    
-    public String getRoomID(){
-        return roomID;
+        return roomData.isInstant();
     }
 }

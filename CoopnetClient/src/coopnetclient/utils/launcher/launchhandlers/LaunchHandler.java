@@ -57,7 +57,7 @@ public abstract class LaunchHandler {
         boolean doNormalLaunch = true;
 
         //Detect if executable is already running
-        if(launchInfo.isHost()){
+        if(launchInfo.getRoomData().isHost()){
             if(processExists()){
                 JOptionPane.showMessageDialog(null,
                         "<html>Coopnet has detected that the game \"<b>"+getBinaryName()+"</b>\" is already running.<br>" +
@@ -94,7 +94,7 @@ public abstract class LaunchHandler {
         if(doNormalLaunch){
             return doLaunch();
         }else{
-            if(launchInfo.isHost() && !launchInfo.isInstantLaunch()){
+            if(launchInfo.getRoomData().isHost() && !launchInfo.isInstantLaunch()){
                 Protocol.launch();
             }
             while(processExists()){

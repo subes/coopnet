@@ -27,6 +27,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.clientframe.tabs.RoomPanel;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.RoomData;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.launcher.launchhandlers.JDPlayLaunchHandler;
@@ -61,7 +62,7 @@ public class Launcher {
         if(launchedGameInfo == null){
             return null;
         }
-        return launchedGameInfo.getGameName();
+        return launchedGameInfo.getRoomData().getChannel();
     }
     
     public static void initialize(LaunchInfo launchInfo){
@@ -82,13 +83,13 @@ public class Launcher {
                 launchHandler = new ParameterLaunchHandler();
             }
 
-            TempGameSettings.initalizeGameSettings(launchInfo.getGameName(), launchInfo.getModName());
+            TempGameSettings.initalizeGameSettings(launchInfo.getRoomData().getChannel(), launchInfo.getRoomData().getModName());
 
             synchronized(launchHandler){
                 isInitialized = launchHandler.initialize(launchInfo);
 
                 if(TabOrganizer.getRoomPanel() != null){
-                    int numSettings = GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getModName()).size();
+                    int numSettings = GameDatabase.getGameSettings(launchInfo.getRoomData().getChannel(), launchInfo.getRoomData().getModName()).size();
                     if(isInitialized && numSettings == 0){
                         TabOrganizer.getRoomPanel().initDone();
                     }else{
@@ -100,9 +101,9 @@ public class Launcher {
             if(launchInfo instanceof ParameterLaunchInfo){
                 if(!launchInfo.isInstantLaunch()
                     && TabOrganizer.getRoomPanel()!= null
-                    && GameDatabase.getGameSettings(launchInfo.getGameName(), launchInfo.getModName()).size() > 0){
+                    && GameDatabase.getGameSettings(launchInfo.getRoomData().getChannel(), launchInfo.getRoomData().getModName()).size() > 0){
                     //Frame decides if visible
-                    Globals.openGameSettingsFrame(launchInfo.getGameName(), launchInfo.getModName(),launchInfo.isHost(),false);
+                    Globals.openGameSettingsFrame(launchedGameInfo.getRoomData());
                 }
             }
         }else{
@@ -117,8 +118,8 @@ public class Launcher {
             //print warning
             //done via joptionpane
         }else
-        if(launchedGameInfo.isHost() && curLaunchInfo.isHost()
-                || curLaunchInfo.getRoomID().equals(launchedGameInfo.getRoomID())){
+        if(launchedGameInfo.getRoomData().isHost() && curLaunchInfo.getRoomData().isHost()
+                || curLaunchInfo.getRoomData().getRoomID() == (launchedGameInfo.getRoomData().getRoomID())){
             //Previously hosted and now hosting again
             //or previously joined and now joining same room again
             //already initialized, so just ok
@@ -240,31 +241,31 @@ public class Launcher {
         }
     }
 
-    public static boolean initInstantLaunch(final String gameName, final String mod, final String hostIP, final int maxPlayers, final boolean isHost, final String roomName, String password) {
+    public static boolean initInstantLaunch(RoomData roomData) {
         Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                 "Initializing game ...",
                 ChatStyles.SYSTEM, false);
 
         ParameterLaunchInfo launchInfo;
 
-        LaunchMethods method = GameDatabase.getLaunchMethod(gameName, mod);
+        LaunchMethods method = GameDatabase.getLaunchMethod(roomData.getChannel(), roomData.getModName());
 
         if (method == LaunchMethods.PARAMETER) {
-            launchInfo = new ParameterLaunchInfo(gameName, mod, hostIP, isHost, true, roomName, password, RoomPanel.ROOMID_UNSUPPORTED);
+            launchInfo = new ParameterLaunchInfo(roomData);
         } else {
-            throw new IllegalArgumentException("You can't instantlaunch from "+method.toString()+" channel! GameName: " + gameName + " ModName: " + mod);
+            throw new IllegalArgumentException("You can't instantlaunch from "+method.toString()+" channel! GameName: " + roomData.getChannel() + " ModName: " + roomData.getModName());
         }
 
         if(isPlaying()){
             boolean showJOptionPane = false;
-            if(!gameName.equals(launchedGameInfo.getGameName())){
+            if(!roomData.getChannel().equals(launchedGameInfo.getRoomData().getChannel())){
                 showJOptionPane = true;
             }else
-            if(!hostIP.equals(launchedGameInfo.getHostIP())){
+            if(!roomData.getIP().equals(launchedGameInfo.getRoomData().getIP())){
                 showJOptionPane = true;
             }else
-            if(!(mod == null && launchInfo.getModName() == null)){
-                if(!mod.equals(launchedGameInfo.getModName())){
+            if(!(roomData.getModName() == null && launchedGameInfo.getRoomData().getModName() == null)){
+                if(!roomData.getModName().equals(launchedGameInfo.getRoomData().getModName())){
                     showJOptionPane = true;
                 }
             }
@@ -291,8 +292,8 @@ public class Launcher {
 
         if (!Launcher.isInitialized()) {
             Protocol.closeRoom();
-            Protocol.gameClosed(gameName);
-            TabOrganizer.getChannelPanel(gameName).enableButtons();
+            Protocol.gameClosed(roomData.getChannel());
+            TabOrganizer.getChannelPanel(roomData.getChannel()).enableButtons();
         }
 
         return Launcher.isInitialized();
@@ -306,7 +307,7 @@ public class Launcher {
         if (Launcher.isInitialized()) {
             TabOrganizer.getChannelPanel(channel).disableButtons();
 
-            if(launchHandler.getLaunchInfo().isHost() && (isPlaying() || launchHandler.processExists())){
+            if(launchHandler.getLaunchInfo().getRoomData().isHost() && (isPlaying() || launchHandler.processExists())){
                 JOptionPane.showMessageDialog(null,
                     "<html>Coopnet has detected that the game \"<b>"+launchHandler.getBinaryName()+"</b>\" is already running.<br>" +
                     "Please make sure the other players can <b>connect to a running server</b> there<br>" +
@@ -322,9 +323,9 @@ public class Launcher {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {}
                 }
-            } else if ( !launchHandler.getLaunchInfo().isHost() && !launchClickedFromGameSettingsFrame ) {
+            } else if ( !launchHandler.getLaunchInfo().getRoomData().isHost() && !launchClickedFromGameSettingsFrame ) {
                 //room data is dummy , its not gona be used in this case at all
-                Globals.openGameSettingsFrame(channel, launchHandler.getLaunchInfo().getModName(), "", "", -1, -1,launchHandler.getLaunchInfo().isHost());
+                Globals.openGameSettingsFrame(launchHandler.getLaunchInfo().getRoomData());
             } else {
                 Launcher.launch();
                 Launcher.deInitialize();

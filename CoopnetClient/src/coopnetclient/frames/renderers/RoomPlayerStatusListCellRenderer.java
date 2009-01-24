@@ -155,7 +155,7 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
         }else{
             setIcon(null);
         }
-        if(value.toString().equals( TabOrganizer.getRoomPanel().hostName )){
+        if(value.toString().equals( TabOrganizer.getRoomPanel().getRoomData().getHostName() )){
             setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
         }
         

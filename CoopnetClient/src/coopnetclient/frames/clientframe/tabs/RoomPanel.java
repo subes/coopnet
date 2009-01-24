@@ -38,6 +38,7 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.RoomData;
 import coopnetclient.utils.UserListFileDropHandler;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
@@ -59,21 +60,12 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     private LaunchInfo launchInfo;
     
-    private boolean isHost = false;
+    private RoomData roomData;
     private SortedListModel users;
     private PlayerListPopupMenu popup;
-    public String gameName;
-    public String roomName;
-    public String ID;
-    public String password;
-    public String modName;
-    public String hostName;
-    private String hostIP;
-    private String hamachiHostIP;
-    private int maxPlayers;
+    
     private HashMap<String, String> gamesettings = new HashMap<String, String>();
     private RoomPlayerStatusListCellRenderer roomStatusListCR;
-    private boolean doSearch;
     private boolean hamachiWasEnabled = false;
 
     private SwingWorker readyDisablerThread;
@@ -81,36 +73,21 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     private boolean wasReadyBeforeReInit = false;
 
-    public RoomPanel(boolean isHost, String channel, String modindex, String hostIP, String hamachiIp, int maxPlayers,String hostName,String roomName,String ID,String password, String doSearch) {
-        this.gameName = channel;
-        this.maxPlayers = maxPlayers;
-        this.isHost = isHost;
-        this.hostIP = hostIP;
-        this.hamachiHostIP = hamachiIp;
-        this.users = new SortedListModel();
-        this.hostName = hostName;
-        this.roomName = roomName;
-        this.ID = ID;
-        this.password = password;
-        this.doSearch = Boolean.valueOf(doSearch);
+    public RoomPanel(RoomData roomData) {
+        this.roomData = roomData;
+        this.users = new SortedListModel();        
         users.add(Globals.getThisPlayer_loginName());
 
         initComponents();
 
-        if (Integer.valueOf(modindex) == -1) {
-            this.modName = null;
-        } else {
-            this.modName = GameDatabase.getGameModNames(channel)[Integer.valueOf(modindex)].toString();
-        }
-
         if(Client.getHamachiAddress().length() <= 0){
             cb_useHamachi.setVisible(false);
-        } else if(hamachiIp.length() > 0 ) {
+        } else if(roomData.getHamachiIP().length() > 0 ) {
             hamachiWasEnabled = true;
             cb_useHamachi.setToolTipText("<html>Don't use this unless you have connection issues!<br>If you really need to use this consult with the room host!<br>Both you and the host have to be connected to <br>the same hamachi network!Otherwise it won't work!");
         }
 
-        if (isHost) {
+        if (roomData.isHost()) {
             popup = new PlayerListPopupMenu(PlayerListPopupMenu.HOST_MODE, lst_userList);
             cb_useHamachi.setVisible(false);
             Hotkeys.bindHotKey(Hotkeys.ACTION_LAUNCH);
@@ -125,17 +102,17 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         lst_userList.setDropMode(DropMode.USE_SELECTION);
         lst_userList.setTransferHandler(new UserListFileDropHandler());
 
-        tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.ROOM_CHAT_MODE, channel));
+        tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.ROOM_CHAT_MODE, roomData.getChannel()));
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
 
-        if (!isHost) {
+        if (!roomData.isHost()) {
             convertToJoinPanel();
         }
 
         Colorizer.colorize(this);
 
-        chat("", roomName, ChatStyles.USER);
-        chat("", "room://"+ID, ChatStyles.USER);
+        chat("", roomData.getRoomName(), ChatStyles.USER);
+        chat("", "room://"+roomData.getRoomID(), ChatStyles.USER);
 
         prgbar_connecting.setVisible(false);
 
@@ -147,8 +124,8 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             btn_gameSettings.setEnabled(false);
         }
 
-        if(GameDatabase.getLocalSettingCount(gameName, modName)
-              + GameDatabase.getServerSettingCount(gameName, modName) == 0 ){
+        if(GameDatabase.getLocalSettingCount(roomData.getChannel(), roomData.getModName())
+              + GameDatabase.getServerSettingCount(roomData.getChannel(), roomData.getModName()) == 0 ){
               btn_gameSettings.setVisible(false);
         }
     }
@@ -158,7 +135,11 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     }
 
     public boolean isHost(){
-        return isHost;
+        return roomData.isHost();
+    }
+
+    public RoomData getRoomData(){
+        return roomData;
     }
     
     public void initLauncher() {
@@ -169,16 +150,16 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                 try{
                     String ip = null;
                     if(cb_useHamachi.isSelected()){
-                        ip = hamachiHostIP;
+                        ip = roomData.getHamachiIP();
                     }else{
-                        ip = hostIP;
+                        ip = roomData.getIP();
                     }
                     
-                    LaunchMethods method = GameDatabase.getLaunchMethod(gameName, modName);
+                    LaunchMethods method = GameDatabase.getLaunchMethod(roomData.getChannel(), roomData.getModName());
                     if(method == LaunchMethods.PARAMETER){
-                        launchInfo = new ParameterLaunchInfo(gameName, modName, ip, isHost, false, roomName,password, ID);
+                        launchInfo = new ParameterLaunchInfo(roomData);
                     }else{
-                        launchInfo = new DirectPlayLaunchInfo(gameName, modName, ip, isHost, false, password, ID, doSearch);
+                        launchInfo = new DirectPlayLaunchInfo(roomData);
                     }
 
                     Launcher.initialize(launchInfo);
@@ -191,7 +172,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     public void showSettings() {
         if (btn_gameSettings.isVisible()) {
-            Globals.openGameSettingsFrame(gameName, modName,isHost,doSearch);
+            Globals.openGameSettingsFrame(roomData);
         }
     }
 
@@ -304,7 +285,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             public void run() {
                 try{                 
                     Launcher.launch();
-                    Protocol.gameClosed(gameName);
+                    Protocol.gameClosed(roomData.getChannel());
                     btn_gameSettings.setEnabled(true);
                 }catch(Exception e){
                     ErrorHandler.handleException(e);
@@ -542,7 +523,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 }//GEN-LAST:event_tp_chatOutputFocusLost
 
     private void clickedbtn_launch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_launch
-        if (isHost) {
+        if (roomData.isHost()) {
             btn_launch.setEnabled(false);
             launchDisablerThread = new SwingWorker(){
                 @Override
@@ -718,7 +699,7 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
 
     @Override
     public void closeTab() {
-        if (isHost) {
+        if (roomData.isHost()) {
             Protocol.closeRoom();
         } else {
             Protocol.leaveRoom();

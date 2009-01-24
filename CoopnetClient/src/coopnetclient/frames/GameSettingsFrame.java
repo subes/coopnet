@@ -26,6 +26,7 @@ import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.Colorizer;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.RoomData;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.Launcher;
@@ -65,20 +66,12 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     private boolean mapsEnabledBeforeDisable;
     private boolean lastEnableAction = true;
 
-    private String gamename;
-    private String modname;
-    private String roomname,  password;
-    private int modindex,  maxPlayers;
-    private boolean  isInstant,  isHost, doSearch;
+    private RoomData roomData;
 
     /** Creates new form GameSettingsPanel */
-    public GameSettingsFrame(String gamename, String modname, boolean isHost,boolean doSearch) {
+    public GameSettingsFrame(RoomData roomData) {
         initComponents();
-        this.gamename = gamename;
-        this.modname = modname;
-        this.isHost = isHost;
-        this.doSearch = doSearch;
-        isInstant = false;
+        this.roomData = roomData;
         lbl_map.setVisible(false);
         cb_map.setVisible(false);
         cb_map.setEnabled(false);
@@ -102,55 +95,22 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         decideVisibility();
     }
 
-    /** Creates new form GameSettingsPanel */
-    public GameSettingsFrame(String gamename, String modname, String roomname, String password, int modindex, int maxPlayers,Boolean isHost) {
-        initComponents();
-        isInstant = true;
-        this.isHost = isHost;
-        this.gamename = gamename;
-        this.modname = modname;
-        this.roomname = roomname;
-        this.password = password;
-        this.modindex = modindex;
-        this.maxPlayers = maxPlayers;
-        btn_save.setText("Launch");
-        btn_close.setText("Cancel");
-        customize();
-        this.getRootPane().setDefaultButton(btn_save);
-        AbstractAction act = new AbstractAction() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn_close.doClick();
-            }
-        };
-        getRootPane().getActionMap().put("close", act);
-        InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
-        
-        this.setLocationRelativeTo(null);
-        Colorizer.colorize(this);
-        this.pack();
-
-        decideVisibility();
-    }
-
     private void decideVisibility(){
-        if(isHost &&
-                GameDatabase.getLocalSettingCount(gamename, modname)
-              + GameDatabase.getServerSettingCount(gamename, modname) > 0 ){
-            if(!isInstant){
+        if(roomData.isHost() &&
+                GameDatabase.getLocalSettingCount(roomData.getChannel(), roomData.getModName())
+              + GameDatabase.getServerSettingCount(roomData.getChannel(), roomData.getModName()) > 0 ){
+            if(!roomData.isInstant()){
                 btn_close.setEnabled(false);
             }
             setVisible(true);
         }else
-        if(!isHost && GameDatabase.getLocalSettingCount(gamename, modname) > 0){
-            if(!isInstant){
+        if(!roomData.isHost() && GameDatabase.getLocalSettingCount(roomData.getChannel(), roomData.getModName()) > 0){
+            if(!roomData.isInstant()){
                 btn_close.setEnabled(false);
             }
             setVisible(true);
         }else{
-            if (!isInstant) {
+            if (!roomData.isInstant()) {
                 TabOrganizer.getRoomPanel().initDone();
             }else{
                 setVisible(true);
@@ -186,12 +146,12 @@ public class GameSettingsFrame extends javax.swing.JFrame {
 
     private void customize() {
         //setup map if needed
-        if (GameDatabase.getMapExtension(gamename, modname) != null) {
+        if (GameDatabase.getMapExtension(roomData.getChannel(), roomData.getModName()) != null) {
             lbl_map.setVisible(true);
             cb_map.setVisible(true);
-            if (GameDatabase.getMapLoaderType(gamename, modname) == MapLoaderTypes.FILE) {
+            if (GameDatabase.getMapLoaderType(roomData.getChannel(), roomData.getModName()) == MapLoaderTypes.FILE) {
                 cb_map.setModel(new DefaultComboBoxModel(loadFileMaps()));
-            } else if (GameDatabase.getMapLoaderType(gamename, modname) == MapLoaderTypes.PK3) {
+            } else if (GameDatabase.getMapLoaderType(roomData.getChannel(), roomData.getModName()) == MapLoaderTypes.PK3) {
                 cb_map.setModel(new DefaultComboBoxModel(loadPK3Maps()));
             }
 
@@ -200,7 +160,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             if (cb_map.getSelectedItem() == null && cb_map.getItemCount() > 0) {
                 cb_map.setSelectedIndex(0);
             }
-            cb_map.setEnabled(isHost);
+            cb_map.setEnabled(roomData.isHost());
         }
         //add setting components to frame and internal lists
         GridBagConstraints firstcolumn = new GridBagConstraints();
@@ -208,7 +168,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         int serverrowindex = 1;
         int localrowindex = 0;
         int localcount = 0;
-        ArrayList<GameSetting> settings = GameDatabase.getGameSettings(gamename, modname);
+        ArrayList<GameSetting> settings = GameDatabase.getGameSettings(roomData.getChannel(), roomData.getModName());
         //setup constraints
         firstcolumn.gridwidth = 1;
         firstcolumn.gridheight = 1;
@@ -250,7 +210,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                     if (currentValue != null && currentValue.length() > 0) {
                         ((JTextField) input).setText(currentValue);
                     }
-                    if (!isHost && !gs.isLocal()) {
+                    if (!roomData.isHost() && !gs.isLocal()) {
                         input.setEnabled(false);
                     }
                     break;
@@ -269,13 +229,13 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                     if (currentValue != null && currentValue.length() > 0) {
                         ((JSpinner) input).setValue(Integer.valueOf(currentValue));
                     }
-                    if (!isHost && !gs.isLocal()) {
+                    if (!roomData.isHost() && !gs.isLocal()) {
                         input.setEnabled(false);
                     }
                     break;
                 }
                 case CHOICE: {
-                    if (!isHost && !gs.isLocal()) {
+                    if (!roomData.isHost() && !gs.isLocal()) {
                         input = new JTextField(gs.getDefaultValue());
                         String currentValue = TempGameSettings.getGameSettingValue(gs.getName());
                         if (gs.getDefaultValue() != null && gs.getDefaultValue().length() > 0) {
@@ -330,8 +290,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }
 
     private String[] loadFileMaps() {
-        String extension = GameDatabase.getMapExtension(gamename, modname);
-        String path = GameDatabase.getFullMapPath(gamename, modname);
+        String extension = GameDatabase.getMapExtension(roomData.getChannel(), roomData.getModName());
+        String path = GameDatabase.getFullMapPath(roomData.getChannel(), roomData.getModName());
         Logger.log(LogTypes.LOG, "Loading maps from: " + path);
         if (path.endsWith("\\") || path.endsWith("/")) {
             path = path.substring(0, path.length() - 1);
@@ -367,7 +327,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }
 
     private String getMapNameFromEntry(String entry) {
-        Pattern pattern = Pattern.compile(GameDatabase.getMapPath(gamename, modname).replace('\\', '/') + "([\\p{Alnum}\\p{Punct}&&[^/\\\\]]+)\\." + GameDatabase.getMapExtension(gamename, modname).toLowerCase());
+        Pattern pattern = Pattern.compile(GameDatabase.getMapPath(roomData.getChannel(), roomData.getModName()).replace('\\', '/') + "([\\p{Alnum}\\p{Punct}&&[^/\\\\]]+)\\." + GameDatabase.getMapExtension(roomData.getChannel(), roomData.getModName()).toLowerCase());
         Matcher matcher = pattern.matcher(entry.toLowerCase());
         if (matcher.matches()) {
             return matcher.group(1);
@@ -376,7 +336,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }
 
     private String[] loadPK3Maps() {
-        String pk3FindPath = GameDatabase.getInstallPath(gamename) + GameDatabase.getPK3FindPath(gamename, modname);
+        String pk3FindPath = GameDatabase.getInstallPath(roomData.getChannel()) + GameDatabase.getPK3FindPath(roomData.getChannel(), roomData.getModName());
         Vector<String> names = new Vector<String>();
         ArrayList<File> pk3Files = new ArrayList<File>();
         getPK3Files(pk3Files, new File(pk3FindPath));
@@ -502,8 +462,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
 
 private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
     //create the room at server
-    if (isInstant && isHost) {
-        Protocol.createRoom(gamename, roomname, modindex, password, maxPlayers, true,doSearch);
+    if (roomData.isInstant() && roomData.isHost()) {
+        Protocol.createRoom(roomData);
     }
     //update the launcher
     try {
@@ -527,11 +487,11 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 value = ((JComboBox) input).getSelectedItem().toString();
             }
             if (input.isEnabled()) {
-                TempGameSettings.setGameSetting(name, value, isHost);
+                TempGameSettings.setGameSetting(name, value, roomData.isHost());
             }
         }
 
-        if (!isInstant && !btn_close.isEnabled()) {
+        if (!roomData.isInstant() && !btn_close.isEnabled()) {
             TabOrganizer.getRoomPanel().initDone();
         }
         
@@ -539,14 +499,14 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         e.printStackTrace();
     }
     
-    if(isInstant){
+    if(roomData.isInstant()){
         Globals.closeGameSettingsFrame();
         new Thread() {
 
             @Override
             public void run() {
                 try {
-                    Launcher.instantLaunch(gamename, true);
+                    Launcher.instantLaunch(roomData.getChannel(), true);
                 } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }
@@ -596,14 +556,14 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
            foundEnabledField = inputfields.get(i).isEnabled();
         }
 
-        btn_save.setEnabled(foundEnabledField || isInstant);
+        btn_save.setEnabled(foundEnabledField || roomData.isInstant());
     }
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
     if(btn_close.isEnabled() == false){
         btn_save.doClick();
     }else{
-        if(isInstant){
+        if(roomData.isInstant()){
             Globals.closeGameSettingsFrame();
         }else{
             this.setVisible(false);
@@ -612,7 +572,7 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
 }//GEN-LAST:event_formWindowClosing
 
 private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
-    if(isInstant){
+    if(roomData.isInstant()){
         Globals.closeGameSettingsFrame();
         Launcher.deInitialize();
     }else{

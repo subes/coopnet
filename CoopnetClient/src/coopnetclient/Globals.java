@@ -41,6 +41,7 @@ import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.utils.Icons;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.RoomData;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Point;
 import java.awt.SystemTray;
@@ -452,7 +453,7 @@ public class Globals {
         }
     }
 
-    public static void openGameSettingsFrame(final String gameName, final String modName,final boolean isHost, final boolean doSearch) {
+    public static void openGameSettingsFrame(final RoomData roomData) {
         //isHost depends
 
         SwingUtilities.invokeLater(
@@ -463,25 +464,7 @@ public class Globals {
                         if (gameSettingsFrame != null) {
                             gameSettingsFrame.setVisible(true);
                         } else {
-                            gameSettingsFrame = new GameSettingsFrame(gameName, modName, isHost,doSearch);
-                            //Frame decides if visible
-                        }
-                    }
-                });
-    }
-
-    public static void openGameSettingsFrame(final String gameName,final String modName,final String roomName,final String password,final int modIndex,final int maxPlayers,final boolean isHost) {
-        //isHost = true
-
-        SwingUtilities.invokeLater(
-                new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if (gameSettingsFrame != null) {
-                            gameSettingsFrame.setVisible(true);
-                        } else {
-                            gameSettingsFrame = new GameSettingsFrame(gameName, modName, roomName, password, modIndex, maxPlayers,isHost);
+                            gameSettingsFrame = new GameSettingsFrame(roomData);
                             //Frame decides if visible
                         }
                     }

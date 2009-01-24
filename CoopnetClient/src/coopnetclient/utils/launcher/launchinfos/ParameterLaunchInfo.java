@@ -20,6 +20,7 @@
 package coopnetclient.utils.launcher.launchinfos;
 
 import coopnetclient.Globals;
+import coopnetclient.utils.RoomData;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.TempGameSettings;
@@ -28,19 +29,17 @@ public class ParameterLaunchInfo extends LaunchInfo {
     
     private String binaryPath;
     private String parameters;
-    private String roomName;
     
-    public ParameterLaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch, String roomName,String password, String roomID){
-        super(gameName, childName, hostIP, isHost, isInstantLaunch,password, roomID);
+    public ParameterLaunchInfo(RoomData roomData){
+        super(roomData);
         
-        binaryPath = GameDatabase.getLaunchPathWithExe(gameName, childName);
+        binaryPath = GameDatabase.getLaunchPathWithExe(roomData.getChannel(), roomData.getModName());
         
-        if(isHost){
-            parameters = " " + GameDatabase.getHostPattern(gameName, childName) ;
+        if(roomData.isHost()){
+            parameters = " " + GameDatabase.getHostPattern(roomData.getChannel(), roomData.getModName()) ;
         }else{
-            parameters = " " + GameDatabase.getJoinPattern(gameName, childName) ;
+            parameters = " " + GameDatabase.getJoinPattern(roomData.getChannel(), roomData.getModName()) ;
         }
-        this.roomName = roomName;
     }
     
     public String getBinaryPath(){
@@ -48,30 +47,30 @@ public class ParameterLaunchInfo extends LaunchInfo {
     }
     
     public String getInstallPath(){
-        return GameDatabase.getInstallPath(gameName);
+        return GameDatabase.getInstallPath(roomData.getChannel());
     }
     
     public String getParameters(){
         String ret = parameters;
         
-        ret = ret.replace("{HOSTIP}", this.getHostIP());
-        if(GameDatabase.getNoSpacesFlag(getGameName(), getModName())){
+        ret = ret.replace("{HOSTIP}", roomData.getIP());
+        if(GameDatabase.getNoSpacesFlag(roomData.getChannel(), roomData.getModName())){
             ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName().replace(" ", "_"));
         }else{
             ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName());
         }
         
-        ret = ret.replace("{ROOMNAME}", roomName);
+        ret = ret.replace("{ROOMNAME}", roomData.getRoomName());
         
-        if( password!= null && password.length() > 0){
+        if( roomData.getPassword()!= null && roomData.getPassword().length() > 0){
             String tmp;
-            if(isHost){
-                tmp = GameDatabase.getHostPasswordPattern(gameName, childName) ;
+            if(roomData.isHost()){
+                tmp = GameDatabase.getHostPasswordPattern(roomData.getChannel(), roomData.getModName()) ;
             }else{
-                tmp = GameDatabase.getJoinPasswordPattern(gameName, childName) ;
+                tmp = GameDatabase.getJoinPasswordPattern(roomData.getChannel(), roomData.getModName()) ;
             }
             
-            tmp = tmp.replace("{PASSWORD}", password);
+            tmp = tmp.replace("{PASSWORD}", roomData.getPassword());
             ret = ret.replace("{PASSWORD}",tmp  );
         }else{
              ret = ret.replace("{PASSWORD}","" );
@@ -85,7 +84,7 @@ public class ParameterLaunchInfo extends LaunchInfo {
             ret = ret.replace("{" + gs.getKeyWord() + "}", gs.getRealValue());
         }
 
-        String params = GameDatabase.getAdditionalParameters(GameDatabase.getIDofGame(gameName));
+        String params = GameDatabase.getAdditionalParameters(GameDatabase.getIDofGame(roomData.getChannel()));
         if( params != null && params.length() >0){
             ret += " " + params;
         }

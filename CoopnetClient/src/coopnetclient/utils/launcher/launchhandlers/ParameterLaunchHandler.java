@@ -56,7 +56,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
                                 "Launching game, please wait ...",
                                 ChatStyles.SYSTEM,false);
 
-        if(Globals.getGameSettingsFrame() != null && launchInfo.isHost()){
+        if(Globals.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()){
             Globals.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(false);
         }
 
@@ -69,7 +69,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
             File installdir = new File(launchInfo.getInstallPath());
             p = rt.exec(launchInfo.getBinaryPath() + launchInfo.getParameters(), null, installdir);
 
-            if(launchInfo.isHost() && !launchInfo.isInstantLaunch()){
+            if(launchInfo.getRoomData().isHost() && !launchInfo.isInstantLaunch()){
                 Protocol.launch();
             }
 
@@ -85,7 +85,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
             return false;
         }
 
-        if(Globals.getGameSettingsFrame() != null && launchInfo.isHost()){
+        if(Globals.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()){
             Globals.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(true);
         }
 

@@ -36,6 +36,7 @@ import coopnetclient.utils.FrameIconFlasher;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.MuteBanList;
+import coopnetclient.utils.RoomData;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.TempGameSettings;
 import java.awt.Color;
@@ -165,17 +166,8 @@ public class CommandHandler {
                     TabOrganizer.openChannelPanel(currentChannelName);
                     break;
                 case JOIN_ROOM:
-                    TabOrganizer.openRoomPanel(false,
-                            currentChannelName, //channel
-                            information[4],//modindex
-                            information[1],//ip
-                            information[2],//hamachip
-                            new Integer(information[3]),//maxplayers
-                            information[5],//hostname
-                            information[6],//roomname
-                            information[7],//roomID
-                            information[8],//password
-                            information[9]); //doSearch
+                    RoomData rd = new RoomData(false,currentChannelName,Integer.valueOf(information[4]),information[1],information[2],Integer.valueOf(information[3]),information[5],information[6],Long.valueOf(information[7]),information[8],Boolean.valueOf(information[9]));
+                    TabOrganizer.openRoomPanel(rd);
                     break;
                 case MUTE_BAN_LIST:
                     int i = 0;
@@ -220,17 +212,8 @@ public class CommandHandler {
                     Globals.showWrongPasswordNotification();
                     break;
                 case CREATE_ROOM:
-                    TabOrganizer.openRoomPanel(true,
-                            currentChannelName,
-                            information[2],//modindex
-                            "",//ip
-                            "",//hamachi ip
-                            new Integer(information[1]),//maxplayers
-                            Globals.getThisPlayer_loginName(),
-                            information[3],//roomname
-                            information[4],//roomid
-                            information[5],//password
-                            information[6]);//dosearch
+                    rd = new RoomData(true,currentChannelName,Integer.valueOf(information[2]),"","",Integer.valueOf(information[1]),Globals.getThisPlayer_loginName(),information[3],Long.valueOf(information[4]),information[5],Boolean.valueOf(information[6]));
+                    TabOrganizer.openRoomPanel(rd);
                     break;
                 case LEAVE_ROOM:
                     TabOrganizer.closeRoomPanel();
@@ -245,7 +228,7 @@ public class CommandHandler {
                     break;
                 case KICKED:
                     TabOrganizer.closeRoomPanel();
-                    Globals.getClientFrame().printMainChatMessage(TabOrganizer.getRoomPanel().gameName, "SYSTEM", "You have been kicked by the host!", ChatStyles.SYSTEM);
+                    Globals.getClientFrame().printMainChatMessage(TabOrganizer.getRoomPanel().getRoomData().getChannel(), "SYSTEM", "You have been kicked by the host!", ChatStyles.SYSTEM);
                     break;
                 case ADD_MEMBER_TO_ROOM:
                     if(TabOrganizer.getRoomPanel() != null){
@@ -444,7 +427,8 @@ public class CommandHandler {
                         public void run() {
                             String gameName = GameDatabase.getGameName(tmp[0]);
                             String modName = GameDatabase.getModByIndex(gameName, new Integer(tmp[1]));
-                            boolean launch = Launcher.initInstantLaunch(gameName,modName , tmp[2] ,Integer.valueOf(tmp[3]) , false ,"", tmp[4]);
+                            RoomData rdt = new RoomData(false,gameName,Integer.valueOf(tmp[1]), tmp[2],tmp[2],-1,"","",0l,tmp[3],false,true);
+                            boolean launch = Launcher.initInstantLaunch(rdt);
                             if(launch){
                                 int idx = 5;//start of settigns
                                 while (idx < tmp.length) {

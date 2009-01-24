@@ -19,17 +19,16 @@
 
 package coopnetclient.utils.launcher.launchinfos;
 
+import coopnetclient.utils.RoomData;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 
 public class DirectPlayLaunchInfo extends LaunchInfo {
     
     private String gameGUID;
-    private boolean doSearch;
     
-    public DirectPlayLaunchInfo(String gameName, String childName, String hostIP, boolean isHost, boolean isInstantLaunch, String password, String roomID, boolean doSearch){
-        super(gameName, childName, hostIP, isHost, isInstantLaunch,password,roomID);
-        this.gameGUID = GameDatabase.getGuid(gameName, childName);
-        this.doSearch = doSearch;
+    public DirectPlayLaunchInfo(RoomData roomData){
+        super(roomData);
+        this.gameGUID = GameDatabase.getGuid(roomData.getChannel(), roomData.getModName());
     }
     
     public String getGameGUID(){
@@ -37,6 +36,6 @@ public class DirectPlayLaunchInfo extends LaunchInfo {
     }
 
     public boolean isSearchEnabled(){
-        return doSearch;
+        return roomData.DoSearch();
     }
 }
