@@ -470,7 +470,7 @@ public class Globals {
                 });
     }
 
-    public static void openGameSettingsFrame(final String gameName,final String modName,final String roomName,final String password,final int modIndex,final int maxPlayers) {
+    public static void openGameSettingsFrame(final String gameName,final String modName,final String roomName,final String password,final int modIndex,final int maxPlayers,final boolean isHost) {
         //isHost = true
 
         SwingUtilities.invokeLater(
@@ -481,7 +481,7 @@ public class Globals {
                         if (gameSettingsFrame != null) {
                             gameSettingsFrame.setVisible(true);
                         } else {
-                            gameSettingsFrame = new GameSettingsFrame(gameName, modName, roomName, password, modIndex, maxPlayers);
+                            gameSettingsFrame = new GameSettingsFrame(gameName, modName, roomName, password, modIndex, maxPlayers,isHost);
                             //Frame decides if visible
                         }
                     }

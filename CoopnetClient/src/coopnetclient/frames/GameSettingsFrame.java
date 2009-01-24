@@ -102,28 +102,11 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         decideVisibility();
     }
 
-    private void decideVisibility(){
-        if(isHost &&
-                GameDatabase.getLocalSettingCount(gamename, modname)
-              + GameDatabase.getServerSettingCount(gamename, modname) > 0 ){
-              btn_close.setEnabled(false);
-              setVisible(true);
-        }else
-        if(!isHost && GameDatabase.getLocalSettingCount(gamename, modname) > 0){
-            btn_close.setEnabled(false);
-            setVisible(true);
-        }else{
-            if (!isInstant) {
-                TabOrganizer.getRoomPanel().initDone();
-            }
-        }
-    }
-
     /** Creates new form GameSettingsPanel */
-    public GameSettingsFrame(String gamename, String modname, String roomname, String password, int modindex, int maxPlayers) {
+    public GameSettingsFrame(String gamename, String modname, String roomname, String password, int modindex, int maxPlayers,Boolean isHost) {
         initComponents();
         isInstant = true;
-        isHost = true;
+        this.isHost = isHost;
         this.gamename = gamename;
         this.modname = modname;
         this.roomname = roomname;
@@ -149,6 +132,23 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         this.pack();
 
         decideVisibility();
+    }
+
+    private void decideVisibility(){
+        if(isHost &&
+                GameDatabase.getLocalSettingCount(gamename, modname)
+              + GameDatabase.getServerSettingCount(gamename, modname) > 0 ){
+              btn_close.setEnabled(false);
+              setVisible(true);
+        }else
+        if(!isHost && GameDatabase.getLocalSettingCount(gamename, modname) > 0){
+            btn_close.setEnabled(false);
+            setVisible(true);
+        }else{
+            if (!isInstant) {
+                TabOrganizer.getRoomPanel().initDone();
+            }
+        }
     }
 
     public void setEnabledOfGameSettingsFrameSettings(boolean enabled){

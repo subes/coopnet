@@ -363,7 +363,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                     try {
                         boolean launch = Launcher.initInstantLaunch(channel, GameDatabase.getModByIndex(channel, modindex),"", (Integer) spn_maxPlayers.getValue(), true,tf_name.getText(), passw);
                         if(launch){
-                            Globals.openGameSettingsFrame(channel, finalmodname, tf_name.getText(), passw, modindex, (Integer) spn_maxPlayers.getValue());
+                            Globals.openGameSettingsFrame(channel, finalmodname, tf_name.getText(), passw, modindex, (Integer) spn_maxPlayers.getValue(),true);
                         }
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);

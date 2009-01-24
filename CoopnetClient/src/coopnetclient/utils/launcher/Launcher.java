@@ -319,7 +319,10 @@ public class Launcher {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {}
                 }
-            }else{
+            } else if (GameDatabase.getLocalSettingCount(launchHandler.getLaunchInfo().getGameName(),launchHandler.getLaunchInfo().getModName() ) > 0  ) {
+                //room data is dummy , its not gona be used in this case at all
+                Globals.openGameSettingsFrame(channel, launchHandler.getLaunchInfo().getModName(), "", "", -1, -1,launchHandler.getLaunchInfo().getIsHost());
+            } else {
                 Launcher.launch();
             }
             
