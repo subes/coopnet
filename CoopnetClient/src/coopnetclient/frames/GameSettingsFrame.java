@@ -114,6 +114,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         this.modindex = modindex;
         this.maxPlayers = maxPlayers;
         btn_save.setText("Launch");
+        btn_close.setText("Cancel");
         customize();
         this.getRootPane().setDefaultButton(btn_save);
         AbstractAction act = new AbstractAction() {
@@ -138,11 +139,15 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         if(isHost &&
                 GameDatabase.getLocalSettingCount(gamename, modname)
               + GameDatabase.getServerSettingCount(gamename, modname) > 0 ){
-              btn_close.setEnabled(false);
-              setVisible(true);
+            if(!isInstant){
+                btn_close.setEnabled(false);
+            }
+            setVisible(true);
         }else
         if(!isHost && GameDatabase.getLocalSettingCount(gamename, modname) > 0){
-            btn_close.setEnabled(false);
+            if(!isInstant){
+                btn_close.setEnabled(false);
+            }
             setVisible(true);
         }else{
             if (!isInstant) {

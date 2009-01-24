@@ -49,8 +49,6 @@ public class Protocol {
     //Increment this, when changes to the protocol commands have been done
     public static final int PROTOCOL_VERSION = 4;
 
-    private static Thread delayCreateRoomThread;
-
     static{
         try{
             CharsetEncoder encoder = Charset.forName("UTF-8").newEncoder();
@@ -272,11 +270,7 @@ public class Protocol {
     }
 
     public static void closeRoom() {
-        if(delayCreateRoomThread != null && delayCreateRoomThread.isAlive()){
-            delayCreateRoomThread.interrupt();
-        }else{
-            new Message(ClientProtocolCommands.CLOSE_ROOM);
-        }
+        new Message(ClientProtocolCommands.CLOSE_ROOM);
     }
 
     public static void leaveRoom() {
