@@ -298,7 +298,11 @@ public class Launcher {
         return Launcher.isInitialized();
     }
 
-    public static void instantLaunch(String channel) {
+    public static void instantLaunch(String channel){
+        instantLaunch(channel, false);
+    }
+
+    public static void instantLaunch(String channel, boolean launchClickedFromGameSettingsFrame) {
         if (Launcher.isInitialized()) {
             TabOrganizer.getChannelPanel(channel).disableButtons();
 
@@ -318,16 +322,15 @@ public class Launcher {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {}
                 }
-            } else if ( !launchHandler.getLaunchInfo().getIsHost() ) {
+            } else if ( !launchHandler.getLaunchInfo().getIsHost() && !launchClickedFromGameSettingsFrame ) {
                 //room data is dummy , its not gona be used in this case at all
                 Globals.openGameSettingsFrame(channel, launchHandler.getLaunchInfo().getModName(), "", "", -1, -1,launchHandler.getLaunchInfo().getIsHost());
             } else {
                 Launcher.launch();
+                Launcher.deInitialize();
+                Protocol.gameClosed(channel);
+                TabOrganizer.getChannelPanel(channel).enableButtons();
             }
-            
-            Launcher.deInitialize();
-            Protocol.gameClosed(channel);
-            TabOrganizer.getChannelPanel(channel).enableButtons();
         }
     }
     

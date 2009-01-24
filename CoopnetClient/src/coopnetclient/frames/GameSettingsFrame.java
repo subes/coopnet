@@ -152,6 +152,8 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         }else{
             if (!isInstant) {
                 TabOrganizer.getRoomPanel().initDone();
+            }else{
+                setVisible(true);
             }
         }
     }
@@ -544,7 +546,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             @Override
             public void run() {
                 try {
-                    Launcher.instantLaunch(gamename);
+                    Launcher.instantLaunch(gamename, true);
                 } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }
@@ -594,7 +596,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
            foundEnabledField = inputfields.get(i).isEnabled();
         }
 
-        btn_save.setEnabled(foundEnabledField);
+        btn_save.setEnabled(foundEnabledField || isInstant);
     }
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -612,6 +614,7 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
 private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
     if(isInstant){
         Globals.closeGameSettingsFrame();
+        Launcher.deInitialize();
     }else{
         this.setVisible(false);
     }
