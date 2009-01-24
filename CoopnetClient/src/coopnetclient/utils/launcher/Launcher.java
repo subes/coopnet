@@ -313,13 +313,12 @@ public class Launcher {
                     "WARNING: Game is already running",
                     JOptionPane.WARNING_MESSAGE);
 
-
                 while(isPlaying()){
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {}
                 }
-            } else if (GameDatabase.getLocalSettingCount(launchHandler.getLaunchInfo().getGameName(),launchHandler.getLaunchInfo().getModName() ) > 0  ) {
+            } else if ( !launchHandler.getLaunchInfo().getIsHost() ) {
                 //room data is dummy , its not gona be used in this case at all
                 Globals.openGameSettingsFrame(channel, launchHandler.getLaunchInfo().getModName(), "", "", -1, -1,launchHandler.getLaunchInfo().getIsHost());
             } else {
