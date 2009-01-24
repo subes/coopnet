@@ -25,6 +25,7 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.clientframe.tabs.RoomPanel;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RegistryReader;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
@@ -218,6 +219,10 @@ public class JDPlayLaunchHandler extends LaunchHandler {
         Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                                 "Launching game, please wait ...",
                                 ChatStyles.SYSTEM,false);
+
+        if(launchInfo.getIsHost() && !launchInfo.getIsInstantLaunch()){
+            Protocol.launch();
+        }
 
         String[] toRead2 = {"FIN", "ERR"};
         boolean ret = read(toRead2) == 0;

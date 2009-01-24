@@ -94,6 +94,9 @@ public abstract class LaunchHandler {
         if(doNormalLaunch){
             return doLaunch();
         }else{
+            if(launchInfo.getIsHost() && !launchInfo.getIsInstantLaunch()){
+                Protocol.launch();
+            }
             while(processExists()){
                 try {
                     Thread.sleep(5000);

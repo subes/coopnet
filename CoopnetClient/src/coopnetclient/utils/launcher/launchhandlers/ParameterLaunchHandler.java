@@ -22,6 +22,7 @@ package coopnetclient.utils.launcher.launchhandlers;
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LogTypes;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
@@ -67,6 +68,10 @@ public class ParameterLaunchHandler extends LaunchHandler {
 
             File installdir = new File(launchInfo.getInstallPath());
             p = rt.exec(launchInfo.getBinaryPath() + launchInfo.getParameters(), null, installdir);
+
+            if(launchInfo.getIsHost() && !launchInfo.getIsInstantLaunch()){
+                Protocol.launch();
+            }
 
             try {
                 p.waitFor();
