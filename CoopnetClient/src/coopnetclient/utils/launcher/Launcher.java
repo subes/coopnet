@@ -306,7 +306,7 @@ public class Launcher {
         if (Launcher.isInitialized()) {
             TabOrganizer.getChannelPanel(channel).disableButtons();
 
-            if(launchHandler.getLaunchInfo().getIsHost() && isPlaying() || launchHandler.processExists()){
+            if(launchHandler.getLaunchInfo().getIsHost() && (isPlaying() || launchHandler.processExists())){
                 JOptionPane.showMessageDialog(null,
                     "<html>Coopnet has detected that the game \"<b>"+launchHandler.getBinaryName()+"</b>\" is already running.<br>" +
                     "Please make sure the other players can <b>connect to a running server</b> there<br>" +
