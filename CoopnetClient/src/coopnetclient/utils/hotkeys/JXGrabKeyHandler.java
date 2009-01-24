@@ -22,6 +22,9 @@ package coopnetclient.utils.hotkeys;
 import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.utils.Logger;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
+import jxgrabkey.HotkeyConflictException;
 import jxgrabkey.HotkeyListenerDebugEnabled;
 import jxgrabkey.JXGrabKey;
 
@@ -33,8 +36,28 @@ public class JXGrabKeyHandler extends HotkeyHandler implements HotkeyListenerDeb
     }
     
     @Override
-    public void registerHotkey(int id, int mask, int key) {
-        JXGrabKey.getInstance().registerAWTHotkey(id, mask, key);
+    public void registerHotkey(int id, final int mask, final int key) {
+        try{
+            JXGrabKey.getInstance().registerAWTHotkey(id, mask, key);
+        } catch(HotkeyConflictException e){
+            new Thread(){
+
+                @Override
+                public void run() {
+                    String hotkey = KeyEvent.getKeyModifiersText(mask);
+                    if(hotkey.length() > 0){
+                        hotkey += "+";
+                    }
+                    hotkey += KeyEvent.getKeyText(key);
+
+                    String title = "Unable to register hotkey";
+                    String message = "<html>Coopnet was unable to register the hotkey <b>"+hotkey+"</b> on your system." +
+                            "<br>Another application might already use this combination," +
+                            "<br><b>please reassign the hotkey</b> either there or here.";
+                    JOptionPane.showMessageDialog(Globals.getClientFrame(), message, title, JOptionPane.WARNING_MESSAGE);
+                }
+            }.start();
+        }
     }
 
     @Override
