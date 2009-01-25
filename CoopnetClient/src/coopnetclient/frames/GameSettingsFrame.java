@@ -92,6 +92,11 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         Colorizer.colorize(this);
         this.pack();
 
+        if(roomData.isInstant()){
+            btn_save.setText("Launch");
+            btn_close.setText("Cancel");
+        }
+
         decideVisibility();
     }
 
