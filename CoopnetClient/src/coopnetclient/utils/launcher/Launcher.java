@@ -206,10 +206,11 @@ public class Launcher {
                 if(doPrint){
                     if(!launchResult){
                         Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, maybe the game is not setup properly or a process closed unexpectedly!", ChatStyles.SYSTEM,false);
+                    }else{
+                        Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                                        "Game closed.",
+                                        ChatStyles.SYSTEM,false);
                     }
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                                    "Game closed.",
-                                    ChatStyles.SYSTEM,false);
                 }
 
                 launchedGameInfo = null;
