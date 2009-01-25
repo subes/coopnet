@@ -157,11 +157,12 @@ public class EventsPanel extends javax.swing.JPanel {
         }
         lst_users.setModel(listModel);
         //comments
-        listModel = new DefaultListModel();
+        //TODO new way to print chat messages
+        /*listModel = new DefaultListModel();
         for(int i = 0; i < commentSenders.length;++i){
             listModel.addElement("<html><xmp>"+commentSenders[i] + "</xmp><br>" + commentTexts[i]);
         }
-        lst_comments.setModel(listModel);
+        lst_comments.setModel(listModel);*/
     }
 
     /** This method is called from within the constructor to
@@ -174,128 +175,103 @@ public class EventsPanel extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        lbl_description = new javax.swing.JLabel();
-        sp_games = new javax.swing.JScrollPane();
-        tr_games = new JTree(root);
-        sp_description = new javax.swing.JScrollPane();
-        ta_description = new javax.swing.JTextArea();
-        sp_users = new javax.swing.JScrollPane();
-        lst_users = new javax.swing.JList();
-        lbl_comments = new javax.swing.JLabel();
-        sp_comments = new javax.swing.JScrollPane();
-        lst_comments = new javax.swing.JList();
-        lbl_users = new javax.swing.JLabel();
-        sp_commentInput = new javax.swing.JScrollPane();
-        tp_postComment = new javax.swing.JTextPane();
-        pnl_buttons = new javax.swing.JPanel();
-        btn_post = new javax.swing.JButton();
-        btn_edit = new javax.swing.JButton();
-        btn_signUp = new javax.swing.JButton();
-        btn_refresh = new javax.swing.JButton();
-        pnl_filter = new javax.swing.JPanel();
+        jSplitPane1 = new javax.swing.JSplitPane();
+        pnl_leftHalf = new javax.swing.JPanel();
         lbl_dateFilter = new javax.swing.JLabel();
         lbl_dateFilterFrom = new javax.swing.JLabel();
         cmb_from = new JComboBox(getDateArray());
         lbl_dateFilterTo = new javax.swing.JLabel();
         cmb_to = new JComboBox(getDateArray());
+        sp_games = new javax.swing.JScrollPane();
+        tr_games = new JTree(root);
+        pnl_rightHalf = new javax.swing.JPanel();
+        pnl_buttons = new javax.swing.JPanel();
+        btn_post = new javax.swing.JButton();
+        btn_edit = new javax.swing.JButton();
+        btn_signUp = new javax.swing.JButton();
+        btn_refresh = new javax.swing.JButton();
+        sp_rightSide = new javax.swing.JSplitPane();
+        pnl_topRightQuarter = new javax.swing.JPanel();
+        lbl_description = new javax.swing.JLabel();
+        sp_description = new javax.swing.JScrollPane();
+        ta_description = new javax.swing.JTextArea();
+        sp_users = new javax.swing.JScrollPane();
+        lst_users = new javax.swing.JList();
+        lbl_users = new javax.swing.JLabel();
+        pnel_bottomRightrQuarter = new javax.swing.JPanel();
+        lbl_comments = new javax.swing.JLabel();
+        sp_commentInput = new javax.swing.JScrollPane();
+        tp_postComment = new javax.swing.JTextPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tp_comments = new javax.swing.JTextPane();
 
-        setLayout(new java.awt.GridBagLayout());
+        pnl_leftHalf.setLayout(new java.awt.GridBagLayout());
 
-        lbl_description.setText("Description:");
+        lbl_dateFilter.setText("Date filter:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        pnl_leftHalf.add(lbl_dateFilter, gridBagConstraints);
+
+        lbl_dateFilterFrom.setText("From:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 6);
+        pnl_leftHalf.add(lbl_dateFilterFrom, gridBagConstraints);
+
+        cmb_from.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmb_from.setMinimumSize(new java.awt.Dimension(100, 20));
+        cmb_from.setPreferredSize(new java.awt.Dimension(100, 20));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        pnl_leftHalf.add(cmb_from, gridBagConstraints);
+
+        lbl_dateFilterTo.setText("To:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 6);
+        pnl_leftHalf.add(lbl_dateFilterTo, gridBagConstraints);
+
+        cmb_to.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmb_to.setMinimumSize(new java.awt.Dimension(100, 20));
+        cmb_to.setPreferredSize(new java.awt.Dimension(100, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lbl_description, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 5);
+        pnl_leftHalf.add(cmb_to, gridBagConstraints);
 
         sp_games.setViewportView(tr_games);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 100;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        add(sp_games, gridBagConstraints);
+        pnl_leftHalf.add(sp_games, gridBagConstraints);
 
-        ta_description.setColumns(20);
-        ta_description.setRows(5);
-        sp_description.setViewportView(ta_description);
+        jSplitPane1.setLeftComponent(pnl_leftHalf);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.5;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        add(sp_description, gridBagConstraints);
-
-        lst_users.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        lst_users.setMaximumSize(null);
-        lst_users.setMinimumSize(null);
-        lst_users.setPreferredSize(null);
-        sp_users.setViewportView(lst_users);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        add(sp_users, gridBagConstraints);
-
-        lbl_comments.setText("Comments:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lbl_comments, gridBagConstraints);
-
-        lst_comments.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "comment 1", "comment 2", "comment 3", "comment 4", "comment 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        sp_comments.setViewportView(lst_comments);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.5;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 4);
-        add(sp_comments, gridBagConstraints);
-
-        lbl_users.setText("Participants:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(lbl_users, gridBagConstraints);
-
-        tp_postComment.setText("<Your comment here>");
-        sp_commentInput.setViewportView(tp_postComment);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(sp_commentInput, gridBagConstraints);
+        pnl_rightHalf.setLayout(new java.awt.GridBagLayout());
 
         pnl_buttons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
@@ -312,39 +288,123 @@ public class EventsPanel extends javax.swing.JPanel {
         pnl_buttons.add(btn_refresh);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        add(pnl_buttons, gridBagConstraints);
+        gridBagConstraints.weightx = 1.0;
+        pnl_rightHalf.add(pnl_buttons, gridBagConstraints);
 
-        pnl_filter.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        sp_rightSide.setBorder(null);
+        sp_rightSide.setDividerLocation(200);
+        sp_rightSide.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-        lbl_dateFilter.setText("Date filter:");
-        pnl_filter.add(lbl_dateFilter);
+        pnl_topRightQuarter.setLayout(new java.awt.GridBagLayout());
 
-        lbl_dateFilterFrom.setText("From:");
-        pnl_filter.add(lbl_dateFilterFrom);
+        lbl_description.setText("Description:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnl_topRightQuarter.add(lbl_description, gridBagConstraints);
 
-        cmb_from.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmb_from.setMinimumSize(new java.awt.Dimension(100, 20));
-        cmb_from.setPreferredSize(new java.awt.Dimension(100, 20));
-        pnl_filter.add(cmb_from);
-
-        lbl_dateFilterTo.setText("To:");
-        pnl_filter.add(lbl_dateFilterTo);
-
-        cmb_to.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmb_to.setMinimumSize(new java.awt.Dimension(100, 20));
-        cmb_to.setPreferredSize(new java.awt.Dimension(100, 20));
-        pnl_filter.add(cmb_to);
+        ta_description.setColumns(20);
+        ta_description.setRows(5);
+        sp_description.setViewportView(ta_description);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        pnl_topRightQuarter.add(sp_description, gridBagConstraints);
+
+        lst_users.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        lst_users.setMaximumSize(null);
+        lst_users.setMinimumSize(null);
+        lst_users.setPreferredSize(null);
+        sp_users.setViewportView(lst_users);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 50;
+        gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        add(pnl_filter, gridBagConstraints);
+        pnl_topRightQuarter.add(sp_users, gridBagConstraints);
+
+        lbl_users.setText("Participants:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnl_topRightQuarter.add(lbl_users, gridBagConstraints);
+
+        sp_rightSide.setTopComponent(pnl_topRightQuarter);
+
+        pnel_bottomRightrQuarter.setLayout(new java.awt.GridBagLayout());
+
+        lbl_comments.setText("Comments:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnel_bottomRightrQuarter.add(lbl_comments, gridBagConstraints);
+
+        tp_postComment.setText("<Your comment here>");
+        sp_commentInput.setViewportView(tp_postComment);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnel_bottomRightrQuarter.add(sp_commentInput, gridBagConstraints);
+
+        jScrollPane1.setViewportView(tp_comments);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        pnel_bottomRightrQuarter.add(jScrollPane1, gridBagConstraints);
+
+        sp_rightSide.setRightComponent(pnel_bottomRightrQuarter);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        pnl_rightHalf.add(sp_rightSide, gridBagConstraints);
+
+        jSplitPane1.setRightComponent(pnl_rightHalf);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 631, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+        );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_edit;
@@ -353,22 +413,27 @@ public class EventsPanel extends javax.swing.JPanel {
     private javax.swing.JButton btn_signUp;
     private javax.swing.JComboBox cmb_from;
     private javax.swing.JComboBox cmb_to;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JLabel lbl_comments;
     private javax.swing.JLabel lbl_dateFilter;
     private javax.swing.JLabel lbl_dateFilterFrom;
     private javax.swing.JLabel lbl_dateFilterTo;
     private javax.swing.JLabel lbl_description;
     private javax.swing.JLabel lbl_users;
-    private javax.swing.JList lst_comments;
     private javax.swing.JList lst_users;
+    private javax.swing.JPanel pnel_bottomRightrQuarter;
     private javax.swing.JPanel pnl_buttons;
-    private javax.swing.JPanel pnl_filter;
+    private javax.swing.JPanel pnl_leftHalf;
+    private javax.swing.JPanel pnl_rightHalf;
+    private javax.swing.JPanel pnl_topRightQuarter;
     private javax.swing.JScrollPane sp_commentInput;
-    private javax.swing.JScrollPane sp_comments;
     private javax.swing.JScrollPane sp_description;
     private javax.swing.JScrollPane sp_games;
+    private javax.swing.JSplitPane sp_rightSide;
     private javax.swing.JScrollPane sp_users;
     private javax.swing.JTextArea ta_description;
+    private javax.swing.JTextPane tp_comments;
     private javax.swing.JTextPane tp_postComment;
     private javax.swing.JTree tr_games;
     // End of variables declaration//GEN-END:variables

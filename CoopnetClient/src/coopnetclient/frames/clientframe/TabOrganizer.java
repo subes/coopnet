@@ -210,8 +210,8 @@ public class TabOrganizer {
         if (roomPanel == null) {
             roomPanel = new RoomPanel(roomData);
             Globals.closeJoinRoomPasswordFrame();
-            tabHolder.insertTab("Room", null, roomPanel, null, channelPanels.size());
-            tabHolder.setTabComponentAt(channelPanels.size(), new TabComponent("Room",roomPanel) );
+            tabHolder.insertTab("Room:"+roomData.getChannel(), null, roomPanel, null, channelPanels.size());
+            tabHolder.setTabComponentAt(channelPanels.size(), new TabComponent("Room:"+roomData.getChannel(),Icons.lobbyIconSmall,roomPanel) );
             tabHolder.setSelectedComponent(roomPanel);
 
             for (ChannelPanel cp : channelPanels) {

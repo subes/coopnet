@@ -398,7 +398,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         scrl_userList.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrl_userList.setFocusable(false);
         scrl_userList.setMinimumSize(new java.awt.Dimension(100, 50));
-        scrl_userList.setPreferredSize(new java.awt.Dimension(100, 200));
+        scrl_userList.setPreferredSize(new java.awt.Dimension(150, 200));
 
         lst_userList.setModel(users);
         lst_userList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);

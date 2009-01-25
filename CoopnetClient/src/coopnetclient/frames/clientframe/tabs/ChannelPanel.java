@@ -363,7 +363,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         sp_chatHorizontal.setLeftComponent(sp_chatVertical);
 
         pnl_userList.setFocusable(false);
-        pnl_userList.setPreferredSize(new java.awt.Dimension(100, 80));
+        pnl_userList.setPreferredSize(new java.awt.Dimension(150, 80));
         pnl_userList.setLayout(new java.awt.GridBagLayout());
 
         scrl_userList.setFocusable(false);
@@ -486,8 +486,8 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_refresh)
-                .addContainerGap(139, Short.MAX_VALUE))
-            .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                .addContainerGap(236, Short.MAX_VALUE))
+            .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
         );
         pnl_roomActionsLayout.setVerticalGroup(
             pnl_roomActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
