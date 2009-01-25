@@ -76,10 +76,12 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         tbl_roomList.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
         tbl_roomList.getColumnModel().getColumn(0).setMinWidth(45);
         tbl_roomList.getColumnModel().getColumn(0).setMaxWidth(46);
+        tbl_roomList.getColumnModel().getColumn(0).setPreferredWidth(45);
         tbl_roomList.getColumnModel().getColumn(1).setPreferredWidth(800);
         tbl_roomList.getColumnModel().getColumn(2).setPreferredWidth(300);
         tbl_roomList.getColumnModel().getColumn(3).setMinWidth(65);
         tbl_roomList.getColumnModel().getColumn(3).setMaxWidth(66);
+        tbl_roomList.getColumnModel().getColumn(3).setPreferredWidth(66);
                 
         ChannelRoomStatusRenderer picrend = new ChannelRoomStatusRenderer();
         picrend.setHorizontalAlignment(SwingConstants.CENTER);
@@ -223,7 +225,6 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
 
     public void printMainChatMessage(String name, String message, ChatStyles modeStyle) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
-
         coopnetclient.utils.ui.ColoredChatHandler.addColoredText(name, message, modeStyle, doc, scrl_chatOutput, tp_chatOutput);
     }
 
