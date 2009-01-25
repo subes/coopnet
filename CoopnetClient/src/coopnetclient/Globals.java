@@ -600,7 +600,7 @@ public class Globals {
         }
     }
 
-    public static void openBugReportFrame(Exception exception, String trafficLog) {
+    public static void openBugReportFrame(Throwable exception, String trafficLog) {
         if (bugReportFrame != null) {
             bugReportFrame.setVisible(true);
         } else {

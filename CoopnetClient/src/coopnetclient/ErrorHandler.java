@@ -27,7 +27,7 @@ import java.net.SocketTimeoutException;
 
 public class ErrorHandler {
 
-    public static void handleException(Exception exc) {
+    public static void handleException(Throwable exc) {
         if (exc == null) {
             return;
         }

@@ -30,7 +30,7 @@ import java.awt.event.KeyEvent;
 
 public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
     
-    private Exception exception;
+    private Throwable exception;
     private String trafficLog;
     private ErrorPanelStyle mode;
 
@@ -45,7 +45,7 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
     private static final String PROTOCOL_VERSION_MISMATCH = "<HTML><p style=\"text-align: center;\"><b>Your client is too old!</b><BR>" +
             "Currently your client uses an outdated protocol, so communication with the server is impossible.<br>To continue using Coopnet, please update your client to the latest version.</p>";
 
-    public ErrorPanel(ErrorPanelStyle mode, Exception exception) {
+    public ErrorPanel(ErrorPanelStyle mode, Throwable exception) {
         this.mode = mode;
         
         initComponents();

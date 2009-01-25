@@ -37,11 +37,11 @@ import javax.swing.KeyStroke;
 
 public class BugReportFrame extends javax.swing.JFrame {
 
-    private Exception exc;
+    private Throwable exc;
     private String trafficLog;
 
     /** Creates new form BugReport */
-    public BugReportFrame(Exception e, String trafficLog) {
+    public BugReportFrame(Throwable e, String trafficLog) {
         //Exception mode
         initComponents();
         this.exc = e;

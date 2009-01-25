@@ -48,7 +48,9 @@ import coopnetclient.utils.launcher.Launcher;
 import java.awt.Component;
 import java.awt.Font;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
+import java.util.logging.Level;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
@@ -334,36 +336,45 @@ public class TabOrganizer {
         browserPanel = null;
     }
 
-    public static synchronized void openErrorPanel(ErrorPanelStyle mode, Exception e) {
-        if(mode == ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH){
-            //Protocol version mismatch has higher priority
-            errorPanel = new ErrorPanel(mode, null); //anyway no exception
-            tabHolder.addTab("Client too old", null ,errorPanel);
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Client too old",Icons.errorIconSmall,errorPanel) );
-            tabHolder.setSelectedComponent(errorPanel);
-        }else{
-            if (errorPanel == null || errorPanel.hasException() == false && e != null) {
-                errorPanel = new ErrorPanel(mode, e);
-                tabHolder.addTab("Error", null ,errorPanel);
-                tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Error",Icons.errorIconSmall,errorPanel) );
-                tabHolder.setSelectedComponent(errorPanel);
-            } else {
-                Logger.log(LogTypes.WARNING, "We don't need another error tab, this error may be caused by the first one!");
-                tabHolder.setSelectedComponent(errorPanel);
-            }
-        }
-        Globals.getClientFrame().repaint();
+    public static synchronized void openErrorPanel(final ErrorPanelStyle mode, final Throwable e) {
+        SwingUtilities.invokeLater(new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        if(mode == ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH){
+                            //Protocol version mismatch has higher priority
+                            errorPanel = new ErrorPanel(mode, null); //anyway no exception
+                            tabHolder.addTab("Client too old", null ,errorPanel);
+                            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Client too old",Icons.errorIconSmall,errorPanel) );
+                            tabHolder.setSelectedComponent(errorPanel);
+                        }else{
+                            if (errorPanel == null || errorPanel.hasException() == false && e != null) {
+                                errorPanel = new ErrorPanel(mode, e);
+                                tabHolder.addTab("Error", null ,errorPanel);
+                                tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Error",Icons.errorIconSmall,errorPanel) );
+                                tabHolder.setSelectedComponent(errorPanel);
+                            } else {
+                                Logger.log(LogTypes.WARNING, "We don't need another error tab, this error may be caused by the first one!");
+                                tabHolder.setSelectedComponent(errorPanel);
+                            }
+                        }
+                        Globals.getClientFrame().repaint();
+                    } catch (Exception e) {
+                        ErrorHandler.handleException(e);
+                    }
+                }
+            });
     }
     
     public static void closeErrorPanel() {
         tabHolder.remove(errorPanel);
+        errorPanel = null;
     }
 
     public static synchronized void openLoginPanel() {
         if (loginPanel == null) {
             //Thread is needed here to get rid of an exception at startup
             SwingUtilities.invokeLater(new Thread() {
-
                 @Override
                 public void run() {
                     try {
@@ -556,29 +567,38 @@ public class TabOrganizer {
     }
 
     public static void closeAllTabs() {
-        closeRoomPanel();
-        closeBrowserPanel();
-        closeErrorPanel();
-        closeLoginPanel();
-        closeTransferPanel();
-        closeConnectingPanel();
-        closePasswordRecoveryPanel();
-        closeRegisterPanel();
-        while(channelPanels.size() > 0){
-            closeChannelPanel(channelPanels.get(0));
-        }
-        while(privateChatPanels.size() > 0){
-            closePrivateChatPanel(privateChatPanels.get(0));
-        }
+        SwingUtilities.invokeLater(new Thread() {
+            @Override
+            public void run() {
+                try{
+                    closeRoomPanel();
+                    closeBrowserPanel();
+                    closeErrorPanel();
+                    closeLoginPanel();
+                    closeTransferPanel();
+                    closeConnectingPanel();
+                    closePasswordRecoveryPanel();
+                    closeRegisterPanel();
+                    while(channelPanels.size() > 0){
+                        closeChannelPanel(channelPanels.get(0));
+                    }
+                    while(privateChatPanels.size() > 0){
+                        closePrivateChatPanel(privateChatPanels.get(0));
+                    }
 
-        //throw exception if this method doesnt work properly manually! hopefully we get bugreports by this :)
-        //tabHolder.removeAll() is bad practice and should not be used!
-        if(tabHolder.getTabCount() > 0){
-            String text = "TabOrganizer.closeAllTabs() did not manually close all tabs! The following tabs were still open:";
-            for(int i = 0; i < tabHolder.getTabCount(); i++){
-                text += "\n\t\t" + tabHolder.getComponentAt(i).getClass().getName();
+                    //throw exception if this method doesnt work properly manually! hopefully we get bugreports by this :)
+                    //tabHolder.removeAll() is bad practice and should not be used!
+                    if(tabHolder.getTabCount() > 0){
+                        String text = "TabOrganizer.closeAllTabs() did not manually close all tabs! The following tabs were still open:";
+                        for(int i = 0; i < tabHolder.getTabCount(); i++){
+                            text += "\n\t\t" + tabHolder.getComponentAt(i).getClass().getName();
+                        }
+                        ErrorHandler.handleException(new IllegalStateException(text));
+                    }
+                }catch(Throwable t){
+                    ErrorHandler.handleException(t);
+                }
             }
-            ErrorHandler.handleException(new IllegalStateException(text));
-        }
+        });
     }
 }

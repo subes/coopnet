@@ -91,7 +91,7 @@ public class Logger {
         append(entry);
     }
     
-    public static void log(Exception exception){
+    public static void log(Throwable exception){
         String entry = "\n" + exception.getClass().toString() + ": " + exception.getMessage();
 
         StackTraceElement[] trace = exception.getStackTrace();
