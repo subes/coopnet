@@ -70,18 +70,18 @@ public class ClientFrame extends javax.swing.JFrame {
         refreshFavourites();
         refreshInstalledGames();
 
+        updateMenu();
+        
         //load the size from options
         int width = Settings.getMainFrameWidth();
         int height = Settings.getMainFrameHeight();
-        this.setSize(width, height);
+        this.setSize(new Dimension(width, height));
+        this.setPreferredSize(new Dimension(width, height));
         //maximise if needed
         int status = Settings.getMainFrameMaximised();
         if (status == JFrame.MAXIMIZED_BOTH) {
             this.setExtendedState(status);
         }
-     
-        updateMenu();
-        pack();
         if (Settings.getTrayIconEnabled()) {
             Globals.addTrayIcon();
         }

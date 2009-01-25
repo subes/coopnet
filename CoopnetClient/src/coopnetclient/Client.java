@@ -189,6 +189,9 @@ public class Client {
             if (Globals.getClientFrame().getExtendedState() == javax.swing.JFrame.NORMAL) {
                 coopnetclient.utils.Settings.setMainFrameHeight(Globals.getClientFrame().getHeight());
                 coopnetclient.utils.Settings.setMainFrameWidth(Globals.getClientFrame().getWidth());
+                coopnetclient.utils.Settings.setMainFrameMaximised(Globals.getClientFrame().getExtendedState());
+            }else if (Globals.getClientFrame().getExtendedState() == javax.swing.JFrame.MAXIMIZED_BOTH){
+                coopnetclient.utils.Settings.setMainFrameMaximised(Globals.getClientFrame().getExtendedState());
             }
             //unbind hotkeys
             Hotkeys.cleanUp();

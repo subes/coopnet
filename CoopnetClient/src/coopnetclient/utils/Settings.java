@@ -169,7 +169,7 @@ public class Settings {
     private final static boolean def_timeStamps = false;
     private final static boolean def_quickPanelPostionIsLeft = true;
     private final static int def_mainFrameMaximised = javax.swing.JFrame.NORMAL;
-    private final static int def_mainFrameWidth = 465;
+    private final static int def_mainFrameWidth = 600;
     private final static int def_mainFrameHeight = 400;
     private final static int def_channelVerticalSPPosition = 150;
     private final static int def_channelChatHorizontalSPPosition = 369;
@@ -443,7 +443,7 @@ public class Settings {
     }
 
     public static void setMainFrameHeight(int height) {
-        writeSetting(mainFrameWidth, String.valueOf(height));
+        writeSetting(mainFrameHeight, String.valueOf(height));
     }
 
     public static int getChannelVerticalSPPosition() {
