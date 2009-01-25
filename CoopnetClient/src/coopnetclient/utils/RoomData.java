@@ -37,7 +37,7 @@ public class RoomData {
     private int modIndex;
     private long roomID;
 
-    public RoomData(boolean isHost, String channel, int modIndex, String ip, String hamachiIp, int maxPlayers , String hostName,String roomName,long ID,String password, boolean doSearch){
+    public RoomData(boolean isHost, String channel, int modIndex, String ip, String hamachiIp, int maxPlayers , String hostName,String roomName,long ID,String password, boolean doSearch,boolean isInstant){
         this.isHost = isHost;
         this.doSearch = doSearch;
         this.channel = channel;
@@ -54,9 +54,6 @@ public class RoomData {
         } else {
             this.modName = GameDatabase.getGameModNames(channel)[modIndex].toString();
         }
-    }
-    public RoomData(boolean isHost, String channel, int modIndex, String ip, String hamachiIp, int maxPlayers , String hostName,String roomName,long ID,String password, boolean doSearch,boolean isInstant){
-        this(isHost, channel, modIndex, ip, hamachiIp, maxPlayers, hostName, roomName, ID, password, doSearch);
         this.isInstant = isInstant;
     }
 
@@ -68,11 +65,11 @@ public class RoomData {
         this.isHost = isHost;
     }
 
-    public boolean DoSearch() {
+    public boolean isDoSearch() {
         return doSearch;
     }
 
-    public void setDoSearch(boolean doSearch) {
+    public void setIsDoSearch(boolean doSearch) {
         this.doSearch = doSearch;
     }
 

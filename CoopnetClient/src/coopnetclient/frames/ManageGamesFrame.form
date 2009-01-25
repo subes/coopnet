@@ -176,7 +176,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_exePath">
+        <Component class="coopnetclient.frames.components.ValidatorJTextField" name="tf_exePath">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
@@ -225,7 +225,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_installPath">
+        <Component class="coopnetclient.frames.components.ValidatorJTextField" name="tf_installPath">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">

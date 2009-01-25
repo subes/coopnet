@@ -32,7 +32,7 @@ public class LoginPanel extends javax.swing.JPanel {
         initComponents();
         tf_name.setText(coopnetclient.utils.Settings.getLastLoginName());
         cb_autoLogin.setSelected(coopnetclient.utils.Settings.getAutoLogin());
-        coopnetclient.utils.Colorizer.colorize(this);
+        coopnetclient.utils.ui.Colorizer.colorize(this);
 
         lbl_loginError.setText(" ");
     }
@@ -107,7 +107,7 @@ public class LoginPanel extends javax.swing.JPanel {
         btn_register = new javax.swing.JButton();
         cb_autoLogin = new javax.swing.JCheckBox();
         lbl_loginError = new javax.swing.JLabel();
-        tf_name = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_name = new coopnetclient.frames.components.ValidatorJTextField();
         btn_passwordRecovery = new javax.swing.JButton();
 
         setFocusable(false);
@@ -320,6 +320,6 @@ private void pf_passwordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:
     private javax.swing.JLabel lbl_password;
     private javax.swing.JPasswordField pf_password;
     private javax.swing.JPanel pnl_input;
-    private coopnetclient.frames.components.AdvancedJTextField tf_name;
+    private coopnetclient.frames.components.ValidatorJTextField tf_name;
     // End of variables declaration//GEN-END:variables
 }

@@ -183,7 +183,7 @@
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_name">
+        <Component class="coopnetclient.frames.components.ValidatorJTextField" name="tf_name">
           <Events>
             <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="tf_nameCaretUpdate"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_nameActionPerformed"/>

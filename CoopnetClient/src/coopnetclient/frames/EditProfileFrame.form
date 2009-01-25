@@ -213,28 +213,28 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_loginName">
+        <Component class="coopnetclient.frames.components.ValidatorJTextField" name="tf_loginName">
           <Properties>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="tf_inGameName"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_inGameName">
+        <Component class="coopnetclient.frames.components.ValidatorJTextField" name="tf_inGameName">
           <Properties>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="tf_emailAddress"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_emailAddress">
+        <Component class="coopnetclient.frames.components.ValidatorJTextField" name="tf_emailAddress">
           <Properties>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="cmb_country"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_website">
+        <Component class="coopnetclient.frames.components.ValidatorJTextField" name="tf_website">
           <Properties>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
               <ComponentRef name="btn_save"/>

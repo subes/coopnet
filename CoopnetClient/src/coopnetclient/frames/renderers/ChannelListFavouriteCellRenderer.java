@@ -19,7 +19,7 @@
 
 package coopnetclient.frames.renderers;
 
-import coopnetclient.utils.Icons;
+import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Settings;
 import java.awt.Component;
 import javax.swing.JTable;

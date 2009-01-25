@@ -26,11 +26,11 @@ public class CustomScrollBarArrowButton extends BasicArrowButton {
 
     public CustomScrollBarArrowButton(int direction) {
         super(direction,
-                coopnetclient.utils.Colorizer.getButtonBackgroundColor(),
-                coopnetclient.utils.Colorizer.getButtonBackgroundColor(),
-                coopnetclient.utils.Colorizer.getForegroundColor(),
-                coopnetclient.utils.Colorizer.getButtonBackgroundColor());
+                coopnetclient.utils.ui.Colorizer.getButtonBackgroundColor(),
+                coopnetclient.utils.ui.Colorizer.getButtonBackgroundColor(),
+                coopnetclient.utils.ui.Colorizer.getForegroundColor(),
+                coopnetclient.utils.ui.Colorizer.getButtonBackgroundColor());
 
-        setBorder(BorderFactory.createLineBorder(coopnetclient.utils.Colorizer.getForegroundColor(), 1));
+        setBorder(BorderFactory.createLineBorder(coopnetclient.utils.ui.Colorizer.getForegroundColor(), 1));
     }
 }

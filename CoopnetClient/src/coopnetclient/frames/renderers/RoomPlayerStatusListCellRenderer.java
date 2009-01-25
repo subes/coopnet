@@ -21,8 +21,8 @@ package coopnetclient.frames.renderers;
 
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.utils.Colorizer;
-import coopnetclient.utils.Icons;
+import coopnetclient.utils.ui.Colorizer;
+import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Settings;
 import java.awt.Color;
 import java.awt.Component;

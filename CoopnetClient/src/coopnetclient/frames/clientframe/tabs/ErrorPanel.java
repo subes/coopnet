@@ -24,7 +24,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.ErrorPanelStyle;
 import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.utils.FrameIconFlasher;
+import coopnetclient.utils.ui.FrameIconFlasher;
 import coopnetclient.utils.Logger;
 import java.awt.event.KeyEvent;
 
@@ -51,7 +51,7 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
         initComponents();
         FrameIconFlasher.flash("data/icons/error.png", "An error occured!", true);
         
-        coopnetclient.utils.Colorizer.colorize(this);
+        coopnetclient.utils.ui.Colorizer.colorize(this);
         switch (mode) {
             case UNKNOWN: {
                 lbl_errorText.setText(UNKNOWN);

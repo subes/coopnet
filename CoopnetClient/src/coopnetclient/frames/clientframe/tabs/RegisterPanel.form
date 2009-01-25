@@ -215,7 +215,7 @@
                     <Property name="focusable" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_name">
+                <Component class="coopnetclient.frames.components.ValidatorJTextField" name="tf_name">
                   <Properties>
                     <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Login name must be 3 to 30 characters and is restricted to the following characters:&lt;br&gt; [A-Z] [a-z] [0-9] ! &quot; # $ % &amp; &apos; ( ) * + , - . / : ; &lt; = &gt; ? @ [ \ ] ^ _ ` { | } ~"/>
                   </Properties>
@@ -223,7 +223,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_nameActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_email">
+                <Component class="coopnetclient.frames.components.ValidatorJTextField" name="tf_email">
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_emailActionPerformed"/>
                   </Events>
@@ -239,7 +239,7 @@
                     <Property name="text" type="java.lang.String" value="*Ingame name:"/>
                   </Properties>
                 </Component>
-                <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_ingameName">
+                <Component class="coopnetclient.frames.components.ValidatorJTextField" name="tf_ingameName">
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_ingameNameActionPerformed"/>
                   </Events>
@@ -311,7 +311,7 @@
                     <Property name="text" type="java.lang.String" value="Website:"/>
                   </Properties>
                 </Component>
-                <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_website">
+                <Component class="coopnetclient.frames.components.ValidatorJTextField" name="tf_website">
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_websiteActionPerformed"/>
                   </Events>

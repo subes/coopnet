@@ -1,4 +1,4 @@
-package coopnetclient.utils;
+package coopnetclient.utils.ui;
 
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;

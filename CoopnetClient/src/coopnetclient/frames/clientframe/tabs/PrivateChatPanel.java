@@ -37,7 +37,7 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
     public PrivateChatPanel(String partner) {
         this.partner = partner;
         initComponents();
-        coopnetclient.utils.Colorizer.colorize(this);
+        coopnetclient.utils.ui.Colorizer.colorize(this);
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(2, partner));
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
@@ -84,7 +84,7 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
 
     public void append(String sender, String message, ChatStyles style) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
-        coopnetclient.utils.ColoredChatHandler.addColoredText(sender,
+        coopnetclient.utils.ui.ColoredChatHandler.addColoredText(sender,
                 message, style,
                 doc, scrl_chatOutput, tp_chatOutput);
     }

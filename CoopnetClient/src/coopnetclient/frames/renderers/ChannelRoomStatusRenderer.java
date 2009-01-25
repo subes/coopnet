@@ -20,7 +20,7 @@
 package coopnetclient.frames.renderers;
 
 import coopnetclient.frames.models.RoomTableModel;
-import coopnetclient.utils.Icons;
+import coopnetclient.utils.ui.Icons;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class ChannelRoomStatusRenderer extends DefaultTableCellRenderer{

@@ -1,9 +1,7 @@
-package coopnetclient.utils;
+package coopnetclient.utils.ui;
 
 import coopnetclient.Globals;
-import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.protocol.out.Protocol;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -13,11 +11,11 @@ import java.io.IOException;
 import javax.swing.JList;
 import javax.swing.TransferHandler;
 
-public class ContactListFileDropHandler extends TransferHandler {
+public class UserListFileDropHandler extends TransferHandler {
 
     int action = TransferHandler.COPY; 
 
-    public ContactListFileDropHandler() {        
+    public UserListFileDropHandler() {        
     }
 
     @Override
@@ -40,21 +38,6 @@ public class ContactListFileDropHandler extends TransferHandler {
         }
         String subject = list.getModel().getElementAt(index).toString();
         if (subject == null || subject.equals(Globals.getThisPlayer_loginName())) {
-            return false;
-        }
-        
-        
-        ContactListElementTypes status = Globals.getContactList().getStatus(subject);
-        if(   !(   status == ContactListElementTypes.CHATTING 
-                || status == ContactListElementTypes.IN_ROOM
-                || status == ContactListElementTypes.PLAYING
-                || status == ContactListElementTypes.PENDING_CONTACT )
-                ){
-            return false;
-        }
-        ContactListModel model = Globals.getContactList();
-        if( status == ContactListElementTypes.PENDING_CONTACT && 
-                !(model.groupOfContact(subject) != null )){
             return false;
         }
 

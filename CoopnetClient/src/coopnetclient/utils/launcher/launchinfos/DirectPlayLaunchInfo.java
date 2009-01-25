@@ -36,6 +36,6 @@ public class DirectPlayLaunchInfo extends LaunchInfo {
     }
 
     public boolean isSearchEnabled(){
-        return roomData.DoSearch();
+        return roomData.isDoSearch();
     }
 }

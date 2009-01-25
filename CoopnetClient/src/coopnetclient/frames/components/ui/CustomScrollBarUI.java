@@ -29,9 +29,9 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 public class CustomScrollBarUI extends BasicScrollBarUI {
     
-    Color btnbg = coopnetclient.utils.Colorizer.getButtonBackgroundColor(),
-          bg = coopnetclient.utils.Colorizer.getTextfieldBackgroundColor(), 
-          fg = coopnetclient.utils.Colorizer.getForegroundColor();
+    Color btnbg = coopnetclient.utils.ui.Colorizer.getButtonBackgroundColor(),
+          bg = coopnetclient.utils.ui.Colorizer.getTextfieldBackgroundColor(),
+          fg = coopnetclient.utils.ui.Colorizer.getForegroundColor();
     
 // this draws scroller
     @Override

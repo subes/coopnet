@@ -145,7 +145,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
         lbl_saveto = new javax.swing.JLabel();
         btn_browse = new javax.swing.JButton();
         cb_resume = new javax.swing.JCheckBox();
-        tf_savePath = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_savePath = new coopnetclient.frames.components.ValidatorJTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_transfers = new javax.swing.JTable();
 
@@ -518,6 +518,6 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
     private javax.swing.JLabel lbl_sizelabel;
     private javax.swing.JPanel pnl_details;
     private javax.swing.JTable tbl_transfers;
-    private coopnetclient.frames.components.AdvancedJTextField tf_savePath;
+    private coopnetclient.frames.components.ValidatorJTextField tf_savePath;
     // End of variables declaration//GEN-END:variables
 }

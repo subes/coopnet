@@ -32,7 +32,7 @@ import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.SoundPlayer;
-import coopnetclient.utils.FrameIconFlasher;
+import coopnetclient.utils.ui.FrameIconFlasher;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.MuteBanList;
@@ -166,7 +166,7 @@ public class CommandHandler {
                     TabOrganizer.openChannelPanel(currentChannelName);
                     break;
                 case JOIN_ROOM:
-                    RoomData rd = new RoomData(false,currentChannelName,Integer.valueOf(information[4]),information[1],information[2],Integer.valueOf(information[3]),information[5],information[6],Long.valueOf(information[7]),information[8],Boolean.valueOf(information[9]));
+                    RoomData rd = new RoomData(false,currentChannelName,Integer.valueOf(information[4]),information[1],information[2],Integer.valueOf(information[3]),information[5],information[6],Long.valueOf(information[7]),information[8],Boolean.valueOf(information[9]), false);
                     TabOrganizer.openRoomPanel(rd);
                     break;
                 case MUTE_BAN_LIST:
@@ -212,7 +212,7 @@ public class CommandHandler {
                     Globals.showWrongPasswordNotification();
                     break;
                 case CREATE_ROOM:
-                    rd = new RoomData(true,currentChannelName,Integer.valueOf(information[2]),"","",Integer.valueOf(information[1]),Globals.getThisPlayer_loginName(),information[3],Long.valueOf(information[4]),information[5],Boolean.valueOf(information[6]));
+                    rd = new RoomData(true,currentChannelName,Integer.valueOf(information[2]),"","",Integer.valueOf(information[1]),Globals.getThisPlayer_loginName(),information[3],Long.valueOf(information[4]),information[5],Boolean.valueOf(information[6]), false);
                     TabOrganizer.openRoomPanel(rd);
                     break;
                 case LEAVE_ROOM:
@@ -443,11 +443,7 @@ public class CommandHandler {
                                     }
                                     idx+=2;
                                 }
-                                //launch game
-                                if(GameDatabase.getLocalSettingCount(gameName, modName) > 0 ) {
-                                    
-                                }
-                                Launcher.instantLaunch(gameName);
+                                Launcher.instantLaunch();
                             }
                         }
                     }.start();

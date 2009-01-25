@@ -344,7 +344,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                         boolean launch = Launcher.initInstantLaunch(rd);
                         if(launch){
                             Protocol.createRoom(rd);
-                            Launcher.instantLaunch(channel);
+                            Launcher.instantLaunch();
                         }
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);

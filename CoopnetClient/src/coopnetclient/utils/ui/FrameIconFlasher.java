@@ -17,8 +17,9 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.utils;
+package coopnetclient.utils.ui;
 
+import coopnetclient.utils.*;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import java.awt.Image;

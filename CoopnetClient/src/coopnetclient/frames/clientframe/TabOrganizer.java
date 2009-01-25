@@ -39,7 +39,7 @@ import coopnetclient.frames.components.TabComponent;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.utils.Icons;
+import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
 import coopnetclient.utils.gamedatabase.GameDatabase;

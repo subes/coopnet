@@ -32,7 +32,7 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
     public PasswordRecoveryPanel() {
         initComponents();
         tf_name.setText(coopnetclient.utils.Settings.getLastLoginName());
-        coopnetclient.utils.Colorizer.colorize(this);
+        coopnetclient.utils.ui.Colorizer.colorize(this);
     }
 
     @Override
@@ -94,8 +94,8 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
         lbl_email = new javax.swing.JLabel();
         btn_send = new javax.swing.JButton();
         lbl_Info = new javax.swing.JLabel();
-        tf_name = new coopnetclient.frames.components.AdvancedJTextField();
-        tf_email = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_name = new coopnetclient.frames.components.ValidatorJTextField();
+        tf_email = new coopnetclient.frames.components.ValidatorJTextField();
         btn_cancel = new javax.swing.JButton();
 
         setFocusable(false);
@@ -219,7 +219,7 @@ private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JLabel lbl_email;
     private javax.swing.JLabel lbl_name;
     private javax.swing.JPanel pnl_input;
-    private coopnetclient.frames.components.AdvancedJTextField tf_email;
-    private coopnetclient.frames.components.AdvancedJTextField tf_name;
+    private coopnetclient.frames.components.ValidatorJTextField tf_email;
+    private coopnetclient.frames.components.ValidatorJTextField tf_name;
     // End of variables declaration//GEN-END:variables
 }

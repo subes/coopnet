@@ -17,7 +17,7 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.utils;
+package coopnetclient.utils.ui;
 
 import coopnetclient.protocol.in.CommandHandler;
 import coopnetclient.ErrorHandler;

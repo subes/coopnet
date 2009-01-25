@@ -66,7 +66,7 @@ public class ColorChooserButtonActionListener implements ActionListener {
         };
         
         dialog = JColorChooser.createDialog(null, "Pick a color", true, chooser, okListener, cancelListener);
-        coopnetclient.utils.Colorizer.colorize(dialog);
+        coopnetclient.utils.ui.Colorizer.colorize(dialog);
         chooser.setColor(parent.getForeground());
         
         dialog.setVisible(true);

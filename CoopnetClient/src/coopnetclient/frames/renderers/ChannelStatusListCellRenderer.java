@@ -21,7 +21,7 @@ package coopnetclient.frames.renderers;
 import coopnetclient.Globals;
 import coopnetclient.enums.PlayerStatuses;
 import coopnetclient.frames.models.ChannelStatusListModel;
-import coopnetclient.utils.Icons;
+import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Settings;
 import java.awt.Component;
 import java.awt.Font;

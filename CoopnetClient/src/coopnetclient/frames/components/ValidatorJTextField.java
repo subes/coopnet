@@ -6,19 +6,19 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JTextField;
 
-public class AdvancedJTextField extends JTextField {
+public class ValidatorJTextField extends JTextField {
 
     private Color errorColor = Color.RED;
     private String lastValue = "";
     private Color foreGround;
     private boolean errorShowing = false;
 
-    public AdvancedJTextField() {
+    public ValidatorJTextField() {
         this.addFocusListener(focusAdapter);
         this.addKeyListener(keyListener);
     }
 
-    public AdvancedJTextField(Color errorColor) {
+    public ValidatorJTextField(Color errorColor) {
         this();
         this.errorColor = errorColor;
     }

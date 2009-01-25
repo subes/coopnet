@@ -24,7 +24,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.clientframe.tabs.ChannelPanel;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
-import coopnetclient.utils.Icons;
+import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.event.ActionEvent;
@@ -120,10 +120,10 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         cb_showInstalledOnly = new javax.swing.JCheckBox();
         pnl_settings = new javax.swing.JPanel();
         lbl_path = new javax.swing.JLabel();
-        tf_exePath = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_exePath = new coopnetclient.frames.components.ValidatorJTextField();
         btn_browsePath = new javax.swing.JButton();
         lbl_installPath = new javax.swing.JLabel();
-        tf_installPath = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_installPath = new coopnetclient.frames.components.ValidatorJTextField();
         btn_browseInstallPath = new javax.swing.JButton();
         lbl_params = new javax.swing.JLabel();
         tf_parameters = new javax.swing.JTextField();
@@ -655,9 +655,9 @@ private void tf_parametersCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-F
     private javax.swing.JList lst_games;
     private javax.swing.JPanel pnl_settings;
     private javax.swing.JScrollPane scrl_games;
-    private coopnetclient.frames.components.AdvancedJTextField tf_exePath;
+    private coopnetclient.frames.components.ValidatorJTextField tf_exePath;
     private javax.swing.JTextField tf_filter;
-    private coopnetclient.frames.components.AdvancedJTextField tf_installPath;
+    private coopnetclient.frames.components.ValidatorJTextField tf_installPath;
     private javax.swing.JTextField tf_parameters;
     // End of variables declaration//GEN-END:variables
 }

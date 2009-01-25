@@ -25,7 +25,7 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
-import coopnetclient.utils.SwingTask;
+import coopnetclient.utils.ui.SwingTask;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;

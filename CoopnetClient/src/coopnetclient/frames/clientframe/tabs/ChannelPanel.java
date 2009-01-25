@@ -35,7 +35,7 @@ import coopnetclient.frames.models.ChannelStatusListModel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.frames.renderers.RoomNameRenderer;
 import coopnetclient.utils.Settings;
-import coopnetclient.utils.UserListFileDropHandler;
+import coopnetclient.utils.ui.UserListFileDropHandler;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -64,7 +64,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         users = new ChannelStatusListModel();
         renderer = new ChannelStatusListCellRenderer(users);
         initComponents();
-        coopnetclient.utils.Colorizer.colorize(this);
+        coopnetclient.utils.ui.Colorizer.colorize(this);
 
         tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
 
@@ -224,7 +224,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     public void printMainChatMessage(String name, String message, ChatStyles modeStyle) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
 
-        coopnetclient.utils.ColoredChatHandler.addColoredText(name, message, modeStyle, doc, scrl_chatOutput, tp_chatOutput);
+        coopnetclient.utils.ui.ColoredChatHandler.addColoredText(name, message, modeStyle, doc, scrl_chatOutput, tp_chatOutput);
     }
 
     public void removePlayerFromChannel(String playername) {

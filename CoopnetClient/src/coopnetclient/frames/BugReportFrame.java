@@ -22,7 +22,7 @@ import bugreportmailsender.BugReportMailSender;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.utils.Colorizer;
+import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.Logger;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;

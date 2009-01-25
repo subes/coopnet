@@ -23,7 +23,7 @@ import coopnetclient.Globals;
 import coopnetclient.frames.renderers.ChannelListFavouriteCellRenderer;
 import coopnetclient.frames.renderers.ChannelListInstalledCellRenderer;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.utils.Icons;
+import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.awt.Component;

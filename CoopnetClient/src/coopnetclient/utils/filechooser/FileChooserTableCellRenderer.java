@@ -19,7 +19,7 @@
 
 package coopnetclient.utils.filechooser;
 
-import coopnetclient.utils.Icons;
+import coopnetclient.utils.ui.Icons;
 import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;

@@ -300,12 +300,13 @@ public class Launcher {
         return Launcher.isInitialized();
     }
 
-    public static void instantLaunch(String channel){
-        instantLaunch(channel, false);
+    public static void instantLaunch(){
+        instantLaunch(false);
     }
 
-    public static void instantLaunch(String channel, boolean launchClickedFromGameSettingsFrame) {
+    public static void instantLaunch(boolean launchClickedFromGameSettingsFrame) {
         if (Launcher.isInitialized()) {
+            String channel = launchHandler.getLaunchInfo().getRoomData().getChannel();
             TabOrganizer.getChannelPanel(channel).disableButtons();
 
             if(launchHandler.getLaunchInfo().getRoomData().isHost() && (isPlaying() || launchHandler.processExists())){

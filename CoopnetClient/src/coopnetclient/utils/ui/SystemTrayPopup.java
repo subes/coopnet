@@ -18,7 +18,7 @@
  */
 
 
-package coopnetclient.utils;
+package coopnetclient.utils.ui;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;

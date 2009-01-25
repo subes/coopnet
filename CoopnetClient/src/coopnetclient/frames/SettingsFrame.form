@@ -385,7 +385,7 @@
                 <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Sleep mode saves bandwith when playing games by disabling the channel functions.&lt;br&gt; Refreshing or sending a message will reenable channel functions."/>
               </Properties>
             </Component>
-            <Component class="coopnetclient.frames.components.AdvancedJTextField" name="tf_receiveDir">
+            <Component class="coopnetclient.frames.components.ValidatorJTextField" name="tf_receiveDir">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Your recieved files will be saved to this directory by default, unless you select an other directory in the recieve panel."/>
               </Properties>

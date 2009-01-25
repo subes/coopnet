@@ -27,7 +27,7 @@ import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.components.KeyGrabberTextField;
-import coopnetclient.utils.Colorizer;
+import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.Settings;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseEvent;
@@ -208,7 +208,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         lbl_receiveDir = new javax.swing.JLabel();
         btn_browseReceiveDir = new javax.swing.JButton();
         cb_sleepMode = new javax.swing.JCheckBox();
-        tf_receiveDir = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_receiveDir = new coopnetclient.frames.components.ValidatorJTextField();
         pnl_text = new javax.swing.JPanel();
         pnl_textStyle = new javax.swing.JPanel();
         lbl_playerNames = new javax.swing.JLabel();
@@ -1358,7 +1358,7 @@ private void tf_playerMessagesSizeActionPerformed(java.awt.event.ActionEvent evt
     private coopnetclient.frames.components.KeyGrabberTextField tf_launchKey;
     private javax.swing.JTextField tf_playerMessagesSize;
     private javax.swing.JTextField tf_playerNamesSize;
-    private coopnetclient.frames.components.AdvancedJTextField tf_receiveDir;
+    private coopnetclient.frames.components.ValidatorJTextField tf_receiveDir;
     private javax.swing.JTextField tf_transferPort;
     // End of variables declaration//GEN-END:variables
 

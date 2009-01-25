@@ -21,7 +21,7 @@
 package coopnetclient.frames.renderers;
 
 import coopnetclient.frames.models.RoomTableModel;
-import coopnetclient.utils.Icons;
+import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Settings;
 import java.awt.Color;
 import java.awt.Component;

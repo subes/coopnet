@@ -21,7 +21,7 @@ package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.frames.clientframe.ClosableTab;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.utils.Colorizer;
+import coopnetclient.utils.ui.Colorizer;
 import java.io.IOException;
 
 public class BrowserPanel extends javax.swing.JPanel implements ClosableTab {

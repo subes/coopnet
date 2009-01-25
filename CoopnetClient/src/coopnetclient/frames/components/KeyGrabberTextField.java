@@ -19,7 +19,7 @@
 
 package coopnetclient.frames.components;
 
-import coopnetclient.utils.Colorizer;
+import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import java.awt.Color;

@@ -120,10 +120,10 @@ public class EditProfileFrame extends javax.swing.JFrame {
         lbl_country = new javax.swing.JLabel();
         lbl_website = new javax.swing.JLabel();
         cmb_country = new javax.swing.JComboBox();
-        tf_loginName = new coopnetclient.frames.components.AdvancedJTextField();
-        tf_inGameName = new coopnetclient.frames.components.AdvancedJTextField();
-        tf_emailAddress = new coopnetclient.frames.components.AdvancedJTextField();
-        tf_website = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_loginName = new coopnetclient.frames.components.ValidatorJTextField();
+        tf_inGameName = new coopnetclient.frames.components.ValidatorJTextField();
+        tf_emailAddress = new coopnetclient.frames.components.ValidatorJTextField();
+        tf_website = new coopnetclient.frames.components.ValidatorJTextField();
         btn_cancel = new javax.swing.JButton();
 
         setTitle("Edit profile");
@@ -321,10 +321,10 @@ public class EditProfileFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_loginName;
     private javax.swing.JLabel lbl_website;
     private javax.swing.JPanel pnl_input;
-    private coopnetclient.frames.components.AdvancedJTextField tf_emailAddress;
-    private coopnetclient.frames.components.AdvancedJTextField tf_inGameName;
-    private coopnetclient.frames.components.AdvancedJTextField tf_loginName;
-    private coopnetclient.frames.components.AdvancedJTextField tf_website;
+    private coopnetclient.frames.components.ValidatorJTextField tf_emailAddress;
+    private coopnetclient.frames.components.ValidatorJTextField tf_inGameName;
+    private coopnetclient.frames.components.ValidatorJTextField tf_loginName;
+    private coopnetclient.frames.components.ValidatorJTextField tf_website;
     // End of variables declaration//GEN-END:variables
 
 }

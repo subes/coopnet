@@ -24,7 +24,7 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.MapLoaderTypes;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.utils.Colorizer;
+import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -506,7 +506,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             @Override
             public void run() {
                 try {
-                    Launcher.instantLaunch(roomData.getChannel(), true);
+                    Launcher.instantLaunch(true);
                 } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }

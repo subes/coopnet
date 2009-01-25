@@ -29,14 +29,14 @@ public class RegisterPanel extends javax.swing.JPanel {
     /** Creates new form LoginPanel */
     public RegisterPanel() {
         initComponents();
-        coopnetclient.utils.Colorizer.colorize(this);
+        coopnetclient.utils.ui.Colorizer.colorize(this);
     }
 
     public RegisterPanel(String loginname) {
         initComponents();
         tf_name.setText(loginname);
         tf_ingameName.setText(loginname);
-        coopnetclient.utils.Colorizer.colorize(this);
+        coopnetclient.utils.ui.Colorizer.colorize(this);
     }
 
     @Override
@@ -124,10 +124,10 @@ public class RegisterPanel extends javax.swing.JPanel {
         lbl_email4 = new javax.swing.JLabel();
         btn_send = new javax.swing.JButton();
         lbl_Info = new javax.swing.JLabel();
-        tf_name = new coopnetclient.frames.components.AdvancedJTextField();
-        tf_email = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_name = new coopnetclient.frames.components.ValidatorJTextField();
+        tf_email = new coopnetclient.frames.components.ValidatorJTextField();
         lbl_ingameName4 = new javax.swing.JLabel();
-        tf_ingameName = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_ingameName = new coopnetclient.frames.components.ValidatorJTextField();
         lbl_password9 = new javax.swing.JLabel();
         lbl_password10 = new javax.swing.JLabel();
         pf_password1 = new javax.swing.JPasswordField();
@@ -135,7 +135,7 @@ public class RegisterPanel extends javax.swing.JPanel {
         lbl_country4 = new javax.swing.JLabel();
         cmb_country = new javax.swing.JComboBox();
         lbl_website4 = new javax.swing.JLabel();
-        tf_website = new coopnetclient.frames.components.AdvancedJTextField();
+        tf_website = new coopnetclient.frames.components.ValidatorJTextField();
         lbl_error = new javax.swing.JLabel();
         btn_cancel = new javax.swing.JButton();
 
@@ -403,10 +403,10 @@ private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JPasswordField pf_password1;
     private javax.swing.JPasswordField pf_password2;
     private javax.swing.JPanel pnl_input4;
-    private coopnetclient.frames.components.AdvancedJTextField tf_email;
-    private coopnetclient.frames.components.AdvancedJTextField tf_ingameName;
-    private coopnetclient.frames.components.AdvancedJTextField tf_name;
-    private coopnetclient.frames.components.AdvancedJTextField tf_website;
+    private coopnetclient.frames.components.ValidatorJTextField tf_email;
+    private coopnetclient.frames.components.ValidatorJTextField tf_ingameName;
+    private coopnetclient.frames.components.ValidatorJTextField tf_name;
+    private coopnetclient.frames.components.ValidatorJTextField tf_website;
     // End of variables declaration//GEN-END:variables
     public static String[] CountryList = new String[]{"Select your country", "Abkhazia", "Afghanistan", "Akrotiri and Dhekelia", "Ĺland Islands", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla",
         "Antigua and Barbuda", "Argentina ", "Armenia ", "Aruba", "Ascension Island",

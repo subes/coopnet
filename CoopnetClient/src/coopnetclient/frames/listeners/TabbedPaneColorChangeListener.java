@@ -31,7 +31,7 @@ public class TabbedPaneColorChangeListener implements ChangeListener {
 
     public TabbedPaneColorChangeListener(JTabbedPane parent) {
         this.parent = parent;
-        unselectedBG = coopnetclient.utils.Colorizer.getSelectionColor();
+        unselectedBG = coopnetclient.utils.ui.Colorizer.getSelectionColor();
 
         updateBG();
     }

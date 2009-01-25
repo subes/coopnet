@@ -36,10 +36,10 @@ import coopnetclient.utils.SoundPlayer;
 import coopnetclient.frames.renderers.RoomPlayerStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
-import coopnetclient.utils.Colorizer;
+import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
-import coopnetclient.utils.UserListFileDropHandler;
+import coopnetclient.utils.ui.UserListFileDropHandler;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
@@ -237,7 +237,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     public void chat(String name, String message, ChatStyles modeStyle) {
         StyledDocument doc = tp_chatOutput.getStyledDocument();
-        coopnetclient.utils.ColoredChatHandler.addColoredText(name, message,
+        coopnetclient.utils.ui.ColoredChatHandler.addColoredText(name, message,
                 modeStyle, doc, scrl_chatOutput, tp_chatOutput);
     }
 
