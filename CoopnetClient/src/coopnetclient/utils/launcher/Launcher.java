@@ -30,6 +30,7 @@ import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.launchhandlers.JDPlayLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.LaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.ParameterLaunchHandler;
@@ -306,11 +307,51 @@ public class Launcher {
 
     public static void instantLaunch(boolean launchClickedFromGameSettingsFrame) {
         if (Launcher.isInitialized()) {
-            String channel = launchHandler.getLaunchInfo().getRoomData().getChannel();
+            final String channel = launchHandler.getLaunchInfo().getRoomData().getChannel();
             TabOrganizer.getChannelPanel(channel).disableButtons();
 
             if(launchHandler.getLaunchInfo().getRoomData().isHost() && (isPlaying() || launchHandler.processExists())){
-                JOptionPane.showMessageDialog(null,
+
+                //new code
+                
+                new Thread() {
+
+                    @Override
+                    public void run() {
+                        String channelcopy = channel ;
+                        int ret = JOptionPane.showConfirmDialog(null,
+                                "<html>Coopnet has detected that the game \"<b>" + launchHandler.getBinaryName() + "</b>\" is already running.<br>" +
+                                "Please make sure the other players can <b>connect to a running server</b> there<br>" +
+                                "or <b>close the game</b> before confirming this message.<br>" +
+                                "<br>" +
+                                "<br>If the game is still running after you have confirmed this message," +
+                                "<br>Coopnet will create the room without launching your game.",
+                                "WARNING: Game is already running", JOptionPane.OK_CANCEL_OPTION);
+
+                        if (ret == JOptionPane.OK_OPTION) {
+                            if (launchHandler.processExists()) {//game still running, jsut create room
+                                Protocol.createRoom(launchHandler.getLaunchInfo().getRoomData());
+                                //keep watch over the process
+                                while (launchHandler != null && launchHandler.processExists()) {
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException ex) {
+                                    }
+                                }
+                                //game closed, remove room
+                                Protocol.gameClosed(channelcopy);
+                            }
+                        } else {//cancel
+                            Launcher.deInitialize();
+                            //Protocol.gameClosed(channel);//in this case we dont need to send this or do we?
+                            TabOrganizer.getChannelPanel(channelcopy).enableButtons();
+                        }
+                    }
+                }.start();
+
+                //old code
+
+                /*JOptionPane.showMessageDialog(null,
                     "<html>Coopnet has detected that the game \"<b>"+launchHandler.getBinaryName()+"</b>\" is already running.<br>" +
                     "Please make sure the other players can <b>connect to a running server</b> there<br>" +
                     "or <b>close the game</b> before confirming this message.<br>" +
@@ -324,11 +365,22 @@ public class Launcher {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {}
-                }
+                }*/
             } else if ( !launchHandler.getLaunchInfo().getRoomData().isHost() && !launchClickedFromGameSettingsFrame ) {
-                //room data is dummy , its not gona be used in this case at all
                 Globals.openGameSettingsFrame(launchHandler.getLaunchInfo().getRoomData());
             } else {
+                if (launchHandler.getLaunchInfo().getRoomData().isHost()) {
+                    //create room
+                    Protocol.createRoom(launchHandler.getLaunchInfo().getRoomData());
+                    //send settings
+                    String mv = TempGameSettings.getGameSettingValue("map");
+                    if(mv != null && mv.length() >0){
+                        Protocol.sendSetting("map",TempGameSettings.getGameSettingValue("map") );
+                    }
+                    for(GameSetting gs : TempGameSettings.getGameSettings()){
+                        Protocol.sendSetting(gs.getName(), gs.getValue());
+                    }
+                }
                 Launcher.launch();
                 Launcher.deInitialize();
                 Protocol.gameClosed(channel);

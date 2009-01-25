@@ -461,17 +461,15 @@ public class GameSettingsFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
-    //create the room at server
-    if (roomData.isInstant() && roomData.isHost()) {
-        Protocol.createRoom(roomData);
-    }
     //update the launcher
     try {
         //if somethings unselected an exception is thrown        
         if (cb_map.isVisible()) {
             if (cb_map.getSelectedItem() != null && cb_map.isEnabled()) {
                 TempGameSettings.setMap(cb_map.getSelectedItem().toString());
-                Protocol.sendSetting("map", cb_map.getSelectedItem().toString());
+                if( roomData.isHost() && !roomData.isInstant()){
+                    Protocol.sendSetting("map", cb_map.getSelectedItem().toString());
+                }
             }
         }
         //save settings
@@ -487,7 +485,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 value = ((JComboBox) input).getSelectedItem().toString();
             }
             if (input.isEnabled()) {
-                TempGameSettings.setGameSetting(name, value, roomData.isHost());
+                TempGameSettings.setGameSetting(name, value, ( roomData.isHost() && !roomData.isInstant()));
             }
         }
 

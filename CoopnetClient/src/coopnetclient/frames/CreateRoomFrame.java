@@ -343,7 +343,6 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                         RoomData rd = new RoomData(true,channel,modindex,"","",(Integer) spn_maxPlayers.getValue(),"",tf_name.getText(),0l,passw,cb_searchEnabled.isSelected(),cb_instantroom.isSelected());
                         boolean launch = Launcher.initInstantLaunch(rd);
                         if(launch){
-                            Protocol.createRoom(rd);
                             Launcher.instantLaunch();
                         }
                     } catch (Exception e) {
