@@ -90,7 +90,7 @@ public class QuickPanel extends javax.swing.JPanel {
     }
     
     private void setTabIcons(){
-        if(Settings.isquickTabIconSizeBig()){
+        if(Settings.isQuickPanelIconSizeBig()){
             tp_quickPanel.setIconAt(0, Icons.contactListIconBig);
             tp_quickPanel.setIconAt(1, Icons.favouritesIconBig);
         }else{//small icons
@@ -120,7 +120,7 @@ public class QuickPanel extends javax.swing.JPanel {
         lst_favouritesList = new javax.swing.JList();
 
         IconSizes.add(rbmi_bigIcons);
-        rbmi_bigIcons.setSelected(Settings.isquickTabIconSizeBig());
+        rbmi_bigIcons.setSelected(Settings.isQuickPanelIconSizeBig());
         rbmi_bigIcons.setText("Big Icons");
         rbmi_bigIcons.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,7 +130,7 @@ public class QuickPanel extends javax.swing.JPanel {
         IconSizeSelector.add(rbmi_bigIcons);
 
         IconSizes.add(rbmi_smallIcons);
-        rbmi_smallIcons.setSelected(!Settings.isquickTabIconSizeBig());
+        rbmi_smallIcons.setSelected(!Settings.isQuickPanelIconSizeBig());
         rbmi_smallIcons.setText("Small Icons");
         rbmi_smallIcons.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,11 +200,11 @@ public class QuickPanel extends javax.swing.JPanel {
         pnl_favouritesList.setLayout(pnl_favouritesListLayout);
         pnl_favouritesListLayout.setHorizontalGroup(
             pnl_favouritesListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrl_favouritesList, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+            .addComponent(scrl_favouritesList, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
         );
         pnl_favouritesListLayout.setVerticalGroup(
             pnl_favouritesListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrl_favouritesList, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+            .addComponent(scrl_favouritesList, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
         );
 
         tp_quickPanel.addTab("", pnl_favouritesList);
@@ -321,12 +321,12 @@ private void lst_favouritesListMouseExited(java.awt.event.MouseEvent evt) {//GEN
 }//GEN-LAST:event_lst_favouritesListMouseExited
 
 private void rbmi_bigIconsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbmi_bigIconsActionPerformed
-    Settings.setIsquickTabIconSizeBig(true);
+    Settings.setIsQuickPanelIconSizeBig(true);
     setTabIcons();
 }//GEN-LAST:event_rbmi_bigIconsActionPerformed
 
 private void rbmi_smallIconsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbmi_smallIconsActionPerformed
-    Settings.setIsquickTabIconSizeBig(false);
+    Settings.setIsQuickPanelIconSizeBig(false);
     setTabIcons();
 }//GEN-LAST:event_rbmi_smallIconsActionPerformed
 

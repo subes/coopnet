@@ -62,7 +62,7 @@ public class Globals {
     //Set via static{}
     private static OperatingSystems operatingSystem;
     private static String lastOpenedDir;
-    private static final String wineCommand;
+    private static String wineCommand;
     //Preset value
     private static boolean debug = false;
     private static boolean connectionStatus = false;
@@ -97,13 +97,7 @@ public class Globals {
     /*******************************************************************/
 
 
-    static {
-        try {
-            currentPath = Client.getCurrentDirectory().getCanonicalPath();
-        } catch (Exception ex) {
-            Logger.log(ex);
-        }
-
+    public static void detectOperatingSystem(){
         if (System.getProperty("line.separator").equals("\r\n")) {
             operatingSystem = OperatingSystems.WINDOWS;
         }else{
@@ -122,9 +116,19 @@ public class Globals {
         } else {
             lastOpenedDir = System.getenv("HOME");
         }
+    }
+
+    public static void init(){
+        try {
+            currentPath = Client.getCurrentDirectory().getCanonicalPath();
+        } catch (Exception ex) {
+            Logger.log(ex);
+        }
         
-        //Set debug
-        debug = Settings.getDebugMode();
+        //Set debug - do not disable again
+        if(debug == false){
+            debug = Settings.getDebugMode();
+        }
         
         //initialise and add trayicon if needed
         if (SystemTray.isSupported()) {

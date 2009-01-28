@@ -21,6 +21,7 @@ import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.Settings;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -41,7 +42,9 @@ public class Main {
             System.exit(1);
         }
 
+        Globals.detectOperatingSystem();
         checkArgs(args);
+        Globals.init();
 
         Logger.log(LogTypes.LOG, "Starting ...");
 
@@ -51,8 +54,18 @@ public class Main {
     }
 
     private static void checkArgs(String[] args) {
+        //SafeMode has to be done before any Settings have been read!
+        for(int i = 0; i < args.length; i++){
+            if(args[i].equals("--safemode")){
+                Settings.resetSettings();
+                break;
+            }
+        }
+
         for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("--server")) {
+            if(args[i].equals("--safemode")){
+                continue;
+            }else if (args[i].equals("--server")) {
                 if (args.length < i + 1 || args[i].indexOf(":") == -1) {
                     try {
                         String ip = args[i + 1].substring(0, args[i + 1].indexOf(":"));
@@ -83,6 +96,7 @@ public class Main {
         System.out.println("\nCoopnetClient " + Globals.CLIENT_VERSION + " usage:\n" +
                 "    java -jar CoopnetClient.jar [--server <IP>:<PORT>] [--debug]\n" +
                 "\n" +
+                "    --safemode resets all settings\n" +
                 "    --server   ip and port of the server to connect to\n" +
                 "    --debug    print debug messages during operation\n" +
                 "    --help     print this help and exit\n");
@@ -106,13 +120,13 @@ public class Main {
                     try{
                         if(tmpDir.exists()){
                             Logger.log(LogTypes.LOG, "Deleting ./UPDATER_TMP recursively");
-                            delete(tmpDir);
+                            deleteFile(tmpDir);
                         }
                     }catch(IOException e){}
                     try{
                         if(updaterFile.exists()){
                             Logger.log(LogTypes.LOG, "Deleting ./CoopnetUpdater.jar");
-                            delete(updaterFile);
+                            deleteFile(updaterFile);
                         }
                     }catch(IOException e){}
                 }
@@ -120,7 +134,7 @@ public class Main {
         }
     }
 
-    private static boolean delete(File resource) throws IOException {
+    private static boolean deleteFile(File resource) throws IOException {
 
         if (resource.isDirectory()) {
 
@@ -128,7 +142,7 @@ public class Main {
 
             for (File child : childFiles) {
 
-                delete(child);
+                deleteFile(child);
 
             }
 

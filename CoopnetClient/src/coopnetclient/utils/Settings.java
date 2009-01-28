@@ -19,7 +19,7 @@
 
 package coopnetclient.utils;
 
-import coopnetclient.*;
+import coopnetclient.Globals;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -34,6 +34,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Properties;
 import java.util.Vector;
 import passwordencrypter.PasswordEncrypter;
 
@@ -56,15 +57,17 @@ import passwordencrypter.PasswordEncrypter;
  */
 public class Settings {
 
-    private static java.util.Properties data;    // Load the settings at first usage
+    private static final Properties data;    // Load the settings at first usage
     
-	private static String optionsDir; //Gets set OS-Specific
-	private static String favouritesFile; //Complete Path to the file
-	private static String settingsFile;
+	private static final String SETTINGS_DIR; //Gets set OS-Specific
+	private static final String FAVOURITES_FILE; //Complete Path to the file
+	private static final String SETTINGS_FILE;
+
+    private static final Vector<String> favourites;
 
     static {
         if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS){
-            optionsDir = System.getenv("APPDATA")+"/Coopnet";
+            SETTINGS_DIR = System.getenv("APPDATA")+"/Coopnet";
 
             String recvdir = RegistryReader.read("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Desktop");
             if(recvdir == null){
@@ -73,12 +76,12 @@ public class Settings {
 
             def_recievedest = recvdir;
         }else{
-            optionsDir = System.getenv("HOME")+"/.coopnet";
+            SETTINGS_DIR = System.getenv("HOME")+"/.coopnet";
             def_recievedest = System.getenv("HOME");
         }
 		
-        favouritesFile = optionsDir+"/favourites";
-        settingsFile = optionsDir+"/settings";
+        FAVOURITES_FILE = SETTINGS_DIR+"/favourites";
+        SETTINGS_FILE = SETTINGS_DIR+"/settings";
 		
         data = new java.util.Properties();
         load();
@@ -136,7 +139,7 @@ public class Settings {
             launchHotKey = "HotKey",
             multiChannel = "MultiChannel",
             showOfflineContacts = "ShowOfflineContacts",
-            quickTabIconSizeIsBig="QuickTabIconSizeIsBig";
+            quickPanelIconSizeIsBig="QuickbarIconSizeIsBig";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -185,16 +188,21 @@ public class Settings {
     private final static int def_launchHotKey = KeyEvent.VK_L;
     private final static boolean def_multiChannel = true;
     private final static boolean def_showOfflineContacts = false;
-    private final static boolean def_quickTabIconSize = true;
+    private final static boolean def_quickPanelIconSizeIsBig = true;
 
-    private static Vector<String> favourites;
+    public static void resetSettings(){
+        data.clear();
+        save();
+        favourites.clear();
+        saveFavourites();
+    }
 
     /**
      * store the settings in options file
      */
     private static void save() {
         try {
-            data.store(new FileOutputStream(settingsFile), "Coopnet settings");
+            data.store(new FileOutputStream(SETTINGS_FILE), "Coopnet settings");
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -207,10 +215,10 @@ public class Settings {
      */
     private static void load() {
         try {
-            if (!new File(optionsDir).exists()) {
-                new File(optionsDir).mkdir();
+            if (!new File(SETTINGS_DIR).exists()) {
+                new File(SETTINGS_DIR).mkdir();
             }
-            data.load(new FileInputStream(settingsFile));
+            data.load(new FileInputStream(SETTINGS_FILE));
         } catch (Exception ex) {
             //settings will be restored to default when they cant be read via a getter
         }
@@ -731,12 +739,12 @@ public class Settings {
         return readBoolean(multiChannel, def_multiChannel);
     }
     
-    public static boolean isquickTabIconSizeBig() {
-        return readBoolean(quickTabIconSizeIsBig, def_quickTabIconSize);
+    public static boolean isQuickPanelIconSizeBig() {
+        return readBoolean(quickPanelIconSizeIsBig, def_quickPanelIconSizeIsBig);
     }
 
-    public static void setIsquickTabIconSizeBig(boolean bool) {
-        writeSetting(quickTabIconSizeIsBig, String.valueOf(bool));
+    public static void setIsQuickPanelIconSizeBig(boolean bool) {
+        writeSetting(quickPanelIconSizeIsBig, String.valueOf(bool));
     }
     
     public static void setShowOfflineContacts(boolean enabled){
@@ -786,7 +794,7 @@ public class Settings {
     private static void saveFavourites() {
         PrintWriter pw = null;
         try {
-            pw = new PrintWriter(new FileWriter(favouritesFile));
+            pw = new PrintWriter(new FileWriter(FAVOURITES_FILE));
         } catch (Exception ex) {
         }
         for (String s : favourites) {
@@ -794,13 +802,15 @@ public class Settings {
         }
         pw.close();
 
-        Globals.getClientFrame().refreshFavourites();
+        if(Globals.getClientFrame() != null){
+            Globals.getClientFrame().refreshFavourites();
+        }
     }
 
     public static void loadFavourites() {
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader(favouritesFile));
+            br = new BufferedReader(new FileReader(FAVOURITES_FILE));
         } catch (FileNotFoundException ex) {
             return;
         }
