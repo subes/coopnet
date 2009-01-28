@@ -118,7 +118,10 @@ public class ChannelStatusListModel extends AbstractListModel {
         playingList.remove(playerName);
         inRoomList.remove(playerName);
         awayList.remove(playerName);
-        statuses.remove(playerName);
+        int idx = statusIndexOf(playerName);
+        if (idx > -1) {
+            statuses.remove(idx);
+        }
     }
 
     public void playerEnteredChannel(String playerName) {

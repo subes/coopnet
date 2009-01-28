@@ -24,7 +24,6 @@ import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.Logger;
-import coopnetclient.utils.Settings;
 import coopnetclient.utils.ui.SwingTask;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -90,8 +89,9 @@ public class HandlerThread extends Thread {
                             try {
                                 sleep(10);
                             } catch (InterruptedException ex) {
+                            }if(running){
+                                doSend();
                             }
-                            doSend();
                         }
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
