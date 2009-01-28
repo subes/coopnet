@@ -45,7 +45,7 @@
               <Component id="btn_close" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="536" max="32767" attributes="0"/>
           </Group>
-          <Component id="tabpn_settings" alignment="0" pref="687" max="32767" attributes="0"/>
+          <Component id="tabpn_settings" alignment="0" pref="733" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -105,7 +105,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="lbl_dplayEnv" linkSize="10" min="-2" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="tf_dplayEnv" min="-2" pref="172" max="-2" attributes="0"/>
+                              <Component id="cmb_winEnv" min="-2" pref="166" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
@@ -113,7 +113,7 @@
                                   <Component id="cb_sounds" min="-2" max="-2" attributes="0"/>
                                   <Component id="cb_TrayIconEnabled" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="183" max="32767" attributes="0"/>
+                              <EmptySpace pref="264" max="32767" attributes="0"/>
                               <Component id="pnl_hotkeys" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -122,7 +122,7 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cb_multiChannel" pref="659" max="32767" attributes="0"/>
+                              <Component id="cb_multiChannel" pref="712" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" max="-2" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
@@ -148,11 +148,11 @@
                       <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lbl_dplayEnv" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tf_dplayEnv" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmb_winEnv" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="lbl_dplayEnvNote" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="12" max="32767" attributes="0"/>
+                      <EmptySpace pref="19" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="cb_TrayIconEnabled" min="-2" max="-2" attributes="0"/>
@@ -195,14 +195,12 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lbl_dplayEnv">
               <Properties>
-                <Property name="text" type="java.lang.String" value="DirectPlay environment:"/>
+                <Property name="text" type="java.lang.String" value="Windows environment:"/>
               </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="tf_dplayEnv">
             </Component>
             <Component class="javax.swing.JLabel" name="lbl_dplayEnvNote">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Changes to the DirectPlay enviroment take effect after restarting Coopnet."/>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Changes to the Windows enviroment take effect after restarting Coopnet."/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="cb_TrayIconEnabled">
@@ -282,6 +280,20 @@
                 <Property name="text" type="java.lang.String" value="Open channels as new tabs"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JComboBox" name="cmb_winEnv">
+              <Properties>
+                <Property name="editable" type="boolean" value="true"/>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="2">
+                    <StringItem index="0" value="wine"/>
+                    <StringItem index="1" value="cedega"/>
+                  </StringArray>
+                </Property>
+                <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="Settings.getWineCommand()" type="code"/>
+                </Property>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnl_network">
@@ -315,7 +327,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Component id="tf_receiveDir" pref="448" max="32767" attributes="0"/>
+                                      <Component id="tf_receiveDir" pref="515" max="32767" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="btn_browseReceiveDir" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -343,7 +355,7 @@
                           <Component id="lbl_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tf_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="171" max="32767" attributes="0"/>
+                      <EmptySpace pref="185" max="32767" attributes="0"/>
                       <Component id="cb_sleepMode" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cb_autoLogin" min="-2" max="-2" attributes="0"/>
@@ -430,7 +442,7 @@
                           <Component id="pnl_textColors" alignment="0" min="-2" max="-2" attributes="1"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="pnl_textStyle" min="-2" max="-2" attributes="1"/>
-                              <EmptySpace pref="34" max="32767" attributes="0"/>
+                              <EmptySpace pref="39" max="32767" attributes="0"/>
                               <Component id="cb_timeStamps" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -456,7 +468,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="pnl_preview" alignment="0" max="32767" attributes="0"/>
-                              <Component id="lbl_playerNames" alignment="0" pref="338" max="32767" attributes="0"/>
+                              <Component id="lbl_playerNames" alignment="0" pref="342" max="32767" attributes="0"/>
                               <Component id="lbl_playerMessages" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -467,9 +479,9 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Component id="tf_playerMessagesSize" min="-2" pref="25" max="-2" attributes="0"/>
-                                          <EmptySpace pref="270" max="32767" attributes="0"/>
+                                          <EmptySpace pref="285" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="cmb_playerMessagesType" pref="295" max="32767" attributes="0"/>
+                                      <Component id="cmb_playerMessagesType" pref="310" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -481,9 +493,9 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Component id="tf_playerNamesSize" min="-2" pref="24" max="-2" attributes="0"/>
-                                          <EmptySpace pref="271" max="32767" attributes="0"/>
+                                          <EmptySpace pref="286" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="cmb_playerNamesType" pref="295" max="32767" attributes="0"/>
+                                      <Component id="cmb_playerNamesType" pref="310" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -662,11 +674,11 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btn_whisperMessages" alignment="0" pref="130" max="32767" attributes="1"/>
-                                      <Component id="btn_otherUsernames" alignment="1" pref="130" max="32767" attributes="1"/>
-                                      <Component id="btn_yourUsername" alignment="1" pref="130" max="32767" attributes="1"/>
-                                      <Component id="btn_userMessages" alignment="1" pref="130" max="32767" attributes="1"/>
-                                      <Component id="btn_systemMessages" pref="130" max="32767" attributes="1"/>
+                                      <Component id="btn_whisperMessages" alignment="0" pref="201" max="32767" attributes="1"/>
+                                      <Component id="btn_otherUsernames" alignment="1" pref="201" max="32767" attributes="1"/>
+                                      <Component id="btn_yourUsername" alignment="1" pref="201" max="32767" attributes="1"/>
+                                      <Component id="btn_userMessages" alignment="1" pref="201" max="32767" attributes="1"/>
+                                      <Component id="btn_systemMessages" pref="201" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                               <Component id="cb_colorizeText" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -853,9 +865,9 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btn_foreground" alignment="0" pref="184" max="32767" attributes="1"/>
-                                      <Component id="btn_selection" pref="184" max="32767" attributes="1"/>
-                                      <Component id="btn_background" alignment="1" pref="184" max="32767" attributes="1"/>
+                                      <Component id="btn_foreground" alignment="0" pref="264" max="32767" attributes="1"/>
+                                      <Component id="btn_selection" pref="264" max="32767" attributes="1"/>
+                                      <Component id="btn_background" alignment="1" pref="264" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                               <Component id="cb_colorizeBody" alignment="0" min="-2" max="-2" attributes="1"/>
@@ -1109,7 +1121,7 @@
                               <Component id="lbl_ToggleButtonWidth" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="spn_ToggleButtonWidth" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="15" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1191,7 +1203,7 @@
                                   <Component id="cb_SoundNotification" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="74" max="32767" attributes="0"/>
+                          <EmptySpace pref="174" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
