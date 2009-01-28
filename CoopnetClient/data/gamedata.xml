@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-<!--Version 29 -->
+<!--Version 30 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
-<!ELEMENT GameData (GameName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?,(NoSpaces)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
+<!ELEMENT GameData (GameName,ShortName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?,(NoSpaces)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
 <!ELEMENT GameName (CDATA)>
+<!ELEMENT ShortName (CDATA)>
 <!ELEMENT WelcomeMessage (CDATA)>
 <!ELEMENT ChannelID (CDATA)>
 <!ELEMENT LaunchMethod (CDATA)>
@@ -32,12 +33,14 @@
 <GameDataBase>
     <GameData>
         <GameName>Welcome</GameName>
+        <ShortName>Welcome</ShortName>
         <ChannelID>WLC</ChannelID>
         <LaunchMethod>CHAT_ONLY</LaunchMethod>
         <WelcomeMessage>To change channel use the "Channel List" item in "Channels" menu</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Fallout Tactics: Brotherhood of Steel</GameName>
+        <ShortName>Fallout Tactics</ShortName>
         <ChannelID>FOT</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <WelcomeMessage>Welcome to the new home of the Fot community!
@@ -52,6 +55,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Age of Empires 2</GameName>
+        <ShortName>AoE2</ShortName>
         <ChannelID>AE2</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -64,6 +68,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Heroes of Might and Magic III</GameName>
+        <ShortName>HoMM3</ShortName>
         <ChannelID>HM3</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -76,6 +81,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Heroes of Might and Magic III: Armageddon's Blade</GameName>
+        <ShortName>HoMM3:AB</ShortName>
         <ChannelID>HMA</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -88,6 +94,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Age of Empires II: The Conquerors Expansion</GameName>
+        <ShortName>AoE2:exp1</ShortName>
         <ChannelID>100</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -100,6 +107,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Age of Empires</GameName>
+        <ShortName>Age of Empires</ShortName>
         <ChannelID>101</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -112,6 +120,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Age of Empires: The Rise of Rome</GameName>
+        <ShortName>AoE:RoR</ShortName>
         <ChannelID>102</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -124,6 +133,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Age of Wonders: Shadow Magic</GameName>
+        <ShortName>AoW:SM</ShortName>
         <ChannelID>103</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -136,6 +146,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>MechWarrior 4 Vengeance</GameName>
+        <ShortName>MW4:Vengeance</ShortName>
         <ChannelID>104</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -148,6 +159,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>MechWarrior 4: Mercenaries</GameName>
+        <ShortName>MW4:Mercenaries</ShortName>
         <ChannelID>105</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -160,6 +172,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Flight Simulator 2004</GameName>
+        <ShortName>FS 2004</ShortName>
         <ChannelID>106</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -172,6 +185,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Jedi Knight</GameName>
+        <ShortName>Jedi Knight</ShortName>
         <ChannelID>107</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -184,6 +198,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Star Wars Galactic Battlegrounds</GameName>
+        <ShortName>SWGB</ShortName>
         <ChannelID>108</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -196,6 +211,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Star Wars Galactic Battlegrounds - Clone Campaigns</GameName>
+        <ShortName>SWGB-CC</ShortName>
         <ChannelID>109</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -208,6 +224,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Imperial Glory</GameName>
+        <ShortName>Imperial Glory</ShortName>
         <ChannelID>110</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -220,6 +237,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Baldur's Gate</GameName>
+        <ShortName>Baldur's Gate</ShortName>
         <ChannelID>111</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -232,6 +250,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Risk II</GameName>
+        <ShortName>Risk II</ShortName>
         <ChannelID>112</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -244,6 +263,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Midtown Madness</GameName>
+        <ShortName>Midtown Madness</ShortName>
         <ChannelID>113</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -256,6 +276,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Midtown Madness 2</GameName>
+        <ShortName>Midtown Madness 2</ShortName>
         <ChannelID>114</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -268,6 +289,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Monster Truck Madness 2</GameName>
+        <ShortName>MTM2</ShortName>
         <ChannelID>115</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -280,6 +302,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Motocross Madness 2</GameName>
+        <ShortName>Motocross Madness 2</ShortName>
         <ChannelID>116</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -292,6 +315,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>MechWarrior 3</GameName>
+        <ShortName>MechWarrior 3</ShortName>
         <ChannelID>117</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -304,6 +328,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>MechWarrior 4 Black Knight</GameName>
+        <ShortName>MW4:BK</ShortName>
         <ChannelID>118</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -316,6 +341,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Praetorians</GameName>
+        <ShortName>Praetorians</ShortName>
         <ChannelID>119</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -328,6 +354,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Z: Steel Soldiers</GameName>
+        <ShortName>Z: Steel Soldiers</ShortName>
         <ChannelID>120</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -340,6 +367,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Warzone2100</GameName>
+        <ShortName>Warzone2100</ShortName>
         <ChannelID>121</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -352,6 +380,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>World War II: Frontline Command</GameName>
+        <ShortName>WWII:FC</ShortName>
         <ChannelID>122</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -364,6 +393,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Waterloo: Napoleon's Last Battle</GameName>
+        <ShortName>Waterloo</ShortName>
         <ChannelID>123</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -376,6 +406,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Warlords Battlecry II</GameName>
+        <ShortName>Warlords Battlecry II</ShortName>
         <ChannelID>124</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -388,6 +419,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Warlords Battlecry</GameName>
+        <ShortName>Warlords Battlecry</ShortName>
         <ChannelID>125</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -400,6 +432,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Total Annihilation: Kingdoms</GameName>
+        <ShortName>TA:Kingdoms</ShortName>
         <ChannelID>126</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -412,6 +445,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Total Annihilation</GameName>
+        <ShortName>Total Annihilation</ShortName>
         <ChannelID>127</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -424,6 +458,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Sudden Strike</GameName>
+        <ShortName>Sudden Strike</ShortName>
         <ChannelID>128</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -436,6 +471,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Stronghold</GameName>
+        <ShortName>Stronghold</ShortName>
         <ChannelID>129</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -448,6 +484,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Midnight Outlaw: Illegal Street Drag</GameName>
+        <ShortName>Midnight Outlaw</ShortName>
         <ChannelID>130</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -460,6 +497,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>UltraWheels StreetJam</GameName>
+        <ShortName>UltraWheels StreetJam</ShortName>
         <ChannelID>131</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -472,6 +510,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Submarine Titans</GameName>
+        <ShortName>Submarine Titans</ShortName>
         <ChannelID>132</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -484,6 +523,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>StarWars: Force Commander</GameName>
+        <ShortName>SW:Force Commander</ShortName>
         <ChannelID>133</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -496,6 +536,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Startopia</GameName>
+        <ShortName>Startopia</ShortName>
         <ChannelID>134</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -508,6 +549,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>StarLancer</GameName>
+        <ShortName>StarLancer</ShortName>
         <ChannelID>135</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -520,6 +562,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Starfleet Command</GameName>
+        <ShortName>Starfleet Command</ShortName>
         <ChannelID>136</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -532,6 +575,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Sid Meier's Antietam</GameName>
+        <ShortName>Sid Meier's Antietam</ShortName>
         <ChannelID>137</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -544,6 +588,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Sacrifice</GameName>
+        <ShortName>Sacrifice</ShortName>
         <ChannelID>138</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -556,6 +601,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Railroad Tycoon II - The Second Century</GameName>
+        <ShortName>RT2:TSC</ShortName>
         <ChannelID>139</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -568,6 +614,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Reach For The Stars</GameName>
+        <ShortName>Reach For The Stars</ShortName>
         <ChannelID>140</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -580,6 +627,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Midnight Outlaw Illegal Street Drag Nitro Edition</GameName>
+        <ShortName>Midnight Outlaw:NE</ShortName>
         <ChannelID>141</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -592,6 +640,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Motoracer 3</GameName>
+        <ShortName>Motoracer 3</ShortName>
         <ChannelID>142</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -604,6 +653,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Mig Alley</GameName>
+        <ShortName>Mig Alley</ShortName>
         <ChannelID>143</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -616,6 +666,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>MechCommander 2</GameName>
+        <ShortName>MechCommander 2</ShortName>
         <ChannelID>144</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -628,6 +679,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>MechCommander</GameName>
+        <ShortName>MechCommander</ShortName>
         <ChannelID>145</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -640,6 +692,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>MechWarrior 3: Pirates Moon</GameName>
+        <ShortName>MW3:PM</ShortName>
         <ChannelID>146</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -652,6 +705,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>MechCommander Gold</GameName>
+        <ShortName>MechCommander Gold</ShortName>
         <ChannelID>147</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -664,6 +718,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Motocross Mania</GameName>
+        <ShortName>Motocross Mania</ShortName>
         <ChannelID>148</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -676,6 +731,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Magic &#38; Mayhem 2: The Art of Magic</GameName>
+        <ShortName>M&#38;M2:AoM</ShortName>
         <ChannelID>149</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -688,6 +744,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Machines</GameName>
+        <ShortName>Machines</ShortName>
         <ChannelID>150</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -700,6 +757,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Links Extreme</GameName>
+        <ShortName>Links Extreme</ShortName>
         <ChannelID>151</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -712,6 +770,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Links LS 1999</GameName>
+        <ShortName>Links LS 1999</ShortName>
         <ChannelID>152</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -724,6 +783,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Links 2001</GameName>
+        <ShortName>Links 2001</ShortName>
         <ChannelID>153</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -736,6 +796,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Links LS 2000</GameName>
+        <ShortName>Links LS 2000</ShortName>
         <ChannelID>154</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -748,6 +809,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Dark Force II: Jedi Knight - Mysteries of the Sith</GameName>
+        <ShortName>DF2:JK-MoS</ShortName>
         <ChannelID>155</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -760,6 +822,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Dark Forces II: Jedi Knight</GameName>
+        <ShortName>DF2:JK</ShortName>
         <ChannelID>156</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -769,6 +832,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Parkan: Iron Strategy</GameName>
+        <ShortName>Parkan</ShortName>
         <ChannelID>157</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -781,6 +845,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Hot Rod, American Street Drag</GameName>
+        <ShortName>Hot Rod ASD</ShortName>
         <ChannelID>158</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -790,6 +855,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>High Heat Major League Baseball 2002</GameName>
+        <ShortName>HHMLB2002</ShortName>
         <ChannelID>159</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -802,6 +868,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>High Heat Baseball 2001</GameName>
+        <ShortName>HHB2001</ShortName>
         <ChannelID>160</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -814,6 +881,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>High Heat Baseball 2000</GameName>
+        <ShortName>HHB2000</ShortName>
         <ChannelID>161</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -826,6 +894,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>High Heat Baseball 2003</GameName>
+        <ShortName>HHB2003</ShortName>
         <ChannelID>162</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -838,6 +907,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Harley Davidson: Wheels of Freedom</GameName>
+        <ShortName>HD:WoF</ShortName>
         <ChannelID>163</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -850,6 +920,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Harley Davidson: Race Around the World</GameName>
+        <ShortName>HD:RAW</ShortName>
         <ChannelID>164</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -862,6 +933,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Gulf War: Operation Desert Hammer</GameName>
+        <ShortName>GW:ODH</ShortName>
         <ChannelID>165</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -874,6 +946,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Gangsters 2</GameName>
+        <ShortName>Gangsters 2</ShortName>
         <ChannelID>166</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -886,6 +959,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Forsaken</GameName>
+        <ShortName>Forsaken</ShortName>
         <ChannelID>167</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -898,6 +972,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Flying Heroes</GameName>
+        <ShortName>Flying Heroes</ShortName>
         <ChannelID>168</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -910,6 +985,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Flight Simulator 98</GameName>
+        <ShortName>FS98</ShortName>
         <ChannelID>169</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -922,6 +998,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Microsoft Flight Simulator 2002</GameName>
+        <ShortName>MFS2002</ShortName>
         <ChannelID>170</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -934,6 +1011,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Far Gate</GameName>
+        <ShortName>Far Gate</ShortName>
         <ChannelID>171</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -946,6 +1024,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Williams F1 Team: Team Driver</GameName>
+        <ShortName>Williams F1 Team</ShortName>
         <ChannelID>172</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -958,6 +1037,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Evolva</GameName>
+        <ShortName>Evolva</ShortName>
         <ChannelID>173</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -970,6 +1050,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>European Air War</GameName>
+        <ShortName>European Air War</ShortName>
         <ChannelID>174</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -982,6 +1063,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Earth 2150</GameName>
+        <ShortName>Earth 2150</ShortName>
         <ChannelID>175</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -994,6 +1076,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Dukes of Hazzard: Racing For Home</GameName>
+        <ShortName>DoH:RFH</ShortName>
         <ChannelID>176</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1006,6 +1089,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Deep Space Nine: Dominion Wars</GameName>
+        <ShortName>DSN:DW</ShortName>
         <ChannelID>177</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1018,6 +1102,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Dominion: Storm Over Gift 3</GameName>
+        <ShortName>Dominion</ShortName>
         <ChannelID>178</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1030,6 +1115,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>DarkPlanet: Battle for Natrolis</GameName>
+        <ShortName>DarkPlanet</ShortName>
         <ChannelID>179</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1042,6 +1128,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Cultures</GameName>
+        <ShortName>Cultures</ShortName>
         <ChannelID>180</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1054,6 +1141,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Cossacks: European Wars</GameName>
+        <ShortName>Cossacks:EW</ShortName>
         <ChannelID>181</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1066,6 +1154,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Commandos 3: Destination Berlin</GameName>
+        <ShortName>Commandos 3:DB</ShortName>
         <ChannelID>182</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1078,6 +1167,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Crimson Skies</GameName>
+        <ShortName>Crimson Skies</ShortName>
         <ChannelID>183</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1090,6 +1180,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Conflict Zone</GameName>
+        <ShortName>Conflict Zone</ShortName>
         <ChannelID>184</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1102,6 +1193,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Close Combat Invasion Normandy</GameName>
+        <ShortName>Close Combat</ShortName>
         <ChannelID>185</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1114,6 +1206,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Microsoft Combat Flight Simulator - WWII Europe Series</GameName>
+        <ShortName>MCFS:WWII-ES</ShortName>
         <ChannelID>186</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1126,6 +1219,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Capitalism 2</GameName>
+        <ShortName>Capitalism 2</ShortName>
         <ChannelID>187</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1138,6 +1232,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Pro Bass Fishing 2003</GameName>
+        <ShortName>PBF 2003</ShortName>
         <ChannelID>188</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1150,6 +1245,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Bang! Gunship Elite</GameName>
+        <ShortName>Gunship Elite</ShortName>
         <ChannelID>189</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1162,6 +1258,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Aliens vs. Predator</GameName>
+        <ShortName>AvP</ShortName>
         <ChannelID>190</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1174,6 +1271,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Conquest: Frontier Wars</GameName>
+        <ShortName>Conquest:FW</ShortName>
         <ChannelID>191</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1186,6 +1284,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Aliens vs. Predator Gold</GameName>
+        <ShortName>AvPGold</ShortName>
         <ChannelID>192</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1198,6 +1297,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Army Men Toys in Space</GameName>
+        <ShortName>Army Men:TiS</ShortName>
         <ChannelID>193</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1210,6 +1310,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Army Men II</GameName>
+        <ShortName>Army Men II</ShortName>
         <ChannelID>194</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1222,6 +1323,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Army Men</GameName>
+        <ShortName>Army Men</ShortName>
         <ChannelID>195</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1234,6 +1336,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Age of Wonders 2: The Wizard's Throne</GameName>
+        <ShortName>AoW2:TWT</ShortName>
         <ChannelID>196</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1246,6 +1349,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Army Men: World War</GameName>
+        <ShortName>Army Men: World War</ShortName>
         <ChannelID>197</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1258,6 +1362,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Army Men: Air Tactics</GameName>
+        <ShortName>Army Men: Air Tactics</ShortName>
         <ChannelID>198</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1270,6 +1375,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Hot Rod: Garage to Glory</GameName>
+        <ShortName>Hot Rod: GtG</ShortName>
         <ChannelID>199</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1279,6 +1385,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Age of Wonders 3</GameName>
+        <ShortName>AoW3</ShortName>
         <ChannelID>200</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1288,6 +1395,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Sudden Strike II</GameName>
+        <ShortName>Sudden Strike II</ShortName>
         <ChannelID>201</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1300,6 +1408,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Disciples: Sacred Lands</GameName>
+        <ShortName>Disciples</ShortName>
         <ChannelID>202</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1309,6 +1418,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Earth 2150: The Moon Project</GameName>
+        <ShortName>Earth 2150:TMP</ShortName>
         <ChannelID>203</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1321,6 +1431,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Sega Rally Championship 2</GameName>
+        <ShortName>Sega RC2</ShortName>
         <ChannelID>204</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1330,6 +1441,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Star Trek: New Worlds</GameName>
+        <ShortName>ST:NW</ShortName>
         <ChannelID>205</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1339,6 +1451,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>MS Combat Flight Simulator 2</GameName>
+        <ShortName>MSCFS2</ShortName>
         <ChannelID>206</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1348,6 +1461,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Legend of the Blademasters</GameName>
+        <ShortName>LotB</ShortName>
         <ChannelID>207</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1357,6 +1471,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Shadow Company</GameName>
+        <ShortName>Shadow Company</ShortName>
         <ChannelID>208</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1369,6 +1484,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Star Wars Rebellion</GameName>
+        <ShortName>SW Rebellion</ShortName>
         <ChannelID>209</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1381,6 +1497,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Risk</GameName>
+        <ShortName>Risk</ShortName>
         <ChannelID>210</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1393,6 +1510,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Re-Volt</GameName>
+        <ShortName>Re-Volt</ShortName>
         <ChannelID>211</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1405,6 +1523,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Railroad Tycoon II</GameName>
+        <ShortName>Railroad Tycoon 2</ShortName>
         <ChannelID>212</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1417,6 +1536,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Powerslide</GameName>
+        <ShortName>Powerslide</ShortName>
         <ChannelID>213</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1429,6 +1549,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Populous: The Beginning</GameName>
+        <ShortName>Populus</ShortName>
         <ChannelID>214</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1441,6 +1562,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Outlaws</GameName>
+        <ShortName>Outlaws</ShortName>
         <ChannelID>215</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1453,6 +1575,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>MS Golf '99</GameName>
+        <ShortName>MS Golf '99</ShortName>
         <ChannelID>216</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1465,6 +1588,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Majesty: The Fantasy Kingdom Sim</GameName>
+        <ShortName>Majesty</ShortName>
         <ChannelID>217</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1477,6 +1601,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Get Medieval</GameName>
+        <ShortName>Get Medieval</ShortName>
         <ChannelID>218</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1489,6 +1614,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Flight Simulator 2000</GameName>
+        <ShortName>FS2000</ShortName>
         <ChannelID>219</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1501,6 +1627,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>DarkStone</GameName>
+        <ShortName>DarkStone</ShortName>
         <ChannelID>220</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1513,6 +1640,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Close Combat III: The Russian Front</GameName>
+        <ShortName>Close Combat 3</ShortName>
         <ChannelID>221</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1525,6 +1653,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Close Combat IV: Battle of the Bulge</GameName>
+        <ShortName>Close Combat 4</ShortName>
         <ChannelID>222</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1537,6 +1666,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Civilization II Gold</GameName>
+        <ShortName>Civ2 Gold</ShortName>
         <ChannelID>223</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1549,6 +1679,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Civilization II: Test of Time</GameName>
+        <ShortName>Civ2:ToT</ShortName>
         <ChannelID>224</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1561,6 +1692,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Axis &#38; Allies</GameName>
+        <ShortName>Axis &#38; Allies</ShortName>
         <ChannelID>225</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1573,6 +1705,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Age of Wonders</GameName>
+        <ShortName>AoW</ShortName>
         <ChannelID>226</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1585,6 +1718,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Abomination</GameName>
+        <ShortName>Abomination</ShortName>
         <ChannelID>227</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <Property>
@@ -1606,6 +1740,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>-->
     <GameData>
         <GameName>Quake 3</GameName>
+        <ShortName>Quake 3</ShortName>
         <ChannelID>228</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
@@ -1695,6 +1830,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Return to Castle Wolfenstein</GameName>
+        <ShortName>RTCW</ShortName>
         <ChannelID>229</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
@@ -1782,6 +1918,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Wolfenstein: Enemy Territory</GameName>
+        <ShortName>Wolfstein:ET</ShortName>
         <ChannelID>230</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
@@ -1871,6 +2008,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Battlefield 1942</GameName>
+        <ShortName>BF1942</ShortName>
         <ChannelID>231</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
@@ -1946,6 +2084,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Half-Life</GameName>
+        <ShortName>Half-Life</ShortName>
         <ChannelID>232</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
@@ -2036,6 +2175,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Half-Life - Steam</GameName>
+         <ShortName>H-L Steam</ShortName>
         <ChannelID>233</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
@@ -2124,6 +2264,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Call of Duty</GameName>
+        <ShortName>Call of Duty</ShortName>
         <ChannelID>234</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
@@ -2221,6 +2362,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Kingpin: Life of Crime</GameName>
+        <ShortName>Kingpin</ShortName>
         <ChannelID>235</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
@@ -2300,6 +2442,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Left 4 Dead</GameName>
+        <ShortName>Left 4 Dead</ShortName>
         <ChannelID>236</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
@@ -2432,6 +2575,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>-->
     <GameData>
         <GameName>Unreal Tournament</GameName>
+        <ShortName>Unreal Tournament</ShortName>
         <InstantLaunch/>
         <NoSpaces/>
         <ChannelID>UT1</ChannelID>
@@ -2513,6 +2657,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     </GameData>
     <GameData>
         <GameName>Unreal Tournament 2004</GameName>
+        <ShortName>UT2004</ShortName>
         <InstantLaunch/>
         <NoSpaces/>
         <ChannelID>UT4</ChannelID>
