@@ -27,6 +27,7 @@ public class Game {
 
     private String name;
     private String welcomeMessage;
+    private String shortName;
     protected HashMap<String, String> fields;
     protected ArrayList<Game> mods;
     protected ArrayList<GameSetting> settings;
@@ -143,6 +144,14 @@ public class Game {
 
     public void setGameName(String name) {
         this.name = name;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String name) {
+        this.shortName = name;
     }
 
     public boolean isInstantLaunchable(String modname) {

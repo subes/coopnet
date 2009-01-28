@@ -149,6 +149,10 @@ public class GameDatabase {
         return IDtoGameName.get(ID);
     }
 
+    public static String getShortName(String gamename) {
+        return gameData.get(indexOfGame(gamename)).getShortName();
+    }
+
     public static String getIDofGame(String gamename) {
         String tmp = "";
         for (String s : IDtoGameName.keySet()) {

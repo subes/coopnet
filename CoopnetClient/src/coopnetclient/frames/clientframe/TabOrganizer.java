@@ -48,9 +48,7 @@ import coopnetclient.utils.launcher.Launcher;
 import java.awt.Component;
 import java.awt.Font;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Vector;
-import java.util.logging.Level;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
@@ -97,7 +95,7 @@ public class TabOrganizer {
         ChannelPanel currentchannel = new ChannelPanel(channelname);
         tabHolder.add(currentchannel, 0);
         tabHolder.setTitleAt(0, channelname);
-        tabHolder.setTabComponentAt(0, new TabComponent(channelname,currentchannel) );
+        tabHolder.setTabComponentAt(0, new TabComponent(GameDatabase.getShortName(channelname),currentchannel) );
         channelPanels.add(currentchannel);
         
         //chatonly or game?
@@ -210,8 +208,8 @@ public class TabOrganizer {
         if (roomPanel == null) {
             roomPanel = new RoomPanel(roomData);
             Globals.closeJoinRoomPasswordFrame();
-            tabHolder.insertTab("Room:"+roomData.getChannel(), null, roomPanel, null, channelPanels.size());
-            tabHolder.setTabComponentAt(channelPanels.size(), new TabComponent("Room:"+roomData.getChannel(),Icons.lobbyIconSmall,roomPanel) );
+            tabHolder.insertTab("Room:"+GameDatabase.getShortName(roomData.getChannel()), null, roomPanel, roomData.getChannel(), channelPanels.size());
+            tabHolder.setTabComponentAt(channelPanels.size(), new TabComponent("Room:"+GameDatabase.getShortName(roomData.getChannel()),Icons.lobbyIconSmall,roomPanel) );
             tabHolder.setSelectedComponent(roomPanel);
 
             for (ChannelPanel cp : channelPanels) {

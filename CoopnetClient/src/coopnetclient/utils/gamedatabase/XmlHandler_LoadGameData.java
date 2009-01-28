@@ -115,6 +115,12 @@ public class XmlHandler_LoadGameData extends DefaultHandler{
             } else {
                 tmpGame.setGameName(tempVal.toString());
             }
+        } else if (qName.equalsIgnoreCase("ShortName")) {
+            if (inMod) {
+                tmpMod.setShortName(tempVal.toString());
+            } else {
+                tmpGame.setShortName(tempVal.toString());
+            }
         } else if (qName.equalsIgnoreCase("WelcomeMessage")) {
             if (inMod) {
                 tmpMod.setWelcomeMessage(tempVal.toString());
