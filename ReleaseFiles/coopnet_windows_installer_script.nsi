@@ -1,7 +1,7 @@
 !include "LogicLib.nsh"
 
 ; The name of the installer
-Name "Coopnet Client 0.98.2"
+Name "CoopnetClient 0.101.3"
 
 ; The file to write
 OutFile "CoopnetClientInstaller-win32.exe"
@@ -47,7 +47,7 @@ FunctionEnd
 ;-----------------------------------
 
 ; The stuff to install
-Section "Coopnet Client (required)"
+Section "CoopnetClient (required)"
 
   SectionIn RO
   
@@ -74,7 +74,8 @@ Section "Start Menu Shortcuts"
 
   CreateDirectory "$SMPROGRAMS\Coopnet"
   CreateShortCut "$SMPROGRAMS\Coopnet\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
-  CreateShortCut "$SMPROGRAMS\Coopnet\Coopnet Client.lnk" "$INSTDIR\CoopnetClient.jar" "" "$INSTDIR\coopnet.ico" 0
+  CreateShortCut "$SMPROGRAMS\Coopnet\CoopnetClient.lnk" "$INSTDIR\CoopnetClient.jar" "" "$INSTDIR\coopnet.ico" 0
+  CreateShortCut "$SMPROGRAMS\Coopnet\CoopnetClient (Safe Mode).lnk" "$INSTDIR\CoopnetClient.jar" "--safemode" "$INSTDIR\coopnet.ico" 0
   
 SectionEnd
 
@@ -82,7 +83,7 @@ SectionEnd
 ; Optional section (can be disabled by the user)
 Section "Desktop Shortcut"
 
-  CreateShortCut "$DESKTOP\Coopnet Client.lnk" "$INSTDIR\CoopnetClient.jar" "" "$INSTDIR\coopnet.ico" 0
+  CreateShortCut "$DESKTOP\CoopnetClient.lnk" "$INSTDIR\CoopnetClient.jar" "" "$INSTDIR\coopnet.ico" 0
   
 SectionEnd
 
