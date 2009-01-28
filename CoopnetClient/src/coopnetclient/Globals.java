@@ -43,6 +43,7 @@ import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
 import coopnetclient.utils.launcher.Launcher;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
@@ -54,7 +55,7 @@ import javax.swing.SwingUtilities;
 public class Globals {
 
     //Constants
-    public static final String CLIENT_VERSION = "0.101.2";
+    public static final String CLIENT_VERSION = "0.101.3";
 
     public static final int JDPLAY_MAXSEARCHRETRIES = 12; //1 try = 5 secs; 12 tries = 60 secs
     public static final int JDPLAY_SEARCHVALIDATIONCOUNT = 1; //set to 1 to be sure the joined session is not a temp one, though slower launch!
@@ -335,6 +336,19 @@ public class Globals {
         if (clientFrame == null) {
             clientFrame = new ClientFrame();
             setupFrame(clientFrame);
+
+            if(Settings.getRememberMainFrameSize()){
+                //load the size from settings
+                int width = Settings.getMainFrameWidth();
+                int height = Settings.getMainFrameHeight();
+                clientFrame.setSize(new Dimension(width, height));
+                clientFrame.setPreferredSize(new Dimension(width, height));
+                //maximise if needed
+                int status = Settings.getMainFrameMaximised();
+                if (status == JFrame.MAXIMIZED_BOTH) {
+                    clientFrame.setExtendedState(status);
+                }
+            }
         } else {
             Logger.log(LogTypes.WARNING, "ClientFrame is supposed to be created only once!");
         }
@@ -647,12 +661,12 @@ public class Globals {
         frame.pack();
 
         SwingUtilities.invokeLater(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        frame.setVisible(true);
-                    }
-                });
+            new Runnable() {
+                @Override
+                public void run() {
+                    frame.setVisible(true);
+                }
+        });
     }
 
     private static void setupFrame(JFrame frame, Point position) {

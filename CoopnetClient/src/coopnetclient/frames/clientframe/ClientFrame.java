@@ -58,9 +58,9 @@ public class ClientFrame extends javax.swing.JFrame {
 
     /** Creates new form ClientFrame */
     public ClientFrame() {
-        pnl_QuickPanel = new coopnetclient.frames.clientframe.quickpanel.QuickPanel(Globals.getContactList());
+        pnl_QuickPanel = new QuickPanel(Globals.getContactList());
         pnl_QuickPanel.setPreferredSize(new Dimension(210, 100));
-        initComponents();       
+        initComponents();
         pnl_toggleQuickBarLeft.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         pnl_toggleQuickBarRight.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         pnl_toggleQuickBarLeft.setMinimumSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
@@ -72,16 +72,6 @@ public class ClientFrame extends javax.swing.JFrame {
 
         updateMenu();
         
-        //load the size from options
-        int width = Settings.getMainFrameWidth();
-        int height = Settings.getMainFrameHeight();
-        this.setSize(new Dimension(width, height));
-        this.setPreferredSize(new Dimension(width, height));
-        //maximise if needed
-        int status = Settings.getMainFrameMaximised();
-        if (status == JFrame.MAXIMIZED_BOTH) {
-            this.setExtendedState(status);
-        }
         if (Settings.getTrayIconEnabled()) {
             Globals.addTrayIcon();
         }

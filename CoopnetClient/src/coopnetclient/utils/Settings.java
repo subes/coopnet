@@ -139,7 +139,8 @@ public class Settings {
             launchHotKey = "HotKey",
             multiChannel = "MultiChannel",
             showOfflineContacts = "ShowOfflineContacts",
-            quickPanelIconSizeIsBig="QuickbarIconSizeIsBig";
+            quickPanelIconSizeIsBig="QuickPanelIconSizeIsBig",
+            rememberMainFrameSize = "RememberMainFrameSize";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -189,6 +190,7 @@ public class Settings {
     private final static boolean def_multiChannel = true;
     private final static boolean def_showOfflineContacts = false;
     private final static boolean def_quickPanelIconSizeIsBig = true;
+    private final static boolean def_rememberMainFrameSize = false;
 
     public static void resetSettings(){
         data.clear();
@@ -762,6 +764,14 @@ public class Settings {
     
     public static boolean getShowOfflineContacts(){
         return readBoolean(showOfflineContacts, def_showOfflineContacts);
+    }
+
+    public static void setRememberMainFrameSize(boolean enabled){
+        writeSetting(rememberMainFrameSize, String.valueOf(enabled));
+    }
+
+    public static boolean getRememberMainFrameSize(){
+        return readBoolean(rememberMainFrameSize, def_rememberMainFrameSize);
     }
 
     public static void addFavouriteByName(String channel) {
