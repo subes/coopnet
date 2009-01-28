@@ -227,8 +227,8 @@ public class CommandHandler {
                     Globals.getClientFrame().printMainChatMessage(currentChannelName, "SYSTEM", "The Room has been closed!", ChatStyles.SYSTEM);
                     break;
                 case KICKED:
-                    TabOrganizer.closeRoomPanel();
                     Globals.getClientFrame().printMainChatMessage(TabOrganizer.getRoomPanel().getRoomData().getChannel(), "SYSTEM", "You have been kicked by the host!", ChatStyles.SYSTEM);
+                    TabOrganizer.closeRoomPanel();
                     break;
                 case ADD_MEMBER_TO_ROOM:
                     if(TabOrganizer.getRoomPanel() != null){
