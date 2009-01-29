@@ -112,7 +112,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         
         String message = GameDatabase.getWelcomeMessage(name);
         if(message != null && message.length()> 0){
-            printMainChatMessage(name, message, ChatStyles.DEFAULT);
+           printMainChatMessage(name, message, ChatStyles.DEFAULT);
         }
     }
 

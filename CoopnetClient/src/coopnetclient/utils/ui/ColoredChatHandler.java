@@ -105,7 +105,7 @@ public class ColoredChatHandler {
                 nameAttributes.addAttribute(HTML.Attribute.TYPE, "userName");
                 nameAttributes.addAttribute(HTML.Attribute.DATA, name);
                 nameAttributes.addAttribute(HTML.Attribute.CLASS, chatStyle);
-                doc.setCharacterAttributes(doc.getLength() - tempname.length() -1, tempname.length(), nameAttributes, false);
+                doc.setCharacterAttributes(doc.getLength() - tempname.length(), tempname.length(), nameAttributes, false);
 
                 //print each word
                 String[] messageWords = message.split(" ");
@@ -119,8 +119,12 @@ public class ColoredChatHandler {
                         hrefAttributes.addAttribute(HTML.Attribute.TYPE, "href");
                         hrefAttributes.addAttribute(HTML.Attribute.CLASS, chatStyle);
                         try {
-                            doc.insertString(doc.getLength(), href, doc.getStyle(hlinkStyleName));
-                            doc.setCharacterAttributes(doc.getLength() - href.length()-1, href.length(), hrefAttributes, false);
+                            if (doHighlight) {
+                                doc.insertString(doc.getLength(), href, doc.getStyle(highlightedhlinkStyleName));
+                            } else {
+                                doc.insertString(doc.getLength(), href, doc.getStyle(hlinkStyleName));
+                            }
+                            doc.setCharacterAttributes(doc.getLength() - href.length(), href.length(), hrefAttributes, false);
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
@@ -134,7 +138,7 @@ public class ColoredChatHandler {
                         SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
                         messageAttributes.addAttribute(HTML.Attribute.TYPE, "message");
                         messageAttributes.addAttribute(HTML.Attribute.CLASS, chatStyle);
-                        doc.setCharacterAttributes(doc.getLength() - word.length()-1, word.length(), messageAttributes, false);
+                        doc.setCharacterAttributes(doc.getLength() - word.length(), word.length(), messageAttributes, false);
                     }
                     //add a whitespace after words (important after a link at the end of line)
                     if (doHighlight) {
@@ -145,7 +149,7 @@ public class ColoredChatHandler {
                     SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
                     messageAttributes.addAttribute(HTML.Attribute.TYPE, "message");
                     messageAttributes.addAttribute(HTML.Attribute.CLASS, chatStyle);
-                    doc.setCharacterAttributes(doc.getLength() - 2, 1, messageAttributes, false);
+                    doc.setCharacterAttributes(doc.getLength() - 1, 1, messageAttributes, false);
                 }
 
             } catch (BadLocationException ex) {//won't happen
@@ -256,10 +260,11 @@ public class ColoredChatHandler {
 
     public static void updateHighLight(StyledDocument doc) {
         synchronized (doc) {
-            int lastElementStart = 0;//inclusive start
-            int lastElementEnd = 0;
-            int currentPosition = 0;
+            int lastElementStart = 1;//inclusive start
+            int lastElementEnd = 1;
+            int currentPosition = 1;
             String lastTypeValue = "userName";
+            String lastUserName = "";
 
             DefaultStyledDocument hdoc = (DefaultStyledDocument) doc;
 
@@ -269,12 +274,13 @@ public class ColoredChatHandler {
                 AttributeSet a = el.getAttributes();
                 String elementType = (String) a.getAttribute(HTML.Attribute.TYPE);
                 if (elementType != null && !lastTypeValue.equals(elementType)) {//type boundary found
-                    lastElementEnd = currentPosition ; //exclusive end
+                    lastElementEnd = currentPosition; //exclusive end
                     // apply style
                     String name = (String) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.DATA);
                     ChatStyles styleType = (ChatStyles) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.CLASS);
                     setupStyles(name, styleType, doc);
-                    if (lastTypeValue.equals("userName")) {//name                        
+                    if (lastTypeValue.equals("userName")) {//name
+                        lastUserName = name;
                         if (Globals.isHighlighted(name)) {
                             doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(highlightedNameStyleName), false);
                         } else {
@@ -287,8 +293,8 @@ public class ColoredChatHandler {
                             doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, nameAttributes, false);
                         }
                     } else if (lastTypeValue.equals("href")) {
-                        String href = (String) a.getAttribute(HTML.Attribute.HREF);
-                        if (Globals.isHighlighted(name)) {
+                        String href = (String) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.HREF);
+                        if (Globals.isHighlighted(lastUserName)) {
                             doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(highlightedhlinkStyleName), false);
                         } else {
                             //must override old attributes, readd additional data
@@ -300,7 +306,7 @@ public class ColoredChatHandler {
                             doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, messageAttributes, false);
                         }
                     } else {//message
-                        if (Globals.isHighlighted(name)) {
+                        if (Globals.isHighlighted(lastUserName)) {
                             doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(highlightedMessageStyleName), false);
                         } else {
                             //must override old attributes, readd additional data
@@ -312,13 +318,52 @@ public class ColoredChatHandler {
                         }
                     }
                     lastTypeValue = elementType;
+                    lastElementStart = currentPosition;
                 }
-                lastElementStart = currentPosition;
             }
             //TODO apply style to last element
             lastElementEnd = doc.getLength();
-            Element el = hdoc.getCharacterElement(currentPosition);
-
+            String name = (String) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.DATA);
+            ChatStyles styleType = (ChatStyles) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.CLASS);
+            setupStyles(name, styleType, doc);
+            if (lastTypeValue.equals("userName")) {//name
+                lastUserName = name;
+                if (Globals.isHighlighted(name)) {
+                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(highlightedNameStyleName), false);
+                } else {
+                    //must override old attributes, readd additional data
+                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(nameStyleName), true);
+                    SimpleAttributeSet nameAttributes = new SimpleAttributeSet();
+                    nameAttributes.addAttribute(HTML.Attribute.TYPE, "userName");
+                    nameAttributes.addAttribute(HTML.Attribute.DATA, name);
+                    nameAttributes.addAttribute(HTML.Attribute.CLASS, styleType);
+                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, nameAttributes, false);
+                }
+            } else if (lastTypeValue.equals("href")) {
+                String href = (String) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.HREF);
+                if (Globals.isHighlighted(lastUserName)) {
+                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(highlightedhlinkStyleName), false);
+                } else {
+                    //must override old attributes, readd additional data
+                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(hlinkStyleName), true);
+                    SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
+                    messageAttributes.addAttribute(HTML.Attribute.TYPE, "href");
+                    messageAttributes.addAttribute(HTML.Attribute.HREF, href);
+                    messageAttributes.addAttribute(HTML.Attribute.CLASS, styleType);
+                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, messageAttributes, false);
+                }
+            } else {//message
+                if (Globals.isHighlighted(lastUserName)) {
+                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(highlightedMessageStyleName), false);
+                } else {
+                    //must override old attributes, readd additional data
+                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(messageStyleName), true);
+                    SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
+                    messageAttributes.addAttribute(HTML.Attribute.TYPE, "message");
+                    messageAttributes.addAttribute(HTML.Attribute.CLASS, styleType);
+                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, messageAttributes, false);
+                }
+            }
         }
     }
 }
