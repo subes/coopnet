@@ -140,6 +140,11 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 tf_nameActionPerformed(evt);
             }
         });
+        tf_name.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tf_nameFocusGained(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -394,6 +399,12 @@ private void cb_instantroomActionPerformed(java.awt.event.ActionEvent evt) {//GE
         convertToLobby();
     }
 }//GEN-LAST:event_cb_instantroomActionPerformed
+
+private void tf_nameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_nameFocusGained
+    tf_name.setSelectionStart(0);
+    tf_name.setSelectionEnd(tf_name.getText().length());
+}//GEN-LAST:event_tf_nameFocusGained
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_create;
