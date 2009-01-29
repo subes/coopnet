@@ -49,6 +49,7 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -95,6 +96,7 @@ public class Globals {
     private static String MyIP = null;
     private static String currentPath = "";
     private static TransferTableModel transferModel = new TransferTableModel();
+    private static ArrayList<String> higlightList = new ArrayList<String>();
     /*******************************************************************/
 
 
@@ -158,6 +160,28 @@ public class Globals {
         }
 
         wineCommand = Settings.getWineCommand();
+    }
+
+    public static boolean isHighlighted(String userName){
+        return higlightList.contains(userName);
+    }
+
+    public static void setHighlightOn(String userName){
+        if(!higlightList.contains(userName)){
+            higlightList.add(userName);
+        }
+    }
+
+    public static void unSetHighlightOn(String userName){
+        higlightList.remove(userName);
+    }
+
+    public static void clearHighlights(){
+        higlightList.clear();
+    }
+
+    public static ArrayList<String> getHighlightList(){
+        return higlightList;
     }
 
     public static String getWineCommand(){

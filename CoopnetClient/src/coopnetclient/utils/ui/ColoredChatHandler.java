@@ -23,8 +23,12 @@ import coopnetclient.enums.ChatStyles;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import javax.swing.JScrollBar;
+import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Element;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -33,17 +37,159 @@ import javax.swing.text.html.HTML;
 
 public class ColoredChatHandler {
 
+    private static String nameStyleName = "name";
+    private static String messageStyleName = "message";
+    private static String hlinkStyleName = "hlink";
+    private static String highlightedNameStyleName = "hl_name";
+    private static String highlightedMessageStyleName = "hl_message";
+    private static String highlightedhlinkStyleName = "hl_hlink";
+    private static String friendNameStyleName = "friend_name";
+    private static String friendMessageStyleName = "friend_message";
+
     //Styles have to be temporary, so they follow color changes!
     public static void addColoredText(String name, String message, ChatStyles chatStyle, StyledDocument doc, javax.swing.JScrollPane scrl_ChatOutput, javax.swing.JTextPane tp_ChatOutput) {
 
-        String nameStyleName = "name";
-        String messageStyleName = "message";
-        String hlinkStyleName = "hlink";
+        synchronized (doc) {
+
+            //setting up new styles
+            setupStyles(name, chatStyle, doc);
+
+            //autoscrolling setup
+            JScrollBar vbar = scrl_ChatOutput.getVerticalScrollBar();
+            boolean autoScroll = ((vbar.getValue() + vbar.getVisibleAmount()) > (vbar.getMaximum() - 5));
+
+            //cutting off trailing newline
+            if (message.endsWith("\n")) {
+                message = message.substring(0, message.length() - 1);
+            }
+
+            //storing selection position
+            int start, end;
+            start = tp_ChatOutput.getSelectionStart();
+            end = tp_ChatOutput.getSelectionEnd();
+
+            boolean doHighlight = Globals.isHighlighted(name);
+            String tempname = new String(name);
+
+            //printing
+            if (chatStyle == ChatStyles.WHISPER_NOTIFICATION) {
+                tempname += " whispers";
+            }
+
+            if (message.startsWith("/me")) {
+                tempname = "  **" + name;
+                message = message.substring(3);
+            } else if (name.length() > 0) {
+                tempname = name + ": ";
+            } else {
+                tempname = "    ";
+            }
+
+            if (tempname.length() != 0 && coopnetclient.utils.Settings.getTimeStampEnabled() && chatStyle != ChatStyles.SYSTEM) {
+                Date date = new Date();
+                SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm:ss");
+                tempname = "(" + dateformat.format(date) + ") " + tempname;
+            }
+
+
+
+            try {
+                tp_ChatOutput.setCaretPosition(tp_ChatOutput.getDocument().getLength());
+                if (doHighlight) {
+                    doc.insertString(doc.getLength(), "\n" + tempname, doc.getStyle(highlightedNameStyleName));
+                } else {
+                    doc.insertString(doc.getLength(), "\n" + tempname, doc.getStyle(nameStyleName));
+                }
+                //setup attributes
+                SimpleAttributeSet nameAttributes = new SimpleAttributeSet();
+                nameAttributes.addAttribute(HTML.Attribute.TYPE, "userName");
+                nameAttributes.addAttribute(HTML.Attribute.DATA, name);
+                nameAttributes.addAttribute(HTML.Attribute.CLASS, chatStyle);
+                doc.setCharacterAttributes(doc.getLength() - tempname.length() -1, tempname.length(), nameAttributes, false);
+
+                //print each word
+                String[] messageWords = message.split(" ");
+                for (String word : messageWords) {
+                    //links
+                    if (word.startsWith("http://") || word.startsWith("room://") || word.startsWith("voice://")) {
+                        //print link
+                        String href = word;
+                        SimpleAttributeSet hrefAttributes = new SimpleAttributeSet();
+                        hrefAttributes.addAttribute(HTML.Attribute.HREF, href);
+                        hrefAttributes.addAttribute(HTML.Attribute.TYPE, "href");
+                        hrefAttributes.addAttribute(HTML.Attribute.CLASS, chatStyle);
+                        try {
+                            doc.insertString(doc.getLength(), href, doc.getStyle(hlinkStyleName));
+                            doc.setCharacterAttributes(doc.getLength() - href.length()-1, href.length(), hrefAttributes, false);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    //hrefAttributes.removeAttributes(hrefAttributes.getAttributeNames());
+                    } else { //print normal text
+                        if (doHighlight) {
+                            doc.insertString(doc.getLength(), word, doc.getStyle(highlightedMessageStyleName));
+                        } else {
+                            doc.insertString(doc.getLength(), word, doc.getStyle(messageStyleName));
+                        }
+                        SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
+                        messageAttributes.addAttribute(HTML.Attribute.TYPE, "message");
+                        messageAttributes.addAttribute(HTML.Attribute.CLASS, chatStyle);
+                        doc.setCharacterAttributes(doc.getLength() - word.length()-1, word.length(), messageAttributes, false);
+                    }
+                    //add a whitespace after words (important after a link at the end of line)
+                    if (doHighlight) {
+                        doc.insertString(doc.getLength(), " ", doc.getStyle(highlightedMessageStyleName));
+                    } else {
+                        doc.insertString(doc.getLength(), " ", doc.getStyle(messageStyleName));
+                    }
+                    SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
+                    messageAttributes.addAttribute(HTML.Attribute.TYPE, "message");
+                    messageAttributes.addAttribute(HTML.Attribute.CLASS, chatStyle);
+                    doc.setCharacterAttributes(doc.getLength() - 2, 1, messageAttributes, false);
+                }
+
+            } catch (BadLocationException ex) {//won't happen
+                ex.printStackTrace();
+            }
+
+            //autoscrolling
+            if (autoScroll) {
+                tp_ChatOutput.setCaretPosition(doc.getLength());
+                tp_ChatOutput.setSelectionStart(doc.getLength());
+                tp_ChatOutput.setSelectionEnd(doc.getLength());
+            } else {
+                //restoring selection
+                tp_ChatOutput.setSelectionStart(start);
+                tp_ChatOutput.setSelectionEnd(end);
+            }
+        }
+    }
+
+    private static void setupStyles(String name, ChatStyles chatStyle, StyledDocument doc) {
+
+        //removing the old styles
+        doc.removeStyle(nameStyleName);
+        doc.removeStyle(messageStyleName);
+        doc.removeStyle(hlinkStyleName);
+        doc.removeStyle(highlightedNameStyleName);
+        doc.removeStyle(highlightedMessageStyleName);
+        doc.removeStyle(friendNameStyleName);
+        doc.removeStyle(friendMessageStyleName);
+        doc.removeStyle(highlightedhlinkStyleName);
 
         //Setting style and colors
         Style nameStyle = doc.addStyle(nameStyleName, null);
         Style messageStyle = doc.addStyle(messageStyleName, null);
         Style hlinkStyle = doc.addStyle(hlinkStyleName, null);
+        Style hl_nameStyle = doc.addStyle(highlightedNameStyleName, nameStyle);
+        Style hl_messageStyle = doc.addStyle(highlightedMessageStyleName, messageStyle);
+        Style hl_hlinkStyle = doc.addStyle(highlightedhlinkStyleName, hlinkStyle);
+
+
+        //highlight bg colors
+        StyleConstants.setBackground(hl_nameStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
+        StyleConstants.setBackground(hl_messageStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
+        StyleConstants.setBackground(hl_hlinkStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
 
         //init link style
         StyleConstants.setForeground(hlinkStyle, Color.BLUE);
@@ -67,7 +213,7 @@ public class ColoredChatHandler {
             //Identical as USER atm, but we might want to change something sometime
             case USER:
                 if (coopnetclient.utils.Settings.getColorizeText()) {
-                    if (name.equals(Globals.getThisPlayer_loginName())) {
+                    if (Globals.getThisPlayer_loginName().equals(name)) {
                         StyleConstants.setForeground(nameStyle, coopnetclient.utils.Settings.getYourUsernameColor());
                     } else {
                         StyleConstants.setForeground(nameStyle, coopnetclient.utils.Settings.getOtherUsernamesColor());
@@ -80,7 +226,6 @@ public class ColoredChatHandler {
 
                 StyleConstants.setFontFamily(messageStyle, coopnetclient.utils.Settings.getMessageStyle());
                 StyleConstants.setFontSize(messageStyle, coopnetclient.utils.Settings.getMessageSize());
-
                 break;
             case WHISPER_NOTIFICATION:
                 if (coopnetclient.utils.Settings.getColorizeText()) {
@@ -107,84 +252,73 @@ public class ColoredChatHandler {
                 StyleConstants.setFontFamily(messageStyle, coopnetclient.utils.Settings.getMessageStyle());
                 StyleConstants.setFontSize(messageStyle, coopnetclient.utils.Settings.getMessageSize());
         }
+    }
 
-        //autoscrolling setup
-        JScrollBar vbar = scrl_ChatOutput.getVerticalScrollBar();
-        boolean autoScroll = ((vbar.getValue() + vbar.getVisibleAmount()) > (vbar.getMaximum() - 5));
+    public static void updateHighLight(StyledDocument doc) {
+        synchronized (doc) {
+            int lastElementStart = 0;//inclusive start
+            int lastElementEnd = 0;
+            int currentPosition = 0;
+            String lastTypeValue = "userName";
 
-        //cutting off trailing newline
-        if (message.endsWith("\n")) {
-            message = message.substring(0, message.length() - 1);
-        }
+            DefaultStyledDocument hdoc = (DefaultStyledDocument) doc;
 
-        //storing selection position
-        int start, end;
-        start = tp_ChatOutput.getSelectionStart();
-        end = tp_ChatOutput.getSelectionEnd();
+            for (; currentPosition < doc.getLength(); ++currentPosition) {
 
-        //printing
-        if (chatStyle == ChatStyles.WHISPER_NOTIFICATION) {
-            name += " whispers";
-        }
-
-        if (name.length() != 0 && coopnetclient.utils.Settings.getTimeStampEnabled() && chatStyle != ChatStyles.SYSTEM) {
-            Date date = new Date();
-            SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm:ss");
-
-            name = "(" + dateformat.format(date) + ") " + name;
-        }
-
-        if (message.startsWith("/me")) {
-            name = "  **" + name;
-            message = message.substring(3);
-        } else if (name.length() > 0) {
-            name = name + ": ";
-        } else {
-            name = "    ";
-        }
-
-
-        try {
-            tp_ChatOutput.setCaretPosition(tp_ChatOutput.getDocument().getLength());
-            doc.insertString(doc.getLength(), "\n" + name, doc.getStyle(nameStyleName));
-            String[] messageWords = message.split(" ");
-            for (String word : messageWords) {
-                if (word.startsWith("http://") || word.startsWith("room://") || word.startsWith("voice://")) {
-                    //print link
-                    String href = word;
-                    SimpleAttributeSet attr2 = new SimpleAttributeSet();
-                    attr2.addAttribute(HTML.Attribute.HREF, href);
-                    try {
-                        doc.insertString(doc.getLength(), href, doc.getStyle(hlinkStyleName));
-                        doc.setCharacterAttributes(doc.getLength() - href.length() - 1, doc.getLength(), attr2, false);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                Element el = hdoc.getCharacterElement(currentPosition);
+                AttributeSet a = el.getAttributes();
+                String elementType = (String) a.getAttribute(HTML.Attribute.TYPE);
+                if (elementType != null && !lastTypeValue.equals(elementType)) {//type boundary found
+                    lastElementEnd = currentPosition ; //exclusive end
+                    // apply style
+                    String name = (String) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.DATA);
+                    ChatStyles styleType = (ChatStyles) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.CLASS);
+                    setupStyles(name, styleType, doc);
+                    if (lastTypeValue.equals("userName")) {//name                        
+                        if (Globals.isHighlighted(name)) {
+                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(highlightedNameStyleName), false);
+                        } else {
+                            //must override old attributes, readd additional data
+                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(nameStyleName), true);
+                            SimpleAttributeSet nameAttributes = new SimpleAttributeSet();
+                            nameAttributes.addAttribute(HTML.Attribute.TYPE, "userName");
+                            nameAttributes.addAttribute(HTML.Attribute.DATA, name);
+                            nameAttributes.addAttribute(HTML.Attribute.CLASS, styleType);
+                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, nameAttributes, false);
+                        }
+                    } else if (lastTypeValue.equals("href")) {
+                        String href = (String) a.getAttribute(HTML.Attribute.HREF);
+                        if (Globals.isHighlighted(name)) {
+                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(highlightedhlinkStyleName), false);
+                        } else {
+                            //must override old attributes, readd additional data
+                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(hlinkStyleName), true);
+                            SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
+                            messageAttributes.addAttribute(HTML.Attribute.TYPE, "href");
+                            messageAttributes.addAttribute(HTML.Attribute.HREF, href);
+                            messageAttributes.addAttribute(HTML.Attribute.CLASS, styleType);
+                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, messageAttributes, false);
+                        }
+                    } else {//message
+                        if (Globals.isHighlighted(name)) {
+                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(highlightedMessageStyleName), false);
+                        } else {
+                            //must override old attributes, readd additional data
+                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(messageStyleName), true);
+                            SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
+                            messageAttributes.addAttribute(HTML.Attribute.TYPE, "message");
+                            messageAttributes.addAttribute(HTML.Attribute.CLASS, styleType);
+                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, messageAttributes, false);
+                        }
                     }
-                    attr2.removeAttributes(attr2.getAttributeNames());
-                } else {//print normal text
-                    doc.insertString(doc.getLength(), word, doc.getStyle(messageStyleName));
+                    lastTypeValue = elementType;
                 }
-                doc.insertString(doc.getLength(), " ", doc.getStyle(messageStyleName));
+                lastElementStart = currentPosition;
             }
+            //TODO apply style to last element
+            lastElementEnd = doc.getLength();
+            Element el = hdoc.getCharacterElement(currentPosition);
 
-        } catch (BadLocationException ex) {
-            ex.printStackTrace();
         }
-
-//autoscrolling
-        if (autoScroll) {
-            tp_ChatOutput.setCaretPosition(doc.getLength());
-            tp_ChatOutput.setSelectionStart(doc.getLength());
-            tp_ChatOutput.setSelectionEnd(doc.getLength());
-        } else {
-            //restoring selection
-            tp_ChatOutput.setSelectionStart(start);
-            tp_ChatOutput.setSelectionEnd(end);
-        }
-
-//removing the styles again
-        doc.removeStyle(nameStyleName);
-        doc.removeStyle(messageStyleName);
-        doc.removeStyle(hlinkStyleName);
     }
 }

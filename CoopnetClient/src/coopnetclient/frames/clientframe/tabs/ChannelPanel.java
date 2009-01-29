@@ -707,4 +707,9 @@ private void tbl_roomListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRS
         return true;
     }
 
+    public void updateHighlights(){
+        StyledDocument doc = tp_chatOutput.getStyledDocument();
+        coopnetclient.utils.ui.ColoredChatHandler.updateHighLight(doc);
+    }
+
 }

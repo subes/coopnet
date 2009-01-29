@@ -710,4 +710,9 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
     public boolean isCurrentlyClosable() {
         return true;
     }
+
+    public void updateHighlights(){
+        StyledDocument doc = tp_chatOutput.getStyledDocument();
+        coopnetclient.utils.ui.ColoredChatHandler.updateHighLight(doc);
+    }
 }

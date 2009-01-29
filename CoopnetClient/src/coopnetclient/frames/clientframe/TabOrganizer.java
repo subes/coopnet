@@ -123,6 +123,15 @@ public class TabOrganizer {
         tabHolder.setSelectedComponent(currentchannel);
     }
 
+    public static void updateHighlights(){
+        for(ChannelPanel cp : channelPanels){
+            cp.updateHighlights();
+        }
+        if(roomPanel!= null){
+            roomPanel.updateHighlights();
+        }
+    }
+
     public static void markTab(Component tab) {
         int idx = tabHolder.indexOfComponent(tab);
         if (idx > -1 && tabHolder.getSelectedIndex()!= idx ) {

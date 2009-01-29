@@ -44,6 +44,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem mute_UnMute;
     private JMenuItem ban_UnBan;
     private JMenuItem addContact;
+    private JMenuItem highlight;
 
     /**
     if mode is "host" u get kick
@@ -64,6 +65,9 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(roomInvite);
         this.add(makeMenuItem("Whisper"));
         this.add(makeMenuItem("Send file"));
+
+        highlight = makeMenuItem("Highlight messages");
+        this.add(highlight);
         addContact = makeMenuItem("Add to contacts");
         this.add(addContact);
 
@@ -104,7 +108,13 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         if (subject == null) {
             return;
         }
-        if (command.equals("Kick")) {
+        if (command.equals("Highlight messages")) {
+            Globals.setHighlightOn(subject);
+            TabOrganizer.updateHighlights();
+        }else if (command.equals("UnHighlight messages")) {
+            Globals.unSetHighlightOn(subject);
+            TabOrganizer.updateHighlights();
+        }else if (command.equals("Kick")) {
             Protocol.kick(subject);
         } else if (command.equals("Ban")) {
             Protocol.kick(subject);
@@ -174,7 +184,12 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         } else {
             roomInvite.setVisible(true);
         }
-        
+
+        if(Globals.isHighlighted(playerName.getText())){
+            highlight.setText("UnHighlight messages");
+        }else{
+            highlight.setText("Highlight messages");
+        }
         
         
         if (MuteBanList.getMuteBanStatus(playerName.getText()) == null) {
