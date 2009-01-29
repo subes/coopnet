@@ -20,11 +20,13 @@ package coopnetclient.utils.ui;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.utils.Settings;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JScrollBar;
+import javax.swing.UIManager;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
@@ -189,12 +191,21 @@ public class ColoredChatHandler {
         Style hl_messageStyle = doc.addStyle(highlightedMessageStyleName, messageStyle);
         Style hl_hlinkStyle = doc.addStyle(highlightedhlinkStyleName, hlinkStyle);
 
-
         //highlight bg colors
-        StyleConstants.setBackground(hl_nameStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
-        StyleConstants.setBackground(hl_messageStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
-        StyleConstants.setBackground(hl_hlinkStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
-
+        if (Settings.getColorizeBody()) {
+            StyleConstants.setBackground(hl_nameStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_messageStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_hlinkStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
+        } else {
+            Color clr = null;
+            clr = (Color) UIManager.get("List.selectionBackground");
+            if (clr == null) {
+                clr = (Color) UIManager.get("List[Selected].textBackground");
+            }
+            StyleConstants.setBackground(hl_nameStyle, clr);
+            StyleConstants.setBackground(hl_messageStyle, clr);
+            StyleConstants.setBackground(hl_hlinkStyle, clr);
+        }
         //init link style
         StyleConstants.setForeground(hlinkStyle, Color.BLUE);
         StyleConstants.setUnderline(hlinkStyle, true);
@@ -321,7 +332,7 @@ public class ColoredChatHandler {
                     lastElementStart = currentPosition;
                 }
             }
-            //TODO apply style to last element
+            //apply style to last element
             lastElementEnd = doc.getLength();
             String name = (String) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.DATA);
             ChatStyles styleType = (ChatStyles) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.CLASS);
