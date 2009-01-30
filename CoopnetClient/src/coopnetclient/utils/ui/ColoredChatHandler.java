@@ -75,25 +75,27 @@ public class ColoredChatHandler {
             boolean doHighlight = Globals.isHighlighted(name);
             Boolean isFriend = Globals.getContactList().contains(name);
             String tempname = new String(name);
+            String timeStamp = "";
 
             //printing
-            if (chatStyle == ChatStyles.WHISPER_NOTIFICATION) {
-                tempname += " whispers";
+            
+            if (name.length() > 0 && coopnetclient.utils.Settings.getTimeStampEnabled() && chatStyle != ChatStyles.SYSTEM) {
+                Date date = new Date();
+                SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm:ss");
+                timeStamp = "(" + dateformat.format(date) + ") ";
             }
-
+            
+            if (chatStyle == ChatStyles.WHISPER_NOTIFICATION) {
+                tempname = timeStamp + tempname + " whispers";
+            }
+            
             if (message.startsWith("/me")) {
                 tempname = "  **" + name;
                 message = message.substring(3);
             } else if (name.length() > 0) {
-                tempname = name + ": ";
+                tempname = timeStamp + name + ": ";
             } else {
                 tempname = "    ";
-            }
-
-            if (tempname.length() != 0 && coopnetclient.utils.Settings.getTimeStampEnabled() && chatStyle != ChatStyles.SYSTEM) {
-                Date date = new Date();
-                SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm:ss");
-                tempname = "(" + dateformat.format(date) + ") " + tempname;
             }
 
             try {

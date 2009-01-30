@@ -142,7 +142,8 @@ public class Settings {
             multiChannel = "MultiChannel",
             showOfflineContacts = "ShowOfflineContacts",
             quickPanelIconSizeIsBig="QuickPanelIconSizeIsBig",
-            rememberMainFrameSize = "RememberMainFrameSize";
+            rememberMainFrameSize = "RememberMainFrameSize",
+            logUserActivity="LogUserActicvity";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -150,6 +151,7 @@ public class Settings {
     private final static boolean def_firstRun = true;
     private final static boolean def_sleepEnabled = true;
     private final static boolean def_autoLogin = false;
+    private final static boolean def_logUserActivity = false;
     private final static boolean def_debugMode = false; // new Color(new Integer(""));
     private final static String def_selectedLookAndFeel = "Metal";
     private final static boolean def_useNativeLookAndFeel = true;
@@ -383,8 +385,15 @@ public class Settings {
     public static void setQuickPanelPostionisLeft(boolean status) {
         writeSetting(quickPanelPostionisLeft, String.valueOf(status));
     }
-    
-    
+
+    public static boolean getLogUserActivity() {
+        return readBoolean(logUserActivity, def_logUserActivity);
+    }
+
+    public static void setLogUserActivity(boolean status) {
+        writeSetting(logUserActivity, String.valueOf(status));
+    }
+
     public static int getQuickPanelToggleBarWidth() {
         return readInteger(quickPanelToggleBarWidth, def_quickPanelToggleBarWidth);
     }

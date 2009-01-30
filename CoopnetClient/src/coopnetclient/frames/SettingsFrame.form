@@ -107,11 +107,12 @@
                                   <Component id="cb_sounds" min="-2" max="-2" attributes="0"/>
                                   <Component id="cb_TrayIconEnabled" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="cb_rememberMainFrameSize" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cb_logActivity" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="70" max="32767" attributes="0"/>
+                              <EmptySpace pref="66" max="32767" attributes="0"/>
                               <Component id="pnl_hotkeys" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="cb_multiChannel" alignment="0" pref="616" max="32767" attributes="0"/>
+                          <Component id="cb_multiChannel" alignment="0" pref="612" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" max="-2" attributes="0">
                               <Component id="lbl_homeChannel" linkSize="10" min="-2" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -148,6 +149,8 @@
                       <EmptySpace pref="50" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
+                              <Component id="cb_logActivity" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="cb_rememberMainFrameSize" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cb_TrayIconEnabled" min="-2" max="-2" attributes="0"/>
@@ -294,6 +297,11 @@
                 <Property name="text" type="java.lang.String" value="Remember size of main frame"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JCheckBox" name="cb_logActivity">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Log user activity"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnl_network">
@@ -426,7 +434,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="pnl_textStyle" min="-2" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="pnl_textColors" max="32767" attributes="1"/>
+                              <Component id="pnl_textColors" pref="303" max="32767" attributes="1"/>
                           </Group>
                           <Component id="cb_timeStamps" min="-2" max="-2" attributes="0"/>
                       </Group>

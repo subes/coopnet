@@ -158,6 +158,8 @@ public class SettingsFrame extends javax.swing.JFrame {
 
         cb_rememberMainFrameSize.setSelected(Settings.getRememberMainFrameSize());
 
+        cb_logActivity.setSelected(Settings.getLogUserActivity());
+
         //Toggle buttons corresponding to checkboxes
         toggleItemsOf_cb_NativeStyle();
         toggleItemsOf_cb_ColorizeBody();
@@ -206,6 +208,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         cb_multiChannel = new javax.swing.JCheckBox();
         cmb_winEnv = new javax.swing.JComboBox();
         cb_rememberMainFrameSize = new javax.swing.JCheckBox();
+        cb_logActivity = new javax.swing.JCheckBox();
         pnl_network = new javax.swing.JPanel();
         cb_autoLogin = new javax.swing.JCheckBox();
         lbl_transferPort = new javax.swing.JLabel();
@@ -352,6 +355,8 @@ public class SettingsFrame extends javax.swing.JFrame {
 
         cb_rememberMainFrameSize.setText("Remember size of main frame");
 
+        cb_logActivity.setText("Log user activity");
+
         javax.swing.GroupLayout pnl_generalLayout = new javax.swing.GroupLayout(pnl_general);
         pnl_general.setLayout(pnl_generalLayout);
         pnl_generalLayout.setHorizontalGroup(
@@ -363,10 +368,11 @@ public class SettingsFrame extends javax.swing.JFrame {
                         .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cb_sounds)
                             .addComponent(cb_TrayIconEnabled)
-                            .addComponent(cb_rememberMainFrameSize))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                            .addComponent(cb_rememberMainFrameSize)
+                            .addComponent(cb_logActivity))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                         .addComponent(pnl_hotkeys, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(cb_multiChannel, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
+                    .addComponent(cb_multiChannel, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
                     .addGroup(pnl_generalLayout.createSequentialGroup()
                         .addComponent(lbl_homeChannel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -399,6 +405,8 @@ public class SettingsFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnl_generalLayout.createSequentialGroup()
+                        .addComponent(cb_logActivity)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cb_rememberMainFrameSize)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cb_TrayIconEnabled)
@@ -753,7 +761,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                     .addGroup(pnl_textLayout.createSequentialGroup()
                         .addComponent(pnl_textStyle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnl_textColors, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(pnl_textColors, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE))
                     .addComponent(cb_timeStamps))
                 .addContainerGap())
         );
@@ -1288,6 +1296,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             }
 
             Settings.setRememberMainFrameSize(cb_rememberMainFrameSize.isSelected());
+            Settings.setLogUserActivity(cb_logActivity.isSelected());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(Globals.getClientFrame(), "Please verify that you have entered valid information!\nFor example:\n  Serverport and textsizes need to be non-decimal numbers.", "Wrong input", JOptionPane.ERROR_MESSAGE);
             error = true;
@@ -1369,6 +1378,7 @@ private void tf_playerMessagesSizeActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JCheckBox cb_autoLogin;
     private javax.swing.JCheckBox cb_colorizeBody;
     private javax.swing.JCheckBox cb_colorizeText;
+    private javax.swing.JCheckBox cb_logActivity;
     private javax.swing.JCheckBox cb_multiChannel;
     private javax.swing.JCheckBox cb_nativeStyle;
     private javax.swing.JCheckBox cb_rememberMainFrameSize;

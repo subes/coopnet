@@ -149,6 +149,9 @@ public class CommandHandler {
                     break;
                 case ADD_TO_PLAYERS:
                     TabOrganizer.getChannelPanel(currentChannelName).addPlayerToChannel(information[1]);
+                    if(Settings.getLogUserActivity() && !Globals.getThisPlayer_loginName().equals(information[1])){
+                        TabOrganizer.getChannelPanel(currentChannelName).printMainChatMessage("",information[1]+" has enterd the channel.",ChatStyles.SYSTEM);
+                    }
                     break;
                 case SET_GAMESETTING:
                     if(information[0].equals("map")){
@@ -231,13 +234,19 @@ public class CommandHandler {
                     TabOrganizer.closeRoomPanel();
                     break;
                 case ADD_MEMBER_TO_ROOM:
-                    if(TabOrganizer.getRoomPanel() != null){
+                    if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().addmember(information[0]);
+                        if(Settings.getLogUserActivity() && !Globals.getThisPlayer_loginName().equals(information[0])){
+                            TabOrganizer.getRoomPanel().chat("", information[0] + " has enterd the room.", ChatStyles.SYSTEM);
+                        }
                     }
                     break;
                 case REMOVE_MEMBER_FROM_ROOM:
                     if(TabOrganizer.getRoomPanel() != null){
                         TabOrganizer.getRoomPanel().removeMember(information[0]);
+                        if(Settings.getLogUserActivity() && !Globals.getThisPlayer_loginName().equals(information[0])){
+                            TabOrganizer.getRoomPanel().chat("", information[0] + " has left the room.", ChatStyles.SYSTEM);
+                        }
                     }
                     break;
                 case ADD_ROOM:
@@ -253,6 +262,9 @@ public class CommandHandler {
                     break;
                 case LEFT_CHANNEL:
                     TabOrganizer.getChannelPanel(currentChannelName).removePlayerFromChannel( information[1]);
+                    if(Settings.getLogUserActivity() && !Globals.getThisPlayer_loginName().equals(information[1])){
+                        TabOrganizer.getChannelPanel(currentChannelName).printMainChatMessage("",information[1]+" has left the channel.",ChatStyles.SYSTEM);
+                    }
                     break;
                 case CHAT_PRIVATE:
                     Globals.getClientFrame().printPrivateChatMessage(information[0], information[1]);
