@@ -107,9 +107,11 @@ public class Settings {
             fgColor = "ForegroundColor",  
             yourUsernameColor = "YourUsernameColor",  
             selectionColor = "SelectionColor",  
-            otherUsernamesColor = "OtherUsernamesColor",  
+            otherUsernamesColor = "OtherUsernamesColor",
+            friendUsernameColor = "FriendUsernameColor",
             systemMessageColor = "SystemMessageColor",  
-            whisperMessageColor = "WhisperMessageColor",  
+            whisperMessageColor = "WhisperMessageColor",
+            friendMessageColor = "FriendMessageColor",
             nameStyle = "NameStyle",  
             nameSize = "NameSize",  
             messageStyle = "MessageStyle",  
@@ -158,6 +160,8 @@ public class Settings {
     private final static Color def_systemMessageColor = new Color(200,0,0);
     private final static Color def_whisperMessageColor = new Color(0,153,204);
     private final static Color def_userMessageColor = Color.BLACK;
+    private final static Color def_friendUsernameColor = Color.GREEN.darker();
+    private final static Color def_friendMessageColor = Color.GREEN.darker();
     private final static Color def_SelectionColor = new Color(200,200,200);
     private final static String def_nameStyle = "Monospaced";
     private final static String def_recievedest;
@@ -671,7 +675,25 @@ public class Settings {
     public static void setMessageSize(int size) {
         writeSetting(messageSize, String.valueOf(size));
     }
-    //messagecolor
+
+    public static Color getFriendMessageColor() {
+        return readColor(friendMessageColor, def_friendMessageColor);
+    }
+    
+
+    public static void setFriendMessageColor(Color color) {
+        writeSetting(friendMessageColor, String.valueOf(color.getRGB()));
+    }
+
+    public static Color getFriendUsernameColor() {
+        return readColor(friendUsernameColor, def_friendUsernameColor);
+    }
+
+
+    public static void setFriendUsernameColor(Color color) {
+        writeSetting(friendUsernameColor, String.valueOf(color.getRGB()));
+    }
+
     public static Color getUserMessageColor() {
         return readColor(userMessageColor, def_userMessageColor);
     }

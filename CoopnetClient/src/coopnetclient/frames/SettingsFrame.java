@@ -149,6 +149,8 @@ public class SettingsFrame extends javax.swing.JFrame {
         btn_whisperMessages.addActionListener(new ColorChooserButtonActionListener(btn_whisperMessages));
         btn_userMessages.addActionListener(new ColorChooserButtonActionListener(btn_userMessages));
         btn_selection.addActionListener(new ColorChooserButtonActionListener(btn_selection));
+        btn_friendUsernames.addActionListener(new ColorChooserButtonActionListener(btn_friendUsernames));
+        btn_contactMessages.addActionListener(new ColorChooserButtonActionListener(btn_contactMessages));
 
         cb_showOfflineContacts.setSelected(Settings.getShowOfflineContacts());
         
@@ -175,6 +177,8 @@ public class SettingsFrame extends javax.swing.JFrame {
         btn_whisperMessages.setForeground(coopnetclient.utils.Settings.getWhisperMessageColor());
         btn_userMessages.setForeground(coopnetclient.utils.Settings.getUserMessageColor());
         btn_selection.setForeground(coopnetclient.utils.Settings.getSelectionColor());
+        btn_friendUsernames.setForeground(coopnetclient.utils.Settings.getFriendUsernameColor());
+        btn_contactMessages.setForeground(coopnetclient.utils.Settings.getFriendMessageColor());
     }
 
     /** This method is called from within the constructor to
@@ -184,6 +188,7 @@ public class SettingsFrame extends javax.swing.JFrame {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         bg_captureMode = new javax.swing.ButtonGroup();
         tabpn_settings = new javax.swing.JTabbedPane();
@@ -236,6 +241,10 @@ public class SettingsFrame extends javax.swing.JFrame {
         lbl_userMessages = new javax.swing.JLabel();
         btn_userMessages = new javax.swing.JButton();
         cb_colorizeText = new javax.swing.JCheckBox();
+        lbl_friendUsernames = new javax.swing.JLabel();
+        btn_friendUsernames = new javax.swing.JButton();
+        lbl_contactMessages = new javax.swing.JLabel();
+        btn_contactMessages = new javax.swing.JButton();
         cb_timeStamps = new javax.swing.JCheckBox();
         pnl_body = new javax.swing.JPanel();
         pnl_bodyColors = new javax.swing.JPanel();
@@ -348,31 +357,25 @@ public class SettingsFrame extends javax.swing.JFrame {
         pnl_generalLayout.setHorizontalGroup(
             pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_generalLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl_generalLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(pnl_generalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cb_sounds)
                             .addComponent(cb_TrayIconEnabled)
                             .addComponent(cb_rememberMainFrameSize))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                         .addComponent(pnl_hotkeys, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cb_multiChannel, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
                     .addGroup(pnl_generalLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(cb_multiChannel, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE))
-                    .addGroup(pnl_generalLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(lbl_homeChannel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmb_homeChannel, 0, 495, Short.MAX_VALUE))
                     .addGroup(pnl_generalLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(lbl_dplayEnv)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmb_winEnv, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnl_generalLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lbl_dplayEnvNote)))
+                    .addComponent(lbl_dplayEnvNote))
                 .addContainerGap())
         );
 
@@ -607,26 +610,88 @@ public class SettingsFrame extends javax.swing.JFrame {
         );
 
         pnl_textColors.setBorder(javax.swing.BorderFactory.createTitledBorder("Text colors"));
+        pnl_textColors.setLayout(new java.awt.GridBagLayout());
 
         lbl_yourUsername.setText("Your username:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        pnl_textColors.add(lbl_yourUsername, gridBagConstraints);
 
         btn_yourUsername.setText(" ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        pnl_textColors.add(btn_yourUsername, gridBagConstraints);
 
         lbl_otherUsernames.setText("Other usernames:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        pnl_textColors.add(lbl_otherUsernames, gridBagConstraints);
 
         btn_otherUsernames.setText(" ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        pnl_textColors.add(btn_otherUsernames, gridBagConstraints);
 
         lbl_systemMessages.setText("System messages:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        pnl_textColors.add(lbl_systemMessages, gridBagConstraints);
 
         btn_systemMessages.setText(" ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        pnl_textColors.add(btn_systemMessages, gridBagConstraints);
 
         lbl_whisperMessages.setText("Whisper messages:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        pnl_textColors.add(lbl_whisperMessages, gridBagConstraints);
 
         btn_whisperMessages.setText(" ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        pnl_textColors.add(btn_whisperMessages, gridBagConstraints);
 
         lbl_userMessages.setText("User messages:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        pnl_textColors.add(lbl_userMessages, gridBagConstraints);
 
         btn_userMessages.setText(" ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        pnl_textColors.add(btn_userMessages, gridBagConstraints);
 
         cb_colorizeText.setText("Enabled");
         cb_colorizeText.addActionListener(new java.awt.event.ActionListener() {
@@ -634,57 +699,47 @@ public class SettingsFrame extends javax.swing.JFrame {
                 cb_colorizeTextActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnl_textColors.add(cb_colorizeText, gridBagConstraints);
 
-        javax.swing.GroupLayout pnl_textColorsLayout = new javax.swing.GroupLayout(pnl_textColors);
-        pnl_textColors.setLayout(pnl_textColorsLayout);
-        pnl_textColorsLayout.setHorizontalGroup(
-            pnl_textColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_textColorsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnl_textColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_textColorsLayout.createSequentialGroup()
-                        .addGroup(pnl_textColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lbl_yourUsername, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_otherUsernames, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_userMessages, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_systemMessages, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_whisperMessages, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnl_textColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_whisperMessages, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                            .addComponent(btn_otherUsernames, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                            .addComponent(btn_yourUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                            .addComponent(btn_userMessages, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                            .addComponent(btn_systemMessages, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)))
-                    .addComponent(cb_colorizeText))
-                .addContainerGap())
-        );
-        pnl_textColorsLayout.setVerticalGroup(
-            pnl_textColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_textColorsLayout.createSequentialGroup()
-                .addGroup(pnl_textColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_yourUsername)
-                    .addComponent(lbl_yourUsername))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_textColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_otherUsernames)
-                    .addComponent(lbl_otherUsernames))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_textColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_userMessages)
-                    .addComponent(lbl_userMessages))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_textColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_systemMessages)
-                    .addComponent(lbl_systemMessages))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_textColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_whisperMessages)
-                    .addComponent(lbl_whisperMessages))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cb_colorizeText)
-                .addContainerGap())
-        );
+        lbl_friendUsernames.setText("Contact usernames:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        pnl_textColors.add(lbl_friendUsernames, gridBagConstraints);
+
+        btn_friendUsernames.setText(" ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        pnl_textColors.add(btn_friendUsernames, gridBagConstraints);
+
+        lbl_contactMessages.setText("Contact messages:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 0, 5);
+        pnl_textColors.add(lbl_contactMessages, gridBagConstraints);
+
+        btn_contactMessages.setText(" ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 5);
+        pnl_textColors.add(btn_contactMessages, gridBagConstraints);
 
         cb_timeStamps.setText("Timestamps");
 
@@ -1079,6 +1134,8 @@ public class SettingsFrame extends javax.swing.JFrame {
         btn_userMessages.setEnabled(cb_colorizeText.isSelected());
         btn_systemMessages.setEnabled(cb_colorizeText.isSelected());
         btn_whisperMessages.setEnabled(cb_colorizeText.isSelected());
+        btn_friendUsernames.setEnabled(cb_colorizeText.isSelected());
+        btn_contactMessages.setEnabled(cb_colorizeText.isSelected());
     }
 
 private void cb_colorizeTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_colorizeTextActionPerformed
@@ -1196,6 +1253,8 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
 
             Settings.setYourUsernameColor(btn_yourUsername.getForeground());
             Settings.setOtherUsernamesColor(btn_otherUsernames.getForeground());
+            Settings.setFriendUsernameColor(btn_friendUsernames.getForeground());
+            Settings.setFriendMessageColor(btn_contactMessages.getForeground());
             Settings.setSystemMessageColor(btn_systemMessages.getForeground());
             Settings.setWhisperMessageColor(btn_whisperMessages.getForeground());
             Settings.setUserMessageColor(btn_userMessages.getForeground());
@@ -1294,7 +1353,9 @@ private void tf_playerMessagesSizeActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JButton btn_background;
     private javax.swing.JButton btn_browseReceiveDir;
     private javax.swing.JButton btn_close;
+    private javax.swing.JButton btn_contactMessages;
     private javax.swing.JButton btn_foreground;
+    private javax.swing.JButton btn_friendUsernames;
     private javax.swing.JButton btn_otherUsernames;
     private javax.swing.JButton btn_save;
     private javax.swing.JButton btn_selection;
@@ -1325,9 +1386,11 @@ private void tf_playerMessagesSizeActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JLabel lbl_StatusChangeNotification;
     private javax.swing.JLabel lbl_ToggleButtonWidth;
     private javax.swing.JLabel lbl_background;
+    private javax.swing.JLabel lbl_contactMessages;
     private javax.swing.JLabel lbl_dplayEnv;
     private javax.swing.JLabel lbl_dplayEnvNote;
     private javax.swing.JLabel lbl_foreground;
+    private javax.swing.JLabel lbl_friendUsernames;
     private javax.swing.JLabel lbl_homeChannel;
     private javax.swing.JLabel lbl_hotkeyNoteText;
     private javax.swing.JLabel lbl_launchKey;
