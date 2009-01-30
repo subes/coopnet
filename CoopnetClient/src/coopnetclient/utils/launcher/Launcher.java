@@ -104,7 +104,7 @@ public class Launcher {
                     && TabOrganizer.getRoomPanel()!= null
                     && GameDatabase.getGameSettings(launchInfo.getRoomData().getChannel(), launchInfo.getRoomData().getModName()).size() > 0){
                     //Frame decides if visible
-                    Globals.openGameSettingsFrame(launchedGameInfo.getRoomData());
+                    Globals.openGameSettingsFrame(launchInfo.getRoomData());
                 }
             }
         }else{
