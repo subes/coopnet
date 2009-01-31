@@ -31,9 +31,11 @@ import coopnetclient.utils.RoomData;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
+import coopnetclient.utils.launcher.launchhandlers.DOSLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.JDPlayLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.LaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.ParameterLaunchHandler;
+import coopnetclient.utils.launcher.launchinfos.DOSLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
@@ -79,9 +81,10 @@ public class Launcher {
         if(!isPlaying()){
             if(launchInfo instanceof DirectPlayLaunchInfo){
                 launchHandler = new JDPlayLaunchHandler();
-            }else
-            if(launchInfo instanceof ParameterLaunchInfo){
+            }else if(launchInfo instanceof ParameterLaunchInfo){
                 launchHandler = new ParameterLaunchHandler();
+            } else if(launchInfo instanceof DOSLaunchInfo){
+                launchHandler = new DOSLaunchHandler();
             }
 
             TempGameSettings.initalizeGameSettings(launchInfo.getRoomData().getChannel(), launchInfo.getRoomData().getModName());
@@ -99,7 +102,7 @@ public class Launcher {
                 }
             }
 
-            if(launchInfo instanceof ParameterLaunchInfo){
+            if(launchInfo instanceof ParameterLaunchInfo || launchInfo instanceof DOSLaunchInfo){
                 if(!launchInfo.isInstantLaunch()
                     && TabOrganizer.getRoomPanel()!= null
                     && GameDatabase.getGameSettings(launchInfo.getRoomData().getChannel(), launchInfo.getRoomData().getModName()).size() > 0){
@@ -248,12 +251,14 @@ public class Launcher {
                 "Initializing game ...",
                 ChatStyles.SYSTEM, false);
 
-        ParameterLaunchInfo launchInfo;
+        LaunchInfo launchInfo;
 
         LaunchMethods method = GameDatabase.getLaunchMethod(roomData.getChannel(), roomData.getModName());
 
         if (method == LaunchMethods.PARAMETER) {
             launchInfo = new ParameterLaunchInfo(roomData);
+        } else if (method == LaunchMethods.DOS) {
+            launchInfo = new DOSLaunchInfo(roomData);
         } else {
             throw new IllegalArgumentException("You can't instantlaunch from "+method.toString()+" channel! GameName: " + roomData.getChannel() + " ModName: " + roomData.getModName());
         }

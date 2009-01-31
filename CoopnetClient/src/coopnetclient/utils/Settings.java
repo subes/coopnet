@@ -143,7 +143,9 @@ public class Settings {
             showOfflineContacts = "ShowOfflineContacts",
             quickPanelIconSizeIsBig="QuickPanelIconSizeIsBig",
             rememberMainFrameSize = "RememberMainFrameSize",
-            logUserActivity="LogUserActicvity";
+            logUserActivity="LogUserActicvity",
+            DOSBoxExecutable="DOSBox-Executable",
+            DOSBoxFullscreen="DOSBox-Fullscreen";
    
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
@@ -151,7 +153,8 @@ public class Settings {
     private final static boolean def_firstRun = true;
     private final static boolean def_sleepEnabled = true;
     private final static boolean def_autoLogin = false;
-    private final static boolean def_logUserActivity = false;
+    private final static boolean def_logUserActivity = true;
+    private final static boolean def_DOSBoxFullscreen = false;
     private final static boolean def_debugMode = false; // new Color(new Integer(""));
     private final static String def_selectedLookAndFeel = "Metal";
     private final static boolean def_useNativeLookAndFeel = true;
@@ -197,6 +200,10 @@ public class Settings {
     private final static boolean def_showOfflineContacts = false;
     private final static boolean def_quickPanelIconSizeIsBig = true;
     private final static boolean def_rememberMainFrameSize = false;
+    private final static String def_DOSEmulatorExecutable = "";
+    private final static String def_DOSEmulatorSyntax = "";
+
+
 
     public static void resetSettings(){
         data.clear();
@@ -529,7 +536,7 @@ public class Settings {
         writeSetting(lastValidServerPort, String.valueOf(port));
     }
      
-      public static int getFiletTansferPort() {
+    public static int getFiletTansferPort() {
         return readInteger(fileTransferPort, def_fileTransferPort);
     }
 
@@ -557,6 +564,22 @@ public class Settings {
 
     public static void setHomeChannel(String channel) {
         writeSetting(homeChannel, GameDatabase.getIDofGame(channel));
+    }
+
+    public static String getDOSBoxExecutable() {
+        return readString(DOSBoxExecutable, def_DOSEmulatorExecutable);
+    }
+
+    public static void setDOSBoxExecutable(String path) {
+        writeSetting(DOSBoxExecutable, path);
+    }
+
+    public static boolean getDOSBoxFullscreen() {
+        return readBoolean(DOSBoxFullscreen, def_DOSBoxFullscreen);
+    }
+
+    public static void setDOSBoxFullscreen(boolean value) {
+        writeSetting(DOSBoxFullscreen, String.valueOf(value));
     }
 
     //debugMode

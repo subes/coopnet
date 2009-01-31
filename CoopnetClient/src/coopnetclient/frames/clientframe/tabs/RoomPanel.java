@@ -42,6 +42,7 @@ import coopnetclient.utils.RoomData;
 import coopnetclient.utils.ui.UserListFileDropHandler;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
+import coopnetclient.utils.launcher.launchinfos.DOSLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
@@ -158,7 +159,9 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                     LaunchMethods method = GameDatabase.getLaunchMethod(roomData.getChannel(), roomData.getModName());
                     if(method == LaunchMethods.PARAMETER){
                         launchInfo = new ParameterLaunchInfo(roomData);
-                    }else{
+                    }else if(method == LaunchMethods.DOS){
+                        launchInfo = new DOSLaunchInfo(roomData);
+                    }else {
                         launchInfo = new DirectPlayLaunchInfo(roomData);
                     }
 
