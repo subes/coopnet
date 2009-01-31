@@ -24,7 +24,6 @@ import coopnetclient.utils.RoomData;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.TempGameSettings;
-import java.util.regex.Matcher;
 
 public class ParameterLaunchInfo extends LaunchInfo {
     
@@ -54,14 +53,14 @@ public class ParameterLaunchInfo extends LaunchInfo {
     public String getParameters(){
         String ret = parameters;
         
-        ret = ret.replace("{HOSTIP}",  Matcher.quoteReplacement(roomData.getIP()));
+        ret = ret.replace("{HOSTIP}", roomData.getIP());
         if(GameDatabase.getNoSpacesFlag(roomData.getChannel(), roomData.getModName())){
-            ret = ret.replace("{NAME}", Matcher.quoteReplacement(Globals.getThisPlayer_inGameName().replace(" ", "_")));
+            ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName().replace(" ", "_"));
         }else{
-            ret = ret.replace("{NAME}", Matcher.quoteReplacement(Globals.getThisPlayer_inGameName()));
+            ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName());
         }
         
-        ret = ret.replace("{ROOMNAME}", Matcher.quoteReplacement(roomData.getRoomName()));
+        ret = ret.replace("{ROOMNAME}", roomData.getRoomName());
         
         if( roomData.getPassword()!= null && roomData.getPassword().length() > 0){
             String tmp;
@@ -71,18 +70,18 @@ public class ParameterLaunchInfo extends LaunchInfo {
                 tmp = GameDatabase.getJoinPasswordPattern(roomData.getChannel(), roomData.getModName()) ;
             }
             
-            tmp = tmp.replace("{PASSWORD}", Matcher.quoteReplacement(roomData.getPassword()));
-            ret = ret.replace("{PASSWORD}",Matcher.quoteReplacement(tmp)  );
+            tmp = tmp.replace("{PASSWORD}", roomData.getPassword());
+            ret = ret.replace("{PASSWORD}",tmp  );
         }else{
              ret = ret.replace("{PASSWORD}","" );
         }
         
         if(TempGameSettings.getMap() != null){
-            ret = ret.replace("{MAP}", Matcher.quoteReplacement(TempGameSettings.getMap()));
+            ret = ret.replace("{MAP}", TempGameSettings.getMap());
         }
         
         for (GameSetting gs : TempGameSettings.getGameSettings()) {
-            ret = ret.replace("{" + gs.getKeyWord() + "}", Matcher.quoteReplacement(gs.getRealValue()));
+            ret = ret.replace("{" + gs.getKeyWord() + "}", gs.getRealValue());
         }
 
         String params = GameDatabase.getAdditionalParameters(GameDatabase.getIDofGame(roomData.getChannel()));
