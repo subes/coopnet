@@ -25,37 +25,46 @@ import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.TempGameSettings;
+import java.io.File;
 
 public class DOSLaunchInfo extends LaunchInfo {
     
-    private String binaryPath;
-    private String parameters;
+    private String dosboxBinaryPath;
+    private String dosboxParameters;
+    private String gameBinaryPath;
 
     public DOSLaunchInfo(RoomData roomData){
         super(roomData);
-        
-        binaryPath = Settings.getDOSBoxExecutable();
+
+        //TODO: move dosboxBinaryPath and dosboxPrameters outside of the launchinfo and handle this in DOSLaunchHandler
+        //see jdplay implementation
+        dosboxBinaryPath = Settings.getDOSBoxExecutable();
+        gameBinaryPath = GameDatabase.getLocalExecutablePath(GameDatabase.getIDofGame(roomData.getChannel()));
         
         if(roomData.isHost()){
-            parameters = " " + GameDatabase.getHostPattern(roomData.getChannel(), roomData.getModName()) ;
+            dosboxParameters = " " + GameDatabase.getHostPattern(roomData.getChannel(), roomData.getModName()) ;
         }else{
-            parameters = " " + GameDatabase.getJoinPattern(roomData.getChannel(), roomData.getModName()) ;
+            dosboxParameters = " " + GameDatabase.getJoinPattern(roomData.getChannel(), roomData.getModName()) ;
         }
         if(Settings.getDOSBoxFullscreen()){
-            parameters += " -fullscreen";
+            dosboxParameters += " -fullscreen";
         }
     }
+
+    public String getGameBinaryPath(){
+        return gameBinaryPath;
+    }
     
-    public String getBinaryPath(){
-        return binaryPath;
+    public String getDosboxBinaryPath(){
+        return dosboxBinaryPath;
     }
     
     public String getInstallPath(){
         return GameDatabase.getInstallPath(roomData.getChannel());
     }
     
-    public String getParameters(){
-        String ret = parameters;
+    public String getDosboxParameters(){
+        String ret = dosboxParameters;
 
         ret = ret.replace("{GAMEEXE}", GameDatabase.getLocalExecutablePath(GameDatabase.getIDofGame(roomData.getChannel())));
         ret = ret.replace("{HOSTIP}", roomData.getIP());
@@ -95,5 +104,10 @@ public class DOSLaunchInfo extends LaunchInfo {
         }
         
         return ret;
+    }
+
+    @Override
+    public String getBinaryName() {
+        return gameBinaryPath.substring(gameBinaryPath.lastIndexOf(File.separatorChar)+1);
     }
 }

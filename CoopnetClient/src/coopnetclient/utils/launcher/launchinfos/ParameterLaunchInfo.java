@@ -24,6 +24,7 @@ import coopnetclient.utils.RoomData;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.TempGameSettings;
+import java.io.File;
 
 public class ParameterLaunchInfo extends LaunchInfo {
     
@@ -90,5 +91,10 @@ public class ParameterLaunchInfo extends LaunchInfo {
         }
         
         return ret;
+    }
+
+    @Override
+    public String getBinaryName(){
+        return binaryPath.substring(binaryPath.lastIndexOf(File.separatorChar)+1);
     }
 }

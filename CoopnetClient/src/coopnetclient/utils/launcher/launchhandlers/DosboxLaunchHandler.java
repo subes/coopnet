@@ -23,16 +23,14 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
-import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.launcher.launchinfos.DOSLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import java.io.File;
 import java.io.IOException;
 
-public class DOSLaunchHandler extends LaunchHandler {
+public class DosboxLaunchHandler extends LaunchHandler {
 
     private DOSLaunchInfo launchInfo;
-    private String binary;
 
     @Override
     public boolean doInitialize(LaunchInfo launchInfo) {
@@ -41,9 +39,6 @@ public class DOSLaunchHandler extends LaunchHandler {
         }
 
         this.launchInfo = (DOSLaunchInfo) launchInfo;
-
-        String binaryPath = new File(this.launchInfo.getBinaryPath()).getAbsolutePath();
-        this.binary = binaryPath.substring(binaryPath.lastIndexOf(File.separatorChar) + 1);
 
         return true;
     }
@@ -63,12 +58,12 @@ public class DOSLaunchHandler extends LaunchHandler {
         try {
             Runtime rt = Runtime.getRuntime();
 
-            Logger.log(LogTypes.LAUNCHER, launchInfo.getBinaryPath() + launchInfo.getParameters());
+            Logger.log(LogTypes.LAUNCHER, launchInfo.getDosboxBinaryPath() + launchInfo.getDosboxParameters());
 
             File installdir = new File(launchInfo.getInstallPath());
-            p = rt.exec(launchInfo.getBinaryPath() + launchInfo.getParameters(), null, installdir);
+            p = rt.exec(launchInfo.getDosboxBinaryPath() + launchInfo.getDosboxParameters(), null, installdir);
 
-            if (launchInfo.getRoomData().isHost() && !launchInfo.isInstantLaunch()) {
+            if (launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()) {
                 Protocol.launch();
             }
 
@@ -98,10 +93,10 @@ public class DOSLaunchHandler extends LaunchHandler {
 
     @Override
     public boolean predictSuccessfulLaunch() {
-        File exec = new File(launchInfo.getBinaryPath());
+        File exec = new File(launchInfo.getDosboxBinaryPath());
 
         boolean ret = exec.exists() && exec.canExecute();
-        String path = GameDatabase.getLocalExecutablePath(GameDatabase.getIDofGame(launchInfo.getRoomData().getChannel()));
+        String path = launchInfo.getGameBinaryPath();
         if (path != null) {
             File exec2 = new File(path);
             ret = ret && exec2.exists();
@@ -115,10 +110,5 @@ public class DOSLaunchHandler extends LaunchHandler {
         }
 
         return ret;
-    }
-
-    @Override
-    public String getBinaryName() {
-        return binary;
     }
 }

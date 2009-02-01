@@ -99,6 +99,7 @@ public class Globals {
     private static ArrayList<String> higlightList = new ArrayList<String>();
     /*******************************************************************/
 
+    private Globals(){}
 
     public static void detectOperatingSystem(){
         if (System.getProperty("line.separator").equals("\r\n")) {

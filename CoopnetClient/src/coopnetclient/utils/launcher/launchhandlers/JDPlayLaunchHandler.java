@@ -27,11 +27,10 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.clientframe.tabs.RoomPanel;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
-import coopnetclient.utils.RegistryReader;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
-import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -43,7 +42,6 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     private static BufferedReader in;
     
     private DirectPlayLaunchInfo launchInfo;
-    private String binary;
 
     private String lastRead = "";
     private static boolean isSearching = false;
@@ -103,9 +101,6 @@ public class JDPlayLaunchHandler extends LaunchHandler {
         }
 
         sessionFound = false;
-
-        String regPath = GameDatabase.getRegEntry(launchInfo.getRoomData().getChannel(), launchInfo.getRoomData().getModName()).get(0);
-        binary = RegistryReader.read(regPath.substring(0, regPath.lastIndexOf("\\")+1)+"File");
         
         if(!(launchInfo instanceof DirectPlayLaunchInfo)){
             throw new IllegalArgumentException("expected launchInfo to be "+DirectPlayLaunchInfo.class.toString()+", but got "+launchInfo.getClass().toString());
@@ -116,7 +111,8 @@ public class JDPlayLaunchHandler extends LaunchHandler {
         if(!write("INITIALIZE" +
                         " gameGUID:" + this.launchInfo.getGameGUID() +
                         " hostIP:" + this.launchInfo.getRoomData().getIP() +
-                        " isHost:" + this.launchInfo.getRoomData().isHost())){
+                        " isHost:" + this.launchInfo.getRoomData().isHost() +
+                        " maxPlayers: "+this.launchInfo.getRoomData().getMaxPlayers())){
             return false;
         }
 
@@ -134,7 +130,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
 
         boolean doSearch = launchInfo.isSearchEnabled();
 
-        if (!write("LAUNCH doSearch:"+doSearch)){
+        if (!write("LAUNCH doSearch:"+doSearch+" startGame:false")){
             return false;
         }
 
@@ -219,17 +215,58 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                                 "Launching game, please wait ...",
                                 ChatStyles.SYSTEM,false);
 
-        if(launchInfo.getRoomData().isHost() && !launchInfo.isInstantLaunch()){
+        if(launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()){
             Protocol.launch();
         }
 
         String[] toRead2 = {"FIN", "ERR"};
         boolean ret = read(toRead2) == 0;
-        
+
+        if(ret == false){
+            return false;
+        }
+
+        Process p = null;
+        try {
+            String command = "";
+
+            if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
+                command += Globals.getWineCommand();
+            }
+
+            command += " "+launchInfo.getBinaryPath() +
+                    " /dplay_ipc_guid:" + launchInfo.getGameGUID() +
+                    " " + launchInfo.getParameters();
+
+            Runtime rt = Runtime.getRuntime();
+            Logger.log(LogTypes.LAUNCHER, command);
+            File installdir = new File(launchInfo.getInstallPath());
+            p = rt.exec(command, null, installdir);
+
+            try{
+                p.exitValue();
+                throw new Exception("Game exited too fast!"); //caught by outer catch
+            }catch(IllegalStateException e){}
+
+            if(launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()){
+                Protocol.launch();
+            }
+
+            try {
+                p.waitFor();
+            } catch (InterruptedException ex) {}
+        } catch (Exception e) {
+            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+                    "Error while launching: " + e.getMessage()+"\nAborting launch!",
+                    ChatStyles.SYSTEM, false);
+            Logger.log(e);
+            return false;
+        }
+
         if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
             try{
-                Process p = Runtime.getRuntime().exec("pkill -f dplaysvr.exe");
-                p.waitFor();
+                Process pkill = Runtime.getRuntime().exec("pkill -f dplaysvr.exe");
+                pkill.waitFor();
             }catch(Exception e){
                 Logger.log(e);
             }
@@ -239,7 +276,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             progressBarHider.interrupt();
         }
         
-        return ret;
+        return (p.exitValue() == 0 ? true : false);
     }
 
     @Override
@@ -389,11 +426,6 @@ public class JDPlayLaunchHandler extends LaunchHandler {
         }
                 
         return ret;
-    }
-
-    @Override
-    public String getBinaryName() {
-        return binary;
     }
 
     public void abortSearch(){

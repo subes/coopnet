@@ -31,7 +31,7 @@ import coopnetclient.utils.RoomData;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
-import coopnetclient.utils.launcher.launchhandlers.DOSLaunchHandler;
+import coopnetclient.utils.launcher.launchhandlers.DosboxLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.JDPlayLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.LaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.ParameterLaunchHandler;
@@ -58,7 +58,7 @@ public class Launcher {
     }
 
     public static boolean isPlayingInstantLaunch(){
-        return launchedGameInfo != null && launchedGameInfo.isInstantLaunch();
+        return launchedGameInfo != null && launchedGameInfo.getRoomData().isInstant();
     }
 
     public static String getLaunchedGame(){
@@ -84,7 +84,7 @@ public class Launcher {
             }else if(launchInfo instanceof ParameterLaunchInfo){
                 launchHandler = new ParameterLaunchHandler();
             } else if(launchInfo instanceof DOSLaunchInfo){
-                launchHandler = new DOSLaunchHandler();
+                launchHandler = new DosboxLaunchHandler();
             }
 
             TempGameSettings.initalizeGameSettings(launchInfo.getRoomData().getChannel(), launchInfo.getRoomData().getModName());
@@ -103,7 +103,7 @@ public class Launcher {
             }
 
             if(launchInfo instanceof ParameterLaunchInfo || launchInfo instanceof DOSLaunchInfo){
-                if(!launchInfo.isInstantLaunch()
+                if(!launchInfo.getRoomData().isInstant()
                     && TabOrganizer.getRoomPanel()!= null
                     && GameDatabase.getGameSettings(launchInfo.getRoomData().getChannel(), launchInfo.getRoomData().getModName()).size() > 0){
                     //Frame decides if visible
@@ -116,7 +116,7 @@ public class Launcher {
     }
 
     private static void determineInitializeActionWhenAlreadyPlaying(LaunchInfo curLaunchInfo){
-        if(curLaunchInfo.isInstantLaunch()){
+        if(curLaunchInfo.getRoomData().isInstant()){
             //now joining/hosting instant launch
             //not allowed
             //print warning
@@ -280,7 +280,7 @@ public class Launcher {
             if(showJOptionPane){
                 while(isPlaying()){
                     int option = JOptionPane.showConfirmDialog(null,
-                            "<html>Coopnet has detected that the game \"<b>"+launchHandler.getBinaryName()+"</b>\" is already running.<br>" +
+                            "<html>Coopnet has detected that the game \"<b>"+launchHandler.getLaunchInfo().getBinaryName()+"</b>\" is already running.<br>" +
                             "You have to <b>close the game</b> to proceed launching.<br>" +
                             "<br>" +
                             "Press ok to retry or press cancel to abort the launch.",
@@ -325,7 +325,7 @@ public class Launcher {
                     public void run() {
                         String channelcopy = channel ;
                         int ret = JOptionPane.showConfirmDialog(null,
-                                "<html>Coopnet has detected that the game \"<b>" + launchHandler.getBinaryName() + "</b>\" is already running.<br>" +
+                                "<html>Coopnet has detected that the game \"<b>" + launchHandler.getLaunchInfo().getBinaryName() + "</b>\" is already running.<br>" +
                                 "Please make sure the other players can <b>connect to a running server</b> there<br>" +
                                 "or <b>close the game</b> before confirming this message.<br>" +
                                 "<br>" +
