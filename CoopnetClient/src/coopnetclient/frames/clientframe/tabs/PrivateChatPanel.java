@@ -96,6 +96,7 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         sp_chatVertical = new javax.swing.JSplitPane();
         scrl_chatOutput = new javax.swing.JScrollPane();
@@ -135,6 +136,8 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
 
         sp_chatVertical.setLeftComponent(scrl_chatOutput);
 
+        jPanel1.setLayout(new java.awt.GridBagLayout());
+
         btn_mute.setMnemonic(KeyEvent.VK_M);
         btn_mute.setText("Mute");
         btn_mute.setFocusable(false);
@@ -143,6 +146,10 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
                 btn_muteActionPerformed(evt);
             }
         });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        jPanel1.add(btn_mute, gridBagConstraints);
 
         scrl_chatInput.setFocusable(false);
 
@@ -150,20 +157,13 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
         tp_chatInput.setNextFocusableComponent(tp_chatInput);
         scrl_chatInput.setViewportView(tp_chatInput);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(scrl_chatInput, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_mute, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btn_mute)
-            .addComponent(scrl_chatInput, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        jPanel1.add(scrl_chatInput, gridBagConstraints);
 
         sp_chatVertical.setRightComponent(jPanel1);
 
@@ -171,7 +171,7 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sp_chatVertical)
+            .addComponent(sp_chatVertical, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
