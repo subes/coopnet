@@ -150,7 +150,7 @@ public class CommandHandler {
                 case ADD_TO_PLAYERS:
                     TabOrganizer.getChannelPanel(currentChannelName).addPlayerToChannel(information[1]);
                     if(Settings.getLogUserActivity() && !Globals.getThisPlayer_loginName().equals(information[1])){
-                        TabOrganizer.getChannelPanel(currentChannelName).printMainChatMessage("",information[1]+" has enterd the channel.",ChatStyles.SYSTEM);
+                        TabOrganizer.getChannelPanel(currentChannelName).printMainChatMessage("",information[1]+" has entered the channel.",ChatStyles.SYSTEM);
                     }
                     break;
                 case SET_GAMESETTING:
@@ -237,7 +237,7 @@ public class CommandHandler {
                     if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().addmember(information[0]);
                         if(Settings.getLogUserActivity() && !Globals.getThisPlayer_loginName().equals(information[0])){
-                            TabOrganizer.getRoomPanel().chat("", information[0] + " has enterd the room.", ChatStyles.SYSTEM);
+                            TabOrganizer.getRoomPanel().chat("", information[0] + " has entered the room.", ChatStyles.SYSTEM);
                         }
                     }
                     break;
@@ -268,7 +268,11 @@ public class CommandHandler {
                     break;
                 case CHAT_PRIVATE:
                     Globals.getClientFrame().printPrivateChatMessage(information[0], information[1]);
-                    FrameIconFlasher.flash("data/icons/nudge.png", information[0] + " sent you a nudge!", false);
+                    if(Globals.getClientFrame().isVisible()){
+                        TabOrganizer.markTab(TabOrganizer.getPrivateChatPanel(information[0]));
+                    }else{
+                        FrameIconFlasher.flash("data/icons/nudge.png", information[0] + " sent you a private message!", false);
+                    }
                     break;
                 case ERROR_WHISPER_TO_OFFLINE_USER:
                     Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0]+" is currently offline, he won't receive your whisper messages", ChatStyles.SYSTEM, true);

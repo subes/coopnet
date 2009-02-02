@@ -267,7 +267,7 @@ public class TabOrganizer {
         if (index == -1) {
             PrivateChatPanel pc = new PrivateChatPanel(title);
             tabHolder.add(title, pc);
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(pc), new TabComponent(title,pc) );
+            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(pc), new TabComponent(title,Icons.privateChatIconSmall,pc) );
             privateChatPanels.add(pc);
             if (setFocus) {
                 tabHolder.setSelectedComponent(pc);
