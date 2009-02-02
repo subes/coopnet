@@ -1,3 +1,13 @@
+2009/02/02: CoopnetClient 0.101.3
+  - fixed quick DPlay launch bug
+  - text highlighting
+  - user activity logging
+  - short name for games in tabs
+  - safemode
+  - UI cahnges
+  - client behaviour changes
+  - different text color for contacts
+
 2009/01/08: CoopnetClient 0.101.2
   - re-added quick DPlay launch
 
