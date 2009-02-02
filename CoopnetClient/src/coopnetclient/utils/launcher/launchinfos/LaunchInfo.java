@@ -28,10 +28,12 @@ public abstract class LaunchInfo {
     public LaunchInfo(RoomData roomData ){
         this.roomData = roomData;
     }
-
+    
     public RoomData getRoomData(){
         return roomData;
     }
 
-    public abstract String getBinaryName();
+    public boolean isInstantLaunch(){
+        return roomData.isInstant();
+    }
 }

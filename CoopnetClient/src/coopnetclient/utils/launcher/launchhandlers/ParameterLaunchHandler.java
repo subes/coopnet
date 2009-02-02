@@ -27,10 +27,13 @@ import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
 import java.io.File;
+import java.io.IOException;
 
 public class ParameterLaunchHandler extends LaunchHandler {
 
     private ParameterLaunchInfo launchInfo;
+
+    private String binary;
     
     @Override
     public boolean doInitialize(LaunchInfo launchInfo) {
@@ -39,6 +42,9 @@ public class ParameterLaunchHandler extends LaunchHandler {
         }
         
         this.launchInfo = (ParameterLaunchInfo) launchInfo;
+
+        String binaryPath = new File(this.launchInfo.getBinaryPath()).getAbsolutePath();
+        this.binary = binaryPath.substring(binaryPath.lastIndexOf(File.separatorChar)+1);
         
         return true;
     }
@@ -56,27 +62,14 @@ public class ParameterLaunchHandler extends LaunchHandler {
 
         Process p = null;
         try {
-            String command = "";
-
-            //TODO: add a method to gamedata which checks if the games wine checkbox is checked
-            /*if(Globals.getOperatingSystem() == OperatingSystems.LINUX && GameDataBase.useWine(someargs to identify game)){
-                command += Globals.getWineCommand();
-            }*/
-
-            command += " "+launchInfo.getBinaryPath() +
-                    " " + launchInfo.getParameters();
-
-            Logger.log(LogTypes.LAUNCHER, command);
-
             Runtime rt = Runtime.getRuntime();
-            p = rt.exec(command, null, new File(launchInfo.getInstallPath()));
 
-            try{
-                p.exitValue();
-                throw new Exception("Game exited too fast!"); //caught by outer catch
-            }catch(IllegalStateException e){}
+            Logger.log(LogTypes.LAUNCHER, launchInfo.getBinaryPath() + launchInfo.getParameters());
 
-            if(launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()){
+            File installdir = new File(launchInfo.getInstallPath());
+            p = rt.exec(launchInfo.getBinaryPath() + launchInfo.getParameters(), null, installdir);
+
+            if(launchInfo.getRoomData().isHost() && !launchInfo.isInstantLaunch()){
                 Protocol.launch();
             }
 
@@ -84,7 +77,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
                 p.waitFor();
             } catch (InterruptedException ex) {
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "Error while launching: " + e.getMessage()+"\nAborting launch!",
                     ChatStyles.SYSTEM, false);
@@ -117,5 +110,10 @@ public class ParameterLaunchHandler extends LaunchHandler {
         }
         
         return ret;
+    }
+
+    @Override
+    public String getBinaryName() {
+        return binary;
     }
 }

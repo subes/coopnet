@@ -143,7 +143,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
                 cb_map.setEnabled(true);
             }
         }else{
-            throw new IllegalStateException("setEnabledOfGameSettingsFrameSettings should only support toggle!");
+            throw new IllegalStateException("setEnabledOfGameSettingsFrameSettings should only supports toggle!");
         }
 
         lastEnableAction = enabled;

@@ -60,7 +60,7 @@ public abstract class LaunchHandler {
         if(launchInfo.getRoomData().isHost()){
             if(processExists()){
                 JOptionPane.showMessageDialog(null,
-                        "<html>Coopnet has detected that the game \"<b>"+launchInfo.getBinaryName()+"</b>\" is already running.<br>" +
+                        "<html>Coopnet has detected that the game \"<b>"+getBinaryName()+"</b>\" is already running.<br>" +
                         "Please make sure the other players can <b>connect to a running server</b> there<br>" +
                         "or <b>close the game</b> before confirming this message.<br>" +
                         "<br>" +
@@ -74,7 +74,7 @@ public abstract class LaunchHandler {
         }else{
             while(processExists()){
                 int option = JOptionPane.showConfirmDialog(null,
-                        "<html>Coopnet has detected that the game \"<b>"+launchInfo.getBinaryName()+"</b>\" is already running.<br>" +
+                        "<html>Coopnet has detected that the game \"<b>"+getBinaryName()+"</b>\" is already running.<br>" +
                         "Please <b>close the game</b>, so you can actually join the hosts game.<br>" +
                         "<br>" +
                         "Press ok to retry or press cancel to abort the launch.",
@@ -94,7 +94,7 @@ public abstract class LaunchHandler {
         if(doNormalLaunch){
             return doLaunch();
         }else{
-            if(launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()){
+            if(launchInfo.getRoomData().isHost() && !launchInfo.isInstantLaunch()){
                 Protocol.launch();
             }
             while(processExists()){
@@ -111,6 +111,8 @@ public abstract class LaunchHandler {
 
     protected abstract boolean doLaunch();
 
+    public abstract String getBinaryName();
+
     public boolean processExists(){
         String pgrepCommand;
         if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
@@ -124,7 +126,7 @@ public abstract class LaunchHandler {
         }
 
         try {
-            String command = pgrepCommand + " " + launchInfo.getBinaryName();
+            String command = pgrepCommand + " " + getBinaryName();
 
             Process p = Runtime.getRuntime().exec(command);
             try {

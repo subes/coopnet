@@ -20,12 +20,10 @@ package coopnetclient.frames;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
-import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.clientframe.tabs.ChannelPanel;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
-import coopnetclient.utils.Settings;
 import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;
@@ -49,19 +47,11 @@ public class ManageGamesFrame extends javax.swing.JFrame {
     /** Creates new form ManageGamesFrame */
     public ManageGamesFrame() {
         initComponents();
-        for (String st : GameDatabase.getAllGameNamesAsStringArray()) {
+        for (String st : GameDatabase.getNonDPlayGameNames()) {
             if (st.length() > 0) {
                 channels.add(st);
             }
         }
-
-        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
-            cmb_winEnv.setEnabled(false);
-        }
-        cmb_winEnv.setSelectedItem(Globals.getWineCommand());
-        cb_dosboxFullscreen.setSelected(Settings.getDOSBoxFullscreen());
-        tf_dosboxExe.setText(Settings.getDOSBoxExecutable());
-
         AbstractAction act = new AbstractAction() {
 
             @Override
@@ -121,10 +111,10 @@ public class ManageGamesFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        pnl_games = new javax.swing.JPanel();
         scrl_games = new javax.swing.JScrollPane();
         lst_games = new javax.swing.JList();
+        btn_save = new javax.swing.JButton();
+        btn_cancel = new javax.swing.JButton();
         tf_filter = new javax.swing.JTextField();
         lbl_filter = new javax.swing.JLabel();
         cb_showInstalledOnly = new javax.swing.JCheckBox();
@@ -142,18 +132,6 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         btn_revert = new javax.swing.JButton();
         lbl_installDirIcon = new javax.swing.JLabel();
         lbl_exePathIcon = new javax.swing.JLabel();
-        pnl_environment = new javax.swing.JPanel();
-        pnl_windowsenvironment = new javax.swing.JPanel();
-        lbl_dplayEnv = new javax.swing.JLabel();
-        cmb_winEnv = new javax.swing.JComboBox();
-        lbl_dplayEnvNote = new javax.swing.JLabel();
-        pnl_dosbox = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        tf_dosboxExe = new javax.swing.JTextField();
-        btn_browseDosboxExecutable = new javax.swing.JButton();
-        cb_dosboxFullscreen = new javax.swing.JCheckBox();
-        btn_save = new javax.swing.JButton();
-        btn_cancel = new javax.swing.JButton();
 
         setTitle("Manage games");
         setResizable(false);
@@ -171,6 +149,21 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             }
         });
         scrl_games.setViewportView(lst_games);
+
+        btn_save.setText("Save");
+        btn_save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_saveActionPerformed(evt);
+            }
+        });
+
+        btn_cancel.setText("Cancel");
+        btn_cancel.setNextFocusableComponent(tf_filter);
+        btn_cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelActionPerformed(evt);
+            }
+        });
 
         tf_filter.setNextFocusableComponent(cb_showInstalledOnly);
         tf_filter.addActionListener(new java.awt.event.ActionListener() {
@@ -374,28 +367,35 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnl_settings.add(lbl_exePathIcon, gridBagConstraints);
 
-        javax.swing.GroupLayout pnl_gamesLayout = new javax.swing.GroupLayout(pnl_games);
-        pnl_games.setLayout(pnl_gamesLayout);
-        pnl_gamesLayout.setHorizontalGroup(
-            pnl_gamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_gamesLayout.createSequentialGroup()
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnl_gamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_gamesLayout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cb_showInstalledOnly))
-                    .addComponent(scrl_games, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
-                    .addComponent(pnl_settings, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE))
+                    .addComponent(scrl_games, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                    .addComponent(pnl_settings, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btn_save)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_cancel)))
                 .addContainerGap())
         );
-        pnl_gamesLayout.setVerticalGroup(
-            pnl_gamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_gamesLayout.createSequentialGroup()
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_cancel, btn_save});
+
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnl_gamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tf_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_filter)
                     .addComponent(cb_showInstalledOnly))
@@ -403,145 +403,11 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 .addComponent(scrl_games, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnl_settings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(89, 89, 89))
-        );
-
-        jTabbedPane1.addTab("Games", pnl_games);
-
-        pnl_windowsenvironment.setBorder(javax.swing.BorderFactory.createTitledBorder("Windows enviromnent (Linux only)"));
-
-        lbl_dplayEnv.setText("Windows environment:");
-
-        cmb_winEnv.setEditable(true);
-        cmb_winEnv.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "wine", "cedega" }));
-        cmb_winEnv.setSelectedItem(Settings.getWineCommand());
-
-        lbl_dplayEnvNote.setText("<html><table><tr><td><b>Note:</b></td><td>Changes to the Windows enviroment take effect after restarting Coopnet.");
-
-        javax.swing.GroupLayout pnl_windowsenvironmentLayout = new javax.swing.GroupLayout(pnl_windowsenvironment);
-        pnl_windowsenvironment.setLayout(pnl_windowsenvironmentLayout);
-        pnl_windowsenvironmentLayout.setHorizontalGroup(
-            pnl_windowsenvironmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_windowsenvironmentLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnl_windowsenvironmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_windowsenvironmentLayout.createSequentialGroup()
-                        .addComponent(lbl_dplayEnv)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmb_winEnv, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lbl_dplayEnvNote))
-                .addContainerGap(197, Short.MAX_VALUE))
-        );
-        pnl_windowsenvironmentLayout.setVerticalGroup(
-            pnl_windowsenvironmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_windowsenvironmentLayout.createSequentialGroup()
-                .addGroup(pnl_windowsenvironmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_dplayEnv)
-                    .addComponent(cmb_winEnv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_dplayEnvNote)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        pnl_dosbox.setBorder(javax.swing.BorderFactory.createTitledBorder("DOSBox settings"));
-
-        jLabel1.setText("DOSBox executable:");
-
-        btn_browseDosboxExecutable.setText("Browse");
-
-        cb_dosboxFullscreen.setText("Fullscreen");
-
-        javax.swing.GroupLayout pnl_dosboxLayout = new javax.swing.GroupLayout(pnl_dosbox);
-        pnl_dosbox.setLayout(pnl_dosboxLayout);
-        pnl_dosboxLayout.setHorizontalGroup(
-            pnl_dosboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_dosboxLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnl_dosboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnl_dosboxLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_dosboxExe, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_browseDosboxExecutable))
-                    .addComponent(cb_dosboxFullscreen))
-                .addContainerGap())
-        );
-        pnl_dosboxLayout.setVerticalGroup(
-            pnl_dosboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_dosboxLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnl_dosboxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(tf_dosboxExe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_browseDosboxExecutable))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cb_dosboxFullscreen)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout pnl_environmentLayout = new javax.swing.GroupLayout(pnl_environment);
-        pnl_environment.setLayout(pnl_environmentLayout);
-        pnl_environmentLayout.setHorizontalGroup(
-            pnl_environmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_environmentLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnl_environmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnl_dosbox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnl_windowsenvironment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        pnl_environmentLayout.setVerticalGroup(
-            pnl_environmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_environmentLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnl_dosbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pnl_windowsenvironment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(168, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Environment", pnl_environment);
-
-        btn_save.setText("Save");
-        btn_save.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_saveActionPerformed(evt);
-            }
-        });
-
-        btn_cancel.setText("Cancel");
-        btn_cancel.setNextFocusableComponent(tf_filter);
-        btn_cancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_cancelActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btn_save)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_cancel)
-                .addContainerGap(501, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
-        );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_cancel, btn_save});
-
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_save)
                     .addComponent(btn_cancel))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_cancel, btn_save});
@@ -597,9 +463,6 @@ public class ManageGamesFrame extends javax.swing.JFrame {
             Globals.getClientFrame().refreshInstalledGames();
             Globals.closeManageGamesFrame();
         }
-        Settings.setWineCommand(cmb_winEnv.getSelectedItem().toString());
-        Settings.setDOSBoxExecutable(tf_dosboxExe.getText());
-        Settings.setDOSBoxFullscreen(cb_dosboxFullscreen.isSelected());
 }//GEN-LAST:event_btn_saveActionPerformed
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
@@ -634,7 +497,7 @@ private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     channels.clear();
     Vector<String> installedgames = GameDatabase.getInstalledGameNames();
     String filter = tf_filter.getText();
-    for (String gameName : GameDatabase.getAllGameNamesAsStringArray()) {
+    for (String gameName : GameDatabase.getNonDPlayGameNames()) {
         if (gameName.toLowerCase().contains(filter.toLowerCase())) {
             if (cb_showInstalledOnly.isSelected()) {
                 if (installedgames.contains(gameName)) {
@@ -775,19 +638,12 @@ private void tf_parametersCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-F
 }//GEN-LAST:event_tf_parametersCaretUpdate
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_browseDosboxExecutable;
     private javax.swing.JButton btn_browseInstallPath;
     private javax.swing.JButton btn_browsePath;
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_revert;
     private javax.swing.JButton btn_save;
-    private javax.swing.JCheckBox cb_dosboxFullscreen;
     private javax.swing.JCheckBox cb_showInstalledOnly;
-    private javax.swing.JComboBox cmb_winEnv;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lbl_dplayEnv;
-    private javax.swing.JLabel lbl_dplayEnvNote;
     private javax.swing.JLabel lbl_exePathIcon;
     private javax.swing.JLabel lbl_filter;
     private javax.swing.JLabel lbl_installDirIcon;
@@ -797,13 +653,8 @@ private void tf_parametersCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-F
     private javax.swing.JLabel lbl_params;
     private javax.swing.JLabel lbl_path;
     private javax.swing.JList lst_games;
-    private javax.swing.JPanel pnl_dosbox;
-    private javax.swing.JPanel pnl_environment;
-    private javax.swing.JPanel pnl_games;
     private javax.swing.JPanel pnl_settings;
-    private javax.swing.JPanel pnl_windowsenvironment;
     private javax.swing.JScrollPane scrl_games;
-    private javax.swing.JTextField tf_dosboxExe;
     private coopnetclient.frames.components.ValidatorJTextField tf_exePath;
     private javax.swing.JTextField tf_filter;
     private coopnetclient.frames.components.ValidatorJTextField tf_installPath;

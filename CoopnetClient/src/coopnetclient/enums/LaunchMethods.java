@@ -22,6 +22,5 @@ package coopnetclient.enums;
 public enum LaunchMethods {
     DIRECTPLAY,
     PARAMETER,
-    CHAT_ONLY,
-    DOS
+    CHAT_ONLY
 }

@@ -355,12 +355,9 @@ public class GameDatabase {
         if (path == null || (path != null && path.length() == 0)) {
             path = RegistryReader.readAny(GameDatabase.getRegEntry(gamename, modName));
             if(path == null){
-                return "";
+                return path;
             }
             String relativexepath = GameDatabase.getRelativeExePath(gamename, null);
-            if(relativexepath ==null || relativexepath.length()==0){
-                return "";
-            }
             if (path.endsWith(relativexepath)) {
                 return path;
             } else {

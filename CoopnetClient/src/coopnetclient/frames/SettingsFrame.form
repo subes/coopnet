@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.5" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="bg_captureMode">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="title" type="java.lang.String" value="Client settings"/>
     <Property name="bounds" type="java.awt.Rectangle" editor="org.netbeans.beaninfo.editors.RectangleEditor">
@@ -47,7 +51,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <Component id="tabpn_settings" pref="314" max="32767" attributes="0"/>
+              <Component id="tabpn_settings" pref="321" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btn_save" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -103,6 +107,7 @@
                                   <Component id="cb_sounds" min="-2" max="-2" attributes="0"/>
                                   <Component id="cb_TrayIconEnabled" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="cb_rememberMainFrameSize" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cb_logActivity" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="66" max="32767" attributes="0"/>
                               <Component id="pnl_hotkeys" min="-2" max="-2" attributes="0"/>
@@ -113,6 +118,12 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cmb_homeChannel" pref="495" max="32767" attributes="1"/>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="lbl_dplayEnv" linkSize="10" min="-2" max="-2" attributes="1"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cmb_winEnv" min="-2" pref="166" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="lbl_dplayEnvNote" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -128,9 +139,18 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cb_multiChannel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="107" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="lbl_dplayEnv" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmb_winEnv" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lbl_dplayEnvNote" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="50" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
+                              <Component id="cb_logActivity" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="cb_rememberMainFrameSize" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cb_TrayIconEnabled" min="-2" max="-2" attributes="0"/>
@@ -169,6 +189,16 @@
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[5, 20]"/>
                 </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_dplayEnv">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Windows environment:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbl_dplayEnvNote">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Note:&lt;/b&gt;&lt;/td&gt;&lt;td&gt;Changes to the Windows enviroment take effect after restarting Coopnet."/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="cb_TrayIconEnabled">
@@ -248,9 +278,28 @@
                 <Property name="text" type="java.lang.String" value="Open channels as new tabs"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JComboBox" name="cmb_winEnv">
+              <Properties>
+                <Property name="editable" type="boolean" value="true"/>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="2">
+                    <StringItem index="0" value="wine"/>
+                    <StringItem index="1" value="cedega"/>
+                  </StringArray>
+                </Property>
+                <Property name="selectedItem" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="Settings.getWineCommand()" type="code"/>
+                </Property>
+              </Properties>
+            </Component>
             <Component class="javax.swing.JCheckBox" name="cb_rememberMainFrameSize">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Remember size of main frame"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="cb_logActivity">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Log user activity"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -314,7 +363,7 @@
                           <Component id="lbl_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tf_transferPort" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="173" max="32767" attributes="0"/>
+                      <EmptySpace pref="180" max="32767" attributes="0"/>
                       <Component id="cb_sleepMode" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cb_autoLogin" min="-2" max="-2" attributes="0"/>
@@ -382,15 +431,13 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="pnl_textStyle" min="-2" max="-2" attributes="1"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="cb_timeStamps" min="-2" max="-2" attributes="0"/>
+                              <Component id="pnl_textStyle" min="-2" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cb_logActivity" min="-2" max="-2" attributes="0"/>
+                              <Component id="pnl_textColors" pref="303" max="32767" attributes="1"/>
                           </Group>
+                          <Component id="cb_timeStamps" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="pnl_textColors" pref="303" max="32767" attributes="1"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -403,11 +450,8 @@
                           <Component id="pnl_textColors" alignment="0" min="-2" max="-2" attributes="1"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="pnl_textStyle" min="-2" max="-2" attributes="1"/>
-                              <EmptySpace pref="8" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="cb_timeStamps" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cb_logActivity" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <EmptySpace pref="15" max="32767" attributes="0"/>
+                              <Component id="cb_timeStamps" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -779,11 +823,6 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JCheckBox" name="cb_logActivity">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Log user activity"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JCheckBox" name="cb_timeStamps">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Timestamps"/>
@@ -1018,7 +1057,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="pnl_quickpanel">
+        <Container class="javax.swing.JPanel" name="pnl_QuckPanel">
           <Properties>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection component="Form" name="maximumSize" type="property"/>
