@@ -2,10 +2,11 @@ package coopnetclient.utils;
 
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
+import coopnetclient.test.AbstractCoopnetClientTest;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class VerificationTest {
+public class VerificationTest extends AbstractCoopnetClientTest {
 
     @Test
     public void testVerifyProtocolVersion(){
@@ -22,8 +23,11 @@ public class VerificationTest {
         protocolVersion = "";
         Assert.assertFalse(Verification.verifyProtocolVersion(protocolVersion));
 
-        protocolVersion = null;
-        Assert.assertFalse(Verification.verifyProtocolVersion(protocolVersion));
+        try{
+            protocolVersion = null;
+            Verification.verifyProtocolVersion(protocolVersion);
+            Assert.fail();
+        }catch(NullPointerException e){}
 
         protocolVersion = "notanumber";
         Assert.assertFalse(Verification.verifyProtocolVersion(protocolVersion));
@@ -37,8 +41,11 @@ public class VerificationTest {
         clientVersion = "";
         Assert.assertFalse(Verification.verifyClientVersion(clientVersion));
 
-        clientVersion = null;
-        Assert.assertFalse(Verification.verifyClientVersion(clientVersion));
+        try{
+            clientVersion = null;
+            Verification.verifyClientVersion(clientVersion);
+            Assert.fail();
+        }catch(NullPointerException e){}
 
         String[] versionSplit = Globals.CLIENT_VERSION.split("\\.");
         int[] i_versionSplit = new int[versionSplit.length];
@@ -102,8 +109,11 @@ public class VerificationTest {
         password = "";
         Assert.assertFalse(Verification.verifyPassword(password));
 
-        password = null;
-        Assert.assertFalse(Verification.verifyPassword(password));
+        try{
+            password = null;
+            Verification.verifyPassword(password);
+            Assert.fail();
+        }catch(NullPointerException e){}
     }
 
     @Test
@@ -129,8 +139,11 @@ public class VerificationTest {
         loginName = "";
         Assert.assertFalse(Verification.verifyLoginName(loginName));
 
-        loginName = null;
-        Assert.assertFalse(Verification.verifyLoginName(loginName));
+        try{
+            loginName = null;
+            Verification.verifyLoginName(loginName);
+            Assert.fail();
+        }catch(NullPointerException e){}
 
     }
 
@@ -155,8 +168,11 @@ public class VerificationTest {
         ingameName = "";
         Assert.assertFalse(Verification.verifyIngameName(ingameName));
 
-        ingameName = null;
-        Assert.assertFalse(Verification.verifyIngameName(ingameName));
+        try{
+            ingameName = null;
+            Verification.verifyIngameName(ingameName);
+            Assert.fail();
+        }catch(NullPointerException e){}
 
         
     }
@@ -189,8 +205,11 @@ public class VerificationTest {
         email = "";
         Assert.assertFalse(Verification.verifyEMail(email));
 
-        email = null;
-        Assert.assertFalse(Verification.verifyEMail(email));
+        try{
+            email = null;
+            Verification.verifyEMail(email);
+            Assert.fail();
+        }catch(NullPointerException e){}
 
         email = "some @email.de";
         Assert.assertFalse(Verification.verifyEMail(email));
@@ -219,8 +238,11 @@ public class VerificationTest {
         website = "hello this is some message i wanna share with everybody!";
         Assert.assertTrue(Verification.verifyWebsite(website));
 
-        website = null;
-        Assert.assertFalse(Verification.verifyWebsite(website));
+        try{
+            website = null;
+            Verification.verifyWebsite(website);
+            Assert.fail();
+        }catch(NullPointerException e){}
 
         website = String.valueOf(new char[321]);
         Assert.assertFalse(Verification.verifyWebsite(website));
@@ -240,8 +262,11 @@ public class VerificationTest {
         country = "hello this is some message i wanna share with everybody!";
         Assert.assertTrue(Verification.verifyCountry(country));
 
-        country = null;
-        Assert.assertFalse(Verification.verifyCountry(country));
+        try{
+            country = null;
+            Verification.verifyCountry(country);
+            Assert.fail();
+        }catch(NullPointerException e){}
 
         country = String.valueOf(new char[61]);
         Assert.assertFalse(Verification.verifyCountry(country));
@@ -261,8 +286,11 @@ public class VerificationTest {
         groupName = "hello this is some message";
         Assert.assertTrue(Verification.verifyGroupName(groupName));
 
-        groupName = null;
-        Assert.assertFalse(Verification.verifyGroupName(groupName));
+        try{
+            groupName = null;
+            Verification.verifyGroupName(groupName);
+            Assert.fail();
+        }catch(NullPointerException e){}
 
         groupName = String.valueOf(new char[31]);
         Assert.assertFalse(Verification.verifyGroupName(groupName));
@@ -290,6 +318,12 @@ public class VerificationTest {
 
         dir = ".\\";
         Assert.assertTrue(Verification.verifyDirectory(dir));
+
+        try{
+            dir = null;
+            Verification.verifyDirectory(dir);
+            Assert.fail();
+        }catch(NullPointerException e){}
     }
 
     @Test
@@ -317,6 +351,12 @@ public class VerificationTest {
 
         file = ".\\manifest.mf";
         Assert.assertTrue(Verification.verifyFile(file));
+
+        try{
+            file = null;
+            Verification.verifyFile(file);
+            Assert.fail();
+        }catch(NullPointerException e){}
     }
 
 }

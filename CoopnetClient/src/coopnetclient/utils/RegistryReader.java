@@ -34,6 +34,8 @@ public class RegistryReader {
     private static OutputStream out;
     private static BufferedReader in;
 
+    private RegistryReader(){}
+
     private static void init(){
         String command = "";
 
@@ -132,9 +134,6 @@ public class RegistryReader {
     }
 
     public static String readAny(ArrayList<String> regkeys) {
-        if(regkeys == null){
-            return null;
-        }
         for(String key : regkeys ){
             String path = read(key);
             if(path != null){
