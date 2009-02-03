@@ -50,8 +50,7 @@ public class Hotkeys {
         }
     }
 
-    private Hotkeys() {
-    }
+    private Hotkeys() {}
 
     public static void bindHotKey(int action) {
         if(handler==null){

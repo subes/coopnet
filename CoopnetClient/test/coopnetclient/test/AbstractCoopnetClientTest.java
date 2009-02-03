@@ -7,6 +7,8 @@ public abstract class AbstractCoopnetClientTest {
 
     @BeforeClass
     public static void enableDebug(){
+        Globals.detectOperatingSystem();
+        Globals.init();
         Globals.enableDebug();
     }
 
