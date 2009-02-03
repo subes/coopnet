@@ -101,7 +101,7 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
         sp_chatVertical = new javax.swing.JSplitPane();
         scrl_chatOutput = new javax.swing.JScrollPane();
         tp_chatOutput = new javax.swing.JTextPane();
-        jPanel1 = new javax.swing.JPanel();
+        pnl_chatInput = new javax.swing.JPanel();
         btn_mute = new javax.swing.JButton();
         scrl_chatInput = new javax.swing.JScrollPane();
         tp_chatInput = new javax.swing.JTextPane();
@@ -136,7 +136,7 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
 
         sp_chatVertical.setLeftComponent(scrl_chatOutput);
 
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        pnl_chatInput.setLayout(new java.awt.GridBagLayout());
 
         btn_mute.setMnemonic(KeyEvent.VK_M);
         btn_mute.setText("Mute");
@@ -149,7 +149,8 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        jPanel1.add(btn_mute, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
+        pnl_chatInput.add(btn_mute, gridBagConstraints);
 
         scrl_chatInput.setFocusable(false);
 
@@ -163,9 +164,9 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        jPanel1.add(scrl_chatInput, gridBagConstraints);
+        pnl_chatInput.add(scrl_chatInput, gridBagConstraints);
 
-        sp_chatVertical.setRightComponent(jPanel1);
+        sp_chatVertical.setRightComponent(pnl_chatInput);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -207,7 +208,7 @@ private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_mute;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel pnl_chatInput;
     private javax.swing.JScrollPane scrl_chatInput;
     private javax.swing.JScrollPane scrl_chatOutput;
     private javax.swing.JSplitPane sp_chatVertical;
