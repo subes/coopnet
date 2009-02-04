@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.clientframe.tabs;
 
 import coopnetclient.Globals;
@@ -32,7 +31,6 @@ import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.frames.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.ChannelStatusListModel;
-import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.frames.renderers.RoomNameRenderer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.ui.UserListFileDropHandler;
@@ -45,7 +43,6 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.text.StyledDocument;
 
 public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
 
@@ -66,10 +63,8 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         initComponents();
         coopnetclient.utils.ui.Colorizer.colorize(this);
 
-        tp_chatOutput.addMouseListener(new HyperlinkMouseListener());
-
         //Table
-        rooms = new RoomTableModel(tbl_roomList,users);
+        rooms = new RoomTableModel(tbl_roomList, users);
         tbl_roomList.setModel(rooms);
         tbl_roomList.setAutoCreateRowSorter(true);
         tbl_roomList.setRowHeight(35);
@@ -82,11 +77,11 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         tbl_roomList.getColumnModel().getColumn(3).setMinWidth(65);
         tbl_roomList.getColumnModel().getColumn(3).setMaxWidth(66);
         tbl_roomList.getColumnModel().getColumn(3).setPreferredWidth(66);
-                
+
         ChannelRoomStatusRenderer picrend = new ChannelRoomStatusRenderer();
         picrend.setHorizontalAlignment(SwingConstants.CENTER);
         tbl_roomList.setDefaultRenderer(RoomTableModel.RoomType.class, picrend);
-        
+
         DefaultTableCellRenderer rend = new DefaultTableCellRenderer();
         rend.setHorizontalAlignment(SwingConstants.CENTER);
         rend.putClientProperty("html.disable", Boolean.TRUE);
@@ -106,21 +101,35 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         lst_userList.setDragEnabled(true);
         lst_userList.setDropMode(DropMode.USE_SELECTION);
         lst_userList.setTransferHandler(new UserListFileDropHandler());
- 
+
+        scrl_chatOutput.getTextPane().addKeyListener(new java.awt.event.KeyAdapter() {
+
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                char c = evt.getKeyChar();
+                if (!evt.isControlDown()) {
+                    tp_chatInput.setText(tp_chatInput.getText() + c);
+                    tp_chatInput.requestFocusInWindow();
+                    scrl_chatOutput.getTextPane().setSelectionStart(scrl_chatOutput.getTextPane().getDocument().getLength());
+                    scrl_chatOutput.getTextPane().setSelectionEnd(scrl_chatOutput.getTextPane().getDocument().getLength());
+                }
+            }
+        });
+
         disableButtons();
         enableButtons();
-        
+
         String message = GameDatabase.getWelcomeMessage(name);
-        if(message != null && message.length()> 0){
-           printMainChatMessage(name, message, ChatStyles.DEFAULT);
+        if (message != null && message.length() > 0) {
+            printMainChatMessage(name, message, ChatStyles.DEFAULT);
         }
     }
 
-    public void setAway(String playername){
+    public void setAway(String playername) {
         users.setAway(playername);
     }
 
-    public void unSetAway(String playername){
+    public void unSetAway(String playername) {
         users.unSetAway(playername);
     }
 
@@ -140,16 +149,16 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     }
 
     public void updateSleepMode() {
-        tp_chatOutput.setEnabled(!Globals.getSleepModeStatus());
+        scrl_chatOutput.getTextPane().setEnabled(!Globals.getSleepModeStatus());
         if (Globals.getSleepModeStatus()) {
-            tp_chatOutput.setToolTipText("<html>Sleep mode: Channel chat is inactive!<br>Press refresh button or write a chat message to exit sleep mode.");
+            scrl_chatOutput.getTextPane().setToolTipText("<html>Sleep mode: Channel chat is inactive!<br>Press refresh button or write a chat message to exit sleep mode.");
         } else {
-            tp_chatOutput.setToolTipText(null);
+            scrl_chatOutput.getTextPane().setToolTipText(null);
         }
     }
 
     @Override
-    public void requestFocus() {        
+    public void requestFocus() {
         tp_chatInput.requestFocusInWindow();
     }
 
@@ -167,7 +176,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         }
 
         if (coopnetclient.utils.Settings.getColorizeBody()) {
-            tp_chatOutput.setBackground(coopnetclient.utils.Settings.getBackgroundColor());
+            scrl_chatOutput.getTextPane().setBackground(coopnetclient.utils.Settings.getBackgroundColor());
         }
     }
 
@@ -181,7 +190,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         users.playerEnteredRoom(playername);
     }
 
-    public void addRoomToTable(String roomname,String modName, String hostname, int maxplayers, int type) {
+    public void addRoomToTable(String roomname, String modName, String hostname, int maxplayers, int type) {
         rooms.addRoomToTable(roomname, modName, hostname, maxplayers, type);
         users.playerEnteredRoom(hostname);
     }
@@ -196,22 +205,22 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     }
 
     public void enableButtons() {
-        if(this.isLaunchable){
-            if(Launcher.isPlaying()){
-                 if(TabOrganizer.getRoomPanel()==null && Launcher.getLaunchedGame().equals(name) && !Launcher.isPlayingInstantLaunch()){
+        if (this.isLaunchable) {
+            if (Launcher.isPlaying()) {
+                if (TabOrganizer.getRoomPanel() == null && Launcher.getLaunchedGame().equals(name) && !Launcher.isPlayingInstantLaunch()) {
                     btn_create.setEnabled(true);
-                    if(tbl_roomList.getSelectedRow() != -1){
+                    if (tbl_roomList.getSelectedRow() != -1) {
                         btn_join.setEnabled(true);
-                    }else{
+                    } else {
                         btn_join.setEnabled(false);
                     }
-                 }
-            }else{
-                if(TabOrganizer.getRoomPanel()==null){
+                }
+            } else {
+                if (TabOrganizer.getRoomPanel() == null) {
                     btn_create.setEnabled(true);
-                    if(tbl_roomList.getSelectedRow() != -1){
+                    if (tbl_roomList.getSelectedRow() != -1) {
                         btn_join.setEnabled(true);
-                    }else{
+                    } else {
                         btn_join.setEnabled(false);
                     }
                 }
@@ -224,8 +233,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     }
 
     public void printMainChatMessage(String name, String message, ChatStyles modeStyle) {
-        StyledDocument doc = tp_chatOutput.getStyledDocument();
-        coopnetclient.utils.ui.ColoredChatHandler.addColoredText(name, message, modeStyle, doc, scrl_chatOutput, tp_chatOutput);
+        scrl_chatOutput.printChatMessage(name, message, modeStyle);
     }
 
     public void removePlayerFromChannel(String playername) {
@@ -247,7 +255,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         if (idx == -1) {
             return;
         }
-        if(idx == tbl_roomList.getSelectedRow()){
+        if (idx == tbl_roomList.getSelectedRow()) {
             tbl_roomList.clearSelection();
             enableButtons();
         }
@@ -261,8 +269,8 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
 
     public boolean updatePlayerName(String oldname, String newname) {
         boolean found = false;
-        found = rooms.updateName(oldname, newname) ||found;
-        found = users.updateName(oldname, newname) ||found ;        
+        found = rooms.updateName(oldname, newname) || found;
+        found = users.updateName(oldname, newname) || found;
         return found;
     }
 
@@ -278,10 +286,9 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         sp_vertical = new javax.swing.JSplitPane();
         sp_chatHorizontal = new javax.swing.JSplitPane();
         sp_chatVertical = new javax.swing.JSplitPane();
-        scrl_chatOutput = new javax.swing.JScrollPane();
-        tp_chatOutput = new javax.swing.JTextPane();
         scrl_chatInput = new javax.swing.JScrollPane();
         tp_chatInput = new javax.swing.JTextPane();
+        scrl_chatOutput = new coopnetclient.frames.components.ChatOutput();
         pnl_userList = new javax.swing.JPanel();
         scrl_userList = new javax.swing.JScrollPane();
         lst_userList = new javax.swing.JList();
@@ -315,41 +322,6 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         sp_chatVertical.setFocusable(false);
         sp_chatVertical.setPreferredSize(new java.awt.Dimension(350, 100));
 
-        scrl_chatOutput.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrl_chatOutput.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        scrl_chatOutput.setEnabled(false);
-        scrl_chatOutput.setFocusable(false);
-        scrl_chatOutput.setMinimumSize(new java.awt.Dimension(150, 50));
-        scrl_chatOutput.setPreferredSize(new java.awt.Dimension(150, 150));
-        scrl_chatOutput.setRequestFocusEnabled(false);
-        scrl_chatOutput.setVerifyInputWhenFocusTarget(false);
-        scrl_chatOutput.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                scrl_chatOutputComponentResized(evt);
-            }
-        });
-
-        tp_chatOutput.setEditable(false);
-        tp_chatOutput.setAutoscrolls(false);
-        tp_chatOutput.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-        tp_chatOutput.setMinimumSize(new java.awt.Dimension(150, 50));
-        tp_chatOutput.setNextFocusableComponent(tp_chatInput);
-        tp_chatOutput.setPreferredSize(new java.awt.Dimension(150, 50));
-        tp_chatOutput.setVerifyInputWhenFocusTarget(false);
-        tp_chatOutput.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tp_chatOutputFocusLost(evt);
-            }
-        });
-        tp_chatOutput.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tp_chatOutputKeyTyped(evt);
-            }
-        });
-        scrl_chatOutput.setViewportView(tp_chatOutput);
-
-        sp_chatVertical.setTopComponent(scrl_chatOutput);
-
         scrl_chatInput.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrl_chatInput.setFocusable(false);
         scrl_chatInput.setMinimumSize(new java.awt.Dimension(7, 24));
@@ -359,6 +331,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         scrl_chatInput.setViewportView(tp_chatInput);
 
         sp_chatVertical.setRightComponent(scrl_chatInput);
+        sp_chatVertical.setLeftComponent(scrl_chatOutput);
 
         sp_chatHorizontal.setLeftComponent(sp_chatVertical);
 
@@ -486,8 +459,8 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
                 .addComponent(btn_join)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_refresh)
-                .addContainerGap(236, Short.MAX_VALUE))
-            .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+                .addContainerGap(139, Short.MAX_VALUE))
+            .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
         );
         pnl_roomActionsLayout.setVerticalGroup(
             pnl_roomActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -541,55 +514,57 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         rooms.clear();
         users.refresh();
         Protocol.refreshRoomsAndPlayers(this.name);
-        if(Settings.getSleepEnabled() && Globals.getSleepModeStatus()){
+        if (Settings.getSleepEnabled() && Globals.getSleepModeStatus()) {
             Globals.setSleepModeStatus(false);
         }
-        
+
         //Disable button for some secs, so that user cant spam refresh
         btn_refresh.setEnabled(false);
         new SwingWorker() {
+
             @Override
             protected Object doInBackground() throws Exception {
                 Thread.sleep(3000);
                 return null;
             }
+
             @Override
             protected void done() {
                 btn_refresh.setEnabled(true);
             }
         }.execute();
-        //Same via invokeLater -- for reference
+    //Same via invokeLater -- for reference
         /*new Thread(){
-            @Override
-            public void run() {
-                SwingUtilities.invokeLater(new Thread(){
-                    @Override
-                    public void run() {
-                        btn_refresh.setEnabled(false);
-                    }
-                });
-                try {
-                    sleep(3000);
-                } catch (InterruptedException ex) {}
-                SwingUtilities.invokeLater(new Thread(){
-                    @Override
-                    public void run() {
-                        btn_refresh.setEnabled(true);
-                    }
-                });
-            }
-        }.start();*/
+    @Override
+    public void run() {
+    SwingUtilities.invokeLater(new Thread(){
+    @Override
+    public void run() {
+    btn_refresh.setEnabled(false);
+    }
+    });
+    try {
+    sleep(3000);
+    } catch (InterruptedException ex) {}
+    SwingUtilities.invokeLater(new Thread(){
+    @Override
+    public void run() {
+    btn_refresh.setEnabled(true);
+    }
+    });
+    }
+    }.start();*/
     }//GEN-LAST:event_refresh
 
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
-        if( !lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
+        if (!lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())) {
             lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
-        }else{
+        } else {
             lst_userList.clearSelection();
         }
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
             String selectedname = (String) lst_userList.getSelectedValue();
-            if(selectedname != null && !selectedname.equals("") && !selectedname.equals(Globals.getThisPlayer_loginName())){
+            if (selectedname != null && !selectedname.equals("") && !selectedname.equals(Globals.getThisPlayer_loginName())) {
                 TabOrganizer.openPrivateChatPanel(selectedname, true);
                 TabOrganizer.putFocusOnTab(selectedname);
             }
@@ -602,39 +577,25 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         }
 }//GEN-LAST:event_tbl_roomListMouseClicked
 
-    private void tp_chatOutputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tp_chatOutputFocusLost
-        StyledDocument doc = tp_chatOutput.getStyledDocument();
-        tp_chatOutput.setSelectionStart(doc.getLength());
-        tp_chatOutput.setSelectionEnd(doc.getLength());
-}//GEN-LAST:event_tp_chatOutputFocusLost
-
-private void tp_chatOutputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tp_chatOutputKeyTyped
-    char c = evt.getKeyChar();
-    if (!evt.isControlDown()) {
-        tp_chatInput.setText(tp_chatInput.getText() + c);
-        tp_chatInput.requestFocusInWindow();
-    }
-}//GEN-LAST:event_tp_chatOutputKeyTyped
-
 private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseMoved
     if (!popup.isVisible()) {
         int idx = lst_userList.locationToIndex(evt.getPoint());
         Rectangle rec = lst_userList.getCellBounds(idx, idx);
-        if(rec == null){
+        if (rec == null) {
             return;
         }
-        if(!rec.contains(evt.getPoint())){
+        if (!rec.contains(evt.getPoint())) {
             lst_userList.clearSelection();
             return;
         }
-        if(idx == lst_userList.getSelectedIndex()){
+        if (idx == lst_userList.getSelectedIndex()) {
             return;
         }
         String selected = lst_userList.getModel().getElementAt(idx).toString();
-        if (selected !=null && selected.length()>0) {
+        if (selected != null && selected.length() > 0) {
             if (!selected.equals(Globals.getThisPlayer_loginName())) {
                 lst_userList.setSelectedIndex(idx);
-            }else{
+            } else {
                 lst_userList.clearSelection();
             }
         } else {
@@ -644,20 +605,10 @@ private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:
 }//GEN-LAST:event_lst_userListMouseMoved
 
 private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseExited
-    if(!popup.isVisible()){
+    if (!popup.isVisible()) {
         lst_userList.clearSelection();
     }
 }//GEN-LAST:event_lst_userListMouseExited
-
-private void scrl_chatOutputComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_scrl_chatOutputComponentResized
-    int start, end;
-    start = tp_chatOutput.getSelectionStart();
-    end = tp_chatOutput.getSelectionEnd();
-    tp_chatOutput.setSelectionStart(start-1);
-    tp_chatOutput.setSelectionEnd(end-1);
-    tp_chatOutput.setSelectionStart(start);
-    tp_chatOutput.setSelectionEnd(end);
-}//GEN-LAST:event_scrl_chatOutputComponentResized
 
 private void tbl_roomListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_roomListMousePressed
     enableButtons();
@@ -686,7 +637,7 @@ private void tbl_roomListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRS
     private javax.swing.JPanel pnl_roomActions;
     private javax.swing.JPanel pnl_userList;
     private javax.swing.JScrollPane scrl_chatInput;
-    private javax.swing.JScrollPane scrl_chatOutput;
+    private coopnetclient.frames.components.ChatOutput scrl_chatOutput;
     private javax.swing.JScrollPane scrl_roomList;
     private javax.swing.JScrollPane scrl_userList;
     private javax.swing.JSplitPane sp_chatHorizontal;
@@ -694,7 +645,6 @@ private void tbl_roomListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRS
     private javax.swing.JSplitPane sp_vertical;
     private javax.swing.JTable tbl_roomList;
     private javax.swing.JTextPane tp_chatInput;
-    private javax.swing.JTextPane tp_chatOutput;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -707,9 +657,11 @@ private void tbl_roomListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRS
         return true;
     }
 
-    public void updateHighlights(){
-        StyledDocument doc = tp_chatOutput.getStyledDocument();
-        coopnetclient.utils.ui.ColoredChatHandler.updateHighLight(doc);
+    public void updateHighlights() {
+        scrl_chatOutput.updateHighlights();
     }
-
+    
+    public void updateStyle(){
+        scrl_chatOutput.updateStyle();
+    }
 }

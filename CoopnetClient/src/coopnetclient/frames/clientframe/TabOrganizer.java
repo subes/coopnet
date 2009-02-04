@@ -130,6 +130,21 @@ public class TabOrganizer {
         if(roomPanel!= null){
             roomPanel.updateHighlights();
         }
+        for(PrivateChatPanel pcp : privateChatPanels){
+            pcp.updateHighlights();
+        }
+    }
+
+    public static void updateStyle(){
+        for(ChannelPanel cp : channelPanels){
+            cp.updateStyle();
+        }
+        if(roomPanel!= null){
+            roomPanel.updateStyle();
+        }
+        for(PrivateChatPanel pcp : privateChatPanels){
+            pcp.updateStyle();
+        }
     }
 
     public static void markTab(Component tab) {

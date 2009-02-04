@@ -1277,6 +1277,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
                     try{
                         Colorizer.initColors();
                         Globals.recolorFrames();
+                        TabOrganizer.updateStyle();
                     }catch(Exception e){
                         ErrorHandler.handleException(e);
                     }

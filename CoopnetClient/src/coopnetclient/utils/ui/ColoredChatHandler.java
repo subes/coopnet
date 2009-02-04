@@ -20,17 +20,15 @@ package coopnetclient.utils.ui;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
+import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
+import coopnetclient.utils.StyledMessage;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-
-import javax.swing.JScrollBar;
 import javax.swing.UIManager;
-import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.Element;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -39,28 +37,30 @@ import javax.swing.text.html.HTML;
 
 public class ColoredChatHandler {
 
-    private static String nameStyleName = "name";
+    private static String myNameStyleName = "myname";
+    private static String otherNameStyleName = "othername";
+    private static String highlightedOtherNameStyleName = "hl_othername";
     private static String messageStyleName = "message";
-    private static String hlinkStyleName = "hlink";
-    private static String highlightedNameStyleName = "hl_name";
     private static String highlightedMessageStyleName = "hl_message";
+    private static String hlinkStyleName = "hlink";
     private static String highlightedhlinkStyleName = "hl_hlink";
     private static String friendNameStyleName = "friend_name";
-    private static String friendMessageStyleName = "friend_message";
     private static String highlightedFriendNameStyleName = "hl_friend_name";
+    private static String friendMessageStyleName = "friend_message";
     private static String highlightedFriendMessageStyleName = "hl_friend_message";
+    private static String systemNameStyleName = "system";
+    private static String systemMessageStyleName = "systemmessage";
+    private static String whisperNameStyleName = "whispername";
+    private static String highlightedWhisperNameStyleName = "hl_whispername";
+    private static String whisperMessageStyleName = "whispermessage";
+    private static String highlightedWhisperMessageStyleName = "hl_whispermessage";
+    private static String defaultNameStyleName = "defaultname";
+    private static String defaultMessageStyleName = "defaultmessage";
 
     //Styles have to be temporary, so they follow color changes!
-    public static void addColoredText(String name, String message, ChatStyles chatStyle, StyledDocument doc, javax.swing.JScrollPane scrl_ChatOutput, javax.swing.JTextPane tp_ChatOutput) {
+    public static void addColoredText(String name, String message, ChatStyles chatStyle, StyledDocument doc, javax.swing.JScrollPane scrl_ChatOutput, javax.swing.JTextPane tp_ChatOutput, ArrayList<StyledMessage> messages) {
 
         synchronized (doc) {
-
-            //setting up new styles
-            setupStyles(name, chatStyle, doc);
-
-            //autoscrolling setup
-            JScrollBar vbar = scrl_ChatOutput.getVerticalScrollBar();
-            boolean autoScroll = ((vbar.getValue() + vbar.getVisibleAmount()) > (vbar.getMaximum() - 5));
 
             //cutting off trailing newline
             if (message.endsWith("\n")) {
@@ -74,21 +74,68 @@ public class ColoredChatHandler {
 
             boolean doHighlight = Globals.isHighlighted(name);
             Boolean isFriend = Globals.getContactList().contains(name);
+            String nameStyle = "";
+            String messageStyle = "";
             String tempname = new String(name);
             String timeStamp = "";
 
+            switch (chatStyle) {
+                default:
+                    nameStyle = defaultNameStyleName;
+                    messageStyle = defaultMessageStyleName;
+                    break;
+                case SYSTEM:
+                    nameStyle = systemNameStyleName;
+                    messageStyle = systemMessageStyleName;
+                    break;
+                case WHISPER:
+                case USER:
+                    if (Globals.getThisPlayer_loginName().equals(name)) {
+                        nameStyle = myNameStyleName;
+                        messageStyle = messageStyleName;
+                    } else {
+                        if (doHighlight) {
+                            if (isFriend) {
+                                nameStyle = highlightedFriendNameStyleName;
+                                messageStyle = highlightedFriendMessageStyleName;
+                            } else {
+                                nameStyle = highlightedOtherNameStyleName;
+                                messageStyle = highlightedMessageStyleName;
+                            }
+                        } else { //not highlighted
+                            if (isFriend) {
+                                nameStyle = friendNameStyleName;
+                                messageStyle = friendMessageStyleName;
+                            } else {
+                                nameStyle = otherNameStyleName;
+                                messageStyle = messageStyleName;
+                            }
+                        }
+                    }
+                    break;
+                case WHISPER_NOTIFICATION:
+                    if (doHighlight) {
+                        nameStyle = highlightedWhisperNameStyleName;
+                        messageStyle = highlightedWhisperMessageStyleName;
+                    } else {
+                        nameStyle = whisperNameStyleName;
+                        messageStyle = whisperMessageStyleName;
+                    }
+                    break;
+            }
+
             //printing
-            
+
             if (name.length() > 0 && coopnetclient.utils.Settings.getTimeStampEnabled() && chatStyle != ChatStyles.SYSTEM) {
                 Date date = new Date();
                 SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm:ss");
                 timeStamp = "(" + dateformat.format(date) + ") ";
             }
-            
+
             if (chatStyle == ChatStyles.WHISPER_NOTIFICATION) {
                 tempname = timeStamp + tempname + " whispers";
             }
-            
+
             if (message.startsWith("/me")) {
                 tempname = "  **" + name;
                 message = message.substring(3);
@@ -99,12 +146,10 @@ public class ColoredChatHandler {
             }
 
             try {
-                tp_ChatOutput.setCaretPosition(tp_ChatOutput.getDocument().getLength());
-                if (doHighlight) {
-                    doc.insertString(doc.getLength(), "\n" + tempname, doc.getStyle(isFriend ? highlightedFriendNameStyleName : highlightedNameStyleName));
-                } else {
-                    doc.insertString(doc.getLength(), "\n" + tempname, doc.getStyle(isFriend ? friendNameStyleName : nameStyleName));
-                }
+                int namestart = doc.getLength();
+                doc.insertString(doc.getLength(), "\n" + tempname, doc.getStyle(nameStyle));
+                messages.add(new StyledMessage(name, nameStyle, namestart, doc.getLength()));
+
                 //setup attributes
                 SimpleAttributeSet nameAttributes = new SimpleAttributeSet();
                 nameAttributes.addAttribute(HTML.Attribute.TYPE, "userName");
@@ -115,296 +160,185 @@ public class ColoredChatHandler {
 
                 //print each word
                 String[] messageWords = message.split(" ");
+                StringBuilder messageBuffer = new StringBuilder();
+                int lastMessageStart = doc.getLength();
                 for (String word : messageWords) {
                     //links
-                    if (word.startsWith("http://") || word.startsWith("room://") || word.startsWith("voice://")) {
+                    if (word.startsWith("http://") || word.startsWith("room://")) {
+                        //make message object from previous chunk
+                        String chunk = messageBuffer.toString();
+                        if (chunk.length() > 0) {
+                            messages.add(new StyledMessage(name, messageStyle, lastMessageStart, doc.getLength()));
+                            lastMessageStart = doc.getLength();
+                            messageBuffer.delete(0, chunk.length());
+                        }
                         //print link
                         String href = word;
                         SimpleAttributeSet hrefAttributes = new SimpleAttributeSet();
                         hrefAttributes.addAttribute(HTML.Attribute.HREF, href);
-                        hrefAttributes.addAttribute(HTML.Attribute.TYPE, "href");
-                        hrefAttributes.addAttribute(HTML.Attribute.CLASS, chatStyle);
-                        try {
-                            if (doHighlight) {
-                                doc.insertString(doc.getLength(), href, doc.getStyle(highlightedhlinkStyleName));
-                            } else {
-                                doc.insertString(doc.getLength(), href, doc.getStyle(hlinkStyleName));
-                            }
-                            doc.setCharacterAttributes(doc.getLength() - href.length(), href.length(), hrefAttributes, false);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    //hrefAttributes.removeAttributes(hrefAttributes.getAttributeNames());
-                    } else { //print normal text
+                        int hrefstart = doc.getLength();
                         if (doHighlight) {
-                            doc.insertString(doc.getLength(), word, doc.getStyle(isFriend ? highlightedFriendMessageStyleName : highlightedMessageStyleName));
+                            doc.insertString(doc.getLength(), href, doc.getStyle(highlightedhlinkStyleName));
+                            messages.add(new StyledMessage(name, highlightedhlinkStyleName, hrefstart, doc.getLength()));
                         } else {
-                            doc.insertString(doc.getLength(), word, doc.getStyle(isFriend ? friendMessageStyleName : messageStyleName));
+                            doc.insertString(doc.getLength(), href, doc.getStyle(hlinkStyleName));
+                            messages.add(new StyledMessage(name, hlinkStyleName, hrefstart, doc.getLength()));
                         }
-                        SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
-                        messageAttributes.addAttribute(HTML.Attribute.TYPE, "message");
-                        messageAttributes.addAttribute(HTML.Attribute.CLASS, chatStyle);
-                        messageAttributes.addAttribute(HTML.Attribute.COMMENT, isFriend);
-                        doc.setCharacterAttributes(doc.getLength() - word.length(), word.length(), messageAttributes, false);
+                        doc.setCharacterAttributes(doc.getLength() - href.length(), href.length(), hrefAttributes, false);
+                        //add a message whitespace after link
+                        messageBuffer.append(" ");
+                        doc.insertString(doc.getLength(), " ", doc.getStyle(messageStyle));
+                        lastMessageStart = doc.getLength();
+                    } else { //print normal text
+                        word += " ";
+                        messageBuffer.append(word);
+                        doc.insertString(doc.getLength(), word, doc.getStyle(messageStyle));
                     }
-                    //add a whitespace after words (important after a link at the end of line)
-                    if (doHighlight) {
-                        doc.insertString(doc.getLength(), " ", doc.getStyle(isFriend ? highlightedFriendMessageStyleName : highlightedMessageStyleName));
-                    } else {
-                        doc.insertString(doc.getLength(), " ", doc.getStyle(isFriend ? friendMessageStyleName : messageStyleName));
-                    }
-                    SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
-                    messageAttributes.addAttribute(HTML.Attribute.TYPE, "message");
-                    messageAttributes.addAttribute(HTML.Attribute.CLASS, chatStyle);
-                    messageAttributes.addAttribute(HTML.Attribute.COMMENT, isFriend);
-                    doc.setCharacterAttributes(doc.getLength() - 1, 1, messageAttributes, false);
                 }
-
+                //pring last part if any
+                String chunk = messageBuffer.toString();
+                if (chunk.length() > 0) {
+                    messages.add(new StyledMessage(name, messageStyle, lastMessageStart, doc.getLength()));
+                    lastMessageStart = doc.getLength();
+                    messageBuffer.delete(0, chunk.length());
+                }
             } catch (BadLocationException ex) {//won't happen
                 ex.printStackTrace();
             }
-
-            //autoscrolling
-            if (autoScroll) {
-                tp_ChatOutput.setCaretPosition(doc.getLength());
-                tp_ChatOutput.setSelectionStart(doc.getLength());
-                tp_ChatOutput.setSelectionEnd(doc.getLength());
-            } else {
-                //restoring selection
+            //scroll
+            tp_ChatOutput.setCaretPosition( doc.getLength() );
+            //restore selection
+            if(start != end){
                 tp_ChatOutput.setSelectionStart(start);
                 tp_ChatOutput.setSelectionEnd(end);
             }
         }
     }
 
-    private static void setupStyles(String name, ChatStyles chatStyle, StyledDocument doc) {
+    public static void setupStyles(StyledDocument doc) {
 
         //removing the old styles
-        doc.removeStyle(nameStyleName);
+        doc.removeStyle(myNameStyleName);
         doc.removeStyle(messageStyleName);
         doc.removeStyle(hlinkStyleName);
-        doc.removeStyle(highlightedNameStyleName);
         doc.removeStyle(highlightedMessageStyleName);
         doc.removeStyle(friendNameStyleName);
         doc.removeStyle(highlightedFriendNameStyleName);
         doc.removeStyle(friendMessageStyleName);
         doc.removeStyle(highlightedFriendMessageStyleName);
         doc.removeStyle(highlightedhlinkStyleName);
+        doc.removeStyle(systemNameStyleName);
+        doc.removeStyle(systemMessageStyleName);
+        doc.removeStyle(whisperNameStyleName);
+        doc.removeStyle(highlightedWhisperMessageStyleName);
+        doc.removeStyle(defaultNameStyleName);
+        doc.removeStyle(defaultMessageStyleName);
 
         //Setting style and colors
-        Style nameStyle = doc.addStyle(nameStyleName, null);
-        Style messageStyle = doc.addStyle(messageStyleName, null);
-        Style hlinkStyle = doc.addStyle(hlinkStyleName, null);
-        Style hl_nameStyle = doc.addStyle(highlightedNameStyleName, nameStyle);
-        Style hl_messageStyle = doc.addStyle(highlightedMessageStyleName, messageStyle);
-        Style hl_hlinkStyle = doc.addStyle(highlightedhlinkStyleName, hlinkStyle);
-        Style friendNameStyle = doc.addStyle(friendNameStyleName, nameStyle);
-        Style friendMessageStyle = doc.addStyle(friendMessageStyleName, messageStyle);
+        Style myNameStyle = doc.addStyle(myNameStyleName, null);
+        Style otherNameStyle = doc.addStyle(otherNameStyleName, null);
+        Style hl_otherNameStyle = doc.addStyle(highlightedOtherNameStyleName, otherNameStyle);
+        Style friendNameStyle = doc.addStyle(friendNameStyleName, myNameStyle);
         Style hl_friendNameStyle = doc.addStyle(highlightedFriendNameStyleName, friendNameStyle);
+        Style messageStyle = doc.addStyle(messageStyleName, null);
+        Style hl_messageStyle = doc.addStyle(highlightedMessageStyleName, messageStyle);
+        Style friendMessageStyle = doc.addStyle(friendMessageStyleName, messageStyle);
         Style hl_friendMessageStyle = doc.addStyle(highlightedFriendMessageStyleName, friendMessageStyle);
+        Style hlinkStyle = doc.addStyle(hlinkStyleName, null);
+        Style hl_hlinkStyle = doc.addStyle(highlightedhlinkStyleName, hlinkStyle);
+        Style systemNameStyle = doc.addStyle(systemNameStyleName, null);
+        Style systemMessageStyle = doc.addStyle(systemMessageStyleName, null);
+        Style whisperNameStyle = doc.addStyle(whisperNameStyleName, myNameStyle);
+        Style hl_whisperNameStyle = doc.addStyle(highlightedWhisperNameStyleName, whisperNameStyle);
+        Style whisperMessageStyle = doc.addStyle(whisperMessageStyleName, messageStyle);
+        Style hl_whisperMessageStyle = doc.addStyle(highlightedWhisperMessageStyleName, hl_messageStyle);
+        Style defaultNameStyle = doc.addStyle(defaultNameStyleName, null);
+        Style defaultMessageStyle = doc.addStyle(defaultMessageStyleName, null);
 
         //highlight bg colors
         if (Settings.getColorizeBody()) {
-            StyleConstants.setBackground(hl_nameStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_otherNameStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
             StyleConstants.setBackground(hl_messageStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
             StyleConstants.setBackground(hl_hlinkStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
             StyleConstants.setBackground(hl_friendNameStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
             StyleConstants.setBackground(hl_friendMessageStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_whisperNameStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_whisperMessageStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
         } else {
             Color clr = null;
             clr = (Color) UIManager.get("List.selectionBackground");
             if (clr == null) {
                 clr = (Color) UIManager.get("List[Selected].textBackground");
             }
-            StyleConstants.setBackground(hl_nameStyle, clr);
-            StyleConstants.setBackground(hl_messageStyle, clr);
-            StyleConstants.setBackground(hl_hlinkStyle, clr);
-            StyleConstants.setBackground(hl_friendNameStyle, clr);
-            StyleConstants.setBackground(hl_friendMessageStyle, clr);
+            if (clr != null) {
+                StyleConstants.setBackground(hl_otherNameStyle, clr);
+                StyleConstants.setBackground(hl_friendNameStyle, clr);
+                StyleConstants.setBackground(hl_friendMessageStyle, clr);
+                StyleConstants.setBackground(hl_messageStyle, clr);
+                StyleConstants.setBackground(hl_hlinkStyle, clr);
+                StyleConstants.setBackground(hl_whisperNameStyle, clr);
+                StyleConstants.setBackground(hl_whisperMessageStyle, clr);
+            }
         }
         //init link style
         StyleConstants.setForeground(hlinkStyle, Color.BLUE);
         StyleConstants.setUnderline(hlinkStyle, true);
-
-        switch (chatStyle) {
-            case SYSTEM:
-                if (coopnetclient.utils.Settings.getColorizeText()) {
-                    StyleConstants.setForeground(nameStyle, coopnetclient.utils.Settings.getSystemMessageColor());
-                    StyleConstants.setForeground(messageStyle, coopnetclient.utils.Settings.getSystemMessageColor());
-                }
-
-                StyleConstants.setFontFamily(nameStyle, "monospaced");
-                StyleConstants.setFontSize(nameStyle, coopnetclient.utils.Settings.getNameSize());
-
-                StyleConstants.setFontFamily(messageStyle, "monospaced");
-                StyleConstants.setFontSize(messageStyle, coopnetclient.utils.Settings.getMessageSize());
-
-                break;
-            case WHISPER:
-            //Identical as USER atm, but we might want to change something sometime
-            case USER:
-                if (coopnetclient.utils.Settings.getColorizeText()) {
-                    if (Globals.getThisPlayer_loginName().equals(name)) {
-                        StyleConstants.setForeground(nameStyle, coopnetclient.utils.Settings.getYourUsernameColor());
-                    } else {
-                        StyleConstants.setForeground(nameStyle, coopnetclient.utils.Settings.getOtherUsernamesColor());
-                    }
-                    StyleConstants.setForeground(messageStyle, coopnetclient.utils.Settings.getUserMessageColor());
-                }
-
-                StyleConstants.setFontFamily(nameStyle, coopnetclient.utils.Settings.getNameStyle());
-                StyleConstants.setFontSize(nameStyle, coopnetclient.utils.Settings.getNameSize());
-
-                StyleConstants.setFontFamily(messageStyle, coopnetclient.utils.Settings.getMessageStyle());
-                StyleConstants.setFontSize(messageStyle, coopnetclient.utils.Settings.getMessageSize());
-
-                StyleConstants.setForeground(friendNameStyle, coopnetclient.utils.Settings.getFriendUsernameColor());
-                StyleConstants.setForeground(friendMessageStyle, coopnetclient.utils.Settings.getFriendMessageColor());
-
-                break;
-            case WHISPER_NOTIFICATION:
-                if (coopnetclient.utils.Settings.getColorizeText()) {
-                    StyleConstants.setForeground(nameStyle, coopnetclient.utils.Settings.getWhisperMessageColor());
-                    StyleConstants.setForeground(messageStyle, coopnetclient.utils.Settings.getWhisperMessageColor());
-                }
-
-                StyleConstants.setFontFamily(nameStyle, coopnetclient.utils.Settings.getNameStyle());
-                StyleConstants.setFontSize(nameStyle, coopnetclient.utils.Settings.getNameSize());
-
-                StyleConstants.setFontFamily(messageStyle, coopnetclient.utils.Settings.getMessageStyle());
-                StyleConstants.setFontSize(messageStyle, coopnetclient.utils.Settings.getMessageSize());
-
-                break;
-            default:
-                if (coopnetclient.utils.Settings.getColorizeBody()) {
-                    StyleConstants.setForeground(nameStyle, coopnetclient.utils.Settings.getForegroundColor());
-                    StyleConstants.setForeground(messageStyle, coopnetclient.utils.Settings.getForegroundColor());
-                }
-
-                StyleConstants.setFontFamily(nameStyle, coopnetclient.utils.Settings.getNameStyle());
-                StyleConstants.setFontSize(nameStyle, coopnetclient.utils.Settings.getNameSize());
-
-                StyleConstants.setFontFamily(messageStyle, coopnetclient.utils.Settings.getMessageStyle());
-                StyleConstants.setFontSize(messageStyle, coopnetclient.utils.Settings.getMessageSize());
+        //other styles
+        //note: styles have a hierarchic structure, only top levels and odd styles need to be set
+        if (coopnetclient.utils.Settings.getColorizeText()) {
+            StyleConstants.setForeground(systemNameStyle, coopnetclient.utils.Settings.getSystemMessageColor());
+            StyleConstants.setForeground(systemMessageStyle, coopnetclient.utils.Settings.getSystemMessageColor());
+            StyleConstants.setForeground(myNameStyle, coopnetclient.utils.Settings.getYourUsernameColor());
+            StyleConstants.setForeground(otherNameStyle, coopnetclient.utils.Settings.getOtherUsernamesColor());
+            StyleConstants.setForeground(messageStyle, coopnetclient.utils.Settings.getUserMessageColor());
+            StyleConstants.setForeground(whisperNameStyle, coopnetclient.utils.Settings.getWhisperMessageColor());
+            StyleConstants.setForeground(whisperMessageStyle, coopnetclient.utils.Settings.getWhisperMessageColor());
+            StyleConstants.setForeground(friendNameStyle, coopnetclient.utils.Settings.getFriendUsernameColor());
+            StyleConstants.setForeground(friendMessageStyle, coopnetclient.utils.Settings.getFriendMessageColor());
         }
+        StyleConstants.setFontFamily(systemMessageStyle, "monospaced");
+        StyleConstants.setFontFamily(systemNameStyle, "monospaced");
+        StyleConstants.setFontFamily(myNameStyle, coopnetclient.utils.Settings.getNameStyle());
+        StyleConstants.setFontFamily(otherNameStyle, coopnetclient.utils.Settings.getNameStyle());
+        StyleConstants.setFontFamily(messageStyle, coopnetclient.utils.Settings.getMessageStyle());
+        StyleConstants.setFontFamily(hlinkStyle, coopnetclient.utils.Settings.getMessageStyle());
+        StyleConstants.setFontFamily(defaultNameStyle, coopnetclient.utils.Settings.getNameStyle());
+        StyleConstants.setFontFamily(defaultMessageStyle, coopnetclient.utils.Settings.getMessageStyle());
+
+        StyleConstants.setFontSize(systemNameStyle, coopnetclient.utils.Settings.getNameSize());
+        StyleConstants.setFontSize(systemMessageStyle, coopnetclient.utils.Settings.getMessageSize());
+        StyleConstants.setFontSize(myNameStyle, coopnetclient.utils.Settings.getNameSize());
+        StyleConstants.setFontSize(otherNameStyle, coopnetclient.utils.Settings.getNameSize());
+        StyleConstants.setFontSize(messageStyle, coopnetclient.utils.Settings.getMessageSize());
+        StyleConstants.setFontSize(hlinkStyle, coopnetclient.utils.Settings.getMessageSize());
+        StyleConstants.setFontSize(defaultNameStyle, coopnetclient.utils.Settings.getNameSize());
+        StyleConstants.setFontSize(defaultMessageStyle, coopnetclient.utils.Settings.getMessageSize());
+
     }
 
-    public static void updateHighLight(StyledDocument doc) {
+    public static void updateHighLight(StyledDocument doc, ArrayList<StyledMessage> messages) {
         synchronized (doc) {
-            int lastElementStart = 1;//inclusive start
-            int lastElementEnd = 1;
-            int currentPosition = 1;
-            String lastTypeValue = "userName";
-            String lastUserName = "";
 
-            DefaultStyledDocument hdoc = (DefaultStyledDocument) doc;
-
-            for (; currentPosition < doc.getLength(); ++currentPosition) {
-
-                Element el = hdoc.getCharacterElement(currentPosition);
-                AttributeSet a = el.getAttributes();
-                String elementType = (String) a.getAttribute(HTML.Attribute.TYPE);
-                if (elementType != null && !lastTypeValue.equals(elementType)) {//type boundary found
-                    lastElementEnd = currentPosition; //exclusive end
-                    // apply style
-                    String name = (String) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.DATA);
-                    ChatStyles styleType = (ChatStyles) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.CLASS);
-                    Boolean isFriend = (Boolean) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.COMMENT);
-                    if (isFriend == null) {
-                        isFriend = false;
+            for (StyledMessage message : messages) {
+                boolean doHighlight = Globals.isHighlighted(message.getSenderName());
+                if (doHighlight) {
+                    if (!message.getStyle().startsWith("hl_")) {
+                        message.setStyle("hl_" + message.getStyle());
                     }
-                    setupStyles(name, styleType, doc);
-                    if (lastTypeValue.equals("userName")) {//name
-                        lastUserName = name;
-                        if (Globals.isHighlighted(name)) {
-                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(isFriend ? highlightedFriendNameStyleName : highlightedNameStyleName), false);
-                        } else {
-                            //must override old attributes, readd additional data
-                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(isFriend ? friendNameStyleName : nameStyleName), true);
-                            SimpleAttributeSet nameAttributes = new SimpleAttributeSet();
-                            nameAttributes.addAttribute(HTML.Attribute.TYPE, "userName");
-                            nameAttributes.addAttribute(HTML.Attribute.DATA, name);
-                            nameAttributes.addAttribute(HTML.Attribute.CLASS, styleType);
-                            nameAttributes.addAttribute(HTML.Attribute.COMMENT, isFriend);
-                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, nameAttributes, false);
-                        }
-                    } else if (lastTypeValue.equals("href")) {
-                        String href = (String) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.HREF);
-                        if (Globals.isHighlighted(lastUserName)) {
-                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(highlightedhlinkStyleName), false);
-                        } else {
-                            //must override old attributes, readd additional data
-                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(hlinkStyleName), true);
-                            SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
-                            messageAttributes.addAttribute(HTML.Attribute.TYPE, "href");
-                            messageAttributes.addAttribute(HTML.Attribute.HREF, href);
-                            messageAttributes.addAttribute(HTML.Attribute.CLASS, styleType);
-                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, messageAttributes, false);
-                        }
-                    } else {//message
-                        if (Globals.isHighlighted(lastUserName)) {
-                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(isFriend ? highlightedFriendMessageStyleName : highlightedMessageStyleName), false);
-                        } else {
-                            //must override old attributes, readd additional data
-                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(isFriend ? friendMessageStyleName : messageStyleName), true);
-                            SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
-                            messageAttributes.addAttribute(HTML.Attribute.TYPE, "message");
-                            messageAttributes.addAttribute(HTML.Attribute.CLASS, styleType);
-                            messageAttributes.addAttribute(HTML.Attribute.COMMENT, isFriend);
-                            doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, messageAttributes, false);
-                        }
+                } else {//unhighlight
+                    if (message.getStyle().startsWith("hl_")) {
+                        message.setStyle(message.getStyle().substring(3));
                     }
-                    lastTypeValue = elementType;
-                    lastElementStart = currentPosition;
                 }
-            }
-            //apply style to last element
-            lastElementEnd = doc.getLength();
-            String name = (String) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.DATA);
-            ChatStyles styleType = (ChatStyles) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.CLASS);
-            Boolean isFriend = (Boolean) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.COMMENT);
-            if (isFriend == null) {
-                isFriend = false;
-            }
-            setupStyles(name, styleType, doc);
-            if (lastTypeValue.equals("userName")) {//name
-                lastUserName = name;
-                if (Globals.isHighlighted(name)) {
-                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(isFriend ? highlightedFriendNameStyleName : highlightedNameStyleName), false);
-                } else {
-                    //must override old attributes, readd additional data
-                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(isFriend ? friendNameStyleName : nameStyleName), true);
-                    SimpleAttributeSet nameAttributes = new SimpleAttributeSet();
-                    nameAttributes.addAttribute(HTML.Attribute.TYPE, "userName");
-                    nameAttributes.addAttribute(HTML.Attribute.DATA, name);
-                    nameAttributes.addAttribute(HTML.Attribute.CLASS, styleType);
-                    nameAttributes.addAttribute(HTML.Attribute.COMMENT, isFriend);
-                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, nameAttributes, false);
-                }
-            } else if (lastTypeValue.equals("href")) {
-                String href = (String) hdoc.getCharacterElement(lastElementStart).getAttributes().getAttribute(HTML.Attribute.HREF);
-                if (Globals.isHighlighted(lastUserName)) {
-                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(highlightedhlinkStyleName), false);
-                } else {
-                    //must override old attributes, readd additional data
-                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(hlinkStyleName), true);
-                    SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
-                    messageAttributes.addAttribute(HTML.Attribute.TYPE, "href");
-                    messageAttributes.addAttribute(HTML.Attribute.HREF, href);
-                    messageAttributes.addAttribute(HTML.Attribute.CLASS, styleType);
-                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, messageAttributes, false);
-                }
-            } else {//message
-                if (Globals.isHighlighted(lastUserName)) {
-                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(isFriend ? highlightedFriendMessageStyleName : highlightedMessageStyleName), false);
-                } else {
-                    //must override old attributes, readd additional data
-                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, doc.getStyle(isFriend ? friendMessageStyleName : messageStyleName), true);
-                    SimpleAttributeSet messageAttributes = new SimpleAttributeSet();
-                    messageAttributes.addAttribute(HTML.Attribute.TYPE, "message");
-                    messageAttributes.addAttribute(HTML.Attribute.CLASS, styleType);
-                    messageAttributes.addAttribute(HTML.Attribute.COMMENT, isFriend);
-                    doc.setCharacterAttributes(lastElementStart, lastElementEnd - lastElementStart, messageAttributes, false);
+                doc.setCharacterAttributes(message.getContentStartIndex(), message.getContentEndIndex() - message.getContentStartIndex(), doc.getStyle(message.getStyle()), true);
+                if (message.getStyle().contains("hlink")) {//fix link
+                    try {
+                        SimpleAttributeSet hrefAttributes = new SimpleAttributeSet();
+                        hrefAttributes.addAttribute(HTML.Attribute.HREF, doc.getText(message.getContentStartIndex(), message.getContentEndIndex() - message.getContentStartIndex()));
+                        doc.setCharacterAttributes(message.getContentStartIndex(), message.getContentEndIndex() - message.getContentStartIndex(), hrefAttributes, false);
+                    } catch (Exception e) {
+                        Logger.log(e);
+                    }
                 }
             }
         }

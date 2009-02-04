@@ -179,6 +179,7 @@ public class Globals {
 
     public static void clearHighlights(){
         higlightList.clear();
+        TabOrganizer.updateHighlights();
     }
 
     public static ArrayList<String> getHighlightList(){
