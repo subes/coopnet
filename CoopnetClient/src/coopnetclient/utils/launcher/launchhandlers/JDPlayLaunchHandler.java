@@ -130,7 +130,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
 
         boolean doSearch = launchInfo.isSearchEnabled();
 
-        if (!write("LAUNCH doSearch:"+doSearch+" startGame:false")){
+        if (!write("LAUNCH doSearch:"+doSearch+" startGame:true")){
             return false;
         }
 
@@ -222,46 +222,48 @@ public class JDPlayLaunchHandler extends LaunchHandler {
         String[] toRead2 = {"FIN", "ERR"};
         boolean ret = read(toRead2) == 0;
 
-        if(ret == false){
-            return false;
-        }
-
-        Process p = null;
-        try {
-            String command = "";
-
-            if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
-                command += Globals.getWineCommand();
-            }
-
-            command += " "+launchInfo.getBinaryPath() +
-                    " /dplay_ipc_guid:" + launchInfo.getGameGUID() +
-                    " " + launchInfo.getParameters();
-
-            Runtime rt = Runtime.getRuntime();
-            Logger.log(LogTypes.LAUNCHER, command);
-            File installdir = new File(launchInfo.getInstallPath());
-            p = rt.exec(command, null, installdir);
-
-            try{
-                p.exitValue();
-                throw new Exception("Game exited too fast!"); //caught by outer catch
-            }catch(IllegalStateException e){}
-
-            if(launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()){
-                Protocol.launch();
-            }
-
-            try {
-                p.waitFor();
-            } catch (InterruptedException ex) {}
-        } catch (Exception e) {
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "Error while launching: " + e.getMessage()+"\nAborting launch!",
-                    ChatStyles.SYSTEM, false);
-            Logger.log(e);
-            return false;
-        }
+        //TODO: Use this when startGame:true, though have to revise this too :P
+//        if(ret == false){
+//            return false;
+//        }
+//
+//
+//        Process p = null;
+//        try {
+//            String command = "";
+//
+//            if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
+//                command += Globals.getWineCommand();
+//            }
+//
+//            command += " "+launchInfo.getBinaryPath() +
+//                    " /dplay_ipc_guid:" + launchInfo.getGameGUID() +
+//                    " " + launchInfo.getParameters();
+//
+//            Runtime rt = Runtime.getRuntime();
+//            Logger.log(LogTypes.LAUNCHER, command);
+//            File installdir = new File(launchInfo.getInstallPath());
+//            p = rt.exec(command, null, installdir);
+//
+//            try{
+//                p.exitValue();
+//                throw new Exception("Game exited too fast!"); //caught by outer catch
+//            }catch(IllegalStateException e){}
+//
+//            if(launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()){
+//                Protocol.launch();
+//            }
+//
+//            try {
+//                p.waitFor();
+//            } catch (InterruptedException ex) {}
+//        } catch (Exception e) {
+//            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+//                    "Error while launching: " + e.getMessage()+"\nAborting launch!",
+//                    ChatStyles.SYSTEM, false);
+//            Logger.log(e);
+//            return false;
+//        }
 
         if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
             try{
@@ -276,7 +278,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             progressBarHider.interrupt();
         }
         
-        return (p.exitValue() == 0 ? true : false);
+        return /*(p.exitValue() == 0 ? true : false)*/ret;
     }
 
     @Override
