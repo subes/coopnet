@@ -268,9 +268,8 @@ public class CommandHandler {
                     break;
                 case CHAT_PRIVATE:
                     Globals.getClientFrame().printPrivateChatMessage(information[0], information[1]);
-                    if(Globals.getClientFrame().isVisible()){
-                        TabOrganizer.markTab(TabOrganizer.getPrivateChatPanel(information[0]));
-                    }else{
+                    TabOrganizer.markTab(TabOrganizer.getPrivateChatPanel(information[0]));
+                    if(!Globals.getClientFrame().isActive()){
                         FrameIconFlasher.flash("data/icons/nudge.png", information[0] + " sent you a private message!", false);
                     }
                     break;
