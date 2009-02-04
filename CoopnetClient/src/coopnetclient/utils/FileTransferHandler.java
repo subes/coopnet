@@ -93,31 +93,35 @@ public class FileTransferHandler {
                 speedtmptime = System.currentTimeMillis();
                 while (running) {
                     try {
-                        sleep(1000);
-                    } catch (Exception e) {
-                    }
-                    //DO stuff
-                    currenttime = System.currentTimeMillis();
-                    long tmp = currenttime - speedtmptime;
-                    int speed = (int)((processedBytes - lastBytePosition) / tmp); //Byte per millisec / kilobyte per sec
-                    feedBackSpeed( speed ); 
-                    speedtmptime = currenttime;
-                    progress = (int) ((((processedBytes) * 1.0) / (totalsize - firstByteToSend)) * 100);
-                    feedBackProgress(progress);
+                        try {
+                            sleep(1000);
+                        } catch (Exception e) {
+                        }
+                        //DO stuff
+                        currenttime = System.currentTimeMillis();
+                        long tmp = currenttime - speedtmptime;
+                        int speed = (int) ((processedBytes - lastBytePosition) / tmp); //Byte per millisec / kilobyte per sec
+                        feedBackSpeed(speed);
+                        speedtmptime = currenttime;
+                        progress = (int) ((((processedBytes) * 1.0) / (totalsize - firstByteToSend)) * 100);
+                        feedBackProgress(progress);
 
-                    if (processedBytes > 0) {
-                        timeelapsed = currenttime - starttime;
-                        timeelapsed = timeelapsed / 1000;
-                        feedBackTime( (long) ((((totalsize - firstByteToSend) - processedBytes) / ( speed*1.0f ))/1000.0f));
-                    }
+                        if (processedBytes > 0) {
+                            timeelapsed = currenttime - starttime;
+                            timeelapsed = timeelapsed / 1000;
+                            feedBackTime((long) ((((totalsize - firstByteToSend) - processedBytes) / (speed * 1.0f)) / 1000.0f));
+                        }
 
-                    lastBytePosition = processedBytes;
+                        lastBytePosition = processedBytes;
+                    } catch (Exception ex) {
+                        Logger.log(ex);
+                    }
                 }
             }
         }.start();
     }
 
-    public File getSentFile(){
+    public File getSentFile() {
         return sentFile;
     }
 
@@ -457,6 +461,7 @@ public class FileTransferHandler {
                 running = true;
                 feedBackStatus(TransferStatuses.Starting);
                 socket = null;
+                BufferedInputStream bi = null;
                 try {
                     try {
                         socket = SocketChannel.open();
@@ -471,7 +476,7 @@ public class FileTransferHandler {
                     }
 
                     ByteBuffer temp = ByteBuffer.allocate(1000);
-                    BufferedInputStream bi = new BufferedInputStream(new FileInputStream(sentFile));
+                    bi = new BufferedInputStream(new FileInputStream(sentFile));
                     int readedbyte;
                     //discard data that is not needed
                     long i = 1;
@@ -502,7 +507,7 @@ public class FileTransferHandler {
                         socket.write(temp);
                         temp.rewind();
                     }
-                    running = false;
+
                     feedBackStatus(TransferStatuses.Finished);
                     feedBackProgress(100);
                 } catch (Exception e) {
@@ -511,6 +516,10 @@ public class FileTransferHandler {
                     feedBackStatus(TransferStatuses.Error);
                 } finally {
                     try {
+                        bi.close();
+                    } catch (Exception e) {
+                    }
+                    try {
                         if (socket != null) {
                             socket.close();
                             socket = null;
@@ -518,6 +527,7 @@ public class FileTransferHandler {
                     } catch (Exception e) {
                     }
                 }
+                running = false;
             }
         }.start();
     }
@@ -533,15 +543,17 @@ public class FileTransferHandler {
                 running = true;
                 feedBackStatus(TransferStatuses.Retrying);
                 Socket socket = null;
+                BufferedInputStream bi = null;
+                BufferedOutputStream bo = null;
                 try {
                     synchronized (lock) {
                         serverSocket = new ServerSocket(Settings.getFiletTansferPort());
                         socket = serverSocket.accept();
                         serverSocket.close();
                     }
-                    BufferedOutputStream bo = new BufferedOutputStream(socket.getOutputStream());
+                    bo = new BufferedOutputStream(socket.getOutputStream());
                     ByteBuffer temp = ByteBuffer.allocate(1000);
-                    BufferedInputStream bi = new BufferedInputStream(new FileInputStream(sentFile));
+                    bi = new BufferedInputStream(new FileInputStream(sentFile));
                     int readedbyte;
                     //discard data that is not needed
                     long i = 0;
@@ -579,17 +591,22 @@ public class FileTransferHandler {
                         temp.rewind();
                         bo.flush();
                     }
-                    bo.close();
-                    running = false;
                     serverSocket.close();
                     feedBackStatus(TransferStatuses.Finished);
                     feedBackProgress(100);
                 } catch (Exception e) {
                     //set error message
                     e.printStackTrace();
-                    running = false;
                     feedBackStatus(TransferStatuses.Error);
                 } finally {
+                    try {
+                        bi.close();
+                    } catch (Exception e) {
+                    }
+                    try {
+                        bo.close();
+                    } catch (Exception e) {
+                    }
                     try {
                         if (socket != null) {
                             socket.close();
@@ -602,6 +619,7 @@ public class FileTransferHandler {
                     } catch (Exception e) {
                     }
                 }
+                running = false;
             }
         }.start();
     }
