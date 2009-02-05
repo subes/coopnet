@@ -36,8 +36,6 @@ import javax.swing.JSeparator;
 
 public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
-    public static final int HOST_MODE = 0;
-    public static final int GENERAL_MODE = 1;
     private JList source;
     private JMenuItem playerName;
     private JMenuItem roomInvite;
@@ -46,11 +44,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem addContact;
     private JMenuItem highlight;
 
-    /**
-    if mode is "host" u get kick
-     * any other mode will result in general popupmenu
-     */
-    public PlayerListPopupMenu(int mode, JList source) {
+    public PlayerListPopupMenu(boolean playerIsHost, JList source) {
         super();
         this.source = source;
 
@@ -73,7 +67,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
         this.add(new JSeparator());
 
-        if (mode == HOST_MODE) {
+        if (playerIsHost) {
             this.add(makeMenuItem("Kick"));
         }
         mute_UnMute = makeMenuItem("Mute");
@@ -89,11 +83,6 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         JMenuItem item = new JMenuItem(label);
         item.addActionListener(this);
         return item;
-    }
-
-    @Override
-    public void setVisible(boolean visible) {
-        super.setVisible(visible);
     }
 
     @Override

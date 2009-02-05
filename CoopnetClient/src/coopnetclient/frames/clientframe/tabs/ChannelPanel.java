@@ -96,7 +96,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.CHANNEL_CHAT_MODE, this.name));
 
-        popup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
+        popup = new PlayerListPopupMenu(false, lst_userList);
         lst_userList.setComponentPopupMenu(popup);
         lst_userList.setDragEnabled(true);
         lst_userList.setDropMode(DropMode.USE_SELECTION);

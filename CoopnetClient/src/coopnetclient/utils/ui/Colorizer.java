@@ -21,6 +21,7 @@ package coopnetclient.utils.ui;
 
 import coopnetclient.utils.*;
 import coopnetclient.frames.components.CustomScrollBarUI;
+import coopnetclient.frames.components.TextComponentPopupMenu;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
@@ -99,26 +100,20 @@ public class Colorizer {
             frame.setIconImage(Icons.coopnetNormalIcon.getImage());
         }
 
-        //Dont colorize if following is the case
-        if (        getCurrentLAFisSupportedForColoring() == false 
-                ||  root == null
-                || (!Settings.getColorizeBody() && (root instanceof JFileChooser || root instanceof JDialog))
-        ){
-            return;
-        }
-
         toExecuteCustomCodeIn = new Vector<Component>();
 
         if (root instanceof JFrame) {
             JFrame frame = (JFrame) root;
             toExecuteCustomCodeIn.add(frame);
             enableEffectsRecursively(frame.getContentPane());
+            addPopupMenusRecursively(frame.getContentPane());
             if (frame.getJMenuBar() != null) {
                 enableEffectsRecursively(frame.getJMenuBar());
             }
         } else {
             //Treat it normally
             enableEffectsRecursively(root);
+            addPopupMenusRecursively(root);
         }
 
         //First collect, then run (no problems then)
@@ -247,9 +242,34 @@ public class Colorizer {
     }
 
     /*****************************************************************/    
-    
+
+    private static void addPopupMenusRecursively(Container root) {
+
+        Component[] components = root.getComponents();
+
+        for (Component c : components) {
+            if (c instanceof JTextComponent) {
+                JTextComponent tc = (JTextComponent) c;
+                tc.setComponentPopupMenu(new TextComponentPopupMenu(tc));
+            }
+
+            if(c instanceof Container){
+                addPopupMenusRecursively((Container)c);
+            }
+        }
+
+    }
+
     //Only local usage, recursive core function
     private static void enableEffectsRecursively(Container root) {
+
+        //Dont colorize if following is the case
+        if (        getCurrentLAFisSupportedForColoring() == false
+                ||  root == null
+                || (!Settings.getColorizeBody() && (root instanceof JFileChooser || root instanceof JDialog))
+        ){
+            return;
+        }
 
         //colorize root, if not already done in different color
         if (!(root instanceof JButton) && !(root instanceof JTextComponent)) {
@@ -329,6 +349,7 @@ public class Colorizer {
 
             } else if (c instanceof JTextComponent) {
                 JTextComponent tc = (JTextComponent) c;
+
                 if (c instanceof JTextField) {
                     if (!(c.getParent().getClass().getName().contains("JSpinner"))) { 
                         //Dont do this, if we have a JSpinner
@@ -348,7 +369,6 @@ public class Colorizer {
                     tc.setCaretColor((Color) UIManager.get("TextArea.caretForeground"));
                     tc.setSelectedTextColor((Color) UIManager.get("TextArea.selectionForeground"));
                     tc.setSelectionColor((Color) UIManager.get("TextArea.selectionBackground"));
-
                 }
             } else if (c instanceof JPanel) {
                 JPanel pnl = (JPanel) c;

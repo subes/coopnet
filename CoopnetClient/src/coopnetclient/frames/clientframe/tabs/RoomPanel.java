@@ -88,11 +88,11 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         }
 
         if (roomData.isHost()) {
-            popup = new PlayerListPopupMenu(PlayerListPopupMenu.HOST_MODE, lst_userList);
+            popup = new PlayerListPopupMenu(true, lst_userList);
             cb_useHamachi.setVisible(false);
             Hotkeys.bindHotKey(Hotkeys.ACTION_LAUNCH);
         } else {
-            popup = new PlayerListPopupMenu(PlayerListPopupMenu.GENERAL_MODE, lst_userList);
+            popup = new PlayerListPopupMenu(false, lst_userList);
         }
         lst_userList.setComponentPopupMenu(popup);
 
