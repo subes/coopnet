@@ -1,4 +1,3 @@
-
 package coopnetclient.utils.ui;
 
 public class StyledChatMessage {

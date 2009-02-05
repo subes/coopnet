@@ -22,7 +22,6 @@ import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
-import coopnetclient.utils.ui.StyledChatMessage;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

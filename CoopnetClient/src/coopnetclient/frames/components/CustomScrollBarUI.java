@@ -17,7 +17,7 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.frames.components.ui;
+package coopnetclient.frames.components;
 
 import coopnetclient.frames.components.CustomScrollBarArrowButton;
 import java.awt.Color;
