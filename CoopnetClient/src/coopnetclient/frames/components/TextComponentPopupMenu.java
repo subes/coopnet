@@ -20,29 +20,47 @@
 package coopnetclient.frames.components;
 
 import java.awt.Component;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
+import javax.swing.JPasswordField;
 import javax.swing.JPopupMenu;
 import javax.swing.text.JTextComponent;
 
 public class TextComponentPopupMenu extends JPopupMenu implements ActionListener {
 
     private JTextComponent parent;
+
+    private JMenuItem selectAll;
     private JMenuItem cut;
     private JMenuItem copy;
     private JMenuItem paste;
+    private JMenuItem delete;
 
     public TextComponentPopupMenu(JTextComponent parent){
         super();
         this.parent = parent;
 
+        selectAll = new JMenuItem("Select All");
+        selectAll.addActionListener(this);
         cut = new JMenuItem("Cut");
         cut.addActionListener(this);
         copy = new JMenuItem("Copy");
         copy.addActionListener(this);
         paste = new JMenuItem("Paste");
         paste.addActionListener(this);
+        delete = new JMenuItem("Delete");
+        delete.addActionListener(this);
+
+        this.add(cut);
+        this.add(copy);
+        this.add(paste);
+        this.add(delete);
+        this.addSeparator();
+        this.add(selectAll);
     }
 
     @Override
@@ -50,23 +68,23 @@ public class TextComponentPopupMenu extends JPopupMenu implements ActionListener
         super.show(invoker, x, y);
 
         if(parent.getSelectedText() != null && parent.getSelectedText().length() > 0){
-            cut.setEnabled(parent.isEditable());
-            copy.setEnabled(true);
+            if(parent instanceof JPasswordField){
+                cut.setEnabled(false);
+                copy.setEnabled(false);
+            }else{
+                cut.setEnabled(parent.isEditable());
+                copy.setEnabled(true);
+            }
+            delete.setEnabled(parent.isEditable());
         }else{
             cut.setEnabled(false);
             copy.setEnabled(false);
+            delete.setEnabled(false);
         }
-        
-        paste.setEnabled(parent.isEditable());
+
+        Transferable contents = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(this);
+        paste.setEnabled(parent.isEditable() && contents.isDataFlavorSupported(DataFlavor.stringFlavor));
     }
-
-    @Override
-    public void setVisible(boolean b) {
-        super.setVisible(b);
-        System.out.println("VISIBLE "+b);
-    }
-
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -76,6 +94,10 @@ public class TextComponentPopupMenu extends JPopupMenu implements ActionListener
             parent.copy();
         }else if(e.getSource() == paste){
             parent.paste();
+        }else if(e.getSource() == delete){
+            parent.replaceSelection(null);
+        }else if(e.getSource() == selectAll){
+            parent.selectAll();
         }
     }
 
