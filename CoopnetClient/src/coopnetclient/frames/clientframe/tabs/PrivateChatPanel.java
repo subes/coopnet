@@ -95,7 +95,7 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
     }
 
     public void append(String sender, String message, ChatStyles style) {
-        scrl_chatOutput.printChatMessage(message, message, style);
+        scrl_chatOutput.printChatMessage(sender, message, style);
     }
 
     /** This method is called from within the constructor to
