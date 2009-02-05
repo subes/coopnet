@@ -938,7 +938,7 @@ private void mi_makeHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 }//GEN-LAST:event_mi_makeHomeActionPerformed
 
 private void mi_faqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_faqActionPerformed
-    HyperlinkMouseListener.openURL("http://coopnet.sourceforge.net/faq.html");
+    HyperlinkMouseListener.openURL("http://coopnet.sourceforge.net/faq.php");
 }//GEN-LAST:event_mi_faqActionPerformed
 
 private void mi_showTransfersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_showTransfersActionPerformed
