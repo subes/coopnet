@@ -37,6 +37,7 @@ import javax.swing.text.html.HTML;
 public class ColoredChatHandler {
 
     private static String myNameStyleName = "myname";
+    private static String highlightedmyNameStyleName = "hl_myname";
     private static String otherNameStyleName = "othername";
     private static String highlightedOtherNameStyleName = "hl_othername";
     private static String messageStyleName = "message";
@@ -218,6 +219,7 @@ public class ColoredChatHandler {
 
         //removing the old styles
         doc.removeStyle(myNameStyleName);
+        doc.removeStyle(highlightedmyNameStyleName);
         doc.removeStyle(messageStyleName);
         doc.removeStyle(hlinkStyleName);
         doc.removeStyle(highlightedMessageStyleName);
@@ -235,6 +237,7 @@ public class ColoredChatHandler {
 
         //Setting style and colors
         Style myNameStyle = doc.addStyle(myNameStyleName, null);
+        Style hl_myNameStyle = doc.addStyle(highlightedmyNameStyleName, myNameStyle);
         Style otherNameStyle = doc.addStyle(otherNameStyleName, null);
         Style hl_otherNameStyle = doc.addStyle(highlightedOtherNameStyleName, otherNameStyle);
         Style friendNameStyle = doc.addStyle(friendNameStyleName, myNameStyle);
@@ -263,6 +266,7 @@ public class ColoredChatHandler {
             StyleConstants.setBackground(hl_friendMessageStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
             StyleConstants.setBackground(hl_whisperNameStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
             StyleConstants.setBackground(hl_whisperMessageStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_myNameStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
         } else {
             Color clr = null;
             clr = (Color) UIManager.get("List.selectionBackground");
@@ -277,6 +281,7 @@ public class ColoredChatHandler {
                 StyleConstants.setBackground(hl_hlinkStyle, clr);
                 StyleConstants.setBackground(hl_whisperNameStyle, clr);
                 StyleConstants.setBackground(hl_whisperMessageStyle, clr);
+                StyleConstants.setBackground(hl_myNameStyle, clr);
             }
         }
         //init link style
