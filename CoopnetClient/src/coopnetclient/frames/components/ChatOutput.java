@@ -2,6 +2,7 @@ package coopnetclient.frames.components;
 
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
+import coopnetclient.utils.ui.ColoredChatHandler;
 import coopnetclient.utils.ui.StyledChatMessage;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -38,11 +39,15 @@ public class ChatOutput extends JScrollPane {
        
         messages = new ArrayList<StyledChatMessage>();
         StyledDocument doc = textPane.getStyledDocument();
-        coopnetclient.utils.ui.ColoredChatHandler.setupStyles(doc);
+        ColoredChatHandler.setupStyles(doc);
     }
 
     public JTextPane getTextPane() {
         return textPane;
+    }
+
+    public void customCodeForPopupMenu(){
+        textPane.setComponentPopupMenu(new ChatOutputPopupMenu(textPane));
     }
 
     public void printChatMessage(String name, String message, ChatStyles modeStyle) {
@@ -53,16 +58,16 @@ public class ChatOutput extends JScrollPane {
             disableAutoScroll = true;
         }
         StyledDocument doc = textPane.getStyledDocument();
-        coopnetclient.utils.ui.ColoredChatHandler.addColoredText(name, message, modeStyle, doc, this, textPane, messages);
+        ColoredChatHandler.addColoredText(name, message, modeStyle, doc, this, textPane, messages);
     }
 
     public void updateStyle() {
         StyledDocument doc = textPane.getStyledDocument();
-        coopnetclient.utils.ui.ColoredChatHandler.setupStyles(doc);
+        ColoredChatHandler.setupStyles(doc);
     }
 
     public void updateHighlights() {
         StyledDocument doc = textPane.getStyledDocument();
-        coopnetclient.utils.ui.ColoredChatHandler.updateHighLight(doc, messages);
+        ColoredChatHandler.updateHighLight(doc, messages);
     }
 }

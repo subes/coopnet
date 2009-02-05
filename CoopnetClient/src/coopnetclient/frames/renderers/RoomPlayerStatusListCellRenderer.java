@@ -21,6 +21,7 @@ package coopnetclient.frames.renderers;
 
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.utils.EscapeChars;
 import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Settings;
@@ -49,7 +50,6 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
     
     public RoomPlayerStatusListCellRenderer() {
         setOpaque(true);
-        putClientProperty("html.disable", Boolean.TRUE);
     }
         
     public void removePlayer(String playerName){
@@ -128,7 +128,7 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
         //set foreground
         setForeground(Color.black);
         setBorder(normalBorder);
-        setToolTipText("<html><xmp>"+value.toString());
+        setToolTipText("<html><xmp>"+value.toString()+"</xmp><br>Press middle mouse button to toggle highlight.");
         //set background color        
         if (readyList.contains(value.toString())) {
             if (playingList.contains(value.toString())) {
@@ -143,11 +143,18 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
                 setBackground(Color.red);
             }
         }
+
+
+        String text = EscapeChars.forHTML(value.toString());
+        if(Globals.isHighlighted(value.toString())){
+            text = "<html><u>"+text+"</u></html>";
+        }
+
         if (isSelected && !(value.toString().equals(Globals.getThisPlayer_loginName()))) {
-            setText(" "+value.toString());
+            setText(" "+text);
             setBorder(selectionBorder);
         } else {
-            setText(" "+value.toString());            
+            setText(" "+text);
         }
         //is away?
         if(awayList.contains(value.toString())){

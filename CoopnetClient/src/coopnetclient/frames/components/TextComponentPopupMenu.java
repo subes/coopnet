@@ -32,13 +32,13 @@ import javax.swing.text.JTextComponent;
 
 public class TextComponentPopupMenu extends JPopupMenu implements ActionListener {
 
-    private JTextComponent parent;
+    protected JTextComponent parent;
 
-    private JMenuItem selectAll;
-    private JMenuItem cut;
-    private JMenuItem copy;
-    private JMenuItem paste;
-    private JMenuItem delete;
+    protected JMenuItem selectAll;
+    protected JMenuItem cut;
+    protected JMenuItem copy;
+    protected JMenuItem paste;
+    protected JMenuItem delete;
 
     public TextComponentPopupMenu(JTextComponent parent){
         super();

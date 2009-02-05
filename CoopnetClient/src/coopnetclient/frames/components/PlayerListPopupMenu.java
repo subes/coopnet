@@ -29,6 +29,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -36,96 +37,122 @@ import javax.swing.JSeparator;
 
 public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
-    private JList source;
+    private JList parent;
+    private JMenuItem nudge;
     private JMenuItem playerName;
     private JMenuItem roomInvite;
-    private JMenuItem mute_UnMute;
-    private JMenuItem ban_UnBan;
+    private JMenuItem whisper;
+    private JMenuItem sendFile;
+    private JCheckBoxMenuItem highlight;
     private JMenuItem addContact;
-    private JMenuItem highlight;
+    private JMenuItem kick;
+    private JCheckBoxMenuItem mute_UnMute;
+    private JCheckBoxMenuItem ban_UnBan;
+    private JMenuItem showProfile;
 
-    public PlayerListPopupMenu(boolean playerIsHost, JList source) {
+    public PlayerListPopupMenu(boolean playerIsHost, JList parent) {
         super();
-        this.source = source;
+        this.parent = parent;
 
         playerName = new JMenuItem();
         playerName.setEnabled(false);
         playerName.putClientProperty("html.disable", Boolean.TRUE);
         this.add(playerName);
 
-        this.add(new JSeparator());
-        this.add(makeMenuItem("Nudge"));
-        roomInvite = makeMenuItem("Invite to room");        
-        this.add(roomInvite);
-        this.add(makeMenuItem("Whisper"));
-        this.add(makeMenuItem("Send file"));
+        this.addSeparator();
 
-        highlight = makeMenuItem("Highlight messages");
+        nudge = new JMenuItem("Nudge");
+        nudge.addActionListener(this);
+        this.add(nudge);
+
+        roomInvite = new JMenuItem("Invite to room");
+        roomInvite.addActionListener(this);
+        this.add(roomInvite);
+
+        whisper = new JMenuItem("Whisper");
+        whisper.addActionListener(this);
+        this.add(whisper);
+
+        sendFile = new JMenuItem("Send file");
+        sendFile.addActionListener(this);
+        this.add(sendFile);
+
+        highlight = new JCheckBoxMenuItem("Highlight messages");
+        highlight.addActionListener(this);
         this.add(highlight);
-        addContact = makeMenuItem("Add to contacts");
+
+        addContact = new JMenuItem("Add to contacts");
+        addContact.addActionListener(this);
         this.add(addContact);
 
         this.add(new JSeparator());
 
         if (playerIsHost) {
-            this.add(makeMenuItem("Kick"));
+            kick = new JMenuItem("Kick");
+            kick.addActionListener(this);
+            this.add(kick);
         }
-        mute_UnMute = makeMenuItem("Mute");
-        ban_UnBan = makeMenuItem("Ban");
+
+        mute_UnMute = new JCheckBoxMenuItem("Mute");
+        mute_UnMute.addActionListener(this);
         this.add(mute_UnMute);
+
+        ban_UnBan = new JCheckBoxMenuItem("Ban");
+        ban_UnBan.addActionListener(this);
         this.add(ban_UnBan);
-        this.add(new JSeparator());
 
-        this.add(makeMenuItem("Show profile"));
-    }
+        this.addSeparator();
 
-    private JMenuItem makeMenuItem(String label) {
-        JMenuItem item = new JMenuItem(label);
-        item.addActionListener(this);
-        return item;
+        showProfile = new JMenuItem("Show profile");
+        showProfile.addActionListener(this);
+        this.add(showProfile);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        String command = e.getActionCommand();
+        if (parent == null) {
+            return;
+        }
 
-        if (source == null) {
+        final String player = playerName.getText();
+        if (player == null) {
             return;
         }
-        final String subject = playerName.getText();
-        if (subject == null) {
-            return;
-        }
-        if (command.equals("Highlight messages")) {
-            Globals.setHighlightOn(subject);
-            TabOrganizer.updateHighlights();
-        }else if (command.equals("UnHighlight messages")) {
-            Globals.unSetHighlightOn(subject);
-            TabOrganizer.updateHighlights();
-        }else if (command.equals("Kick")) {
-            Protocol.kick(subject);
-        } else if (command.equals("Ban")) {
-            Protocol.kick(subject);
-            Protocol.ban(subject);
-        } else if (command.equals("UnBan")) {
-            Protocol.unBan(subject);
-        } else if (command.equals("Mute")) {
-            Protocol.mute(subject);
-        } else if (command.equals("Add to contacts")) {            
-            Protocol.addToContacts(subject);
-        } else if (command.equals("UnMute")) {
-            Protocol.unMute(subject);
-        } else if (command.equals("Whisper")) {
-            TabOrganizer.openPrivateChatPanel(subject, true);
-        } else if (command.equals("Show profile")) {
-            Protocol.requestProfile(subject);
-        } else if (command.equals("Invite to room")) {
-            Protocol.sendRoomInvite(subject);
-        } else if (command.equals("Nudge")) {
-            Protocol.nudge(subject);
-            Globals.getClientFrame().printToVisibleChatbox("System", "You have nudged "+subject +" !", ChatStyles.SYSTEM , false);
-        } else if (command.equals("Send file")) {
+
+        if (e.getSource() == highlight) {
+            if(!highlight.isSelected()){ //Somehow this is inverted
+                Globals.unSetHighlightOn(player);
+            }else{
+                Globals.setHighlightOn(player);
+            }
+        }else if (e.getSource() == kick) {
+            Protocol.kick(player);
+        } else if (e.getSource() == ban_UnBan) {
+            if(!ban_UnBan.isSelected()){ //Somehow this is inverted
+                Protocol.unBan(player);
+            }else{
+                Protocol.kick(player);
+                Protocol.ban(player);
+            }
+        } else if (e.getSource() == mute_UnMute) {
+            if(!mute_UnMute.isSelected()){ //Somehow this is inverted
+                Protocol.unMute(player);
+            }else{
+                Protocol.mute(player);
+            }
+        } else if (e.getSource() == addContact){
+            Protocol.addToContacts(player);
+        } else if (e.getSource() == whisper) {
+            TabOrganizer.openPrivateChatPanel(player, true);
+        } else if (e.getSource() == showProfile) {
+            Protocol.requestProfile(player);
+        } else if (e.getSource() == roomInvite) {
+            Protocol.sendRoomInvite(player);
+        } else if (e.getSource() == nudge) {
+            Protocol.nudge(player);
+            Globals.getClientFrame().printToVisibleChatbox("System", "You have nudged "+player +"!", ChatStyles.SYSTEM , false);
+        } else if (e.getSource() == sendFile) {
 
             new Thread() {
 
@@ -140,8 +167,8 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
                         if (returnVal == FileChooser.SELECT_ACTION) {
                             inputfile = mfc.getSelectedFile();
                             if (inputfile != null) {
-                                if(TabOrganizer.sendFile(subject, inputfile)){
-                                    Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
+                                if(TabOrganizer.sendFile(player, inputfile)){
+                                    Protocol.sendFile(player, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
                                     Globals.setLastOpenedDir(inputfile.getParent());
                                 }
                             }
@@ -156,11 +183,11 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
     @Override
     public void show(Component invoker, int x, int y) {
-        if (source == null || source.getSelectedValue() == null || source.getSelectedValue().equals(Globals.getThisPlayer_loginName())) {
+        if (parent == null || parent.getSelectedValue() == null || parent.getSelectedValue().equals(Globals.getThisPlayer_loginName())) {
             setVisible(false);
             return;
         } else {
-            playerName.setText((String) source.getSelectedValue());
+            playerName.setText((String) parent.getSelectedValue());
         }
         
         if(Globals.getContactList().contains( playerName.getText() )){
@@ -174,29 +201,24 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             roomInvite.setVisible(true);
         }
 
-        if(Globals.isHighlighted(playerName.getText())){
-            highlight.setText("UnHighlight messages");
-        }else{
-            highlight.setText("Highlight messages");
-        }
-        
+        highlight.setSelected(Globals.isHighlighted(playerName.getText()));
         
         if (MuteBanList.getMuteBanStatus(playerName.getText()) == null) {
-            mute_UnMute.setText("Mute");
-            ban_UnBan.setText("Ban");
+            mute_UnMute.setSelected(false);
+            ban_UnBan.setSelected(false);
         } else {
             switch (MuteBanList.getMuteBanStatus(playerName.getText())) {
                 case BANNED:
-                    mute_UnMute.setText("Mute");
-                    ban_UnBan.setText("UnBan");
+                    mute_UnMute.setSelected(false);
+                    ban_UnBan.setSelected(true);
                     break;
                 case MUTED:
-                    mute_UnMute.setText("UnMute");
-                    ban_UnBan.setText("Ban");
+                    mute_UnMute.setSelected(true);
+                    ban_UnBan.setSelected(false);
                     break;
                 case BOTH:
-                    mute_UnMute.setText("UnMute");
-                    ban_UnBan.setText("UnBan");
+                    mute_UnMute.setSelected(true);
+                    ban_UnBan.setSelected(true);
                     break;
             }
         }

@@ -21,12 +21,15 @@ package coopnetclient.frames.renderers;
 import coopnetclient.Globals;
 import coopnetclient.enums.PlayerStatuses;
 import coopnetclient.frames.models.ChannelStatusListModel;
+import coopnetclient.utils.EscapeChars;
 import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Settings;
 import java.awt.Component;
 import java.awt.Font;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
+import javax.swing.text.StyledEditorKit;
+import javax.swing.text.StyledEditorKit.StyledTextAction;
 
 /**
  * Renders the elements in the user list of a room
@@ -38,15 +41,20 @@ public class ChannelStatusListCellRenderer extends DefaultListCellRenderer {
     public ChannelStatusListCellRenderer(ChannelStatusListModel model) {
         setOpaque(true);
         this.model = model;
-        putClientProperty("html.disable", Boolean.TRUE);
     }
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         super.getListCellRendererComponent(list, value, index, (value.toString().equals(Globals.getThisPlayer_loginName())) ? false : isSelected, cellHasFocus);
         setFont(new Font(Settings.getNameStyle(), Font.PLAIN, 14));
-        setToolTipText("<html><xmp>" + value.toString());
-        setText(value.toString());
+        setToolTipText("<html><xmp>" + value.toString()+"</xmp><br>Press middle mouse button to toggle highlight.");
+
+        String text = EscapeChars.forHTML(value.toString());
+        if(Globals.isHighlighted(value.toString())){
+            text = "<html><u>"+text+"</u></html>";
+        }
+        setText(text);
+        
         //set foreground        
         if (Settings.getColorizeBody()) {
             setForeground(Settings.getForegroundColor());

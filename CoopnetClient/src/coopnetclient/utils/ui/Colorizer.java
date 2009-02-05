@@ -19,6 +19,8 @@
 
 package coopnetclient.utils.ui;
 
+import coopnetclient.frames.components.ChatOutput;
+import coopnetclient.frames.components.ChatOutputPopupMenu;
 import coopnetclient.utils.*;
 import coopnetclient.frames.components.CustomScrollBarUI;
 import coopnetclient.frames.components.TextComponentPopupMenu;
@@ -246,12 +248,15 @@ public class Colorizer {
     private static void addPopupMenusRecursively(Container root) {
 
         Component[] components = root.getComponents();
+        toExecuteCustomCodeIn.add(root);
 
         for (Component c : components) {
             if (c instanceof JTextComponent) {
                 JTextComponent tc = (JTextComponent) c;
                 tc.setComponentPopupMenu(new TextComponentPopupMenu(tc));
             }
+
+            toExecuteCustomCodeIn.add(c);
 
             if(c instanceof Container){
                 addPopupMenusRecursively((Container)c);
@@ -431,7 +436,7 @@ public class Colorizer {
             Method[] methods = obj.getClass().getDeclaredMethods();
 
             for (Method m : methods) {
-                if (m.getName().equals("customCodeForColorizer")) {
+                if (m.getName().equals("customCodeForColoring") || m.getName().equals("customCodeForPopupMenu")) {
                     try {
                         m.invoke(obj);
                     } catch (IllegalArgumentException ex) {
@@ -826,5 +831,4 @@ public class Colorizer {
             div.setBorder(newBorder);
         }
     }
-    /*END******************PRIVATE METHODS***********************************/
 }

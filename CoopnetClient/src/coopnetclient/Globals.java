@@ -170,11 +170,13 @@ public class Globals {
     public static void setHighlightOn(String userName){
         if(!higlightList.contains(userName)){
             higlightList.add(userName);
+            TabOrganizer.updateHighlights();
         }
     }
 
     public static void unSetHighlightOn(String userName){
         higlightList.remove(userName);
+        TabOrganizer.updateHighlights();
     }
 
     public static void clearHighlights(){

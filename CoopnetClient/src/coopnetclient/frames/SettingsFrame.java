@@ -159,7 +159,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         toggleItemsOf_cb_ColorizeText();
     }
 
-    public void customCodeForColorizer() {
+    public void customCodeForColoring() {
         colorizeColorButtons();
     }
     

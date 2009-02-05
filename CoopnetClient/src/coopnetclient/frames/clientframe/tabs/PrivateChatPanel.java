@@ -76,7 +76,7 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
         tp_chatInput.requestFocusInWindow();
     }
 
-    public void customCodeForColorizer() {
+    public void customCodeForColoring() {
         if (coopnetclient.utils.Settings.getColorizeText()) {
             tp_chatInput.setForeground(coopnetclient.utils.Settings.getUserMessageColor());
         }

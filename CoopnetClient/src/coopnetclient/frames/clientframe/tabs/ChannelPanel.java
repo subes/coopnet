@@ -162,7 +162,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         tp_chatInput.requestFocusInWindow();
     }
 
-    public void customCodeForColorizer() {
+    public void customCodeForColoring() {
         if (coopnetclient.utils.Settings.getColorizeText()) {
             tp_chatInput.setForeground(coopnetclient.utils.Settings.getUserMessageColor());
         }
@@ -557,11 +557,20 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     }//GEN-LAST:event_refresh
 
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
-        if (!lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())) {
-            lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
-        } else {
+        if (lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())) {
             lst_userList.clearSelection();
+        } else {
+            lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
         }
+
+        if(evt.getButton() == MouseEvent.BUTTON2){
+            String player = lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).toString();
+            if(Globals.isHighlighted(player)){
+                Globals.unSetHighlightOn(player);
+            }else{
+                Globals.setHighlightOn(player);
+            }
+        }else
         if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
             String selectedname = (String) lst_userList.getSelectedValue();
             if (selectedname != null && !selectedname.equals("") && !selectedname.equals(Globals.getThisPlayer_loginName())) {
