@@ -2,7 +2,7 @@ package coopnetclient.frames.components;
 
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
-import coopnetclient.utils.StyledMessage;
+import coopnetclient.utils.ui.StyledChatMessage;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import javax.swing.JScrollBar;
@@ -14,7 +14,7 @@ public class ChatOutput extends JScrollPane {
 
     private JTextPane textPane;
     private boolean disableAutoScroll = false;
-    private ArrayList<StyledMessage> messages;
+    private ArrayList<StyledChatMessage> messages;
 
     public ChatOutput() {
         super();
@@ -36,7 +36,7 @@ public class ChatOutput extends JScrollPane {
         textPane.setAutoscrolls(true);
         textPane.addMouseListener(new HyperlinkMouseListener());
        
-        messages = new ArrayList<StyledMessage>();
+        messages = new ArrayList<StyledChatMessage>();
         StyledDocument doc = textPane.getStyledDocument();
         coopnetclient.utils.ui.ColoredChatHandler.setupStyles(doc);
     }

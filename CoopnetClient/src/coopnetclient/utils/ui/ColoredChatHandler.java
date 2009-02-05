@@ -22,7 +22,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
-import coopnetclient.utils.StyledMessage;
+import coopnetclient.utils.ui.StyledChatMessage;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class ColoredChatHandler {
     private static String defaultMessageStyleName = "defaultmessage";
 
     //Styles have to be temporary, so they follow color changes!
-    public static void addColoredText(String name, String message, ChatStyles chatStyle, StyledDocument doc, javax.swing.JScrollPane scrl_ChatOutput, javax.swing.JTextPane tp_ChatOutput, ArrayList<StyledMessage> messages) {
+    public static void addColoredText(String name, String message, ChatStyles chatStyle, StyledDocument doc, javax.swing.JScrollPane scrl_ChatOutput, javax.swing.JTextPane tp_ChatOutput, ArrayList<StyledChatMessage> messages) {
 
         synchronized (doc) {
 
@@ -148,7 +148,7 @@ public class ColoredChatHandler {
             try {
                 int namestart = doc.getLength();
                 doc.insertString(doc.getLength(), "\n" + tempname, doc.getStyle(nameStyle));
-                messages.add(new StyledMessage(name, nameStyle, namestart, doc.getLength()));
+                messages.add(new StyledChatMessage(name, nameStyle, namestart, doc.getLength()));
 
                 //setup attributes
                 SimpleAttributeSet nameAttributes = new SimpleAttributeSet();
@@ -168,7 +168,7 @@ public class ColoredChatHandler {
                         //make message object from previous chunk
                         String chunk = messageBuffer.toString();
                         if (chunk.length() > 0) {
-                            messages.add(new StyledMessage(name, messageStyle, lastMessageStart, doc.getLength()));
+                            messages.add(new StyledChatMessage(name, messageStyle, lastMessageStart, doc.getLength()));
                             lastMessageStart = doc.getLength();
                             messageBuffer.delete(0, chunk.length());
                         }
@@ -179,10 +179,10 @@ public class ColoredChatHandler {
                         int hrefstart = doc.getLength();
                         if (doHighlight) {
                             doc.insertString(doc.getLength(), href, doc.getStyle(highlightedhlinkStyleName));
-                            messages.add(new StyledMessage(name, highlightedhlinkStyleName, hrefstart, doc.getLength()));
+                            messages.add(new StyledChatMessage(name, highlightedhlinkStyleName, hrefstart, doc.getLength()));
                         } else {
                             doc.insertString(doc.getLength(), href, doc.getStyle(hlinkStyleName));
-                            messages.add(new StyledMessage(name, hlinkStyleName, hrefstart, doc.getLength()));
+                            messages.add(new StyledChatMessage(name, hlinkStyleName, hrefstart, doc.getLength()));
                         }
                         doc.setCharacterAttributes(doc.getLength() - href.length(), href.length(), hrefAttributes, false);
                         //add a message whitespace after link
@@ -198,7 +198,7 @@ public class ColoredChatHandler {
                 //pring last part if any
                 String chunk = messageBuffer.toString();
                 if (chunk.length() > 0) {
-                    messages.add(new StyledMessage(name, messageStyle, lastMessageStart, doc.getLength()));
+                    messages.add(new StyledChatMessage(name, messageStyle, lastMessageStart, doc.getLength()));
                     lastMessageStart = doc.getLength();
                     messageBuffer.delete(0, chunk.length());
                 }
@@ -316,10 +316,10 @@ public class ColoredChatHandler {
 
     }
 
-    public static void updateHighLight(StyledDocument doc, ArrayList<StyledMessage> messages) {
+    public static void updateHighLight(StyledDocument doc, ArrayList<StyledChatMessage> messages) {
         synchronized (doc) {
 
-            for (StyledMessage message : messages) {
+            for (StyledChatMessage message : messages) {
                 boolean doHighlight = Globals.isHighlighted(message.getSenderName());
                 if (doHighlight) {
                     if (!message.getStyle().startsWith("hl_")) {

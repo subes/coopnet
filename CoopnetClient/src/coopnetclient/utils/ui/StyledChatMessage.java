@@ -1,14 +1,14 @@
 
-package coopnetclient.utils;
+package coopnetclient.utils.ui;
 
-public class StyledMessage {
+public class StyledChatMessage {
 
     private String senderName;
     private String style;
     private int contentStartIndex;
     private int contentEndIndex;
 
-    public StyledMessage(String senderName, String style, int start, int end){
+    public StyledChatMessage(String senderName, String style, int start, int end){
         this.senderName = senderName;
         this.style = style;
         this.contentStartIndex = start;
