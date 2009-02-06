@@ -32,6 +32,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -90,7 +91,7 @@ public class GameDatabase {
                 data.add(getGameName(ID));
             }
         }
-
+        Collections.sort(data);
         return data;
     }
 

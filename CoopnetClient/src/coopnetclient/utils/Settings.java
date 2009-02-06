@@ -34,6 +34,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.Properties;
 import java.util.Vector;
 import passwordencrypter.PasswordEncrypter;
@@ -845,8 +846,11 @@ public class Settings {
     public static Vector<String> getFavouritesByName() {
         Vector<String> favs = new Vector<String>();
         for(String ID : favourites){
-            favs.add(GameDatabase.getGameName(ID));
+            if(GameDatabase.getGameName(ID)!= null){
+                favs.add(GameDatabase.getGameName(ID));
+            }
         }
+        Collections.sort(favs);
         return favs;
     }
 
