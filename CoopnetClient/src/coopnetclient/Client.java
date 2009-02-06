@@ -176,8 +176,21 @@ public class Client {
         //hide the mainframe: trayicon enabled
         if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled() && !Globals.getDebug()) {
             Globals.getClientFrame().setVisible(false);
-        } else {
-            //trayicon disabled or overridden
+        } else {//trayicon disabled or overridden
+            //show warning if there are running transfers
+            if (Globals.getTransferModel().isAnyTransferActive()) {
+                int option = JOptionPane.showConfirmDialog(null,
+                        "<html>WARNING: There is one or more active filetransfer!<br>" +
+                        "Do you really want to quit Coopnet?<br>" +
+                        "If you quit any active transfer will be cancelled!",
+                        "WARNING: Active filetransfer(s)!",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+
+                if (option == JOptionPane.NO_OPTION) {
+                    return;
+                }
+            }
             //cancel any filesendings
             TabOrganizer.cancelFileSendingOnClose();
             try{Thread.sleep(500);}catch(Exception e){}
@@ -189,8 +202,6 @@ public class Client {
             if (Globals.getClientFrame().getExtendedState() == javax.swing.JFrame.NORMAL) {
                 coopnetclient.utils.Settings.setMainFrameHeight(Globals.getClientFrame().getHeight());
                 coopnetclient.utils.Settings.setMainFrameWidth(Globals.getClientFrame().getWidth());
-                coopnetclient.utils.Settings.setMainFrameMaximised(Globals.getClientFrame().getExtendedState());
-            }else if (Globals.getClientFrame().getExtendedState() == javax.swing.JFrame.MAXIMIZED_BOTH){
                 coopnetclient.utils.Settings.setMainFrameMaximised(Globals.getClientFrame().getExtendedState());
             }
             //unbind hotkeys

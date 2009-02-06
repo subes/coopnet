@@ -93,6 +93,15 @@ public class TransferTableModel extends DefaultTableModel {
         super();
     }
 
+    public boolean isAnyTransferActive(){
+        for(Transfer t : transfers){
+            if(t.status == TransferStatuses.Starting || t.status == TransferStatuses.Transferring){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean addSendTransfer(String peer, String filename, File sentFile) {
         if (!findActiveSendTransfer(peer, filename)) {
             Transfer t = new Transfer(peer, filename, sentFile);
