@@ -2531,6 +2531,30 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </ChoiceSetting>
         </Settings>
     </GameData>
+    <GameData>
+        <GameName>Master of Orion 2</GameName>
+        <ShortName>MOO2</ShortName>
+        <ChannelID>238</ChannelID>
+        <LaunchMethod>DOS</LaunchMethod>
+        <WelcomeMessage>This game requires DOSBox to run! Please set the path to dosbox.exe
+        in options/manage games/environment tab!</WelcomeMessage>
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue>"{GAMEEXE}" -exit -c "CONFIG -set ipx=true" -c "IPXNET STARTSERVER {PORT}"</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue>"{GAMEEXE}" -exit -c "CONFIG -set ipx=true" -c "IPXNET CONNECT {IP} {PORT}"</PropertyValue>
+        </Property>
+        <Settings>
+            <NumberSetting>
+                <SettingName>Port:</SettingName>
+                <SettingType>TEXT</SettingType>
+                <KeyWord>PORT</KeyWord>
+                <SettingDefaultValue>2400</SettingDefaultValue>
+            </NumberSetting>
+        </Settings>
+    </GameData>
     <!--<GameData>
         <GameName>Aliens vs. Predator 2</GameName>
         <InstantLaunch/>
