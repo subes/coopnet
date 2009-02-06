@@ -91,7 +91,11 @@ public class ColoredChatHandler {
                 case WHISPER:
                 case USER:
                     if (Globals.getThisPlayer_loginName().equals(name)) {
-                        nameStyle = myNameStyleName;
+                        if (doHighlight) {
+                            nameStyle = highlightedmyNameStyleName;
+                        }else{
+                            nameStyle = myNameStyleName;
+                        }
                         messageStyle = messageStyleName;
                     } else {
                         if (doHighlight) {
