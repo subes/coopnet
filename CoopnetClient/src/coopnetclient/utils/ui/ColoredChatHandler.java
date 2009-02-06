@@ -93,10 +93,11 @@ public class ColoredChatHandler {
                     if (Globals.getThisPlayer_loginName().equals(name)) {
                         if (doHighlight) {
                             nameStyle = highlightedmyNameStyleName;
+                            messageStyle = highlightedMessageStyleName;
                         }else{
                             nameStyle = myNameStyleName;
-                        }
-                        messageStyle = messageStyleName;
+                            messageStyle = messageStyleName;
+                        }                        
                     } else {
                         if (doHighlight) {
                             if (isFriend) {
