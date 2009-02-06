@@ -668,6 +668,7 @@ private void tbl_roomListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRS
 
     public void updateHighlights() {
         scrl_chatOutput.updateHighlights();
+        lst_userList.repaint();
     }
     
     public void updateStyle(){

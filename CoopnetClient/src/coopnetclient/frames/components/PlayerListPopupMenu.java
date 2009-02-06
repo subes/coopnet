@@ -151,7 +151,6 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
             Protocol.sendRoomInvite(player);
         } else if (e.getSource() == nudge) {
             Protocol.nudge(player);
-            Globals.getClientFrame().printToVisibleChatbox("System", "You have nudged "+player +"!", ChatStyles.SYSTEM , false);
         } else if (e.getSource() == sendFile) {
 
             new Thread() {

@@ -21,6 +21,7 @@ package coopnetclient.protocol.out;
 
 import coopnetclient.protocol.*;
 import coopnetclient.*;
+import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ClientProtocolCommands;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.utils.RoomData;
@@ -264,6 +265,7 @@ public class Protocol {
 
     public static void nudge(String playerName) {
         new Message(ClientProtocolCommands.NUDGE, playerName);
+        Globals.getClientFrame().printToVisibleChatbox("System", "You have nudged "+playerName +"!", ChatStyles.SYSTEM , false);
     }
 
     public static void gameClosed(String channelName) {

@@ -50,22 +50,22 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     private JMenuItem acceptAndAdd;
     private JMenuItem accept;
     private JMenuItem refuse;
-    private JMenuItem deleteContact;
+    private JMenuItem removeContact;
     private JSeparator sep_contact;
     private JMenuItem nudge;
     private JMenuItem showProfile;
     private JMenuItem whisper;
     private JMenuItem sendFile;
     private JMenuItem roomInvite;
-    private JMenuItem refresh;
+    private JMenuItem refreshList;
     private JMenu moveto;
     private JSeparator sep_group;
     private JCheckBoxMenuItem showOffline;
-    private JMenuItem create;
+    private JMenuItem createGroup;
     private JMenuItem deleteGroup;
-    private JMenuItem rename;
-    private JMenuItem mute_UnMute;    
-    private JMenuItem ban_UnBan;
+    private JMenuItem renameGroup;
+    private JCheckBoxMenuItem mute_UnMute;
+    private JCheckBoxMenuItem ban_UnBan;
 
     public ContactListPopupMenu(EditableJlist source) {
         super();
@@ -82,25 +82,27 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         showProfile = makeMenuItem("Show profile");
         whisper = makeMenuItem("Whisper");
         sendFile = makeMenuItem("Send file");
-        refresh = makeMenuItem("Refresh list");
+        refreshList = makeMenuItem("Refresh list");
         moveto = new JMenu("Move to group");
-        create = makeMenuItem("Create new group");
+        createGroup = makeMenuItem("Create new group");
         deleteGroup = makeMenuItem("Delete group");
-        deleteContact = makeMenuItem("Remove contact");
-        rename = makeMenuItem("Rename group");
+        removeContact = makeMenuItem("Remove contact");
+        renameGroup = makeMenuItem("Rename group");
         sep_group = new JSeparator();
         showOffline = new JCheckBoxMenuItem("Show offline contacts", Settings.getShowOfflineContacts());
         showOffline.addActionListener(this);
         roomInvite = makeMenuItem("Invite to room");
-        mute_UnMute = makeMenuItem("Mute");
-        ban_UnBan = makeMenuItem("Ban");
+        mute_UnMute = new JCheckBoxMenuItem("Mute");
+        mute_UnMute.addActionListener(this);
+        ban_UnBan = new JCheckBoxMenuItem("Ban");
+        ban_UnBan.addActionListener(this);
 
         this.add(playerName);
         this.add(new JSeparator());
         this.add(accept);
         this.add(acceptAndAdd);
         this.add(refuse);
-        this.add(deleteContact);
+        this.add(removeContact);
         this.add(moveto);
         this.add(sep_contact);
         this.add(nudge);
@@ -111,11 +113,11 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         this.add(ban_UnBan);
         this.add(showProfile);
         this.add(deleteGroup);
-        this.add(rename);
+        this.add(renameGroup);
         this.add(sep_group);
         this.add(showOffline);
-        this.add(create);
-        this.add(refresh);
+        this.add(createGroup);
+        this.add(refreshList);
     }
 
     private JMenuItem makeMenuItem(String label) {
@@ -144,7 +146,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     public void setContactActionVisibility(boolean isVisible) {
         sep_contact.setVisible(isVisible);
         moveto.setVisible(isVisible);
-        deleteContact.setVisible(isVisible);
+        removeContact.setVisible(isVisible);
         mute_UnMute.setVisible(isVisible);
         ban_UnBan.setVisible(isVisible);
         
@@ -177,10 +179,10 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
     public void setGroupActionVisibility(boolean isVisible) {
         if (playerName.getText().equals(ContactListModel.DEFAULT_GROUP)) {
             deleteGroup.setVisible(false);
-            rename.setVisible(false);
+            renameGroup.setVisible(false);
         } else {
             deleteGroup.setVisible(isVisible);
-            rename.setVisible(isVisible);
+            renameGroup.setVisible(isVisible);
         }
     }
 
@@ -204,26 +206,24 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        String command = e.getActionCommand();
         ContactListModel model = ((ContactListModel) source.getModel());
 
-        if (command.equals("Show offline contacts")) {
+        if (e.getSource() == showOffline) {
             Settings.setShowOfflineContacts(showOffline.isSelected());
         }
 
-        final String subject = playerName.getText();
+        final String player = playerName.getText();
         
-        if (command.equals("Accept")) {
-            Protocol.acceptRequest(subject); 
-        } else if (command.equals("Accept and add")) {
-            Protocol.acceptRequest(subject);
-            Protocol.addToContacts(subject);
-        } else if (command.equals("Refuse")) {
-            Protocol.refuseRequest(subject);
-        } else if (command.equals("Remove contact")) {
-            Protocol.removeContact(subject);
-        } else if (command.equals("Create new group")) {
+        if (e.getSource() == accept) {
+            Protocol.acceptRequest(player);
+        } else if (e.getSource() == acceptAndAdd) {
+            Protocol.acceptRequest(player);
+            Protocol.addToContacts(player);
+        } else if (e.getSource() == refuse) {
+            Protocol.refuseRequest(player);
+        } else if (e.getSource() == removeContact) {
+            Protocol.removeContact(player);
+        } else if (e.getSource() == createGroup) {
             Collection groups = model.getGroupNames();
             if (groups.contains("New group")) {
                 int i = 1;
@@ -242,38 +242,41 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             if (editorComp != null) {
                 editorComp.requestFocusInWindow();
             }
-        } else if (command.equals("Delete group")) {
-            Protocol.deleteGroup(subject);
-        } else if (command.equals("Refresh list")) {
+        } else if (e.getSource() == deleteGroup) {
+            Protocol.deleteGroup(player);
+        } else if (e.getSource() == refreshList) {
             Protocol.refreshContacts();
-        } else if (command.equals("Rename group")) {
+        } else if (e.getSource() == renameGroup) {
             source.editCellAt(source.getSelectedIndex(), e);
             Component editorComp = source.getEditorComponent();
             if (editorComp != null) {
                 editorComp.requestFocusInWindow();
             }
-        } else if (command.equals("Whisper")) {
-            if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {
-                TabOrganizer.openPrivateChatPanel(subject, true);
+        } else if (e.getSource() == whisper) {
+            if (model.getStatus(player) != ContactListElementTypes.OFFLINE) {
+                TabOrganizer.openPrivateChatPanel(player, true);
             }
-        } else if (command.equals("Nudge")) {
-            Protocol.nudge(subject);
-            Globals.getClientFrame().printToVisibleChatbox("System", "You have nudged "+subject +" !", ChatStyles.SYSTEM , false);
-        } else if (command.equals("Invite to room")) {
-            Protocol.sendRoomInvite(subject);
-        } else if (command.equals("Show profile")) {
-            Protocol.requestProfile(subject);
-        } else if (command.equals("Ban")) {
-            Protocol.kick(subject);
-            Protocol.ban(subject);
-        } else if (command.equals("UnBan")) {
-            Protocol.unBan(subject);
-        } else if (command.equals("Mute")) {
-            Protocol.mute(subject);
-        } else if (command.equals("UnMute")) {
-            Protocol.unMute(subject);
-        } else if (command.equals("Send file")) {
-            if (model.getStatus(subject) != ContactListElementTypes.OFFLINE) {
+        } else if (e.getSource() == nudge) {
+            Protocol.nudge(player);
+        } else if (e.getSource() == roomInvite) {
+            Protocol.sendRoomInvite(player);
+        } else if (e.getSource() == showProfile) {
+            Protocol.requestProfile(player);
+         } else if (e.getSource() == ban_UnBan) {
+            if(!ban_UnBan.isSelected()){ //Somehow this is inverted
+                Protocol.unBan(player);
+            }else{
+                Protocol.kick(player);
+                Protocol.ban(player);
+            }
+        } else if (e.getSource() == mute_UnMute) {
+            if(!mute_UnMute.isSelected()){ //Somehow this is inverted
+                Protocol.unMute(player);
+            }else{
+                Protocol.mute(player);
+            }
+        } else if (e.getSource() == sendFile) {
+            if (model.getStatus(player) != ContactListElementTypes.OFFLINE) {
 
                 new Thread() {
 
@@ -288,8 +291,8 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                             if (returnVal == FileChooser.SELECT_ACTION) {
                                 inputfile = mfc.getSelectedFile();
                                 if (inputfile != null) {
-                                    if(TabOrganizer.sendFile(subject, inputfile)){
-                                        Protocol.sendFile(subject, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
+                                    if(TabOrganizer.sendFile(player, inputfile)){
+                                        Protocol.sendFile(player, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
                                         Globals.setLastOpenedDir(inputfile.getParent());
                                     }
                                 }
@@ -300,8 +303,8 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                     }
                 }.start();
             }
-        } else if (model.getGroupNames().contains(command)) {//otherwise the action name is a groupname and the selected user must be moved there
-            Protocol.moveToGroup(subject, command);
+        } else if (model.getGroupNames().contains(e.getActionCommand())) {//otherwise the action name is a groupname and the selected user must be moved there
+            Protocol.moveToGroup(player, e.getActionCommand());
         }
     }
 
@@ -366,7 +369,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                             setGroupActionVisibility(false);
                             setContactActionVisibility(false);
                             moveto.setVisible(true);
-                            deleteContact.setVisible(true);
+                            removeContact.setVisible(true);
                             sep_contact.setVisible(true);
                             mute_UnMute.setVisible(true);
                             ban_UnBan.setVisible(true);
@@ -399,21 +402,21 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                     }
                 }
                 if (MuteBanList.getMuteBanStatus(playerName.getText()) == null) {
-                    mute_UnMute.setText("Mute");
-                    ban_UnBan.setText("Ban");
+                    mute_UnMute.setSelected(false);
+                    ban_UnBan.setSelected(false);
                 } else {
                     switch (MuteBanList.getMuteBanStatus(playerName.getText())) {
                         case BANNED:
-                            mute_UnMute.setText("Mute");
-                            ban_UnBan.setText("UnBan");
+                            mute_UnMute.setSelected(false);
+                            ban_UnBan.setSelected(true);
                             break;
                         case MUTED:
-                            mute_UnMute.setText("UnMute");
-                            ban_UnBan.setText("Ban");
+                            mute_UnMute.setSelected(true);
+                            ban_UnBan.setSelected(false);
                             break;
                         case BOTH:
-                            mute_UnMute.setText("UnMute");
-                            ban_UnBan.setText("UnBan");
+                            mute_UnMute.setSelected(true);
+                            ban_UnBan.setSelected(true);
                             break;
                     }
                 }

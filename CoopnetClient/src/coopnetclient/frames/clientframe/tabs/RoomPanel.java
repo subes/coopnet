@@ -684,6 +684,7 @@ private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST
 
     public void updateHighlights(){
         scrl_chatOutput.updateHighlights();
+        lst_userList.repaint();
     }
 
     public void updateStyle(){
