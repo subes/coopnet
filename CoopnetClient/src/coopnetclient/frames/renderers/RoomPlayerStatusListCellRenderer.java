@@ -147,14 +147,13 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
 
         String text = EscapeChars.forHTML(value.toString());
         if(Globals.isHighlighted(value.toString())){
-            text = "<html><u>"+text+"</u></html>";
+            setText("<html>&nbsp;<u>"+text+"</u></html>");
+        }else{
+            setText("<html>&nbsp;"+text+"</html>");
         }
 
         if (isSelected && !(value.toString().equals(Globals.getThisPlayer_loginName()))) {
-            setText(" "+text);
             setBorder(selectionBorder);
-        } else {
-            setText(" "+text);
         }
         //is away?
         if(awayList.contains(value.toString())){

@@ -51,9 +51,11 @@ public class ChannelStatusListCellRenderer extends DefaultListCellRenderer {
 
         String text = EscapeChars.forHTML(value.toString());
         if(Globals.isHighlighted(value.toString())){
-            text = "<html><u>"+text+"</u></html>";
+            setText("<html><u>"+text+"</u></html>");
+        }else{
+            setText("<html>"+text+"</html>");
         }
-        setText(text);
+        
         
         //set foreground        
         if (Settings.getColorizeBody()) {
