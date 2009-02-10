@@ -150,6 +150,10 @@ public class TabComponent extends javax.swing.JPanel {
             lbl_text.setFont(f);
         }
     }
+
+    public void setTitle(String title){
+        lbl_text.setText(title);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lbl_close;
     private javax.swing.JLabel lbl_icon;

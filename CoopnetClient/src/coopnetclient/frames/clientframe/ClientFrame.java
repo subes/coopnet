@@ -196,7 +196,7 @@ public class ClientFrame extends javax.swing.JFrame {
             found = TabOrganizer.getRoomPanel().updatePlayerName(oldname, newname) || found;
         }
         //update the pm tab title too
-        TabOrganizer.updateTitleOnTab(oldname, newname);
+        TabOrganizer.updatePrivateChatName(oldname, newname);
         //update the contactlist
         found = Globals.getContactList().updateName(oldname, newname) ||found;
         return found;

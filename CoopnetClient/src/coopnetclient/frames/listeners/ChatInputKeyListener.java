@@ -47,6 +47,10 @@ public class ChatInputKeyListener implements KeyListener {
         this.mode = mode;
     }
 
+    public void setPrefix(String prefix){
+        this.prefix = prefix;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
     }

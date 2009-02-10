@@ -31,6 +31,7 @@ import java.awt.event.KeyEvent;
 public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab {
 
     private String partner;
+    private ChatInputKeyListener keyListener;
 
     /** Creates new form PrivateChatPanel */
     public PrivateChatPanel(String partner) {
@@ -38,7 +39,8 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
         initComponents();
         coopnetclient.utils.ui.Colorizer.colorize(this);
 
-        tp_chatInput.addKeyListener(new ChatInputKeyListener(2, partner));
+        keyListener = new ChatInputKeyListener(2, partner);
+        tp_chatInput.addKeyListener(keyListener);
         scrl_chatOutput.getTextPane().addMouseListener(new HyperlinkMouseListener());
         scrl_chatOutput.getTextPane().addKeyListener(new java.awt.event.KeyAdapter() {
 
@@ -61,7 +63,12 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
     public String getPartner(){
         return partner;
     }
-    
+
+    public void setPartner(String name){
+        partner = name;
+        keyListener.setPrefix(partner);
+    }
+
     public void updateMuteBanStatus(){
         MuteBanStatuses status = MuteBanList.getMuteBanStatus(partner);
         if (status == null) {

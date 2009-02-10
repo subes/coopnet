@@ -561,10 +561,15 @@ public class TabOrganizer {
     }
     
     /*******************************************************************/
-    public static void updateTitleOnTab(String oldTitle, String newTitle) {
+    public static void updatePrivateChatName(String oldName, String newName) {
         int index = -1;
-        while ((index = tabHolder.indexOfTab(oldTitle)) != -1) {
-            tabHolder.setTitleAt(index, newTitle);
+        while ((index = tabHolder.indexOfTab(oldName)) != -1) {
+            tabHolder.setTitleAt(index, newName);
+            ((TabComponent)tabHolder.getTabComponentAt(index)).setTitle(newName);
+            Component comp = tabHolder.getComponentAt(index);
+            if(comp instanceof PrivateChatPanel){
+                ((PrivateChatPanel)comp).setPartner(newName);
+            }
         }
     }
 
