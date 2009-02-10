@@ -20,6 +20,8 @@
 package coopnetclient.frames.models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 public class RoomTableModel extends DefaultTableModel {
@@ -120,15 +122,14 @@ public class RoomTableModel extends DefaultTableModel {
     private ChannelStatusListModel userDataModel;
     
 
-    {
-        rooms = new ArrayList<Room>();
-    }
+    
 
     /** Creates a new instance of MyTableModel */
     public RoomTableModel(javax.swing.JTable parent,ChannelStatusListModel userdatamodel) {
         super();
         this.parent = parent;
         this.userDataModel = userdatamodel;
+        this.rooms = new ArrayList<Room>();
     }
 
     public int indexOf(String hostName) {
@@ -157,6 +158,48 @@ public class RoomTableModel extends DefaultTableModel {
     @Override
     public String getColumnName(int col) {
         return columnNames[col];
+    }
+
+    @Override
+    public void addColumn(Object columnName) {
+        return;
+    }
+
+    @Override
+    public void addColumn(Object columnName, Vector columnData) {
+        return;
+    }
+
+    @Override
+    public void addColumn(Object columnName, Object[] columnData) {
+        return;
+    }
+
+    public Vector getColumnIdentifiers() {
+        return new Vector(Arrays.asList(columnNames));
+    }
+
+    public String[] getColumnNames() {
+        return columnNames;
+    }
+
+    @Override
+    public void setColumnCount(int columnCount) {
+        return;
+    }
+
+    @Override
+    public void setColumnIdentifiers(Object[] newIdentifiers) {
+        return;
+    }
+
+    @Override
+    public void setColumnIdentifiers(Vector columnIdentifiers) {
+        return;
+    }
+
+    public void setColumnNames(String[] columnNames) {
+        return;
     }
 
     @Override
