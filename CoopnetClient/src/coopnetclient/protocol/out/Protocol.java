@@ -48,9 +48,6 @@ public class Protocol {
     //Heartbeat character
     public static final String HEARTBEAT = "\u2665";
 
-    //Increment this, when changes to the protocol commands have been done
-    public static final int PROTOCOL_VERSION = 4;
-
     static{
         try{
             CharsetEncoder encoder = Charset.forName("UTF-8").newEncoder();

@@ -20,7 +20,6 @@
 package coopnetclient.utils;
 
 import coopnetclient.Globals;
-import coopnetclient.protocol.out.Protocol;
 import java.io.File;
 
 public class Verification {
@@ -29,7 +28,7 @@ public class Verification {
     public static boolean verifyProtocolVersion(String version){
         try{
             int v = Integer.parseInt(version);
-            if(v != Protocol.PROTOCOL_VERSION){
+            if(v != Globals.COMPATIBILITY_VERSION){
                 return false;
             }
         }catch(Exception e){

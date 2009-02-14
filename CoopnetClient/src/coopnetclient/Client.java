@@ -87,8 +87,7 @@ public class Client {
     }
 
     /**
-     *Initializes and starts the client
-     * 
+     * Initializes and starts the client.
      */
     public static void startup() {
 

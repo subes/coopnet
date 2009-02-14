@@ -92,7 +92,7 @@ public class BugReportFrame extends javax.swing.JFrame {
 
         report += "\n\nClient version:\n\t" + Globals.CLIENT_VERSION;
 
-        report += "\n\nProtocol version:\n\t" + Protocol.PROTOCOL_VERSION;
+        report += "\n\nProtocol version:\n\t" + Globals.COMPATIBILITY_VERSION;
 
         report += "\n\nJava version: \n\t" + System.getProperty("java.vm.name")+ " " + System.getProperty("java.runtime.version");
 

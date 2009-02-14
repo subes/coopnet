@@ -74,7 +74,7 @@ public class CommandHandler {
 
         if (!Globals.getLoggedInStatus()) {//not-logged-in commands
             switch (command) {
-                case PROTOCOL_VERSION:
+                case COMPATIBILITY_VERSION:
                     CommandMethods.checkProtocolVersion(information[0]);
                     break;
                 case OK_LOGIN:
@@ -127,7 +127,7 @@ public class CommandHandler {
                 currentChannelName = GameDatabase.getGameName(information[0]);
             }
             switch (command) {
-                case PROTOCOL_VERSION:
+                case COMPATIBILITY_VERSION:
                     CommandMethods.checkProtocolVersion(information[0]);
                     break;
                 case CHAT_MAIN:
