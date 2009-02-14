@@ -72,7 +72,7 @@ public class Client {
             Enumeration nifEnm = NetworkInterface.getNetworkInterfaces();
             while (nifEnm.hasMoreElements()) {
                 NetworkInterface nif = (NetworkInterface) nifEnm.nextElement();
-                if (nif.getDisplayName().contains("Hamachi")) {
+                if (nif.getDisplayName().toLowerCase().contains("hamachi")) {
                     Enumeration<InetAddress> iadrs = nif.getInetAddresses();
                     while (iadrs.hasMoreElements()) {
                         InetAddress iadr = iadrs.nextElement();
