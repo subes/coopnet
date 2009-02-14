@@ -23,11 +23,9 @@ public class VerificationTest extends AbstractCoopnetClientTest {
         protocolVersion = "";
         Assert.assertFalse(Verification.verifyProtocolVersion(protocolVersion));
 
-        try{
-            protocolVersion = null;
-            Verification.verifyProtocolVersion(protocolVersion);
-            Assert.fail();
-        }catch(NullPointerException e){}
+        //This tested method has to be nullsafe
+        protocolVersion = null;
+        Assert.assertFalse(Verification.verifyProtocolVersion(protocolVersion));
 
         protocolVersion = "notanumber";
         Assert.assertFalse(Verification.verifyProtocolVersion(protocolVersion));
@@ -41,11 +39,9 @@ public class VerificationTest extends AbstractCoopnetClientTest {
         clientVersion = "";
         Assert.assertFalse(Verification.verifyClientVersion(clientVersion));
 
-        try{
-            clientVersion = null;
-            Verification.verifyClientVersion(clientVersion);
-            Assert.fail();
-        }catch(NullPointerException e){}
+        //This tested method has to be nullsafe
+        clientVersion = null;
+        Assert.assertFalse(Verification.verifyClientVersion(clientVersion));
 
         String[] versionSplit = Globals.CLIENT_VERSION.split("\\.");
         int[] i_versionSplit = new int[versionSplit.length];

@@ -32,7 +32,7 @@ public class Verification {
             if(v != Protocol.PROTOCOL_VERSION){
                 return false;
             }
-        }catch(NumberFormatException e){
+        }catch(Exception e){
             Logger.log(e);
             return false;
         }
@@ -51,10 +51,7 @@ public class Verification {
                     return Integer.parseInt(clientVersionSplit[i-1]) > Integer.parseInt(checkAgainstSplit[i-1]);
                 }
             }
-        }catch(NumberFormatException e){
-            Logger.log(e);
-            return false;
-        }catch(ArrayIndexOutOfBoundsException e){
+        }catch(Exception e){
             Logger.log(e);
             return false;
         }
