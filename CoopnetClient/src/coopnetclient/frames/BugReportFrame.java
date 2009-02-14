@@ -19,6 +19,7 @@
 package coopnetclient.frames;
 
 import bugreportmailsender.BugReportMailSender;
+import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframe.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
@@ -103,6 +104,7 @@ public class BugReportFrame extends javax.swing.JFrame {
 
         report += "\n\nCountry and Language codes:\n\t" + System.getProperty("user.country") + "-" + System.getProperty("user.language");
 
+        report += "\n\nHamachi:\n\t" + ((Client.getHamachiAddress().length()>0)?" found":" not found");
 
         //EMail
         if (tf_email.getText().length() > 0) {
