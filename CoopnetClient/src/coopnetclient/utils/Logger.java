@@ -1,4 +1,4 @@
-/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
+/*  Copyright 2007  Edwin Stang (edwinstang@gmail.com),
  *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
  *
  *  This file is part of Coopnet.
@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.utils;
 
 import coopnetclient.Globals;
@@ -26,40 +25,43 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Logger {
+public final class Logger {
 
-    private static ArrayList<String> log = new ArrayList<String>();
+    private static final ArrayList<String> LOG = new ArrayList<String>();
     private static final int TAIL_LENGTH = 300;
-    
-    public static String getEndOfLog(){
+
+    private Logger() {
+    }
+
+    public static String getEndOfLog() {
         String ret = new String();
-        for(int i = 0; i < log.size(); i++){
-            ret += log.get(i) + "\n";
+        for (int i = 0; i < LOG.size(); i++) {
+            ret += LOG.get(i) + "\n";
         }
         return ret;
     }
-    
-    public static void logInTraffic(ServerProtocolCommands command, String[] information){
+
+    public static void logInTraffic(final ServerProtocolCommands command, final String[] information) {
         String message = command.toString() + " ";
-        if(information.length != 0){
+        if (information.length != 0) {
             message += "[";
-            for( int i = 0; i < information.length; i++){
-                if(i != 0){
+            for (int i = 0; i < information.length; i++) {
+                if (i != 0) {
                     message += "|";
                 }
                 message += information[i];
             }
-            message += "]"; 
+            message += "]";
         }
         log(LogTypes.IN, message);
     }
-    
-    public static void logInTraffic(String[] data){
+
+    public static void logInTraffic(final String[] data) {
         String message = data[0] + " ";
-        if(data.length != 1){
+        if (data.length != 1) {
             message += "[";
-            for( int i = 1; i < data.length; i++){
-                if(i != 1){
+            for (int i = 1; i < data.length; i++) {
+                if (i != 1) {
                     message += "|";
                 }
                 message += data[i];
@@ -68,63 +70,71 @@ public class Logger {
         }
         log(LogTypes.IN, message);
     }
-    
-    public static void logOutTraffic(String logString){
+
+    public static void logOutTraffic(final String logString) {
         log(LogTypes.OUT, logString);
     }
-    
-    public static void log(LogTypes type, String message){
-        message = message.trim();
-        while(message.endsWith("\n\n")){
-            message = message.substring(0, message.length()-1);
+
+    public static void log(final String message) {
+        Logger.log(LogTypes.LOG, message);
+    }
+
+    public static void logErr(final String errorMessage) {
+        Logger.log(LogTypes.ERROR, errorMessage);
+    }
+
+    public static void log(final LogTypes type, final String message) {
+        String newMessage = message.trim();
+        while (newMessage.endsWith("\n\n")) {
+            newMessage = newMessage.substring(0, newMessage.length() - 1);
         }
 
-        String entry = getHeader(type) + message;
-        
-        if(Globals.getDebug()){
-            if(type == LogTypes.ERROR){
+        String entry = getHeader(type) + newMessage;
+
+        if (Globals.getDebug()) {
+            if (type == LogTypes.ERROR) {
                 System.err.println(entry);
-            }else{
+            } else {
                 System.out.println(entry);
             }
         }
         append(entry);
     }
-    
-    public static void log(Throwable exception){
+
+    public static void log(final Throwable exception) {
         String entry = "\n" + exception.getClass().toString() + ": " + exception.getMessage();
 
         StackTraceElement[] trace = exception.getStackTrace();
-        for(int i = 0; i < trace.length; i++){
-            entry += "\n\tat "+trace[i].toString();
+        for (int i = 0; i < trace.length; i++) {
+            entry += "\n\tat " + trace[i].toString();
         }
-        
+
         Throwable cause = exception.getCause();
-        while(cause != null){
+        while (cause != null) {
             entry += "\nCaused by - " + cause.getClass().toString() + ": " + cause.getMessage();
             trace = cause.getStackTrace();
-            for(int i = 0; i < trace.length; i++){
-                entry += "\n\tat "+trace[i].toString();
+            for (int i = 0; i < trace.length; i++) {
+                entry += "\n\tat " + trace[i].toString();
             }
-            
+
             cause = cause.getCause();
         }
-        
+
         log(LogTypes.ERROR, entry);
     }
-    
-    private static void append(String entry){
-        if(log.size() == TAIL_LENGTH){
-            log.remove(0);
+
+    private static void append(final String entry) {
+        if (LOG.size() == TAIL_LENGTH) {
+            LOG.remove(0);
         }
-        
-        log.add(entry);
+
+        LOG.add(entry);
     }
-    
-    private static String getHeader(LogTypes type){
+
+    private static String getHeader(final LogTypes type) {
         SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy - HH:mm:ss.SSS");
         String entry = date.format(new Date()) + "\t" + type + ":\t";
-        
+
         return entry;
     }
 }

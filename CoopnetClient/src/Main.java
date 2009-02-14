@@ -1,4 +1,4 @@
-/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
+/*  Copyright 2007  Edwin Stang (edwinstang@gmail.com),
  *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
  *
  *  This file is part of Coopnet.
@@ -26,17 +26,20 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 
-public class Main {
+public final class Main {
 
-    public static void main(String[] args) {
+    private Main() {
+    }
+
+    public static void main(final String[] args) {
         //See if we have security problems
-        try{
+        try {
             System.getProperty("os.name");
-        }catch(SecurityException e){
+        } catch (SecurityException e) {
             JOptionPane.showMessageDialog(null,
                     "An error occured while trying to detect your operating system!" +
                     "\nPlease make sure that your security policy in java is not set too tight." +
-                    "\nException message: "+e.getLocalizedMessage(),
+                    "\nException message: " + e.getLocalizedMessage(),
                     "ERROR",
                     JOptionPane.ERROR_MESSAGE);
             System.exit(1);
@@ -53,19 +56,19 @@ public class Main {
         Client.startup();
     }
 
-    private static void checkArgs(String[] args) {
+    private static void checkArgs(final String[] args) {
         //SafeMode has to be done before any Settings have been read!
-        for(int i = 0; i < args.length; i++){
-            if(args[i].equals("--safemode")){
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals("--safemode")) {
                 Settings.resetSettings();
                 break;
             }
         }
 
         for (int i = 0; i < args.length; i++) {
-            if(args[i].equals("--safemode")){
+            if (args[i].equals("--safemode")) {
                 continue;
-            }else if (args[i].equals("--server")) {
+            } else if (args[i].equals("--server")) {
                 if (args.length < i + 1 || args[i].indexOf(":") == -1) {
                     try {
                         String ip = args[i + 1].substring(0, args[i + 1].indexOf(":"));
@@ -107,8 +110,8 @@ public class Main {
     private static void cleanUpdater() {
         final File tmpDir = new File("./UPDATER_TMP");
         final File updaterFile = new File("./CoopnetUpdater.jar");
-        
-        if(tmpDir.exists() || updaterFile.exists()){
+
+        if (tmpDir.exists() || updaterFile.exists()) {
             Logger.log(LogTypes.LOG, "Updater files queued for deletion ...");
             new Thread() {
 
@@ -116,19 +119,22 @@ public class Main {
                 public void run() {
                     try {
                         sleep(10);
-                    } catch (InterruptedException ex) {}
-                    try{
-                        if(tmpDir.exists()){
+                    } catch (InterruptedException ex) {
+                    }
+                    try {
+                        if (tmpDir.exists()) {
                             Logger.log(LogTypes.LOG, "Deleting ./UPDATER_TMP recursively");
                             deleteFile(tmpDir);
                         }
-                    }catch(IOException e){}
-                    try{
-                        if(updaterFile.exists()){
+                    } catch (IOException e) {
+                    }
+                    try {
+                        if (updaterFile.exists()) {
                             Logger.log(LogTypes.LOG, "Deleting ./CoopnetUpdater.jar");
                             deleteFile(updaterFile);
                         }
-                    }catch(IOException e){}
+                    } catch (IOException e) {
+                    }
                 }
             }.start();
         }

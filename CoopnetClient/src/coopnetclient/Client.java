@@ -1,4 +1,4 @@
-/*	Copyright 2007  Edwin Stang (edwinstang@gmail.com), 
+/*  Copyright 2007  Edwin Stang (edwinstang@gmail.com),
  *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
  *
  *  This file is part of Coopnet.
@@ -91,14 +91,11 @@ public class Client {
      * 
      */
     public static void startup() {
-    
-        Toolkit.getDefaultToolkit().addAWTEventListener(new InactivityWatcher(),
-                 AWTEvent.MOUSE_EVENT_MASK
-                |AWTEvent.MOUSE_MOTION_EVENT_MASK
-                |AWTEvent.MOUSE_WHEEL_EVENT_MASK
-                |AWTEvent.KEY_EVENT_MASK);
 
-        readServerAddress();        
+        Toolkit.getDefaultToolkit().addAWTEventListener(new InactivityWatcher(),
+                AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_WHEEL_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
+
+        readServerAddress();
         SwingUtilities.invokeLater(new Thread() {
 
             @Override
@@ -112,7 +109,7 @@ public class Client {
 
                         @Override
                         public void run() {
-                            Globals.openClientFrame();                            
+                            Globals.openClientFrame();
                             if (Settings.getFirstRun()) {
                                 TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
                                 Settings.setFirstRun(false);
@@ -130,13 +127,13 @@ public class Client {
     }
 
     public static void startConnection() {
-        if(!Globals.getConnectionStatus()){
+        if (!Globals.getConnectionStatus()) {
             TabOrganizer.closeAllTabs();
             TabOrganizer.openConnectingPanel();
             Globals.setConnectionStatus(true);
             handlerThread = new HandlerThread();
             handlerThread.start();
-        }else{
+        } else {
             throw new IllegalStateException("Client is already connected, you shouldn't be able to reconnect!");
         }
     }
@@ -159,7 +156,7 @@ public class Client {
     }
 
     public static void disconnect() {
-        if(Globals.getConnectionStatus()){
+        if (Globals.getConnectionStatus()) {
             Globals.getClientFrame().setQuickPanelVisibility(false);
             Client.stopConnection();
             TabOrganizer.closeAllTabs();
@@ -167,7 +164,7 @@ public class Client {
             Globals.closeChangePasswordFrame();
             Globals.closeShowProfileFrame();
             Globals.closeEditProfileFrame();
-        }else{
+        } else {
             throw new IllegalStateException("Client is already disconnected, you shouldn't be able to disconnect again!");
         }
     }
@@ -193,7 +190,10 @@ public class Client {
             }
             //cancel any filesendings
             TabOrganizer.cancelFileSendingOnClose();
-            try{Thread.sleep(500);}catch(Exception e){}
+            try {
+                Thread.sleep(500);
+            } catch (Exception e) {
+            }
             //close connection
             Client.stopConnection();
             //save sizes
@@ -338,7 +338,7 @@ public class Client {
                                         try {
                                             FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", Globals.getResourceAsString("CoopnetUpdater.jar"));
                                             Runtime rt = Runtime.getRuntime();
-                                            rt.exec("java -jar CoopnetUpdater.jar",null,getCurrentDirectory()  );
+                                            rt.exec("java -jar CoopnetUpdater.jar", null, getCurrentDirectory());
                                             quit(true);
                                         } catch (Exception ex) {
                                             ex.printStackTrace();
