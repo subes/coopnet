@@ -1,0 +1,195 @@
+2009/02/02: CoopnetClient 0.101.3
+  - fixed quick DPlay launch bug
+  - text highlighting
+  - user activity logging
+  - short name for games in tabs
+  - safemode
+  - UI cahnges
+  - client behaviour changes
+  - different text color for contacts
+
+2009/01/08: CoopnetClient 0.101.2
+  - re-added quick DPlay launch
+
+2009/01/05: CoopnetClient 0.101.1
+  - fixed DirectPlay support
+  - fixed file-transfer bug
+
+2009/01/04: CoopnetClient 0.101.0
+  - detection of already running game
+  - GUI changes
+  - DirectPlay support changes
+
+2008/12/24: CoopnetClient 0.100.0
+  - removed voiceChat
+  - better GUI
+  - game detection
+  - away status
+  - better filetransfer
+  - better keyboard accessibility
+
+2008/12/04: CoopnetClient 0.99.2
+  - added volume controls for voiceChat
+
+2008/12/02: CoopnetClient 0.99.1
+  - new feature: voiceChat
+  - now able to load maps from pk3 packages
+  - bugfixes
+
+2008/11/18: CoopnetClient 0.98.4
+  - added some textcommands
+  - welcome message for channels
+  - removed testgamechannel
+  - bugfixes
+
+2008/11/04: CoopnetClient 0.98.3
+  - bugfixes
+
+2008/10/30: CoopnetClient 0.98.2
+  - changed hotkey behaviour
+  - added a splash screen
+  - bugfixes
+
+2008/10/25: CoopnetClient 0.98.1
+  - changed default hotkey that caused problems
+  - fixed some bugs
+
+2008/10/24: CoopnetClient 0.98.0
+  - drag & drop to send files
+  - password recovery
+  - more sounds
+  - smart popupmenu
+  - hotkey for launching
+  - system tray icon
+
+2008/08/30: CoopnetClient 0.97.0
+  - Many Bugfixes and minor improvements
+  - Communication changes between Server and Client
+  - QuickPanel with ContactList
+  - Reimplemented launcher
+  - Room URL & Invite
+  - Instant Launch
+
+2008/07/02: CoopnetClient 0.96.1
+  - Many Bugfixes and minor improvements
+  - Communication changes between Server and Client
+  - Better handling of Frames, e.g. SettingsFrame can't be opened more than once
+
+2008/06/23: CoopnetClient 0.96.0
+  - We added a new versioning system
+  - This breaks the update check in old clients, so please update
+  - New version supports dplay games on linux (you need wine or equivalent)
+  - LookAndFeels are supported, native is now default
+  - A lot of various changes were done aswell: 
+    new default colors, time estimator for filetransfer and a lot of small changes
+
+2008/06/11: CoopnetClient 0.952
+  - Automatic updater added
+  - File transfer function in right click menu (p2p transfer)
+  - Sleep mode to reserve bandwidth
+  - Various bugfixes
+
+2008/06/1: CoopnetClient 0.95
+  - The unicode bug and the statuslist is fixed
+  - The buggy divider location saving and maximized state saving is disabled
+  - This update changes server-client communication so you have to update the client to be able to play
+
+2008/04/28: CoopnetClient 0.94
+  - A few bugs have been fixed and the registry reader is done
+  - As for other platforms and not properly installed games, just set the path in the options menu
+
+2008/04/15: CoopnetClient 0.931
+  - A few bugs have been fixed, but nothing new
+  - Game detection coming soon
+
+2008/04/11: CoopnetClient 0.93
+  - The registry reading is still missing, so the game detection doesn't work yet, but you can manually select game paths now
+  - In the channel playerlist the players status is shown by icons (chatting, in-room, playing)
+  - The parameter launching is fully implemented now both on windows and linux, so probably this is the first multi-OS lobby application
+  - The first game of this type is the Unreal Tournament (1999/GOTY)
+
+2008/03/25: CoopnetClient 0.92
+  - Some new functionality is added:
+    home-channel, favourites, manual game management, beta implementation of parameter based launching
+  - No new games added yet, but the new game-data is downloaded on startup, new channels might show up soon
+
+2008/02/03: CoopnetClient 0.91
+  - HAMACHI support is added:
+    This will solve any connection problems with games, you only have to
+    join a hamachi room (the host and the clients having connection problems must be connected aswell) and check the "hamachi support" checkbox.
+    Note that it needs time to change to the hamachi interface, about 5-10 seconds.
+    Not everyone needs to be in the hamachi room, only the host and the people who want to use that feature.
+    The others should NOT check in the checkbox or they will be unable to connect.
+
+2008/01/13: CoopnetClient 0.9
+  - The client has been rewritten from scratch 
+  - Added launch sound
+  - Added nudge feature
+  - Added connect/disconnect menuitems
+  - Added framesize-saving
+  - Added timestamps to chat 
+
+2007/11/12: CoopnetClient 0.88
+  - Compatibility mode added at room creation, if enabled, 
+    it searches for a DirectPlay session instead of just launching
+  - Player status is sent when you join, so you can see if they are still playing or not
+
+2007/10/22: CoopnetClient 0.87
+  - Simple editable, viewable player profile
+  - It is now possible to change a users password 
+  - Added multi-line chat functionality
+
+2007/10/14: CoopnetClient 0.86e
+  - Nothing new is added, just bug fixes
+
+2007/08/16: CoopnetClient 0.86d
+  - The scrollbars are now colored as well
+  - New auto-login feature available via options menu
+  - And some other improvements here and there
+
+2007/08/14: CoopnetClient 0.86c
+  - Now the colored skin is disabled by default, you can enable it with 4 clicks
+  - The autoscroll function is improved
+
+2007/08/14: CoopnetClient 0.86b
+  - The roomlist shows the current players in the room as a tooltip text
+  - In the room, yellow color shows the playing status
+
+2007/08/12: CoopnetClient 0.86
+  - The fotdplay exe is replaced
+  - The main chat window is a bit improved
+
+2007/08/11: CoopnetClient 0.85d
+  - The user list is now sorted
+  - Buttons have different color when mouse is over them
+  - The main window remembers its position and size
+  - Text style and size is selectable in options
+
+2007/08/10: CoopnetClient 0.85c
+  - The only change is a new colored chat
+  - The chat protocol changed, so older clients will have problems
+  - We also have a nice default skin thanks to Jay
+
+2007/08/8: CoopnetClient 0.85b
+  - Fixed dplay handling
+  - A new fotdpaly.exe
+  - Auto login
+  - New debug mode with .exe launcher
+
+2007/08/7: CoopnetClient 0.84b
+  - The private chat system is improved
+  - New messages will appear in a private talk tab, but messages will still be printed wherever you can see it
+  - The colors used by the components can be altered in options
+  - There should be no more player data losses from now on
+
+2007/08/6: CoopnetClient 0.83
+  - Fixed a problem with the chat in rooms that made clients crash
+  - The roomlist is not editable now
+  - You can join the desired room by double clicking on it
+
+2007/08/5: CoopnetClient 0.82
+  - The roomlist is replaced with a table
+  - A gif-image shows if the room is password protected
+  - You can also see how many players are in the room
+  - The roomlist is sortable from now on
+  - If you change your name, now its updated in the roomlist
