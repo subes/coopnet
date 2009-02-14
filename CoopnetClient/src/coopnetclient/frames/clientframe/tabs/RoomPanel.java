@@ -73,8 +73,8 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     private boolean wasReadyBeforeReInit = false;
 
-    public RoomPanel(RoomData roomData) {
-        this.roomData = roomData;
+    public RoomPanel(RoomData theRoomData) {
+        this.roomData = theRoomData;
         this.users = new SortedListModel();
         users.add(Globals.getThisPlayer_loginName());
 
@@ -82,7 +82,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
         if(Client.getHamachiAddress().length() <= 0){
             cb_useHamachi.setVisible(false);
-        } else if(roomData.getHamachiIP().length() > 0 ) {
+        } else if(roomData.getHamachiIP().length() > 0) {
             hamachiWasEnabled = true;
             cb_useHamachi.setToolTipText("<html>Don't use this unless you have connection issues!<br>If you really need to use this consult with the room host!<br>Both you and the host have to be connected to <br>the same hamachi network!Otherwise it won't work!");
         }
@@ -119,14 +119,14 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             }
         });
 
-        if (!roomData.isHost()) {
+        if (!theRoomData.isHost()) {
             convertToJoinPanel();
         }
 
         Colorizer.colorize(this);
 
-        chat("", roomData.getRoomName(), ChatStyles.USER);
-        chat("", "room://"+roomData.getRoomID(), ChatStyles.USER);
+        chat("", theRoomData.getRoomName(), ChatStyles.USER);
+        chat("", "room://"+theRoomData.getRoomID(), ChatStyles.USER);
 
         prgbar_connecting.setVisible(false);
 
