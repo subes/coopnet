@@ -2544,7 +2544,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
-            <PropertyValue>-c "CONFIG -set ipx=true" -c "IPXNET CONNECT {IP} {PORT}" -c "{GAMEEXE} /nointro"</PropertyValue>
+            <PropertyValue>-c "CONFIG -set ipx=true" -c "IPXNET CONNECT {HOSTIP} {PORT}" -c "{GAMEEXE} /nointro"</PropertyValue>
         </Property>
         <Settings>
             <NumberSetting>
