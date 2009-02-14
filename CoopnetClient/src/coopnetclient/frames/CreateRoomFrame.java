@@ -47,6 +47,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
     /** Creates new form CreateFrame */
     public CreateRoomFrame(String channel) {
         initComponents();
+        tf_name.setText(Globals.getLastRoomName());
         this.channel = channel;
         this.modnames = GameDatabase.getGameModNames(channel);
         if (modnames != null && modnames.length > 0) {
@@ -133,7 +134,6 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         pnl_input.setBorder(javax.swing.BorderFactory.createTitledBorder("Create room"));
         pnl_input.setLayout(new java.awt.GridBagLayout());
 
-        tf_name.setText("My room, come and play!");
         tf_name.setNextFocusableComponent(pf_password);
         tf_name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -335,6 +335,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             RoomData rd = new RoomData(true,channel,modindex,"","",(Integer) spn_maxPlayers.getValue(),"",tf_name.getText(),0l,passw,cb_searchEnabled.isSelected(),cb_instantroom.isSelected());
             Protocol.createRoom(rd);
             Globals.closeRoomCreationFrame();
+            Globals.setLastRoomName(tf_name.getText());
             TabOrganizer.getChannelPanel(channel).disableButtons();
         } else if (btn_create.getText().equals("Launch")) {
             //simple instantlaunch

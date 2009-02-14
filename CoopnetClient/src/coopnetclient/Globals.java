@@ -65,6 +65,7 @@ public class Globals {
     private static OperatingSystems operatingSystem;
     private static String lastOpenedDir;
     private static String wineCommand;
+    private static String lastRoomName = "My room, come and play!";
     //Preset value
     private static boolean debug = false;
     private static boolean connectionStatus = false;
@@ -97,6 +98,20 @@ public class Globals {
     private static String currentPath = "";
     private static TransferTableModel transferModel = new TransferTableModel();
     private static ArrayList<String> higlightList = new ArrayList<String>();
+
+    /**
+     * @return the lastRoomName
+     */
+    public static String getLastRoomName() {
+        return lastRoomName;
+    }
+
+    /**
+     * @param aLastRoomName the lastRoomName to set
+     */
+    public static void setLastRoomName(String theLastRoomName) {
+        lastRoomName = theLastRoomName;
+    }
     /*******************************************************************/
 
     private Globals(){}
