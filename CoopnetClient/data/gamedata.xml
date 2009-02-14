@@ -2540,11 +2540,11 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         in options/manage games/environment tab!</WelcomeMessage>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>"{GAMEEXE}" -exit -c "CONFIG -set ipx=true" -c "IPXNET STARTSERVER {PORT}"</PropertyValue>
+            <PropertyValue>-c "CONFIG -set ipx=true" -c "IPXNET STARTSERVER {PORT}" -c "{GAMEEXE} /nointro"</PropertyValue>
         </Property>
         <Property>
             <PropertyName>JOINPATTERN</PropertyName>
-            <PropertyValue>"{GAMEEXE}" -exit -c "CONFIG -set ipx=true" -c "IPXNET CONNECT {IP} {PORT}"</PropertyValue>
+            <PropertyValue>-c "CONFIG -set ipx=true" -c "IPXNET CONNECT {IP} {PORT}" -c "{GAMEEXE} /nointro"</PropertyValue>
         </Property>
         <Settings>
             <NumberSetting>
