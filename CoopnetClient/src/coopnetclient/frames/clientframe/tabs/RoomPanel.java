@@ -162,13 +162,6 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             @Override
             public void run() {
                 try{
-                    String ip = null;
-                    if(cb_useHamachi.isSelected()){
-                        ip = roomData.getHamachiIP();
-                    }else{
-                        ip = roomData.getIP();
-                    }
-                    
                     LaunchMethods method = GameDatabase.getLaunchMethod(roomData.getChannel(), roomData.getModName());
                     if(method == LaunchMethods.PARAMETER){
                         launchInfo = new ParameterLaunchInfo(roomData);
@@ -596,11 +589,13 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         if (cb_useHamachi.isSelected()) {
             Logger.log(LogTypes.LOG, "Hamachi support turning on");
             cb_useHamachi.setEnabled(false);
+            roomData.setUseHamachi(true);
             initLauncher();
             cb_useHamachi.setEnabled(true);
         } else {
             Logger.log(LogTypes.LOG, "Hamachi support turning off");
             cb_useHamachi.setEnabled(false);
+            roomData.setUseHamachi(false);
             initLauncher();
             cb_useHamachi.setEnabled(true);
         }

@@ -30,7 +30,6 @@ import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -112,7 +111,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                         " gameGUID:" + this.launchInfo.getGameGUID() +
                         " hostIP:" + this.launchInfo.getRoomData().getIP() +
                         " isHost:" + this.launchInfo.getRoomData().isHost() +
-                        " maxPlayers: "+this.launchInfo.getRoomData().getMaxPlayers())){
+                        " maxPlayers:"+this.launchInfo.getRoomData().getMaxPlayers())){
             return false;
         }
 

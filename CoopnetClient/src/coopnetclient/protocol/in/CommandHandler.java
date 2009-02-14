@@ -215,7 +215,7 @@ public class CommandHandler {
                     Globals.showWrongPasswordNotification();
                     break;
                 case CREATE_ROOM:
-                    rd = new RoomData(true,currentChannelName,Integer.valueOf(information[2]),"","",Integer.valueOf(information[1]),Globals.getThisPlayer_loginName(),information[3],Long.valueOf(information[4]),information[5],Boolean.valueOf(information[6]), false);
+                    rd = new RoomData(true,currentChannelName,Integer.valueOf(information[2]),Globals.getMyIP(),Client.getHamachiAddress(),Integer.valueOf(information[1]),Globals.getThisPlayer_loginName(),information[3],Long.valueOf(information[4]),information[5],Boolean.valueOf(information[6]), false);
                     TabOrganizer.openRoomPanel(rd);
                     break;
                 case LEAVE_ROOM:

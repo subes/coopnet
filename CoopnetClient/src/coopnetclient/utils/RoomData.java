@@ -26,6 +26,7 @@ public class RoomData {
     private boolean isHost;
     private boolean doSearch;
     private boolean isInstant;
+    private boolean useHamachi = false;
     private String channel;    
     private String modName;
     private String IP;
@@ -90,11 +91,11 @@ public class RoomData {
     }
 
     public String getIP() {
-        return IP;
-    }
-
-    public void setIP(String IP) {
-        this.IP = IP;
+        if(useHamachi){
+            return hamachiIP;
+        }else{
+            return IP;
+        }
     }
 
     public String getHamachiIP() {
@@ -159,6 +160,20 @@ public class RoomData {
 
     public void setIsInstant(boolean isInstant) {
         this.isInstant = isInstant;
+    }
+
+    /**
+     * @return the useHamachi
+     */
+    public boolean useHamachi() {
+        return useHamachi;
+    }
+
+    /**
+     * @param useHamachi the useHamachi to set
+     */
+    public void setUseHamachi(boolean useHamachi) {
+        this.useHamachi = useHamachi;
     }
 
 }
