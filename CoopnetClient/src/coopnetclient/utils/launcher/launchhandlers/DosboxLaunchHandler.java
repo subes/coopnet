@@ -23,22 +23,22 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
-import coopnetclient.utils.launcher.launchinfos.DOSLaunchInfo;
+import coopnetclient.utils.launcher.launchinfos.DosboxLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import java.io.File;
 import java.io.IOException;
 
 public class DosboxLaunchHandler extends LaunchHandler {
 
-    private DOSLaunchInfo launchInfo;
+    private DosboxLaunchInfo launchInfo;
 
     @Override
     public boolean doInitialize(LaunchInfo launchInfo) {
-        if (!(launchInfo instanceof DOSLaunchInfo)) {
-            throw new IllegalArgumentException("expected launchInfo to be " + DOSLaunchInfo.class.toString() + ", but got " + launchInfo.getClass().toString());
+        if (!(launchInfo instanceof DosboxLaunchInfo)) {
+            throw new IllegalArgumentException("expected launchInfo to be " + DosboxLaunchInfo.class.toString() + ", but got " + launchInfo.getClass().toString());
         }
 
-        this.launchInfo = (DOSLaunchInfo) launchInfo;
+        this.launchInfo = (DosboxLaunchInfo) launchInfo;
 
         return true;
     }
@@ -60,8 +60,8 @@ public class DosboxLaunchHandler extends LaunchHandler {
 
             Logger.log(LogTypes.LAUNCHER, launchInfo.getDosboxBinaryPath() + launchInfo.getDosboxParameters());
 
-            File installdir = new File(launchInfo.getInstallPath());
-            p = rt.exec(launchInfo.getDosboxBinaryPath() + launchInfo.getDosboxParameters(), null, installdir);
+            File installdir = new File(launchInfo.getDosboxBinaryPath()).getParentFile();
+            p = rt.exec("\""+launchInfo.getDosboxBinaryPath()+ "\"" + launchInfo.getDosboxParameters(), null, installdir);
 
             if (launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()) {
                 Protocol.launch();

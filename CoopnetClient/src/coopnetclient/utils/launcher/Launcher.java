@@ -35,7 +35,7 @@ import coopnetclient.utils.launcher.launchhandlers.DosboxLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.JDPlayLaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.LaunchHandler;
 import coopnetclient.utils.launcher.launchhandlers.ParameterLaunchHandler;
-import coopnetclient.utils.launcher.launchinfos.DOSLaunchInfo;
+import coopnetclient.utils.launcher.launchinfos.DosboxLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
@@ -83,7 +83,7 @@ public class Launcher {
                 launchHandler = new JDPlayLaunchHandler();
             }else if(launchInfo instanceof ParameterLaunchInfo){
                 launchHandler = new ParameterLaunchHandler();
-            } else if(launchInfo instanceof DOSLaunchInfo){
+            } else if(launchInfo instanceof DosboxLaunchInfo){
                 launchHandler = new DosboxLaunchHandler();
             }
 
@@ -102,7 +102,7 @@ public class Launcher {
                 }
             }
 
-            if(launchInfo instanceof ParameterLaunchInfo || launchInfo instanceof DOSLaunchInfo){
+            if(launchInfo instanceof ParameterLaunchInfo || launchInfo instanceof DosboxLaunchInfo){
                 if(!launchInfo.getRoomData().isInstant()
                     && TabOrganizer.getRoomPanel()!= null
                     && GameDatabase.getGameSettings(launchInfo.getRoomData().getChannel(), launchInfo.getRoomData().getModName()).size() > 0){
@@ -258,7 +258,7 @@ public class Launcher {
         if (method == LaunchMethods.PARAMETER) {
             launchInfo = new ParameterLaunchInfo(roomData);
         } else if (method == LaunchMethods.DOS) {
-            launchInfo = new DOSLaunchInfo(roomData);
+            launchInfo = new DosboxLaunchInfo(roomData);
         } else {
             throw new IllegalArgumentException("You can't instantlaunch from "+method.toString()+" channel! GameName: " + roomData.getChannel() + " ModName: " + roomData.getModName());
         }

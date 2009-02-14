@@ -27,13 +27,13 @@ import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.TempGameSettings;
 import java.io.File;
 
-public class DOSLaunchInfo extends LaunchInfo {
+public class DosboxLaunchInfo extends LaunchInfo {
     
     private String dosboxBinaryPath;
     private String dosboxParameters;
     private String gameBinaryPath;
 
-    public DOSLaunchInfo(RoomData roomData){
+    public DosboxLaunchInfo(RoomData roomData){
         super(roomData);
 
         //TODO: move dosboxBinaryPath and dosboxPrameters outside of the launchinfo and handle this in DOSLaunchHandler
@@ -41,14 +41,20 @@ public class DOSLaunchInfo extends LaunchInfo {
         dosboxBinaryPath = Settings.getDOSBoxExecutable();
         gameBinaryPath = GameDatabase.getLocalExecutablePath(GameDatabase.getIDofGame(roomData.getChannel()));
         
+        //mount
+        dosboxParameters = "-noconsole -c \"mount c "+ GameDatabase.getLocalInstallPath(GameDatabase.getIDofGame(roomData.getChannel()))+"\" -c \"c:\"";
+        //host/join pattern
         if(roomData.isHost()){
-            dosboxParameters = " " + GameDatabase.getHostPattern(roomData.getChannel(), roomData.getModName()) ;
+            dosboxParameters += " " + GameDatabase.getHostPattern(roomData.getChannel(), roomData.getModName()) ;
         }else{
-            dosboxParameters = " " + GameDatabase.getJoinPattern(roomData.getChannel(), roomData.getModName()) ;
+            dosboxParameters += " " + GameDatabase.getJoinPattern(roomData.getChannel(), roomData.getModName()) ;
         }
+        //fullscreen parameter
         if(Settings.getDOSBoxFullscreen()){
             dosboxParameters += " -fullscreen";
         }
+        //quit after game
+        dosboxParameters += " -c \"exit\"";
     }
 
     public String getGameBinaryPath(){
@@ -65,8 +71,9 @@ public class DOSLaunchInfo extends LaunchInfo {
     
     public String getDosboxParameters(){
         String ret = dosboxParameters;
+        String executableName = new File(gameBinaryPath).getName();
 
-        ret = ret.replace("{GAMEEXE}", GameDatabase.getLocalExecutablePath(GameDatabase.getIDofGame(roomData.getChannel())));
+        ret = ret.replace("{GAMEEXE}",executableName);
         ret = ret.replace("{HOSTIP}", roomData.getIP());
         if(GameDatabase.getNoSpacesFlag(roomData.getChannel(), roomData.getModName())){
             ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName().replace(" ", "_"));
