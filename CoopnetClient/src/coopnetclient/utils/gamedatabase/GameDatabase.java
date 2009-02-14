@@ -24,6 +24,7 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.MapLoaderTypes;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RegistryReader;
+import coopnetclient.utils.Settings;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,7 +40,7 @@ import java.util.Vector;
 public class GameDatabase {
 
     public static final String dataFilePath = Globals.getResourceAsString("data/gamedata.xml");
-    private static final String localPathsFilePath = Globals.getResourceAsString("data/localpaths");
+    private static final String localPathsFilePath = Settings.SETTINGS_DIR+"/localpaths";
     protected static HashMap<String, String> IDtoGameName;     // key is the ID    
     protected static HashMap<String, LaunchMethods> IDtoLaunchMethod;     // key is the ID    
     private static HashMap<String, String> localExecutablePath; //should point to the exe/binary

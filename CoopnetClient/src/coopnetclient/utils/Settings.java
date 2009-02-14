@@ -60,7 +60,7 @@ public class Settings {
 
     private static final Properties data;    // Load the settings at first usage
     
-	private static final String SETTINGS_DIR; //Gets set OS-Specific
+	public static final String SETTINGS_DIR; //Gets set OS-Specific
 	private static final String FAVOURITES_FILE; //Complete Path to the file
 	private static final String SETTINGS_FILE;
 
