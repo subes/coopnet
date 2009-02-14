@@ -150,7 +150,7 @@ public class EditableJlist extends JList implements CellEditorListener {
 
     class CellEditorRemover implements PropertyChangeListener {
 
-        KeyboardFocusManager focusManager;
+        private KeyboardFocusManager focusManager;
 
         public CellEditorRemover(KeyboardFocusManager fm) {
             this.focusManager = fm;
@@ -165,7 +165,7 @@ public class EditableJlist extends JList implements CellEditorListener {
             Component c = focusManager.getPermanentFocusOwner();
             while (c != null) {
                 if (c == EditableJlist.this) {
-                    // focus remains inside the table 
+                    // focus remains inside the table
                     return;
                 } else if ((c instanceof Window) ||
                         (c instanceof Applet && c.getParent() == null)) {
@@ -192,7 +192,6 @@ public class EditableJlist extends JList implements CellEditorListener {
         ((EditableListModel) getModel()).setValueAt(value, index);
     }
 
-  
     @Override
     public void editingStopped(ChangeEvent e) {
         if (editor != null) {
