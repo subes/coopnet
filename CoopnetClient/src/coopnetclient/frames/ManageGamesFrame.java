@@ -448,6 +448,11 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         jLabel1.setText("DOSBox executable:");
 
         btn_browseDosboxExecutable.setText("Browse");
+        btn_browseDosboxExecutable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_browseDosboxExecutableActionPerformed(evt);
+            }
+        });
 
         cb_dosboxFullscreen.setText("Fullscreen");
 
@@ -773,6 +778,26 @@ private void tf_exePathCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRS
 private void tf_parametersCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tf_parametersCaretUpdate
     tempParams.put(lst_games.getSelectedValue().toString(), tf_parameters.getText());
 }//GEN-LAST:event_tf_parametersCaretUpdate
+
+private void btn_browseDosboxExecutableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browseDosboxExecutableActionPerformed
+    new Thread() {
+
+                @Override
+                public void run() {
+                    try {
+                        FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
+                        int returnVal = mfc.choose(Globals.getLastOpenedDir());
+
+                        if (returnVal == FileChooser.SELECT_ACTION) {
+                            File file = mfc.getSelectedFile();
+                            tf_dosboxExe.setText(file.getAbsolutePath());
+                        }//else cancelled
+                    } catch (Exception e) {
+                        ErrorHandler.handleException(e);
+                    }
+                }
+            }.start();
+}//GEN-LAST:event_btn_browseDosboxExecutableActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_browseDosboxExecutable;
