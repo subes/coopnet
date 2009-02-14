@@ -252,7 +252,7 @@ public class TransferTableModel extends DefaultTableModel {
     public File getDestFile(int index) throws IOException{
         switch(transfers.get(index).type){
             case RECIEVE_TYPE:
-                return transfers.get(index).handler.getDestFile();
+                return transfers.get(index).handler.getDestinationFile();
             case SEND_TYPE:
                 return transfers.get(index).handler.getSentFile();
         }

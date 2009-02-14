@@ -49,6 +49,7 @@ public class FileTransferHandler {
     private long totalsize;
     private long firstByteToSend = 0;
     private File sentFile = null;
+    private File destinationFile = null;
     private String savePath = Settings.getRecieveDestination();
     private boolean resuming = false;
     private boolean running = false;
@@ -214,7 +215,7 @@ public class FileTransferHandler {
         }
     }
 
-    public File getDestFile() throws IOException {
+    private File getDestFile() throws IOException {
         File dest;
         String fullpath = savePath;
         if (!(new File(fullpath).exists())) {
@@ -226,6 +227,10 @@ public class FileTransferHandler {
         fullpath += fileName;
         dest = new File(fullpath).getCanonicalFile();
         return dest;
+    }
+
+    public File getDestinationFile(){
+        return destinationFile;
     }
 
     public void cancel() {
@@ -307,22 +312,22 @@ public class FileTransferHandler {
 
                     bi = new BufferedInputStream(socket.getInputStream());
 
-                    File destfile = getDestFile();
+                    destinationFile = getDestFile();
                     //if not resuming, rename file if it already exists
                     if (!resuming) {
                         int n = 1;
-                        while (!destfile.createNewFile()) {
-                            destfile = Checkfile(destfile, n);
+                        while (!destinationFile.createNewFile()) {
+                            destinationFile = Checkfile(destinationFile, n);
                             n++;
                         }
                     } else {
                         //make sure it exists
-                        if (!destfile.exists()) {
-                            destfile.createNewFile();
+                        if (!destinationFile.exists()) {
+                            destinationFile.createNewFile();
                         }
                     }
 
-                    bo = new BufferedOutputStream(new FileOutputStream(destfile, resuming));
+                    bo = new BufferedOutputStream(new FileOutputStream(destinationFile, resuming));
 
                     feedBackStatus(TransferStatuses.Transferring);
                     starttime = System.currentTimeMillis();
@@ -385,20 +390,20 @@ public class FileTransferHandler {
                     Thread.sleep(1000);
                     socket = SocketChannel.open();
                     socket.connect(new InetSocketAddress(peerIP, new Integer(peerPort)));
-                    File destfile = getDestFile();
+                    destinationFile = getDestFile();
 
                     if (!resuming) {
                         int n = 1;
-                        while (!destfile.createNewFile()) {
-                            destfile = Checkfile(destfile, n);
+                        while (!destinationFile.createNewFile()) {
+                            destinationFile = Checkfile(destinationFile, n);
                             n++;
                         }
                     } else {
-                        if (!destfile.exists()) {
-                            destfile.createNewFile();
+                        if (!destinationFile.exists()) {
+                            destinationFile.createNewFile();
                         }
                     }
-                    bo = new BufferedOutputStream(new FileOutputStream(destfile, resuming));
+                    bo = new BufferedOutputStream(new FileOutputStream(destinationFile, resuming));
 
                     feedBackStatus(TransferStatuses.Transferring);
                     starttime = System.currentTimeMillis();
