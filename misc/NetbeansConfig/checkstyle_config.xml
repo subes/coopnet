@@ -79,7 +79,7 @@
             <!-- http://checkstyle.sf.net/config.html#properties        -->
             <property
             name="headerFile"
-            value="${coopnet.trunk.dir}/misc/NetbeansConfig/checkstyle_header.txt" />
+            value="${header.file}" />
         </module>
 
         <!-- Following interprets the header file as regular expressions. -->
