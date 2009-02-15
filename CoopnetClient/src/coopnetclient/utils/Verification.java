@@ -16,22 +16,38 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.utils;
 
 import coopnetclient.Globals;
 import java.io.File;
 
-public class Verification {
+public final class Verification {
+    //See http://www.regular-expressions.info/email.html (more practical implementation of RFC 2822)
 
+    private static final String EMAIL_REGEXP = "[a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)" +
+            "*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+    private static final String LOGINNAME_REGEXP = "\\p{Graph}{3,30}";
+    private static final int MAX_COUNTRY_LENGTH = 60;
+    private static final int MAX_EMAIL_LENGTH = 320;
+    private static final int MAX_GROUPNAME_LENGTH = 30;
+    private static final int MAX_INGAMENAME_LENGTH = 30;
+    private static final int MAX_PASSWORD_LENGTH = 5;
+    private static final int MAX_WEBSITE_LENGTH = 320;
+    private static final int MIN_EMAIL_LENGTH = 5;
+    private static final int MIN_GROUPNAME_LENGTH = 1;
+    private static final int MIN_INGAMENAME_LENGTH = 1;
+    private static final String VERSION_SPLIT_CHARACTER = "\\.";
 
-    public static boolean verifyProtocolVersion(String version){
-        try{
+    private Verification() {
+    }
+
+    public static boolean verifyProtocolVersion(String version) {
+        try {
             int v = Integer.parseInt(version);
-            if(v != Globals.COMPATIBILITY_VERSION){
+            if (v != Globals.COMPATIBILITY_VERSION) {
                 return false;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             Logger.log(e);
             return false;
         }
@@ -40,17 +56,17 @@ public class Verification {
     }
 
     public static boolean verifyClientVersion(String checkAgainst) {
-        try{
+        try {
             //Here we have a number scheme x.x.x
-            String[] checkAgainstSplit = checkAgainst.split("\\.");
-            String[] clientVersionSplit = Globals.CLIENT_VERSION.split("\\.");
-        
-            for (int i = 0; i < clientVersionSplit.length ; i++) {
+            String[] checkAgainstSplit = checkAgainst.split(VERSION_SPLIT_CHARACTER);
+            String[] clientVersionSplit = Globals.CLIENT_VERSION.split(VERSION_SPLIT_CHARACTER);
+
+            for (int i = 0; i < clientVersionSplit.length; i++) {
                 if (Integer.parseInt(clientVersionSplit[i]) < Integer.parseInt(checkAgainstSplit[i])) {
-                    return Integer.parseInt(clientVersionSplit[i-1]) > Integer.parseInt(checkAgainstSplit[i-1]);
+                    return Integer.parseInt(clientVersionSplit[i - 1]) > Integer.parseInt(checkAgainstSplit[i - 1]);
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             Logger.log(e);
             return false;
         }
@@ -59,7 +75,7 @@ public class Verification {
     }
 
     public static boolean verifyPassword(String password) {
-        if (password.length() < 5) {
+        if (password.length() < MAX_PASSWORD_LENGTH) {
             return false;
         }
 
@@ -67,65 +83,55 @@ public class Verification {
     }
 
     public static boolean verifyLoginName(String loginName) {
-        return loginName.matches("\\p{Graph}{3,30}");
+        return loginName.matches(LOGINNAME_REGEXP);
     }
-    
-    public static boolean verifyIngameName(String ingameName){
-        if(ingameName.length() < 1 || ingameName.length() > 30){
+
+    public static boolean verifyIngameName(String ingameName) {
+        if (ingameName.length() < MIN_INGAMENAME_LENGTH || ingameName.length() > MAX_INGAMENAME_LENGTH) {
             return false;
         }
-        
         return true;
     }
-    
-    public static boolean verifyEMail(String email){
-        if(email.length() > 320 || email.length()<5){
+
+    public static boolean verifyEMail(String email) {
+        if (email.length() < MIN_EMAIL_LENGTH || email.length() > MAX_EMAIL_LENGTH) {
             return false;
         }
 
-        //See http://www.regular-expressions.info/email.html (more practical implementation of RFC 2822)
-        return email.matches("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+        return email.matches(EMAIL_REGEXP);
     }
-    
-    public static boolean verifyWebsite(String website){
-        if(website.length() > 320){
+
+    public static boolean verifyWebsite(String website) {
+        if (website.length() > MAX_WEBSITE_LENGTH) {
             return false;
         }
-        
+
         return true;
     }
-    
-    public static boolean verifyCountry(String country){
-        if(country.length() > 60){
+
+    public static boolean verifyCountry(String country) {
+        if (country.length() > MAX_COUNTRY_LENGTH) {
             return false;
         }
-        
+
         return true;
     }
-    
-    public static boolean verifyGroupName(String groupName){
-        if(groupName.length() < 1 || groupName.length() > 30){
+
+    public static boolean verifyGroupName(String groupName) {
+        if (groupName.length() < MIN_GROUPNAME_LENGTH || groupName.length() > MAX_GROUPNAME_LENGTH) {
             return false;
         }
-        
+
         return true;
     }
-    
-    public static boolean verifyDirectory(String dirName){
+
+    public static boolean verifyDirectory(String dirName) {
         File dir = new File(dirName);
-        if(dir.isDirectory() && dir.exists()){
-            return true;
-        }else{
-            return false;
-        }
+        return dir.isDirectory() && dir.exists();
     }
-    
-    public static boolean verifyFile(String fileName){
+
+    public static boolean verifyFile(String fileName) {
         File file = new File(fileName);
-        if(file.isFile() && file.exists()){
-            return true;
-        }else{
-            return false;
-        }
+        return file.isFile() && file.exists();
     }
 }

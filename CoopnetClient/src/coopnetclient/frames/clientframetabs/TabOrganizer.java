@@ -16,6 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package coopnetclient.frames.clientframetabs;
 
 import coopnetclient.ErrorHandler;
@@ -25,16 +26,6 @@ import coopnetclient.enums.ErrorPanelStyle;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.FrameOrganizer;
-import coopnetclient.frames.clientframetabs.BrowserPanel;
-import coopnetclient.frames.clientframetabs.ChannelPanel;
-import coopnetclient.frames.clientframetabs.ConnectingPanel;
-import coopnetclient.frames.clientframetabs.ErrorPanel;
-import coopnetclient.frames.clientframetabs.FileTransferPanel;
-import coopnetclient.frames.clientframetabs.LoginPanel;
-import coopnetclient.frames.clientframetabs.PasswordRecoveryPanel;
-import coopnetclient.frames.clientframetabs.PrivateChatPanel;
-import coopnetclient.frames.clientframetabs.RegisterPanel;
-import coopnetclient.frames.clientframetabs.RoomPanel;
 import coopnetclient.frames.components.TabComponent;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
@@ -54,7 +45,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeListener;
 
-public class TabOrganizer {
+public final class TabOrganizer {
+    private static final String ROOM = "Room:";
+    private static final String SYSTEM = "SYSTEM";
+    private static final String TRANSFERS = "Transfers";
 
     private static JTabbedPane tabHolder;
     private static Vector<ChannelPanel> channelPanels = new Vector<ChannelPanel>();
@@ -68,8 +62,10 @@ public class TabOrganizer {
     private static FileTransferPanel transferPanel;
     private static ConnectingPanel connectingPanel;
 
+    private TabOrganizer() {
+    }
 
-    public static void init(JTabbedPane tabHolder){
+    public static void init(JTabbedPane tabHolder) {
         TabOrganizer.tabHolder = tabHolder;
     }
 
@@ -105,7 +101,7 @@ public class TabOrganizer {
             //check if the game is installed
             if (!GameDatabase.isLaunchable(channelname)) {
                 currentchannel.disableButtons();
-                currentchannel.printMainChatMessage("SYSTEM",
+                currentchannel.printMainChatMessage(SYSTEM,
                         "The game couldn't be detected, please set the path manually at " +
                         "options/manage games to enable playing this game!",
                         ChatStyles.SYSTEM);
@@ -113,7 +109,7 @@ public class TabOrganizer {
                 currentchannel.setLaunchable(true);
             }
             if (GameDatabase.isBeta(GameDatabase.getIDofGame(channelname))) {
-                currentchannel.printMainChatMessage("SYSTEM", "Support for this game is experimental," +
+                currentchannel.printMainChatMessage(SYSTEM, "Support for this game is experimental," +
                         " email coopnetbugs@gmail.com if you have problems!",
                         ChatStyles.SYSTEM);
             }
@@ -232,8 +228,11 @@ public class TabOrganizer {
         if (roomPanel == null) {
             roomPanel = new RoomPanel(roomData);
             FrameOrganizer.closeJoinRoomPasswordFrame();
-            tabHolder.insertTab("Room:" + GameDatabase.getShortName(roomData.getChannel()), null, roomPanel, roomData.getChannel(), channelPanels.size());
-            tabHolder.setTabComponentAt(channelPanels.size(), new TabComponent("Room:" + GameDatabase.getShortName(roomData.getChannel()), Icons.lobbyIconSmall, roomPanel));
+            tabHolder.insertTab(ROOM + GameDatabase.getShortName(roomData.getChannel()),
+                    null, roomPanel, roomData.getChannel(), channelPanels.size());
+            tabHolder.setTabComponentAt(channelPanels.size(),
+                    new TabComponent(ROOM + GameDatabase.getShortName(roomData.getChannel()),
+                    Icons.lobbyIconSmall, roomPanel));
             tabHolder.setSelectedComponent(roomPanel);
 
             for (ChannelPanel cp : channelPanels) {
@@ -282,7 +281,8 @@ public class TabOrganizer {
         if (index == -1) {
             PrivateChatPanel pc = new PrivateChatPanel(title);
             tabHolder.add(title, pc);
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(pc), new TabComponent(title, Icons.privateChatIconSmall, pc));
+            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(pc),
+                    new TabComponent(title, Icons.privateChatIconSmall, pc));
             privateChatPanels.add(pc);
             if (setFocus) {
                 tabHolder.setSelectedComponent(pc);
@@ -343,7 +343,8 @@ public class TabOrganizer {
             String title = "Beginner's Guide";
 
             tabHolder.addTab(title, browserPanel); //For now this is ok
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(browserPanel), new TabComponent(title, browserPanel));
+            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(browserPanel),
+                    new TabComponent(title, browserPanel));
             tabHolder.setSelectedComponent(browserPanel);
         } else {
             tabHolder.setSelectedComponent(browserPanel);
@@ -360,6 +361,8 @@ public class TabOrganizer {
 
     public static synchronized void openErrorPanel(final ErrorPanelStyle mode, final Throwable e) {
         SwingUtilities.invokeLater(new Thread() {
+            private static final String CLIENT_TOO_OLD = "Client too old";
+            private static final String ERROR = "Error";
 
             @Override
             public void run() {
@@ -367,17 +370,20 @@ public class TabOrganizer {
                     if (mode == ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH) {
                         //Protocol version mismatch has higher priority
                         errorPanel = new ErrorPanel(mode, null); //anyway no exception
-                        tabHolder.addTab("Client too old", null, errorPanel);
-                        tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Client too old", Icons.errorIconSmall, errorPanel));
+                        tabHolder.addTab(CLIENT_TOO_OLD, null, errorPanel);
+                        tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel),
+                                new TabComponent(CLIENT_TOO_OLD, Icons.errorIconSmall, errorPanel));
                         tabHolder.setSelectedComponent(errorPanel);
                     } else {
-                        if (errorPanel == null || errorPanel.hasException() == false && e != null) {
+                        if (errorPanel == null || !errorPanel.hasException() && e != null) {
                             errorPanel = new ErrorPanel(mode, e);
-                            tabHolder.addTab("Error", null, errorPanel);
-                            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Error", Icons.errorIconSmall, errorPanel));
+                            tabHolder.addTab(ERROR, null, errorPanel);
+                            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel),
+                                    new TabComponent(ERROR, Icons.errorIconSmall, errorPanel));
                             tabHolder.setSelectedComponent(errorPanel);
                         } else {
-                            Logger.log(LogTypes.WARNING, "We don't need another error tab, this error may be caused by the first one!");
+                            Logger.log(LogTypes.WARNING,
+                                    "We don't need another error tab, this error may be caused by the first one!");
                             tabHolder.setSelectedComponent(errorPanel);
                         }
                     }
@@ -518,8 +524,10 @@ public class TabOrganizer {
             if (roomPanel != null) {
                 ++index;
             }
-            tabHolder.insertTab("Transfers", null, transferPanel, null, index); //For now this is ok
-            tabHolder.setTabComponentAt(index, new TabComponent("Transfers", Icons.transferIcon, transferPanel));
+            tabHolder.insertTab(TRANSFERS, null,
+                    transferPanel, null, index); //For now this is ok
+            tabHolder.setTabComponentAt(index,
+                    new TabComponent(TRANSFERS, Icons.transferIcon, transferPanel));
             if (bringToFrontOnCreate) {
                 tabHolder.setSelectedComponent(transferPanel);
             } else {
@@ -617,10 +625,12 @@ public class TabOrganizer {
                         closePrivateChatPanel(privateChatPanels.get(0));
                     }
 
-                    //throw exception if this method doesnt work properly manually! hopefully we get bugreports by this :)
+                    //throw exception if this method doesnt work properly manually!
+                    //hopefully we get bugreports by this :)
                     //tabHolder.removeAll() is bad practice and should not be used!
                     if (tabHolder.getTabCount() > 0) {
-                        String text = "TabOrganizer.closeAllTabs() did not manually close all tabs! The following tabs were still open:";
+                        String text = "TabOrganizer.closeAllTabs() did not manually close all tabs!" +
+                                " The following tabs were still open:";
                         for (int i = 0; i < tabHolder.getTabCount(); i++) {
                             text += "\n\t\t" + tabHolder.getComponentAt(i).getClass().getName();
                         }

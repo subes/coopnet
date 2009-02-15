@@ -16,6 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package coopnetclient.frames;
 
 import coopnetclient.frames.interfaces.ClosableTab;
@@ -47,12 +48,14 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 
 public class ClientFrame extends javax.swing.JFrame {
+    private static final String CONNECT = "Connect";
+    private static final String DISCONNECT = "Disconnect";
 
     private static final int DIVIDERWIDTH = Settings.getQuickPanelDividerWidth();
-    private static boolean quickPanelVisibility = false;
-    private static Integer lastdividerposition = null;
+    private static boolean quickPanelVisibility;
+    private static Integer lastdividerposition;
     private static boolean quickPanelOrientationIsLeft = true;
-    private static boolean quickPanelFlashing = false;
+    private static boolean quickPanelFlashing;
     private static Border openQuickbarBorder = BorderFactory.createLoweredBevelBorder();
     private static Border closedQuickbarBorder = BorderFactory.createRaisedBevelBorder();
     private static QuickPanel pnl_QuickPanel;
@@ -86,15 +89,15 @@ public class ClientFrame extends javax.swing.JFrame {
 
     //Callback for Globals
     public void updateStatus() {
-        if (Globals.getLoggedInStatus() == false) {
+        if (!Globals.getLoggedInStatus()) {
             setQuickPanelVisibility(false);
             lastdividerposition = null;
         }
 
         if (!Globals.getConnectionStatus()) {
-            mi_connection.setText("Connect");
+            mi_connection.setText(CONNECT);
         } else {
-            mi_connection.setText("Disconnect");
+            mi_connection.setText(DISCONNECT);
         }
 
         m_user.setEnabled(Globals.getLoggedInStatus());
@@ -211,7 +214,10 @@ public class ClientFrame extends javax.swing.JFrame {
                 if (quickPanelOrientationIsLeft) {
                     lastdividerposition = pnl_QuickPanel.getPreferredSize().width;
                 } else {
-                    lastdividerposition = slp_mainSplitPanel.getWidth() - (pnl_QuickPanel.getPreferredSize().width + DIVIDERWIDTH + slp_mainSplitPanel.getInsets().right);
+                    lastdividerposition = slp_mainSplitPanel.getWidth()
+                            - (pnl_QuickPanel.getPreferredSize().width
+                            + DIVIDERWIDTH
+                            + slp_mainSplitPanel.getInsets().right);
                 }
             }
             slp_mainSplitPanel.setDividerSize(DIVIDERWIDTH);
@@ -695,7 +701,8 @@ public class ClientFrame extends javax.swing.JFrame {
                 "\n\n\n<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
                 "<i>Thank you for choosing Coopnet!</i></html>\n ";
 
-        JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), aboutMessage, "About Coopnet", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
+                aboutMessage, "About Coopnet", JOptionPane.PLAIN_MESSAGE);
 
 }//GEN-LAST:event_mi_aboutActionPerformed
 
@@ -736,21 +743,14 @@ public class ClientFrame extends javax.swing.JFrame {
         m_installedGames.revalidate();
     }
 
-    /**
-     * Prints the message to a currently visible chatbox(room or main window)<P>
-     * Usage:<ul> 
-     * <li> name - the name of the sender
-     * <li> message - the message to be printed
-     * <li> mode : defines the style of the printed text, can be system or chat or whisper
-     * 
-     */
     public void printToVisibleChatbox(String name, String message, ChatStyles modeStyle, boolean popupEnabled) {
 
         Component tc = tabpn_tabs.getSelectedComponent();
 
         if (tc == null || tc instanceof LoginPanel) {
             if (popupEnabled) {
-                JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), message, "Message", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
+                        message, "Message", JOptionPane.INFORMATION_MESSAGE);
             }
         } else if (tc instanceof ChannelPanel) {
             ChannelPanel cp = (ChannelPanel) tc;
@@ -834,7 +834,8 @@ public class ClientFrame extends javax.swing.JFrame {
                             JOptionPane.YES_NO_OPTION);
                     if (n == JOptionPane.YES_OPTION) {
                         try {
-                            FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", Globals.getResourceAsString("CoopnetUpdater.jar"));
+                            FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php",
+                                    Globals.getResourceAsString("CoopnetUpdater.jar"));
                             Runtime rt = Runtime.getRuntime();
                             rt.exec("java -jar CoopnetUpdater.jar", null, Client.getCurrentDirectory());
                             Client.quit(true);

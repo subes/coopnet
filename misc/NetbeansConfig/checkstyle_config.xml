@@ -126,8 +126,12 @@
 
         <!-- Checks for Size Violations.                    -->
         <!-- See http://checkstyle.sf.net/config_sizes.html -->
-        <module name="FileLength"/>
-        <!--<module name="LineLength"/>-->
+        <module name="FileLength">
+              <property name="max" value="1000"/>
+        </module>
+        <module name="LineLength">
+            <property name="max" value="120"/>
+        </module>
         <module name="MethodLength"/>
         <module name="ParameterNumber"/>
         <module name="AnonInnerLength">
@@ -143,10 +147,11 @@
         <!--<module name="NoWhitespaceAfter"/>-->
         <!--<module name="NoWhitespaceBefore"/>-->
         <module name="OperatorWrap">
-            <property name="tokens" value="PLUS, ASSIGN, BOR_ASSIGN, BSR_ASSIGN, BAND_ASSIGN, BXOR_ASSIGN, DIV_ASSIGN, MINUS_ASSIGN, MOD_ASSIGN, PLUS_ASSIGN, SL_ASSIGN, SR_ASSIGN, STAR_ASSIGN"/>
+            <property name="tokens" value="ASSIGN, BOR_ASSIGN, BSR_ASSIGN, BAND_ASSIGN, BXOR_ASSIGN, DIV_ASSIGN, MINUS_ASSIGN, MOD_ASSIGN, PLUS_ASSIGN, SL_ASSIGN, SR_ASSIGN, STAR_ASSIGN"/>
             <property name="option" value="eol"/>
         </module>
         <module name="OperatorWrap">
+        <!-- Excluding PLUS (+) because Netbeans puts it on EOL for String, though for numerics, it should be NL (dunno how to force it)-->
             <property name="tokens" value="BAND, BOR, BSR, BXOR, COLON, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, QUESTION, SL, SR, STAR"/>
             <property name="option" value="nl"/>
         </module>
@@ -203,7 +208,10 @@
         <module name="DefaultComesLast"/>
         <module name="MultipleStringLiterals"/>
         <module name="MultipleVariableDeclarations"/>
-        <module name="MultipleVariableDeclarations"/>
+        <module name="RedundantThrows"/>
+        <!--<module name="IllegalCatch"/>-->
+        <module name="IllegalThrows"/>
+        <!--<module name="RequireThis"/>-->
 
         <!-- Checks for class design                         -->
         <!-- See http://checkstyle.sf.net/config_design.html -->
@@ -229,8 +237,8 @@
         <module name="GenericIllegalRegexp">
             <!-- . matches any character, so we need to
                  escape it and use \. to match dots. -->
-            <property name="format" value="System\.(out|err)\.println"/>
-            <property name="message" value="Use Logger.log() instead of System.out or System.err!"/>
+            <property name="format" value="System\.(out|err)\."/>
+            <property name="message" value="Use Logger.log() instead of System.out or System.err"/>
         </module>
         <module name="TodoComment"/>
         <module name="UpperEll"/>
