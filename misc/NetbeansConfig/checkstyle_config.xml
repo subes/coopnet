@@ -44,8 +44,17 @@
     <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
     <module name="Translation"/>
 
+    <!-- Checks for duplicate code, Simian is free to use in OpenSource projects! -->
+    <!-- See http://www.redhillconsulting.com.au/products/simian/ -->
+    <module name="au.com.redhillconsulting.simian.SimianCheck"/>
+    
+    <!-- Ignore generated code by Matisse -->
+    <module name="cz.sickboy.netbeans.checkstyle.extra.GeneratedUIFilter"/>
 
     <module name="TreeWalker">
+
+         <!-- Ignore generated code by Matisse -->
+        <module name="FileContentsHolder"/>
 
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
@@ -103,6 +112,10 @@
         <!--<module name="LineLength"/>-->
         <module name="MethodLength"/>
         <module name="ParameterNumber"/>
+        <module name="AnonInnerLength">
+              <property name="max" value="60"/>
+        </module>
+        <module name="ParameterNumber"/>
 
 
         <!-- Checks for whitespace                               -->
@@ -111,7 +124,9 @@
         <module name="MethodParamPad"/>
         <!--<module name="NoWhitespaceAfter"/>-->
         <!--<module name="NoWhitespaceBefore"/>-->
+        <module name="OperatorWrap" />
         <module name="OperatorWrap">
+            <property name="tokens" value="PLUS"/>
             <property name="option" value="eol"/>
         </module>
         <module name="ParenPad"/>
@@ -143,6 +158,7 @@
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
         <!--<module name="HiddenField"/>-->
+        <module name="ArrayTrailingComma"/>
         <module name="IllegalInstantiation"/>
         <module name="InnerAssignment"/>
         <module name="MagicNumber"/>
@@ -150,6 +166,23 @@
         <module name="RedundantThrows"/>
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
+        <module name="BooleanExpressionComplexity"/>
+        <module name="CovariantEquals"/>
+        <!--<module name="FinalLocalVariable">
+            <property name="tokens" value="VARIABLE_DEF,PARAMETER_DEF"/>
+        </module>-->
+        <module name="MissingSwitchDefault"/>
+        <module name="StringLiteralEquality"/>
+        <module name="SuperClone"/>
+        <module name="SuperFinalize"/>
+        <module name="JUnitTestCase"/>
+        <module name="DeclarationOrder"/>
+        <module name="ParameterAssignment"/>
+        <module name="ExplicitInitialization"/>
+        <module name="DefaultComesLast"/>
+        <module name="MultipleStringLiterals"/>
+        <module name="MultipleVariableDeclarations"/>
+        <module name="MultipleVariableDeclarations"/>
 
         <!-- Checks for class design                         -->
         <!-- See http://checkstyle.sf.net/config_design.html -->
@@ -160,11 +193,10 @@
         <module name="VisibilityModifier">
 			<property name="protectedAllowed" value="true"/>
         </module>
+        <module name="CyclomaticComplexity"/>
+        <module name="NPathComplexity"/>
+        <module name="JavaNCSS"/>
         
-        <!-- Checks for duplicate code, Simian is free to use in OpenSource projects! -->
-        <!-- See http://www.redhillconsulting.com.au/products/simian/ -->
-        <module name="au.com.redhillconsulting.simian.SimianCheck"/>
-
         <!-- Miscellaneous other checks.                   -->
         <!-- See http://checkstyle.sf.net/config_misc.html -->
         <module name="ArrayTypeStyle"/>
@@ -173,8 +205,21 @@
             <property name="format" value="\s+$"/>
             <property name="message" value="Line has trailing spaces."/>
         </module>
+        <module name="GenericIllegalRegexp">
+            <!-- . matches any character, so we need to
+                 escape it and use \. to match dots. -->
+            <property name="format" value="System\.(out|err)\.println"/>
+            <property name="message" value="Use Logger.log() instead of System.out or System.err!"/>
+        </module>
         <module name="TodoComment"/>
         <module name="UpperEll"/>
+        <module name="UncommentedMain"/>
+        <module name="DescendantToken">
+            <!-- Initialiser in for performs no setup (use while instead?) -->
+            <property name="tokens" value="FOR_INIT"/>
+            <property name="limitedTokens" value="EXPR"/>
+            <property name="minimumNumber" value="1"/>
+        </module>
 
     </module>
 
