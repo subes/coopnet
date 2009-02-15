@@ -229,6 +229,9 @@ public class HandlerThread extends Thread {
     }
 
     private static int findDelimiter(ByteBuffer buffer, int start) {
+        if(buffer==null){
+            return -1;
+        }
         byte[] array = buffer.array();
 
         if (array != null) {

@@ -238,7 +238,7 @@ public class GameDatabase {
         ArrayList<String> games = new ArrayList<String>();
         for (String ID : IDtoGameName.keySet()) {
             LaunchMethods m = IDtoLaunchMethod.get(ID);
-            if (m != null && m.equals(LaunchMethods.PARAMETER)) {
+            if (m != null && (m.equals(LaunchMethods.PARAMETER) || m.equals(LaunchMethods.DOS))) {
                 games.add(IDtoGameName.get(ID));
             }
         }
