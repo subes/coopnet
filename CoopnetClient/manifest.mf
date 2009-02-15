@@ -3,4 +3,4 @@ Ant-Version: Apache Ant 1.7.0
 Created-By: Coopnet developers
 Main-Class: Main
 SplashScreen-Image: splash.png
-Class-Path: lib/JavaMail-1.4.1_mailapi.jar lib/JavaMail-1.4.1_smtp.jar lib/ICE_JNIRegistry.jar lib/JDPlay_jni.jar lib/JDPlay_jni.dll lib/PasswordEncrypter.jar lib/JIntellitype.jar lib/JIntellitype.dll lib/JXGrabKey.jar lib/BugReportMailSender.jar lib/ICE_JNIRegistry.dll
+Class-Path: lib/JavaMail-1.4.1_mailapi.jar lib/JavaMail-1.4.1_smtp.jar lib/PasswordEncrypter.jar lib/JIntellitype.jar lib/JXGrabKey.jar lib/BugReportMailSender.jar lib/commons-cli-1.1.jar

@@ -25,13 +25,26 @@ import coopnetclient.utils.Settings;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 public final class Main {
+    private static final String DEBUG = "debug";
+    private static final String HELP = "help";
+    private static final String IP_PORT_SEPARATOR = ":";
+    private static final String SAFEMODE = "safemode";
+    private static final String SERVER = "server";
 
     private Main() {
     }
 
-    public static void main(final String[] args) {
+    public static void main(String[] args) {
         //See if we have security problems
         try {
             System.getProperty("os.name");
@@ -56,55 +69,78 @@ public final class Main {
         Client.startup();
     }
 
-    private static void checkArgs(final String[] args) {
-        //SafeMode has to be done before any Settings have been read!
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("--safemode")) {
+    private static void checkArgs(String[] args) {
+
+        Options options = createCommandlineOptions();
+
+        try {
+            CommandLineParser parser = new GnuParser();
+            CommandLine cmd = parser.parse(options, args);
+
+            if(cmd.hasOption(SAFEMODE)){ //Reset has to be first
                 Settings.resetSettings();
-                break;
             }
+            if(cmd.hasOption(HELP)){
+                printHelp(options);
+            }
+            if(cmd.hasOption(SERVER)){
+                String value = cmd.getOptionValue(SERVER);
+                String ip = value.substring(0, value.indexOf(IP_PORT_SEPARATOR));
+                Globals.setServerIP(ip);
+                int port = Integer.parseInt(value.substring(value.indexOf(IP_PORT_SEPARATOR) + 1));
+                Globals.setServerPort(port);
+            }
+            if(cmd.hasOption(DEBUG)){
+                Globals.enableDebug();
+            }
+        } catch (ParseException ex) {
+            //CHECKSTYLE:OFF
+            System.err.println( "Parsing failed. Reason: " + ex.getMessage() );
+            //CHECKSTYLE:ON
+            System.exit(1);
+        } catch (Exception ex){
+            printHelp(options);
         }
 
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("--safemode")) {
-                continue;
-            } else if (args[i].equals("--server")) {
-                if (args.length < i + 1 || args[i].indexOf(":") == -1) {
-                    try {
-                        String ip = args[i + 1].substring(0, args[i + 1].indexOf(":"));
-                        Globals.setServerIP(ip);
-                        int port = Integer.parseInt(args[i + 1].substring(args[i + 1].indexOf(":") + 1));
-                        Globals.setServerPort(port);
-                        i++;
-                    } catch (NumberFormatException e) {
-                        System.out.println("ERROR: invalid value for <PORT>, number expected");
-                    } catch (java.lang.StringIndexOutOfBoundsException e) {
-                        System.out.println("ERROR: invalid value for <PORT>, number expected");
-                    }
-                } else {
-                    System.out.println("ERROR: --server expects data in the form of \"127.0.0.1:6667\"");
-                    printHelp();
-                }
-            } else if (args[i].equals("--debug")) {
-                Globals.enableDebug();
-            } else if (args[i].equals("--help")) {
-                printHelp();
-            } else {
-                printHelp();
-            }
-        }
+        printHelp(options);
     }
 
-    private static void printHelp() {
-        System.out.println("\nCoopnetClient " + Globals.CLIENT_VERSION + " usage:\n" +
-                "    java -jar CoopnetClient.jar [--server <IP>:<PORT>] [--debug]\n" +
-                "\n" +
-                "    --safemode resets all settings\n" +
-                "    --server   ip and port of the server to connect to\n" +
-                "    --debug    print debug messages during operation\n" +
-                "    --help     print this help and exit\n");
+    @SuppressWarnings("static-access")
+    private static Options createCommandlineOptions() {
+        Options options = new Options();
 
-        System.exit(1);
+        Option safemode = OptionBuilder.withDescription("resets all settings")
+                .create(SAFEMODE);
+
+        Option server = OptionBuilder.withDescription("ip and port of the server to connect to (e.g. 127.0.0.1:6667)")
+                .hasArg()
+                .withArgName("ip:port")
+                .create(SERVER);
+
+        Option debug = OptionBuilder.withDescription("print debug messages during operation")
+                .create(DEBUG);
+
+        Option help = OptionBuilder.withDescription("print this message")
+                .create(HELP);
+
+        options.addOption(safemode);
+        options.addOption(server);
+        options.addOption(debug);
+        options.addOption(help);
+
+        return options;
+    }
+
+    private static void printHelp(Options options) {
+
+        //CHECKSTYLE:OFF
+        System.out.println("CoopnetClient, version "+Globals.CLIENT_VERSION);
+        //CHECKSTYLE:ON
+        new HelpFormatter().printHelp("java -jar CoopnetClient.jar",
+                        "options:",
+                        options,
+                        "Visit our project website at \"http://coopnet.sourceforge.net\".", true);
+        System.exit(0);
     }
 
     private static void cleanUpdater() {
@@ -114,12 +150,14 @@ public final class Main {
         if (tmpDir.exists() || updaterFile.exists()) {
             Logger.log(LogTypes.LOG, "Updater files queued for deletion ...");
             new Thread() {
+                private static final int UPDATER_CLOSING_SLEEP = 1000;
 
                 @Override
                 public void run() {
                     try {
-                        sleep(10);
+                        sleep(UPDATER_CLOSING_SLEEP);
                     } catch (InterruptedException ex) {
+                        Logger.log(ex);
                     }
                     try {
                         if (tmpDir.exists()) {
@@ -127,6 +165,7 @@ public final class Main {
                             deleteFile(tmpDir);
                         }
                     } catch (IOException e) {
+                        Logger.log(e);
                     }
                     try {
                         if (updaterFile.exists()) {
@@ -134,6 +173,7 @@ public final class Main {
                             deleteFile(updaterFile);
                         }
                     } catch (IOException e) {
+                        Logger.log(e);
                     }
                 }
             }.start();
@@ -143,15 +183,10 @@ public final class Main {
     private static boolean deleteFile(File resource) throws IOException {
 
         if (resource.isDirectory()) {
-
             File[] childFiles = resource.listFiles();
-
             for (File child : childFiles) {
-
                 deleteFile(child);
-
             }
-
         }
 
         return resource.delete();

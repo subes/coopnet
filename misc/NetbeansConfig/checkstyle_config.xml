@@ -231,18 +231,29 @@
         <module name="ArrayTypeStyle"/>
         <!--<module name="FinalParameters"/>-->
         <module name="GenericIllegalRegexp">
+            <!--<property name="ignoreComments" value="true"/>-->
             <property name="format" value="\s+$"/>
             <property name="message" value="Line has trailing spaces."/>
         </module>
         <module name="GenericIllegalRegexp">
             <!-- . matches any character, so we need to
                  escape it and use \. to match dots. -->
-            <property name="format" value="System\.(out|err)\."/>
-            <property name="message" value="Use Logger.log() instead of System.out or System.err"/>
+            <property name="format" value="System\.out\.print"/>
+            <property name="message" value="Use Logger.log(msg) instead"/>
+        </module>
+        <module name="GenericIllegalRegexp">
+            <property name="format" value="System\.err\.print"/>
+            <property name="message" value="Use Logger.logErr(msg) instead"/>
+        </module>
+        <module name="GenericIllegalRegexp">
+            <property name="format" value="\.printStackTrace"/>
+            <property name="message" value="Use Logger.log(exc) instead"/>
         </module>
         <module name="TodoComment"/>
         <module name="UpperEll"/>
-        <module name="UncommentedMain"/>
+        <module name="UncommentedMain">
+            <property name="excludedClasses" value="\.Main$"/>
+        </module>
         <module name="DescendantToken">
             <!-- Initialiser in for performs no setup (use while instead?) -->
             <property name="tokens" value="FOR_INIT"/>

@@ -87,14 +87,16 @@ public final class Verification {
     }
 
     public static boolean verifyIngameName(String ingameName) {
-        if (ingameName.length() < MIN_INGAMENAME_LENGTH || ingameName.length() > MAX_INGAMENAME_LENGTH) {
+        if (ingameName.length() < MIN_INGAMENAME_LENGTH
+                || ingameName.length() > MAX_INGAMENAME_LENGTH) {
             return false;
         }
         return true;
     }
 
     public static boolean verifyEMail(String email) {
-        if (email.length() < MIN_EMAIL_LENGTH || email.length() > MAX_EMAIL_LENGTH) {
+        if (email.length() < MIN_EMAIL_LENGTH
+                || email.length() > MAX_EMAIL_LENGTH) {
             return false;
         }
 
@@ -118,7 +120,8 @@ public final class Verification {
     }
 
     public static boolean verifyGroupName(String groupName) {
-        if (groupName.length() < MIN_GROUPNAME_LENGTH || groupName.length() > MAX_GROUPNAME_LENGTH) {
+        if (groupName.length() < MIN_GROUPNAME_LENGTH
+                || groupName.length() > MAX_GROUPNAME_LENGTH) {
             return false;
         }
 
