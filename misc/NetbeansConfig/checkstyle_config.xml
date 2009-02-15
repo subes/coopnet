@@ -51,11 +51,14 @@
     <!-- Ignore generated code by Matisse -->
     <module name="cz.sickboy.netbeans.checkstyle.extra.GeneratedUIFilter"/>
 
+    <!-- Allow CHECKSTYLE:OFF and CHECKSTYLE:ON comments -->
+    <module name="SuppressionCommentFilter"/>
+
     <module name="TreeWalker">
 
          <!-- Ignore generated code by Matisse -->
         <module name="FileContentsHolder"/>
-
+        
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
         <!--<module name="JavadocMethod"/>-->
@@ -67,16 +70,31 @@
         <!-- Checks for Naming Conventions.                  -->
         <!-- See http://checkstyle.sf.net/config_naming.html -->
         <module name="ConstantName"/>
-        <module name="LocalFinalVariableName"/>
-        <module name="LocalVariableName"/>
-        <module name="MemberName"/>
-        <module name="MethodName"/>
         <module name="PackageName">
             <property name="format"
                       value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
         </module>
-        <module name="ParameterName"/>
-        <module name="StaticVariableName"/>
+        <module name="LocalFinalVariableName">
+            <property name="format"
+                      value="^[a-z][_a-zA-Z0-9]*$"/>
+        </module>
+        <module name="LocalVariableName">
+            <property name="format"
+                      value="^[a-z][_a-zA-Z0-9]*$"/>
+        </module>
+        <module name="MemberName">
+            <property name="format"
+                      value="^[a-z][_a-zA-Z0-9]*$"/>
+        </module>
+        <module name="ParameterName">
+            <property name="format"
+                      value="^[a-z][_a-zA-Z0-9]*$"/>
+        </module>
+        <module name="StaticVariableName">
+            <property name="format"
+                      value="^[a-z][_a-zA-Z0-9]*$"/>
+        </module>
+        <module name="MethodName"/>
         <module name="TypeName"/>
 
 
@@ -124,10 +142,13 @@
         <module name="MethodParamPad"/>
         <!--<module name="NoWhitespaceAfter"/>-->
         <!--<module name="NoWhitespaceBefore"/>-->
-        <module name="OperatorWrap" />
         <module name="OperatorWrap">
-            <property name="tokens" value="PLUS"/>
+            <property name="tokens" value="PLUS, ASSIGN, BOR_ASSIGN, BSR_ASSIGN, BAND_ASSIGN, BXOR_ASSIGN, DIV_ASSIGN, MINUS_ASSIGN, MOD_ASSIGN, PLUS_ASSIGN, SL_ASSIGN, SR_ASSIGN, STAR_ASSIGN"/>
             <property name="option" value="eol"/>
+        </module>
+        <module name="OperatorWrap">
+            <property name="tokens" value="BAND, BOR, BSR, BXOR, COLON, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, QUESTION, SL, SR, STAR"/>
+            <property name="option" value="nl"/>
         </module>
         <module name="ParenPad"/>
         <module name="TypecastParenPad"/>
