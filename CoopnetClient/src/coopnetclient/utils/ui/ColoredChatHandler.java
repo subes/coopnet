@@ -169,7 +169,7 @@ public class ColoredChatHandler {
                 int lastMessageStart = doc.getLength();
                 for (String word : messageWords) {
                     //links
-                    if (word.startsWith("http://") || word.startsWith("room://")) {
+                    if (word.startsWith("http://") || word.startsWith("room://") || word.startsWith("www.")) {
                         //make message object from previous chunk
                         String chunk = messageBuffer.toString();
                         if (chunk.length() > 0) {
