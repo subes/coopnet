@@ -22,7 +22,7 @@ import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.MuteBanList;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Component;
@@ -182,7 +182,7 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
 
     @Override
     public void show(Component invoker, int x, int y) {
-        if (parent == null || parent.getSelectedValue() == null || parent.getSelectedValue().equals(Globals.getThisPlayer_loginName())) {
+        if (parent == null || parent.getSelectedValue() == null || parent.getSelectedValue().equals(Globals.getThisPlayerLoginName())) {
             setVisible(false);
             return;
         } else {

@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames;
 
 import coopnetclient.Globals;
@@ -32,7 +31,7 @@ import javax.swing.KeyStroke;
 
 public class EditProfileFrame extends javax.swing.JFrame {
 
-        public static String[] CountryList = new String[]{"Select your country", "Abkhazia", "Afghanistan", "Akrotiri and Dhekelia", "Ĺland Islands", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla",
+    public static String[] CountryList = new String[]{"Select your country", "Abkhazia", "Afghanistan", "Akrotiri and Dhekelia", "Ĺland Islands", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla",
         "Antigua and Barbuda", "Argentina ", "Armenia ", "Aruba", "Ascension Island",
         "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados",
         "Belarus", "Belgium", "Belize", "Benin ", "Bermuda", "Bhutan", "Bolivia", " Bosnia", "Botswana", "Brazil",
@@ -67,7 +66,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
         "Virgin Islands", "Wallis and Futuna", "Western Sahara", "Yemen",
         "Zambia", "Zimbabwe"
     };
-    
+
     public EditProfileFrame(String name, String ingamename, String email, String country, String webpage) {
         initComponents();
 
@@ -88,7 +87,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
         InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
     }
-    
+
     private int indexOfCountry(String name) {
         for (int index = 0; index < CountryList.length; index++) {
             if (CountryList[index].equals(name)) {
@@ -97,12 +96,12 @@ public class EditProfileFrame extends javax.swing.JFrame {
         }
         return 0;
     }
-    
-    public void loginAlreadyUsed(){
+
+    public void loginAlreadyUsed() {
         tf_loginName.showErrorMessage("Name already used!");
         btn_save.setEnabled(true);
     }
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -271,24 +270,24 @@ public class EditProfileFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void changepassword(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changepassword
-        Globals.openChangePasswordFrame();
+        FrameOrganizer.openChangePasswordFrame();
     }//GEN-LAST:event_changepassword
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
-        if(!Verification.verifyLoginName(tf_loginName.getText())){
+        if (!Verification.verifyLoginName(tf_loginName.getText())) {
             tf_loginName.showErrorMessage("Must be 3-30 characters, only ASCII allowed!");
             return;
         }
-        if(!Verification.verifyEMail(tf_emailAddress.getText())){
+        if (!Verification.verifyEMail(tf_emailAddress.getText())) {
             tf_emailAddress.showErrorMessage("Invalid email!");
             return;
         }
-        
-        if(!Verification.verifyIngameName(tf_inGameName.getText())){
+
+        if (!Verification.verifyIngameName(tf_inGameName.getText())) {
             tf_inGameName.showErrorMessage("Must be 1 to 30 characters!");
             return;
         }
-        if(!Verification.verifyWebsite(tf_website.getText())){
+        if (!Verification.verifyWebsite(tf_website.getText())) {
             tf_website.showErrorMessage("Value too long!");
             return;
         }
@@ -298,16 +297,16 @@ public class EditProfileFrame extends javax.swing.JFrame {
                 tf_inGameName.getText(),
                 tf_emailAddress.getText(),
                 (cmb_country.getSelectedIndex() == 0) ? "" : cmb_country.getSelectedItem().toString(),
-                tf_website.getText() );  
+                tf_website.getText());
         btn_save.setEnabled(false);
 }//GEN-LAST:event_btn_saveActionPerformed
 
     private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel
-        Globals.closeEditProfileFrame();
+        FrameOrganizer.closeEditProfileFrame();
     }//GEN-LAST:event_cancel
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Globals.closeEditProfileFrame();
+        FrameOrganizer.closeEditProfileFrame();
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -326,5 +325,4 @@ public class EditProfileFrame extends javax.swing.JFrame {
     private coopnetclient.frames.components.ValidatorJTextField tf_loginName;
     private coopnetclient.frames.components.ValidatorJTextField tf_website;
     // End of variables declaration//GEN-END:variables
-
 }

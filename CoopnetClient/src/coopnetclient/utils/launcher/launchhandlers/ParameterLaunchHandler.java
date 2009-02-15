@@ -16,12 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.utils.launcher.launchhandlers;
 
-import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LogTypes;
+import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
@@ -31,27 +30,27 @@ import java.io.File;
 public class ParameterLaunchHandler extends LaunchHandler {
 
     private ParameterLaunchInfo launchInfo;
-    
+
     @Override
     public boolean doInitialize(LaunchInfo launchInfo) {
-        if(!(launchInfo instanceof ParameterLaunchInfo)){
-            throw new IllegalArgumentException("expected launchInfo to be "+ParameterLaunchInfo.class.toString()+", but got "+launchInfo.getClass().toString());
+        if (!(launchInfo instanceof ParameterLaunchInfo)) {
+            throw new IllegalArgumentException("expected launchInfo to be " + ParameterLaunchInfo.class.toString() + ", but got " + launchInfo.getClass().toString());
         }
-        
+
         this.launchInfo = (ParameterLaunchInfo) launchInfo;
-        
+
         return true;
     }
 
     @Override
     protected boolean doLaunch() {
 
-        Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                                "Launching game, please wait ...",
-                                ChatStyles.SYSTEM,false);
+        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
+                "Launching game, please wait ...",
+                ChatStyles.SYSTEM, false);
 
-        if(Globals.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()){
-            Globals.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(false);
+        if (FrameOrganizer.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()) {
+            FrameOrganizer.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(false);
         }
 
         Process p = null;
@@ -60,10 +59,10 @@ public class ParameterLaunchHandler extends LaunchHandler {
 
             //TODO: add a method to gamedata which checks if the games wine checkbox is checked
             /*if(Globals.getOperatingSystem() == OperatingSystems.LINUX && GameDataBase.useWine(someargs to identify game)){
-                command += Globals.getWineCommand();
+            command += Globals.getWineCommand();
             }*/
 
-            command += " "+launchInfo.getBinaryPath() +
+            command += " " + launchInfo.getBinaryPath() +
                     " " + launchInfo.getParameters();
 
             Logger.log(LogTypes.LAUNCHER, command);
@@ -71,12 +70,13 @@ public class ParameterLaunchHandler extends LaunchHandler {
             Runtime rt = Runtime.getRuntime();
             p = rt.exec(command, null, new File(launchInfo.getInstallPath()));
 
-            try{
+            try {
                 p.exitValue();
                 throw new Exception("Game exited too fast!"); //caught by outer catch
-            }catch(IllegalStateException e){}
+            } catch (IllegalStateException e) {
+            }
 
-            if(launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()){
+            if (launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()) {
                 Protocol.launch();
             }
 
@@ -85,15 +85,15 @@ public class ParameterLaunchHandler extends LaunchHandler {
             } catch (InterruptedException ex) {
             }
         } catch (Exception e) {
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "Error while launching: " + e.getMessage()+"\nAborting launch!",
+            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
+                    "Error while launching: " + e.getMessage() + "\nAborting launch!",
                     ChatStyles.SYSTEM, false);
             Logger.log(e);
             return false;
         }
 
-        if(Globals.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()){
-            Globals.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(true);
+        if (FrameOrganizer.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()) {
+            FrameOrganizer.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(true);
         }
 
         return (p.exitValue() == 0 ? true : false);
@@ -103,19 +103,19 @@ public class ParameterLaunchHandler extends LaunchHandler {
     public void updatePlayerName() {
         //do nothing
     }
-    
+
     @Override
     public boolean predictSuccessfulLaunch() {
         File exec = new File(launchInfo.getBinaryPath());
-        
+
         boolean ret = exec.exists() && exec.canExecute();
-        
-        if(ret == false){
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                "Launcher failed. Please make sure that the game is properly setup for launch.",
-                ChatStyles.SYSTEM,false);
+
+        if (!ret) {
+            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
+                    "Launcher failed. Please make sure that the game is properly setup for launch.",
+                    ChatStyles.SYSTEM, false);
         }
-        
+
         return ret;
     }
 }

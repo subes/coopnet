@@ -170,11 +170,11 @@ public class ShowProfileFrame extends javax.swing.JFrame {
 
     private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
         // close window
-        Globals.closeShowProfileFrame();
+        FrameOrganizer.closeShowProfileFrame();
 }//GEN-LAST:event_btn_closeActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Globals.closeShowProfileFrame();
+        FrameOrganizer.closeShowProfileFrame();
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

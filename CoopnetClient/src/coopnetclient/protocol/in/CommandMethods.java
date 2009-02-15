@@ -22,7 +22,7 @@ package coopnetclient.protocol.in;
 import coopnetclient.Client;
 import coopnetclient.enums.ErrorPanelStyle;
 import coopnetclient.enums.LogTypes;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.Verification;
 

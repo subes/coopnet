@@ -18,10 +18,10 @@
  */
 package coopnetclient.frames.models;
 
-import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.TransferStatuses;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.FrameOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.components.TransferStatusButtonComponent;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.FileTransferHandler;
@@ -109,11 +109,11 @@ public class TransferTableModel extends DefaultTableModel {
             fireTableRowsInserted(0,0);
             return true;
         } else {
-            JOptionPane.showMessageDialog(Globals.getClientFrame(),
+            JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
                     "You are already sending the file to " + peer + " !",
                     "Cannot send file!", JOptionPane.ERROR_MESSAGE);
             return false;
-        }        
+        }
     }
 
     public void addRecieveTransfer(String sender, String size, String filename, String ip, String port) {

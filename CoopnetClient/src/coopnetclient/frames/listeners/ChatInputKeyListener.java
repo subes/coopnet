@@ -16,14 +16,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.listeners;
 
-import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
+import coopnetclient.frames.clientframetabs.PrivateChatPanel;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.FrameOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -47,7 +47,7 @@ public class ChatInputKeyListener implements KeyListener {
         this.mode = mode;
     }
 
-    public void setPrefix(String prefix){
+    public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
 
@@ -63,7 +63,7 @@ public class ChatInputKeyListener implements KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 
             if (ctrlIsPressed) { //CTRL+ENTER prints new line
-                if(source.getText().length() > 0 && !source.getText().startsWith("\n") && !source.getText().endsWith("\n\n")){
+                if (source.getText().length() > 0 && !source.getText().startsWith("\n") && !source.getText().endsWith("\n\n")) {
                     source.setText(source.getText() + "\n");
                 }
             } else {
@@ -77,25 +77,25 @@ public class ChatInputKeyListener implements KeyListener {
                 if ((command.trim()).equals("")) {
                     return;
                 }
-                if(command.length() > 2500){
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Could not send message, because it is too big!", ChatStyles.SYSTEM,false);
+                if (command.length() > 2500) {
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Could not send message, because it is too big!", ChatStyles.SYSTEM, false);
                     source.setText("");
                     return;
                 }
 
                 //whisper command
-                if(command.startsWith("/w ")){
+                if (command.startsWith("/w ")) {
                     String tail = command.substring(3);
                     int nameEnd = tail.indexOf(" ");
-                    if(nameEnd == -1){
-                        Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Usage: /w username message", ChatStyles.SYSTEM,false);
+                    if (nameEnd == -1) {
+                        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Usage: /w username message", ChatStyles.SYSTEM, false);
                         source.setText("");
                         return;
-                    }                    
+                    }
                     String name = tail.substring(0, nameEnd);
-                    String msg = tail.substring(nameEnd+1 , tail.length());
-                    if(name.equals(Globals.getThisPlayer_loginName())){
-                        Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Private chat with yourself is not allowed!", ChatStyles.SYSTEM,false);
+                    String msg = tail.substring(nameEnd + 1, tail.length());
+                    if (name.equals(Globals.getThisPlayerLoginName())) {
+                        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Private chat with yourself is not allowed!", ChatStyles.SYSTEM, false);
                         source.setText("");
                         return;
                     }
@@ -103,14 +103,14 @@ public class ChatInputKeyListener implements KeyListener {
                     source.setText("");
                     return;
                 }
-                
-                if(command.startsWith("/invite ")){
+
+                if (command.startsWith("/invite ")) {
                     String name = command.substring(8);
                     Protocol.sendRoomInvite(name);
                     source.setText("");
                     return;
                 }
-                
+
                 if (this.mode == CHANNEL_CHAT_MODE) { //main chat
                     Protocol.mainChat(prefix, command);
                 } else if (this.mode == ROOM_CHAT_MODE) { //room chat
@@ -120,9 +120,9 @@ public class ChatInputKeyListener implements KeyListener {
                     PrivateChatPanel privatechat = TabOrganizer.getPrivateChatPanel(prefix);
 
                     if (privatechat != null) {
-                        privatechat.append(Globals.getThisPlayer_loginName(), command, ChatStyles.WHISPER);
+                        privatechat.append(Globals.getThisPlayerLoginName(), command, ChatStyles.WHISPER);
                     }
-                    Protocol.privateChat(prefix, command );
+                    Protocol.privateChat(prefix, command);
                 }
                 source.setText("");
             }

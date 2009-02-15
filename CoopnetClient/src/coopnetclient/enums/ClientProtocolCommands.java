@@ -61,12 +61,12 @@ public enum ClientProtocolCommands {
     EDIT_PROFILE,
     QUIT,
     LOGIN,
-    NEW_PLAYER,    
+    NEW_PLAYER,
     BAN,
     UNBAN,
     MUTE,
     UNMUTE,
-    REQUEST_PROFILE,     
+    REQUEST_PROFILE,
     SAVE_PROFILE,
     PASSWORD_RECOVERY
 }

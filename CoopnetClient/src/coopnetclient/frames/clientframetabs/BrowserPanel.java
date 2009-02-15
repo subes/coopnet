@@ -17,10 +17,10 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.frames.clientframe.tabs;
+package coopnetclient.frames.clientframetabs;
 
-import coopnetclient.frames.clientframe.ClosableTab;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.interfaces.ClosableTab;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.ui.Colorizer;
 import java.io.IOException;
 

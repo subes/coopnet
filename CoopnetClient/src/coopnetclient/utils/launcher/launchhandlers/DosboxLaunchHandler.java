@@ -18,9 +18,9 @@
  */
 package coopnetclient.utils.launcher.launchhandlers;
 
-import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LogTypes;
+import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.launchinfos.DosboxLaunchInfo;
@@ -46,12 +46,12 @@ public class DosboxLaunchHandler extends LaunchHandler {
     @Override
     protected boolean doLaunch() {
 
-        Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
                 "Launching game, please wait ...",
                 ChatStyles.SYSTEM, false);
 
-        if (Globals.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()) {
-            Globals.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(false);
+        if (FrameOrganizer.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()) {
+            FrameOrganizer.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(false);
         }
 
         Process p = null;
@@ -61,7 +61,7 @@ public class DosboxLaunchHandler extends LaunchHandler {
             Logger.log(LogTypes.LAUNCHER, launchInfo.getDosboxBinaryPath() + launchInfo.getDosboxParameters());
 
             File installdir = new File(launchInfo.getDosboxBinaryPath()).getParentFile();
-            p = rt.exec("\""+launchInfo.getDosboxBinaryPath()+ "\"" + launchInfo.getDosboxParameters(), null, installdir);
+            p = rt.exec("\"" + launchInfo.getDosboxBinaryPath() + "\"" + launchInfo.getDosboxParameters(), null, installdir);
 
             if (launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()) {
                 Protocol.launch();
@@ -72,15 +72,15 @@ public class DosboxLaunchHandler extends LaunchHandler {
             } catch (InterruptedException ex) {
             }
         } catch (IOException e) {
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "Error while launching: " + e.getMessage() + "\nAborting launch!",
                     ChatStyles.SYSTEM, false);
             Logger.log(e);
             return false;
         }
 
-        if (Globals.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()) {
-            Globals.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(true);
+        if (FrameOrganizer.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()) {
+            FrameOrganizer.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(true);
         }
 
         return (p.exitValue() == 0 ? true : false);
@@ -104,7 +104,7 @@ public class DosboxLaunchHandler extends LaunchHandler {
             ret = false;
         }
         if (ret == false) {
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "Launcher failed. Please make sure that the game is properly setup for launch.",
                     ChatStyles.SYSTEM, false);
         }

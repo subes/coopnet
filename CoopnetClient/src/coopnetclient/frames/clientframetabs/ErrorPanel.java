@@ -16,20 +16,20 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package coopnetclient.frames.clientframe.tabs;
+package coopnetclient.frames.clientframetabs;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.enums.ErrorPanelStyle;
-import coopnetclient.frames.clientframe.ClosableTab;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.FrameOrganizer;
+import coopnetclient.frames.interfaces.ClosableTab;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.ui.FrameIconFlasher;
 import coopnetclient.utils.Logger;
 import java.awt.event.KeyEvent;
 
-public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
-    
+public class ErrorPanel extends javax.swing.JPanel implements ClosableTab {
+
     private Throwable exception;
     private String trafficLog;
     private ErrorPanelStyle mode;
@@ -47,10 +47,10 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
 
     public ErrorPanel(ErrorPanelStyle mode, Throwable exception) {
         this.mode = mode;
-        
+
         initComponents();
         FrameIconFlasher.flash("data/icons/error.png", "An error occured!", true);
-        
+
         coopnetclient.utils.ui.Colorizer.colorize(this);
         switch (mode) {
             case UNKNOWN: {
@@ -59,48 +59,48 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
             }
             case CONNECTION_REFUSED: {
                 lbl_errorText.setText(CONNECTION_REFUSED);
-                if(!Globals.getConnectionStatus()){
+                if (!Globals.getConnectionStatus()) {
                     btn_report.setText("Reconnect");
-                }else{
+                } else {
                     btn_report.setVisible(false);
                 }
                 break;
             }
             case CONNECTION_RESET: {
                 lbl_errorText.setText(CONNECTION_RESET);
-                if(!Globals.getConnectionStatus()){
+                if (!Globals.getConnectionStatus()) {
                     btn_report.setText("Reconnect");
-                }else{
+                } else {
                     btn_report.setVisible(false);
                 }
                 break;
             }
             case UNKNOWN_IO: {
                 lbl_errorText.setText(UNKNOWN_IO + exception.getMessage());
-                if(!Globals.getConnectionStatus()){
+                if (!Globals.getConnectionStatus()) {
                     btn_report.setText("Reconnect");
-                }else{
+                } else {
                     btn_report.setVisible(false);
                 }
                 break;
             }
             case PROTOCOL_VERSION_MISMATCH: {
-                Globals.getClientFrame().clientTooOldMode();
+                FrameOrganizer.getClientFrame().clientTooOldMode();
                 lbl_errorText.setText(PROTOCOL_VERSION_MISMATCH);
                 btn_report.setText("Update");
             }
         }
-        
-        if(btn_report.isVisible()){
+
+        if (btn_report.isVisible()) {
             this.exception = exception;
             this.trafficLog = Logger.getEndOfLog();
         }
     }
-    
-    public boolean hasException(){
-        if(exception != null){
+
+    public boolean hasException() {
+        if (exception != null) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -175,15 +175,14 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_reportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reportActionPerformed
-        if(btn_report.getText().equals("Reconnect")){
+        if (btn_report.getText().equals("Reconnect")) {
             Client.startConnection();
             btn_report.setEnabled(false);
-        }else
-        if(btn_report.getText().equals("Update")){
-            Globals.getClientFrame().invokeUpdate();
+        } else if (btn_report.getText().equals("Update")) {
+            FrameOrganizer.getClientFrame().invokeUpdate();
             btn_report.setEnabled(false);
-        }else{
-            Globals.openBugReportFrame(exception, trafficLog);
+        } else {
+            FrameOrganizer.openBugReportFrame(exception, trafficLog);
         }
 }//GEN-LAST:event_btn_reportActionPerformed
 
@@ -203,5 +202,4 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab{
     public boolean isCurrentlyClosable() {
         return mode != ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH;
     }
-    
 }

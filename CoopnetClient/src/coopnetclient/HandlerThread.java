@@ -19,9 +19,8 @@
 package coopnetclient;
 
 import coopnetclient.enums.LogTypes;
-import coopnetclient.enums.ServerProtocolCommands;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.ui.SwingTask;
@@ -39,9 +38,9 @@ import javax.swing.SwingUtilities;
 
 public class HandlerThread extends Thread {
 
-    private final String CHARSET = "UTF-8";
+    private static final String CHARSET = "UTF-8";
     private Charset charset = Charset.forName(CHARSET);
-    boolean running = true;
+    private boolean running = true;
     private SocketChannel socketChannel;
     public static final int WRITEBUFFER_SIZE = 400;
     public static final int READBUFFER_SIZE = 400;
@@ -51,7 +50,7 @@ public class HandlerThread extends Thread {
     private ByteBuffer attachment = null;
     private Thread sender;
     private Vector<String> outQueue = new Vector<String>();
-    private Long lastMessageSentAt = 0l;
+    private Long lastMessageSentAt = 0L;
 
     protected void addToOutQueue(String element) {
         outQueue.add(element);
@@ -70,8 +69,7 @@ public class HandlerThread extends Thread {
     }
 
     /**
-     * 
-    The client reads the incoming commands in this thread
+     * The client reads the incoming commands in this thread
      */
     @Override
     public void run() {
@@ -89,7 +87,8 @@ public class HandlerThread extends Thread {
                             try {
                                 sleep(10);
                             } catch (InterruptedException ex) {
-                            }if(running){
+                            }
+                            if (running) {
                                 doSend();
                             }
                         }
@@ -99,7 +98,7 @@ public class HandlerThread extends Thread {
                 }
             };
             sender.start();
-            
+
             //send heartbeat
             new Thread() {
 
@@ -107,16 +106,16 @@ public class HandlerThread extends Thread {
                 public void run() {
                     try {
                         while (running) {
-                            if((System.currentTimeMillis() - lastMessageSentAt) > 30000 ){
+                            if ((System.currentTimeMillis() - lastMessageSentAt) > 30000) {
                                 new Message(Protocol.HEARTBEAT);
-                                synchronized(lastMessageSentAt){
+                                synchronized (HandlerThread.class) {
                                     lastMessageSentAt = System.currentTimeMillis();
                                 }
                             }
                             try {
                                 sleep(1000);
                             } catch (InterruptedException ex) {
-                            }                            
+                            }
                         }
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
@@ -127,7 +126,7 @@ public class HandlerThread extends Thread {
             Protocol.sendVersion();
             //login
             if (coopnetclient.utils.Settings.getAutoLogin()) {
-                Protocol.autoLogin();                
+                Protocol.autoLogin();
             } else {
                 TabOrganizer.openLoginPanel();
             }
@@ -148,7 +147,7 @@ public class HandlerThread extends Thread {
             //disconnect
             if (Globals.getConnectionStatus()) {
                 Client.disconnect();
-                //ErrorHandler decides if there is a need for the stacktrace, 
+                //ErrorHandler decides if there is a need for the stacktrace,
                 //this helps looking at the log of a bugreport
                 //handle excptions
                 ErrorHandler.handleException(e);
@@ -201,7 +200,7 @@ public class HandlerThread extends Thread {
 
     private static ByteBuffer arrayCut(ByteBuffer buffer, int start, int end) {
         ByteBuffer temp = ByteBuffer.allocate(buffer.limit());
-        //copy data 
+        //copy data
         System.arraycopy(buffer.array(), start, temp.array(), 0, end - start);
         temp.position(end - start);
         temp.flip();
@@ -261,9 +260,9 @@ public class HandlerThread extends Thread {
 
     private String read() throws Exception {
         //return remaining message if any
-        int idx;
-        if (attachment != null && (idx = findDelimiter(attachment, 0)) > -1) {
-            ByteBuffer packet = arrayCut(attachment, 0, idx - Protocol.ENCODED_MESSAGE_DELIMITER.length );
+        int idx = findDelimiter(attachment, 0);
+        if (attachment != null && idx > -1) {
+            ByteBuffer packet = arrayCut(attachment, 0, idx - Protocol.ENCODED_MESSAGE_DELIMITER.length);
             attachment = arrayCut(attachment, idx, attachment.limit()); //cut off packet from start
             return process(packet);
         }
@@ -279,13 +278,13 @@ public class HandlerThread extends Thread {
 
         readBuffer.flip();
 
-        if ( read > 0 ) {
+        if (read > 0) {
             ByteBuffer prev = attachment;
             //search for delimiter
             ByteBuffer bufarray = extractBytes(readBuffer);
             ByteBuffer tmp = arrayConcat(prev, bufarray, 0, 0);
             attachment = tmp;
-        }        
+        }
         return null;
     }
 
@@ -304,7 +303,7 @@ public class HandlerThread extends Thread {
                 } else {
                     socketChannel.write(byteBuffer);
                 }
-                synchronized (lastMessageSentAt) {
+                synchronized (HandlerThread.class) {
                     lastMessageSentAt = System.currentTimeMillis();
                 }
             } catch (Exception e) {
@@ -320,4 +319,3 @@ public class HandlerThread extends Thread {
         return socketChannel.isConnected();
     }
 }
-    

@@ -2,7 +2,7 @@ package coopnetclient.utils.ui;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ContactListElementTypes;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.protocol.out.Protocol;
 import java.awt.datatransfer.DataFlavor;
@@ -39,7 +39,7 @@ public class ContactListFileDropHandler extends TransferHandler {
             return false;
         }
         String subject = list.getModel().getElementAt(index).toString();
-        if (subject == null || subject.equals(Globals.getThisPlayer_loginName())) {
+        if (subject == null || subject.equals(Globals.getThisPlayerLoginName())) {
             return false;
         }
         
@@ -84,7 +84,7 @@ public class ContactListFileDropHandler extends TransferHandler {
                     (java.util.List<File>) t.getTransferData(DataFlavor.javaFileListFlavor);
             JList list = (JList) support.getComponent();
             String subject = list.getModel().getElementAt(index).toString();
-            if(subject == null || subject.equals(Globals.getThisPlayer_loginName())){
+            if(subject == null || subject.equals(Globals.getThisPlayerLoginName())){
                 return false;
             }
             for (File inputfile : l) {

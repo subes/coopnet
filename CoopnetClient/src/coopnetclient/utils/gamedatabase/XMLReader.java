@@ -18,8 +18,8 @@
  */
 package coopnetclient.utils.gamedatabase;
 
-import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
+import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.utils.Logger;
 import java.io.File;
 import java.io.IOException;
@@ -54,8 +54,8 @@ public class XMLReader {
                             Logger.log(LogTypes.LOG, "Detecting games");
                             sp.parse(new File(loadFrom), new XmlHandler_DetectGames());
                             Logger.log(LogTypes.LOG, "Done detecting games");
-                            if(Globals.getClientFrame()!=null){
-                                Globals.getClientFrame().refreshInstalledGames();
+                            if (FrameOrganizer.getClientFrame() != null) {
+                                FrameOrganizer.getClientFrame().refreshInstalledGames();
                             }
                         } catch (Exception e) {
                             Logger.log(LogTypes.ERROR, "Game detection failed!");

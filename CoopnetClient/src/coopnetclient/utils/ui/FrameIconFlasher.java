@@ -16,12 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.utils.ui;
 
 import coopnetclient.utils.*;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
+import coopnetclient.frames.FrameOrganizer;
 import java.awt.Image;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
@@ -34,28 +34,27 @@ import javax.swing.JFrame;
 public class FrameIconFlasher extends Thread {
 
     private static FrameIconFlasher flasher = null;
-    
     private JFrame parent;
-    private Image flashIcon, prevIcon;
-    private String flashTitle, prevTitle;
+    private Image flashIcon,  prevIcon;
+    private String flashTitle,  prevTitle;
     private final int flashInterval = 1000;
 
     private FrameIconFlasher(String flashIcon, String flashTitle) {
-        this.parent = Globals.getClientFrame();
+        this.parent = FrameOrganizer.getClientFrame();
         changeIconAndTitle(flashIcon, flashTitle);
         start();
     }
-    
-    private void changeIconAndTitle(String flashIcon, String flashTitle){
+
+    private void changeIconAndTitle(String flashIcon, String flashTitle) {
         this.flashIcon = Toolkit.getDefaultToolkit().getImage(Globals.getResourceAsString(flashIcon));
         this.flashTitle = flashTitle;
     }
-    
-    public static void flash(String flashIcon, String flashTitle, boolean override){
-        if(flasher == null){
+
+    public static void flash(String flashIcon, String flashTitle, boolean override) {
+        if (flasher == null) {
             flasher = new FrameIconFlasher(flashIcon, flashTitle);
-        }else{
-            if(override){
+        } else {
+            if (override) {
                 //Replace current flasher icon and title
                 flasher.changeIconAndTitle(flashIcon, flashTitle);
             }
@@ -64,29 +63,31 @@ public class FrameIconFlasher extends Thread {
 
     @Override
     public void run() {
-        try{
+        try {
             prevIcon = parent.getIconImage();
             prevTitle = parent.getTitle();
 
             while (!parent.isActive()) {
                 parent.setIconImage(flashIcon);
                 parent.setTitle(flashTitle);
-                if(SystemTray.isSupported() && Settings.getTrayIconEnabled()){
-                    Globals.getTrayIcon().setImage(flashIcon);
+                if (SystemTray.isSupported() && Settings.getTrayIconEnabled()) {
+                    FrameOrganizer.getTrayIcon().setImage(flashIcon);
                 }
                 try {
                     sleep(flashInterval);
-                } catch (InterruptedException ex) {}
+                } catch (InterruptedException ex) {
+                }
                 parent.setIconImage(prevIcon);
                 parent.setTitle(prevTitle);
-                if(SystemTray.isSupported() && Settings.getTrayIconEnabled()){
-                    Globals.getTrayIcon().setImage(prevIcon);
+                if (SystemTray.isSupported() && Settings.getTrayIconEnabled()) {
+                    FrameOrganizer.getTrayIcon().setImage(prevIcon);
                 }
                 try {
                     sleep(flashInterval);
-                } catch (InterruptedException ex) {}
+                } catch (InterruptedException ex) {
+                }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             ErrorHandler.handleException(e);
         }
         flasher = null;

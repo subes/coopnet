@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-package coopnetclient.frames.clientframe.tabs;
+package coopnetclient.frames.clientframetabs;
 
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;

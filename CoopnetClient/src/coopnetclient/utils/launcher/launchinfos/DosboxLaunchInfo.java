@@ -76,9 +76,9 @@ public class DosboxLaunchInfo extends LaunchInfo {
         ret = ret.replace("{GAMEEXE}",executableName);
         ret = ret.replace("{HOSTIP}", roomData.getIP());
         if(GameDatabase.getNoSpacesFlag(roomData.getChannel(), roomData.getModName())){
-            ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName().replace(" ", "_"));
+            ret = ret.replace("{NAME}", Globals.getThisPlayerInGameName().replace(" ", "_"));
         }else{
-            ret = ret.replace("{NAME}", Globals.getThisPlayer_inGameName());
+            ret = ret.replace("{NAME}", Globals.getThisPlayerInGameName());
         }
         
         ret = ret.replace("{ROOMNAME}", roomData.getRoomName());

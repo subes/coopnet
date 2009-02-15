@@ -20,40 +20,41 @@
 package coopnetclient;
 
 import coopnetclient.enums.ErrorPanelStyle;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.Logger;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 
-public class ErrorHandler {
+public final class ErrorHandler {
+
+    private ErrorHandler() {
+    }
 
     public static void handleException(Throwable exc) {
         if (exc == null) {
             return;
         }
-        
+
         //From now on we want to log any exception!
         Logger.log(exc);
-        if(exc instanceof java.nio.channels.AsynchronousCloseException){
+        if (exc instanceof java.nio.channels.AsynchronousCloseException) {
             return;
         }
-        
-        if ( exc instanceof java.nio.channels.ClosedChannelException ){
+
+        if (exc instanceof java.nio.channels.ClosedChannelException) {
             TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, exc);
-        }else
-        if (exc instanceof IOException) {
+        } else if (exc instanceof IOException) {
             if (exc.getMessage() != null && exc.getMessage().equals("socket closed")) {
                 return; // do nothing, happens when disconnecting
             }
 
-            if (       exc.getMessage() != null &&  exc.getMessage().contains("Connection refused")
-                    || exc.getMessage() != null &&  exc.getMessage().contains("timed out")
+            if (exc.getMessage() != null && exc.getMessage().contains("Connection refused")
+                    || exc.getMessage() != null && exc.getMessage().contains("timed out")
                     || exc instanceof SocketTimeoutException) {
                 TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_REFUSED, exc);
-            } else
-            if (       exc.getMessage() != null && exc.getMessage().contains("Connection reset")
+            } else if (exc.getMessage() != null && exc.getMessage().contains("Connection reset")
                     || exc.getMessage() != null && exc.getMessage().contains("Connection lost")
-                    || exc.getMessage() != null && exc.getMessage().contains("forcibly closed by the remote host") ) {
+                    || exc.getMessage() != null && exc.getMessage().contains("forcibly closed by the remote host")) {
                 TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, exc);
             } else {
                 TabOrganizer.openErrorPanel(ErrorPanelStyle.UNKNOWN_IO, exc);

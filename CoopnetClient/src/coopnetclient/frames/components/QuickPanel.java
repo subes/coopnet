@@ -16,11 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-package coopnetclient.frames.clientframe.quickpanel;
+package coopnetclient.frames.components;
 
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.components.ContactListPopupMenu;
 import coopnetclient.frames.components.mutablelist.DefaultListCellEditor;

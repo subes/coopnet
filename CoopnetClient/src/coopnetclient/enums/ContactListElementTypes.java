@@ -20,7 +20,6 @@
 package coopnetclient.enums;
 
 public enum ContactListElementTypes {
-
     PENDING_REQUEST, //0 request to this palyer
     PENDING_CONTACT, //1 the requests of this player to others
     CHATTING,        //2

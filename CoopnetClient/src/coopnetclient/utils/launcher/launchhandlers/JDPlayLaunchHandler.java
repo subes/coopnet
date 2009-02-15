@@ -16,15 +16,15 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.utils.launcher.launchhandlers;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
-import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.frames.clientframe.tabs.RoomPanel;
+import coopnetclient.frames.FrameOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
+import coopnetclient.frames.clientframetabs.RoomPanel;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
@@ -35,54 +35,51 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 public class JDPlayLaunchHandler extends LaunchHandler {
-    
+
     private static Process jdplay;
     private static OutputStream out;
     private static BufferedReader in;
-    
     private DirectPlayLaunchInfo launchInfo;
-
     private String lastRead = "";
     private static boolean isSearching = false;
     private static boolean abortSearch = false;
     private static boolean sessionFound = false;
-
     private static Thread progressBarHider;
 
-    public boolean isSearchAborted(){
+    public boolean isSearchAborted() {
         return abortSearch;
     }
 
-    public void resetAbortSearchFlag(){
+    public void resetAbortSearchFlag() {
         abortSearch = false;
     }
 
     @Override
     public boolean doInitialize(LaunchInfo launchInfo) {
-        if(jdplay == null){
+        if (jdplay == null) {
             //Workaround for wine, it puts "" to the playername if the playername doesn't contain a space
             String playerName;
-            if(Globals.getThisPlayer_inGameName().contains(" ")){
-                playerName = "\""+Globals.getThisPlayer_inGameName()+"\"";
-            }else{
-                playerName = Globals.getThisPlayer_inGameName();
+            if (Globals.getThisPlayerInGameName().contains(" ")) {
+                playerName = "\"" + Globals.getThisPlayerInGameName() + "\"";
+            } else {
+                playerName = Globals.getThisPlayerInGameName();
             }
-            
+
             String command = "";
-            
-            if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
+
+            if (Globals.getOperatingSystem() == OperatingSystems.LINUX) {
                 command += Globals.getWineCommand();
             }
-            
+
             command += " lib/jdplay.exe" +
-                 " --playerName " + playerName + 
-                 " --maxSearchRetries " + Globals.JDPLAY_MAXSEARCHRETRIES +
-                 " --searchValidationCount " + Globals.JDPLAY_SEARCHVALIDATIONCOUNT +
-                 " --debug";
-            
+                    " --playerName " + playerName +
+                    " --maxSearchRetries " + Globals.JDPLAY_MAXSEARCHRETRIES +
+                    " --searchValidationCount " + Globals.JDPLAY_SEARCHVALIDATIONCOUNT +
+                    " --debug";
+
             //print exec string
             Logger.log(LogTypes.LAUNCHER, command);
-            
+
             //run
             try {
                 jdplay = Runtime.getRuntime().exec(command);
@@ -90,36 +87,36 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                 in = new BufferedReader(new InputStreamReader(jdplay.getInputStream()));
             } catch (IOException e) {
                 Logger.log(e);
-                
-                Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "Error while initializing:" + e.getMessage(),
-                    ChatStyles.SYSTEM,false);
-                
+
+                FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
+                        "Error while initializing:" + e.getMessage(),
+                        ChatStyles.SYSTEM, false);
+
                 return false;
-            }   
+            }
         }
 
         sessionFound = false;
-        
-        if(!(launchInfo instanceof DirectPlayLaunchInfo)){
-            throw new IllegalArgumentException("expected launchInfo to be "+DirectPlayLaunchInfo.class.toString()+", but got "+launchInfo.getClass().toString());
+
+        if (!(launchInfo instanceof DirectPlayLaunchInfo)) {
+            throw new IllegalArgumentException("expected launchInfo to be " + DirectPlayLaunchInfo.class.toString() + ", but got " + launchInfo.getClass().toString());
         }
-        
+
         this.launchInfo = (DirectPlayLaunchInfo) launchInfo;
-        
-        if(!write("INITIALIZE" +
-                        " gameGUID:" + this.launchInfo.getGameGUID() +
-                        " hostIP:" + this.launchInfo.getRoomData().getIP() +
-                        " isHost:" + this.launchInfo.getRoomData().isHost() +
-                        " maxPlayers:"+this.launchInfo.getRoomData().getMaxPlayers())){
+
+        if (!write("INITIALIZE" +
+                " gameGUID:" + this.launchInfo.getGameGUID() +
+                " hostIP:" + this.launchInfo.getRoomData().getIP() +
+                " isHost:" + this.launchInfo.getRoomData().isHost() +
+                " maxPlayers:" + this.launchInfo.getRoomData().getMaxPlayers())) {
             return false;
         }
 
         String[] toRead = {"FIN", "ERR"};
         int ret = read(toRead);
-        if(ret == 0){
+        if (ret == 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -129,39 +126,39 @@ public class JDPlayLaunchHandler extends LaunchHandler {
 
         boolean doSearch = launchInfo.isSearchEnabled();
 
-        if (!write("LAUNCH doSearch:"+doSearch+" startGame:true")){
+        if (!write("LAUNCH doSearch:" + doSearch + " startGame:true")) {
             return false;
         }
 
-        if(doSearch && !launchInfo.getRoomData().isHost() && !sessionFound){
+        if (doSearch && !launchInfo.getRoomData().isHost() && !sessionFound) {
 
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                                "Connecting to host ...",
-                                ChatStyles.SYSTEM,false);
+            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
+                    "Connecting to host ...",
+                    ChatStyles.SYSTEM, false);
 
-            if(TabOrganizer.getRoomPanel() != null){
+            if (TabOrganizer.getRoomPanel() != null) {
                 TabOrganizer.getRoomPanel().getConnectingProgressBar().setProgress(0, Globals.JDPLAY_MAXSEARCHRETRIES);
                 TabOrganizer.getRoomPanel().getConnectingProgressBar().setVisible(true);
-            }else{
+            } else {
                 return false;
             }
 
             boolean done = false;
 
             JDPlayLaunchHandler.isSearching = true;
-            
-            while(!done && !abortSearch){
+
+            while (!done && !abortSearch) {
                 boolean noSessionFound = false;
 
                 String[] toRead = {"SEARCHTRY", "NOTFOUND", "FOUND"};
-                switch(read(toRead)){
+                switch (read(toRead)) {
                     case 0:
                         String progress = lastRead.substring(10);
                         int cur = Integer.parseInt(progress.split("/")[0]);
                         int max = Integer.parseInt(progress.split("/")[1]);
-                        if(TabOrganizer.getRoomPanel() != null){
+                        if (TabOrganizer.getRoomPanel() != null) {
                             TabOrganizer.getRoomPanel().getConnectingProgressBar().setProgress(cur, max);
-                        }else{
+                        } else {
                             abortSearch();
                         }
                         break;
@@ -173,35 +170,36 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                         done = true;
                         break;
                     default:
-                        //nothing, though might happen on abort
+                    //nothing, though might happen on abort
                 }
 
-                if(noSessionFound){
+                if (noSessionFound) {
                     abortSearch = true;
-                    if(TabOrganizer.getRoomPanel() != null){
-                        Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                                    "Launch failed! Found no session to join! The host maybe failed to launch or a firewall blocked your join attempt.",
-                                    ChatStyles.SYSTEM,false);
+                    if (TabOrganizer.getRoomPanel() != null) {
+                        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
+                                "Launch failed! Found no session to join! The host maybe failed to launch or a firewall blocked your join attempt.",
+                                ChatStyles.SYSTEM, false);
                         TabOrganizer.getRoomPanel().getConnectingProgressBar().setVisible(false);
                     }
                     return false;
-                }else
-                if(abortSearch){
+                } else if (abortSearch) {
                     return false;
                 }
             }
 
             JDPlayLaunchHandler.isSearching = false;
 
-            if(TabOrganizer.getRoomPanel() != null){
+            if (TabOrganizer.getRoomPanel() != null) {
                 TabOrganizer.getRoomPanel().getConnectingProgressBar().setDone();
-                progressBarHider = new Thread(){
-                @Override
-                public void run() {
+                progressBarHider = new Thread() {
+
+                    @Override
+                    public void run() {
                         try {
                             sleep(30000);
-                        } catch (InterruptedException ex) {}
-                        if(TabOrganizer.getRoomPanel() != null){
+                        } catch (InterruptedException ex) {
+                        }
+                        if (TabOrganizer.getRoomPanel() != null) {
                             TabOrganizer.getRoomPanel().getConnectingProgressBar().setVisible(false);
                         }
                     }
@@ -210,11 +208,11 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             }
         }
 
-        Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
-                                "Launching game, please wait ...",
-                                ChatStyles.SYSTEM,false);
+        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
+                "Launching game, please wait ...",
+                ChatStyles.SYSTEM, false);
 
-        if(launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()){
+        if (launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()) {
             Protocol.launch();
         }
 
@@ -257,49 +255,50 @@ public class JDPlayLaunchHandler extends LaunchHandler {
 //                p.waitFor();
 //            } catch (InterruptedException ex) {}
 //        } catch (Exception e) {
-//            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+//            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
 //                    "Error while launching: " + e.getMessage()+"\nAborting launch!",
 //                    ChatStyles.SYSTEM, false);
 //            Logger.log(e);
 //            return false;
 //        }
 
-        if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
-            try{
+        if (Globals.getOperatingSystem() == OperatingSystems.LINUX) {
+            try {
                 Process pkill = Runtime.getRuntime().exec("pkill -f dplaysvr.exe");
                 pkill.waitFor();
-            }catch(Exception e){
+            } catch (Exception e) {
                 Logger.log(e);
             }
         }
 
-        if(progressBarHider != null){
+        if (progressBarHider != null) {
             progressBarHider.interrupt();
         }
-        
-        return /*(p.exitValue() == 0 ? true : false)*/ret;
+
+        return /*(p.exitValue() == 0 ? true : false)*/ ret;
     }
 
     @Override
     public void updatePlayerName() {
-        write("UPDATE playerName:" + Globals.getThisPlayer_inGameName());
+        write("UPDATE playerName:" + Globals.getThisPlayerInGameName());
     }
-    
+
     private boolean read(String toRead) {
         String[] asArray = {toRead};
-        if(read(asArray) == 0){
+        if (read(asArray) == 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
-        
+
     }
     //Reads one of the possibilities given in toRead and gives the found index
+
     private int read(String[] toRead) {
         try {
             do {
                 String ret = in.readLine();
-                Logger.log(LogTypes.LAUNCHER, "IN: "+ret);
+                Logger.log(LogTypes.LAUNCHER, "IN: " + ret);
 
                 if (ret == null) {
                     Logger.log(LogTypes.LAUNCHER, "Read null, jdplay.exe closed");
@@ -320,24 +319,24 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             return -1;
         }
     }
-    
+
     private synchronized boolean write(String toWrite) {
         toWrite = toWrite.trim();
 
         //wait until jdplay is ready
         read("RDY");
-        
+
         try {
-            if(!toWrite.endsWith("\n")){
+            if (!toWrite.endsWith("\n")) {
                 toWrite += "\n";
             }
-            
+
             //write
             Logger.log(LogTypes.LAUNCHER, "OUT: " + toWrite);
             out.write(toWrite.getBytes());
             out.flush();
 
-            if(!toWrite.equals("DONE\n")){
+            if (!toWrite.equals("DONE\n")) {
                 toWrite = "DONE\n";
                 Logger.log(LogTypes.LAUNCHER, "OUT: " + toWrite);
                 out.write(toWrite.getBytes());
@@ -346,9 +345,9 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                 //verify if jdplay understood
                 String[] toRead = {"ACK", "NAK"};
                 int ret = read(toRead);
-                if(ret == 0){
+                if (ret == 0) {
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -361,46 +360,48 @@ public class JDPlayLaunchHandler extends LaunchHandler {
         }
     }
 
-    private void printError(Exception e) {        
+    private void printError(Exception e) {
         if (e == null) {
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "Undetermined DirectPlay error.\nRecovering ...",
-                    ChatStyles.SYSTEM,false);
+                    ChatStyles.SYSTEM, false);
         } else {
             Logger.log(e);
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM",
+            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
                     "DirectPlay error: " + e.getMessage() + "\nRecovering ...",
-                    ChatStyles.SYSTEM,false);
+                    ChatStyles.SYSTEM, false);
         }
     }
-    
-    private void reinitJDPlay(){        
-        
+
+    private void reinitJDPlay() {
+
         RoomPanel room = TabOrganizer.getRoomPanel();
-        if(room != null){
+        if (room != null) {
             room.displayReInit();
         }
-        
-        if(jdplay != null){
+
+        if (jdplay != null) {
             jdplay.destroy();
             jdplay = null;
         }
 
-        if(out != null){
+        if (out != null) {
             try {
                 out.close();
-            } catch (IOException ex) {}
+            } catch (IOException ex) {
+            }
             out = null;
         }
 
-        if(in != null){
+        if (in != null) {
             try {
                 in.close();
-            } catch (IOException ex) {}
+            } catch (IOException ex) {
+            }
             in = null;
         }
-        
-        if(room != null){
+
+        if (room != null) {
             room.initLauncher();
         }
     }
@@ -408,33 +409,33 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     @Override
     public boolean predictSuccessfulLaunch() {
         boolean ret = jdplay != null && out != null && in != null;
-        
-        if(ret == true){
-            try{
+
+        if (ret == true) {
+            try {
                 jdplay.exitValue();
-            }catch(NullPointerException e){
+            } catch (NullPointerException e) {
                 ret = false;
-            }catch(IllegalThreadStateException e){}
+            } catch (IllegalThreadStateException e) {
+            }
         }
-        
-        if(ret == true){
+
+        if (ret == true) {
             write("STILLALIVETEST");
             write("DONE");
         }
-        
-        if(ret == false){
+
+        if (ret == false) {
             reinitJDPlay();
         }
-                
+
         return ret;
     }
 
-    public void abortSearch(){
-        if(JDPlayLaunchHandler.isSearching){
+    public void abortSearch() {
+        if (JDPlayLaunchHandler.isSearching) {
             Logger.log(LogTypes.LAUNCHER, "Aborting search");
             abortSearch = true;
             reinitJDPlay();
         }
     }
-
 }

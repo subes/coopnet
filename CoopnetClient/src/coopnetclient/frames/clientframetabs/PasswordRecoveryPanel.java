@@ -16,11 +16,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
+package coopnetclient.frames.clientframetabs;
 
-package coopnetclient.frames.clientframe.tabs;
-
-import coopnetclient.Globals;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.FrameOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Verification;
 import java.awt.event.KeyEvent;
@@ -37,42 +36,43 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
 
     @Override
     public void requestFocus() {
-         tf_name.requestFocusInWindow();
+        tf_name.requestFocusInWindow();
     }
-
 
     private void recovery() {
         String name = tf_name.getText();
         String email = tf_email.getText();
 
-        if(!Verification.verifyLoginName(name)){
+        if (!Verification.verifyLoginName(name)) {
             tf_name.showErrorMessage("Invalid login name!");
             return;
         }
-        
-        if(!Verification.verifyEMail(email)){
+
+        if (!Verification.verifyEMail(email)) {
             tf_email.showErrorMessage("Invalid email adress!");
             return;
         }
-        
+
         TabOrganizer.closePasswordRecoveryPanel();
         TabOrganizer.openLoginPanel();
-        Protocol.passwordRecovery(name,email);
-        JOptionPane.showMessageDialog(Globals.getClientFrame(), "<html><b>Request sent!</b>\n" +
-                            "If the data is valid you will receive an E-Mail with your new password shortly!", "Request sent", JOptionPane.INFORMATION_MESSAGE);
+        Protocol.passwordRecovery(name, email);
+        JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), "<html><b>Request sent!</b>\n" +
+                "If the data is valid you will receive an E-Mail with your new password shortly!", "Request sent", JOptionPane.INFORMATION_MESSAGE);
     }
-    
-    private void disableButtons(){
-        if(btn_send.isEnabled()){
-            new Thread(){
+
+    private void disableButtons() {
+        if (btn_send.isEnabled()) {
+            new Thread() {
+
                 @Override
                 public void run() {
                     btn_send.setEnabled(false);
                     btn_cancel.setEnabled(false);
                     try {
-                        sleep(1000);                    
-                    } catch (InterruptedException ex) {}
-                    if(btn_send != null){ 
+                        sleep(1000);
+                    } catch (InterruptedException ex) {
+                    }
+                    if (btn_send != null) {
                         btn_send.setEnabled(true);
                         btn_cancel.setEnabled(true);
                     }
@@ -203,8 +203,8 @@ private void tf_emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_tf_emailActionPerformed
 
 private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sendActionPerformed
-    disableButtons(); 
-    recovery();     
+    disableButtons();
+    recovery();
 }//GEN-LAST:event_btn_sendActionPerformed
 
 private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed

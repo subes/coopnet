@@ -16,11 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.renderers;
 
 import coopnetclient.Globals;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.FrameOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.EscapeChars;
 import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.ui.Icons;
@@ -35,7 +35,6 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.Border;
 
-
 /**
  * Renders the elements in the user list of a room
  */
@@ -44,31 +43,30 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
     private Vector<String> readyList = new Vector<String>();
     private Vector<String> playingList = new Vector<String>();
     private Vector<String> awayList = new Vector<String>();
-    
-    private static Border selectionBorder = BorderFactory.createLineBorder(Colorizer.getSelectionColor() , 2);
+    private static Border selectionBorder = BorderFactory.createLineBorder(Colorizer.getSelectionColor(), 2);
     private static Border normalBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
-    
+
     public RoomPlayerStatusListCellRenderer() {
         setOpaque(true);
     }
-        
-    public void removePlayer(String playerName){
+
+    public void removePlayer(String playerName) {
         readyList.remove(playerName);
         playingList.remove(playerName);
         awayList.remove(playerName);
-        Globals.getClientFrame().repaint();
+        FrameOrganizer.getClientFrame().repaint();
     }
 
     public void setAway(String playername) {
-        if(!awayList.contains(playername)){
+        if (!awayList.contains(playername)) {
             awayList.add(playername);
-            Globals.getClientFrame().repaint();
+            FrameOrganizer.getClientFrame().repaint();
         }
     }
 
     public void unSetAway(String playername) {
         awayList.remove(playername);
-        Globals.getClientFrame().repaint();
+        FrameOrganizer.getClientFrame().repaint();
     }
 
     public void updateName(String oldname, String newname) {
@@ -81,28 +79,28 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
         if (awayList.remove(oldname)) {
             awayList.add(newname);
         }
-        Globals.getClientFrame().repaint();
+        FrameOrganizer.getClientFrame().repaint();
     }
 
     public void setPlaying(String playername) {
         if (!playingList.contains(playername)) {
             playingList.add(playername);
         }
-        Globals.getClientFrame().repaint();
+        FrameOrganizer.getClientFrame().repaint();
     }
 
     public void readyPlayer(String playername) {
         if (!readyList.contains(playername)) {
             readyList.add(playername);
         }
-        Globals.getClientFrame().repaint();
+        FrameOrganizer.getClientFrame().repaint();
     }
 
     public void unReadyPlayer(String playername) {
         readyList.remove(playername);
         playingList.remove(playername);
         awayList.remove(playername);
-        Globals.getClientFrame().repaint();
+        FrameOrganizer.getClientFrame().repaint();
     }
 
     public void launch() {
@@ -111,12 +109,12 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
                 playingList.add(playername);
             }
         }
-        Globals.getClientFrame().repaint();
+        FrameOrganizer.getClientFrame().repaint();
     }
 
     public void gameClosed(String playername) {
         playingList.remove(playername);
-        Globals.getClientFrame().repaint();
+        FrameOrganizer.getClientFrame().repaint();
     }
 
     @Override
@@ -128,7 +126,7 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
         //set foreground
         setForeground(Color.black);
         setBorder(normalBorder);
-        setToolTipText("<html><xmp>"+value.toString()+"</xmp><br>Press middle mouse button to toggle highlight.");
+        setToolTipText("<html><xmp>" + value.toString() + "</xmp><br>Press middle mouse button to toggle highlight.");
         //set background color        
         if (readyList.contains(value.toString())) {
             if (playingList.contains(value.toString())) {
@@ -146,25 +144,25 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
 
 
         String text = EscapeChars.forHTML(value.toString());
-        if(Globals.isHighlighted(value.toString())){
-            setText("<html>&nbsp;<u>"+text+"</u></html>");
-        }else{
-            setText("<html>&nbsp;"+text+"</html>");
+        if (Globals.isHighlighted(value.toString())) {
+            setText("<html>&nbsp;<u>" + text + "</u></html>");
+        } else {
+            setText("<html>&nbsp;" + text + "</html>");
         }
 
-        if (isSelected && !(value.toString().equals(Globals.getThisPlayer_loginName()))) {
+        if (isSelected && !(value.toString().equals(Globals.getThisPlayerLoginName()))) {
             setBorder(selectionBorder);
         }
         //is away?
-        if(awayList.contains(value.toString())){
+        if (awayList.contains(value.toString())) {
             setIcon(Icons.awayIcon);
-        }else{
+        } else {
             setIcon(null);
         }
-        if(value.toString().equals( TabOrganizer.getRoomPanel().getRoomData().getHostName() )){
+        if (value.toString().equals(TabOrganizer.getRoomPanel().getRoomData().getHostName())) {
             setFont(new Font(Settings.getNameStyle(), Font.BOLD, 14));
         }
-        
+
         return this;
     }
 }

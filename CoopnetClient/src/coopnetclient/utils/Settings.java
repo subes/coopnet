@@ -16,11 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.utils;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.OperatingSystems;
+import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.awt.Color;
@@ -59,95 +59,38 @@ import passwordencrypter.PasswordEncrypter;
 public class Settings {
 
     private static final Properties data;    // Load the settings at first usage
-    
-	public static final String SETTINGS_DIR; //Gets set OS-Specific
-	private static final String FAVOURITES_FILE; //Complete Path to the file
-	private static final String SETTINGS_FILE;
-
+    public static final String SETTINGS_DIR; //Gets set OS-Specific
+    private static final String FAVOURITES_FILE; //Complete Path to the file
+    private static final String SETTINGS_FILE;
     private static final Vector<String> favourites;
 
+
     static {
-        if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS){
-            SETTINGS_DIR = System.getenv("APPDATA")+"/Coopnet";
+        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
+            SETTINGS_DIR = System.getenv("APPDATA") + "/Coopnet";
 
             String recvdir = RegistryReader.read("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\Desktop");
-            if(recvdir == null){
+            if (recvdir == null) {
                 recvdir = System.getenv("HOMEPATH");
             }
 
             def_recievedest = recvdir;
-        }else{
-            SETTINGS_DIR = System.getenv("HOME")+"/.coopnet";
+        } else {
+            SETTINGS_DIR = System.getenv("HOME") + "/.coopnet";
             def_recievedest = System.getenv("HOME");
         }
-		
-        FAVOURITES_FILE = SETTINGS_DIR+"/favourites";
-        SETTINGS_FILE = SETTINGS_DIR+"/settings";
-		
+
+        FAVOURITES_FILE = SETTINGS_DIR + "/favourites";
+        SETTINGS_FILE = SETTINGS_DIR + "/settings";
+
         data = new java.util.Properties();
         load();
         favourites = new Vector<String>();
         loadFavourites();
     }
-    
     /**********************************************************************/
-    
     //Settings names in variable form
-    private final static String 
-            lastValidServerIP = "LastValidServerIP",
-            lastValidServerPort = "LastValidServerPort",  
-            recieveDest="FileDestination", 
-            sleepEnabled="SleepModeEnabled" , 
-            firstRun = "FirstRun",  
-            homeChannel = "HomeChannel",
-            autoLogin = "AutoLogin",  
-            debugMode = "DebugMode", 
-            selectedLookAndFeel = "SelectedLAF",
-            useNativeLookAndFeel = "UseNativeLAF",
-            bgColor = "BackgroundColor",  
-            fgColor = "ForegroundColor",  
-            yourUsernameColor = "YourUsernameColor",  
-            selectionColor = "SelectionColor",  
-            otherUsernamesColor = "OtherUsernamesColor",
-            friendUsernameColor = "FriendUsernameColor",
-            systemMessageColor = "SystemMessageColor",  
-            whisperMessageColor = "WhisperMessageColor",
-            friendMessageColor = "FriendMessageColor",
-            nameStyle = "NameStyle",  
-            nameSize = "NameSize",  
-            messageStyle = "MessageStyle",  
-            messageSize = "MessageSize",  
-            colorizeBody = "ColorizeBody",  
-            colorizeText = "ColorizeText",  
-            lastLoginName = "LastLoginName",  
-            lastLoginPassword = "Style",  
-            userMessageColor = "UserMessageColor",  
-            SoundEnabled = "SoundEnabled",  
-            TimeStamps = "TimeStamps",  
-            mainFrameMaximised = "MainFrameMaximised",  
-            mainFrameWidth = "MainFrameWidth",  
-            mainFrameHeight = "MainFrameHeight",  
-            channelVerticalSPPosition = "ChannelVerticalSPPosition",  
-            channelChatHorizontalSPPosition = "ChannelChatHorizontalSPPosition",  
-            channelChatVerticalSPPosition = "ChannelChatVerticalSPPosition",
-            wineCommand="WineCommand",
-            fileTransferPort="FiletransferPort",
-            quickPanelPostionisLeft = "QuickPanelPositionIsLeft",
-            quickPanelDividerWidth = "QuckPanelDividerWidth",
-            contactStatusChangeTextNotification = "ContactStatusChangeTextNotification",
-            contactStatusChangeSoundNotification = "ContactStatusChangeSoundNotification",
-            quickPanelToggleBarWidth = "QuickPanelToggleBarWidth",
-            trayIconEnabled = "TrayIcon",
-            launchHotKeyMask = "HotKeyMask",
-            launchHotKey = "HotKey",
-            multiChannel = "MultiChannel",
-            showOfflineContacts = "ShowOfflineContacts",
-            quickPanelIconSizeIsBig="QuickPanelIconSizeIsBig",
-            rememberMainFrameSize = "RememberMainFrameSize",
-            logUserActivity="LogUserActicvity",
-            DOSBoxExecutable="DOSBox-Executable",
-            DOSBoxFullscreen="DOSBox-Fullscreen";
-   
+    private final static String lastValidServerIP = "LastValidServerIP",  lastValidServerPort = "LastValidServerPort",  recieveDest = "FileDestination",  sleepEnabled = "SleepModeEnabled",  firstRun = "FirstRun",  homeChannel = "HomeChannel",  autoLogin = "AutoLogin",  debugMode = "DebugMode",  selectedLookAndFeel = "SelectedLAF",  useNativeLookAndFeel = "UseNativeLAF",  bgColor = "BackgroundColor",  fgColor = "ForegroundColor",  yourUsernameColor = "YourUsernameColor",  selectionColor = "SelectionColor",  otherUsernamesColor = "OtherUsernamesColor",  friendUsernameColor = "FriendUsernameColor",  systemMessageColor = "SystemMessageColor",  whisperMessageColor = "WhisperMessageColor",  friendMessageColor = "FriendMessageColor",  nameStyle = "NameStyle",  nameSize = "NameSize",  messageStyle = "MessageStyle",  messageSize = "MessageSize",  colorizeBody = "ColorizeBody",  colorizeText = "ColorizeText",  lastLoginName = "LastLoginName",  lastLoginPassword = "Style",  userMessageColor = "UserMessageColor",  SoundEnabled = "SoundEnabled",  TimeStamps = "TimeStamps",  mainFrameMaximised = "MainFrameMaximised",  mainFrameWidth = "MainFrameWidth",  mainFrameHeight = "MainFrameHeight",  channelVerticalSPPosition = "ChannelVerticalSPPosition",  channelChatHorizontalSPPosition = "ChannelChatHorizontalSPPosition",  channelChatVerticalSPPosition = "ChannelChatVerticalSPPosition",  wineCommand = "WineCommand",  fileTransferPort = "FiletransferPort",  quickPanelPostionisLeft = "QuickPanelPositionIsLeft",  quickPanelDividerWidth = "QuckPanelDividerWidth",  contactStatusChangeTextNotification = "ContactStatusChangeTextNotification",  contactStatusChangeSoundNotification = "ContactStatusChangeSoundNotification",  quickPanelToggleBarWidth = "QuickPanelToggleBarWidth",  trayIconEnabled = "TrayIcon",  launchHotKeyMask = "HotKeyMask",  launchHotKey = "HotKey",  multiChannel = "MultiChannel",  showOfflineContacts = "ShowOfflineContacts",  quickPanelIconSizeIsBig = "QuickPanelIconSizeIsBig",  rememberMainFrameSize = "RememberMainFrameSize",  logUserActivity = "LogUserActicvity",  DOSBoxExecutable = "DOSBox-Executable",  DOSBoxFullscreen = "DOSBox-Fullscreen";
     //Default
     private final static String def_lastValidServerIP = "subes.dyndns.org";
     private final static int def_lastValidServerPort = 6667;
@@ -159,16 +102,16 @@ public class Settings {
     private final static boolean def_debugMode = false; // new Color(new Integer(""));
     private final static String def_selectedLookAndFeel = "Metal";
     private final static boolean def_useNativeLookAndFeel = true;
-    private final static Color def_bgColor = new Color(240,240,240);
+    private final static Color def_bgColor = new Color(240, 240, 240);
     private final static Color def_fgColor = Color.BLACK;
-    private final static Color def_yourUsernameColor = new Color(255,153,0);
-    private final static Color def_otherUsernamesColor = new Color(0,51,255);
-    private final static Color def_systemMessageColor = new Color(200,0,0);
-    private final static Color def_whisperMessageColor = new Color(0,153,204);
+    private final static Color def_yourUsernameColor = new Color(255, 153, 0);
+    private final static Color def_otherUsernamesColor = new Color(0, 51, 255);
+    private final static Color def_systemMessageColor = new Color(200, 0, 0);
+    private final static Color def_whisperMessageColor = new Color(0, 153, 204);
     private final static Color def_userMessageColor = Color.BLACK;
     private final static Color def_friendUsernameColor = Color.GREEN.darker();
     private final static Color def_friendMessageColor = Color.GREEN.darker();
-    private final static Color def_SelectionColor = new Color(200,200,200);
+    private final static Color def_SelectionColor = new Color(200, 200, 200);
     private final static String def_nameStyle = "Monospaced";
     private final static String def_recievedest;
     private final static int def_nameSize = 12;
@@ -204,9 +147,7 @@ public class Settings {
     private final static String def_DOSEmulatorExecutable = "";
     private final static String def_DOSEmulatorSyntax = "";
 
-
-
-    public static void resetSettings(){
+    public static void resetSettings() {
         data.clear();
         save();
         favourites.clear();
@@ -365,19 +306,19 @@ public class Settings {
     public static int getLaunchHotKey() {
         return readInteger(launchHotKey, def_launchHotKey);
     }
-    
+
     public static void setLaunchHotKey(int key) {
         writeSetting(launchHotKey, String.valueOf(key));
     }
-    
+
     public static int getLaunchHotKeyMask() {
         return readInteger(launchHotKeyMask, def_launchHotKeyMask);
     }
-    
+
     public static void setLaunchHotKeymask(int keyMask) {
         writeSetting(launchHotKeyMask, String.valueOf(keyMask));
     }
-    
+
     public static boolean getTrayIconEnabled() {
         return readBoolean(trayIconEnabled, def_trayIconEnabled);
     }
@@ -385,7 +326,7 @@ public class Settings {
     public static void setTrayIconEnabled(boolean status) {
         writeSetting(trayIconEnabled, String.valueOf(status));
     }
-            
+
     public static boolean getQuickPanelPostionisLeft() {
         return readBoolean(quickPanelPostionisLeft, def_quickPanelPostionIsLeft);
     }
@@ -405,19 +346,19 @@ public class Settings {
     public static int getQuickPanelToggleBarWidth() {
         return readInteger(quickPanelToggleBarWidth, def_quickPanelToggleBarWidth);
     }
-    
+
     public static void setQuickPanelToggleBarWidth(int width) {
         writeSetting(quickPanelToggleBarWidth, String.valueOf(width));
     }
-            
+
     public static int getQuickPanelDividerWidth() {
         return readInteger(quickPanelDividerWidth, def_quickPanelDividerWidth);
     }
-    
+
     public static void setQuickPanelDividerWidth(int width) {
         writeSetting(quickPanelDividerWidth, String.valueOf(width));
     }
-    
+
     public static boolean getContactStatusChangeTextNotification() {
         return readBoolean(contactStatusChangeTextNotification, def_contactStatusChangeTextNotification);
     }
@@ -425,7 +366,7 @@ public class Settings {
     public static void setContactStatusChangeTextNotification(boolean status) {
         writeSetting(contactStatusChangeTextNotification, String.valueOf(status));
     }
-    
+
     public static boolean getContactStatusChangeSoundNotification() {
         return readBoolean(contactStatusChangeSoundNotification, def_contactStatusChangeSoundNotification);
     }
@@ -433,7 +374,7 @@ public class Settings {
     public static void setContactStatusChangeSoundNotification(boolean status) {
         writeSetting(contactStatusChangeSoundNotification, String.valueOf(status));
     }
-    
+
     /**
      *  public getters and setters used by other classes
      */
@@ -444,9 +385,9 @@ public class Settings {
     public static void setFirstRun(boolean status) {
         writeSetting(firstRun, String.valueOf(status));
     }
-    
+
     public static boolean getSleepEnabled() {
-        return readBoolean(sleepEnabled,def_sleepEnabled );
+        return readBoolean(sleepEnabled, def_sleepEnabled);
     }
 
     public static void setSleepenabled(boolean enabled) {
@@ -536,7 +477,7 @@ public class Settings {
     public static void setLastValidServerPort(int port) {
         writeSetting(lastValidServerPort, String.valueOf(port));
     }
-     
+
     public static int getFiletTansferPort() {
         return readInteger(fileTransferPort, def_fileTransferPort);
     }
@@ -544,7 +485,7 @@ public class Settings {
     public static void setFiletTansferPort(int port) {
         writeSetting(fileTransferPort, String.valueOf(port));
     }
-    
+
     //autoLogin
     public static boolean getAutoLogin() {
         return readBoolean(autoLogin, def_autoLogin);
@@ -556,9 +497,9 @@ public class Settings {
 
     public static String getHomeChannel() {
         String ch = readString(homeChannel, def_homeChannel);
-        if(ch.length()==3){
+        if (ch.length() == 3) {
             return GameDatabase.getGameName(ch);
-        }else{
+        } else {
             return ch;
         }
     }
@@ -591,22 +532,22 @@ public class Settings {
     public static void setDebugMode(boolean bool) {
         writeSetting(debugMode, String.valueOf(bool));
     }
-    
+
     //selectedLookAndFeel
-    public static String getSelectedLookAndFeel(){
+    public static String getSelectedLookAndFeel() {
         return readString(selectedLookAndFeel, def_selectedLookAndFeel);
     }
-    
-    public static void setSelectedLookAndFeel(String string){
+
+    public static void setSelectedLookAndFeel(String string) {
         writeSetting(selectedLookAndFeel, string);
     }
-    
+
     //useNativeLookAndFeel
-    public static boolean getUseNativeLookAndFeel(){
+    public static boolean getUseNativeLookAndFeel() {
         return readBoolean(useNativeLookAndFeel, def_useNativeLookAndFeel);
     }
-    
-    public static void setUseNativeLookAndFeel(boolean bool){
+
+    public static void setUseNativeLookAndFeel(boolean bool) {
         writeSetting(useNativeLookAndFeel, String.valueOf(bool));
     }
 
@@ -712,7 +653,6 @@ public class Settings {
     public static Color getFriendMessageColor() {
         return readColor(friendMessageColor, def_friendMessageColor);
     }
-    
 
     public static void setFriendMessageColor(Color color) {
         writeSetting(friendMessageColor, String.valueOf(color.getRGB()));
@@ -721,7 +661,6 @@ public class Settings {
     public static Color getFriendUsernameColor() {
         return readColor(friendUsernameColor, def_friendUsernameColor);
     }
-
 
     public static void setFriendUsernameColor(Color color) {
         writeSetting(friendUsernameColor, String.valueOf(color.getRGB()));
@@ -754,14 +693,14 @@ public class Settings {
     }
 
     //recieved file destination
-     public static String getRecieveDestination() {
+    public static String getRecieveDestination() {
         return readString(recieveDest, def_recievedest);
     }
 
     public static void setRecieveDestination(String path) {
         writeSetting(recieveDest, path);
     }
-    
+
     public static String getWineCommand() {
         return readString(wineCommand, def_wineComamnd);
     }
@@ -769,7 +708,7 @@ public class Settings {
     public static void setWineCommand(String path) {
         writeSetting(wineCommand, path);
     }
-    
+
     //lastLoginName
     public static String getLastLoginName() {
         return readString(lastLoginName, def_lastLoginName);
@@ -787,15 +726,15 @@ public class Settings {
     public static void setLastLoginPassword(String pw) {
         writeSetting(lastLoginPassword, PasswordEncrypter.encodePassword(PasswordEncrypter.encryptPassword(pw)));
     }
-    
-    public static void setMultiChannel(boolean enabled){
+
+    public static void setMultiChannel(boolean enabled) {
         writeSetting(multiChannel, String.valueOf(enabled));
     }
-    
-    public static boolean getMultiChannel(){
+
+    public static boolean getMultiChannel() {
         return readBoolean(multiChannel, def_multiChannel);
     }
-    
+
     public static boolean isQuickPanelIconSizeBig() {
         return readBoolean(quickPanelIconSizeIsBig, def_quickPanelIconSizeIsBig);
     }
@@ -803,29 +742,29 @@ public class Settings {
     public static void setIsQuickPanelIconSizeBig(boolean bool) {
         writeSetting(quickPanelIconSizeIsBig, String.valueOf(bool));
     }
-    
-    public static void setShowOfflineContacts(boolean enabled){
+
+    public static void setShowOfflineContacts(boolean enabled) {
         boolean refreshContacts = Settings.getShowOfflineContacts() == false && enabled == true;
-        
+
         writeSetting(showOfflineContacts, String.valueOf(enabled));
-        
-        if(refreshContacts){
+
+        if (refreshContacts) {
             Protocol.refreshContacts();
-        }else{
+        } else {
             Globals.getContactList().updateShowOfflineContacts();
         }
-        
+
     }
-    
-    public static boolean getShowOfflineContacts(){
+
+    public static boolean getShowOfflineContacts() {
         return readBoolean(showOfflineContacts, def_showOfflineContacts);
     }
 
-    public static void setRememberMainFrameSize(boolean enabled){
+    public static void setRememberMainFrameSize(boolean enabled) {
         writeSetting(rememberMainFrameSize, String.valueOf(enabled));
     }
 
-    public static boolean getRememberMainFrameSize(){
+    public static boolean getRememberMainFrameSize() {
         return readBoolean(rememberMainFrameSize, def_rememberMainFrameSize);
     }
 
@@ -845,8 +784,8 @@ public class Settings {
 
     public static Vector<String> getFavouritesByName() {
         Vector<String> favs = new Vector<String>();
-        for(String ID : favourites){
-            if(GameDatabase.getGameName(ID)!= null){
+        for (String ID : favourites) {
+            if (GameDatabase.getGameName(ID) != null) {
                 favs.add(GameDatabase.getGameName(ID));
             }
         }
@@ -870,8 +809,8 @@ public class Settings {
         }
         pw.close();
 
-        if(Globals.getClientFrame() != null){
-            Globals.getClientFrame().refreshFavourites();
+        if (FrameOrganizer.getClientFrame() != null) {
+            FrameOrganizer.getClientFrame().refreshFavourites();
         }
     }
 
@@ -896,9 +835,9 @@ public class Settings {
             } catch (IOException ex) {
                 return;
             }
-            if(input.length()==3){
+            if (input.length() == 3) {
                 favourites.add(input);
-            }else{
+            } else {
                 favourites.add(GameDatabase.getIDofGame(input));
             }
         }
@@ -907,5 +846,4 @@ public class Settings {
         } catch (Exception e) {
         }
     }
-    
 }

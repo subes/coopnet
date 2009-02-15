@@ -175,7 +175,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
-        Globals.closeMuteBanTableFrame();
+        FrameOrganizer.closeMuteBanTableFrame();
 }//GEN-LAST:event_btn_closeActionPerformed
 
     private void btn_unMuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_unMuteActionPerformed
@@ -255,7 +255,7 @@ public class MuteBanListFrame extends javax.swing.JFrame {
 
     private class SelectionListener implements ListSelectionListener {
 
-        JTable table;
+        private JTable table;
 
         SelectionListener(JTable table) {
             this.table = table;
@@ -277,13 +277,12 @@ public class MuteBanListFrame extends javax.swing.JFrame {
                     btn_unBan.setEnabled(true);
                     btn_unMute.setEnabled(true);
                 }
-                
+
                 btn_showProfile.setEnabled(true);
-            }
-            else{
-                 btn_unBan.setEnabled(false);
-                 btn_unMute.setEnabled(false);
-                 btn_showProfile.setEnabled(false);
+            } else {
+                btn_unBan.setEnabled(false);
+                btn_unMute.setEnabled(false);
+                btn_showProfile.setEnabled(false);
             }
         }
     }

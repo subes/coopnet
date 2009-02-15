@@ -21,7 +21,8 @@ package coopnetclient;
 
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.LogTypes;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.FrameOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.ui.Colorizer;
@@ -109,7 +110,7 @@ public class Client {
 
                         @Override
                         public void run() {
-                            Globals.openClientFrame();
+                            FrameOrganizer.openClientFrame();
                             if (Settings.getFirstRun()) {
                                 TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
                                 Settings.setFirstRun(false);
@@ -157,13 +158,13 @@ public class Client {
 
     public static void disconnect() {
         if (Globals.getConnectionStatus()) {
-            Globals.getClientFrame().setQuickPanelVisibility(false);
+            FrameOrganizer.getClientFrame().setQuickPanelVisibility(false);
             Client.stopConnection();
             TabOrganizer.closeAllTabs();
-            Globals.closeChannelListFrame();
-            Globals.closeChangePasswordFrame();
-            Globals.closeShowProfileFrame();
-            Globals.closeEditProfileFrame();
+            FrameOrganizer.closeChannelListFrame();
+            FrameOrganizer.closeChangePasswordFrame();
+            FrameOrganizer.closeShowProfileFrame();
+            FrameOrganizer.closeEditProfileFrame();
         } else {
             throw new IllegalStateException("Client is already disconnected, you shouldn't be able to disconnect again!");
         }
@@ -172,7 +173,7 @@ public class Client {
     public static void quit(boolean override) {
         //hide the mainframe: trayicon enabled
         if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled() && !Globals.getDebug()) {
-            Globals.getClientFrame().setVisible(false);
+            FrameOrganizer.getClientFrame().setVisible(false);
         } else {//trayicon disabled or overridden
             //show warning if there are running transfers
             if (Globals.getTransferModel().isAnyTransferActive()) {
@@ -197,12 +198,12 @@ public class Client {
             //close connection
             Client.stopConnection();
             //save sizes
-            coopnetclient.utils.Settings.setMainFrameMaximised(Globals.getClientFrame().getExtendedState());
+            coopnetclient.utils.Settings.setMainFrameMaximised(FrameOrganizer.getClientFrame().getExtendedState());
 
-            if (Globals.getClientFrame().getExtendedState() == javax.swing.JFrame.NORMAL) {
-                coopnetclient.utils.Settings.setMainFrameHeight(Globals.getClientFrame().getHeight());
-                coopnetclient.utils.Settings.setMainFrameWidth(Globals.getClientFrame().getWidth());
-                coopnetclient.utils.Settings.setMainFrameMaximised(Globals.getClientFrame().getExtendedState());
+            if (FrameOrganizer.getClientFrame().getExtendedState() == javax.swing.JFrame.NORMAL) {
+                Settings.setMainFrameHeight(FrameOrganizer.getClientFrame().getHeight());
+                Settings.setMainFrameWidth(FrameOrganizer.getClientFrame().getWidth());
+                Settings.setMainFrameMaximised(FrameOrganizer.getClientFrame().getExtendedState());
             }
             //unbind hotkeys
             Hotkeys.cleanUp();
@@ -296,7 +297,7 @@ public class Client {
                         GameDatabase.load("", GameDatabase.dataFilePath);
                     }
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(Globals.getClientFrame(), "You have an outdated version of the gamedata, but couldn't update it!", "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), "You have an outdated version of the gamedata, but couldn't update it!", "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
                     ErrorHandler.handleException(e);
                 }
             }
@@ -324,7 +325,7 @@ public class Client {
                     br = new BufferedReader(new InputStreamReader(url.openStream()));
                     String version = br.readLine();
                     if (!Verification.verifyClientVersion(version)) {
-                        Globals.getClientFrame().enableUpdate();
+                        FrameOrganizer.getClientFrame().enableUpdate();
                         new Thread() {
 
                             @Override

@@ -16,8 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package coopnetclient.frames.clientframe;
+package coopnetclient.frames.clientframetabs;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
@@ -25,16 +24,17 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ErrorPanelStyle;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.LogTypes;
-import coopnetclient.frames.clientframe.tabs.BrowserPanel;
-import coopnetclient.frames.clientframe.tabs.ChannelPanel;
-import coopnetclient.frames.clientframe.tabs.ConnectingPanel;
-import coopnetclient.frames.clientframe.tabs.ErrorPanel;
-import coopnetclient.frames.clientframe.tabs.FileTransferPanel;
-import coopnetclient.frames.clientframe.tabs.LoginPanel;
-import coopnetclient.frames.clientframe.tabs.PasswordRecoveryPanel;
-import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
-import coopnetclient.frames.clientframe.tabs.RegisterPanel;
-import coopnetclient.frames.clientframe.tabs.RoomPanel;
+import coopnetclient.frames.FrameOrganizer;
+import coopnetclient.frames.clientframetabs.BrowserPanel;
+import coopnetclient.frames.clientframetabs.ChannelPanel;
+import coopnetclient.frames.clientframetabs.ConnectingPanel;
+import coopnetclient.frames.clientframetabs.ErrorPanel;
+import coopnetclient.frames.clientframetabs.FileTransferPanel;
+import coopnetclient.frames.clientframetabs.LoginPanel;
+import coopnetclient.frames.clientframetabs.PasswordRecoveryPanel;
+import coopnetclient.frames.clientframetabs.PrivateChatPanel;
+import coopnetclient.frames.clientframetabs.RegisterPanel;
+import coopnetclient.frames.clientframetabs.RoomPanel;
 import coopnetclient.frames.components.TabComponent;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
@@ -67,37 +67,37 @@ public class TabOrganizer {
     private static PasswordRecoveryPanel passwordRecoveryPanel;
     private static FileTransferPanel transferPanel;
     private static ConnectingPanel connectingPanel;
-    
-    
-    static {
-        tabHolder = Globals.getClientFrame().getTabHolder();
+
+
+    public static void init(JTabbedPane tabHolder){
+        TabOrganizer.tabHolder = tabHolder;
     }
 
     public static void openChannelPanel(String channelname) {
-        
+
         int index = -1;
         index = tabHolder.indexOfTab(channelname);
         if (index != -1) {
             tabHolder.setSelectedIndex(index);
             return;
         }
-        
-        if(!Settings.getMultiChannel()){
-            if(channelPanels.size() > 1){
+
+        if (!Settings.getMultiChannel()) {
+            if (channelPanels.size() > 1) {
                 closeAllButLastChannelPanel();
             }
-            
-            if(channelPanels.size() == 1){
+
+            if (channelPanels.size() == 1) {
                 closeChannelPanel(channelPanels.firstElement());
             }
         }
-        
+
         ChannelPanel currentchannel = new ChannelPanel(channelname);
         tabHolder.add(currentchannel, 0);
         tabHolder.setTitleAt(0, channelname);
-        tabHolder.setTabComponentAt(0, new TabComponent(GameDatabase.getShortName(channelname),currentchannel) );
+        tabHolder.setTabComponentAt(0, new TabComponent(GameDatabase.getShortName(channelname), currentchannel));
         channelPanels.add(currentchannel);
-        
+
         //chatonly or game?
         if (GameDatabase.getLaunchMethod(channelname, null) == LaunchMethods.CHAT_ONLY) {
             currentchannel.hideRoomList();
@@ -119,37 +119,37 @@ public class TabOrganizer {
             }
         }
 
-        Globals.getClientFrame().repaint();
+        FrameOrganizer.getClientFrame().repaint();
         tabHolder.setSelectedComponent(currentchannel);
     }
 
-    public static void updateHighlights(){
-        for(ChannelPanel cp : channelPanels){
+    public static void updateHighlights() {
+        for (ChannelPanel cp : channelPanels) {
             cp.updateHighlights();
         }
-        if(roomPanel!= null){
+        if (roomPanel != null) {
             roomPanel.updateHighlights();
         }
-        for(PrivateChatPanel pcp : privateChatPanels){
+        for (PrivateChatPanel pcp : privateChatPanels) {
             pcp.updateHighlights();
         }
     }
 
-    public static void updateStyle(){
-        for(ChannelPanel cp : channelPanels){
+    public static void updateStyle() {
+        for (ChannelPanel cp : channelPanels) {
             cp.updateStyle();
         }
-        if(roomPanel!= null){
+        if (roomPanel != null) {
             roomPanel.updateStyle();
         }
-        for(PrivateChatPanel pcp : privateChatPanels){
+        for (PrivateChatPanel pcp : privateChatPanels) {
             pcp.updateStyle();
         }
     }
 
     public static void markTab(Component tab) {
         int idx = tabHolder.indexOfComponent(tab);
-        if (idx > -1 && tabHolder.getSelectedIndex()!= idx ) {
+        if (idx > -1 && tabHolder.getSelectedIndex() != idx) {
             Component tabComponent = tabHolder.getTabComponentAt(idx);
             if (tabComponent != null) {
                 Font f = tabComponent.getFont().deriveFont(Font.BOLD);
@@ -182,29 +182,29 @@ public class TabOrganizer {
         channelPanels.remove(which);
         tabHolder.remove(which);
     }
-    
-    public static void closeAllButLastChannelPanel(){
-        if(channelPanels.size() > 1){
+
+    public static void closeAllButLastChannelPanel() {
+        if (channelPanels.size() > 1) {
             ChannelPanel selectedChannel = null;
-            if(tabHolder.getSelectedComponent() instanceof ChannelPanel){
+            if (tabHolder.getSelectedComponent() instanceof ChannelPanel) {
                 selectedChannel = (ChannelPanel) tabHolder.getSelectedComponent();
             }
-            
-            if(selectedChannel != null){
+
+            if (selectedChannel != null) {
                 //Closes all but the selected channel; used by settingsframe
-                for(int i = 0; i < channelPanels.size(); i++){
-                    while(channelPanels.size() > 1){
-                        if(channelPanels.firstElement() == selectedChannel){
+                for (int i = 0; i < channelPanels.size(); i++) {
+                    while (channelPanels.size() > 1) {
+                        if (channelPanels.firstElement() == selectedChannel) {
                             //close next one
                             closeChannelPanel(channelPanels.get(1));
-                        }else{
+                        } else {
                             closeChannelPanel(channelPanels.firstElement());
                         }
                     }
                 }
-            }else{
+            } else {
                 //Closes all but the last channel; used by settingsframe
-                for(int i = channelPanels.size()-2; i >= 0; i--){
+                for (int i = channelPanels.size() - 2; i >= 0; i--) {
                     closeChannelPanel(channelPanels.get(i));
                 }
             }
@@ -231,15 +231,15 @@ public class TabOrganizer {
     public static void openRoomPanel(RoomData roomData) {
         if (roomPanel == null) {
             roomPanel = new RoomPanel(roomData);
-            Globals.closeJoinRoomPasswordFrame();
-            tabHolder.insertTab("Room:"+GameDatabase.getShortName(roomData.getChannel()), null, roomPanel, roomData.getChannel(), channelPanels.size());
-            tabHolder.setTabComponentAt(channelPanels.size(), new TabComponent("Room:"+GameDatabase.getShortName(roomData.getChannel()),Icons.lobbyIconSmall,roomPanel) );
+            FrameOrganizer.closeJoinRoomPasswordFrame();
+            tabHolder.insertTab("Room:" + GameDatabase.getShortName(roomData.getChannel()), null, roomPanel, roomData.getChannel(), channelPanels.size());
+            tabHolder.setTabComponentAt(channelPanels.size(), new TabComponent("Room:" + GameDatabase.getShortName(roomData.getChannel()), Icons.lobbyIconSmall, roomPanel));
             tabHolder.setSelectedComponent(roomPanel);
 
             for (ChannelPanel cp : channelPanels) {
                 cp.disableButtons();
             }
-            
+
             roomPanel.initLauncher();
 
         } else {
@@ -255,17 +255,17 @@ public class TabOrganizer {
             if (index != -1) {
                 tabHolder.setSelectedIndex(index);
             }
-            
-            if(roomPanel.isHost()){
+
+            if (roomPanel.isHost()) {
                 Hotkeys.unbindHotKey(Hotkeys.ACTION_LAUNCH);
             }
 
             roomPanel = null;
 
-            if(!Launcher.isPlaying()){
+            if (!Launcher.isPlaying()) {
                 Launcher.deInitialize(); //roomPanel has to be null now!
             }
-            Globals.closeGameSettingsFrame();
+            FrameOrganizer.closeGameSettingsFrame();
 
             for (ChannelPanel cp : channelPanels) {
                 cp.enableButtons();
@@ -282,7 +282,7 @@ public class TabOrganizer {
         if (index == -1) {
             PrivateChatPanel pc = new PrivateChatPanel(title);
             tabHolder.add(title, pc);
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(pc), new TabComponent(title,Icons.privateChatIconSmall,pc) );
+            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(pc), new TabComponent(title, Icons.privateChatIconSmall, pc));
             privateChatPanels.add(pc);
             if (setFocus) {
                 tabHolder.setSelectedComponent(pc);
@@ -307,10 +307,10 @@ public class TabOrganizer {
             }
         }
     }
-    
-    public static void updateMuteBanStatus(String username){
-        for(int i = 0; i < privateChatPanels.size(); i++){
-            if(privateChatPanels.get(i).getPartner().equals(username)){
+
+    public static void updateMuteBanStatus(String username) {
+        for (int i = 0; i < privateChatPanels.size(); i++) {
+            if (privateChatPanels.get(i).getPartner().equals(username)) {
                 privateChatPanels.get(i).updateMuteBanStatus();
             }
         }
@@ -343,14 +343,14 @@ public class TabOrganizer {
             String title = "Beginner's Guide";
 
             tabHolder.addTab(title, browserPanel); //For now this is ok
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(browserPanel), new TabComponent(title, browserPanel) );
+            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(browserPanel), new TabComponent(title, browserPanel));
             tabHolder.setSelectedComponent(browserPanel);
         } else {
             tabHolder.setSelectedComponent(browserPanel);
             browserPanel.openUrl(url);
         }
 
-        Globals.getClientFrame().repaint();
+        FrameOrganizer.getClientFrame().repaint();
     }
 
     public static void closeBrowserPanel() {
@@ -360,34 +360,35 @@ public class TabOrganizer {
 
     public static synchronized void openErrorPanel(final ErrorPanelStyle mode, final Throwable e) {
         SwingUtilities.invokeLater(new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        if(mode == ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH){
-                            //Protocol version mismatch has higher priority
-                            errorPanel = new ErrorPanel(mode, null); //anyway no exception
-                            tabHolder.addTab("Client too old", null ,errorPanel);
-                            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Client too old",Icons.errorIconSmall,errorPanel) );
+
+            @Override
+            public void run() {
+                try {
+                    if (mode == ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH) {
+                        //Protocol version mismatch has higher priority
+                        errorPanel = new ErrorPanel(mode, null); //anyway no exception
+                        tabHolder.addTab("Client too old", null, errorPanel);
+                        tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Client too old", Icons.errorIconSmall, errorPanel));
+                        tabHolder.setSelectedComponent(errorPanel);
+                    } else {
+                        if (errorPanel == null || errorPanel.hasException() == false && e != null) {
+                            errorPanel = new ErrorPanel(mode, e);
+                            tabHolder.addTab("Error", null, errorPanel);
+                            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Error", Icons.errorIconSmall, errorPanel));
                             tabHolder.setSelectedComponent(errorPanel);
-                        }else{
-                            if (errorPanel == null || errorPanel.hasException() == false && e != null) {
-                                errorPanel = new ErrorPanel(mode, e);
-                                tabHolder.addTab("Error", null ,errorPanel);
-                                tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel), new TabComponent("Error",Icons.errorIconSmall,errorPanel) );
-                                tabHolder.setSelectedComponent(errorPanel);
-                            } else {
-                                Logger.log(LogTypes.WARNING, "We don't need another error tab, this error may be caused by the first one!");
-                                tabHolder.setSelectedComponent(errorPanel);
-                            }
+                        } else {
+                            Logger.log(LogTypes.WARNING, "We don't need another error tab, this error may be caused by the first one!");
+                            tabHolder.setSelectedComponent(errorPanel);
                         }
-                        Globals.getClientFrame().repaint();
-                    } catch (Exception e) {
-                        ErrorHandler.handleException(e);
                     }
+                    FrameOrganizer.getClientFrame().repaint();
+                } catch (Exception e) {
+                    ErrorHandler.handleException(e);
                 }
-            });
+            }
+        });
     }
-    
+
     public static void closeErrorPanel() {
         tabHolder.remove(errorPanel);
         errorPanel = null;
@@ -397,6 +398,7 @@ public class TabOrganizer {
         if (loginPanel == null) {
             //Thread is needed here to get rid of an exception at startup
             SwingUtilities.invokeLater(new Thread() {
+
                 @Override
                 public void run() {
                     try {
@@ -419,7 +421,7 @@ public class TabOrganizer {
         tabHolder.remove(loginPanel);
         loginPanel = null;
     }
-    
+
     public static void openRegisterPanel(final String loginname) {
         if (registerPanel == null) {
             //Thread is needed here to get rid of an exception at startup
@@ -473,7 +475,7 @@ public class TabOrganizer {
         tabHolder.remove(connectingPanel);
         connectingPanel = null;
     }
-    
+
     public static void openPasswordRecoveryPanel() {
         if (passwordRecoveryPanel == null) {
             //Thread is needed here to get rid of an exception at startup
@@ -500,37 +502,37 @@ public class TabOrganizer {
         tabHolder.remove(passwordRecoveryPanel);
         passwordRecoveryPanel = null;
     }
-    
-    public static LoginPanel getLoginPanel(){
+
+    public static LoginPanel getLoginPanel() {
         return loginPanel;
     }
-    
-    public static RegisterPanel getRegisterPanel(){
+
+    public static RegisterPanel getRegisterPanel() {
         return registerPanel;
     }
 
-    public static void openTransferPanel(boolean bringToFrontOnCreate){
+    public static void openTransferPanel(boolean bringToFrontOnCreate) {
         if (transferPanel == null) {
             transferPanel = new FileTransferPanel(Globals.getTransferModel());
             int index = channelPanels.size();
-            if(roomPanel != null){
+            if (roomPanel != null) {
                 ++index;
             }
-            tabHolder.insertTab("Transfers",null,transferPanel,null, index); //For now this is ok
-            tabHolder.setTabComponentAt(index,  new TabComponent("Transfers",Icons.transferIcon,transferPanel));
-            if(bringToFrontOnCreate){
+            tabHolder.insertTab("Transfers", null, transferPanel, null, index); //For now this is ok
+            tabHolder.setTabComponentAt(index, new TabComponent("Transfers", Icons.transferIcon, transferPanel));
+            if (bringToFrontOnCreate) {
                 tabHolder.setSelectedComponent(transferPanel);
-            }else{
+            } else {
                 markTab(transferPanel);
             }
         } else {
             tabHolder.setSelectedComponent(transferPanel);
         }
 
-        Globals.getClientFrame().repaint();
+        FrameOrganizer.getClientFrame().repaint();
     }
 
-    public static void closeTransferPanel(){
+    public static void closeTransferPanel() {
         tabHolder.remove(transferPanel);
         transferPanel = null;
     }
@@ -539,36 +541,37 @@ public class TabOrganizer {
         return transferPanel;
     }
 
-    public static boolean  sendFile(String reciever, File file){
-        if(transferPanel != null){
+    public static boolean sendFile(String reciever, File file) {
+        if (transferPanel != null) {
             markTab(transferPanel);
-        }else{
+        } else {
             openTransferPanel(false);
         }
         return Globals.getTransferModel().addSendTransfer(reciever, file.getName(), file);
     }
 
-    public static void recieveFile( String peerName, String size, String fileName, String ip, String port){
-        if(transferPanel != null){
+    public static void recieveFile(String peerName, String size, String fileName, String ip, String port) {
+        if (transferPanel != null) {
             markTab(transferPanel);
-        }else{
+        } else {
             openTransferPanel(false);
         }
         Globals.getTransferModel().addRecieveTransfer(peerName, size, fileName, ip, port);
     }
-    public static void cancelFileSendingOnClose(){
-       Globals.getTransferModel().cancelOrRefuseOnQuit();
+
+    public static void cancelFileSendingOnClose() {
+        Globals.getTransferModel().cancelOrRefuseOnQuit();
     }
-    
+
     /*******************************************************************/
     public static void updatePrivateChatName(String oldName, String newName) {
         int index = -1;
         while ((index = tabHolder.indexOfTab(oldName)) != -1) {
             tabHolder.setTitleAt(index, newName);
-            ((TabComponent)tabHolder.getTabComponentAt(index)).setTitle(newName);
+            ((TabComponent) tabHolder.getTabComponentAt(index)).setTitle(newName);
             Component comp = tabHolder.getComponentAt(index);
-            if(comp instanceof PrivateChatPanel){
-                ((PrivateChatPanel)comp).setPartner(newName);
+            if (comp instanceof PrivateChatPanel) {
+                ((PrivateChatPanel) comp).setPartner(newName);
             }
         }
     }
@@ -595,9 +598,10 @@ public class TabOrganizer {
 
     public static void closeAllTabs() {
         SwingUtilities.invokeLater(new Thread() {
+
             @Override
             public void run() {
-                try{
+                try {
                     closeRoomPanel();
                     closeBrowserPanel();
                     closeErrorPanel();
@@ -606,23 +610,23 @@ public class TabOrganizer {
                     closeConnectingPanel();
                     closePasswordRecoveryPanel();
                     closeRegisterPanel();
-                    while(channelPanels.size() > 0){
+                    while (channelPanels.size() > 0) {
                         closeChannelPanel(channelPanels.get(0));
                     }
-                    while(privateChatPanels.size() > 0){
+                    while (privateChatPanels.size() > 0) {
                         closePrivateChatPanel(privateChatPanels.get(0));
                     }
 
                     //throw exception if this method doesnt work properly manually! hopefully we get bugreports by this :)
                     //tabHolder.removeAll() is bad practice and should not be used!
-                    if(tabHolder.getTabCount() > 0){
+                    if (tabHolder.getTabCount() > 0) {
                         String text = "TabOrganizer.closeAllTabs() did not manually close all tabs! The following tabs were still open:";
-                        for(int i = 0; i < tabHolder.getTabCount(); i++){
+                        for (int i = 0; i < tabHolder.getTabCount(); i++) {
                             text += "\n\t\t" + tabHolder.getComponentAt(i).getClass().getName();
                         }
                         ErrorHandler.handleException(new IllegalStateException(text));
                     }
-                }catch(Throwable t){
+                } catch (Throwable t) {
                     ErrorHandler.handleException(t);
                 }
             }

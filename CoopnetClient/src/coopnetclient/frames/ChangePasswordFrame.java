@@ -219,11 +219,11 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_saveActionPerformed
 
     private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel
-        Globals.closeChangePasswordFrame();
+        FrameOrganizer.closeChangePasswordFrame();
     }//GEN-LAST:event_cancel
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Globals.closeChangePasswordFrame();
+        FrameOrganizer.closeChangePasswordFrame();
     }//GEN-LAST:event_formWindowClosing
 
     private void tf_oldPasswordCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tf_oldPasswordCaretUpdate

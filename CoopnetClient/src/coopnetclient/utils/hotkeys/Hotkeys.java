@@ -20,7 +20,7 @@ package coopnetclient.utils.hotkeys;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.Settings;
 import java.awt.event.KeyEvent;

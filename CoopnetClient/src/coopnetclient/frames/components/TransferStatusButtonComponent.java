@@ -20,7 +20,7 @@ package coopnetclient.frames.components;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Settings;

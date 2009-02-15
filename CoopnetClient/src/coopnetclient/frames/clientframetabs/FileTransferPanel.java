@@ -16,13 +16,13 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-package coopnetclient.frames.clientframe.tabs;
+package coopnetclient.frames.clientframetabs;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
-import coopnetclient.frames.clientframe.ClosableTab;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.interfaces.ClosableTab;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.components.TransferPopupMenu;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.frames.renderers.TableTextCellRenderer;

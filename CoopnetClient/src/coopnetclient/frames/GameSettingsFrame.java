@@ -23,7 +23,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.MapLoaderTypes;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
@@ -61,11 +61,9 @@ public class GameSettingsFrame extends javax.swing.JFrame {
 
     private ArrayList<JLabel> labels = new ArrayList<JLabel>();
     private ArrayList<Component> inputfields = new ArrayList<Component>();
-    
     private boolean[] enabledInputfieldsBeforeDisable;
     private boolean mapsEnabledBeforeDisable;
     private boolean lastEnableAction = true;
-
     private RoomData roomData;
 
     /** Creates new form GameSettingsPanel */
@@ -92,7 +90,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         Colorizer.colorize(this);
         this.pack();
 
-        if(roomData.isInstant()){
+        if (roomData.isInstant()) {
             btn_save.setText("Launch");
             btn_close.setText("Cancel");
         }
@@ -100,49 +98,46 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         decideVisibility();
     }
 
-    private void decideVisibility(){
-        if(roomData.isHost() &&
-                GameDatabase.getLocalSettingCount(roomData.getChannel(), roomData.getModName())
-              + GameDatabase.getServerSettingCount(roomData.getChannel(), roomData.getModName()) > 0 ){
-            if(!roomData.isInstant()){
+    private void decideVisibility() {
+        if (roomData.isHost() &&
+                GameDatabase.getLocalSettingCount(roomData.getChannel(), roomData.getModName()) + GameDatabase.getServerSettingCount(roomData.getChannel(), roomData.getModName()) > 0) {
+            if (!roomData.isInstant()) {
                 btn_close.setEnabled(false);
             }
             setVisible(true);
-        }else
-        if(!roomData.isHost() && GameDatabase.getLocalSettingCount(roomData.getChannel(), roomData.getModName()) > 0){
-            if(!roomData.isInstant()){
+        } else if (!roomData.isHost() && GameDatabase.getLocalSettingCount(roomData.getChannel(), roomData.getModName()) > 0) {
+            if (!roomData.isInstant()) {
                 btn_close.setEnabled(false);
             }
             setVisible(true);
-        }else{
+        } else {
             if (!roomData.isInstant()) {
                 TabOrganizer.getRoomPanel().initDone();
-            }else{
+            } else {
                 setVisible(true);
             }
         }
     }
 
-    public void setEnabledOfGameSettingsFrameSettings(boolean enabled){
-        if(!enabled && lastEnableAction){
+    public void setEnabledOfGameSettingsFrameSettings(boolean enabled) {
+        if (!enabled && lastEnableAction) {
             enabledInputfieldsBeforeDisable = new boolean[inputfields.size()];
-            for(int i = 0; i < enabledInputfieldsBeforeDisable.length; i++){
+            for (int i = 0; i < enabledInputfieldsBeforeDisable.length; i++) {
                 enabledInputfieldsBeforeDisable[i] = inputfields.get(i).isEnabled() && inputfields.get(i).isVisible();
                 inputfields.get(i).setEnabled(false);
             }
             mapsEnabledBeforeDisable = cb_map.isEnabled() && cb_map.isVisible();
             cb_map.setEnabled(false);
-        }else
-        if(enabled && !lastEnableAction){
-            for(int i = 0; i < enabledInputfieldsBeforeDisable.length; i++){
-                if(enabledInputfieldsBeforeDisable[i]){
+        } else if (enabled && !lastEnableAction) {
+            for (int i = 0; i < enabledInputfieldsBeforeDisable.length; i++) {
+                if (enabledInputfieldsBeforeDisable[i]) {
                     inputfields.get(i).setEnabled(true);
                 }
             }
-            if(mapsEnabledBeforeDisable){
+            if (mapsEnabledBeforeDisable) {
                 cb_map.setEnabled(true);
             }
-        }else{
+        } else {
             throw new IllegalStateException("setEnabledOfGameSettingsFrameSettings should only support toggle!");
         }
 
@@ -272,10 +267,9 @@ public class GameSettingsFrame extends javax.swing.JFrame {
             labels.add(label);
             inputfields.add(input);
             //set focust traverse path
-            if(inputfields.size() == 1){ //first component
+            if (inputfields.size() == 1) { //first component
                 //cb_map.setn
-            }else{
-
+            } else {
             }
 
             //add to panel
@@ -305,7 +299,7 @@ public class GameSettingsFrame extends javax.swing.JFrame {
         if (!mapdir.isDirectory()) {
             return new String[0];
         }
-        File files[] = mapdir.listFiles();
+        File[] files = mapdir.listFiles();
         Vector<String> names = new Vector<String>();
         for (File f : files) {
             if (f.isFile()) {
@@ -468,17 +462,18 @@ public class GameSettingsFrame extends javax.swing.JFrame {
 private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
     //update the launcher
     try {
-        //if somethings unselected an exception is thrown        
+        //if somethings unselected an exception is thrown
         if (cb_map.isVisible()) {
             if (cb_map.getSelectedItem() != null && cb_map.isEnabled()) {
                 TempGameSettings.setMap(cb_map.getSelectedItem().toString());
-                if( roomData.isHost() && !roomData.isInstant()){
+                if (roomData.isHost() && !roomData.isInstant()) {
                     Protocol.sendSetting("map", cb_map.getSelectedItem().toString());
                 }
             }
         }
         //save settings
-        String name, value = "save-error";
+        String name;
+        String value = "save-error";
         for (int i = 0; i < labels.size(); i++) {
             name = labels.get(i).getText();
             Component input = inputfields.get(i);
@@ -490,20 +485,20 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 value = ((JComboBox) input).getSelectedItem().toString();
             }
             if (input.isEnabled()) {
-                TempGameSettings.setGameSetting(name, value, ( roomData.isHost() && !roomData.isInstant()));
+                TempGameSettings.setGameSetting(name, value, (roomData.isHost() && !roomData.isInstant()));
             }
         }
 
         if (!roomData.isInstant() && !btn_close.isEnabled()) {
             TabOrganizer.getRoomPanel().initDone();
         }
-        
+
     } catch (Exception e) {
         e.printStackTrace();
     }
-    
-    if(roomData.isInstant()){
-        Globals.closeGameSettingsFrame();
+
+    if (roomData.isInstant()) {
+        FrameOrganizer.closeGameSettingsFrame();
         new Thread() {
 
             @Override
@@ -515,7 +510,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 }
             }
         }.start();
-    }else{
+    } else {
         this.setVisible(false);
     }
 
@@ -537,10 +532,11 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                             ((JTextField) input).setText(value);
                         } else if (input instanceof JSpinner) {
                             int j;
-                            try{
+                            try {
                                 j = Integer.valueOf(value);
                                 ((JSpinner) input).setValue(j);
-                            }catch(NumberFormatException nfe){}
+                            } catch (NumberFormatException nfe) {
+                            }
                         } else if (input instanceof JComboBox) {
                             ((JComboBox) input).setSelectedItem(value);
                         }
@@ -553,32 +549,31 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     @Override
     public void setVisible(boolean b) {
         super.setVisible(b);
-        
         boolean foundEnabledField = cb_map.isEnabled() && cb_map.isVisible();
-        for(int i = 0; i < inputfields.size() && !foundEnabledField; i++){
-           foundEnabledField = inputfields.get(i).isEnabled();
+        for (int i = 0; i < inputfields.size() && !foundEnabledField; i++) {
+            foundEnabledField = inputfields.get(i).isEnabled();
         }
 
         btn_save.setEnabled(foundEnabledField || roomData.isInstant());
     }
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-    if(btn_close.isEnabled() == false){
+    if (!btn_close.isEnabled()) {
         btn_save.doClick();
-    }else{
-        if(roomData.isInstant()){
-            Globals.closeGameSettingsFrame();
-        }else{
+    } else {
+        if (roomData.isInstant()) {
+            FrameOrganizer.closeGameSettingsFrame();
+        } else {
             this.setVisible(false);
         }
     }
 }//GEN-LAST:event_formWindowClosing
 
 private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
-    if(roomData.isInstant()){
-        Globals.closeGameSettingsFrame();
+    if (roomData.isInstant()) {
+        FrameOrganizer.closeGameSettingsFrame();
         Launcher.deInitialize();
-    }else{
+    } else {
         this.setVisible(false);
     }
 }//GEN-LAST:event_btn_closeActionPerformed

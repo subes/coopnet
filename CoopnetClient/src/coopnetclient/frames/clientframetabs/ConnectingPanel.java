@@ -9,7 +9,7 @@
  * Created on 02.01.2009, 17:22:07
  */
 
-package coopnetclient.frames.clientframe.tabs;
+package coopnetclient.frames.clientframetabs;
 
 /**
  *

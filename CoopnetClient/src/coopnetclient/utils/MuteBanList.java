@@ -18,16 +18,16 @@
  */
 package coopnetclient.utils;
 
-import coopnetclient.Globals;
 import coopnetclient.enums.MuteBanStatuses;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.FrameOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import java.util.HashMap;
 
 public class MuteBanList {
 
     private static HashMap<String, MuteBanStatuses> muteBanList = new HashMap<String, MuteBanStatuses>();
 
-    public static String getElementAt(int index){
+    public static String getElementAt(int index) {
         return muteBanList.keySet().toArray()[index].toString();
     }
 
@@ -53,9 +53,9 @@ public class MuteBanList {
                 muteBanList.put(name, MuteBanStatuses.BOTH);
             }
         }
-        
-        if(Globals.getMuteBanTableFrame() != null){
-            Globals.getMuteBanTableFrame().updateTable();
+
+        if (FrameOrganizer.getMuteBanTableFrame() != null) {
+            FrameOrganizer.getMuteBanTableFrame().updateTable();
         }
         TabOrganizer.updateMuteBanStatus(name);
     }
@@ -69,9 +69,9 @@ public class MuteBanList {
                 muteBanList.put(name, MuteBanStatuses.BOTH);
             }
         }
-        
-        if(Globals.getMuteBanTableFrame() != null){
-            Globals.getMuteBanTableFrame().updateTable();
+
+        if (FrameOrganizer.getMuteBanTableFrame() != null) {
+            FrameOrganizer.getMuteBanTableFrame().updateTable();
         }
         TabOrganizer.updateMuteBanStatus(name);
     }
@@ -89,9 +89,9 @@ public class MuteBanList {
                 muteBanList.put(name, MuteBanStatuses.BANNED);
                 break;
         }
-        
-        if(Globals.getMuteBanTableFrame() != null){
-            Globals.getMuteBanTableFrame().updateTable();
+
+        if (FrameOrganizer.getMuteBanTableFrame() != null) {
+            FrameOrganizer.getMuteBanTableFrame().updateTable();
         }
         TabOrganizer.updateMuteBanStatus(name);
     }
@@ -109,9 +109,9 @@ public class MuteBanList {
                 muteBanList.put(name, MuteBanStatuses.MUTED);
                 break;
         }
-        
-        if(Globals.getMuteBanTableFrame() != null){
-            Globals.getMuteBanTableFrame().updateTable();
+
+        if (FrameOrganizer.getMuteBanTableFrame() != null) {
+            FrameOrganizer.getMuteBanTableFrame().updateTable();
         }
         TabOrganizer.updateMuteBanStatus(name);
     }

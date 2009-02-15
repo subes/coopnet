@@ -106,11 +106,11 @@ public class TextPreviewFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_closeActionPerformed
-        Globals.closeTextPreviewFrame();
+        FrameOrganizer.closeTextPreviewFrame();
 }//GEN-LAST:event_btn_closeActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Globals.closeTextPreviewFrame();
+        FrameOrganizer.closeTextPreviewFrame();
     }//GEN-LAST:event_formWindowClosing
 
     

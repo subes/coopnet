@@ -271,7 +271,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
 
     private void btn_joinChannelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_joinChannelButtonActionPerformed
         Protocol.joinChannel((String) model.getValueAt(tbl_list.convertRowIndexToModel(tbl_list.getSelectedRow()), 1));
-        Globals.closeChannelListFrame();
+        FrameOrganizer.closeChannelListFrame();
 }//GEN-LAST:event_btn_joinChannelButtonActionPerformed
 
     private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_filterActionPerformed
@@ -279,11 +279,11 @@ public class ChannelListFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_tf_filterActionPerformed
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
-        Globals.closeChannelListFrame();
+        FrameOrganizer.closeChannelListFrame();
 }//GEN-LAST:event_btn_cancelActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-    Globals.closeChannelListFrame();
+    FrameOrganizer.closeChannelListFrame();
 }//GEN-LAST:event_formWindowClosing
 
 private void tbl_listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_listMouseClicked

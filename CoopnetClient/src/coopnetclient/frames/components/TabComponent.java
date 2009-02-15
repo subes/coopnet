@@ -19,7 +19,7 @@
 
 package coopnetclient.frames.components;
 
-import coopnetclient.frames.clientframe.ClosableTab;
+import coopnetclient.frames.interfaces.ClosableTab;
 import coopnetclient.utils.ui.Icons;
 import java.awt.Font;
 import javax.swing.Icon;

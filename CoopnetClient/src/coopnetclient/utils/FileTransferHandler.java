@@ -20,6 +20,7 @@ package coopnetclient.utils;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
+import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -172,7 +173,7 @@ public class FileTransferHandler {
         Globals.getTransferModel().updateSpeed(ID, value);
     }
 
-    private File Checkfile(File file, int n) {
+    private File checkfile(File file, int n) {
         try {
             String path = file.getCanonicalPath();
             String name = file.getName();
@@ -199,7 +200,7 @@ public class FileTransferHandler {
             long currentsize = checkthis.length();
             if (totalsize <= currentsize) {
                 firstByteToSend = 0;
-                JOptionPane.showMessageDialog(Globals.getClientFrame(),
+                JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
                         "<html>The existing file is larger or equal to the file sent!<br>Probably not the same file!",
                         "Cannot resume file!", JOptionPane.ERROR_MESSAGE);
                 return false;
@@ -229,7 +230,7 @@ public class FileTransferHandler {
         return dest;
     }
 
-    public File getDestinationFile(){
+    public File getDestinationFile() {
         return destinationFile;
     }
 
@@ -317,7 +318,7 @@ public class FileTransferHandler {
                     if (!resuming) {
                         int n = 1;
                         while (!destinationFile.createNewFile()) {
-                            destinationFile = Checkfile(destinationFile, n);
+                            destinationFile = checkfile(destinationFile, n);
                             n++;
                         }
                     } else {
@@ -395,7 +396,7 @@ public class FileTransferHandler {
                     if (!resuming) {
                         int n = 1;
                         while (!destinationFile.createNewFile()) {
-                            destinationFile = Checkfile(destinationFile, n);
+                            destinationFile = checkfile(destinationFile, n);
                             n++;
                         }
                     } else {

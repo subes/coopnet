@@ -16,13 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.LaunchMethods;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.RoomData;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -62,7 +61,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         pnl_input.revalidate();
         this.getRootPane().setDefaultButton(btn_create);
 
-        if(GameDatabase.getLaunchMethod(channel,null) != LaunchMethods.DIRECTPLAY ){
+        if (GameDatabase.getLaunchMethod(channel, null) != LaunchMethods.DIRECTPLAY) {
             cb_searchEnabled.setVisible(false);
             lbl_search.setVisible(false);
         }
@@ -332,23 +331,24 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         btn_create.setEnabled(false);
         if (btn_create.getText().equals("Create")) {
             //normal lobby stuff
-            RoomData rd = new RoomData(true,channel,modindex,"","",(Integer) spn_maxPlayers.getValue(),"",tf_name.getText(),0l,passw,cb_searchEnabled.isSelected(),cb_instantroom.isSelected());
+            RoomData rd = new RoomData(true, channel, modindex, "", "", (Integer) spn_maxPlayers.getValue(), "", tf_name.getText(), 0l, passw, cb_searchEnabled.isSelected(), cb_instantroom.isSelected());
             Protocol.createRoom(rd);
-            Globals.closeRoomCreationFrame();
+            FrameOrganizer.closeRoomCreationFrame();
             Globals.setLastRoomName(tf_name.getText());
             TabOrganizer.getChannelPanel(channel).disableButtons();
         } else if (btn_create.getText().equals("Launch")) {
             //simple instantlaunch
-            
-            Globals.closeRoomCreationFrame();
+
+            FrameOrganizer.closeRoomCreationFrame();
             TabOrganizer.getChannelPanel(channel).disableButtons();
             new Thread() {
+
                 @Override
                 public void run() {
                     try {
-                        RoomData rd = new RoomData(true,channel,modindex,"","",(Integer) spn_maxPlayers.getValue(),"",tf_name.getText(),0l,passw,cb_searchEnabled.isSelected(),cb_instantroom.isSelected());
+                        RoomData rd = new RoomData(true, channel, modindex, "", "", (Integer) spn_maxPlayers.getValue(), "", tf_name.getText(), 0l, passw, cb_searchEnabled.isSelected(), cb_instantroom.isSelected());
                         boolean launch = Launcher.initInstantLaunch(rd);
-                        if(launch){
+                        if (launch) {
                             Launcher.instantLaunch();
                         }
                     } catch (Exception e) {
@@ -358,15 +358,16 @@ public class CreateRoomFrame extends javax.swing.JFrame {
             }.start();
         } else if (btn_create.getText().equals("Setup & Launch")) {
             //show settings with launch button
-            Globals.closeRoomCreationFrame();
+            FrameOrganizer.closeRoomCreationFrame();
             new Thread() {
+
                 @Override
                 public void run() {
                     try {
-                        RoomData rd = new RoomData(true,channel,modindex,"","",(Integer) spn_maxPlayers.getValue(),"",tf_name.getText(),0l,passw,cb_searchEnabled.isSelected(),cb_instantroom.isSelected());
+                        RoomData rd = new RoomData(true, channel, modindex, "", "", (Integer) spn_maxPlayers.getValue(), "", tf_name.getText(), 0l, passw, cb_searchEnabled.isSelected(), cb_instantroom.isSelected());
                         boolean launch = Launcher.initInstantLaunch(rd);
-                        if(launch){
-                            Globals.openGameSettingsFrame(rd);
+                        if (launch) {
+                            FrameOrganizer.openGameSettingsFrame(rd);
                         }
                     } catch (Exception e) {
                         ErrorHandler.handleException(e);
@@ -377,7 +378,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_create
 
     private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel
-        Globals.closeRoomCreationFrame();
+        FrameOrganizer.closeRoomCreationFrame();
         Protocol.closeRoom();
     }//GEN-LAST:event_cancel
 
@@ -390,7 +391,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_pf_passwordActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Globals.closeRoomCreationFrame();
+        FrameOrganizer.closeRoomCreationFrame();
     }//GEN-LAST:event_formWindowClosing
 
 private void cb_instantroomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_instantroomActionPerformed

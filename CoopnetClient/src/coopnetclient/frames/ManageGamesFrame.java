@@ -21,8 +21,8 @@ package coopnetclient.frames;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.OperatingSystems;
-import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.frames.clientframe.tabs.ChannelPanel;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
+import coopnetclient.frames.clientframetabs.ChannelPanel;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
 import coopnetclient.utils.Settings;
@@ -599,8 +599,8 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 }
             }
 
-            Globals.getClientFrame().refreshInstalledGames();
-            Globals.closeManageGamesFrame();
+            FrameOrganizer.getClientFrame().refreshInstalledGames();
+            FrameOrganizer.closeManageGamesFrame();
         }
         Settings.setWineCommand(cmb_winEnv.getSelectedItem().toString());
         Settings.setDOSBoxExecutable(tf_dosboxExe.getText());
@@ -608,7 +608,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_saveActionPerformed
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
-        Globals.closeManageGamesFrame();
+        FrameOrganizer.closeManageGamesFrame();
 }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void btn_browseInstallPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browseInstallPathActionPerformed
@@ -655,7 +655,7 @@ private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 }//GEN-LAST:event_tf_filterActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-    Globals.closeManageGamesFrame();
+    FrameOrganizer.closeManageGamesFrame();
 }//GEN-LAST:event_formWindowClosing
 
 private void lst_gamesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lst_gamesValueChanged

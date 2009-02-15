@@ -16,28 +16,17 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-
 package coopnetclient.utils.ui;
 
 import coopnetclient.Client;
-import coopnetclient.Globals;
+import coopnetclient.frames.FrameOrganizer;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SystemTrayPopup extends PopupMenu{
+public class SystemTrayPopup extends PopupMenu {
 
-    public SystemTrayPopup(){
-        MenuItem mi_next = new MenuItem("Show Client-frame");
-        MenuItem mi_exit = new MenuItem("Exit");
-        mi_exit.addActionListener(exitListener);
-        mi_next.addActionListener(showListener);
-        add(mi_next);
-        add(mi_exit);
-    }
-    
     private static ActionListener exitListener = new ActionListener() {
 
         @Override
@@ -49,7 +38,16 @@ public class SystemTrayPopup extends PopupMenu{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Globals.getClientFrame().setVisible(true);
+            FrameOrganizer.getClientFrame().setVisible(true);
         }
     };
+
+    public SystemTrayPopup() {
+        MenuItem mi_next = new MenuItem("Show Client-frame");
+        MenuItem mi_exit = new MenuItem("Exit");
+        mi_exit.addActionListener(exitListener);
+        mi_next.addActionListener(showListener);
+        add(mi_next);
+        add(mi_exit);
+    }
 }

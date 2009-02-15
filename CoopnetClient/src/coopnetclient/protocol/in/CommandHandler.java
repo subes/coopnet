@@ -25,9 +25,10 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.ServerProtocolCommands;
+import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.GameSettingsFrame;
-import coopnetclient.frames.clientframe.TabOrganizer;
-import coopnetclient.frames.clientframe.tabs.ChannelPanel;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
+import coopnetclient.frames.clientframetabs.ChannelPanel;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.Settings;
@@ -50,7 +51,7 @@ public class CommandHandler {
 
     public static void execute(String[] data) {
         ServerProtocolCommands command = null;
-        
+
         //Answer heartbeat
         if (data[0].equals(Protocol.HEARTBEAT)) {
             Logger.logInTraffic(data);
@@ -63,7 +64,7 @@ public class CommandHandler {
         } catch (Exception e) {
             Logger.logInTraffic(data);
             Logger.log(LogTypes.ERROR, "Server sent an unknown command!");
-            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Unknown command recieved! Please make sure you use the latest client!", ChatStyles.SYSTEM, true);
+            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Unknown command recieved! Please make sure you use the latest client!", ChatStyles.SYSTEM, true);
             return;
         }
 
@@ -79,7 +80,7 @@ public class CommandHandler {
                     break;
                 case OK_LOGIN:
                     Globals.setLoggedInStatus(true);
-                    Globals.setThisPlayer_loginName(information[0]);
+                    Globals.setThisPlayerLoginName(information[0]);
                     TabOrganizer.closeConnectingPanel();
                     TabOrganizer.closeLoginPanel();
                     Protocol.setSleep(Settings.getSleepEnabled());
@@ -90,17 +91,17 @@ public class CommandHandler {
                     }
                     break;
                 case LOGIN_INCORRECT:
-                    if(TabOrganizer.getLoginPanel() != null){
+                    if (TabOrganizer.getLoginPanel() != null) {
                         TabOrganizer.getLoginPanel().showError("Wrong username/password, please try again!", Color.red);
                         TabOrganizer.getLoginPanel().enableButtons();
-                    }else{
+                    } else {
                         TabOrganizer.openLoginPanel();
                     }
                     break;
                 case OK_REGISTER:
                     TabOrganizer.closeRegisterPanel();
                     TabOrganizer.openLoginPanel();
-                    JOptionPane.showMessageDialog(Globals.getClientFrame(), "<html><b>Thank you for registering!</b>\n" +
+                    JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), "<html><b>Thank you for registering!</b>\n" +
                             "You may login now.", "Successfully registered", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case LOGINNAME_IN_USE:
@@ -108,7 +109,7 @@ public class CommandHandler {
                     TabOrganizer.getRegisterPanel().enableButtons();
                     break;
                 case CRIPPLED_SERVER_MODE:
-                    JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nlogging in and registering is impossible!\nPlease try again later.", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), "The server is running in maintenance mode,\nlogging in and registering is impossible!\nPlease try again later.", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
                     if (TabOrganizer.getLoginPanel() != null) {
                         TabOrganizer.getLoginPanel().enableButtons();
                     }
@@ -118,12 +119,12 @@ public class CommandHandler {
                     break;
                 case SERVER_SHUTTING_DOWN:
                     Client.disconnect();
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Server is shutting down!", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Server is shutting down!", ChatStyles.SYSTEM, true);
                     break;
             }
         } else {//logged-in commands
             String currentChannelName = null; //current channelname , correct where its expected, garbage otherwise
-            if(information.length > 0){
+            if (information.length > 0) {
                 currentChannelName = GameDatabase.getGameName(information[0]);
             }
             switch (command) {
@@ -134,7 +135,7 @@ public class CommandHandler {
                     if (information.length < 2) {
                         return;
                     }
-                    Globals.getClientFrame().printMainChatMessage( currentChannelName, information[1], information[2], ChatStyles.USER);
+                    FrameOrganizer.getClientFrame().printMainChatMessage(currentChannelName, information[1], information[2], ChatStyles.USER);
                     if (Settings.getSleepEnabled() && Globals.getSleepModeStatus()) {
                         Globals.setSleepModeStatus(false);
                     }
@@ -143,24 +144,24 @@ public class CommandHandler {
                     if (information.length < 2) {
                         return;
                     }
-                    if(TabOrganizer.getRoomPanel() != null){
+                    if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().chat(information[0], information[1], ChatStyles.USER);
                     }
                     break;
                 case ADD_TO_PLAYERS:
                     TabOrganizer.getChannelPanel(currentChannelName).addPlayerToChannel(information[1]);
-                    if(Settings.getLogUserActivity() && !Globals.getThisPlayer_loginName().equals(information[1])){
-                        TabOrganizer.getChannelPanel(currentChannelName).printMainChatMessage("",information[1]+" has entered the channel.",ChatStyles.SYSTEM);
+                    if (Settings.getLogUserActivity() && !Globals.getThisPlayerLoginName().equals(information[1])) {
+                        TabOrganizer.getChannelPanel(currentChannelName).printMainChatMessage("", information[1] + " has entered the channel.", ChatStyles.SYSTEM);
                     }
                     break;
                 case SET_GAMESETTING:
-                    if(information[0].equals("map")){
+                    if (information[0].equals("map")) {
                         TempGameSettings.setMap(information[1]);
-                    }else{
+                    } else {
                         TempGameSettings.setGameSetting(information[0], information[1], false);
                     }
-                    GameSettingsFrame gf = Globals.getGameSettingsFrame();
-                    if(gf!= null){
+                    GameSettingsFrame gf = FrameOrganizer.getGameSettingsFrame();
+                    if (gf != null) {
                         gf.updateValues();
                     }
                     break;
@@ -169,7 +170,7 @@ public class CommandHandler {
                     TabOrganizer.openChannelPanel(currentChannelName);
                     break;
                 case JOIN_ROOM:
-                    RoomData rd = new RoomData(false,currentChannelName,Integer.valueOf(information[4]),information[1],information[2],Integer.valueOf(information[3]),information[5],information[6],Long.valueOf(information[7]),information[8],Boolean.valueOf(information[9]), false);
+                    RoomData rd = new RoomData(false, currentChannelName, Integer.valueOf(information[4]), information[1], information[2], Integer.valueOf(information[3]), information[5], information[6], Long.valueOf(information[7]), information[8], Boolean.valueOf(information[9]), false);
                     TabOrganizer.openRoomPanel(rd);
                     break;
                 case MUTE_BAN_LIST:
@@ -184,38 +185,38 @@ public class CommandHandler {
                     break;
                 case NUDGE:
                     FrameIconFlasher.flash("data/icons/nudge.png", information[0] + " sent you a nudge!", false);
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " sent you a nudge!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " sent you a nudge!", ChatStyles.SYSTEM, false);
                     SoundPlayer.playNudgeSound();
                     break;
                 case ERROR_YOU_ARE_BANNED:
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "You are banned by the rooms host!", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "You are banned by the rooms host!", ChatStyles.SYSTEM, true);
                     for (i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
                         TabOrganizer.getChannelPanel(i).enableButtons();
                     }
                     break;
                 case ERROR_ROOM_IS_FULL:
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "The room is full!", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "The room is full!", ChatStyles.SYSTEM, true);
                     for (i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
                         TabOrganizer.getChannelPanel(i).enableButtons();
                     }
                     break;
                 case ERROR_ROOM_DOES_NOT_EXIST:
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "The room doesn't exist", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "The room doesn't exist", ChatStyles.SYSTEM, true);
                     for (i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
                         TabOrganizer.getChannelPanel(i).enableButtons();
                     }
                     break;
                 case ERROR_LOGINNAME_IS_ALREADY_USED:
-                    Globals.getEditProfileFrame().loginAlreadyUsed();
+                    FrameOrganizer.getEditProfileFrame().loginAlreadyUsed();
                     break;
                 case REQUEST_PASSWORD:
-                    Globals.openJoinRoomPasswordFrame(information[0]);
+                    FrameOrganizer.openJoinRoomPasswordFrame(information[0]);
                     break;
                 case WRONG_ROOM_PASSWORD:
-                    Globals.showWrongPasswordNotification();
+                    FrameOrganizer.showWrongPasswordNotification();
                     break;
                 case CREATE_ROOM:
-                    rd = new RoomData(true,currentChannelName,Integer.valueOf(information[2]),Globals.getMyIP(),Client.getHamachiAddress(),Integer.valueOf(information[1]),Globals.getThisPlayer_loginName(),information[3],Long.valueOf(information[4]),information[5],Boolean.valueOf(information[6]), false);
+                    rd = new RoomData(true, currentChannelName, Integer.valueOf(information[2]), Globals.getMyIP(), Client.getHamachiAddress(), Integer.valueOf(information[1]), Globals.getThisPlayerLoginName(), information[3], Long.valueOf(information[4]), information[5], Boolean.valueOf(information[6]), false);
                     TabOrganizer.openRoomPanel(rd);
                     break;
                 case LEAVE_ROOM:
@@ -227,24 +228,24 @@ public class CommandHandler {
                     break;
                 case CLOSE_ROOM:
                     TabOrganizer.closeRoomPanel();
-                    Globals.getClientFrame().printMainChatMessage(currentChannelName, "SYSTEM", "The Room has been closed!", ChatStyles.SYSTEM);
+                    FrameOrganizer.getClientFrame().printMainChatMessage(currentChannelName, "SYSTEM", "The Room has been closed!", ChatStyles.SYSTEM);
                     break;
                 case KICKED:
-                    Globals.getClientFrame().printMainChatMessage(TabOrganizer.getRoomPanel().getRoomData().getChannel(), "SYSTEM", "You have been kicked by the host!", ChatStyles.SYSTEM);
+                    FrameOrganizer.getClientFrame().printMainChatMessage(TabOrganizer.getRoomPanel().getRoomData().getChannel(), "SYSTEM", "You have been kicked by the host!", ChatStyles.SYSTEM);
                     TabOrganizer.closeRoomPanel();
                     break;
                 case ADD_MEMBER_TO_ROOM:
                     if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().addmember(information[0]);
-                        if(Settings.getLogUserActivity() && !Globals.getThisPlayer_loginName().equals(information[0])){
+                        if (Settings.getLogUserActivity() && !Globals.getThisPlayerLoginName().equals(information[0])) {
                             TabOrganizer.getRoomPanel().chat("", information[0] + " has entered the room.", ChatStyles.SYSTEM);
                         }
                     }
                     break;
                 case REMOVE_MEMBER_FROM_ROOM:
-                    if(TabOrganizer.getRoomPanel() != null){
+                    if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().removeMember(information[0]);
-                        if(Settings.getLogUserActivity() && !Globals.getThisPlayer_loginName().equals(information[0])){
+                        if (Settings.getLogUserActivity() && !Globals.getThisPlayerLoginName().equals(information[0])) {
                             TabOrganizer.getRoomPanel().chat("", information[0] + " has left the room.", ChatStyles.SYSTEM);
                         }
                     }
@@ -261,56 +262,56 @@ public class CommandHandler {
                     }
                     break;
                 case LEFT_CHANNEL:
-                    TabOrganizer.getChannelPanel(currentChannelName).removePlayerFromChannel( information[1]);
-                    if(Settings.getLogUserActivity() && !Globals.getThisPlayer_loginName().equals(information[1])){
-                        TabOrganizer.getChannelPanel(currentChannelName).printMainChatMessage("",information[1]+" has left the channel.",ChatStyles.SYSTEM);
+                    TabOrganizer.getChannelPanel(currentChannelName).removePlayerFromChannel(information[1]);
+                    if (Settings.getLogUserActivity() && !Globals.getThisPlayerLoginName().equals(information[1])) {
+                        TabOrganizer.getChannelPanel(currentChannelName).printMainChatMessage("", information[1] + " has left the channel.", ChatStyles.SYSTEM);
                     }
                     break;
                 case CHAT_PRIVATE:
-                    Globals.getClientFrame().printPrivateChatMessage(information[0], information[1]);
+                    FrameOrganizer.getClientFrame().printPrivateChatMessage(information[0], information[1]);
                     TabOrganizer.markTab(TabOrganizer.getPrivateChatPanel(information[0]));
-                    if(!Globals.getClientFrame().isActive()){
+                    if (!FrameOrganizer.getClientFrame().isActive()) {
                         FrameIconFlasher.flash("data/icons/nudge.png", information[0] + " sent you a private message!", false);
                     }
                     break;
                 case ERROR_WHISPER_TO_OFFLINE_USER:
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0]+" is currently offline, he won't receive your whisper messages", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " is currently offline, he won't receive your whisper messages", ChatStyles.SYSTEM, true);
                     break;
                 case SERVER_SHUTTING_DOWN:
                     Client.disconnect();
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Server is shutting down!", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Server is shutting down!", ChatStyles.SYSTEM, true);
                     break;
                 case ECHO_NO_SUCH_PLAYER:
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Error:No such Player!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Error:No such Player!", ChatStyles.SYSTEM, false);
                     break;
                 case ECHO_BANNED:
                     MuteBanList.ban(information[0]);
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been banned!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been banned!", ChatStyles.SYSTEM, false);
                     break;
                 case ECHO_UNBANNED:
                     MuteBanList.unBan(information[0]);
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been unbanned!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been unbanned!", ChatStyles.SYSTEM, false);
                     break;
                 case ECHO_MUTED:
                     MuteBanList.mute(information[0]);
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been muted!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been muted!", ChatStyles.SYSTEM, false);
                     break;
                 case ECHO_UNMUTED:
                     MuteBanList.unMute(information[0]);
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been unmuted!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been unmuted!", ChatStyles.SYSTEM, false);
                     break;
                 case NOT_READY_STATUS:
-                    if(TabOrganizer.getRoomPanel() != null){
+                    if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().unReadyPlayer(information[0]);
                     }
                     break;
                 case READY_STATUS:
-                    if(TabOrganizer.getRoomPanel() != null){
+                    if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().readyPlayer(information[0]);
                     }
                     break;
                 case ROOM_PLAYING_STATUS:
-                    if(TabOrganizer.getRoomPanel() != null){
+                    if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().setPlaying(information[0]);
                     }
                     break;
@@ -321,7 +322,7 @@ public class CommandHandler {
                     TabOrganizer.getChannelPanel(currentChannelName).gameClosed(information[1]);
                     break;
                 case LAUNCH:
-                    if(TabOrganizer.getRoomPanel() != null){
+                    if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().launch();
                     }
                     break;
@@ -329,22 +330,22 @@ public class CommandHandler {
                     TabOrganizer.getChannelPanel(currentChannelName).setPlayingStatus(information[1]);
                     break;
                 case PASSWORD_CHANGED:
-                    Globals.closeChangePasswordFrame();
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Password has been changed!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.closeChangePasswordFrame();
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Password has been changed!", ChatStyles.SYSTEM, false);
                     break;
                 case PROFILE_SAVED:
-                    Globals.closeEditProfileFrame();
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Profile has been saved!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.closeEditProfileFrame();
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Profile has been saved!", ChatStyles.SYSTEM, false);
                     break;
                 case EDIT_PROFILE:
-                    Globals.openEditProfileFrame(information[0],
+                    FrameOrganizer.openEditProfileFrame(information[0],
                             information[1],
                             information[2],
                             information[3],
                             information[4]);
                     break;
                 case SHOW_PROFILE:
-                    Globals.openShowProfileFrame(information[0],
+                    FrameOrganizer.openShowProfileFrame(information[0],
                             information[1],
                             information[2],
                             information[3]);
@@ -358,22 +359,22 @@ public class CommandHandler {
                     TabOrganizer.getChannelPanel(currentChannelName).removePlayerFromRoom(information[1], information[2]);
                     break;
                 case INGAMENAME:
-                    Globals.setThisPlayer_inGameName(information[0]);
+                    Globals.setThisPlayerInGameName(information[0]);
                     break;
                 case UPDATE_PLAYERNAME:
-                    boolean found = Globals.getClientFrame().updatePlayerName(information[0], information[1]);
-                    if (Globals.getThisPlayer_loginName().equals(information[0])) {
-                        Globals.setThisPlayer_loginName(information[1]);
+                    boolean found = FrameOrganizer.getClientFrame().updatePlayerName(information[0], information[1]);
+                    if (Globals.getThisPlayerLoginName().equals(information[0])) {
+                        Globals.setThisPlayerLoginName(information[1]);
                     } else {
-                        if(found){
-                            Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " is now known as " + information[1], ChatStyles.SYSTEM, false);
+                        if (found) {
+                            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " is now known as " + information[1], ChatStyles.SYSTEM, false);
                         }
                     }
-                    Globals.getClientFrame().repaint();
+                    FrameOrganizer.getClientFrame().repaint();
                     break;
                 case SENDING_FILE:
                     TabOrganizer.recieveFile(information[0], information[1], information[2], information[3], information[4]);
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " wants to send you a file!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " wants to send you a file!", ChatStyles.SYSTEM, false);
                     break;
                 case ACCEPTED_FILE:
                     Globals.getTransferModel().startSending(information[0], information[1], information[2], information[3], new Long(information[4]));
@@ -389,8 +390,8 @@ public class CommandHandler {
                     break;
                 case CONTACT_REQUESTED:
                     Globals.getContactList().addContact(information[0], "", ContactListElementTypes.PENDING_REQUEST);
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " wants to add you to his/her contact list", ChatStyles.SYSTEM, true);
-                    Globals.getClientFrame().flashQuickPanelToggler();
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " wants to add you to his/her contact list", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().flashQuickPanelToggler();
                     break;
                 case SET_CONTACTSTATUS:
                     ContactListElementTypes status = null;
@@ -407,28 +408,28 @@ public class CommandHandler {
                                 SoundPlayer.playLogoutSound();
                             }
                             if (Settings.getContactStatusChangeTextNotification()) {
-                                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name + " is now offline", ChatStyles.SYSTEM, false);
+                                FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", name + " is now offline", ChatStyles.SYSTEM, false);
                             }
                             break;
                         case CHATTING:
-                            if (Settings.getContactStatusChangeSoundNotification() && previousstatus == ContactListElementTypes.OFFLINE ) {
+                            if (Settings.getContactStatusChangeSoundNotification() && previousstatus == ContactListElementTypes.OFFLINE) {
                                 SoundPlayer.playLoginSound();
                             }
-                            if (Settings.getContactStatusChangeTextNotification() && previousstatus == ContactListElementTypes.OFFLINE ) {
-                                Globals.getClientFrame().printToVisibleChatbox("SYSTEM", name + " is now online", ChatStyles.SYSTEM, false);
+                            if (Settings.getContactStatusChangeTextNotification() && previousstatus == ContactListElementTypes.OFFLINE) {
+                                FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", name + " is now online", ChatStyles.SYSTEM, false);
                             }
                             break;
                     }
                     break;
                 case ACCEPTED_CONTACT_REQUEST:
                     Globals.getContactList().setStatus(information[0], ContactListElementTypes.OFFLINE);
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " accepted your contact request", ChatStyles.SYSTEM, true);
-                    Globals.getClientFrame().flashQuickPanelToggler();
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " accepted your contact request", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().flashQuickPanelToggler();
                     break;
                 case REFUSED_CONTACT_REQUEST:
                     Globals.getContactList().removeContact(information[0]);
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " refused your contact request", ChatStyles.SYSTEM, true);
-                    Globals.getClientFrame().flashQuickPanelToggler();
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " refused your contact request", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().flashQuickPanelToggler();
                     break;
                 case CONTACT_LIST:
                     Globals.getContactList().buildFrom(information);
@@ -442,21 +443,21 @@ public class CommandHandler {
                         public void run() {
                             String gameName = GameDatabase.getGameName(tmp[0]);
                             String modName = GameDatabase.getModByIndex(gameName, new Integer(tmp[1]));
-                            RoomData rdt = new RoomData(false,gameName,Integer.valueOf(tmp[1]), tmp[2],tmp[2],-1,"","",0l,tmp[3],false,true);
+                            RoomData rdt = new RoomData(false, gameName, Integer.valueOf(tmp[1]), tmp[2], tmp[2], -1, "", "", 0l, tmp[3], false, true);
                             boolean launch = Launcher.initInstantLaunch(rdt);
-                            if(launch){
+                            if (launch) {
                                 int idx = 5;//start of settigns
                                 while (idx < tmp.length) {
                                     if (tmp[idx].equals("map")) {
-                                        TempGameSettings.setMap(tmp[idx+1]);
+                                        TempGameSettings.setMap(tmp[idx + 1]);
                                     } else {
-                                        TempGameSettings.setGameSetting(tmp[idx], tmp[idx+1], false);
+                                        TempGameSettings.setGameSetting(tmp[idx], tmp[idx + 1], false);
                                     }
-                                    GameSettingsFrame gf = Globals.getGameSettingsFrame();
+                                    GameSettingsFrame gf = FrameOrganizer.getGameSettingsFrame();
                                     if (gf != null) {
                                         gf.updateValues();
                                     }
-                                    idx+=2;
+                                    idx += 2;
                                 }
                                 Launcher.instantLaunch();
                             }
@@ -466,7 +467,7 @@ public class CommandHandler {
                 case VERIFICATION_ERROR:
                     break;//do nothing, should never come anyways
                 case CRIPPLED_SERVER_MODE:
-                    JOptionPane.showMessageDialog(Globals.getClientFrame(), "The server is running in maintenance mode,\nediting permanent data is impossible!\nPlease try again later.", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), "The server is running in maintenance mode,\nediting permanent data is impossible!\nPlease try again later.", "Server Maintenance", JOptionPane.ERROR_MESSAGE);
                     break;
                 case CONTACT_REQUEST_ACKNOWLEDGE:
                     Globals.getContactList().addContact(information[0], ContactListModel.DEFAULT_GROUP, ContactListElementTypes.PENDING_CONTACT);
@@ -475,7 +476,7 @@ public class CommandHandler {
                     Globals.getContactList().removePending(information[0]);
                     break;
                 case CONTACT_REFUSE_ACKNOWLEDGE:
-                     Globals.getContactList().removePending(information[0]);
+                    Globals.getContactList().removePending(information[0]);
                     break;
                 case CONTACT_REMOVE_ACKNOWLEDGE:
                     Globals.getContactList().removeContact(information[0]);
@@ -487,41 +488,41 @@ public class CommandHandler {
                     Globals.getContactList().removeGroup(information[0]);
                     break;
                 case GROUP_RENAME_ACKNOWLEDGE:
-                    Globals.getContactList().renameGroup(information[0],information[1]);                    
+                    Globals.getContactList().renameGroup(information[0], information[1]);
                     break;
                 case CONTACT_MOVE_ACKNOWLEDGE:
-                    Globals.getContactList().moveContact(information[0],information[1]);     
+                    Globals.getContactList().moveContact(information[0], information[1]);
                     break;
                 case REMOVE_CONTACT_REQUEST:
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " doesn't want to add you anymore", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " doesn't want to add you anymore", ChatStyles.SYSTEM, true);
                     Globals.getContactList().removePendingRequest(information[0]);
                     break;
                 case ROOM_INVITE:
-                    Globals.getClientFrame().printPrivateChatMessage(information[0] , "Come to my room room://"+information[1]+ " at "+ GameDatabase.getGameName(information[2]) );
+                    FrameOrganizer.getClientFrame().printPrivateChatMessage(information[0], "Come to my room room://" + information[1] + " at " + GameDatabase.getGameName(information[2]));
                     break;
                 case YOUR_IP_IS:
                     Globals.setMyIP(information[0]);
                     break;
                 case SETAWAYSTATUS:
-                    ChannelPanel cp ;
-                    for(int j = 0; (cp = TabOrganizer.getChannelPanel(j) )!= null;++j ){
+                    ChannelPanel cp;
+                    for (int j = 0; (cp = TabOrganizer.getChannelPanel(j)) != null; ++j) {
                         cp.setAway(information[0]);
                     }
-                    if (TabOrganizer.getRoomPanel() != null ) {
+                    if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().setAway(information[0]);
                     }
                     break;
                 case UNSETAWAYSTATUS:
-                    for(int j = 0; (cp = TabOrganizer.getChannelPanel(j) )!= null;++j ){
+                    for (int j = 0; (cp = TabOrganizer.getChannelPanel(j)) != null; ++j) {
                         cp.unSetAway(information[0]);
                     }
-                    if (TabOrganizer.getRoomPanel() != null ) {
+                    if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().unSetAway(information[0]);
                     }
                     break;
                 default:
                     Logger.log(LogTypes.ERROR, "Server sent a command which wasn't handled!");
-                    Globals.getClientFrame().printToVisibleChatbox("SYSTEM", "Unknown command recieved! Please make sure you use the latest client!", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Unknown command recieved! Please make sure you use the latest client!", ChatStyles.SYSTEM, true);
             }
         }
     }

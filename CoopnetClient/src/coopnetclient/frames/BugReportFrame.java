@@ -22,7 +22,7 @@ package coopnetclient.frames;
 import bugreportmailsender.BugReportMailSender;
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.Logger;
@@ -318,17 +318,17 @@ public class BugReportFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
-        Globals.closeBugReportFrame();
+        FrameOrganizer.closeBugReportFrame();
 }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void btn_reviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reviewActionPerformed
-        Globals.openTextPreviewFrame("Review bugreport", compileReport());
+        FrameOrganizer.openTextPreviewFrame("Review bugreport", compileReport());
 }//GEN-LAST:event_btn_reviewActionPerformed
 
     private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sendActionPerformed
 
         if (tf_shortDescription.getText().length() < 1 || ta_LongDescription.getText().length() < 1) {
-            JOptionPane.showMessageDialog(Globals.getBugReportFrame(),
+            JOptionPane.showMessageDialog(FrameOrganizer.getBugReportFrame(),
                     "Sorry, but please take some time to fill out the " +
                     "\nshort and detailed description fields." +
                     "\nWe can't guess what has happened if you don't tell us anything.",
@@ -345,26 +345,26 @@ public class BugReportFrame extends javax.swing.JFrame {
             }
 
             if (error) {
-                JOptionPane.showMessageDialog(Globals.getBugReportFrame(),
+                JOptionPane.showMessageDialog(FrameOrganizer.getBugReportFrame(),
                         "Sending bugreport failed!" +
                         "\nPlease verify that you are " +
                         "\nconnected to the internet " +
                         "\nand try again.",
                         "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(Globals.getBugReportFrame(),
+                JOptionPane.showMessageDialog(FrameOrganizer.getBugReportFrame(),
                         "Your bugreport was sent successfully,\nthank you for your help!",
                         "Success", JOptionPane.PLAIN_MESSAGE);
 
                 //TabOrganizer.closeAllTabs();
                 TabOrganizer.closeErrorPanel();
-                Globals.closeBugReportFrame();
+                FrameOrganizer.closeBugReportFrame();
             }
         }
 }//GEN-LAST:event_btn_sendActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Globals.closeBugReportFrame();
+        FrameOrganizer.closeBugReportFrame();
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

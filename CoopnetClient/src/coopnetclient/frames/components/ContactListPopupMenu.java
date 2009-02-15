@@ -23,7 +23,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.components.mutablelist.EditableJlist;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.utils.MuteBanList;

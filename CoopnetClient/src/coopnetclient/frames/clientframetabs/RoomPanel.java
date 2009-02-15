@@ -16,8 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package coopnetclient.frames.clientframe.tabs;
+package coopnetclient.frames.clientframetabs;
 
 import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
@@ -29,8 +28,9 @@ import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.LogTypes;
-import coopnetclient.frames.clientframe.ClosableTab;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.FrameOrganizer;
+import coopnetclient.frames.interfaces.ClosableTab;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.components.ConnectingProgressBar;
 import coopnetclient.utils.SoundPlayer;
 import coopnetclient.frames.renderers.RoomPlayerStatusListCellRenderer;
@@ -57,32 +57,27 @@ import javax.swing.SwingWorker;
 public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     public static final String ROOMID_UNSUPPORTED = "ROOMID_UNSUPPORTED";
-
     private LaunchInfo launchInfo;
-    
     private RoomData roomData;
     private SortedListModel users;
     private PlayerListPopupMenu popup;
-    
     private HashMap<String, String> gamesettings = new HashMap<String, String>();
     private RoomPlayerStatusListCellRenderer roomStatusListCR;
     private boolean hamachiWasEnabled = false;
-
     private SwingWorker readyDisablerThread;
     private SwingWorker launchDisablerThread;
-
     private boolean wasReadyBeforeReInit = false;
 
     public RoomPanel(RoomData theRoomData) {
         this.roomData = theRoomData;
         this.users = new SortedListModel();
-        users.add(Globals.getThisPlayer_loginName());
+        users.add(Globals.getThisPlayerLoginName());
 
         initComponents();
 
-        if(Client.getHamachiAddress().length() <= 0){
+        if (Client.getHamachiAddress().length() <= 0) {
             cb_useHamachi.setVisible(false);
-        } else if(roomData.getHamachiIP().length() > 0) {
+        } else if (roomData.getHamachiIP().length() > 0) {
             hamachiWasEnabled = true;
             cb_useHamachi.setToolTipText("<html>Don't use this unless you have connection issues!<br>If you really need to use this consult with the room host!<br>Both you and the host have to be connected to <br>the same hamachi network!Otherwise it won't work!");
         }
@@ -126,53 +121,52 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         Colorizer.colorize(this);
 
         chat("", theRoomData.getRoomName(), ChatStyles.USER);
-        chat("", "room://"+theRoomData.getRoomID(), ChatStyles.USER);
+        chat("", "room://" + theRoomData.getRoomID(), ChatStyles.USER);
 
         prgbar_connecting.setVisible(false);
 
         decideGameSettingsButtonVisility();
     }
 
-    private void decideGameSettingsButtonVisility(){
-        if(Launcher.isPlaying()){
+    private void decideGameSettingsButtonVisility() {
+        if (Launcher.isPlaying()) {
             btn_gameSettings.setEnabled(false);
         }
 
-        if(GameDatabase.getLocalSettingCount(roomData.getChannel(), roomData.getModName())
-              + GameDatabase.getServerSettingCount(roomData.getChannel(), roomData.getModName()) == 0 ){
-              btn_gameSettings.setVisible(false);
+        if (GameDatabase.getLocalSettingCount(roomData.getChannel(), roomData.getModName()) + GameDatabase.getServerSettingCount(roomData.getChannel(), roomData.getModName()) == 0) {
+            btn_gameSettings.setVisible(false);
         }
     }
 
-    public ConnectingProgressBar getConnectingProgressBar(){
+    public ConnectingProgressBar getConnectingProgressBar() {
         return prgbar_connecting;
     }
 
-    public boolean isHost(){
+    public boolean isHost() {
         return roomData.isHost();
     }
 
-    public RoomData getRoomData(){
+    public RoomData getRoomData() {
         return roomData;
     }
-    
+
     public void initLauncher() {
         new Thread() {
 
             @Override
             public void run() {
-                try{
+                try {
                     LaunchMethods method = GameDatabase.getLaunchMethod(roomData.getChannel(), roomData.getModName());
-                    if(method == LaunchMethods.PARAMETER){
+                    if (method == LaunchMethods.PARAMETER) {
                         launchInfo = new ParameterLaunchInfo(roomData);
-                    }else if(method == LaunchMethods.DOS){
+                    } else if (method == LaunchMethods.DOS) {
                         launchInfo = new DosboxLaunchInfo(roomData);
-                    }else {
+                    } else {
                         launchInfo = new DirectPlayLaunchInfo(roomData);
                     }
 
                     Launcher.initialize(launchInfo);
-                }catch(Exception e){
+                } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }
             }
@@ -181,7 +175,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     public void showSettings() {
         if (btn_gameSettings.isVisible()) {
-            Globals.openGameSettingsFrame(roomData);
+            FrameOrganizer.openGameSettingsFrame(roomData);
         }
     }
 
@@ -190,7 +184,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         tp_chatInput.requestFocusInWindow();
     }
 
-    public void disableGameSettingsFrameButton(){
+    public void disableGameSettingsFrameButton() {
         btn_gameSettings.setEnabled(false);
     }
 
@@ -229,11 +223,11 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         users.add(playername);
     }
 
-    public void setAway(String playername){
+    public void setAway(String playername) {
         roomStatusListCR.setAway(playername);
     }
 
-    public void unSetAway(String playername){
+    public void unSetAway(String playername) {
         roomStatusListCR.unSetAway(playername);
     }
 
@@ -249,63 +243,65 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     public boolean updatePlayerName(String oldname, String newname) {
         roomStatusListCR.updateName(oldname, newname);
-        if(users.removeElement(oldname)){
+        if (users.removeElement(oldname)) {
             users.add(newname);
             return true;
         }
         return false;
     }
-    
-    public void unReadyPlayer(String playerName){
+
+    public void unReadyPlayer(String playerName) {
         roomStatusListCR.unReadyPlayer(playerName);
     }
-    
-    public void readyPlayer(String playerName){
+
+    public void readyPlayer(String playerName) {
         roomStatusListCR.readyPlayer(playerName);
     }
-    
-    public void setPlaying(String playerName){
+
+    public void setPlaying(String playerName) {
         roomStatusListCR.setPlaying(playerName);
     }
-    
-    public void gameClosed(String playerName){
+
+    public void gameClosed(String playerName) {
         roomStatusListCR.gameClosed(playerName);
     }
-    
-    public void pressLaunch(){
+
+    public void pressLaunch() {
         btn_launch.doClick();
     }
 
     public void launch() {
-        if (Launcher.isPlaying() ) {
+        if (Launcher.isPlaying()) {
             Protocol.launch();
             return;
         }
-        
-        if(Launcher.predictSuccessfulLaunch() == false){
+
+        if (Launcher.predictSuccessfulLaunch() == false) {
             return;
         }
 
         new Thread() {
+
             @Override
             public void run() {
-                try{                 
+                try {
                     Launcher.launch();
                     Protocol.gameClosed(roomData.getChannel());
                     btn_gameSettings.setEnabled(true);
-                }catch(Exception e){
+                } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }
             }
         }.start();
     }
 
-    public void displayDelayedReinit(){
+    public void displayDelayedReinit() {
         btn_ready.setText("Waiting for game to exit...");
     }
 
-    public void displayReInit(){
-        SwingUtilities.invokeLater(new Thread(){
+    public void displayReInit() {
+        SwingUtilities.invokeLater(new Thread() {
+
             @Override
             public void run() {
                 if (btn_ready.getText().equals("Unready")) {
@@ -313,11 +309,11 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                     wasReadyBeforeReInit = true;
                 }
                 btn_ready.setText("Reinitializing...");
-                if(readyDisablerThread != null){
+                if (readyDisablerThread != null) {
                     readyDisablerThread.cancel(true);
                 }
                 btn_ready.setEnabled(false);
-                if(launchDisablerThread != null){
+                if (launchDisablerThread != null) {
                     launchDisablerThread.cancel(true);
                 }
                 btn_launch.setEnabled(false);
@@ -327,19 +323,19 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         });
     }
 
-    public void initDone(){
+    public void initDone() {
         btn_ready.setText("Ready");
         btn_ready.setEnabled(true);
 
         cb_useHamachi.setEnabled(hamachiWasEnabled);
 
-        if(wasReadyBeforeReInit){
+        if (wasReadyBeforeReInit) {
             flipReadyStatus();
             wasReadyBeforeReInit = false;
         }
     }
 
-    public void initDoneReadyDisabled(){
+    public void initDoneReadyDisabled() {
         btn_ready.setText("Ready");
     }
 
@@ -499,7 +495,8 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     private void clickedbtn_launch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_launch
         if (roomData.isHost()) {
             btn_launch.setEnabled(false);
-            launchDisablerThread = new SwingWorker(){
+            launchDisablerThread = new SwingWorker() {
+
                 @Override
                 protected Object doInBackground() throws Exception {
                     Thread.sleep(1000);
@@ -508,7 +505,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
                 @Override
                 protected void done() {
-                   if(!isCancelled() && btn_ready.isEnabled()){
+                    if (!isCancelled() && btn_ready.isEnabled()) {
                         btn_launch.setEnabled(true);
                     }
                 }
@@ -521,7 +518,8 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     private void clickedbtn_ready(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_ready
         btn_ready.setEnabled(false);
-        readyDisablerThread = new SwingWorker(){
+        readyDisablerThread = new SwingWorker() {
+
             @Override
             protected Object doInBackground() throws Exception {
                 Thread.sleep(1000);
@@ -530,22 +528,22 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
             @Override
             protected void done() {
-                if(!isCancelled()){
+                if (!isCancelled()) {
                     btn_ready.setEnabled(true);
                 }
             }
         };
         readyDisablerThread.execute();
 
-        if(btn_ready.getText().equals("Ready") && !Launcher.predictSuccessfulLaunch()){
+        if (btn_ready.getText().equals("Ready") && !Launcher.predictSuccessfulLaunch()) {
             wasReadyBeforeReInit = true;
             return;
         }
-        
+
         flipReadyStatus();
 }//GEN-LAST:event_clickedbtn_ready
 
-    private void flipReadyStatus(){
+    private void flipReadyStatus() {
         Protocol.flipReadystatus();
         if (btn_ready.getText().equals("Ready")) {
             btn_ready.setText("Unready");
@@ -553,7 +551,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             SoundPlayer.playReadySound();
         } else {
             btn_ready.setText("Ready");
-            if(launchDisablerThread != null){
+            if (launchDisablerThread != null) {
                 launchDisablerThread.cancel(true);
             }
             btn_launch.setEnabled(false);
@@ -562,23 +560,22 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     }
 
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
-        if(lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())){
+        if (lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayerLoginName())) {
             lst_userList.clearSelection();
-        } else{
+        } else {
             lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
         }
 
-        if(evt.getButton() == MouseEvent.BUTTON2){
+        if (evt.getButton() == MouseEvent.BUTTON2) {
             String player = lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).toString();
-            if(Globals.isHighlighted(player)){
+            if (Globals.isHighlighted(player)) {
                 Globals.unSetHighlightOn(player);
-            }else{
+            } else {
                 Globals.setHighlightOn(player);
             }
-        }else
-        if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
+        } else if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
             String name = (String) lst_userList.getSelectedValue();
-            if(name != null && !name.equals("") && !name.equals(Globals.getThisPlayer_loginName())){
+            if (name != null && !name.equals("") && !name.equals(Globals.getThisPlayerLoginName())) {
                 TabOrganizer.openPrivateChatPanel(name, true);
             }
         }
@@ -606,9 +603,9 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
             @Override
             public void run() {
-                try{
+                try {
                     showSettings();
-                }catch(Exception e){
+                } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }
             }
@@ -619,21 +616,21 @@ private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:
     if (!popup.isVisible()) {
         int idx = lst_userList.locationToIndex(evt.getPoint());
         Rectangle rec = lst_userList.getCellBounds(idx, idx);
-        if(rec == null){
+        if (rec == null) {
             return;
         }
-        if(!rec.contains(evt.getPoint())){
+        if (!rec.contains(evt.getPoint())) {
             lst_userList.clearSelection();
             return;
         }
-        if(idx == lst_userList.getSelectedIndex()){
+        if (idx == lst_userList.getSelectedIndex()) {
             return;
         }
         String selected = lst_userList.getModel().getElementAt(idx).toString();
-        if (selected !=null && selected.length()>0) {
-            if (!selected.equals(Globals.getThisPlayer_loginName())) {
+        if (selected != null && selected.length() > 0) {
+            if (!selected.equals(Globals.getThisPlayerLoginName())) {
                 lst_userList.setSelectedIndex(idx);
-            }else{
+            } else {
                 lst_userList.clearSelection();
             }
         } else {
@@ -643,7 +640,7 @@ private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:
 }//GEN-LAST:event_lst_userListMouseMoved
 
 private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseExited
-    if(!popup.isVisible()){
+    if (!popup.isVisible()) {
         lst_userList.clearSelection();
     }
 }//GEN-LAST:event_lst_userListMouseExited
@@ -677,12 +674,12 @@ private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST
         return true;
     }
 
-    public void updateHighlights(){
+    public void updateHighlights() {
         scrl_chatOutput.updateHighlights();
         lst_userList.repaint();
     }
 
-    public void updateStyle(){
+    public void updateStyle() {
         scrl_chatOutput.updateStyle();
     }
 }

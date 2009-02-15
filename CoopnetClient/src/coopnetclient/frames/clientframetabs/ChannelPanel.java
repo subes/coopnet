@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-package coopnetclient.frames.clientframe.tabs;
+package coopnetclient.frames.clientframetabs;
 
 import coopnetclient.Globals;
 import coopnetclient.frames.listeners.ChatInputKeyListener;
@@ -26,8 +26,9 @@ import coopnetclient.frames.models.RoomTableModel;
 import coopnetclient.frames.components.PlayerListPopupMenu;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
-import coopnetclient.frames.clientframe.ClosableTab;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.FrameOrganizer;
+import coopnetclient.frames.interfaces.ClosableTab;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.ChannelStatusListModel;
@@ -490,13 +491,13 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         );
     }// </editor-fold>//GEN-END:initComponents
     private void create(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_create
-        Globals.openCreateRoomFrame(this.name);
+        FrameOrganizer.openCreateRoomFrame(this.name);
     }//GEN-LAST:event_create
 
     private void join(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_join
         try {
             if (rooms.isSelectedRoomPassworded()) {
-                Globals.openJoinRoomPasswordFrame(this.name, rooms.getSelectedHostName());
+                FrameOrganizer.openJoinRoomPasswordFrame(this.name, rooms.getSelectedHostName());
                 return;
             }
             String tmp = null;
@@ -557,23 +558,22 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     }//GEN-LAST:event_refresh
 
     private void lst_userListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lst_userListMouseClicked
-        if (lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayer_loginName())) {
+        if (lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).equals(Globals.getThisPlayerLoginName())) {
             lst_userList.clearSelection();
         } else {
             lst_userList.setSelectedIndex(lst_userList.locationToIndex(evt.getPoint()));
         }
 
-        if(evt.getButton() == MouseEvent.BUTTON2){
+        if (evt.getButton() == MouseEvent.BUTTON2) {
             String player = lst_userList.getModel().getElementAt(lst_userList.locationToIndex(evt.getPoint())).toString();
-            if(Globals.isHighlighted(player)){
+            if (Globals.isHighlighted(player)) {
                 Globals.unSetHighlightOn(player);
-            }else{
+            } else {
                 Globals.setHighlightOn(player);
             }
-        }else
-        if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
+        } else if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
             String selectedname = (String) lst_userList.getSelectedValue();
-            if (selectedname != null && !selectedname.equals("") && !selectedname.equals(Globals.getThisPlayer_loginName())) {
+            if (selectedname != null && !selectedname.equals("") && !selectedname.equals(Globals.getThisPlayerLoginName())) {
                 TabOrganizer.openPrivateChatPanel(selectedname, true);
                 TabOrganizer.putFocusOnTab(selectedname);
             }
@@ -602,7 +602,7 @@ private void lst_userListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:
         }
         String selected = lst_userList.getModel().getElementAt(idx).toString();
         if (selected != null && selected.length() > 0) {
-            if (!selected.equals(Globals.getThisPlayer_loginName())) {
+            if (!selected.equals(Globals.getThisPlayerLoginName())) {
                 lst_userList.setSelectedIndex(idx);
             } else {
                 lst_userList.clearSelection();
@@ -670,8 +670,8 @@ private void tbl_roomListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRS
         scrl_chatOutput.updateHighlights();
         lst_userList.repaint();
     }
-    
-    public void updateStyle(){
+
+    public void updateStyle() {
         scrl_chatOutput.updateStyle();
     }
 }

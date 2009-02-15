@@ -16,20 +16,22 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-package coopnetclient.frames.clientframe;
+package coopnetclient.frames;
 
+import coopnetclient.frames.interfaces.ClosableTab;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
-import coopnetclient.frames.clientframe.tabs.ChannelPanel;
-import coopnetclient.frames.clientframe.tabs.PrivateChatPanel;
-import coopnetclient.frames.clientframe.tabs.RoomPanel;
+import coopnetclient.frames.clientframetabs.ChannelPanel;
+import coopnetclient.frames.clientframetabs.PrivateChatPanel;
+import coopnetclient.frames.clientframetabs.RoomPanel;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
-import coopnetclient.frames.clientframe.quickpanel.QuickPanel;
+import coopnetclient.frames.components.QuickPanel;
 import coopnetclient.utils.Settings;
 import coopnetclient.frames.components.FavMenuItem;
-import coopnetclient.frames.clientframe.tabs.LoginPanel;
+import coopnetclient.frames.clientframetabs.LoginPanel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.utils.FileDownloader;
 import coopnetclient.utils.gamedatabase.GameDatabase;
@@ -38,7 +40,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
@@ -61,46 +62,47 @@ public class ClientFrame extends javax.swing.JFrame {
         pnl_QuickPanel = new QuickPanel(Globals.getContactList());
         pnl_QuickPanel.setPreferredSize(new Dimension(210, 100));
         initComponents();
+        TabOrganizer.init(tabpn_tabs);
         pnl_toggleQuickBarLeft.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         pnl_toggleQuickBarRight.setPreferredSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         pnl_toggleQuickBarLeft.setMinimumSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         pnl_toggleQuickBarRight.setMinimumSize(new Dimension(Settings.getQuickPanelToggleBarWidth(), 10));
         setQuickPanelPosition(Settings.getQuickPanelPostionisLeft());
-        slp_mainSplitPanel.setDividerSize(0);        
+        slp_mainSplitPanel.setDividerSize(0);
         refreshFavourites();
         refreshInstalledGames();
 
         updateMenu();
-        
+
         if (Settings.getTrayIconEnabled()) {
-            Globals.addTrayIcon();
+            FrameOrganizer.addTrayIcon();
         }
 
     }
-    
-    public QuickPanel getQuickPanel(){
+
+    public QuickPanel getQuickPanel() {
         return pnl_QuickPanel;
     }
-    
+
     //Callback for Globals
     public void updateStatus() {
-        if(Globals.getLoggedInStatus() == false){
+        if (Globals.getLoggedInStatus() == false) {
             setQuickPanelVisibility(false);
             lastdividerposition = null;
         }
-        
-        if(!Globals.getConnectionStatus()){
+
+        if (!Globals.getConnectionStatus()) {
             mi_connection.setText("Connect");
-        }else{
+        } else {
             mi_connection.setText("Disconnect");
         }
-        
+
         m_user.setEnabled(Globals.getLoggedInStatus());
         m_channels.setEnabled(Globals.getLoggedInStatus());
     }
 
-    public void clientTooOldMode(){
-        if(Globals.getConnectionStatus()){
+    public void clientTooOldMode() {
+        if (Globals.getConnectionStatus()) {
             Client.disconnect();
         }
         enableUpdate();
@@ -198,12 +200,12 @@ public class ClientFrame extends javax.swing.JFrame {
         //update the pm tab title too
         TabOrganizer.updatePrivateChatName(oldname, newname);
         //update the contactlist
-        found = Globals.getContactList().updateName(oldname, newname) ||found;
+        found = Globals.getContactList().updateName(oldname, newname) || found;
         return found;
     }
 
     public void setQuickPanelVisibility(boolean visibility) {
-        
+
         if (visibility) {
             if (lastdividerposition == null) {
                 if (quickPanelOrientationIsLeft) {
@@ -256,7 +258,7 @@ public class ClientFrame extends javax.swing.JFrame {
             pnl_toggleQuickBarRight.setVisible(true);
             slp_mainSplitPanel.setDividerLocation(slp_mainSplitPanel.getWidth());
         }
-        pnl_QuickPanel.setSize( 0,pnl_QuickPanel.getHeight() );
+        pnl_QuickPanel.setSize(0, pnl_QuickPanel.getHeight());
         slp_mainSplitPanel.revalidate();
         slp_mainSplitPanel.resetToPreferredSizes();
         this.pack();
@@ -330,10 +332,10 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
         tabpn_tabs.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 tabpn_tabsCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
 
@@ -677,7 +679,7 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_quitActionPerformed
 
     private void mi_clientSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_clientSettingsActionPerformed
-        Globals.openSettingsFrame();
+        FrameOrganizer.openSettingsFrame();
 }//GEN-LAST:event_mi_clientSettingsActionPerformed
 
     private void mi_aboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_aboutActionPerformed
@@ -693,7 +695,7 @@ public class ClientFrame extends javax.swing.JFrame {
                 "\n\n\n<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
                 "<i>Thank you for choosing Coopnet!</i></html>\n ";
 
-        JOptionPane.showMessageDialog(Globals.getClientFrame(), aboutMessage, "About Coopnet", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), aboutMessage, "About Coopnet", JOptionPane.PLAIN_MESSAGE);
 
 }//GEN-LAST:event_mi_aboutActionPerformed
 
@@ -748,7 +750,7 @@ public class ClientFrame extends javax.swing.JFrame {
 
         if (tc == null || tc instanceof LoginPanel) {
             if (popupEnabled) {
-                JOptionPane.showMessageDialog(Globals.getClientFrame(), message, "Message", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), message, "Message", JOptionPane.INFORMATION_MESSAGE);
             }
         } else if (tc instanceof ChannelPanel) {
             ChannelPanel cp = (ChannelPanel) tc;
@@ -756,7 +758,7 @@ public class ClientFrame extends javax.swing.JFrame {
         } else if (tc instanceof RoomPanel) {
             RoomPanel rp = (RoomPanel) tc;
             rp.chat(name, message, modeStyle);
-        } else if (tc instanceof PrivateChatPanel){
+        } else if (tc instanceof PrivateChatPanel) {
             PrivateChatPanel pcp = (PrivateChatPanel) tc;
             pcp.append(name, message, modeStyle);
         } else {
@@ -771,14 +773,13 @@ public class ClientFrame extends javax.swing.JFrame {
         mi_Sounds.setSelected(Settings.getSoundEnabled());
     }
     //Only used by ClientFramePanelHandler!
+
     protected JTabbedPane getTabHolder() {
         return tabpn_tabs;
     }
-    
-    
 
     private void mi_channelListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_channelListActionPerformed
-        Globals.openChannelListFrame();
+        FrameOrganizer.openChannelListFrame();
 }//GEN-LAST:event_mi_channelListActionPerformed
 
     private void tabpn_tabsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabpn_tabsStateChanged
@@ -814,15 +815,16 @@ public class ClientFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_mi_addCurrentToFavActionPerformed
 
     private void mi_manageGamesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_manageGamesActionPerformed
-        Globals.openManageGamesFrame();
+        FrameOrganizer.openManageGamesFrame();
 }//GEN-LAST:event_mi_manageGamesActionPerformed
 
     private void mi_guideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_guideActionPerformed
         HyperlinkMouseListener.openURL("http://coopnet.sourceforge.net/guide.html");
 }//GEN-LAST:event_mi_guideActionPerformed
 
-    public void invokeUpdate(){
+    public void invokeUpdate() {
         new Thread() {
+
             @Override
             public void run() {
                 try {
@@ -834,7 +836,7 @@ public class ClientFrame extends javax.swing.JFrame {
                         try {
                             FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", Globals.getResourceAsString("CoopnetUpdater.jar"));
                             Runtime rt = Runtime.getRuntime();
-                            rt.exec("java -jar CoopnetUpdater.jar",null,Client.getCurrentDirectory()  );
+                            rt.exec("java -jar CoopnetUpdater.jar", null, Client.getCurrentDirectory());
                             Client.quit(true);
                         } catch (Exception ex) {
                             ex.printStackTrace();
@@ -852,7 +854,7 @@ private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 }//GEN-LAST:event_mi_updateActionPerformed
 
 private void mi_bugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_bugReportActionPerformed
-    Globals.openBugReportFrame();
+    FrameOrganizer.openBugReportFrame();
 }//GEN-LAST:event_mi_bugReportActionPerformed
 
 private void pnl_toggleQuickBarLeftMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleQuickBarLeftMouseEntered
@@ -860,7 +862,7 @@ private void pnl_toggleQuickBarLeftMouseEntered(java.awt.event.MouseEvent evt) {
         if (Settings.getColorizeBody()) {
             pnl_toggleQuickBarLeft.setBackground(Settings.getSelectionColor());
         } else {
-            pnl_toggleQuickBarLeft.setBackground(getHoverEffectColor());  
+            pnl_toggleQuickBarLeft.setBackground(getHoverEffectColor());
         }
     }
 }//GEN-LAST:event_pnl_toggleQuickBarLeftMouseEntered
@@ -913,7 +915,7 @@ private void pnl_toggleQuickBarRightMousePressed(java.awt.event.MouseEvent evt) 
 
 private void mi_showMuteBanListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_showMuteBanListActionPerformed
     if (Globals.getLoggedInStatus()) {
-        Globals.openMuteBanTableFrame();
+        FrameOrganizer.openMuteBanTableFrame();
     }
 }//GEN-LAST:event_mi_showMuteBanListActionPerformed
 
@@ -922,19 +924,19 @@ private void mi_showQuickbarActionPerformed(java.awt.event.ActionEvent evt) {//G
 }//GEN-LAST:event_mi_showQuickbarActionPerformed
 
 private void mi_connectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_connectionActionPerformed
-    if(!Globals.getConnectionStatus()){
+    if (!Globals.getConnectionStatus()) {
         Client.startConnection();
-    }else{
-        Client.disconnect();        
+    } else {
+        Client.disconnect();
     }
 }//GEN-LAST:event_mi_connectionActionPerformed
 
 private void mi_makeHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_makeHomeActionPerformed
     Component c = tabpn_tabs.getSelectedComponent();
-        if (c instanceof ChannelPanel) {
-            ChannelPanel cp = (ChannelPanel) c;
-            Settings.setHomeChannel(cp.name);
-        }
+    if (c instanceof ChannelPanel) {
+        ChannelPanel cp = (ChannelPanel) c;
+        Settings.setHomeChannel(cp.name);
+    }
 }//GEN-LAST:event_mi_makeHomeActionPerformed
 
 private void mi_faqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_faqActionPerformed
@@ -955,18 +957,18 @@ private void mi_nextTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 }//GEN-LAST:event_mi_nextTabActionPerformed
 
 private void mi_prevTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_prevTabActionPerformed
-    if (tabpn_tabs.getSelectedIndex() > 0 ) {
+    if (tabpn_tabs.getSelectedIndex() > 0) {
         tabpn_tabs.setSelectedIndex((tabpn_tabs.getSelectedIndex() - 1));
     } else {
-        tabpn_tabs.setSelectedIndex(tabpn_tabs.getTabCount()-1);
+        tabpn_tabs.setSelectedIndex(tabpn_tabs.getTabCount() - 1);
     }
     updateTabNavigationMenuItems();
 }//GEN-LAST:event_mi_prevTabActionPerformed
 
 private void mi_closeTabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_closeTabActionPerformed
-    if(tabpn_tabs.getSelectedComponent()instanceof ClosableTab ){
-        ClosableTab ctab = ((ClosableTab)tabpn_tabs.getSelectedComponent());
-        if(ctab.isCurrentlyClosable()){
+    if (tabpn_tabs.getSelectedComponent() instanceof ClosableTab) {
+        ClosableTab ctab = ((ClosableTab) tabpn_tabs.getSelectedComponent());
+        if (ctab.isCurrentlyClosable()) {
             ctab.closeTab();
         }
     }
@@ -977,24 +979,24 @@ private void tabpn_tabsCaretPositionChanged(java.awt.event.InputMethodEvent evt)
     updateTabNavigationMenuItems();
 }//GEN-LAST:event_tabpn_tabsCaretPositionChanged
 
-private void updateTabNavigationMenuItems(){
-    if(tabpn_tabs.getSelectedComponent() instanceof ClosableTab){
-        ClosableTab ctab = (ClosableTab) tabpn_tabs.getSelectedComponent();
-        mi_closeTab.setEnabled(ctab.isCurrentlyClosable());
+    private void updateTabNavigationMenuItems() {
+        if (tabpn_tabs.getSelectedComponent() instanceof ClosableTab) {
+            ClosableTab ctab = (ClosableTab) tabpn_tabs.getSelectedComponent();
+            mi_closeTab.setEnabled(ctab.isCurrentlyClosable());
+        }
+
+        mi_nextTab.setEnabled(tabpn_tabs.getTabCount() > 1);
+        mi_prevTab.setEnabled(tabpn_tabs.getTabCount() > 1);
     }
 
-    mi_nextTab.setEnabled(tabpn_tabs.getTabCount() > 1);
-    mi_prevTab.setEnabled(tabpn_tabs.getTabCount() > 1);
-}
-
-private Color getHoverEffectColor(){
-    Color clr = null;
-    clr = (Color) UIManager.get("List.selectionBackground"); 
-    if(clr == null){
-        clr = (Color) UIManager.get("List[Selected].textBackground");
+    private Color getHoverEffectColor() {
+        Color clr = null;
+        clr = (Color) UIManager.get("List.selectionBackground");
+        if (clr == null) {
+            clr = (Color) UIManager.get("List[Selected].textBackground");
+        }
+        return clr;
     }
-    return clr;
-}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator jSeparator1;

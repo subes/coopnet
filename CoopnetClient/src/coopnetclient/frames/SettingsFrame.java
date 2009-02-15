@@ -24,7 +24,7 @@ import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.components.KeyGrabberTextField;
 import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.Settings;
@@ -1069,11 +1069,11 @@ public class SettingsFrame extends javax.swing.JFrame {
     private void clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clicked
         //save the data
         saveSettings();
-        Globals.closeSettingsFrame();
+        FrameOrganizer.closeSettingsFrame();
     }//GEN-LAST:event_clicked
 
     private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel
-        Globals.closeSettingsFrame();
+        FrameOrganizer.closeSettingsFrame();
     }//GEN-LAST:event_cancel
 
     private void btn_apply_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_apply_ActionPerformed
@@ -1208,9 +1208,9 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             Settings.setSoundEnabled(cb_sounds.isSelected());
             Settings.setTrayIconEnabled(cb_TrayIconEnabled.isSelected());
             if(cb_TrayIconEnabled.isSelected()){
-                Globals.addTrayIcon();
+                FrameOrganizer.addTrayIcon();
             }else{
-                Globals.removeTrayIcon();
+                FrameOrganizer.removeTrayIcon();
             }
             Settings.setTimeStampEnabled(cb_timeStamps.isSelected());
 
@@ -1257,7 +1257,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
                 TabOrganizer.closeAllButLastChannelPanel();
             }
             
-            Globals.getClientFrame().updateMenu();
+            FrameOrganizer.getClientFrame().updateMenu();
             if( TabOrganizer.getRoomPanel()!= null && TabOrganizer.getRoomPanel().isHost() ){
                 Hotkeys.reBindHotKey(Hotkeys.ACTION_LAUNCH);
             }
@@ -1265,7 +1265,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             Settings.setRememberMainFrameSize(cb_rememberMainFrameSize.isSelected());
             Settings.setLogUserActivity(cb_logActivity.isSelected());
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(Globals.getClientFrame(), "Please verify that you have entered valid information!\nFor example:\n  Serverport and textsizes need to be non-decimal numbers.", "Wrong input", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), "Please verify that you have entered valid information!\nFor example:\n  Serverport and textsizes need to be non-decimal numbers.", "Wrong input", JOptionPane.ERROR_MESSAGE);
             error = true;
         }
 
@@ -1276,7 +1276,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
                 public void run() {
                     try{
                         Colorizer.initColors();
-                        Globals.recolorFrames();
+                        FrameOrganizer.recolorFrames();
                         TabOrganizer.updateStyle();
                     }catch(Exception e){
                         ErrorHandler.handleException(e);
@@ -1293,7 +1293,7 @@ private void cb_nativeStyleActionPerformed(java.awt.event.ActionEvent evt) {//GE
 }//GEN-LAST:event_cb_nativeStyleActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-    Globals.closeSettingsFrame();
+    FrameOrganizer.closeSettingsFrame();
 }//GEN-LAST:event_formWindowClosing
 
 private void tf_receiveDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_receiveDirActionPerformed

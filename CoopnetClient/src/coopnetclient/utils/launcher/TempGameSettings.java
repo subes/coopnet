@@ -18,7 +18,7 @@
  */
 package coopnetclient.utils.launcher;
 
-import coopnetclient.frames.clientframe.TabOrganizer;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import java.util.ArrayList;
