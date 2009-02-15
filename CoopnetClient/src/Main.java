@@ -37,7 +37,6 @@ import org.apache.commons.cli.ParseException;
 public final class Main {
     private static final String DEBUG = "debug";
     private static final String HELP = "help";
-    private static final String IP_PORT_SEPARATOR = ":";
     private static final String SAFEMODE = "safemode";
     private static final String SERVER = "server";
 
@@ -85,9 +84,9 @@ public final class Main {
             }
             if(cmd.hasOption(SERVER)){
                 String value = cmd.getOptionValue(SERVER);
-                String ip = value.substring(0, value.indexOf(IP_PORT_SEPARATOR));
+                String ip = value.substring(0, value.indexOf(Client.IP_PORT_SEPARATOR));
                 Globals.setServerIP(ip);
-                int port = Integer.parseInt(value.substring(value.indexOf(IP_PORT_SEPARATOR) + 1));
+                int port = Integer.parseInt(value.substring(value.indexOf(Client.IP_PORT_SEPARATOR) + 1));
                 Globals.setServerPort(port);
             }
             if(cmd.hasOption(DEBUG)){
@@ -101,8 +100,6 @@ public final class Main {
         } catch (Exception ex){
             printHelp(options);
         }
-
-        printHelp(options);
     }
 
     @SuppressWarnings("static-access")

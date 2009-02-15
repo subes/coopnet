@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient;
 
 import coopnetclient.protocol.out.Protocol;
@@ -48,13 +47,15 @@ import java.util.Enumeration;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-/**
- * Contains the global  fields of the client, these fields are used by most of the other classes.<br>
- * Also has the StartUp method that will initialize and start the client
- */
-public class Client {
+public final class Client {
+    public static final String IP_PORT_SEPARATOR = ":";
+    private static final int QUIT_SLEEP = 500;
+    private static final int STOPCONNECTION_SLEEP = 50;
 
     private static HandlerThread handlerThread;
+
+    private Client() {
+    }
 
     public static void send(Message message) {
         if (message.isSent()) {
@@ -84,6 +85,7 @@ public class Client {
                 }
             }
         } catch (Exception ex) {
+            Logger.log(ex);
         }
         return "";
     }
@@ -93,8 +95,12 @@ public class Client {
      */
     public static void startup() {
 
-        Toolkit.getDefaultToolkit().addAWTEventListener(new InactivityWatcher(),
-                AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_WHEEL_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
+        Toolkit.getDefaultToolkit()
+                .addAWTEventListener(new InactivityWatcher(),
+                    AWTEvent.MOUSE_EVENT_MASK
+                    | AWTEvent.MOUSE_MOTION_EVENT_MASK
+                    | AWTEvent.MOUSE_WHEEL_EVENT_MASK
+                    | AWTEvent.KEY_EVENT_MASK);
 
         readServerAddress();
         SwingUtilities.invokeLater(new Thread() {
@@ -144,8 +150,9 @@ public class Client {
         Globals.setConnectionStatus(false);
 
         try {
-            Thread.sleep(50);
+            Thread.sleep(STOPCONNECTION_SLEEP);
         } catch (InterruptedException ex) {
+            Logger.log(ex);
         }
 
         Globals.setLoggedInStatus(false);
@@ -166,7 +173,8 @@ public class Client {
             FrameOrganizer.closeShowProfileFrame();
             FrameOrganizer.closeEditProfileFrame();
         } else {
-            throw new IllegalStateException("Client is already disconnected, you shouldn't be able to disconnect again!");
+            throw new IllegalStateException("Client is already disconnected, " +
+                    "you shouldn't be able to disconnect again!");
         }
     }
 
@@ -180,7 +188,7 @@ public class Client {
                 int option = JOptionPane.showConfirmDialog(null,
                         "<html>WARNING: There is one or more active filetransfer!<br>" +
                         "Do you really want to quit Coopnet?<br>" +
-                        "If you quit any active transfer will be cancelled!",
+                        "If you quit, any active transfer will be cancelled!",
                         "WARNING: Active filetransfer(s)!",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE);
@@ -192,8 +200,9 @@ public class Client {
             //cancel any filesendings
             TabOrganizer.cancelFileSendingOnClose();
             try {
-                Thread.sleep(500);
-            } catch (Exception e) {
+                Thread.sleep(QUIT_SLEEP);
+            } catch (InterruptedException e) {
+                Logger.log(e);
             }
             //close connection
             Client.stopConnection();
@@ -227,16 +236,16 @@ public class Client {
                 br.close();
                 br = null;
                 server = temp.toString().trim();
-                Logger.log(LogTypes.LOG, "Server address read: " + server);
+                Logger.log("Server address read: " + server);
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.log(e);
                 server = null;
             }
 
             if (server != null) {
-                String ip = server.substring(0, server.indexOf(":"));
+                String ip = server.substring(0, server.indexOf(IP_PORT_SEPARATOR));
                 Globals.setServerIP(ip);
-                int port = Integer.parseInt(server.substring(server.indexOf(":") + 1));
+                int port = Integer.parseInt(server.substring(server.indexOf(IP_PORT_SEPARATOR) + 1));
                 Globals.setServerPort(port);
                 Settings.setLastValidServerIP(ip);
                 Settings.setLastValidServerPort(port);
@@ -292,12 +301,15 @@ public class Client {
                             br.close();
                             bo.close();
                         } catch (Exception ex) {
+                            Logger.log(ex);
                         }
                         GameDatabase.loadVersion();
                         GameDatabase.load("", GameDatabase.dataFilePath);
                     }
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), "You have an outdated version of the gamedata, but couldn't update it!", "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), 
+                            "You have an outdated version of the gamedata, but couldn't update it!",
+                            "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
                     ErrorHandler.handleException(e);
                 }
             }
@@ -315,7 +327,6 @@ public class Client {
 
     public static void checkAndUpdateClient() {
         new Thread() {
-
             @Override
             public void run() {
                 URL url;
@@ -332,17 +343,20 @@ public class Client {
                             public void run() {
                                 try {
                                     int n = JOptionPane.showConfirmDialog(null,
-                                            "<html>You have an outdated version of the client!<br>" +
-                                            "Would you like to update now?<br>(The client will close and update itself)",
-                                            "Client outdated", JOptionPane.YES_NO_OPTION);
+                                            "<html>There is a new version of CoopnetClient available.<br>" +
+                                            "Would you like to update now?<br>" +
+                                            "The client will close and update itself.",
+                                            "Client update available", JOptionPane.YES_NO_OPTION);
                                     if (n == JOptionPane.YES_OPTION) {
                                         try {
-                                            FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php", Globals.getResourceAsString("CoopnetUpdater.jar"));
+                                            FileDownloader.downloadFile(
+                                                    "http://coopnet.sourceforge.net/latestUpdater.php",
+                                                    Globals.getResourceAsString("CoopnetUpdater.jar"));
                                             Runtime rt = Runtime.getRuntime();
                                             rt.exec("java -jar CoopnetUpdater.jar", null, getCurrentDirectory());
                                             quit(true);
                                         } catch (Exception ex) {
-                                            ex.printStackTrace();
+                                            Logger.log(ex);
                                         }
                                     }
                                 } catch (Exception e) {
@@ -352,7 +366,7 @@ public class Client {
                         }.start();
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Logger.log(e);
                     return;
                 }
             }
