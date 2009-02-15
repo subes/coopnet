@@ -19,6 +19,7 @@
 
 package coopnetclient.protocol.in;
 
+import coopnetclient.Client;
 import coopnetclient.enums.ErrorPanelStyle;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframe.TabOrganizer;
@@ -29,6 +30,7 @@ public class CommandMethods {
     protected static void checkProtocolVersion(String version){
         if(!Verification.verifyProtocolVersion(version)){
             Logger.log(LogTypes.LOG, "Protocol version mismatch detected!");
+            Client.disconnect();
             TabOrganizer.openErrorPanel(ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH, null);
         }
     }
