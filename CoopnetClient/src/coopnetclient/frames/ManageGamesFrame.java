@@ -49,7 +49,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
     /** Creates new form ManageGamesFrame */
     public ManageGamesFrame() {
         initComponents();
-        for (String st : GameDatabase.getAllGameNamesAsStringArray()) {
+        for (String st : GameDatabase.getNonDPlayGameNames()) {
             if (st.length() > 0) {
                 channels.add(st);
             }
@@ -639,7 +639,7 @@ private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     channels.clear();
     Vector<String> installedgames = GameDatabase.getInstalledGameNames();
     String filter = tf_filter.getText();
-    for (String gameName : GameDatabase.getAllGameNamesAsStringArray()) {
+    for (String gameName : GameDatabase.getNonDPlayGameNames()) {
         if (gameName.toLowerCase().contains(filter.toLowerCase())) {
             if (cb_showInstalledOnly.isSelected()) {
                 if (installedgames.contains(gameName)) {
