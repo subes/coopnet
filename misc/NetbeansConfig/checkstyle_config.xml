@@ -62,7 +62,10 @@
         <module name="LocalVariableName"/>
         <module name="MemberName"/>
         <module name="MethodName"/>
-        <module name="PackageName"/>
+        <module name="PackageName">
+            <property name="format"
+                      value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+        </module>
         <module name="ParameterName"/>
         <module name="StaticVariableName"/>
         <module name="TypeName"/>
@@ -157,7 +160,10 @@
         <module name="VisibilityModifier">
 			<property name="protectedAllowed" value="true"/>
         </module>
-
+        
+        <!-- Checks for duplicate code, Simian is free to use in OpenSource projects! -->
+        <!-- See http://www.redhillconsulting.com.au/products/simian/ -->
+        <module name="au.com.redhillconsulting.simian.SimianCheck"/>
 
         <!-- Miscellaneous other checks.                   -->
         <!-- See http://checkstyle.sf.net/config_misc.html -->
