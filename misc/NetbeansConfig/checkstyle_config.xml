@@ -230,11 +230,11 @@
         <!-- See http://checkstyle.sf.net/config_misc.html -->
         <module name="ArrayTypeStyle"/>
         <!--<module name="FinalParameters"/>-->
-        <module name="GenericIllegalRegexp">
-            <!--<property name="ignoreComments" value="true"/>-->
+        <!--<module name="GenericIllegalRegexp">
+            <property name="ignoreComments" value="true"/>
             <property name="format" value="\s+$"/>
             <property name="message" value="Line has trailing spaces."/>
-        </module>
+        </module>-->
         <module name="GenericIllegalRegexp">
             <!-- . matches any character, so we need to
                  escape it and use \. to match dots. -->
