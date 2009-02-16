@@ -1,3 +1,8 @@
+2009/02/16: CoopnetClient 0.102.0
+  - fixed bug with hamachi
+  - DOSBox support for old games
+  - UI and behaviour changes
+
 2009/02/02: CoopnetClient 0.101.3
   - fixed quick DPlay launch bug
   - text highlighting
