@@ -213,7 +213,7 @@
         <module name="ExplicitInitialization"/>
         <module name="DefaultComesLast"/>
         <module name="MultipleStringLiterals">
-            <property name="ignoreStringsRegexp" value="^&quot;&quot;$|&quot;'&quot;|&quot;.&quot;"/>
+            <property name="ignoreStringsRegexp" value="^&quot;&quot;$|&quot;'&quot;|&quot;.&quot;|&quot;\\n&quot;"/>
         </module>
         <module name="MultipleVariableDeclarations"/>
          <module name="NestedIfDepth">
