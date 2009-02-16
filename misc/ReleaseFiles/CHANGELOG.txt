@@ -1,5 +1,5 @@
 2009/02/16: CoopnetClient 0.102.0
-  - fixed bug with hamachi
+  - fixed bug about hamachi
   - DOSBox support for old games
   - UI and behaviour changes
 
