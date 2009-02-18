@@ -46,9 +46,8 @@ public class DosboxLaunchHandler extends LaunchHandler {
     @Override
     protected boolean doLaunch() {
 
-        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                "Launching game, please wait ...",
-                ChatStyles.SYSTEM, false);
+        FrameOrganizer.getClientFrame().printSystemMessage(
+                "Launching game, please wait ...", false);
 
         if (FrameOrganizer.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()) {
             FrameOrganizer.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(false);
@@ -72,9 +71,8 @@ public class DosboxLaunchHandler extends LaunchHandler {
             } catch (InterruptedException ex) {
             }
         } catch (IOException e) {
-            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "Error while launching: " + e.getMessage() + "\nAborting launch!",
-                    ChatStyles.SYSTEM, false);
+            FrameOrganizer.getClientFrame().printSystemMessage(
+                    "Error while launching: " + e.getMessage() + "\nAborting launch!", false);
             Logger.log(e);
             return false;
         }
@@ -104,9 +102,8 @@ public class DosboxLaunchHandler extends LaunchHandler {
             ret = false;
         }
         if (ret == false) {
-            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "Launcher failed. Please make sure that the game is properly setup for launch.",
-                    ChatStyles.SYSTEM, false);
+            FrameOrganizer.getClientFrame().printSystemMessage(
+                    "Launcher failed. Please make sure that the game is properly setup for launch.", false);
         }
 
         return ret;

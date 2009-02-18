@@ -167,6 +167,10 @@ public class ClientFrame extends javax.swing.JFrame {
         }
     }
 
+    public void printSystemMessage(String message, boolean popupEnabled){
+        printToVisibleChatbox(ChatStyles.SYSTEM.toString(), message, ChatStyles.SYSTEM, popupEnabled);
+    }
+
     public void printMainChatMessage(String channel, String name, String message, ChatStyles modeStyle) {
         ChannelPanel cp = TabOrganizer.getChannelPanel(channel);
         if (cp != null) {
@@ -743,7 +747,7 @@ public class ClientFrame extends javax.swing.JFrame {
         m_installedGames.revalidate();
     }
 
-    public void printToVisibleChatbox(String name, String message, ChatStyles modeStyle, boolean popupEnabled) {
+    private void printToVisibleChatbox(String name, String message, ChatStyles modeStyle, boolean popupEnabled) {
 
         Component tc = tabpn_tabs.getSelectedComponent();
 

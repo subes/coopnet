@@ -204,11 +204,10 @@ public class Launcher {
 
                 if (doPrint) {
                     if (!launchResult) {
-                        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Launch failed, maybe the game is not setup properly or a process closed unexpectedly!", ChatStyles.SYSTEM, false);
+                        FrameOrganizer.getClientFrame().printSystemMessage("Launch failed, maybe the game is not setup properly or a process closed unexpectedly!", false);
                     } else {
-                        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                                "Game closed.",
-                                ChatStyles.SYSTEM, false);
+                        FrameOrganizer.getClientFrame().printSystemMessage(
+                                "Game closed.", false);
                     }
                 }
 
@@ -242,9 +241,8 @@ public class Launcher {
     }
 
     public static boolean initInstantLaunch(RoomData roomData) {
-        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                "Initializing game ...",
-                ChatStyles.SYSTEM, false);
+        FrameOrganizer.getClientFrame().printSystemMessage(
+                "Initializing game ...", false);
 
         LaunchInfo launchInfo;
 

@@ -45,9 +45,8 @@ public class ParameterLaunchHandler extends LaunchHandler {
     @Override
     protected boolean doLaunch() {
 
-        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                "Launching game, please wait ...",
-                ChatStyles.SYSTEM, false);
+        FrameOrganizer.getClientFrame().printSystemMessage(
+                "Launching game, please wait ...", false);
 
         if (FrameOrganizer.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()) {
             FrameOrganizer.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(false);
@@ -85,9 +84,8 @@ public class ParameterLaunchHandler extends LaunchHandler {
             } catch (InterruptedException ex) {
             }
         } catch (Exception e) {
-            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "Error while launching: " + e.getMessage() + "\nAborting launch!",
-                    ChatStyles.SYSTEM, false);
+            FrameOrganizer.getClientFrame().printSystemMessage(
+                    "Error while launching: " + e.getMessage() + "\nAborting launch!", false);
             Logger.log(e);
             return false;
         }
@@ -111,9 +109,8 @@ public class ParameterLaunchHandler extends LaunchHandler {
         boolean ret = exec.exists() && exec.canExecute();
 
         if (!ret) {
-            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "Launcher failed. Please make sure that the game is properly setup for launch.",
-                    ChatStyles.SYSTEM, false);
+            FrameOrganizer.getClientFrame().printSystemMessage(
+                    "Launcher failed. Please make sure that the game is properly setup for launch.", false);
         }
 
         return ret;

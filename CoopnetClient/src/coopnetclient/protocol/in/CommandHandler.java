@@ -64,7 +64,7 @@ public class CommandHandler {
         } catch (Exception e) {
             Logger.logInTraffic(data);
             Logger.log(LogTypes.ERROR, "Server sent an unknown command!");
-            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Unknown command recieved! Please make sure you use the latest client!", ChatStyles.SYSTEM, true);
+            FrameOrganizer.getClientFrame().printSystemMessage("Unknown command recieved! Please make sure you use the latest client!", true);
             return;
         }
 
@@ -119,7 +119,7 @@ public class CommandHandler {
                     break;
                 case SERVER_SHUTTING_DOWN:
                     Client.disconnect();
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Server is shutting down!", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printSystemMessage("Server is shutting down!", true);
                     break;
             }
         } else {//logged-in commands
@@ -185,23 +185,23 @@ public class CommandHandler {
                     break;
                 case NUDGE:
                     FrameIconFlasher.flash("data/icons/nudge.png", information[0] + " sent you a nudge!", false);
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " sent you a nudge!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printSystemMessage(information[0] + " sent you a nudge!", false);
                     SoundPlayer.playNudgeSound();
                     break;
                 case ERROR_YOU_ARE_BANNED:
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "You are banned by the rooms host!", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printSystemMessage("You are banned by the rooms host!", true);
                     for (i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
                         TabOrganizer.getChannelPanel(i).enableButtons();
                     }
                     break;
                 case ERROR_ROOM_IS_FULL:
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "The room is full!", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printSystemMessage("The room is full!", true);
                     for (i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
                         TabOrganizer.getChannelPanel(i).enableButtons();
                     }
                     break;
                 case ERROR_ROOM_DOES_NOT_EXIST:
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "The room doesn't exist", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printSystemMessage("The room doesn't exist", true);
                     for (i = 0; TabOrganizer.getChannelPanel(i) != null; i++) {
                         TabOrganizer.getChannelPanel(i).enableButtons();
                     }
@@ -275,30 +275,30 @@ public class CommandHandler {
                     }
                     break;
                 case ERROR_WHISPER_TO_OFFLINE_USER:
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " is currently offline, he won't receive your whisper messages", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printSystemMessage(information[0] + " is currently offline, he won't receive your whisper messages", true);
                     break;
                 case SERVER_SHUTTING_DOWN:
                     Client.disconnect();
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Server is shutting down!", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printSystemMessage("Server is shutting down!", true);
                     break;
                 case ECHO_NO_SUCH_PLAYER:
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Error:No such Player!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printSystemMessage("Error:No such Player!", false);
                     break;
                 case ECHO_BANNED:
                     MuteBanList.ban(information[0]);
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been banned!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printSystemMessage(information[0] + " has been banned!", false);
                     break;
                 case ECHO_UNBANNED:
                     MuteBanList.unBan(information[0]);
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been unbanned!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printSystemMessage(information[0] + " has been unbanned!", false);
                     break;
                 case ECHO_MUTED:
                     MuteBanList.mute(information[0]);
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been muted!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printSystemMessage(information[0] + " has been muted!", false);
                     break;
                 case ECHO_UNMUTED:
                     MuteBanList.unMute(information[0]);
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " has been unmuted!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printSystemMessage(information[0] + " has been unmuted!", false);
                     break;
                 case NOT_READY_STATUS:
                     if (TabOrganizer.getRoomPanel() != null) {
@@ -331,11 +331,11 @@ public class CommandHandler {
                     break;
                 case PASSWORD_CHANGED:
                     FrameOrganizer.closeChangePasswordFrame();
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Password has been changed!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printSystemMessage("Password has been changed!", false);
                     break;
                 case PROFILE_SAVED:
                     FrameOrganizer.closeEditProfileFrame();
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Profile has been saved!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printSystemMessage("Profile has been saved!", false);
                     break;
                 case EDIT_PROFILE:
                     FrameOrganizer.openEditProfileFrame(information[0],
@@ -367,14 +367,14 @@ public class CommandHandler {
                         Globals.setThisPlayerLoginName(information[1]);
                     } else {
                         if (found) {
-                            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " is now known as " + information[1], ChatStyles.SYSTEM, false);
+                            FrameOrganizer.getClientFrame().printSystemMessage(information[0] + " is now known as " + information[1], false);
                         }
                     }
                     FrameOrganizer.getClientFrame().repaint();
                     break;
                 case SENDING_FILE:
                     TabOrganizer.recieveFile(information[0], information[1], information[2], information[3], information[4]);
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " wants to send you a file!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printSystemMessage(information[0] + " wants to send you a file!", false);
                     break;
                 case ACCEPTED_FILE:
                     Globals.getTransferModel().startSending(information[0], information[1], information[2], information[3], new Long(information[4]));
@@ -390,7 +390,7 @@ public class CommandHandler {
                     break;
                 case CONTACT_REQUESTED:
                     Globals.getContactList().addContact(information[0], "", ContactListElementTypes.PENDING_REQUEST);
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " wants to add you to his/her contact list", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printSystemMessage(information[0] + " wants to add you to his/her contact list", true);
                     FrameOrganizer.getClientFrame().flashQuickPanelToggler();
                     break;
                 case SET_CONTACTSTATUS:
@@ -408,7 +408,7 @@ public class CommandHandler {
                                 SoundPlayer.playLogoutSound();
                             }
                             if (Settings.getContactStatusChangeTextNotification()) {
-                                FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", name + " is now offline", ChatStyles.SYSTEM, false);
+                                FrameOrganizer.getClientFrame().printSystemMessage(name + " is now offline", false);
                             }
                             break;
                         case CHATTING:
@@ -416,19 +416,19 @@ public class CommandHandler {
                                 SoundPlayer.playLoginSound();
                             }
                             if (Settings.getContactStatusChangeTextNotification() && previousstatus == ContactListElementTypes.OFFLINE) {
-                                FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", name + " is now online", ChatStyles.SYSTEM, false);
+                                FrameOrganizer.getClientFrame().printSystemMessage(name + " is now online", false);
                             }
                             break;
                     }
                     break;
                 case ACCEPTED_CONTACT_REQUEST:
                     Globals.getContactList().setStatus(information[0], ContactListElementTypes.OFFLINE);
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " accepted your contact request", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printSystemMessage(information[0] + " accepted your contact request", true);
                     FrameOrganizer.getClientFrame().flashQuickPanelToggler();
                     break;
                 case REFUSED_CONTACT_REQUEST:
                     Globals.getContactList().removeContact(information[0]);
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " refused your contact request", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printSystemMessage(information[0] + " refused your contact request", true);
                     FrameOrganizer.getClientFrame().flashQuickPanelToggler();
                     break;
                 case CONTACT_LIST:
@@ -494,7 +494,7 @@ public class CommandHandler {
                     Globals.getContactList().moveContact(information[0], information[1]);
                     break;
                 case REMOVE_CONTACT_REQUEST:
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", information[0] + " doesn't want to add you anymore", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printSystemMessage(information[0] + " doesn't want to add you anymore", true);
                     Globals.getContactList().removePendingRequest(information[0]);
                     break;
                 case ROOM_INVITE:
@@ -522,7 +522,7 @@ public class CommandHandler {
                     break;
                 default:
                     Logger.log(LogTypes.ERROR, "Server sent a command which wasn't handled!");
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Unknown command recieved! Please make sure you use the latest client!", ChatStyles.SYSTEM, true);
+                    FrameOrganizer.getClientFrame().printSystemMessage("Unknown command recieved! Please make sure you use the latest client!", true);
             }
         }
     }

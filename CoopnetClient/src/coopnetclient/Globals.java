@@ -39,9 +39,6 @@ public final class Globals {
     //Increment this, when changes to the protocol commands have been done
     public static final int COMPATIBILITY_VERSION = 5;
 
-    public static final int JDPLAY_MAXSEARCHRETRIES = 12; //1 try = 5 secs; 12 tries = 60 secs
-    public static final int JDPLAY_SEARCHVALIDATIONCOUNT = 1; //set to 1 to be sure the joined session is not a temp one, though slower launch!
-
     //Set via static{}
     private static OperatingSystems operatingSystem;
     private static String lastOpenedDir;

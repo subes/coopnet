@@ -262,7 +262,7 @@ public class Protocol {
 
     public static void nudge(String playerName) {
         new Message(ClientProtocolCommands.NUDGE, playerName);
-        FrameOrganizer.getClientFrame().printToVisibleChatbox("System", "You have nudged " + playerName + "!", ChatStyles.SYSTEM, false);
+        FrameOrganizer.getClientFrame().printSystemMessage("You have nudged " + playerName + "!", false);
     }
 
     public static void gameClosed(String channelName) {

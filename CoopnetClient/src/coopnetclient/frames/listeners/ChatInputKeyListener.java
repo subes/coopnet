@@ -78,7 +78,7 @@ public class ChatInputKeyListener implements KeyListener {
                     return;
                 }
                 if (command.length() > 2500) {
-                    FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Could not send message, because it is too big!", ChatStyles.SYSTEM, false);
+                    FrameOrganizer.getClientFrame().printSystemMessage("Could not send message, because it is too big!", false);
                     source.setText("");
                     return;
                 }
@@ -88,14 +88,14 @@ public class ChatInputKeyListener implements KeyListener {
                     String tail = command.substring(3);
                     int nameEnd = tail.indexOf(" ");
                     if (nameEnd == -1) {
-                        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Usage: /w username message", ChatStyles.SYSTEM, false);
+                        FrameOrganizer.getClientFrame().printSystemMessage("Usage: /w username message", false);
                         source.setText("");
                         return;
                     }
                     String name = tail.substring(0, nameEnd);
                     String msg = tail.substring(nameEnd + 1, tail.length());
                     if (name.equals(Globals.getThisPlayerLoginName())) {
-                        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM", "Private chat with yourself is not allowed!", ChatStyles.SYSTEM, false);
+                        FrameOrganizer.getClientFrame().printSystemMessage("Private chat with yourself is not allowed!", false);
                         source.setText("");
                         return;
                     }

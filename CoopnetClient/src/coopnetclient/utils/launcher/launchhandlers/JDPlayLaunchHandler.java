@@ -36,15 +36,22 @@ import java.io.OutputStream;
 
 public class JDPlayLaunchHandler extends LaunchHandler {
 
+    //1 try = 5 secs; 12 tries = 60 secs
+    public static final int JDPLAY_MAXSEARCHRETRIES = 12;
+    //set to 1 to be sure the joined session is not a temp one, though slower launch!
+    public static final int JDPLAY_SEARCHVALIDATIONCOUNT = 1;
+    private static final String DONE_COMMAND = "DONE";
+
+
     private static Process jdplay;
     private static OutputStream out;
     private static BufferedReader in;
+    private static boolean isSearching;
+    private static boolean abortSearch;
+    private static boolean sessionFound;
+    private static Thread progressBarHider;
     private DirectPlayLaunchInfo launchInfo;
     private String lastRead = "";
-    private static boolean isSearching = false;
-    private static boolean abortSearch = false;
-    private static boolean sessionFound = false;
-    private static Thread progressBarHider;
 
     public boolean isSearchAborted() {
         return abortSearch;
@@ -73,8 +80,8 @@ public class JDPlayLaunchHandler extends LaunchHandler {
 
             command += " lib/jdplay.exe" +
                     " --playerName " + playerName +
-                    " --maxSearchRetries " + Globals.JDPLAY_MAXSEARCHRETRIES +
-                    " --searchValidationCount " + Globals.JDPLAY_SEARCHVALIDATIONCOUNT +
+                    " --maxSearchRetries " + JDPLAY_MAXSEARCHRETRIES +
+                    " --searchValidationCount " + JDPLAY_SEARCHVALIDATIONCOUNT +
                     " --debug";
 
             //print exec string
@@ -88,9 +95,8 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             } catch (IOException e) {
                 Logger.log(e);
 
-                FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                        "Error while initializing:" + e.getMessage(),
-                        ChatStyles.SYSTEM, false);
+                FrameOrganizer.getClientFrame().printSystemMessage(
+                        "Error while initializing:" + e.getMessage(), false);
 
                 return false;
             }
@@ -132,12 +138,11 @@ public class JDPlayLaunchHandler extends LaunchHandler {
 
         if (doSearch && !launchInfo.getRoomData().isHost() && !sessionFound) {
 
-            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "Connecting to host ...",
-                    ChatStyles.SYSTEM, false);
+            FrameOrganizer.getClientFrame().printSystemMessage(
+                    "Connecting to host ...", false);
 
             if (TabOrganizer.getRoomPanel() != null) {
-                TabOrganizer.getRoomPanel().getConnectingProgressBar().setProgress(0, Globals.JDPLAY_MAXSEARCHRETRIES);
+                TabOrganizer.getRoomPanel().getConnectingProgressBar().setProgress(0, JDPLAY_MAXSEARCHRETRIES);
                 TabOrganizer.getRoomPanel().getConnectingProgressBar().setVisible(true);
             } else {
                 return false;
@@ -176,9 +181,8 @@ public class JDPlayLaunchHandler extends LaunchHandler {
                 if (noSessionFound) {
                     abortSearch = true;
                     if (TabOrganizer.getRoomPanel() != null) {
-                        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                                "Launch failed! Found no session to join! The host maybe failed to launch or a firewall blocked your join attempt.",
-                                ChatStyles.SYSTEM, false);
+                        FrameOrganizer.getClientFrame().printSystemMessage(
+                                "Launch failed! Found no session to join! The host maybe failed to launch or a firewall blocked your join attempt.", false);
                         TabOrganizer.getRoomPanel().getConnectingProgressBar().setVisible(false);
                     }
                     return false;
@@ -208,9 +212,8 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             }
         }
 
-        FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                "Launching game, please wait ...",
-                ChatStyles.SYSTEM, false);
+        FrameOrganizer.getClientFrame().printSystemMessage(
+                "Launching game, please wait ...", false);
 
         if (launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().isInstant()) {
             Protocol.launch();
@@ -255,7 +258,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
 //                p.waitFor();
 //            } catch (InterruptedException ex) {}
 //        } catch (Exception e) {
-//            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
+//            FrameOrganizer.getClientFrame().printSystemMessage(
 //                    "Error while launching: " + e.getMessage()+"\nAborting launch!",
 //                    ChatStyles.SYSTEM, false);
 //            Logger.log(e);
@@ -321,35 +324,31 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     }
 
     private synchronized boolean write(String toWrite) {
-        toWrite = toWrite.trim();
+        String newToWrite = toWrite.trim();
 
         //wait until jdplay is ready
         read("RDY");
 
         try {
-            if (!toWrite.endsWith("\n")) {
-                toWrite += "\n";
+            if (!newToWrite.endsWith("\n")) {
+                newToWrite += "\n";
             }
 
             //write
-            Logger.log(LogTypes.LAUNCHER, "OUT: " + toWrite);
-            out.write(toWrite.getBytes());
+            Logger.log(LogTypes.LAUNCHER, "OUT: " + newToWrite);
+            out.write(newToWrite.getBytes());
             out.flush();
 
-            if (!toWrite.equals("DONE\n")) {
-                toWrite = "DONE\n";
-                Logger.log(LogTypes.LAUNCHER, "OUT: " + toWrite);
-                out.write(toWrite.getBytes());
+            if (!newToWrite.equals(DONE_COMMAND + "\n")) {
+                newToWrite = DONE_COMMAND + "\n";
+                Logger.log(LogTypes.LAUNCHER, "OUT: " + newToWrite);
+                out.write(newToWrite.getBytes());
                 out.flush();
 
                 //verify if jdplay understood
                 String[] toRead = {"ACK", "NAK"};
                 int ret = read(toRead);
-                if (ret == 0) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return ret == 0;
             }
 
             return true;
@@ -362,14 +361,12 @@ public class JDPlayLaunchHandler extends LaunchHandler {
 
     private void printError(Exception e) {
         if (e == null) {
-            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "Undetermined DirectPlay error.\nRecovering ...",
-                    ChatStyles.SYSTEM, false);
+            FrameOrganizer.getClientFrame().printSystemMessage(
+                    "Undetermined DirectPlay error.\nRecovering ...", false);
         } else {
             Logger.log(e);
-            FrameOrganizer.getClientFrame().printToVisibleChatbox("SYSTEM",
-                    "DirectPlay error: " + e.getMessage() + "\nRecovering ...",
-                    ChatStyles.SYSTEM, false);
+            FrameOrganizer.getClientFrame().printSystemMessage(
+                    "DirectPlay error: " + e.getMessage() + "\nRecovering ...", false);
         }
     }
 
@@ -410,7 +407,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
     public boolean predictSuccessfulLaunch() {
         boolean ret = jdplay != null && out != null && in != null;
 
-        if (ret == true) {
+        if (ret) {
             try {
                 jdplay.exitValue();
             } catch (NullPointerException e) {
@@ -419,12 +416,12 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             }
         }
 
-        if (ret == true) {
+        if (ret) {
             write("STILLALIVETEST");
-            write("DONE");
+            write(DONE_COMMAND);
         }
 
-        if (ret == false) {
+        if (!ret) {
             reinitJDPlay();
         }
 
