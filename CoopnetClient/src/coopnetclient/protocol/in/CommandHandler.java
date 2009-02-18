@@ -216,7 +216,7 @@ public class CommandHandler {
                     FrameOrganizer.showWrongPasswordNotification();
                     break;
                 case CREATE_ROOM:
-                    rd = new RoomData(true, currentChannelName, Integer.valueOf(information[2]), Globals.getMyIP(), Client.getHamachiAddress(), Integer.valueOf(information[1]), Globals.getThisPlayerLoginName(), information[3], Long.valueOf(information[4]), information[5], Boolean.valueOf(information[6]), false);
+                    rd = new RoomData(true, currentChannelName, Integer.valueOf(information[2]), Globals.getClientIP(), Client.getHamachiAddress(), Integer.valueOf(information[1]), Globals.getThisPlayerLoginName(), information[3], Long.valueOf(information[4]), information[5], Boolean.valueOf(information[6]), false);
                     TabOrganizer.openRoomPanel(rd);
                     break;
                 case LEAVE_ROOM:
@@ -501,7 +501,7 @@ public class CommandHandler {
                     FrameOrganizer.getClientFrame().printPrivateChatMessage(information[0], "Come to my room room://" + information[1] + " at " + GameDatabase.getGameName(information[2]));
                     break;
                 case YOUR_IP_IS:
-                    Globals.setMyIP(information[0]);
+                    Globals.setClientIP(information[0]);
                     break;
                 case SETAWAYSTATUS:
                     ChannelPanel cp;

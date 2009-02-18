@@ -35,31 +35,31 @@ public final class Globals {
 
     //Constants
     public static final String CLIENT_VERSION = "0.102.0";
-
     //Increment this, when changes to the protocol commands have been done
     public static final int COMPATIBILITY_VERSION = 5;
 
-    //Set via static{}
     private static OperatingSystems operatingSystem;
     private static String lastOpenedDir;
     private static String wineCommand;
     private static String lastRoomName = "My room, come and play!";
-    //Preset value
-    private static boolean debug = false;
-    private static boolean connectionStatus = false;
-    private static boolean loggedInStatus = false;
-    private static boolean sleepModeStatus = false;
-    //First set when known
+
+    private static boolean debug;
+    private static boolean connectionStatus;
+    private static boolean loggedInStatus;
+    private static boolean sleepModeStatus;
+
     private static String thisPlayerLoginName;
     private static String thisPlayerInGameName;
     private static String serverIP;
     private static int serverPort;
-    //Objects
+
     private static ContactListModel contactList = new ContactListModel();
-    private static String myIP = null;
+    private static String clientIP;
     private static String currentPath = "";
     private static TransferTableModel transferModel = new TransferTableModel();
     private static ArrayList<String> higlightList = new ArrayList<String>();
+
+    private Globals(){}
 
     /**
      * @return the lastRoomName
@@ -76,13 +76,13 @@ public final class Globals {
     }
     /*******************************************************************/
 
-    private Globals(){}
-
     public static void detectOperatingSystem(){
-        if (System.getProperty("line.separator").equals("\r\n")) {
+        final String lineSeperator = System.getProperty("line.separator");
+
+        if (lineSeperator.equals("\r\n")) {
             operatingSystem = OperatingSystems.WINDOWS;
         }else{
-            if(System.getProperty("line.separator").equals("\r")){
+            if(lineSeperator.equals("\r")){
                 //MacOS, currently treated as Linux coz unsupported
                 operatingSystem = OperatingSystems.LINUX;
             }else{
@@ -90,7 +90,8 @@ public final class Globals {
             }
         }
 
-        Logger.log(LogTypes.LOG, "Operating System is "+operatingSystem.toString() +" ("+System.getProperty("os.name")+")");
+        Logger.log(LogTypes.LOG, "Operating System is "+operatingSystem.toString()
+                +" ("+System.getProperty("os.name")+")");
 
         if (operatingSystem == OperatingSystems.WINDOWS) {
             lastOpenedDir = System.getenv("USERPROFILE");
@@ -158,7 +159,7 @@ public final class Globals {
             File absolute = new File(currentPath + addedDivider + name);
             return absolute.getCanonicalFile();
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            Logger.log(ioe);
             return new File(name);
         }
     }
@@ -167,17 +168,17 @@ public final class Globals {
         try {
             return getResource(name).getCanonicalPath();
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            Logger.log(ioe);
             return name;
         }
     }
 
-    public static String getMyIP() {
-        return myIP;
+    public static String getClientIP() {
+        return clientIP;
     }
 
-    public static void setMyIP(String ip) {
-        myIP = ip;
+    public static void setClientIP(String ip) {
+        clientIP = ip;
     }
 
     public static void enableDebug() {
