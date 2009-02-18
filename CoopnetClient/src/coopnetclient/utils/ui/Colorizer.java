@@ -97,6 +97,9 @@ public class Colorizer {
     //Use this for Frames
     public static void colorize(Container root) {
 
+        if(root == null){
+            return;
+        }
         if (root instanceof JFrame) {
             JFrame frame = (JFrame) root;
             frame.setIconImage(Icons.coopnetNormalIcon.getImage());
