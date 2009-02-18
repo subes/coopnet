@@ -98,7 +98,6 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         lst_userList.setTransferHandler(new UserListFileDropHandler());
 
         tp_chatInput.addKeyListener(new ChatInputKeyListener(ChatInputKeyListener.ROOM_CHAT_MODE, roomData.getChannel()));
-        scrl_chatOutput.getTextPane().addMouseListener(new HyperlinkMouseListener());
 
         scrl_chatOutput.getTextPane().addKeyListener(new java.awt.event.KeyAdapter() {
 
