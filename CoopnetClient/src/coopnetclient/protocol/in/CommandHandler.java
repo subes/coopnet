@@ -18,9 +18,9 @@
  */
 package coopnetclient.protocol.in;
 
+import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.protocol.*;
-import coopnetclient.*;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.enums.LogTypes;
@@ -45,12 +45,12 @@ import javax.swing.JOptionPane;
 
 /**
  * Searches for known command, gets the parameters and executes it
- * 
  */
-public class CommandHandler {
+public final class CommandHandler {
 
     public static void execute(String[] data) {
         ServerProtocolCommands command = null;
+        ChannelPanel cp;
 
         //Answer heartbeat
         if (data[0].equals(Protocol.HEARTBEAT)) {
@@ -101,8 +101,10 @@ public class CommandHandler {
                 case OK_REGISTER:
                     TabOrganizer.closeRegisterPanel();
                     TabOrganizer.openLoginPanel();
-                    JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), "<html><b>Thank you for registering!</b>\n" +
-                            "You may login now.", "Successfully registered", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
+                            "<html><b>Thank you for registering!</b>\n" +
+                            "You may login now.", "Successfully registered",
+                            JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case LOGINNAME_IN_USE:
                     TabOrganizer.getRegisterPanel().showLoginNameUsedError();
@@ -121,6 +123,7 @@ public class CommandHandler {
                     Client.disconnect();
                     FrameOrganizer.getClientFrame().printSystemMessage("Server is shutting down!", true);
                     break;
+                default:break;
             }
         } else {//logged-in commands
             String currentChannelName = null; //current channelname , correct where its expected, garbage otherwise
@@ -168,10 +171,17 @@ public class CommandHandler {
                 case JOIN_CHANNEL:
                     GameDatabase.load(currentChannelName, GameDatabase.dataFilePath);
                     TabOrganizer.openChannelPanel(currentChannelName);
+                    cp = TabOrganizer.getChannelPanel(currentChannelName);
+                    for(int i = 1; i < information.length;++i){
+                        cp.addPlayerToChannel(information[i]);
+                    }
                     break;
                 case JOIN_ROOM:
                     RoomData rd = new RoomData(false, currentChannelName, Integer.valueOf(information[4]), information[1], information[2], Integer.valueOf(information[3]), information[5], information[6], Long.valueOf(information[7]), information[8], Boolean.valueOf(information[9]), false);
                     TabOrganizer.openRoomPanel(rd);
+                    for(int i = 10;i < information.length;++i){
+                        TabOrganizer.getRoomPanel().addmember(information[i]);
+                    }
                     break;
                 case MUTE_BAN_LIST:
                     int i = 0;
@@ -504,7 +514,6 @@ public class CommandHandler {
                     Globals.setClientIP(information[0]);
                     break;
                 case SETAWAYSTATUS:
-                    ChannelPanel cp;
                     for (int j = 0; (cp = TabOrganizer.getChannelPanel(j)) != null; ++j) {
                         cp.setAway(information[0]);
                     }
