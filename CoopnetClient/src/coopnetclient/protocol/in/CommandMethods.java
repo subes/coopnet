@@ -28,7 +28,7 @@ import coopnetclient.utils.Verification;
 
 public class CommandMethods {
     protected static void checkProtocolVersion(String version){
-        if(!Verification.verifyProtocolVersion(version)){
+        if(!Verification.verifyCompatibilityVersion(version)){
             Logger.log(LogTypes.LOG, "Protocol version mismatch detected!");
             Client.disconnect();
             TabOrganizer.openErrorPanel(ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH, null);

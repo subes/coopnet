@@ -1,7 +1,25 @@
+/*  Copyright 2007  Edwin Stang (edwinstang@gmail.com),
+ *                  Kovacs Zsolt (kovacs.zsolt.85@gmail.com)
+ *
+ *  This file is part of Coopnet.
+ *
+ *  Coopnet is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Coopnet is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package coopnetclient.utils;
 
 import coopnetclient.Globals;
-import coopnetclient.protocol.out.Protocol;
 import coopnetclient.test.AbstractCoopnetClientTest;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,26 +27,26 @@ import org.junit.Test;
 public class VerificationTest extends AbstractCoopnetClientTest {
 
     @Test
-    public void testVerifyProtocolVersion(){
+    public void testVerifyCompatibilityVersion(){
 
-        String protocolVersion = String.valueOf(Protocol.PROTOCOL_VERSION);
-        Assert.assertTrue(Verification.verifyProtocolVersion(protocolVersion));
+        String protocolVersion = String.valueOf(Globals.COMPATIBILITY_VERSION);
+        Assert.assertTrue(Verification.verifyCompatibilityVersion(protocolVersion));
 
-        protocolVersion = String.valueOf(Protocol.PROTOCOL_VERSION+1);
-        Assert.assertFalse(Verification.verifyProtocolVersion(protocolVersion));
+        protocolVersion = String.valueOf(Globals.COMPATIBILITY_VERSION+1);
+        Assert.assertFalse(Verification.verifyCompatibilityVersion(protocolVersion));
 
-        protocolVersion = String.valueOf(Protocol.PROTOCOL_VERSION-1);
-        Assert.assertFalse(Verification.verifyProtocolVersion(protocolVersion));
+        protocolVersion = String.valueOf(Globals.COMPATIBILITY_VERSION-1);
+        Assert.assertFalse(Verification.verifyCompatibilityVersion(protocolVersion));
 
         protocolVersion = "";
-        Assert.assertFalse(Verification.verifyProtocolVersion(protocolVersion));
+        Assert.assertFalse(Verification.verifyCompatibilityVersion(protocolVersion));
 
         //This tested method has to be nullsafe
         protocolVersion = null;
-        Assert.assertFalse(Verification.verifyProtocolVersion(protocolVersion));
+        Assert.assertFalse(Verification.verifyCompatibilityVersion(protocolVersion));
 
         protocolVersion = "notanumber";
-        Assert.assertFalse(Verification.verifyProtocolVersion(protocolVersion));
+        Assert.assertFalse(Verification.verifyCompatibilityVersion(protocolVersion));
     }
 
     @Test

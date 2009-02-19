@@ -41,7 +41,7 @@ public final class Verification {
     private Verification() {
     }
 
-    public static boolean verifyProtocolVersion(String version) {
+    public static boolean verifyCompatibilityVersion(String version) {
         try {
             int v = Integer.parseInt(version);
             if (v != Globals.COMPATIBILITY_VERSION) {
