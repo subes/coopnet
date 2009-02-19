@@ -307,7 +307,7 @@ public final class Client {
                         GameDatabase.load("", GameDatabase.dataFilePath);
                     }
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), 
+                    JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
                             "You have an outdated version of the gamedata, but couldn't update it!",
                             "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
                     ErrorHandler.handleException(e);
