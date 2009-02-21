@@ -38,9 +38,9 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lbl_filter" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="tf_filter" pref="260" max="32767" attributes="1"/>
+                      <Component id="tf_filter" pref="265" max="32767" attributes="1"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_reset" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -54,7 +54,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="tf_filter" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lbl_filter" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_reset" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="scrl_list" pref="294" max="32767" attributes="0"/>
@@ -82,9 +82,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tf_filter">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_filterActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btn_joinChannelButton">
       <Properties>
@@ -165,12 +162,12 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btn_reset">
       <Properties>
         <Property name="text" type="java.lang.String" value="Reset"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_resetActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

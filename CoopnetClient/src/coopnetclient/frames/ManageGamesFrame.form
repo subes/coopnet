@@ -31,7 +31,7 @@
               <Component id="btn_save" linkSize="3" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_cancel" linkSize="3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="501" max="32767" attributes="0"/>
+              <EmptySpace pref="529" max="32767" attributes="0"/>
           </Group>
           <Component id="jTabbedPane1" alignment="0" pref="647" max="32767" attributes="0"/>
       </Group>
@@ -73,12 +73,12 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lbl_filter" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="tf_filter" pref="433" max="32767" attributes="0"/>
+                              <Component id="tf_filter" pref="385" max="32767" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="cb_showInstalledOnly" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="scrl_games" alignment="0" pref="622" max="32767" attributes="1"/>
-                          <Component id="pnl_settings" alignment="1" pref="622" max="32767" attributes="0"/>
+                          <Component id="scrl_games" alignment="0" pref="619" max="32767" attributes="1"/>
+                          <Component id="pnl_settings" alignment="1" pref="619" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -131,9 +131,6 @@
                   <ComponentRef name="cb_showInstalledOnly"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tf_filterActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lbl_filter">
               <Properties>
@@ -385,7 +382,7 @@
                       <Component id="pnl_dosbox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="pnl_windowsenvironment" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="168" max="32767" attributes="0"/>
+                      <EmptySpace pref="160" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -413,7 +410,7 @@
                               </Group>
                               <Component id="lbl_dplayEnvNote" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="197" max="32767" attributes="0"/>
+                          <EmptySpace pref="131" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -476,7 +473,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="tf_dosboxExe" pref="410" max="32767" attributes="0"/>
+                                  <Component id="tf_dosboxExe" pref="395" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btn_browseDosboxExecutable" min="-2" max="-2" attributes="0"/>
                               </Group>

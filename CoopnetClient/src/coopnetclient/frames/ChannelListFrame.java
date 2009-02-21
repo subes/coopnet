@@ -42,6 +42,8 @@ import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -100,6 +102,23 @@ public class ChannelListFrame extends javax.swing.JFrame {
         getRootPane().getActionMap().put("close", act);
         InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
+
+        tf_filter.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                initData(false);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                initData(false);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            }
+        });
     }
 
     private void initData(boolean resetFilter){
@@ -147,7 +166,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
         btn_cancel = new javax.swing.JButton();
         scrl_list = new javax.swing.JScrollPane();
         tbl_list = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btn_reset = new javax.swing.JButton();
 
         setTitle("Join channel");
         setFocusable(false);
@@ -161,12 +180,6 @@ public class ChannelListFrame extends javax.swing.JFrame {
         lbl_filter.setLabelFor(tf_filter);
         lbl_filter.setText("Filter:");
         lbl_filter.setFocusable(false);
-
-        tf_filter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_filterActionPerformed(evt);
-            }
-        });
 
         btn_joinChannelButton.setText("Join selected channel");
         btn_joinChannelButton.setEnabled(false);
@@ -221,10 +234,10 @@ public class ChannelListFrame extends javax.swing.JFrame {
         tbl_list.getColumnModel().getColumn(0).setCellRenderer(new ChannelListFavouriteCellRenderer());
         tbl_list.getColumnModel().getColumn(2).setCellRenderer(new ChannelListInstalledCellRenderer());
 
-        jButton1.setText("Reset");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_reset.setText("Reset");
+        btn_reset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_resetActionPerformed(evt);
             }
         });
 
@@ -235,7 +248,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(scrl_list, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+                    .addComponent(scrl_list, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(btn_joinChannelButton)
                         .addGap(10, 10, 10)
@@ -243,9 +256,9 @@ public class ChannelListFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(btn_reset)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -255,7 +268,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tf_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_filter)
-                    .addComponent(jButton1))
+                    .addComponent(btn_reset))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrl_list, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -275,10 +288,6 @@ public class ChannelListFrame extends javax.swing.JFrame {
         FrameOrganizer.closeChannelListFrame();
 }//GEN-LAST:event_btn_joinChannelButtonActionPerformed
 
-    private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_filterActionPerformed
-        initData(false);
-}//GEN-LAST:event_tf_filterActionPerformed
-
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         FrameOrganizer.closeChannelListFrame();
 }//GEN-LAST:event_btn_cancelActionPerformed
@@ -295,14 +304,15 @@ private void tbl_listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:ev
     }
 }//GEN-LAST:event_tbl_listMouseClicked
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+private void btn_resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetActionPerformed
     initData(true);
-}//GEN-LAST:event_jButton1ActionPerformed
+    tf_filter.requestFocus();
+}//GEN-LAST:event_btn_resetActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_joinChannelButton;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btn_reset;
     private javax.swing.JLabel lbl_filter;
     private javax.swing.JScrollPane scrl_list;
     private javax.swing.JTable tbl_list;

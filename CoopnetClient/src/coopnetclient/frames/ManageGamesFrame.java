@@ -38,6 +38,8 @@ import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class ManageGamesFrame extends javax.swing.JFrame {
 
@@ -73,6 +75,23 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
         pack();
+
+        tf_filter.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filter();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filter();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            }
+        });
     }
 
     /**
@@ -173,11 +192,6 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         scrl_games.setViewportView(lst_games);
 
         tf_filter.setNextFocusableComponent(cb_showInstalledOnly);
-        tf_filter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tf_filterActionPerformed(evt);
-            }
-        });
 
         lbl_filter.setDisplayedMnemonic(KeyEvent.VK_F);
         lbl_filter.setLabelFor(tf_filter);
@@ -384,11 +398,11 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                     .addGroup(pnl_gamesLayout.createSequentialGroup()
                         .addComponent(lbl_filter)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+                        .addComponent(tf_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(cb_showInstalledOnly))
-                    .addComponent(scrl_games, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
-                    .addComponent(pnl_settings, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE))
+                    .addComponent(scrl_games, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+                    .addComponent(pnl_settings, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnl_gamesLayout.setVerticalGroup(
@@ -430,7 +444,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmb_winEnv, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lbl_dplayEnvNote))
-                .addContainerGap(197, Short.MAX_VALUE))
+                .addContainerGap(131, Short.MAX_VALUE))
         );
         pnl_windowsenvironmentLayout.setVerticalGroup(
             pnl_windowsenvironmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -466,7 +480,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                     .addGroup(pnl_dosboxLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tf_dosboxExe, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                        .addComponent(tf_dosboxExe, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_browseDosboxExecutable))
                     .addComponent(cb_dosboxFullscreen))
@@ -503,7 +517,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 .addComponent(pnl_dosbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnl_windowsenvironment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(168, Short.MAX_VALUE))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Environment", pnl_environment);
@@ -532,7 +546,7 @@ public class ManageGamesFrame extends javax.swing.JFrame {
                 .addComponent(btn_save)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addContainerGap(501, Short.MAX_VALUE))
+                .addContainerGap(529, Short.MAX_VALUE))
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
         );
 
@@ -634,25 +648,25 @@ public class ManageGamesFrame extends javax.swing.JFrame {
         }
 }//GEN-LAST:event_btn_browseInstallPathActionPerformed
 
-private void tf_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_filterActionPerformed
-    lst_games.removeAll();
-    channels.clear();
-    Vector<String> installedgames = GameDatabase.getInstalledGameNames();
-    String filter = tf_filter.getText();
-    for (String gameName : GameDatabase.getNonDPlayGameNames()) {
-        if (gameName.toLowerCase().contains(filter.toLowerCase())) {
-            if (cb_showInstalledOnly.isSelected()) {
-                if (installedgames.contains(gameName)) {
+    private void filter(){
+        lst_games.removeAll();
+        channels.clear();
+        Vector<String> installedgames = GameDatabase.getInstalledGameNames();
+        String filter = tf_filter.getText();
+        for (String gameName : GameDatabase.getNonDPlayGameNames()) {
+            if (gameName.toLowerCase().contains(filter.toLowerCase())) {
+                if (cb_showInstalledOnly.isSelected()) {
+                    if (installedgames.contains(gameName)) {
+                        channels.add(gameName);
+                    }
+                } else {
                     channels.add(gameName);
                 }
-            } else {
-                channels.add(gameName);
             }
         }
+        this.repaint();
+        lst_games.clearSelection();
     }
-    this.repaint();
-    lst_games.clearSelection();
-}//GEN-LAST:event_tf_filterActionPerformed
 
 private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
     FrameOrganizer.closeManageGamesFrame();
