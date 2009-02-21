@@ -263,32 +263,17 @@ public class ColoredChatHandler {
         Style defaultMessageStyle = doc.addStyle(defaultMessageStyleName, null);
 
         //highlight bg colors
-        if (Settings.getColorizeBody()) {
-            StyleConstants.setBackground(hl_otherNameStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_messageStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_hlinkStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_friendNameStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_friendMessageStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_whisperNameStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_whisperMessageStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_myNameStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
-        } else {
-            Color clr = null;
-            clr = (Color) UIManager.get("List.selectionBackground");
-            if (clr == null) {
-                clr = (Color) UIManager.get("List[Selected].textBackground");
-            }
-            if (clr != null) {
-                StyleConstants.setBackground(hl_otherNameStyle, clr);
-                StyleConstants.setBackground(hl_friendNameStyle, clr);
-                StyleConstants.setBackground(hl_friendMessageStyle, clr);
-                StyleConstants.setBackground(hl_messageStyle, clr);
-                StyleConstants.setBackground(hl_hlinkStyle, clr);
-                StyleConstants.setBackground(hl_whisperNameStyle, clr);
-                StyleConstants.setBackground(hl_whisperMessageStyle, clr);
-                StyleConstants.setBackground(hl_myNameStyle, clr);
-            }
-        }
+        Color highlightingColor = getHighlightingColor();
+
+        StyleConstants.setBackground(hl_otherNameStyle, highlightingColor);
+        StyleConstants.setBackground(hl_friendNameStyle, highlightingColor);
+        StyleConstants.setBackground(hl_friendMessageStyle, highlightingColor);
+        StyleConstants.setBackground(hl_messageStyle, highlightingColor);
+        StyleConstants.setBackground(hl_hlinkStyle, highlightingColor);
+        StyleConstants.setBackground(hl_whisperNameStyle, highlightingColor);
+        StyleConstants.setBackground(hl_whisperMessageStyle, highlightingColor);
+        StyleConstants.setBackground(hl_myNameStyle, highlightingColor);
+
         //init link style
         StyleConstants.setForeground(hlinkStyle, Color.BLUE);
         StyleConstants.setUnderline(hlinkStyle, true);
@@ -351,5 +336,26 @@ public class ColoredChatHandler {
                 }
             }
         }
+    }
+
+    private static Color getHighlightingColor(){
+        Color highlightingColor;
+
+        if (Settings.getColorizeBody()) {
+            highlightingColor = Settings.getSelectionColor();
+        } else {
+            highlightingColor = (Color) UIManager.get("List.selectionBackground");
+            if (highlightingColor == null) {
+                highlightingColor = (Color) UIManager.get("List[Selected].textBackground");
+            }
+        }
+
+        final int alpha = 100;
+
+        return new Color(
+                highlightingColor.getRed(),
+                highlightingColor.getGreen(),
+                highlightingColor.getBlue(),
+                alpha);
     }
 }
