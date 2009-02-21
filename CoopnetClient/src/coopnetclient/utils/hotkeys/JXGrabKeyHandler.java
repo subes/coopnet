@@ -30,8 +30,8 @@ import jxgrabkey.JXGrabKey;
 public class JXGrabKeyHandler extends HotkeyHandler implements HotkeyListenerDebugEnabled {
 
     public JXGrabKeyHandler() {
-        JXGrabKey.setDebugOutput(true);
         JXGrabKey.getInstance().addHotkeyListener(this);
+        JXGrabKey.setDebugOutput(true);
     }
 
     @Override
