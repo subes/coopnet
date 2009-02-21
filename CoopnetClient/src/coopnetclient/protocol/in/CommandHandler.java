@@ -180,7 +180,7 @@ public final class CommandHandler {
                     RoomData rd = new RoomData(false, currentChannelName, Integer.valueOf(information[4]), information[1], information[2], Integer.valueOf(information[3]), information[5], information[6], Long.valueOf(information[7]), information[8], Boolean.valueOf(information[9]), false);
                     TabOrganizer.openRoomPanel(rd);
                     for(int i = 10;i < information.length;++i){
-                        TabOrganizer.getRoomPanel().addmember(information[i]);
+                        TabOrganizer.getRoomPanel().addMember(information[i]);
                     }
                     break;
                 case MUTE_BAN_LIST:
@@ -246,7 +246,7 @@ public final class CommandHandler {
                     break;
                 case ADD_MEMBER_TO_ROOM:
                     if (TabOrganizer.getRoomPanel() != null) {
-                        TabOrganizer.getRoomPanel().addmember(information[0]);
+                        TabOrganizer.getRoomPanel().addMember(information[0]);
                         if (Settings.getLogUserActivity() && !Globals.getThisPlayerLoginName().equals(information[0])) {
                             TabOrganizer.getRoomPanel().chat("", information[0] + " has entered the room.", ChatStyles.SYSTEM);
                         }
