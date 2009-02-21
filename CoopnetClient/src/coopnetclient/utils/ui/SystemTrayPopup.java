@@ -62,6 +62,7 @@ public class SystemTrayPopup extends PopupMenu implements ActionListener, ItemLi
             Client.quit(true);
         }else if (e.getSource().equals(mi_show)){
             FrameOrganizer.getClientFrame().setVisible(true);
+            FrameOrganizer.getClientFrame().requestFocus();
         }
     }
 

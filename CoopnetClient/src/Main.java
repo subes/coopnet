@@ -21,6 +21,8 @@ import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.ipc.IPC;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.settings.SettingsHelper;
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +41,9 @@ public final class Main {
     private static final String HELP = "help";
     private static final String SAFEMODE = "safemode";
     private static final String SERVER = "server";
+    private static final String MULTIPLE_INSTANCES = "multipleInstances";
+
+    private static boolean multipleInstances;
 
     private Main() {
     }
@@ -61,11 +66,35 @@ public final class Main {
         checkArgs(args);
         Globals.init();
 
-        Logger.log(LogTypes.LOG, "Starting ...");
+        if(!multipleInstances){
+            doIPC();
+        }
+
+        Logger.log("Starting ...");
 
         cleanUpdater();
 
         Client.startup();
+    }
+
+    private static void doIPC(){
+        try{
+            if(IPC.isAnotherInstanceAlreadyRunning()){
+                //CHECKSTYLE:OFF
+                System.out.println("Found another instance running, exiting.");
+                //CHECKSTYLE:ON
+                IPC.showClientFrameOfRunningInstance();
+                System.exit(0);
+            }else{
+                try {
+                    IPC.registerAsRunningInstance();
+                } catch (Exception e){
+                    Logger.log(e);
+                }
+            }
+        }catch(Exception e){
+            Logger.log(e);
+        }
     }
 
     private static void checkArgs(String[] args) {
@@ -92,6 +121,9 @@ public final class Main {
             if(cmd.hasOption(DEBUG)){
                 Globals.enableDebug();
             }
+            if(cmd.hasOption(MULTIPLE_INSTANCES)){
+                multipleInstances = true;
+            }
         } catch (ParseException ex) {
             //CHECKSTYLE:OFF
             System.err.println( "Parsing failed. Reason: " + ex.getMessage() );
@@ -112,17 +144,25 @@ public final class Main {
         Option server = OptionBuilder.withDescription("ip and port of the server to connect to (e.g. 127.0.0.1:6667)")
                 .hasArg()
                 .withArgName("ip:port")
-                .create(SERVER);
+                .withLongOpt(SERVER)
+                .create("s");
 
         Option debug = OptionBuilder.withDescription("print debug messages during operation")
-                .create(DEBUG);
+                .withLongOpt(DEBUG)
+                .create("d");
 
         Option help = OptionBuilder.withDescription("print this message")
-                .create(HELP);
+                .withLongOpt(HELP)
+                .create("h");
+
+        Option multiple = OptionBuilder.withDescription("allow multiple instances")
+                .withLongOpt(MULTIPLE_INSTANCES)
+                .create("m");
 
         options.addOption(safemode);
         options.addOption(server);
         options.addOption(debug);
+        options.addOption(multiple);
         options.addOption(help);
 
         return options;
