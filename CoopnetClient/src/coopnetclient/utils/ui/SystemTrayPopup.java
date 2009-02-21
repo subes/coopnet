@@ -19,35 +19,57 @@
 package coopnetclient.utils.ui;
 
 import coopnetclient.Client;
+import coopnetclient.Globals;
 import coopnetclient.frames.FrameOrganizer;
+import coopnetclient.utils.settings.Settings;
+import java.awt.CheckboxMenuItem;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-public class SystemTrayPopup extends PopupMenu {
+public class SystemTrayPopup extends PopupMenu implements ActionListener, ItemListener {
 
-    private static ActionListener exitListener = new ActionListener() {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Client.quit(true);
-        }
-    };
-    private static ActionListener showListener = new ActionListener() {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            FrameOrganizer.getClientFrame().setVisible(true);
-        }
-    };
+    private MenuItem mi_show;
+    private MenuItem mi_quit;
+    private CheckboxMenuItem mi_sounds;
 
     public SystemTrayPopup() {
-        MenuItem mi_next = new MenuItem("Show Client-frame");
-        MenuItem mi_exit = new MenuItem("Exit");
-        mi_exit.addActionListener(exitListener);
-        mi_next.addActionListener(showListener);
-        add(mi_next);
-        add(mi_exit);
+        mi_show = new MenuItem("Show main frame");
+        mi_sounds = new CheckboxMenuItem("Sounds");
+        mi_quit = new MenuItem("Quit");
+        mi_quit.addActionListener(this);
+        mi_sounds.addItemListener(this);
+        mi_show.addActionListener(this);
+        add(mi_show);
+        addSeparator();
+        add(mi_sounds);
+        addSeparator();
+        add(mi_quit);
+
+        updateSettings();
+    }
+
+    public void updateSettings(){
+        mi_sounds.setState(Settings.getSoundEnabled());
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource().equals(mi_quit)){
+            Client.quit(true);
+        }else if (e.getSource().equals(mi_show)){
+            FrameOrganizer.getClientFrame().setVisible(true);
+        }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if(e.getSource().equals(mi_sounds)){
+            Settings.setSoundEnabled(mi_sounds.getState());
+            Globals.updateSettings();
+        }
     }
 }

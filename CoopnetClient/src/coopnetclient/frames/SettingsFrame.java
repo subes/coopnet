@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames;
 
 import coopnetclient.utils.filechooser.FileChooser;
@@ -51,10 +50,13 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 //TODO read and save setting for hotkeys!
-
 public class SettingsFrame extends javax.swing.JFrame {
+
+    private static final String CLOSE = "close";
+    private static final String INVALID_DIRECTORY = "Invalid directory!";
 
     /** Creates new form OptionsFrame */
     public SettingsFrame() {
@@ -68,37 +70,37 @@ public class SettingsFrame extends javax.swing.JFrame {
                 btn_close.doClick();
             }
         };
-        getRootPane().getActionMap().put("close", act);
+        getRootPane().getActionMap().put(CLOSE, act);
         InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), CLOSE);
 
         List gamenames = Arrays.asList(GameDatabase.getAllGameNames());
         Collections.sort(gamenames);
         cmb_homeChannel.setModel(new DefaultComboBoxModel(gamenames.toArray()));
         cmb_homeChannel.insertItemAt("", 0);
-        
+
         addKeyGrabberUnfocusMouseListener();
         tf_launchKey.setKey(Settings.getLaunchHotKey(), Settings.getLaunchHotKeyMask());
 
         //FILL IN FIELDS
         cmb_homeChannel.setSelectedItem(coopnetclient.utils.settings.Settings.getHomeChannel());
-        
-        cmb_QuickPanelPosition.setSelectedIndex( Settings.getQuickPanelPostionisLeft() ?0:1);
+
+        cmb_QuickPanelPosition.setSelectedIndex(Settings.getQuickPanelPostionisLeft() ? 0 : 1);
         spn_DividerWidth.setValue(Settings.getQuickPanelDividerWidth());
         spn_ToggleButtonWidth.setValue(Settings.getQuickPanelToggleBarWidth());
-        
+
         cb_TextNotification.setSelected(Settings.getContactStatusChangeTextNotification());
         cb_SoundNotification.setSelected(Settings.getContactStatusChangeSoundNotification());
-                
-        tf_transferPort.setText(coopnetclient.utils.settings.Settings.getFiletTansferPort()+"");
-        
-        if(coopnetclient.utils.settings.Settings.getAutoLogin()){
+
+        tf_transferPort.setText(coopnetclient.utils.settings.Settings.getFiletTansferPort() + "");
+
+        if (coopnetclient.utils.settings.Settings.getAutoLogin()) {
             cb_autoLogin.setSelected(true);
-        }else{
+        } else {
             cb_autoLogin.setSelected(false);
             cb_autoLogin.setToolTipText("Autologin can only be enabled on login!");
         }
-        
+
         cb_timeStamps.setSelected(coopnetclient.utils.settings.Settings.getTimeStampEnabled());
 
         tf_receiveDir.setText(coopnetclient.utils.settings.Settings.getRecieveDestination());
@@ -107,31 +109,30 @@ public class SettingsFrame extends javax.swing.JFrame {
 
         cb_sounds.setSelected(coopnetclient.utils.settings.Settings.getSoundEnabled());
         cb_sleepMode.setSelected(coopnetclient.utils.settings.Settings.getSleepEnabled());
-        if(SystemTray.isSupported()){
+        if (SystemTray.isSupported()) {
             cb_TrayIconEnabled.setSelected(coopnetclient.utils.settings.Settings.getTrayIconEnabled());
-        }
-        else{
+        } else {
             cb_TrayIconEnabled.setVisible(false);
         }
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        String fontNames[] = ge.getAvailableFontFamilyNames();
-        cmb_playerNamesType.setModel(new javax.swing.DefaultComboBoxModel(fontNames));
-        cmb_playerMessagesType.setModel(new javax.swing.DefaultComboBoxModel(fontNames));
+        String[] fontNames = ge.getAvailableFontFamilyNames();
+        cmb_playerNamesType.setModel(new DefaultComboBoxModel(fontNames));
+        cmb_playerMessagesType.setModel(new DefaultComboBoxModel(fontNames));
 
         tf_playerNamesSize.setText(String.valueOf(coopnetclient.utils.settings.Settings.getNameSize()));
         cmb_playerNamesType.setSelectedItem(coopnetclient.utils.settings.Settings.getNameStyle());
         tf_playerMessagesSize.setText(String.valueOf(coopnetclient.utils.settings.Settings.getMessageSize()));
         cmb_playerMessagesType.setSelectedItem(coopnetclient.utils.settings.Settings.getMessageStyle());
-       
-        UIManager.LookAndFeelInfo infos[] = UIManager.getInstalledLookAndFeels();
-        String styles[] = new String[infos.length];
-        for(int i = 0; i < infos.length; i++){
+
+        LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
+        String[] styles = new String[infos.length];
+        for (int i = 0; i < infos.length; i++) {
             styles[i] = infos[i].getName();
         }
         cmb_style.setModel(new javax.swing.DefaultComboBoxModel(styles));
         cmb_style.setSelectedItem(Settings.getSelectedLookAndFeel());
         cb_nativeStyle.setSelected(Settings.getUseNativeLookAndFeel());
-        
+
         //add action listener to color buttons
         colorizeColorButtons();
         btn_background.addActionListener(new ColorChooserButtonActionListener(btn_background));
@@ -146,7 +147,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         btn_contactMessages.addActionListener(new ColorChooserButtonActionListener(btn_contactMessages));
 
         cb_showOfflineContacts.setSelected(Settings.getShowOfflineContacts());
-        
+
         cb_multiChannel.setSelected(Settings.getMultiChannel());
 
         cb_rememberMainFrameSize.setSelected(Settings.getRememberMainFrameSize());
@@ -162,8 +163,8 @@ public class SettingsFrame extends javax.swing.JFrame {
     public void customCodeForColoring() {
         colorizeColorButtons();
     }
-    
-    private void colorizeColorButtons(){
+
+    private void colorizeColorButtons() {
         btn_background.setForeground(coopnetclient.utils.settings.Settings.getBackgroundColor());
         btn_foreground.setForeground(coopnetclient.utils.settings.Settings.getForegroundColor());
         btn_yourUsername.setForeground(coopnetclient.utils.settings.Settings.getYourUsernameColor());
@@ -1085,9 +1086,9 @@ public class SettingsFrame extends javax.swing.JFrame {
 
             @Override
             public void run() {
-                try{
+                try {
                     File inputfile = null;
-                    FileChooser mfc =new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
+                    FileChooser mfc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
                     int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
                     if (returnVal == FileChooser.SELECT_ACTION) {
@@ -1096,7 +1097,7 @@ public class SettingsFrame extends javax.swing.JFrame {
                             tf_receiveDir.setText(inputfile.getPath());
                         }
                     }
-                }catch(Exception e){
+                } catch (Exception e) {
                     ErrorHandler.handleException(e);
                 }
             }
@@ -1104,7 +1105,7 @@ public class SettingsFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_browseReceiveDirActionPerformed
 
     //Enables or disables the corresponding buttons of Text Colors
-    private void toggleItemsOf_cb_ColorizeText(){
+    private void toggleItemsOf_cb_ColorizeText() {
         btn_yourUsername.setEnabled(cb_colorizeText.isSelected());
         btn_otherUsernames.setEnabled(cb_colorizeText.isSelected());
         btn_userMessages.setEnabled(cb_colorizeText.isSelected());
@@ -1118,7 +1119,7 @@ private void cb_colorizeTextActionPerformed(java.awt.event.ActionEvent evt) {//G
     toggleItemsOf_cb_ColorizeText();
 }//GEN-LAST:event_cb_colorizeTextActionPerformed
 
-    private void toggleItemsOf_cb_ColorizeBody(){
+    private void toggleItemsOf_cb_ColorizeBody() {
         btn_foreground.setEnabled(cb_colorizeBody.isSelected());
         btn_background.setEnabled(cb_colorizeBody.isSelected());
         btn_selection.setEnabled(cb_colorizeBody.isSelected());
@@ -1128,56 +1129,65 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
     toggleItemsOf_cb_ColorizeBody();
 }//GEN-LAST:event_cb_colorizeBodyActionPerformed
 
-    private void toggleItemsOf_cb_NativeStyle(){
-        if(cb_nativeStyle.isSelected() == true){
+    private void toggleItemsOf_cb_NativeStyle() {
+        if (cb_nativeStyle.isSelected()) {
             cb_colorizeBody.setSelected(false);
             toggleItemsOf_cb_ColorizeBody();
 
             //Set selection to current LAF
-            UIManager.LookAndFeelInfo infos[] = UIManager.getInstalledLookAndFeels();
-            for(int i = 0; i < infos.length; i++){
-                if(UIManager.getSystemLookAndFeelClassName().equals(infos[i].getClassName())){
+            UIManager.LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
+            for (int i = 0; i < infos.length; i++) {
+                if (UIManager.getSystemLookAndFeelClassName().equals(infos[i].getClassName())) {
                     cmb_style.setSelectedItem(infos[i].getName());
                 }
             }
-        }else{
+        } else {
             //Set selection to current LAF
-            UIManager.LookAndFeelInfo infos[] = UIManager.getInstalledLookAndFeels();
-            for(int i = 0; i < infos.length; i++){
-                if(UIManager.getLookAndFeel().getClass().getName().equals(infos[i].getClassName())){
+            UIManager.LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
+            for (int i = 0; i < infos.length; i++) {
+                if (UIManager.getLookAndFeel().getClass().getName().equals(infos[i].getClassName())) {
                     cmb_style.setSelectedItem(infos[i].getName());
                 }
             }
         }
 
         cmb_style.setEnabled(!cb_nativeStyle.isSelected());
-        if(Colorizer.getCurrentLAFisSupportedForColoring()){
+        if (Colorizer.getCurrentLAFisSupportedForColoring()) {
             cb_colorizeBody.setEnabled(!cb_nativeStyle.isSelected());
-        }else{
+        } else {
             cb_colorizeBody.setEnabled(false);
         }
     }
-    
-    private void addKeyGrabberUnfocusMouseListener(){
+
+    private void addKeyGrabberUnfocusMouseListener() {
         MouseListener ml = new MouseListener() {
+
             @Override
-            public void mouseClicked(MouseEvent e) {}
+            public void mouseClicked(MouseEvent e) {
+            }
+
             @Override
             public void mousePressed(MouseEvent e) {
-                if(getFocusOwner() instanceof KeyGrabberTextField){
+                if (getFocusOwner() instanceof KeyGrabberTextField) {
                     Component owner = getFocusOwner();
                     owner.setFocusable(false);
                     owner.setFocusable(true);
                 }
             }
+
             @Override
-            public void mouseReleased(MouseEvent e) {}
+            public void mouseReleased(MouseEvent e) {
+            }
+
             @Override
-            public void mouseEntered(MouseEvent e) {}
+            public void mouseEntered(MouseEvent e) {
+            }
+
             @Override
-            public void mouseExited(MouseEvent e) {}
+            public void mouseExited(MouseEvent e) {
+            }
         };
-        
+
         this.addMouseListener(ml);
         pnl_hotkeys.addMouseListener(ml);
         tabpn_settings.addMouseListener(ml);
@@ -1194,34 +1204,29 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             Settings.setQuickPanelPostionisLeft(cmb_QuickPanelPosition.getSelectedIndex() == 0);
             Settings.setQuickPanelDividerWidth(Integer.valueOf(spn_DividerWidth.getValue().toString()));
             Settings.setQuickPanelToggleBarWidth(Integer.valueOf(spn_ToggleButtonWidth.getValue().toString()));
-            
+
             Settings.setContactStatusChangeTextNotification(cb_TextNotification.isSelected());
             Settings.setContactStatusChangeSoundNotification(cb_SoundNotification.isSelected());
 
-            if(cb_autoLogin.isSelected()){
+            if (cb_autoLogin.isSelected()) {
                 Settings.setAutoLogin(true);
-            }else{
+            } else {
                 Settings.setAutoLogin(false);
                 Settings.setLastLoginPassword("");
             }
 
             Settings.setSoundEnabled(cb_sounds.isSelected());
             Settings.setTrayIconEnabled(cb_TrayIconEnabled.isSelected());
-            if(cb_TrayIconEnabled.isSelected()){
-                FrameOrganizer.addTrayIcon();
-            }else{
-                FrameOrganizer.removeTrayIcon();
-            }
             Settings.setTimeStampEnabled(cb_timeStamps.isSelected());
 
-            if (cb_sleepMode.isSelected() != coopnetclient.utils.settings.Settings.getSleepEnabled()) {
+            if (cb_sleepMode.isSelected() != Settings.getSleepEnabled()) {
                 Settings.setSleepenabled(cb_sleepMode.isSelected());
                 Protocol.setSleep(cb_sleepMode.isSelected());
             }
             Settings.setRecieveDestination(tf_receiveDir.getText());
             Settings.setHomeChannel(cmb_homeChannel.getSelectedItem().toString());
             Settings.setFiletTansferPort(new Integer(tf_transferPort.getText()));
-            
+
             //Colors
             Settings.setBackgroundColor(btn_background.getForeground());
             Settings.setForegroundColor(btn_foreground.getForeground());
@@ -1234,13 +1239,13 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             Settings.setWhisperMessageColor(btn_whisperMessages.getForeground());
             Settings.setUserMessageColor(btn_userMessages.getForeground());
             Settings.setSelectionColor(btn_selection.getForeground());
-            
-            Settings.setSelectedLookAndFeel((String)cmb_style.getSelectedItem());
+
+            Settings.setSelectedLookAndFeel((String) cmb_style.getSelectedItem());
             Settings.setUseNativeLookAndFeel(cb_nativeStyle.isSelected());
-            
-            if(Colorizer.getLAFisSupportedForColoring(cmb_style.getSelectedItem().toString())){
+
+            if (Colorizer.getLAFisSupportedForColoring(cmb_style.getSelectedItem().toString())) {
                 Settings.setColorizeBody(cb_colorizeBody.isSelected());
-            }else{
+            } else {
                 Settings.setColorizeBody(false);
             }
             Settings.setColorizeText(cb_colorizeText.isSelected());
@@ -1249,23 +1254,20 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             Settings.setNameSize(Integer.parseInt(tf_playerNamesSize.getText()));
             Settings.setMessageStyle(cmb_playerMessagesType.getSelectedItem().toString());
             Settings.setMessageSize(Integer.parseInt(tf_playerMessagesSize.getText()));
-            
+
             Settings.setShowOfflineContacts(cb_showOfflineContacts.isSelected());
-            
+
             Settings.setMultiChannel(cb_multiChannel.isSelected());
-            if(!cb_multiChannel.isSelected()){
-                TabOrganizer.closeAllButLastChannelPanel();
-            }
-            
-            FrameOrganizer.getClientFrame().updateMenu();
-            if( TabOrganizer.getRoomPanel()!= null && TabOrganizer.getRoomPanel().isHost() ){
-                Hotkeys.reBindHotKey(Hotkeys.ACTION_LAUNCH);
-            }
 
             Settings.setRememberMainFrameSize(cb_rememberMainFrameSize.isSelected());
             Settings.setLogUserActivity(cb_logActivity.isSelected());
+
+            Globals.updateSettings();
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(), "Please verify that you have entered valid information!\nFor example:\n  Serverport and textsizes need to be non-decimal numbers.", "Wrong input", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
+                    "Please verify that you have entered valid information!" +
+                    "\nFor example:\n  Serverport and textsizes need to be non-decimal numbers.",
+                    "Wrong input", JOptionPane.ERROR_MESSAGE);
             error = true;
         }
 
@@ -1274,17 +1276,17 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
 
                 @Override
                 public void run() {
-                    try{
+                    try {
                         Colorizer.initColors();
                         FrameOrganizer.recolorFrames();
                         TabOrganizer.updateStyle();
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         ErrorHandler.handleException(e);
                     }
                 }
             });
         }
-        
+
         requestFocus(); //somehow clientframe steals focus
     }
 
@@ -1297,31 +1299,43 @@ private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:even
 }//GEN-LAST:event_formWindowClosing
 
 private void tf_receiveDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_receiveDirActionPerformed
-    if(!Verification.verifyDirectory(tf_receiveDir.getText())){
-        tf_receiveDir.showErrorMessage("Invalid directory!");
+    if (!Verification.verifyDirectory(tf_receiveDir.getText())) {
+        tf_receiveDir.showErrorMessage(INVALID_DIRECTORY);
     }
 }//GEN-LAST:event_tf_receiveDirActionPerformed
 
 private void tf_receiveDirFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tf_receiveDirFocusLost
-    if(!Verification.verifyDirectory(tf_receiveDir.getText())){
-        tf_receiveDir.showErrorMessage("Invalid directory!");
+    if (!Verification.verifyDirectory(tf_receiveDir.getText())) {
+        tf_receiveDir.showErrorMessage(INVALID_DIRECTORY);
     }
 }//GEN-LAST:event_tf_receiveDirFocusLost
 
 private void cmb_playerNamesTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_playerNamesTypeActionPerformed
-    lbl_preview_username.setFont(new Font(cmb_playerNamesType.getSelectedItem().toString(), Font.PLAIN, Integer.valueOf(tf_playerNamesSize.getText())));
+    lbl_preview_username.setFont(new Font(
+            cmb_playerNamesType.getSelectedItem().toString(),
+            Font.PLAIN,
+            Integer.valueOf(tf_playerNamesSize.getText())));
 }//GEN-LAST:event_cmb_playerNamesTypeActionPerformed
 
 private void tf_playerNamesSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_playerNamesSizeActionPerformed
-    lbl_preview_username.setFont(new Font(cmb_playerNamesType.getSelectedItem().toString(), Font.PLAIN, Integer.valueOf(tf_playerNamesSize.getText())));
+    lbl_preview_username.setFont(new Font(
+            cmb_playerNamesType.getSelectedItem().toString(),
+            Font.PLAIN,
+            Integer.valueOf(tf_playerNamesSize.getText())));
 }//GEN-LAST:event_tf_playerNamesSizeActionPerformed
 
 private void cmb_playerMessagesTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_playerMessagesTypeActionPerformed
-    lbl_preview_messagetext.setFont(new Font(cmb_playerMessagesType.getSelectedItem().toString(), Font.PLAIN, Integer.valueOf(tf_playerMessagesSize.getText())));
+    lbl_preview_messagetext.setFont(new Font(
+            cmb_playerMessagesType.getSelectedItem().toString(),
+            Font.PLAIN,
+            Integer.valueOf(tf_playerMessagesSize.getText())));
 }//GEN-LAST:event_cmb_playerMessagesTypeActionPerformed
 
 private void tf_playerMessagesSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_playerMessagesSizeActionPerformed
-    lbl_preview_messagetext.setFont(new Font(cmb_playerMessagesType.getSelectedItem().toString(), Font.PLAIN, Integer.valueOf(tf_playerMessagesSize.getText())));
+    lbl_preview_messagetext.setFont(new Font(
+            cmb_playerMessagesType.getSelectedItem().toString(),
+            Font.PLAIN,
+            Integer.valueOf(tf_playerMessagesSize.getText())));
 }//GEN-LAST:event_tf_playerMessagesSizeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1410,6 +1424,5 @@ private void tf_playerMessagesSizeActionPerformed(java.awt.event.ActionEvent evt
     private coopnetclient.frames.components.ValidatorJTextField tf_receiveDir;
     private javax.swing.JTextField tf_transferPort;
     // End of variables declaration//GEN-END:variables
-
 }
 

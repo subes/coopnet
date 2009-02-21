@@ -47,7 +47,7 @@ import passwordencrypter.PasswordEncrypter;
 public final class Settings {
 
     private final static String lastValidServerIP = "LastValidServerIP";
-    private final static String def_lastValidServerIP = "subes.dyndns.org";
+    private final static String def_lastValidServerIP = "80.190.240.58";
     private final static String lastValidServerPort = "LastValidServerPort";
     private final static int def_lastValidServerPort = 6667;
     private final static String recieveDest = "FileDestination";

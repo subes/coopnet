@@ -69,6 +69,18 @@ public final class TabOrganizer {
         TabOrganizer.tabHolder = tabHolder;
     }
 
+    public static void updateSettings(){
+        if (!Settings.getMultiChannel()) {
+            TabOrganizer.closeAllButLastChannelPanel();
+        }
+
+        if (Settings.getTrayIconEnabled()) {
+            FrameOrganizer.addTrayIcon();
+        } else {
+            FrameOrganizer.removeTrayIcon();
+        }
+    }
+
     public static void openChannelPanel(String channelname) {
 
         int index = -1;

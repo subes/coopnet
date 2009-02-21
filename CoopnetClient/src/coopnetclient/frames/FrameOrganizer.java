@@ -50,9 +50,18 @@ public final class FrameOrganizer {
     private static MuteBanListFrame muteBanTableFrame;
     private static SystemTray tray;
     private static TrayIcon trayIcon;
+    private static SystemTrayPopup trayPopup;
     private static boolean trayAdded;
 
     private FrameOrganizer() {
+    }
+
+    public static void updateSettings(){
+        getClientFrame().updateSettings();
+
+        if (trayPopup != null){
+            trayPopup.updateSettings();
+        }
     }
 
     public static void init() {
@@ -60,7 +69,8 @@ public final class FrameOrganizer {
         if (SystemTray.isSupported()) {
             tray = SystemTray.getSystemTray();
 
-            trayIcon = new TrayIcon(Icons.coopnetNormalIcon.getImage(), "CoopnetClient", new SystemTrayPopup());
+            trayPopup = new SystemTrayPopup();
+            trayIcon = new TrayIcon(Icons.coopnetNormalIcon.getImage(), "CoopnetClient", trayPopup);
             trayIcon.setImageAutoSize(true);
             trayIcon.addMouseListener(
                 new java.awt.event.MouseAdapter() {

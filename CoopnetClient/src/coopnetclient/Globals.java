@@ -27,6 +27,7 @@ import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.settings.Favourites;
 import coopnetclient.utils.settings.SettingsHelper;
@@ -40,29 +41,26 @@ public final class Globals {
     public static final String CLIENT_VERSION = "0.102.0";
     //Increment this, when changes to the protocol commands have been done
     public static final int COMPATIBILITY_VERSION = 5;
-
     private static OperatingSystems operatingSystem;
     private static String lastOpenedDir;
     private static String wineCommand;
     private static String lastRoomName = "My room, come and play!";
-
     private static boolean debug;
     private static boolean connectionStatus;
     private static boolean loggedInStatus;
     private static boolean sleepModeStatus;
-
     private static String thisPlayerLoginName;
     private static String thisPlayerInGameName;
     private static String serverIP;
     private static int serverPort;
-
     private static ContactListModel contactList = new ContactListModel();
     private static String clientIP;
     private static String currentPath = "";
     private static TransferTableModel transferModel = new TransferTableModel();
     private static ArrayList<String> higlightList = new ArrayList<String>();
 
-    private Globals(){}
+    private Globals() {
+    }
 
     /**
      * @return the lastRoomName
@@ -77,24 +75,23 @@ public final class Globals {
     public static void setLastRoomName(String theLastRoomName) {
         lastRoomName = theLastRoomName;
     }
-    /*******************************************************************/
 
-    public static void detectOperatingSystem(){
+    /*******************************************************************/
+    public static void detectOperatingSystem() {
         final String lineSeperator = System.getProperty("line.separator");
 
         if (lineSeperator.equals("\r\n")) {
             operatingSystem = OperatingSystems.WINDOWS;
-        }else{
-            if(lineSeperator.equals("\r")){
+        } else {
+            if (lineSeperator.equals("\r")) {
                 //MacOS, currently treated as Linux coz unsupported
                 operatingSystem = OperatingSystems.LINUX;
-            }else{
+            } else {
                 operatingSystem = OperatingSystems.LINUX;
             }
         }
 
-        Logger.log(LogTypes.LOG, "Operating System is "+operatingSystem.toString()
-                +" ("+System.getProperty("os.name")+")");
+        Logger.log(LogTypes.LOG, "Operating System is " + operatingSystem.toString() + " (" + System.getProperty("os.name") + ")");
 
         if (operatingSystem == OperatingSystems.WINDOWS) {
             lastOpenedDir = System.getenv("USERPROFILE");
@@ -103,7 +100,7 @@ public final class Globals {
         }
     }
 
-    public static void init(){
+    public static void init() {
         try {
             currentPath = Client.getCurrentDirectory().getCanonicalPath();
         } catch (Exception ex) {
@@ -116,46 +113,46 @@ public final class Globals {
         Favourites.init();
 
         //Set debug - do not disable again
-        if(!debug){
+        if (!debug) {
             debug = Settings.getDebugMode();
         }
 
         wineCommand = Settings.getWineCommand();
 
         FrameOrganizer.init();
-        
+
     }
 
-    public static boolean isHighlighted(String userName){
+    public static boolean isHighlighted(String userName) {
         return higlightList.contains(userName);
     }
 
-    public static void setHighlightOn(String userName){
-        if(!higlightList.contains(userName)){
+    public static void setHighlightOn(String userName) {
+        if (!higlightList.contains(userName)) {
             higlightList.add(userName);
             TabOrganizer.updateHighlights();
         }
     }
 
-    public static void unSetHighlightOn(String userName){
+    public static void unSetHighlightOn(String userName) {
         higlightList.remove(userName);
         TabOrganizer.updateHighlights();
     }
 
-    public static void clearHighlights(){
+    public static void clearHighlights() {
         higlightList.clear();
         TabOrganizer.updateHighlights();
     }
 
-    public static ArrayList<String> getHighlightList(){
+    public static ArrayList<String> getHighlightList() {
         return higlightList;
     }
 
-    public static String getWineCommand(){
+    public static String getWineCommand() {
         return wineCommand;
     }
 
-    public static TransferTableModel getTransferModel(){
+    public static TransferTableModel getTransferModel() {
         return transferModel;
     }
 
@@ -230,9 +227,10 @@ public final class Globals {
 
     public static void setThisPlayerInGameName(String value) {
         thisPlayerInGameName = value;
-        new Thread(){
+        new Thread() {
+
             @Override
-            public void run(){
+            public void run() {
                 Launcher.updatePlayerName();
             }
         }.start();
@@ -281,4 +279,12 @@ public final class Globals {
         return lastOpenedDir;
     }
 
+    public static void updateSettings() {
+        if (TabOrganizer.getRoomPanel() != null && TabOrganizer.getRoomPanel().isHost()) {
+            Hotkeys.reBindHotKey(Hotkeys.ACTION_LAUNCH);
+        }
+
+        FrameOrganizer.updateSettings();
+        TabOrganizer.updateSettings();
+    }
 }
