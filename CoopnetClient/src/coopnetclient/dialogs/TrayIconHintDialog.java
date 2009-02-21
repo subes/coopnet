@@ -17,24 +17,20 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * TrayIconHintDialog.java
- *
- * Created on 21.02.2009, 12:53:55
- */
-
 package coopnetclient.dialogs;
 
-/**
- *
- * @author subes
- */
+import coopnetclient.utils.settings.Settings;
+import coopnetclient.utils.ui.Colorizer;
+
 public class TrayIconHintDialog extends javax.swing.JDialog {
 
     /** Creates new form TrayIconHintDialog */
     public TrayIconHintDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        Colorizer.colorize(this);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     /** This method is called from within the constructor to
@@ -50,12 +46,16 @@ public class TrayIconHintDialog extends javax.swing.JDialog {
         cb_dontShowNextTime = new javax.swing.JCheckBox();
         btn_ok = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Minimizing to tray");
+        setTitle("CoopnetClient minimizing to tray");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
-        lbl_hint.setText("<html>The Coopnet tray icon is enabled, so closing minimizes to tray.<br>The tray icon can be disabled in the settings frame.");
+        lbl_hint.setText("<html>The Coopnet tray icon is enabled, so closing the main frame minimizes it to tray.<br>The tray icon can be disabled in the settings frame.");
 
-        cb_dontShowNextTime.setText("Don't show this hint next time");
+        cb_dontShowNextTime.setText("Don't show again");
 
         btn_ok.setText("Ok");
         btn_ok.addActionListener(new java.awt.event.ActionListener() {
@@ -69,13 +69,16 @@ public class TrayIconHintDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_hint)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btn_ok)
-                        .addComponent(cb_dontShowNextTime)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_hint)
+                            .addComponent(cb_dontShowNextTime)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(183, 183, 183)
+                        .addComponent(btn_ok)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,34 +87,26 @@ public class TrayIconHintDialog extends javax.swing.JDialog {
                 .addComponent(lbl_hint)
                 .addGap(18, 18, 18)
                 .addComponent(cb_dontShowNextTime)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btn_ok)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void close(){
+        Settings.setShowMinimizeToTrayHint(!cb_dontShowNextTime.isSelected());
+        this.dispose();
+    }
+
     private void btn_okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_okActionPerformed
-        //Settings.
+        close();
     }//GEN-LAST:event_btn_okActionPerformed
 
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                TrayIconHintDialog dialog = new TrayIconHintDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        close();
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_ok;

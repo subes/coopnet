@@ -36,9 +36,14 @@ import java.util.Vector;
 public final class Favourites {
 
     private static final Vector<String> FAVOURITES = new Vector<String>();
-    private static final String FAVOURITES_FILE = SettingsHelper.SETTINGS_DIR;
+    private static String favouritesFile;
 
     private Favourites(){}
+
+    public static void init(){
+        favouritesFile = SettingsHelper.getSettingsDir()+"/favourites";
+        loadFavourites();
+    }
 
     public static void addFavouriteByName(String channel) {
         String id = GameDatabase.getIDofGame(channel);
@@ -73,7 +78,7 @@ public final class Favourites {
     protected static void saveFavourites() {
         PrintWriter pw = null;
         try {
-            pw = new PrintWriter(new FileWriter(FAVOURITES_FILE));
+            pw = new PrintWriter(new FileWriter(favouritesFile));
         } catch (Exception ex) {
         }
         for (String s : FAVOURITES) {
@@ -86,10 +91,10 @@ public final class Favourites {
         }
     }
 
-    protected static void loadFavourites() {
+    private static void loadFavourites() {
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader(FAVOURITES_FILE));
+            br = new BufferedReader(new FileReader(favouritesFile));
         } catch (FileNotFoundException ex) {
             return;
         }

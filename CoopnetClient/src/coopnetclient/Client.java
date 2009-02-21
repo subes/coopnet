@@ -18,6 +18,7 @@
  */
 package coopnetclient;
 
+import coopnetclient.dialogs.TrayIconHintDialog;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.FrameOrganizer;
@@ -178,9 +179,12 @@ public final class Client {
         }
     }
 
-    public static void quit(boolean override) {
+    public static void quit(boolean overrideMinimizeToTray) {
         //hide the mainframe: trayicon enabled
-        if (SystemTray.isSupported() && !override && Settings.getTrayIconEnabled() && !Globals.getDebug()) {
+        if (SystemTray.isSupported() && !overrideMinimizeToTray && Settings.getTrayIconEnabled()) {
+            if(Settings.getShowMinimizeToTrayHint()){
+                new TrayIconHintDialog(null, false);
+            }
             FrameOrganizer.getClientFrame().setVisible(false);
         } else {//trayicon disabled or overridden
             //show warning if there are running transfers

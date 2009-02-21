@@ -26,7 +26,10 @@ import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.launcher.Launcher;
+import coopnetclient.utils.settings.Favourites;
+import coopnetclient.utils.settings.SettingsHelper;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -107,6 +110,11 @@ public final class Globals {
             Logger.log(ex);
         }
 
+        SettingsHelper.init();
+        Settings.init();
+        GameDatabase.init();
+        Favourites.init();
+
         //Set debug - do not disable again
         if(!debug){
             debug = Settings.getDebugMode();
@@ -115,6 +123,7 @@ public final class Globals {
         wineCommand = Settings.getWineCommand();
 
         FrameOrganizer.init();
+        
     }
 
     public static boolean isHighlighted(String userName){

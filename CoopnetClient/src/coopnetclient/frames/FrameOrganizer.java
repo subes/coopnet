@@ -60,7 +60,7 @@ public final class FrameOrganizer {
         if (SystemTray.isSupported()) {
             tray = SystemTray.getSystemTray();
 
-            trayIcon = new TrayIcon(Icons.coopnetNormalIcon.getImage(), "Coopnet client", new SystemTrayPopup());
+            trayIcon = new TrayIcon(Icons.coopnetNormalIcon.getImage(), "CoopnetClient", new SystemTrayPopup());
             trayIcon.setImageAutoSize(true);
             trayIcon.addMouseListener(
                 new java.awt.event.MouseAdapter() {

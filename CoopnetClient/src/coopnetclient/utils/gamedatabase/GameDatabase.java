@@ -40,7 +40,7 @@ import java.util.Vector;
 public class GameDatabase {
 
     public static final String dataFilePath = Globals.getResourceAsString("data/gamedata.xml");
-    private static final String localPathsFilePath = SettingsHelper.SETTINGS_DIR+"/localpaths";
+    private static String localPathsFilePath;
     protected static HashMap<String, String> IDtoGameName;     // key is the ID    
     protected static HashMap<String, LaunchMethods> IDtoLaunchMethod;     // key is the ID    
     private static HashMap<String, String> localExecutablePath; //should point to the exe/binary
@@ -53,7 +53,9 @@ public class GameDatabase {
     private static Vector<String> installedGameIDs;
 
 
-    static {
+    public static void init(){
+        localPathsFilePath = SettingsHelper.getSettingsDir()+"/localpaths";
+
         additionalParameters = new HashMap<String, String>();
         IDtoGameName = new HashMap<String, String>();
         IDtoLaunchMethod = new HashMap<String, LaunchMethods>();

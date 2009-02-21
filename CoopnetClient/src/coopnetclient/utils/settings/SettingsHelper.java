@@ -32,36 +32,30 @@ import java.io.IOException;
 import java.util.Properties;
 
 public final class SettingsHelper {
-    public static final String SETTINGS_DIR; //Gets set OS-Specific
-    private static final Properties DATA;    // Load the settings at first usage
-    private static final String SETTINGS_FILE;
 
-    static {
-        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
-            SETTINGS_DIR = System.getenv("APPDATA") + "/Coopnet";
-
-            String recvdir = RegistryReader.read(
-                    "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows" +
-                    "\\CurrentVersion\\Explorer\\Shell Folders\\Desktop");
-            if (recvdir == null) {
-                recvdir = System.getenv("HOMEPATH");
-            }
-
-            Settings.setRecieveDestination(recvdir);
-        } else {
-            final String home = System.getenv("HOME");
-            SETTINGS_DIR = home + "/.coopnet";
-            Settings.setRecieveDestination(home);
-        }
-
-        SETTINGS_FILE = SETTINGS_DIR + "/settings";
-
-        DATA = new java.util.Properties();
-        load();
-        Favourites.loadFavourites();
-    }
+    private static String settingsDir;
+    private static final Properties DATA = new java.util.Properties();
+    private static String settingsFile;
 
     private SettingsHelper(){}
+
+    public static void init() {
+
+        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
+            settingsDir = System.getenv("APPDATA") + "/Coopnet";
+        } else {
+            final String home = System.getenv("HOME");
+            settingsDir = home + "/.coopnet";
+        }
+
+        settingsFile = settingsDir + "/settings";
+
+        load();
+    }
+
+    public static String getSettingsDir(){
+        return settingsDir;
+    }
 
     public static void resetSettings() {
         DATA.clear();
@@ -74,7 +68,7 @@ public final class SettingsHelper {
      */
     protected static void save() {
         try {
-            DATA.store(new FileOutputStream(SETTINGS_FILE), "Coopnet settings");
+            DATA.store(new FileOutputStream(settingsFile), "Coopnet settings");
         } catch (FileNotFoundException ex) {
             Logger.log(ex);
         } catch (IOException ex) {
@@ -87,10 +81,10 @@ public final class SettingsHelper {
      */
     protected static void load() {
         try {
-            if (!new File(SETTINGS_DIR).exists()) {
-                new File(SETTINGS_DIR).mkdir();
+            if (!new File(settingsDir).exists()) {
+                new File(settingsDir).mkdir();
             }
-            DATA.load(new FileInputStream(SETTINGS_FILE));
+            DATA.load(new FileInputStream(settingsFile));
         } catch (Exception ex) {
             Logger.log("Settings file not file, resetting to defaults.");
             //settings will be restored to default when they cant be read via a getter

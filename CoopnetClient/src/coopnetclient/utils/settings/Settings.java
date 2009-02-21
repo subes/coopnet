@@ -19,7 +19,9 @@
 package coopnetclient.utils.settings;
 
 import coopnetclient.Globals;
+import coopnetclient.enums.OperatingSystems;
 import coopnetclient.protocol.out.Protocol;
+import coopnetclient.utils.RegistryReader;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -49,7 +51,7 @@ public final class Settings {
     private final static String lastValidServerPort = "LastValidServerPort";
     private final static int def_lastValidServerPort = 6667;
     private final static String recieveDest = "FileDestination";
-    private final static String def_recievedest = ".";
+    private static String def_recievedest;
     private final static String sleepEnabled = "SleepModeEnabled";
     private final static boolean def_sleepEnabled = true;
     private final static String firstRun = "FirstRun";
@@ -150,8 +152,26 @@ public final class Settings {
     private final static String def_DOSEmulatorExecutable = "";
     private final static String DOSBoxFullscreen = "DOSBox-Fullscreen";
     private final static boolean def_DOSBoxFullscreen = false;
+    private final static String SHOW_MINIMIZE_TO_TRAY_HINT = "ShowMinimizeToTrayHint";
+    private final static boolean DEF_SHOW_MINIMIZE_TO_TRAY_HINT = true;
 
     private Settings() {
+    }
+
+    public static void init() {
+        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
+            String recvdir = RegistryReader.read(
+                    "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows" +
+                    "\\CurrentVersion\\Explorer\\Shell Folders\\Desktop");
+            if (recvdir == null) {
+                recvdir = System.getenv("HOMEPATH");
+            }
+
+            def_recievedest = recvdir;
+        } else {
+            final String home = System.getenv("HOME");
+            def_recievedest = home;
+        }
     }
 
     public static int getLaunchHotKey() {
@@ -620,5 +640,15 @@ public final class Settings {
 
     public static boolean getRememberMainFrameSize() {
         return SettingsHelper.readBoolean(rememberMainFrameSize, def_rememberMainFrameSize);
+    }
+
+    public static void setShowMinimizeToTrayHint(boolean value) {
+        SettingsHelper.writeSetting(SHOW_MINIMIZE_TO_TRAY_HINT,
+                String.valueOf(value));
+    }
+
+    public static boolean getShowMinimizeToTrayHint() {
+        return SettingsHelper.readBoolean(SHOW_MINIMIZE_TO_TRAY_HINT,
+                DEF_SHOW_MINIMIZE_TO_TRAY_HINT);
     }
 }

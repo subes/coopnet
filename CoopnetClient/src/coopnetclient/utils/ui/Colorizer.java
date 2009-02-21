@@ -101,8 +101,8 @@ public class Colorizer {
         if(root == null){
             return;
         }
-        if (root instanceof JFrame) {
-            JFrame frame = (JFrame) root;
+        if (root instanceof Window) {
+            Window frame = (Window) root;
             frame.setIconImage(Icons.coopnetNormalIcon.getImage());
         }
 
