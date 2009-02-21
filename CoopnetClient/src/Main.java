@@ -22,7 +22,6 @@ import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.ipc.IPC;
-import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.settings.SettingsHelper;
 import java.io.File;
 import java.io.IOException;

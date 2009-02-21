@@ -19,6 +19,7 @@
 
 package coopnetclient.utils.ipc;
 
+import coopnetclient.test.AbstractCoopnetClientTest;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -26,7 +27,7 @@ import org.junit.Test;
  *
  * @author subes
  */
-public class IPCTest {
+public class IPCTest extends AbstractCoopnetClientTest {
 
     @Test
     public void testIPC(){

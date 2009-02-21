@@ -136,7 +136,7 @@ public class SoundPlayer {
             } while (clip.isRunning());
             clip.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.log(e);
         }
         updateSoundsPlaying(-1);
     }

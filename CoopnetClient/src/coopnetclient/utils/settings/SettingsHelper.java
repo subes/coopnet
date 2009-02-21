@@ -22,7 +22,6 @@ package coopnetclient.utils.settings;
 import coopnetclient.Globals;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.utils.Logger;
-import coopnetclient.utils.RegistryReader;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,7 +33,7 @@ import java.util.Properties;
 public final class SettingsHelper {
 
     private static String settingsDir;
-    private static final Properties DATA = new java.util.Properties();
+    private static Properties data;
     private static String settingsFile;
 
     private SettingsHelper(){}
@@ -49,6 +48,7 @@ public final class SettingsHelper {
         }
 
         settingsFile = settingsDir + "/settings";
+        data = new Properties();
 
         load();
     }
@@ -58,7 +58,7 @@ public final class SettingsHelper {
     }
 
     public static void resetSettings() {
-        DATA.clear();
+        data.clear();
         save();
         Favourites.resetFavourites();
     }
@@ -68,7 +68,7 @@ public final class SettingsHelper {
      */
     protected static void save() {
         try {
-            DATA.store(new FileOutputStream(settingsFile), "Coopnet settings");
+            data.store(new FileOutputStream(settingsFile), "Coopnet settings");
         } catch (FileNotFoundException ex) {
             Logger.log(ex);
         } catch (IOException ex) {
@@ -84,7 +84,7 @@ public final class SettingsHelper {
             if (!new File(settingsDir).exists()) {
                 new File(settingsDir).mkdir();
             }
-            DATA.load(new FileInputStream(settingsFile));
+            data.load(new FileInputStream(settingsFile));
         } catch (Exception ex) {
             Logger.log("Settings file not file, resetting to defaults.");
             //settings will be restored to default when they cant be read via a getter
@@ -96,7 +96,7 @@ public final class SettingsHelper {
      */
     //Generic getter for Strings. Private, coz used by the real getters
     protected static String readString(String entry, String defaultValue) {
-        String ret = DATA.getProperty(entry);
+        String ret = data.getProperty(entry);
 
         if (ret == null) {
             //reset setting to default value
@@ -112,7 +112,7 @@ public final class SettingsHelper {
         boolean error = false;
 
         int ret = 0;
-        String get = DATA.getProperty(entry);
+        String get = data.getProperty(entry);
 
         if (get != null) {
             try {
@@ -136,7 +136,7 @@ public final class SettingsHelper {
         boolean error = false;
 
         float ret = 0;
-        String get = DATA.getProperty(entry);
+        String get = data.getProperty(entry);
 
         if (get != null) {
             try {
@@ -161,7 +161,7 @@ public final class SettingsHelper {
         boolean error = false;
 
         boolean ret = false;
-        String get = DATA.getProperty(entry);
+        String get = data.getProperty(entry);
 
         if (get != null) {
             //Specially testing for "true" and "false", to reset value if garbage was found
@@ -190,7 +190,7 @@ public final class SettingsHelper {
 
         Color ret = null;
         try {
-            ret = new Color(Integer.parseInt(DATA.getProperty(entry)));
+            ret = new Color(Integer.parseInt(data.getProperty(entry)));
         } catch (Exception e) {
             error = true;
         }
@@ -209,7 +209,7 @@ public final class SettingsHelper {
      */
     protected static void writeSetting(String entry, String value) {
         //using this one, so everytime the settings get saved on a change
-        DATA.setProperty(entry, value);
+        data.setProperty(entry, value);
         save();
     }
 }
