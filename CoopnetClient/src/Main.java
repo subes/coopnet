@@ -139,7 +139,8 @@ public final class Main {
         Options options = new Options();
 
         Option safemode = OptionBuilder.withDescription("resets all settings")
-                .create(SAFEMODE);
+                .withLongOpt(SAFEMODE)
+                .create();
 
         Option server = OptionBuilder.withDescription("ip and port of the server to connect to (e.g. 127.0.0.1:6667)")
                 .hasArg()
