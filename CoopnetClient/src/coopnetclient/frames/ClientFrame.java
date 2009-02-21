@@ -30,12 +30,13 @@ import coopnetclient.frames.clientframetabs.RoomPanel;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.components.QuickPanel;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.frames.components.FavMenuItem;
 import coopnetclient.frames.clientframetabs.LoginPanel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.utils.FileDownloader;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.utils.settings.Favourites;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -722,7 +723,7 @@ public class ClientFrame extends javax.swing.JFrame {
 
     public void refreshFavourites() {
         clearFavourites();
-        for (String s : Settings.getFavouritesByName()) {
+        for (String s : Favourites.getFavouritesByName()) {
             addFavourite(s);
         }
         m_Favourites.revalidate();
@@ -807,14 +808,14 @@ public class ClientFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void mi_SoundsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_SoundsActionPerformed
-        coopnetclient.utils.Settings.setSoundEnabled(mi_Sounds.isSelected());
+        coopnetclient.utils.settings.Settings.setSoundEnabled(mi_Sounds.isSelected());
 }//GEN-LAST:event_mi_SoundsActionPerformed
 
     private void mi_addCurrentToFavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_addCurrentToFavActionPerformed
         Component c = tabpn_tabs.getSelectedComponent();
         if (c instanceof ChannelPanel) {
             ChannelPanel cp = (ChannelPanel) c;
-            Settings.addFavouriteByName(cp.name);
+            Favourites.addFavouriteByName(cp.name);
         }
 }//GEN-LAST:event_mi_addCurrentToFavActionPerformed
 

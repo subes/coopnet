@@ -28,7 +28,7 @@ import coopnetclient.frames.clientframetabs.RoomPanel;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.launchhandlers.DosboxLaunchHandler;

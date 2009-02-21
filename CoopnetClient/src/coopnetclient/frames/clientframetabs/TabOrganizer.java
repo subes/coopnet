@@ -27,7 +27,7 @@ import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.components.TabComponent;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.ui.Icons;

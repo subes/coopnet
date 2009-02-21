@@ -21,7 +21,7 @@ import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.utils.Logger;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.SettingsHelper;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -77,7 +77,7 @@ public final class Main {
             CommandLine cmd = parser.parse(options, args);
 
             if(cmd.hasOption(SAFEMODE)){ //Reset has to be first
-                Settings.resetSettings();
+                SettingsHelper.resetSettings();
             }
             if(cmd.hasOption(HELP)){
                 printHelp(options);

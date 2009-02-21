@@ -20,7 +20,7 @@ package coopnetclient.frames;
 
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.Verification;
 import java.awt.Color;
 import java.awt.event.ActionEvent;

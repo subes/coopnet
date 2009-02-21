@@ -18,8 +18,9 @@
  */
 package coopnetclient.frames.clientframetabs;
 
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.utils.settings.Favourites;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Enumeration;
@@ -100,7 +101,7 @@ public class EventsPanel extends javax.swing.JPanel {
 
     public synchronized void updateFavouritesNode() {
         favsNode.removeAllChildren();
-        for (String gameName : Settings.getFavouritesByName()) {
+        for (String gameName : Favourites.getFavouritesByName()) {
             favsNode.add(new DefaultMutableTreeNode(gameName));
         }
     }

@@ -19,6 +19,7 @@
 
 package coopnetclient.utils.ui;
 
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.frames.components.ChatOutput;
 import coopnetclient.frames.components.ChatOutputPopupMenu;
 import coopnetclient.utils.*;
@@ -128,10 +129,10 @@ public class Colorizer {
     public static void initColors() {
 
         if (Settings.getColorizeBody()) {
-            bgColor = coopnetclient.utils.Settings.getBackgroundColor();
-            fgColor = coopnetclient.utils.Settings.getForegroundColor();
-            selectionColor = coopnetclient.utils.Settings.getSelectionColor();            
-            borderColor = coopnetclient.utils.Settings.getForegroundColor();
+            bgColor = coopnetclient.utils.settings.Settings.getBackgroundColor();
+            fgColor = coopnetclient.utils.settings.Settings.getForegroundColor();
+            selectionColor = coopnetclient.utils.settings.Settings.getSelectionColor();
+            borderColor = coopnetclient.utils.settings.Settings.getForegroundColor();
         } else {
             bgColor = null;
             fgColor = null;

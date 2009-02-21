@@ -18,7 +18,7 @@
  */
 package coopnetclient.frames.renderers;
 
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.JProgressBar;

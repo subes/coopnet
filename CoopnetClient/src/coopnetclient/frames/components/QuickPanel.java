@@ -21,11 +21,12 @@ package coopnetclient.frames.components;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.frames.components.ContactListPopupMenu;
 import coopnetclient.frames.components.mutablelist.DefaultListCellEditor;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.frames.renderers.ContactListRenderer;
+import coopnetclient.utils.settings.Favourites;
 import coopnetclient.utils.ui.ContactListFileDropHandler;
 import coopnetclient.utils.ui.Icons;
 import java.awt.Cursor;
@@ -74,7 +75,7 @@ public class QuickPanel extends javax.swing.JPanel {
     public void refreshFavourites() {
         lst_favouritesList.setModel(new javax.swing.AbstractListModel() {
 
-            Vector<String> strings = Settings.getFavouritesByName();            
+            Vector<String> strings = Favourites.getFavouritesByName();
 
             @Override
             public int getSize() {

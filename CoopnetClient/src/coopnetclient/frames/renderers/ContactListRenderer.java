@@ -21,7 +21,7 @@ package coopnetclient.frames.renderers;
 
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.utils.ui.Icons;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import java.awt.Component;
 import java.awt.Font;
 import javax.swing.BorderFactory;

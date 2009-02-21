@@ -22,7 +22,7 @@ package coopnetclient.frames;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.ui.SystemTrayPopup;

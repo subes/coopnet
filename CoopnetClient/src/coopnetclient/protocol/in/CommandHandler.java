@@ -31,7 +31,7 @@ import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.clientframetabs.ChannelPanel;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.protocol.out.Message;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.SoundPlayer;
 import coopnetclient.utils.ui.FrameIconFlasher;
 import coopnetclient.utils.Logger;
@@ -85,7 +85,7 @@ public final class CommandHandler {
                     TabOrganizer.closeLoginPanel();
                     Protocol.setSleep(Settings.getSleepEnabled());
                     Protocol.refreshContacts();
-                    String s = coopnetclient.utils.Settings.getHomeChannel();
+                    String s = coopnetclient.utils.settings.Settings.getHomeChannel();
                     if (s.length() > 0) {
                         Protocol.joinChannel(s);
                     }

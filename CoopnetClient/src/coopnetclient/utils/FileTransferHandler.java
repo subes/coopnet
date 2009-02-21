@@ -18,6 +18,7 @@
  */
 package coopnetclient.utils;
 
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
 import coopnetclient.frames.FrameOrganizer;

@@ -22,7 +22,7 @@ import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.Logger;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import java.awt.event.KeyEvent;
 
 public class Hotkeys {

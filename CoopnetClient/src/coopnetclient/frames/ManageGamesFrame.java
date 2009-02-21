@@ -25,7 +25,7 @@ import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.clientframetabs.ChannelPanel;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.filechooser.FileChooser;

@@ -27,7 +27,7 @@ import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.components.KeyGrabberTextField;
 import coopnetclient.utils.ui.Colorizer;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
@@ -81,7 +81,7 @@ public class SettingsFrame extends javax.swing.JFrame {
         tf_launchKey.setKey(Settings.getLaunchHotKey(), Settings.getLaunchHotKeyMask());
 
         //FILL IN FIELDS
-        cmb_homeChannel.setSelectedItem(coopnetclient.utils.Settings.getHomeChannel());
+        cmb_homeChannel.setSelectedItem(coopnetclient.utils.settings.Settings.getHomeChannel());
         
         cmb_QuickPanelPosition.setSelectedIndex( Settings.getQuickPanelPostionisLeft() ?0:1);
         spn_DividerWidth.setValue(Settings.getQuickPanelDividerWidth());
@@ -90,25 +90,25 @@ public class SettingsFrame extends javax.swing.JFrame {
         cb_TextNotification.setSelected(Settings.getContactStatusChangeTextNotification());
         cb_SoundNotification.setSelected(Settings.getContactStatusChangeSoundNotification());
                 
-        tf_transferPort.setText(coopnetclient.utils.Settings.getFiletTansferPort()+"");
+        tf_transferPort.setText(coopnetclient.utils.settings.Settings.getFiletTansferPort()+"");
         
-        if(coopnetclient.utils.Settings.getAutoLogin()){
+        if(coopnetclient.utils.settings.Settings.getAutoLogin()){
             cb_autoLogin.setSelected(true);
         }else{
             cb_autoLogin.setSelected(false);
             cb_autoLogin.setToolTipText("Autologin can only be enabled on login!");
         }
         
-        cb_timeStamps.setSelected(coopnetclient.utils.Settings.getTimeStampEnabled());
+        cb_timeStamps.setSelected(coopnetclient.utils.settings.Settings.getTimeStampEnabled());
 
-        tf_receiveDir.setText(coopnetclient.utils.Settings.getRecieveDestination());
-        cb_colorizeBody.setSelected(coopnetclient.utils.Settings.getColorizeBody());
-        cb_colorizeText.setSelected(coopnetclient.utils.Settings.getColorizeText());
+        tf_receiveDir.setText(coopnetclient.utils.settings.Settings.getRecieveDestination());
+        cb_colorizeBody.setSelected(coopnetclient.utils.settings.Settings.getColorizeBody());
+        cb_colorizeText.setSelected(coopnetclient.utils.settings.Settings.getColorizeText());
 
-        cb_sounds.setSelected(coopnetclient.utils.Settings.getSoundEnabled());
-        cb_sleepMode.setSelected(coopnetclient.utils.Settings.getSleepEnabled());
+        cb_sounds.setSelected(coopnetclient.utils.settings.Settings.getSoundEnabled());
+        cb_sleepMode.setSelected(coopnetclient.utils.settings.Settings.getSleepEnabled());
         if(SystemTray.isSupported()){
-            cb_TrayIconEnabled.setSelected(coopnetclient.utils.Settings.getTrayIconEnabled());
+            cb_TrayIconEnabled.setSelected(coopnetclient.utils.settings.Settings.getTrayIconEnabled());
         }
         else{
             cb_TrayIconEnabled.setVisible(false);
@@ -118,10 +118,10 @@ public class SettingsFrame extends javax.swing.JFrame {
         cmb_playerNamesType.setModel(new javax.swing.DefaultComboBoxModel(fontNames));
         cmb_playerMessagesType.setModel(new javax.swing.DefaultComboBoxModel(fontNames));
 
-        tf_playerNamesSize.setText(String.valueOf(coopnetclient.utils.Settings.getNameSize()));
-        cmb_playerNamesType.setSelectedItem(coopnetclient.utils.Settings.getNameStyle());
-        tf_playerMessagesSize.setText(String.valueOf(coopnetclient.utils.Settings.getMessageSize()));
-        cmb_playerMessagesType.setSelectedItem(coopnetclient.utils.Settings.getMessageStyle());
+        tf_playerNamesSize.setText(String.valueOf(coopnetclient.utils.settings.Settings.getNameSize()));
+        cmb_playerNamesType.setSelectedItem(coopnetclient.utils.settings.Settings.getNameStyle());
+        tf_playerMessagesSize.setText(String.valueOf(coopnetclient.utils.settings.Settings.getMessageSize()));
+        cmb_playerMessagesType.setSelectedItem(coopnetclient.utils.settings.Settings.getMessageStyle());
        
         UIManager.LookAndFeelInfo infos[] = UIManager.getInstalledLookAndFeels();
         String styles[] = new String[infos.length];
@@ -164,16 +164,16 @@ public class SettingsFrame extends javax.swing.JFrame {
     }
     
     private void colorizeColorButtons(){
-        btn_background.setForeground(coopnetclient.utils.Settings.getBackgroundColor());
-        btn_foreground.setForeground(coopnetclient.utils.Settings.getForegroundColor());
-        btn_yourUsername.setForeground(coopnetclient.utils.Settings.getYourUsernameColor());
-        btn_otherUsernames.setForeground(coopnetclient.utils.Settings.getOtherUsernamesColor());
-        btn_systemMessages.setForeground(coopnetclient.utils.Settings.getSystemMessageColor());
-        btn_whisperMessages.setForeground(coopnetclient.utils.Settings.getWhisperMessageColor());
-        btn_userMessages.setForeground(coopnetclient.utils.Settings.getUserMessageColor());
-        btn_selection.setForeground(coopnetclient.utils.Settings.getSelectionColor());
-        btn_friendUsernames.setForeground(coopnetclient.utils.Settings.getFriendUsernameColor());
-        btn_contactMessages.setForeground(coopnetclient.utils.Settings.getFriendMessageColor());
+        btn_background.setForeground(coopnetclient.utils.settings.Settings.getBackgroundColor());
+        btn_foreground.setForeground(coopnetclient.utils.settings.Settings.getForegroundColor());
+        btn_yourUsername.setForeground(coopnetclient.utils.settings.Settings.getYourUsernameColor());
+        btn_otherUsernames.setForeground(coopnetclient.utils.settings.Settings.getOtherUsernamesColor());
+        btn_systemMessages.setForeground(coopnetclient.utils.settings.Settings.getSystemMessageColor());
+        btn_whisperMessages.setForeground(coopnetclient.utils.settings.Settings.getWhisperMessageColor());
+        btn_userMessages.setForeground(coopnetclient.utils.settings.Settings.getUserMessageColor());
+        btn_selection.setForeground(coopnetclient.utils.settings.Settings.getSelectionColor());
+        btn_friendUsernames.setForeground(coopnetclient.utils.settings.Settings.getFriendUsernameColor());
+        btn_contactMessages.setForeground(coopnetclient.utils.settings.Settings.getFriendMessageColor());
     }
 
     /** This method is called from within the constructor to
@@ -1214,7 +1214,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             }
             Settings.setTimeStampEnabled(cb_timeStamps.isSelected());
 
-            if (cb_sleepMode.isSelected() != coopnetclient.utils.Settings.getSleepEnabled()) {
+            if (cb_sleepMode.isSelected() != coopnetclient.utils.settings.Settings.getSleepEnabled()) {
                 Settings.setSleepenabled(cb_sleepMode.isSelected());
                 Protocol.setSleep(cb_sleepMode.isSelected());
             }

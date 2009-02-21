@@ -22,7 +22,7 @@ import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.FileDownloader;
@@ -207,7 +207,7 @@ public final class Client {
             //close connection
             Client.stopConnection();
             //save sizes
-            coopnetclient.utils.Settings.setMainFrameMaximised(FrameOrganizer.getClientFrame().getExtendedState());
+            coopnetclient.utils.settings.Settings.setMainFrameMaximised(FrameOrganizer.getClientFrame().getExtendedState());
 
             if (FrameOrganizer.getClientFrame().getExtendedState() == javax.swing.JFrame.NORMAL) {
                 Settings.setMainFrameHeight(FrameOrganizer.getClientFrame().getHeight());

@@ -33,7 +33,7 @@ import coopnetclient.frames.renderers.ChannelStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.ChannelStatusListModel;
 import coopnetclient.frames.renderers.RoomNameRenderer;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.ui.UserListFileDropHandler;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Rectangle;
@@ -164,8 +164,8 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
     }
 
     public void customCodeForColoring() {
-        if (coopnetclient.utils.Settings.getColorizeText()) {
-            tp_chatInput.setForeground(coopnetclient.utils.Settings.getUserMessageColor());
+        if (coopnetclient.utils.settings.Settings.getColorizeText()) {
+            tp_chatInput.setForeground(coopnetclient.utils.settings.Settings.getUserMessageColor());
         }
 
         //Fix color of current/next input
@@ -176,8 +176,8 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
             tp_chatInput.setText("");
         }
 
-        if (coopnetclient.utils.Settings.getColorizeBody()) {
-            scrl_chatOutput.getTextPane().setBackground(coopnetclient.utils.Settings.getBackgroundColor());
+        if (coopnetclient.utils.settings.Settings.getColorizeBody()) {
+            scrl_chatOutput.getTextPane().setBackground(coopnetclient.utils.settings.Settings.getBackgroundColor());
         }
     }
 

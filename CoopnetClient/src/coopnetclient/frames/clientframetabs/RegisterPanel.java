@@ -91,7 +91,7 @@ public class RegisterPanel extends javax.swing.JPanel {
 
         if (!error) {
             Protocol.register(name, password1, email, ingameName, (cmb_country.getSelectedIndex() == 0) ? "" : country, website);
-            coopnetclient.utils.Settings.setLastLoginName(name);
+            coopnetclient.utils.settings.Settings.setLastLoginName(name);
             disableButtons();
         }
     }

@@ -20,7 +20,7 @@ package coopnetclient.utils.launcher.launchinfos;
 
 import coopnetclient.Globals;
 import coopnetclient.utils.RoomData;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.gamedatabase.GameSetting;
 import coopnetclient.utils.launcher.TempGameSettings;

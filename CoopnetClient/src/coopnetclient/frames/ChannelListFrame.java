@@ -24,8 +24,9 @@ import coopnetclient.frames.renderers.ChannelListFavouriteCellRenderer;
 import coopnetclient.frames.renderers.ChannelListInstalledCellRenderer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.ui.Icons;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import coopnetclient.utils.settings.Favourites;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -64,9 +65,9 @@ public class ChannelListFrame extends javax.swing.JFrame {
                 if(e.getType() == TableModelEvent.UPDATE && e.getColumn() == 0 && e.getFirstRow() == e.getLastRow()){
                     String changedFav = (String) model.getValueAt(e.getFirstRow(), 1);
                     if((Boolean)model.getValueAt(e.getFirstRow(), 0)){
-                        Settings.addFavouriteByName(changedFav);
+                        Favourites.addFavouriteByName(changedFav);
                     }else{
-                        Settings.removeFavourite(GameDatabase.getIDofGame(changedFav));
+                        Favourites.removeFavourite(GameDatabase.getIDofGame(changedFav));
                     }
                 }
             }
@@ -107,7 +108,7 @@ public class ChannelListFrame extends javax.swing.JFrame {
             model.removeRow(0);
         }
 
-        Vector<String> favs = Settings.getFavouritesByName();
+        Vector<String> favs = Favourites.getFavouritesByName();
         for (String gameName : GameDatabase.getAllGameNamesAsStringArray()) {
             if (gameName.length() > 0) {
                 if (resetFilter || gameName.toLowerCase().contains(tf_filter.getText().toLowerCase())) {

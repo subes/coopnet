@@ -30,7 +30,7 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
     /** Creates new form LoginPanel */
     public PasswordRecoveryPanel() {
         initComponents();
-        tf_name.setText(coopnetclient.utils.Settings.getLastLoginName());
+        tf_name.setText(coopnetclient.utils.settings.Settings.getLastLoginName());
         coopnetclient.utils.ui.Colorizer.colorize(this);
     }
 

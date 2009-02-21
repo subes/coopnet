@@ -21,7 +21,7 @@ package coopnetclient;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.FrameOrganizer;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.frames.models.TransferTableModel;

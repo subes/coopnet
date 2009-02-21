@@ -19,6 +19,7 @@
 
 package coopnetclient.utils;
 
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.*;
 import coopnetclient.*;
 import coopnetclient.enums.OperatingSystems;

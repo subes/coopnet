@@ -21,7 +21,7 @@ package coopnetclient.utils.ui;
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.utils.Logger;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -131,7 +131,7 @@ public class ColoredChatHandler {
 
             //printing
 
-            if (name.length() > 0 && coopnetclient.utils.Settings.getTimeStampEnabled() && chatStyle != ChatStyles.SYSTEM) {
+            if (name.length() > 0 && coopnetclient.utils.settings.Settings.getTimeStampEnabled() && chatStyle != ChatStyles.SYSTEM) {
                 Date date = new Date();
                 SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm:ss");
                 timeStamp = "(" + dateformat.format(date) + ") ";
@@ -264,14 +264,14 @@ public class ColoredChatHandler {
 
         //highlight bg colors
         if (Settings.getColorizeBody()) {
-            StyleConstants.setBackground(hl_otherNameStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_messageStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_hlinkStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_friendNameStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_friendMessageStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_whisperNameStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_whisperMessageStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
-            StyleConstants.setBackground(hl_myNameStyle, coopnetclient.utils.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_otherNameStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_messageStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_hlinkStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_friendNameStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_friendMessageStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_whisperNameStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_whisperMessageStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
+            StyleConstants.setBackground(hl_myNameStyle, coopnetclient.utils.settings.Settings.getSelectionColor().darker());
         } else {
             Color clr = null;
             clr = (Color) UIManager.get("List.selectionBackground");
@@ -294,34 +294,34 @@ public class ColoredChatHandler {
         StyleConstants.setUnderline(hlinkStyle, true);
         //other styles
         //note: styles have a hierarchic structure, only top levels and odd styles need to be set
-        if (coopnetclient.utils.Settings.getColorizeText()) {
-            StyleConstants.setForeground(systemNameStyle, coopnetclient.utils.Settings.getSystemMessageColor());
-            StyleConstants.setForeground(systemMessageStyle, coopnetclient.utils.Settings.getSystemMessageColor());
-            StyleConstants.setForeground(myNameStyle, coopnetclient.utils.Settings.getYourUsernameColor());
-            StyleConstants.setForeground(otherNameStyle, coopnetclient.utils.Settings.getOtherUsernamesColor());
-            StyleConstants.setForeground(messageStyle, coopnetclient.utils.Settings.getUserMessageColor());
-            StyleConstants.setForeground(whisperNameStyle, coopnetclient.utils.Settings.getWhisperMessageColor());
-            StyleConstants.setForeground(whisperMessageStyle, coopnetclient.utils.Settings.getWhisperMessageColor());
-            StyleConstants.setForeground(friendNameStyle, coopnetclient.utils.Settings.getFriendUsernameColor());
-            StyleConstants.setForeground(friendMessageStyle, coopnetclient.utils.Settings.getFriendMessageColor());
+        if (coopnetclient.utils.settings.Settings.getColorizeText()) {
+            StyleConstants.setForeground(systemNameStyle, coopnetclient.utils.settings.Settings.getSystemMessageColor());
+            StyleConstants.setForeground(systemMessageStyle, coopnetclient.utils.settings.Settings.getSystemMessageColor());
+            StyleConstants.setForeground(myNameStyle, coopnetclient.utils.settings.Settings.getYourUsernameColor());
+            StyleConstants.setForeground(otherNameStyle, coopnetclient.utils.settings.Settings.getOtherUsernamesColor());
+            StyleConstants.setForeground(messageStyle, coopnetclient.utils.settings.Settings.getUserMessageColor());
+            StyleConstants.setForeground(whisperNameStyle, coopnetclient.utils.settings.Settings.getWhisperMessageColor());
+            StyleConstants.setForeground(whisperMessageStyle, coopnetclient.utils.settings.Settings.getWhisperMessageColor());
+            StyleConstants.setForeground(friendNameStyle, coopnetclient.utils.settings.Settings.getFriendUsernameColor());
+            StyleConstants.setForeground(friendMessageStyle, coopnetclient.utils.settings.Settings.getFriendMessageColor());
         }
         StyleConstants.setFontFamily(systemMessageStyle, "monospaced");
         StyleConstants.setFontFamily(systemNameStyle, "monospaced");
-        StyleConstants.setFontFamily(myNameStyle, coopnetclient.utils.Settings.getNameStyle());
-        StyleConstants.setFontFamily(otherNameStyle, coopnetclient.utils.Settings.getNameStyle());
-        StyleConstants.setFontFamily(messageStyle, coopnetclient.utils.Settings.getMessageStyle());
-        StyleConstants.setFontFamily(hlinkStyle, coopnetclient.utils.Settings.getMessageStyle());
-        StyleConstants.setFontFamily(defaultNameStyle, coopnetclient.utils.Settings.getNameStyle());
-        StyleConstants.setFontFamily(defaultMessageStyle, coopnetclient.utils.Settings.getMessageStyle());
+        StyleConstants.setFontFamily(myNameStyle, coopnetclient.utils.settings.Settings.getNameStyle());
+        StyleConstants.setFontFamily(otherNameStyle, coopnetclient.utils.settings.Settings.getNameStyle());
+        StyleConstants.setFontFamily(messageStyle, coopnetclient.utils.settings.Settings.getMessageStyle());
+        StyleConstants.setFontFamily(hlinkStyle, coopnetclient.utils.settings.Settings.getMessageStyle());
+        StyleConstants.setFontFamily(defaultNameStyle, coopnetclient.utils.settings.Settings.getNameStyle());
+        StyleConstants.setFontFamily(defaultMessageStyle, coopnetclient.utils.settings.Settings.getMessageStyle());
 
-        StyleConstants.setFontSize(systemNameStyle, coopnetclient.utils.Settings.getNameSize());
-        StyleConstants.setFontSize(systemMessageStyle, coopnetclient.utils.Settings.getMessageSize());
-        StyleConstants.setFontSize(myNameStyle, coopnetclient.utils.Settings.getNameSize());
-        StyleConstants.setFontSize(otherNameStyle, coopnetclient.utils.Settings.getNameSize());
-        StyleConstants.setFontSize(messageStyle, coopnetclient.utils.Settings.getMessageSize());
-        StyleConstants.setFontSize(hlinkStyle, coopnetclient.utils.Settings.getMessageSize());
-        StyleConstants.setFontSize(defaultNameStyle, coopnetclient.utils.Settings.getNameSize());
-        StyleConstants.setFontSize(defaultMessageStyle, coopnetclient.utils.Settings.getMessageSize());
+        StyleConstants.setFontSize(systemNameStyle, coopnetclient.utils.settings.Settings.getNameSize());
+        StyleConstants.setFontSize(systemMessageStyle, coopnetclient.utils.settings.Settings.getMessageSize());
+        StyleConstants.setFontSize(myNameStyle, coopnetclient.utils.settings.Settings.getNameSize());
+        StyleConstants.setFontSize(otherNameStyle, coopnetclient.utils.settings.Settings.getNameSize());
+        StyleConstants.setFontSize(messageStyle, coopnetclient.utils.settings.Settings.getMessageSize());
+        StyleConstants.setFontSize(hlinkStyle, coopnetclient.utils.settings.Settings.getMessageSize());
+        StyleConstants.setFontSize(defaultNameStyle, coopnetclient.utils.settings.Settings.getNameSize());
+        StyleConstants.setFontSize(defaultMessageStyle, coopnetclient.utils.settings.Settings.getMessageSize());
 
     }
 

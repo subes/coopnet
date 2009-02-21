@@ -30,8 +30,8 @@ public class LoginPanel extends javax.swing.JPanel {
     public LoginPanel() {
 
         initComponents();
-        tf_name.setText(coopnetclient.utils.Settings.getLastLoginName());
-        cb_autoLogin.setSelected(coopnetclient.utils.Settings.getAutoLogin());
+        tf_name.setText(coopnetclient.utils.settings.Settings.getLastLoginName());
+        cb_autoLogin.setSelected(coopnetclient.utils.settings.Settings.getAutoLogin());
         coopnetclient.utils.ui.Colorizer.colorize(this);
 
         lbl_loginError.setText(" ");
@@ -63,13 +63,13 @@ public class LoginPanel extends javax.swing.JPanel {
         
         Protocol.login(name, passw);
         disableButtons();
-        coopnetclient.utils.Settings.setLastLoginName(name);
-        coopnetclient.utils.Settings.setAutoLogin(cb_autoLogin.isSelected());
+        coopnetclient.utils.settings.Settings.setLastLoginName(name);
+        coopnetclient.utils.settings.Settings.setAutoLogin(cb_autoLogin.isSelected());
 
-        if (coopnetclient.utils.Settings.getAutoLogin()) {
-            coopnetclient.utils.Settings.setLastLoginPassword(passw);
+        if (coopnetclient.utils.settings.Settings.getAutoLogin()) {
+            coopnetclient.utils.settings.Settings.setLastLoginPassword(passw);
         } else {
-            coopnetclient.utils.Settings.setLastLoginPassword("");
+            coopnetclient.utils.settings.Settings.setLastLoginPassword("");
         }
         showError(" ", Color.red);
     }

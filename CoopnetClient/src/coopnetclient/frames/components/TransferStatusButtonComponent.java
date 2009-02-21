@@ -23,7 +23,7 @@ import coopnetclient.enums.TransferStatuses;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.models.TransferTableModel;
 import coopnetclient.utils.ui.Icons;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseListener;

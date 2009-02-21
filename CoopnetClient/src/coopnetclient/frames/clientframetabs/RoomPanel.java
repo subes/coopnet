@@ -202,8 +202,8 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     }
 
     public void customCodeForColoring() {
-        if (coopnetclient.utils.Settings.getColorizeText()) {
-            tp_chatInput.setForeground(coopnetclient.utils.Settings.getUserMessageColor());
+        if (coopnetclient.utils.settings.Settings.getColorizeText()) {
+            tp_chatInput.setForeground(coopnetclient.utils.settings.Settings.getUserMessageColor());
         }
 
         //Fix color of current/next input
@@ -214,8 +214,8 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             tp_chatInput.setText("");
         }
 
-        if (coopnetclient.utils.Settings.getColorizeBody()) {
-            scrl_chatOutput.getTextPane().setBackground(coopnetclient.utils.Settings.getBackgroundColor());
+        if (coopnetclient.utils.settings.Settings.getColorizeBody()) {
+            scrl_chatOutput.getTextPane().setBackground(coopnetclient.utils.settings.Settings.getBackgroundColor());
         }
     }
 

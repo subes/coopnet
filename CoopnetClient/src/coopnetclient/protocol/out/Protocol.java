@@ -25,7 +25,7 @@ import coopnetclient.enums.ClientProtocolCommands;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.RoomData;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.launcher.Launcher;

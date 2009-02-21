@@ -27,7 +27,7 @@ import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.components.mutablelist.EditableJlist;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.utils.MuteBanList;
-import coopnetclient.utils.Settings;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -292,7 +292,7 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
                                 inputfile = mfc.getSelectedFile();
                                 if (inputfile != null) {
                                     if(TabOrganizer.sendFile(player, inputfile)){
-                                        Protocol.sendFile(player, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.Settings.getFiletTansferPort() + "");
+                                        Protocol.sendFile(player, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.settings.Settings.getFiletTansferPort() + "");
                                         Globals.setLastOpenedDir(inputfile.getParent());
                                     }
                                 }

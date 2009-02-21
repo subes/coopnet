@@ -125,7 +125,7 @@ public class HandlerThread extends Thread {
 
             Protocol.sendVersion();
             //login
-            if (coopnetclient.utils.Settings.getAutoLogin()) {
+            if (coopnetclient.utils.settings.Settings.getAutoLogin()) {
                 Protocol.autoLogin();
             } else {
                 TabOrganizer.openLoginPanel();
