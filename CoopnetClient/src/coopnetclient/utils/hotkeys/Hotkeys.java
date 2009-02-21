@@ -30,8 +30,9 @@ public class Hotkeys {
     public static int ACTION_LAUNCH = 1;
     private static HotkeyHandler handler;
 
+    private Hotkeys() {}
 
-    static {
+    public static void init(){
         try {
             switch (Globals.getOperatingSystem()) {
                 case WINDOWS:
@@ -49,8 +50,6 @@ public class Hotkeys {
             handler = null;
         }
     }
-
-    private Hotkeys() {}
 
     public static void bindHotKey(int action) {
         if(handler==null){

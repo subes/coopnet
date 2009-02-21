@@ -111,6 +111,7 @@ public final class Globals {
         Settings.init();
         GameDatabase.init();
         Favourites.init();
+        Hotkeys.init();
 
         //Set debug - do not disable again
         if (!debug) {
