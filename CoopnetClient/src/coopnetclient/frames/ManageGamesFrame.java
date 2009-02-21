@@ -724,7 +724,7 @@ private void lst_gamesValueChanged(javax.swing.event.ListSelectionEvent evt) {//
 }//GEN-LAST:event_lst_gamesValueChanged
 
 private void cb_showInstalledOnlyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_showInstalledOnlyActionPerformed
-    tf_filterActionPerformed(null);
+    filter();
     lst_games.clearSelection();
 }//GEN-LAST:event_cb_showInstalledOnlyActionPerformed
 

@@ -33,6 +33,7 @@ import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
+import coopnetclient.utils.SoundPlayer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
@@ -260,6 +261,8 @@ public final class TabOrganizer {
 
     public static void closeRoomPanel() {
         if (roomPanel != null) {
+            SoundPlayer.playRoomCloseSound();
+
             tabHolder.remove(roomPanel);
 
             int index = tabHolder.indexOfTab(roomPanel.getRoomData().getChannel());

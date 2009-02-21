@@ -88,6 +88,10 @@ public class SoundPlayer {
         playSoundFile(Globals.getResourceAsString("data/sounds/logout.wav"), true);
     }
 
+    public static void playRoomCloseSound(){
+        playSoundFile(Globals.getResourceAsString("data/sounds/room_close.wav"), true);
+    }
+
     private static void playSoundFile(final String file, boolean forkThread) {
         if(!Settings.getSoundEnabled()){
            return;
