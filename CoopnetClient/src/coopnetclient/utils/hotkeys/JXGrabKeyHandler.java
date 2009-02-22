@@ -30,14 +30,14 @@ import jxgrabkey.JXGrabKey;
 public class JXGrabKeyHandler extends HotkeyHandler implements HotkeyListenerDebugEnabled {
 
     public JXGrabKeyHandler() {
-        JXGrabKey.getInstance().addHotkeyListener(this);
         JXGrabKey.setDebugOutput(true);
+        JXGrabKey.getInstance().addHotkeyListener(this);
     }
 
     @Override
     public void registerHotkey(int id, final int mask, final int key) {
         try {
-            JXGrabKey.getInstance().registerAWTHotkey(id, mask, key);
+            JXGrabKey.getInstance().registerAwtHotkey(id, mask, key);
         } catch (HotkeyConflictException e) {
             new Thread() {
 
