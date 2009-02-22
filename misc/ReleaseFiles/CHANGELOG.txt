@@ -1,3 +1,9 @@
+2009/02/22: CoopnetClient 0.102.1
+  - fixed a bug where hamachi button did not get enabled sometimes
+  - links no longer open three times
+  - text highlighting color fixed
+  - fixed too many messages being sent for user action logging
+
 2009/02/16: CoopnetClient 0.102.0
   - fixed bug about hamachi
   - DOSBox support for old games
