@@ -38,9 +38,9 @@ import java.util.ArrayList;
 public final class Globals {
 
     //Constants
-    public static final String CLIENT_VERSION = "0.102.0";
+    public static final String CLIENT_VERSION = "0.102.1";
     //Increment this, when changes to the protocol commands have been done
-    public static final int COMPATIBILITY_VERSION = 5;
+    public static final int COMPATIBILITY_VERSION = 6;
     private static OperatingSystems operatingSystem;
     private static String lastOpenedDir;
     private static String wineCommand;
