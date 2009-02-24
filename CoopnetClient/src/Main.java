@@ -126,7 +126,8 @@ public final class Main {
             }
         } catch (ParseException ex) {
             //CHECKSTYLE:OFF
-            System.err.println("ERROR: " + ex.getMessage() );
+            System.out.println(ex.getMessage());
+            System.out.println();
             //CHECKSTYLE:ON
             printHelp(options);
             System.exit(1);
