@@ -109,6 +109,7 @@ public final class Main {
             }
             if(cmd.hasOption(HELP)){
                 printHelp(options);
+                System.exit(0);
             }
             if(cmd.hasOption(SERVER)){
                 String value = cmd.getOptionValue(SERVER);
@@ -125,11 +126,10 @@ public final class Main {
             }
         } catch (ParseException ex) {
             //CHECKSTYLE:OFF
-            System.err.println( "Parsing failed. Reason: " + ex.getMessage() );
+            System.err.println("ERROR: " + ex.getMessage() );
             //CHECKSTYLE:ON
-            System.exit(1);
-        } catch (Exception ex){
             printHelp(options);
+            System.exit(1);
         }
     }
 
@@ -177,7 +177,6 @@ public final class Main {
                         "options:",
                         options,
                         "Visit our project website at \"http://coopnet.sourceforge.net\".", true);
-        System.exit(0);
     }
 
     private static void cleanUpdater() {
