@@ -18,10 +18,10 @@
  */
 package coopnetclient.frames;
 
-import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.Verification;
+import coopnetclient.utils.ui.GuiUtils;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -29,6 +29,8 @@ import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class ChangePasswordFrame extends javax.swing.JFrame {
 
@@ -43,6 +45,12 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                 btn_cancel.doClick();
             }
         };
+
+        ValidDataListener listener = new ValidDataListener();
+        tf_oldPassword.getDocument().addDocumentListener(listener);
+        tf_newPassword1.getDocument().addDocumentListener(listener);
+        tf_newPassword2.getDocument().addDocumentListener(listener);
+
         getRootPane().getActionMap().put("close", act);
         InputMap im = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "close");
@@ -87,11 +95,6 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
 
         tf_newPassword1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         tf_newPassword1.setNextFocusableComponent(tf_newPassword2);
-        tf_newPassword1.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                tf_newPassword1CaretUpdate(evt);
-            }
-        });
 
         lbl_newPassword2.setDisplayedMnemonic(KeyEvent.VK_N);
         lbl_newPassword2.setLabelFor(tf_newPassword2);
@@ -99,19 +102,9 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
 
         tf_newPassword2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         tf_newPassword2.setNextFocusableComponent(btn_save);
-        tf_newPassword2.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                tf_newPassword2CaretUpdate(evt);
-            }
-        });
 
         tf_oldPassword.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         tf_oldPassword.setNextFocusableComponent(tf_newPassword1);
-        tf_oldPassword.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                tf_oldPasswordCaretUpdate(evt);
-            }
-        });
 
         javax.swing.GroupLayout pnl_inputLayout = new javax.swing.GroupLayout(pnl_input);
         pnl_input.setLayout(pnl_inputLayout);
@@ -176,10 +169,10 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                 .addComponent(btn_save)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addContainerGap(366, Short.MAX_VALUE))
+                .addContainerGap(423, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbl_error, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+                .addComponent(lbl_error, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -188,7 +181,7 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
                 .addComponent(pnl_input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_error)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_save)
                     .addComponent(btn_cancel))
@@ -200,22 +193,39 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void showIncorrectPassword(){
+        GuiUtils.setControlsEnabled(this, true);
+        showError("Your old password is incorrect!", Color.red);
+    }
+
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
-        String tmp1 = new String(tf_newPassword1.getPassword());
-        String tmp2 = new String(tf_newPassword2.getPassword());
-        if (!(tmp1.equals(tmp2))) {
-            showError("Passwords don't match'", Color.red);
-        } else {
-            if (Verification.verifyPassword(tmp1)) {
-                Protocol.changePassword(new String(tf_oldPassword.getPassword()), tmp2);
-                Settings.setAutoLogin(false);
-                Settings.setLastLoginPassword("");
-                showError(" ", Color.red);
-                btn_save.setEnabled(false);
-            } else {
-                showError("Your password must have 5 to 30 characters!", Color.red);
-            }
+        String oldpassword = new String(tf_oldPassword.getPassword());
+        String password1 = new String(tf_newPassword1.getPassword());
+        String password2 = new String(tf_newPassword2.getPassword());
+
+        if(!Verification.verifyPassword(oldpassword)){
+            showError("Your old password is invalid!", Color.red);
+            btn_save.setEnabled(false);
+            return;
         }
+
+        if (!Verification.verifyPassword(password1)) {
+            showError("Your password must have 5 to 30 characters!", Color.red);
+            btn_save.setEnabled(false);
+            return;
+        }
+
+        if(!password1.equals(password2)){
+            showError("Passwords don't match!", Color.red);
+            btn_save.setEnabled(false);
+            return;
+        }
+
+        Protocol.changePassword(new String(tf_oldPassword.getPassword()), password2);
+        Settings.setAutoLogin(false);
+        Settings.setLastLoginPassword("");
+        showError(" ", Color.red);
+        GuiUtils.setControlsEnabled(this, false);
 }//GEN-LAST:event_btn_saveActionPerformed
 
     private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel
@@ -225,45 +235,6 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         FrameOrganizer.closeChangePasswordFrame();
     }//GEN-LAST:event_formWindowClosing
-
-    private void tf_oldPasswordCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tf_oldPasswordCaretUpdate
-        String oldpassword = new String(tf_oldPassword.getPassword());
-        String password1 = new String(tf_newPassword1.getPassword());
-        String password2 = new String(tf_newPassword2.getPassword());
-        if (Verification.verifyPassword(oldpassword) 
-                && Verification.verifyPassword(password1)
-                && Verification.verifyPassword(password2)) {
-            btn_save.setEnabled(true);
-        } else {
-            btn_save.setEnabled(false);
-        }
-    }//GEN-LAST:event_tf_oldPasswordCaretUpdate
-
-    private void tf_newPassword1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tf_newPassword1CaretUpdate
-        String oldpassword = new String(tf_oldPassword.getPassword());
-        String password1 = new String(tf_newPassword1.getPassword());
-        String password2 = new String(tf_newPassword2.getPassword());
-        if (Verification.verifyPassword(oldpassword)
-                && Verification.verifyPassword(password1)
-                && Verification.verifyPassword(password2)) {
-            btn_save.setEnabled(true);
-        } else {
-            btn_save.setEnabled(false);
-        }
-    }//GEN-LAST:event_tf_newPassword1CaretUpdate
-
-    private void tf_newPassword2CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tf_newPassword2CaretUpdate
-        String oldpassword = new String(tf_oldPassword.getPassword());
-        String password1 = new String(tf_newPassword1.getPassword());
-        String password2 = new String(tf_newPassword2.getPassword());
-        if (Verification.verifyPassword(oldpassword)
-                && Verification.verifyPassword(password1)
-                && Verification.verifyPassword(password2)) {
-            btn_save.setEnabled(true);
-        } else {
-            btn_save.setEnabled(false);
-        }
-    }//GEN-LAST:event_tf_newPassword2CaretUpdate
 
     private void showError(String message, Color color) {
         lbl_error.setForeground(color);
@@ -282,4 +253,37 @@ public class ChangePasswordFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField tf_newPassword2;
     private javax.swing.JPasswordField tf_oldPassword;
     // End of variables declaration//GEN-END:variables
+
+    private class ValidDataListener implements DocumentListener{
+
+        private void update(){
+            String oldpassword = new String(tf_oldPassword.getPassword());
+            String password1 = new String(tf_newPassword1.getPassword());
+            String password2 = new String(tf_newPassword2.getPassword());
+            if (oldpassword.length() > 0
+                    && password1.length() > 0
+                    && password2.length() > 0) {
+                btn_save.setEnabled(true);
+            } else {
+                btn_save.setEnabled(false);
+            }
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            update();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            update();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            //Do nothing
+        }
+
+    }
+
 }

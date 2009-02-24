@@ -18,20 +18,25 @@
  */
 package coopnetclient.frames;
 
-import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.Verification;
+import coopnetclient.utils.ui.GuiUtils;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class EditProfileFrame extends javax.swing.JFrame {
 
-    public static String[] CountryList = new String[]{"Select your country", "Abkhazia", "Afghanistan", "Akrotiri and Dhekelia", "Ĺland Islands", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla",
+    private static final String[] COUNTRIES = new String[]{
+        "Select your country", "Abkhazia", "Afghanistan", "Akrotiri and Dhekelia",
+        "Ĺland Islands", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla",
         "Antigua and Barbuda", "Argentina ", "Armenia ", "Aruba", "Ascension Island",
         "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados",
         "Belarus", "Belgium", "Belize", "Benin ", "Bermuda", "Bhutan", "Bolivia", " Bosnia", "Botswana", "Brazil",
@@ -56,7 +61,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
         "Saint Lucia", "Saint Martin", "Saint-Pierre and	Miquelon",
         "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Săo Tomé and Príncipe",
         "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia",
-        "Slovenia", "Solomon	Islands", "Somalia", "Somaliland", "South Africa", "South Ossetia",
+        "Slovenia", "Solomon Islands", "Somalia", "Somaliland", "South Africa", "South Ossetia",
         "Spain", "SriLanka", "Sudan", "Suriname", "Svalbard", "Swaziland", "Sweden",
         "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor",
         "Togo", "Tokelau", "Tonga", "Trinidad and Tobago", "Tristan da Cunha",
@@ -66,15 +71,34 @@ public class EditProfileFrame extends javax.swing.JFrame {
         "Virgin Islands", "Wallis and Futuna", "Western Sahara", "Yemen",
         "Zambia", "Zimbabwe"
     };
+    private final String initialLoginName;
+    private final String initialIngameName;
+    private final String initialEmail;
+    private final String initialCountry;
+    private final String initialWebsite;
 
-    public EditProfileFrame(String name, String ingamename, String email, String country, String webpage) {
+    public EditProfileFrame(String loginName, String ingameName, String email, String country, String website) {
         initComponents();
+
+        this.initialLoginName = loginName;
+        this.initialIngameName = ingameName;
+        this.initialEmail = email;
+        this.initialCountry = country;
+        this.initialWebsite = website;
 
         cmb_country.setSelectedIndex(indexOfCountry(country));
         tf_emailAddress.setText(email);
-        tf_loginName.setText(name);
-        tf_website.setText(webpage);
-        tf_inGameName.setText(ingamename);
+        tf_loginName.setText(loginName);
+        tf_website.setText(website);
+        tf_inGameName.setText(ingameName);
+
+        DirtyListener dirtyListener = new DirtyListener();
+        tf_loginName.getDocument().addDocumentListener(dirtyListener);
+        tf_inGameName.getDocument().addDocumentListener(dirtyListener);
+        tf_emailAddress.getDocument().addDocumentListener(dirtyListener);
+        tf_website.getDocument().addDocumentListener(dirtyListener);
+        cmb_country.addItemListener(dirtyListener);
+
         this.getRootPane().setDefaultButton(btn_save);
         AbstractAction act = new AbstractAction() {
 
@@ -89,8 +113,8 @@ public class EditProfileFrame extends javax.swing.JFrame {
     }
 
     private int indexOfCountry(String name) {
-        for (int index = 0; index < CountryList.length; index++) {
-            if (CountryList[index].equals(name)) {
+        for (int index = 0; index < COUNTRIES.length; index++) {
+            if (COUNTRIES[index].equals(name)) {
                 return index;
             }
         }
@@ -100,6 +124,15 @@ public class EditProfileFrame extends javax.swing.JFrame {
     public void loginAlreadyUsed() {
         tf_loginName.showErrorMessage("Name already used!");
         btn_save.setEnabled(true);
+    }
+
+    public boolean isDirty() {
+        boolean dataIsSame = initialLoginName.equals(tf_loginName.getText());
+        dataIsSame = dataIsSame && initialIngameName.equals(tf_inGameName.getText());
+        dataIsSame = dataIsSame && initialEmail.equals(tf_emailAddress.getText());
+        dataIsSame = dataIsSame && initialCountry.equals(getCountry());
+        dataIsSame = dataIsSame && initialWebsite.equals(tf_website.getText());
+        return !dataIsSame;
     }
 
     /** This method is called from within the constructor to
@@ -134,6 +167,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
         });
 
         btn_save.setText("Save");
+        btn_save.setEnabled(false);
         btn_save.setNextFocusableComponent(btn_cancel);
         btn_save.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,7 +207,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
         lbl_website.setLabelFor(tf_website);
         lbl_website.setText("Website:");
 
-        cmb_country.setModel(new javax.swing.DefaultComboBoxModel(CountryList));
+        cmb_country.setModel(new javax.swing.DefaultComboBoxModel(COUNTRIES));
         cmb_country.setNextFocusableComponent(tf_website);
 
         tf_loginName.setNextFocusableComponent(tf_inGameName);
@@ -247,7 +281,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
                 .addComponent(btn_save)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_cancel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
                 .addComponent(btn_changePassword)
                 .addContainerGap())
             .addComponent(pnl_input, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -256,7 +290,7 @@ public class EditProfileFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(pnl_input, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_cancel)
@@ -296,10 +330,18 @@ public class EditProfileFrame extends javax.swing.JFrame {
         Protocol.saveProfile(tf_loginName.getText(),
                 tf_inGameName.getText(),
                 tf_emailAddress.getText(),
-                (cmb_country.getSelectedIndex() == 0) ? "" : cmb_country.getSelectedItem().toString(),
+                getCountry(),
                 tf_website.getText());
-        btn_save.setEnabled(false);
+        GuiUtils.setControlsEnabled(this, false);
 }//GEN-LAST:event_btn_saveActionPerformed
+
+    private String getCountry(){
+        if(cmb_country.getSelectedIndex() == 0){
+            return "";
+        }else{
+            return cmb_country.getSelectedItem().toString();
+        }
+    }
 
     private void cancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel
         FrameOrganizer.closeEditProfileFrame();
@@ -325,4 +367,34 @@ public class EditProfileFrame extends javax.swing.JFrame {
     private coopnetclient.frames.components.ValidatorJTextField tf_loginName;
     private coopnetclient.frames.components.ValidatorJTextField tf_website;
     // End of variables declaration//GEN-END:variables
+
+    private class DirtyListener implements ItemListener, DocumentListener{
+
+        private void updateDirty(){
+            boolean dataChanged = isDirty();
+            btn_save.setEnabled(dataChanged);
+        }
+
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            updateDirty();
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            updateDirty();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            updateDirty();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            //Do nothing
+        }
+
+    }
+
 }

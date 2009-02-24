@@ -25,6 +25,8 @@ import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.ServerProtocolCommands;
+import coopnetclient.frames.ChangePasswordFrame;
+import coopnetclient.frames.EditProfileFrame;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.GameSettingsFrame;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
@@ -341,11 +343,21 @@ public final class CommandHandler {
                     break;
                 case PASSWORD_CHANGED:
                     FrameOrganizer.closeChangePasswordFrame();
+                    EditProfileFrame editProfile = FrameOrganizer.getEditProfileFrame();
+                    if(editProfile != null && !editProfile.isDirty()){
+                        FrameOrganizer.closeEditProfileFrame();
+                    }
                     FrameOrganizer.getClientFrame().printSystemMessage("Password has been changed!", false);
+                    break;
+                case ERROR_INCORRECT_PASSWORD:
+                    ChangePasswordFrame pwFrame = FrameOrganizer.getChangePasswordFrame();
+                    if(pwFrame != null){
+                        pwFrame.showIncorrectPassword();
+                    }
                     break;
                 case PROFILE_SAVED:
                     FrameOrganizer.closeEditProfileFrame();
-                    FrameOrganizer.getClientFrame().printSystemMessage("Profile has been saved!", false);
+                    FrameOrganizer.getClientFrame().printSystemMessage("Profile has been updated!", false);
                     break;
                 case EDIT_PROFILE:
                     FrameOrganizer.openEditProfileFrame(information[0],

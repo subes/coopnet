@@ -250,7 +250,6 @@ public class Colorizer {
     /*****************************************************************/    
 
     private static void addPopupMenusRecursively(Container root) {
-
         Component[] components = root.getComponents();
         toExecuteCustomCodeIn.add(root);
 
