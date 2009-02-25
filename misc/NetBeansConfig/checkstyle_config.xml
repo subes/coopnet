@@ -215,7 +215,7 @@
         <module name="ExplicitInitialization"/>
         <module name="DefaultComesLast"/>
         <module name="MultipleStringLiterals">
-            <property name="ignoreStringsRegexp" value="^&quot;&quot;$|&quot;'&quot;|&quot;.&quot;|&quot;\\n&quot;"/>
+            <property name="ignoreStringsRegexp" value="^&quot;&quot;$|^&quot;\W&quot;$|^&quot; \W &quot;$|^&quot;\W &quot;$|^&quot;\\n&quot;$"/>
         </module>
         <module name="MultipleVariableDeclarations"/>
          <module name="NestedIfDepth">
@@ -243,7 +243,7 @@
         <!-- See http://checkstyle.sf.net/config_design.html -->
         <!--<module name="DesignForExtension"/>-->
         <module name="FinalClass"/>
-        <module name="HideUtilityClassConstructor"/>
+        <module name="HideUtilityClassConstructor" />
         <module name="InterfaceIsType"/>
         <module name="VisibilityModifier">
 			<property name="protectedAllowed" value="true"/>
