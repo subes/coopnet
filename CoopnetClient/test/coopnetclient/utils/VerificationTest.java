@@ -29,29 +29,60 @@ public class VerificationTest extends AbstractCoopnetClientTest {
     @Test
     public void testVerifyCompatibilityVersion(){
 
-        String protocolVersion = String.valueOf(Globals.COMPATIBILITY_VERSION);
-        Assert.assertTrue(Verification.verifyCompatibilityVersion(protocolVersion));
+        //Do DEVELOPMENT tests
+        Globals.overrideVersion(Globals.DEVELOPMENT_VERSION, Globals.DEVELOPMENT_VERSION);
 
-        protocolVersion = String.valueOf(Globals.COMPATIBILITY_VERSION+1);
-        Assert.assertFalse(Verification.verifyCompatibilityVersion(protocolVersion));
+        String compatibilityVersion = Globals.DEVELOPMENT_VERSION;
+        Assert.assertTrue(Verification.verifyCompatibilityVersion(compatibilityVersion));
 
-        protocolVersion = String.valueOf(Globals.COMPATIBILITY_VERSION-1);
-        Assert.assertFalse(Verification.verifyCompatibilityVersion(protocolVersion));
+        compatibilityVersion = "9999999999999";
+        Assert.assertTrue(Verification.verifyCompatibilityVersion(compatibilityVersion));
 
-        protocolVersion = "";
-        Assert.assertFalse(Verification.verifyCompatibilityVersion(protocolVersion));
+        //Do release tests
+        Globals.overrideVersion("6", "0.102.1");
+
+        compatibilityVersion = Globals.DEVELOPMENT_VERSION;
+        Assert.assertTrue(Verification.verifyCompatibilityVersion(compatibilityVersion));
+
+        compatibilityVersion = Globals.getCompatibilityVersion();
+        Assert.assertTrue(Verification.verifyCompatibilityVersion(compatibilityVersion));
+
+        compatibilityVersion = String.valueOf(Integer.valueOf(Globals.getCompatibilityVersion())+1);
+        Assert.assertFalse(Verification.verifyCompatibilityVersion(compatibilityVersion));
+
+        compatibilityVersion = String.valueOf(Integer.valueOf(Globals.getCompatibilityVersion())-1);
+        Assert.assertFalse(Verification.verifyCompatibilityVersion(compatibilityVersion));
+
+        compatibilityVersion = "";
+        Assert.assertFalse(Verification.verifyCompatibilityVersion(compatibilityVersion));
 
         //This tested method has to be nullsafe
-        protocolVersion = null;
-        Assert.assertFalse(Verification.verifyCompatibilityVersion(protocolVersion));
+        compatibilityVersion = null;
+        Assert.assertFalse(Verification.verifyCompatibilityVersion(compatibilityVersion));
 
-        protocolVersion = "notanumber";
-        Assert.assertFalse(Verification.verifyCompatibilityVersion(protocolVersion));
+        compatibilityVersion = "notanumber";
+        Assert.assertFalse(Verification.verifyCompatibilityVersion(compatibilityVersion));
+
+        //Revert version numbers
+        Globals.preInit();
     }
 
     @Test
     public void testVerifyClientVersion(){
-        String clientVersion = Globals.CLIENT_VERSION;
+
+        //Do DEVELOPMENT tests
+        Globals.overrideVersion(Globals.DEVELOPMENT_VERSION, Globals.DEVELOPMENT_VERSION);
+
+        String clientVersion = Globals.DEVELOPMENT_VERSION;
+        Assert.assertTrue(Verification.verifyClientVersion(clientVersion));
+
+        clientVersion = "9999.9999.9999";
+        Assert.assertTrue(Verification.verifyClientVersion(clientVersion));
+        
+        //Do release tests
+        Globals.overrideVersion("6", "0.102.1");
+
+        clientVersion = Globals.getClientVersion();
         Assert.assertTrue(Verification.verifyClientVersion(clientVersion));
 
         clientVersion = "";
@@ -61,7 +92,7 @@ public class VerificationTest extends AbstractCoopnetClientTest {
         clientVersion = null;
         Assert.assertFalse(Verification.verifyClientVersion(clientVersion));
 
-        String[] versionSplit = Globals.CLIENT_VERSION.split("\\.");
+        String[] versionSplit = Globals.getClientVersion().split("\\.");
         int[] i_versionSplit = new int[versionSplit.length];
         for(int i = 0; i < versionSplit.length; i++){
             i_versionSplit[i] = Integer.parseInt(versionSplit[i]);
@@ -101,6 +132,8 @@ public class VerificationTest extends AbstractCoopnetClientTest {
         clientVersion = "."+i_versionSplit[1]+"."+i_versionSplit[2];
         Assert.assertFalse(Verification.verifyClientVersion(clientVersion));
 
+        //Revert version numbers
+        Globals.preInit();
     }
 
     @Test
@@ -345,7 +378,7 @@ public class VerificationTest extends AbstractCoopnetClientTest {
         String file = ".";
         Assert.assertFalse(Verification.verifyFile(file));
 
-        file = "manifest.mf";
+        file = "src/Main.java";
         Assert.assertTrue(Verification.verifyFile(file));
 
         file = ".asdf";
@@ -360,10 +393,10 @@ public class VerificationTest extends AbstractCoopnetClientTest {
         file = ".\\";
         Assert.assertFalse(Verification.verifyFile(file));
 
-        file = "./manifest.mf";
+        file = "./src/Main.java";
         Assert.assertTrue(Verification.verifyFile(file));
 
-        file = ".\\manifest.mf";
+        file = ".\\src\\Main.java";
         Assert.assertTrue(Verification.verifyFile(file));
 
         try{

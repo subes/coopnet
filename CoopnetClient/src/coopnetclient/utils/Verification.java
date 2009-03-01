@@ -42,6 +42,10 @@ public final class Verification {
     }
 
     public static boolean verifyCompatibilityVersion(String version) {
+        if(version == null){
+            return false;
+        }
+
         if(!Globals.getCompatibilityVersion().equals(Globals.DEVELOPMENT_VERSION)
                 && !version.equals(Globals.DEVELOPMENT_VERSION)){
             return version.equals(Globals.getCompatibilityVersion());
@@ -51,6 +55,10 @@ public final class Verification {
     }
 
     public static boolean verifyClientVersion(String checkAgainst) {
+
+        if(checkAgainst == null){
+            return false;
+        }
 
         if(!checkAgainst.equals(Globals.DEVELOPMENT_VERSION)
                 && !Globals.getClientVersion().equals(Globals.DEVELOPMENT_VERSION)){

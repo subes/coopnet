@@ -117,6 +117,17 @@ public final class Globals {
         }
     }
 
+    /**
+     * Used for JUnit tests
+     *
+     * @param compatibilityVersion
+     * @param clientVersion
+     */
+    public static void overrideVersion(String compatibilityVersion, String clientVersion){
+        Globals.compatibilityVersion = compatibilityVersion;
+        Globals.clientVersion = clientVersion;
+    }
+
     public static void init() {
         try {
             currentPath = Client.getCurrentDirectory().getCanonicalPath();
