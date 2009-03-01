@@ -58,7 +58,7 @@ public class Protocol {
     }
 
     public static void sendVersion() {
-        new Message(ClientProtocolCommands.CLIENTVERSION, Globals.CLIENT_VERSION);
+        new Message(ClientProtocolCommands.CLIENTVERSION, Globals.getClientVersion());
     }
 
     public static void addToContacts(String contactName) {

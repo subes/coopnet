@@ -91,9 +91,9 @@ public class BugReportFrame extends javax.swing.JFrame {
                 "\n\t" + date.toLocaleString() +
                 "\n\t" + date.toGMTString();
 
-        report += "\n\nClient version:\n\t" + Globals.CLIENT_VERSION;
+        report += "\n\nClient version:\n\t" + Globals.getClientVersion();
 
-        report += "\n\nProtocol version:\n\t" + Globals.COMPATIBILITY_VERSION;
+        report += "\n\nProtocol version:\n\t" + Globals.getCompatibilityVersion();
 
         report += "\n\nJava version: \n\t" + System.getProperty("java.vm.name")+ " " + System.getProperty("java.runtime.version");
 
@@ -105,7 +105,7 @@ public class BugReportFrame extends javax.swing.JFrame {
 
         report += "\n\nCountry and Language codes:\n\t" + System.getProperty("user.country") + "-" + System.getProperty("user.language");
 
-        report += "\n\nHamachi:\n\t" + ((Client.getHamachiAddress().length()>0)?" found":" not found");
+        report += "\n\nHamachi:\n\t" + ((Client.getHamachiAddress().length()>0)?"found":"not found");
 
         //EMail
         if (tf_email.getText().length() > 0) {

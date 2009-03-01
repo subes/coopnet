@@ -42,33 +42,32 @@ public final class Verification {
     }
 
     public static boolean verifyCompatibilityVersion(String version) {
-        try {
-            int v = Integer.parseInt(version);
-            if (v != Globals.COMPATIBILITY_VERSION) {
-                return false;
-            }
-        } catch (Exception e) {
-            Logger.log(e);
-            return false;
+        if(!Globals.getCompatibilityVersion().equals(Globals.DEVELOPMENT_VERSION)
+                && !version.equals(Globals.DEVELOPMENT_VERSION)){
+            return version.equals(Globals.getCompatibilityVersion());
         }
 
         return true;
     }
 
     public static boolean verifyClientVersion(String checkAgainst) {
-        try {
-            //Here we have a number scheme x.x.x
-            String[] checkAgainstSplit = checkAgainst.split(VERSION_SPLIT_CHARACTER);
-            String[] clientVersionSplit = Globals.CLIENT_VERSION.split(VERSION_SPLIT_CHARACTER);
 
-            for (int i = 0; i < clientVersionSplit.length; i++) {
-                if (Integer.parseInt(clientVersionSplit[i]) < Integer.parseInt(checkAgainstSplit[i])) {
-                    return Integer.parseInt(clientVersionSplit[i - 1]) > Integer.parseInt(checkAgainstSplit[i - 1]);
+        if(!checkAgainst.equals(Globals.DEVELOPMENT_VERSION)
+                && !Globals.getClientVersion().equals(Globals.DEVELOPMENT_VERSION)){
+            try {
+                //Here we have a number scheme x.x.x
+                String[] checkAgainstSplit = checkAgainst.split(VERSION_SPLIT_CHARACTER);
+                String[] clientVersionSplit = Globals.getClientVersion().split(VERSION_SPLIT_CHARACTER);
+
+                for (int i = 0; i < clientVersionSplit.length; i++) {
+                    if (Integer.parseInt(clientVersionSplit[i]) < Integer.parseInt(checkAgainstSplit[i])) {
+                        return Integer.parseInt(clientVersionSplit[i - 1]) > Integer.parseInt(checkAgainstSplit[i - 1]);
+                    }
                 }
+            } catch (Exception e) {
+                Logger.log(e);
+                return false;
             }
-        } catch (Exception e) {
-            Logger.log(e);
-            return false;
         }
 
         return true;

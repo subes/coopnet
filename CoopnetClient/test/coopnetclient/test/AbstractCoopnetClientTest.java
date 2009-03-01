@@ -23,14 +23,12 @@ import coopnetclient.Globals;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 
-//CHECKSTYLE:OFF
 @Ignore
 public abstract class AbstractCoopnetClientTest {
-//CHECKSTYLE:ON
 
     @BeforeClass
     public static void enableDebug(){
-        Globals.detectOperatingSystem();
+        Globals.preInit();
         Globals.init();
         Globals.enableDebug();
     }

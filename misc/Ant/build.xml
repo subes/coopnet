@@ -28,6 +28,9 @@
         <manifest file="${nbproject.client.manifest}">
             <attribute name="SplashScreen-Image" value="splash.png"/>
             <attribute name="Built-By" value="${user.name} (${TODAY_DE})"/>
+            <attribute name="Specification-Title" value="Coopnet"/>
+            <attribute name="Specification-Version" value="${client.compatibility.version}"/>
+            <attribute name="Specification-Vendor" value="http://coopnet.sourceforge.net"/>
             <attribute name="Implementation-Title" value="CoopnetClient"/>
             <attribute name="Implementation-Version" value="${client.release.version}"/>
             <attribute name="Implementation-Vendor" value="http://coopnet.sourceforge.net"/>

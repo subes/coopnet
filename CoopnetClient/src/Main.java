@@ -61,7 +61,7 @@ public final class Main {
             System.exit(1);
         }
 
-        Globals.detectOperatingSystem();
+        Globals.preInit();
         checkArgs(args);
         Globals.init();
 
@@ -172,7 +172,7 @@ public final class Main {
     private static void printHelp(Options options) {
 
         //CHECKSTYLE:OFF
-        System.out.println("CoopnetClient, version "+Globals.CLIENT_VERSION);
+        System.out.println("CoopnetClient, version "+Globals.getClientVersion());
         //CHECKSTYLE:ON
         new HelpFormatter().printHelp("java -jar CoopnetClient.jar",
                         "options:",

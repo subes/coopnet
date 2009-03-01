@@ -37,10 +37,10 @@ import java.util.ArrayList;
 
 public final class Globals {
 
-    //Constants
-    public static final String CLIENT_VERSION = "0.102.1";
     //Increment this, when changes to the protocol commands have been done
-    public static final int COMPATIBILITY_VERSION = 6;
+    public static final String DEVELOPMENT_VERSION = "DEVELOPMENT";
+    private static String compatibilityVersion;
+    private static String clientVersion;
     private static OperatingSystems operatingSystem;
     private static String lastOpenedDir;
     private static String wineCommand;
@@ -77,7 +77,24 @@ public final class Globals {
     }
 
     /*******************************************************************/
-    public static void detectOperatingSystem() {
+    public static void preInit() {
+        //Detect Clientversion
+        Package thisPackage = Globals.class.getPackage();
+        String implementationVersion = thisPackage.getImplementationVersion();
+        if(implementationVersion != null){
+            clientVersion = implementationVersion;
+        }else{
+            clientVersion = DEVELOPMENT_VERSION;
+        }
+        //Detect Compatibilityversion
+        String specificationVersion = thisPackage.getSpecificationVersion();
+        if(specificationVersion != null){
+            compatibilityVersion = specificationVersion;
+        }else{
+            compatibilityVersion = DEVELOPMENT_VERSION;
+        }
+
+        //Detect OS
         final String lineSeperator = System.getProperty("line.separator");
 
         if (lineSeperator.equals("\r\n")) {
@@ -122,6 +139,14 @@ public final class Globals {
 
         FrameOrganizer.init();
 
+    }
+
+    public static String getClientVersion(){
+        return clientVersion;
+    }
+
+    public static String getCompatibilityVersion(){
+        return compatibilityVersion;
     }
 
     public static boolean isHighlighted(String userName) {

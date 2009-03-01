@@ -350,7 +350,7 @@ public class ClientFrame extends javax.swing.JFrame {
             }
         });
 
-        setTitle("CoopnetClient "+ Globals.CLIENT_VERSION);
+        setTitle("CoopnetClient "+ Globals.getClientVersion());
         setMinimumSize(new java.awt.Dimension(600, 400));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
