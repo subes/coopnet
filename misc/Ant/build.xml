@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CoopnetClient" default="package" basedir=".">
+    <description>Used for making releases of JXGrabKey.</description>
+
+    <tstamp>
+        <format property="TODAY_DE" pattern="dd.MM.yyyy" locale="de,DE"/>
+    </tstamp>
+
+    <property file="release.properties"/>
+
+    <target name="-init">
+        <mkdir dir="${client.release.dir}"/>
+        <mkdir dir="${client.release.dir.lib}"/>
+        <mkdir dir="${client.release.dir.data}"/>
+    </target>
+
+    <target name="-clean">
+        <ant dir="${nbproject.client.dir}" target="clean"/>
+        <ant dir="${nbproject.updater.dir}" target="clean"/>
+        <delete dir="${client.release.dir}"/>
+        <delete file="${nbproject.client.manifest}"/>
+        <delete file="${nbproject.updater.manifest}"/>
+        <delete file="${packagingscripts.windows.name}"/>
+    </target>
+
+    <target name="-build">
+        <!-- create the manifest file for client -->
+        <manifest file="${nbproject.client.manifest}">
+            <attribute name="SplashScreen-Image" value="splash.png"/>
+            <attribute name="Built-By" value="${user.name} (${TODAY_DE})"/>
+            <attribute name="Implementation-Title" value="CoopnetClient"/>
+            <attribute name="Implementation-Version" value="${client.release.version}"/>
+            <attribute name="Implementation-Vendor" value="http://coopnet.sourceforge.net"/>
+        </manifest>
+        <!-- build client project -->
+        <ant dir="${nbproject.client.dir}" target="jar">
+            <property name="manifest.file" value="manifest.mf"/>
+            <property name="main.class" value="Main"/>
+        </ant>
+        <!-- create the manifest file for updater -->
+        <manifest file="${nbproject.updater.manifest}">
+            <attribute name="Built-By" value="${user.name} (${TODAY_DE})"/>
+            <attribute name="Implementation-Title" value="CoopnetUpdater"/>
+            <attribute name="Implementation-Version" value="${updater.release.version}"/>
+            <attribute name="Implementation-Vendor" value="http://coopnet.sourceforge.net"/>
+        </manifest>
+        <!-- build updater project -->
+        <ant dir="${nbproject.updater.dir}" target="jar">
+            <property name="manifest.file" value="manifest.mf"/>
+            <property name="main.class" value="Main"/>
+        </ant>
+    </target>
+
+    <target name="-copy" depends="-init">
+        <!-- copy client jar -->
+        <copy todir="${client.release.dir}">
+            <fileset dir="${nbproject.client.dir.dist}">
+                <include name="**/*.jar"/>
+            </fileset>
+        </copy>
+        <!-- copy clients libs -->
+        <copy todir="${client.release.dir.lib}">
+            <fileset dir="${nbproject.client.dir.lib}"/>
+        </copy>
+        <!-- copy clients data -->
+        <copy todir="${client.release.dir.data}">
+            <fileset dir="${nbproject.client.dir.data}">
+                <exclude name="**/.svn"/>
+            </fileset>
+        </copy>
+        <!-- copy clients releasefiles -->
+        <copy todir="${client.release.dir}">
+            <fileset dir="${releasefiles.dir}">
+                <exclude name="**/.svn"/>
+            </fileset>
+        </copy>
+        <!-- copy updater jar -->
+        <copy todir="${basedir}">
+            <fileset dir="${nbproject.updater.dir.dist}">
+                <include name="**/*.jar"/>
+            </fileset>
+        </copy>
+        <move file="${updater.jar}" tofile="${updater.release.jar}"/>
+    </target>
+
+    <target name="-zip">
+        <copydir src="${client.release.dir}" dest="${zip.dir}/${client.release.dir}"/>
+        <zip destfile="${client.release.zip}" basedir="${zip.dir}"/>
+        <delete dir="${zip.dir}"/>
+    </target>
+
+    <target name="-nsi">
+        <copyfile src="${packagingscripts.windows}" dest="${packagingscripts.windows.name}"/>
+        <replaceregexp byline="true">
+            <regexp pattern="\Q${VERSION}"/>
+            <substitution expression="${client.release.version}"/>
+            <fileset file="${packagingscripts.windows.name}"/>
+        </replaceregexp>
+        <exec executable="makensis">
+            <arg value="${packagingscripts.windows.name}"/>
+        </exec>
+    </target>
+
+    <target name="package" description="Creates the release package.">
+        <delete file="${updater.release.jar}"/>
+        <delete file="${client.release.zip}"/>
+        <antcall target="-clean"/>
+        <antcall target="-build"/>
+        <antcall target="-copy"/>
+        <antcall target="-zip"/>
+        <antcall target="-nsi"/>
+        <antcall target="-clean"/>
+    </target>
+
+</project>

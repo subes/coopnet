@@ -1,10 +1,10 @@
 !include "LogicLib.nsh"
 
-; The name of the installer
-Name "CoopnetClient 0.102.1"
+; The name of the installer; Version gets replaced by ant
+Name "CoopnetClient ${VERSION}"
 
 ; The file to write
-OutFile "CoopnetClientInstaller-win32.exe"
+OutFile "CoopnetClient-${VERSION}_Win32Installer.exe"
 
 ; The default installation directory
 InstallDir $PROGRAMFILES\Coopnet
