@@ -6,7 +6,9 @@
         <format property="TODAY_DE" pattern="dd.MM.yyyy" locale="de,DE"/>
     </tstamp>
 
-    <property file="release.properties"/>
+    <!-- Load properties. First user specific properties which will override common properties. -->
+    <property file="${user.name}.properties"/> 
+    <property file="common.properties"/>
 
     <target name="-init">
         <mkdir dir="${client.release.dir}"/>
@@ -99,7 +101,7 @@
             <substitution expression="${client.release.version}"/>
             <fileset file="${packagingscripts.windows.name}"/>
         </replaceregexp>
-        <exec executable="makensis">
+        <exec executable="${commands.makensis}">
             <arg value="${packagingscripts.windows.name}"/>
         </exec>
     </target>
