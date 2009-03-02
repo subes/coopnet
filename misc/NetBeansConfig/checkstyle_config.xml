@@ -188,7 +188,7 @@
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
         <!--<module name="HiddenField"/>-->
-        <module name="ArrayTrailingComma"/>
+        <!--<module name="ArrayTrailingComma"/>-->
         <module name="IllegalInstantiation">
             <property name="classes" value="java.lang.Boolean"/>
         </module>
