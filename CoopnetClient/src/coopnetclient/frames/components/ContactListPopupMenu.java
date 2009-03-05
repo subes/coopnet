@@ -25,7 +25,7 @@ import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.components.mutablelist.EditableJlist;
 import coopnetclient.frames.models.ContactListModel;
-import coopnetclient.utils.ErrThread;
+import coopnetclient.threads.ErrThread;
 import coopnetclient.utils.MuteBanList;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.filechooser.FileChooser;

@@ -30,7 +30,7 @@ import coopnetclient.frames.components.TabComponent;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.utils.ErrThread;
+import coopnetclient.threads.ErrThread;
 import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
@@ -38,6 +38,7 @@ import coopnetclient.utils.ui.SoundPlayer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
+import coopnetclient.threads.EdtRunner;
 import java.awt.Component;
 import java.awt.Font;
 import java.io.File;
@@ -376,10 +377,10 @@ public final class TabOrganizer {
     }
 
     public static synchronized void openErrorPanel(final ErrorPanelStyle mode, final Throwable e) {
-        SwingUtilities.invokeLater(new ErrThread() {
+        new EdtRunner(){
             private static final String CLIENT_TOO_OLD = "Client too old";
             private static final String ERROR = "Error";
-
+            
             @Override
             public void handledRun() throws Throwable {
                 if (mode == ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH) {
@@ -404,7 +405,7 @@ public final class TabOrganizer {
                 }
                 FrameOrganizer.getClientFrame().repaint();
             }
-        });
+        }.invokeLater();
     }
 
     public static void closeErrorPanel() {
@@ -415,7 +416,7 @@ public final class TabOrganizer {
     public static synchronized void openLoginPanel() {
         if (loginPanel == null) {
             //Thread is needed here to get rid of an exception at startup
-            SwingUtilities.invokeLater(new ErrThread() {
+            new EdtRunner() {
                 @Override
                 public void handledRun() throws Throwable {
                     closeConnectingPanel();
@@ -423,7 +424,7 @@ public final class TabOrganizer {
                     tabHolder.addTab("Login", loginPanel);
                     tabHolder.setSelectedComponent(loginPanel);
                 }
-            });
+            }.invokeLater();
         } else {
             Logger.log(LogTypes.WARNING, "There's already a LoginPanel !");
             tabHolder.setSelectedComponent(loginPanel);
@@ -438,15 +439,14 @@ public final class TabOrganizer {
     public static void openRegisterPanel(final String loginname) {
         if (registerPanel == null) {
             //Thread is needed here to get rid of an exception at startup
-            SwingUtilities.invokeLater(new ErrThread() {
-
+            new EdtRunner() {
                 @Override
                 public void handledRun() throws Throwable {
                     registerPanel = new RegisterPanel(loginname);
                     tabHolder.addTab("Register", registerPanel);
                     tabHolder.setSelectedComponent(registerPanel);
                 }
-            });
+            }.invokeLater();
         } else {
             Logger.log(LogTypes.WARNING, "There's an opened RegisterPanel already!");
             tabHolder.setSelectedComponent(registerPanel);
@@ -461,14 +461,14 @@ public final class TabOrganizer {
     public static void openConnectingPanel() {
         if (connectingPanel == null) {
             //Thread is needed here to get rid of an exception at startup
-            SwingUtilities.invokeLater(new ErrThread() {
+            new EdtRunner() {
                 @Override
                 public void handledRun() throws Throwable {
                     connectingPanel = new ConnectingPanel();
                     tabHolder.addTab("Connecting", connectingPanel);
                     tabHolder.setSelectedComponent(connectingPanel);
                 }
-            });
+            }.invokeLater();
         } else {
             Logger.log(LogTypes.WARNING, "There's an opened ConnectingPanel already!");
             tabHolder.setSelectedComponent(connectingPanel);
@@ -483,7 +483,7 @@ public final class TabOrganizer {
     public static void openPasswordRecoveryPanel() {
         if (passwordRecoveryPanel == null) {
             //Thread is needed here to get rid of an exception at startup
-            SwingUtilities.invokeLater(new ErrThread() {
+            new EdtRunner() {
 
                 @Override
                 public void handledRun() throws Throwable {
@@ -491,7 +491,7 @@ public final class TabOrganizer {
                     tabHolder.addTab("Password recovery", passwordRecoveryPanel);
                     tabHolder.setSelectedComponent(passwordRecoveryPanel);
                 }
-            });
+            }.invokeLater();
         } else {
             Logger.log(LogTypes.WARNING, "There's an open LoginPanel already!");
             tabHolder.setSelectedComponent(passwordRecoveryPanel);
@@ -599,8 +599,7 @@ public final class TabOrganizer {
     }
 
     public static void closeAllTabs() {
-        SwingUtilities.invokeLater(new ErrThread() {
-
+        new EdtRunner() {
             @Override
             public void handledRun() throws Throwable {
                 closeRoomPanel();
@@ -630,6 +629,6 @@ public final class TabOrganizer {
                     Err.handle(new IllegalStateException(text));
                 }
             }
-        });
+        }.invokeLater();
     }
 }

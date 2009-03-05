@@ -285,6 +285,10 @@
             <property name="format" value="(new|extends)[ ]*SwingWorker"/>
             <property name="message" value="Use ErrSwingWorker instead"/>
         </module>
+        <module name="GenericIllegalRegexp">
+            <property name="format" value="SwingUtilities\.(invokeAndWait|invokeLater)\("/>
+            <property name="message" value="Use EdtRunner instead"/>
+        </module>
         <module name="TodoComment"/>
         <module name="UpperEll"/>
         <module name="UncommentedMain">

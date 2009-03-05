@@ -62,14 +62,14 @@ public class MessageFrame extends javax.swing.JFrame {
 
     public static void setDownloadProgress(final long bytesread) {
         SwingUtilities.invokeLater(
-                new Runnable() {
+            new Runnable() {
 
-                    @Override
-                    public void run() {
-                        lbl_progress.setText(bytesread + " / " + fullDownloadSize + " bytes");
-                        downloadProgress.setValue((int) (( (1.0 * bytesread ) / fullDownloadSize) * 100));
-                    }
-                });
+                @Override
+                public void run() {
+                    lbl_progress.setText(bytesread + " / " + fullDownloadSize + " bytes");
+                    downloadProgress.setValue((int) (( (1.0 * bytesread ) / fullDownloadSize) * 100));
+                }
+            });
     }
 
     /** This method is called from within the constructor to

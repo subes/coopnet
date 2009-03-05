@@ -17,13 +17,15 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.utils;
+package coopnetclient.threads;
 
 import coopnetclient.Err;
 import java.util.List;
 import javax.swing.SwingWorker;
 
+//CHECKSTYLE:OFF
 public abstract class ErrSwingWorker extends SwingWorker {
+//CHECKSTYLE:ON
 
     @Override
     protected final Object doInBackground() throws Exception {

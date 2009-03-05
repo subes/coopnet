@@ -21,7 +21,7 @@ package coopnetclient.frames.components;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
-import coopnetclient.utils.ErrThread;
+import coopnetclient.threads.ErrThread;
 import coopnetclient.utils.MuteBanList;
 import coopnetclient.utils.filechooser.FileChooser;
 import java.awt.Component;

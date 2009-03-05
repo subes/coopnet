@@ -30,10 +30,11 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import coopnetclient.frames.listeners.ColorChooserButtonActionListener;
-import coopnetclient.utils.ErrThread;
+import coopnetclient.threads.ErrThread;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.settings.Settings;
+import coopnetclient.threads.EdtRunner;
 import coopnetclient.utils.ui.Colors;
 import java.awt.Component;
 import java.awt.Font;
@@ -1269,14 +1270,14 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
         }
 
         if (!error) {
-            SwingUtilities.invokeLater(new ErrThread() {
+            new EdtRunner() {
                 @Override
                 public void handledRun() throws Throwable {
                     Colors.init();
                     FrameOrganizer.recolorFrames();
                     TabOrganizer.updateStyle();
                 }
-            });
+            }.invokeLater();
         }
 
         requestFocus(); //somehow clientframe steals focus

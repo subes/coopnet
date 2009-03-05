@@ -17,11 +17,13 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.utils;
+package coopnetclient.threads;
 
 import coopnetclient.Err;
 
+//CHECKSTYLE:OFF
 public abstract class ErrThread extends Thread {
+//CHECKSTYLE:ON
 
     @Override
     public final void run() {
