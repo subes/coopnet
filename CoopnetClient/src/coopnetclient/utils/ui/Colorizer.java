@@ -16,21 +16,43 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.utils.ui;
 
 import coopnetclient.utils.settings.Settings;
-import coopnetclient.frames.components.ChatOutput;
-import coopnetclient.frames.components.ChatOutputPopupMenu;
-import coopnetclient.utils.*;
 import coopnetclient.frames.components.CustomScrollBarUI;
 import coopnetclient.frames.components.TextComponentPopupMenu;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
-import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
+import coopnetclient.utils.Logger;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.Window;
 import java.lang.reflect.Method;
 import java.util.Vector;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeListener;
@@ -49,156 +71,29 @@ import javax.swing.text.JTextComponent;
  *    - colorize Controlbuttons in the same manner as the scrollbar buttons
  *    - find out how to change the scrollbar of jcombobox
  */
-public class Colorizer {
+public final class Colorizer {
 
-    private static Color bgColor,  fgColor,  btnbgColor,  tfbgColor,  disabledColor,  selectionColor,  borderColor;
+   
     private static Vector<Component> toExecuteCustomCodeIn;
-    
-    //difference to bg color (calculated later)
-    private final static int BTN_DIFF = 20;
-    private final static int TF_DIFF = 10;
-    private final static int DISABLED_DIFF = 75;   
 
-    static {
-        //init colors on first usage
-        initColors();
+    private Colorizer() {
     }
 
-    //public getters for colors
-    public static Color getBackgroundColor() {
-        return bgColor;
+    public static boolean isCurrentLafSupportedForColoring() {
+        return isLafSupportedForColoring(UIManager.getLookAndFeel().getName());
     }
 
-    public static Color getForegroundColor() {
-        return fgColor;
+    public static boolean isLafSupportedForColoring(String lafName) {
+        return lafName.equals("Metal");
     }
 
-    public static Color getButtonBackgroundColor() {
-        return btnbgColor;
-    }
-
-    public static Color getTextfieldBackgroundColor() {
-        return tfbgColor;
-    }
-
-    public static Color getDisabledColor() {
-        return disabledColor;
-    }
-
-    public static Color getSelectionColor() {
-        return selectionColor;
-    }
-
-    public static Color getBorderColor() {
-        return borderColor;
-    }
-    
-    /**************************************************************/
-
-    //Use this for Frames
-    public static void colorize(Container root) {
-
-        if(root == null){
-            return;
-        }
-        if (root instanceof Window) {
-            Window frame = (Window) root;
-            frame.setIconImage(Icons.coopnetNormalIcon.getImage());
-        }
-
-        toExecuteCustomCodeIn = new Vector<Component>();
-
-        if (root instanceof JFrame) {
-            JFrame frame = (JFrame) root;
-            toExecuteCustomCodeIn.add(frame);
-            enableEffectsRecursively(frame.getContentPane());
-            addPopupMenusRecursively(frame.getContentPane());
-            if (frame.getJMenuBar() != null) {
-                enableEffectsRecursively(frame.getJMenuBar());
-            }
-        } else {
-            //Treat it normally
-            enableEffectsRecursively(root);
-            addPopupMenusRecursively(root);
-        }
-
-        //First collect, then run (no problems then)
-        executeCustomCode();
-    }
-    //Calculating colors (only use from settings frame)
-    public static void initColors() {
-
-        if (Settings.getColorizeBody()) {
-            bgColor = coopnetclient.utils.settings.Settings.getBackgroundColor();
-            fgColor = coopnetclient.utils.settings.Settings.getForegroundColor();
-            selectionColor = coopnetclient.utils.settings.Settings.getSelectionColor();
-            borderColor = coopnetclient.utils.settings.Settings.getForegroundColor();
-        } else {
-            bgColor = null;
-            fgColor = null;
-            selectionColor = null;
-            borderColor = null;
-        }
-
-        if (bgColor != null) {
-            //Calculating other component colors
-            int[] rgb = new int[3];
-
-            //Button color
-            rgb[0] = bgColor.getRed();
-            rgb[1] = bgColor.getGreen();
-            rgb[2] = bgColor.getBlue();
-            for (int i = 0; i < rgb.length; i++) {
-                if (rgb[i] >= 128) {
-                    rgb[i] -= BTN_DIFF;
-                } else {
-                    rgb[i] += BTN_DIFF;
-                }
-            }
-            btnbgColor = new Color(rgb[0], rgb[1], rgb[2]);
-
-            //Textfield color
-            rgb[0] = bgColor.getRed();
-            rgb[1] = bgColor.getGreen();
-            rgb[2] = bgColor.getBlue();
-            for (int i = 0; i < rgb.length; i++) {
-                if (rgb[i] >= 128) {
-                    rgb[i] -= TF_DIFF;
-                } else {
-                    rgb[i] += TF_DIFF;
-                }
-            }
-            tfbgColor = new Color(rgb[0], rgb[1], rgb[2]);
-
-            //disabled item color
-            rgb[0] = bgColor.getRed();
-            rgb[1] = bgColor.getGreen();
-            rgb[2] = bgColor.getBlue();
-            for (int i = 0; i < rgb.length; i++) {
-                if (rgb[i] >= 128) {
-                    rgb[i] -= DISABLED_DIFF;
-                } else {
-                    rgb[i] += DISABLED_DIFF;
-                }
-            }
-            disabledColor = new Color(rgb[0], rgb[1], rgb[2]);
-        } else {
-            btnbgColor = null;
-            tfbgColor = null;
-            disabledColor = null;
-        }
-
-        //If here, we call it only once
-        modifyUI();
-    }
-    //Sets the LAF (only used by Client @ Startup)
-    public static void initLAF() {
+    public static void init() {
         try {
             if (Settings.getUseNativeLookAndFeel()) {
                 throw new Exception("Invoking catch stuff!");
             } else {
                 String selectedLAF = Settings.getSelectedLookAndFeel();
-                UIManager.LookAndFeelInfo infos[] = UIManager.getInstalledLookAndFeels();
+                LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
 
                 String selectedLAFClass = null;
                 for (int i = 0; i < infos.length; i++) {
@@ -231,23 +126,35 @@ public class Colorizer {
         }
     }
 
-    public static boolean getCurrentLAFisSupportedForColoring() {
-        if (UIManager.getLookAndFeel().getName().equals("Metal")) {
-            return true;
+    public static void colorize(Container root) {
+
+        if (root == null) {
+            return;
+        }
+        if (root instanceof Window) {
+            Window frame = (Window) root;
+            frame.setIconImage(Icons.coopnetNormalIcon.getImage());
         }
 
-        return false;
-    }
-    
-    public static boolean getLAFisSupportedForColoring(String LAFName) {
-        if (LAFName.equals("Metal")) {
-            return true;
+        toExecuteCustomCodeIn = new Vector<Component>();
+
+        if (root instanceof JFrame) {
+            JFrame frame = (JFrame) root;
+            toExecuteCustomCodeIn.add(frame);
+            enableEffectsRecursively(frame.getContentPane());
+            addPopupMenusRecursively(frame.getContentPane());
+            if (frame.getJMenuBar() != null) {
+                enableEffectsRecursively(frame.getJMenuBar());
+            }
+        } else {
+            //Treat it normally
+            enableEffectsRecursively(root);
+            addPopupMenusRecursively(root);
         }
 
-        return false;
+        //First collect, then run (no problems then)
+        executeCustomCode();
     }
-
-    /*****************************************************************/    
 
     private static void addPopupMenusRecursively(Container root) {
         Component[] components = root.getComponents();
@@ -261,8 +168,8 @@ public class Colorizer {
 
             toExecuteCustomCodeIn.add(c);
 
-            if(c instanceof Container){
-                addPopupMenusRecursively((Container)c);
+            if (c instanceof Container) {
+                addPopupMenusRecursively((Container) c);
             }
         }
 
@@ -272,17 +179,14 @@ public class Colorizer {
     private static void enableEffectsRecursively(Container root) {
 
         //Dont colorize if following is the case
-        if (        getCurrentLAFisSupportedForColoring() == false
-                ||  root == null
-                || (!Settings.getColorizeBody() && (root instanceof JFileChooser || root instanceof JDialog))
-        ){
+        if (isCurrentLafSupportedForColoring() == false || root == null || (!Settings.getColorizeBody() && (root instanceof JFileChooser || root instanceof JDialog))) {
             return;
         }
 
         //colorize root, if not already done in different color
         if (!(root instanceof JButton) && !(root instanceof JTextComponent)) {
-            root.setForeground(fgColor);
-            root.setBackground(bgColor);
+            root.setForeground(Colors.getForegroundColor());
+            root.setBackground(Colors.getBackgroundColor());
         }
         toExecuteCustomCodeIn.add(root);
 
@@ -308,9 +212,9 @@ public class Colorizer {
 
             if (c instanceof JList) {
                 JList lst = (JList) c;
-                if (bgColor != null) {
-                    lst.setSelectionBackground(selectionColor);
-                    lst.setSelectionForeground(fgColor);
+                if (Colors.getBackgroundColor() != null) {
+                    lst.setSelectionBackground(Colors.getSelectionColor());
+                    lst.setSelectionForeground(Colors.getForegroundColor());
                 } else {
                     lst.setSelectionBackground((Color) UIManager.get("List.selectionBackground"));
                     lst.setSelectionForeground((Color) UIManager.get("List.selectionForeground"));
@@ -318,9 +222,9 @@ public class Colorizer {
             } else if (c instanceof JTable) {
                 JTable tbl = (JTable) c;
                 tbl.setUI(new BasicTableUI());
-                if (bgColor != null) {
-                    tbl.setSelectionBackground(selectionColor);
-                    tbl.setSelectionForeground(fgColor);
+                if (Colors.getBackgroundColor() != null) {
+                    tbl.setSelectionBackground(Colors.getSelectionColor());
+                    tbl.setSelectionForeground(Colors.getForegroundColor());
                 } else {
                     tbl.setSelectionBackground((Color) UIManager.get("Table.selectionBackground"));
                     tbl.setSelectionForeground((Color) UIManager.get("Table.selectionForeground"));
@@ -351,7 +255,7 @@ public class Colorizer {
                         }
                     }
                 }
-                if (bgColor != null) {
+                if (Colors.getBackgroundColor() != null) {
                     tp.addChangeListener(new TabbedPaneColorChangeListener(tp));
                 }
 
@@ -359,17 +263,17 @@ public class Colorizer {
                 JTextComponent tc = (JTextComponent) c;
 
                 if (c instanceof JTextField) {
-                    if (!(c.getParent().getClass().getName().contains("JSpinner"))) { 
+                    if (!(c.getParent().getClass().getName().contains("JSpinner"))) {
                         //Dont do this, if we have a JSpinner
-                        tc.setBorder(javax.swing.BorderFactory.createLineBorder(borderColor));
+                        tc.setBorder(javax.swing.BorderFactory.createLineBorder(Colors.getBorderColor()));
                     }
                 }
-                if (bgColor != null) {
-                    tc.setForeground(fgColor);
-                    tc.setBackground(tfbgColor);
-                    tc.setCaretColor(fgColor);
-                    tc.setSelectedTextColor(fgColor);
-                    tc.setSelectionColor(selectionColor);
+                if (Colors.getBackgroundColor() != null) {
+                    tc.setForeground(Colors.getForegroundColor());
+                    tc.setBackground(Colors.getTextfieldBackgroundColor());
+                    tc.setCaretColor(Colors.getForegroundColor());
+                    tc.setSelectedTextColor(Colors.getForegroundColor());
+                    tc.setSelectionColor(Colors.getSelectionColor());
 
                 } else {
                     tc.setForeground((Color) UIManager.get("TextArea.foreground"));
@@ -384,35 +288,35 @@ public class Colorizer {
 
                 if (b != null && b instanceof TitledBorder) {
                     TitledBorder tb = (TitledBorder) b;
-                    tb.setTitleColor(fgColor);
-                    tb.setBorder(javax.swing.BorderFactory.createLineBorder(borderColor));
+                    tb.setTitleColor(Colors.getForegroundColor());
+                    tb.setBorder(javax.swing.BorderFactory.createLineBorder(Colors.getBorderColor()));
                 }
             } else if (c instanceof JScrollPane) {
                 JScrollPane sp = (JScrollPane) c;
-                sp.setBorder(javax.swing.BorderFactory.createLineBorder(borderColor));
+                sp.setBorder(javax.swing.BorderFactory.createLineBorder(Colors.getBorderColor()));
             } else if (c instanceof JScrollBar) {
                 JScrollBar sb = (JScrollBar) c;
 
-                if (bgColor != null) {
+                if (Colors.getBackgroundColor() != null) {
                     sb.setUI(new CustomScrollBarUI());
                 } else {
                     sb.setUI(new MetalScrollBarUI());
                 }
             } else if (c instanceof JButton) {
                 JButton btn = (JButton) c;
-                btn.setForeground(fgColor);
-                btn.setBackground(btnbgColor);
+                btn.setForeground(Colors.getForegroundColor());
+                btn.setBackground(Colors.getButtonBackgroundColor());
 
             } else if (c instanceof JComboBox) {
                 JComboBox cb = (JComboBox) c;
-                cb.setBorder(javax.swing.BorderFactory.createLineBorder(borderColor));
+                cb.setBorder(javax.swing.BorderFactory.createLineBorder(Colors.getBorderColor()));
                 cb.updateUI();
             } else if (c instanceof JSplitPane) {
                 JSplitPane sp = (JSplitPane) c;
-                setSplitPaneDividerColor(sp, bgColor);
+                setSplitPaneDividerColor(sp, Colors.getBackgroundColor());
             } else if (c instanceof JSpinner) {
                 JSpinner spnr = (JSpinner) c;
-                spnr.setBorder(BorderFactory.createLineBorder(borderColor));
+                spnr.setBorder(BorderFactory.createLineBorder(Colors.getBorderColor()));
             }
 
             //Component may have his own code, too
@@ -442,341 +346,15 @@ public class Colorizer {
                 if (m.getName().equals("customCodeForColoring") || m.getName().equals("customCodeForPopupMenu")) {
                     try {
                         m.invoke(obj);
-                    } catch (IllegalArgumentException ex) {
-                        ex.printStackTrace();
-                    } catch (InvocationTargetException ex) {
-                        ex.printStackTrace();
-                    } catch (IllegalAccessException ex) {
-                        ex.printStackTrace();
+                    } catch (Exception e) {
+                        Logger.log(e);
                     }
                 }
             }
         }
     }
 
-    private static void modifyUI() {
-        UIManager.put("TabbedPane.background", bgColor);
-        UIManager.put("TabbedPane.borderHightlightColor", null);
-        UIManager.put("TabbedPane.contentAreaColor", bgColor);
-        UIManager.put("TabbedPane.darkShadow", null);
-        UIManager.put("TabbedPane.focus", bgColor);
-        UIManager.put("TabbedPane.foreground", fgColor);
-        UIManager.put("TabbedPane.highlight", null);
-        UIManager.put("TabbedPane.light", null);
-        UIManager.put("TabbedPane.selectHighlight", null);
-        UIManager.put("TabbedPane.selected", bgColor);
-        UIManager.put("TabbedPane.shadow", null);
-        UIManager.put("TabbedPane.tabAreaBackground", null);
-        UIManager.put("TabbedPane.unselectedBackground", selectionColor);
-
-        UIManager.put("Menu.acceleratorForeground", bgColor);
-        UIManager.put("Menu.acceleratorSelectionForeground", fgColor);
-        UIManager.put("Menu.background", bgColor);
-        UIManager.put("Menu.disabledForeground", disabledColor);
-        UIManager.put("Menu.foreground", fgColor);
-        UIManager.put("Menu.selectionBackground", selectionColor);
-        UIManager.put("Menu.selectionForeground", fgColor);
-
-        UIManager.put("MenuItem.acceleratorForeground", null);
-        UIManager.put("MenuItem.acceleratorSelectionForeground", null);
-        UIManager.put("MenuItem.background", bgColor);
-        UIManager.put("MenuItem.disabledForeground", disabledColor);
-        UIManager.put("MenuItem.foreground", fgColor);
-        UIManager.put("MenuItem.selectionBackground", selectionColor);
-        UIManager.put("MenuItem.selectionForeground", fgColor);
-
-        UIManager.put("TableHeader.background", bgColor);
-        UIManager.put("TableHeader.focusCellBackground", null);
-        UIManager.put("TableHeader.foreground", fgColor);
-
-        UIManager.put("Table.background", bgColor);
-        UIManager.put("Table.dropCellBackground", null);
-        UIManager.put("Table.dropLineColor", null);
-        UIManager.put("Table.dropLineShortColor", null);
-        UIManager.put("Table.focusCellBackground", null);
-        UIManager.put("Table.focusCellForeground", null);
-        UIManager.put("Table.foreground", fgColor);
-        UIManager.put("Table.gridColor", null);
-        UIManager.put("Table.selectionBackground", btnbgColor);
-        UIManager.put("Table.selectionForeground", fgColor);
-        UIManager.put("Table.sortIconColor", fgColor);
-
-        UIManager.put("TitledBorder.titleColor", fgColor);
-
-        UIManager.put("PopupMenu.background", bgColor);
-        UIManager.put("PopupMenu.foreground", fgColor);
-
-        //No need to recursively color these yet
-        UIManager.put("ComboBox.background", btnbgColor);
-        UIManager.put("ComboBox.buttonBackground", btnbgColor);
-        UIManager.put("ComboBox.buttonDarkShadow", null);
-        UIManager.put("ComboBox.buttonHighlight", null);
-        UIManager.put("ComboBox.buttonShadow", null);
-        UIManager.put("ComboBox.disabledBackground", btnbgColor);
-        UIManager.put("ComboBox.disabledForeground", disabledColor);
-        UIManager.put("ComboBox.foreground", fgColor);
-        UIManager.put("ComboBox.selectionBackground", selectionColor);
-        UIManager.put("ComboBox.selectionForeground", fgColor);
-
-        UIManager.put("Spinner.background", bgColor);
-        UIManager.put("Spinner.foreground", fgColor);
-
-        UIManager.put("ToolTip.background", tfbgColor);
-        UIManager.put("ToolTip.backgroundInactive", tfbgColor);
-        UIManager.put("ToolTip.foreground", fgColor);
-        UIManager.put("ToolTip.foregroundInactive", disabledColor);
-
-    //BEGIN***************JOPTIONPANE COLORING
-        UIManager.put("Button.background", btnbgColor);
-        UIManager.put("Button.darkShadow", null);
-        UIManager.put("Button.disabledText", disabledColor);
-        UIManager.put("Button.disabledToolBarBorderBackground", disabledColor);
-        UIManager.put("Button.focus", null);
-        UIManager.put("Button.foreground", fgColor);
-        UIManager.put("Button.highlight", null);
-        UIManager.put("Button.light", null);
-        UIManager.put("Button.select", selectionColor);
-        UIManager.put("Button.shadow", null);
-        UIManager.put("Button.toolBarBorderBackground", borderColor);
-
-        UIManager.put("Panel.background", bgColor);
-        UIManager.put("Panel.foreground", fgColor);
-
-        UIManager.put("OptionPane.background", bgColor);
-        UIManager.put("OptionPane.errorDialog.border.background", borderColor);
-        UIManager.put("OptionPane.errorDialog.titlePane.background", bgColor);
-        UIManager.put("OptionPane.errorDialog.titlePane.foreground", fgColor);
-        UIManager.put("OptionPane.errorDialog.titlePane.shadow", null);
-        UIManager.put("OptionPane.foreground", fgColor);
-        UIManager.put("OptionPane.messageForeground", fgColor);
-        UIManager.put("OptionPane.questionDialog.border.background", borderColor);
-        UIManager.put("OptionPane.questionDialog.titlePane.background", bgColor);
-        UIManager.put("OptionPane.questionDialog.titlePane.foreground", fgColor);
-        UIManager.put("OptionPane.questionDialog.titlePane.shadow", null);
-        UIManager.put("OptionPane.warningDialog.border.background", borderColor);
-        UIManager.put("OptionPane.warningDialog.titlePane.background", bgColor);
-        UIManager.put("OptionPane.warningDialog.titlePane.foreground", fgColor);
-        UIManager.put("OptionPane.warningDialog.titlePane.shadow", null);
-    //END***************JOPTIONPANE COLORING
-
-        /* UNUSED COMPONENT TYPES, DO NOT REMOVE
-    UIManager.put("control", btnbgColor); 
-    UIManager.put("controlDkShadow", fgColor); 
-    UIManager.put("controlHighlight", null); 
-    UIManager.put("controlLtHighlight", null); 
-    UIManager.put("controlShadow", null); 
-    UIManager.put("controlText", fgColor); 
-    UIManager.put("MenuBar.background", bgColor); 
-    UIManager.put("MenuBar.borderColor", null); 
-    UIManager.put("MenuBar.foreground", fgColor); 
-    UIManager.put("MenuBar.highlight", null); 
-    UIManager.put("MenuBar.shadow", null); 
-    UIManager.put("CheckBoxMenuItem.acceleratorForeground", null); 
-    UIManager.put("CheckBoxMenuItem.acceleratorSelectionForeground", null); 
-    UIManager.put("CheckBoxMenuItem.background", bgColor); 
-    UIManager.put("CheckBoxMenuItem.disabledForeground", disabledColor); 
-    UIManager.put("CheckBoxMenuItem.foreground", fgColor); 
-    UIManager.put("CheckBoxMenuItem.selectionBackground", fgColor); 
-    UIManager.put("CheckBoxMenuItem.selectionForeground", bgColor);
-    UIManager.put("RadioButtonMenuItem.acceleratorForeground", null); 
-    UIManager.put("RadioButtonMenuItem.acceleratorSelectionForeground", null); 
-    UIManager.put("RadioButtonMenuItem.background", bgColor); 
-    UIManager.put("RadioButtonMenuItem.disabledForeground", disabledColor); 
-    UIManager.put("RadioButtonMenuItem.foreground", fgColor); 
-    UIManager.put("RadioButtonMenuItem.selectionBackground", fgColor); 
-    UIManager.put("RadioButtonMenuItem.selectionForeground", bgColor);
-    UIManager.put("Label.background", bgColor); 
-    UIManager.put("Label.disabledForeground", disabledColor); 
-    UIManager.put("Label.disabledShadow", null); 
-    UIManager.put("Label.foreground", fgColor); 
-    UIManager.put("ToggleButton.background", btnbgColor); 
-    UIManager.put("ToggleButton.darkShadow", null); 
-    UIManager.put("ToggleButton.disabledText", disabledColor); 
-    UIManager.put("ToggleButton.focus", null); 
-    UIManager.put("ToggleButton.foreground", fgColor); 
-    UIManager.put("ToggleButton.highlight", null); 
-    UIManager.put("ToggleButton.light", null); 
-    UIManager.put("ToggleButton.select", null); 
-    UIManager.put("ToggleButton.shadow", null); 
-    UIManager.put("CheckBox.background", bgColor); 
-    UIManager.put("CheckBox.disabledText", disabledColor); 
-    UIManager.put("CheckBox.focus", null); 
-    UIManager.put("CheckBox.foreground", fgColor); 
-    UIManager.put("Checkbox.select", null); 
-    UIManager.put("RadioButton.background", bgColor); 
-    UIManager.put("RadioButton.darkShadow", null); 
-    UIManager.put("RadioButton.disabledText", disabledColor); 
-    UIManager.put("RadioButton.focus", null); 
-    UIManager.put("RadioButton.foreground", fgColor); 
-    UIManager.put("RadioButton.highlight", null); 
-    UIManager.put("RadioButton.light", null); 
-    UIManager.put("RadioButton.select", null); 
-    UIManager.put("RadioButton.shadow", null); 
-    UIManager.put("List.background", bgColor); 
-    UIManager.put("List.dropCellBackground", null); 
-    UIManager.put("List.dropLineColor", null); 
-    UIManager.put("List.foreground", fgColor); 
-    UIManager.put("List.selectionBackground", fgColor); 
-    UIManager.put("List.selectionForeground", bgColor);
-    UIManager.put("PasswordField.background", tfbgColor); 
-    UIManager.put("PasswordField.caretForeground", fgColor); 
-    UIManager.put("PasswordField.foreground", fgColor); 
-    UIManager.put("PasswordField.inactiveBackground", tfbgColor); 
-    UIManager.put("PasswordField.inactiveForeground", disabledColor); 
-    UIManager.put("PasswordField.selectionBackground", fgColor); 
-    UIManager.put("PasswordField.selectionForeground", tfbgColor); 
-    UIManager.put("TextField.background", tfbgColor); 
-    UIManager.put("TextField.caretForeground", fgColor); 
-    UIManager.put("TextField.darkShadow", null); 
-    UIManager.put("TextField.foreground", fgColor); 
-    UIManager.put("TextField.highlight", null); 
-    UIManager.put("TextField.inactiveBackground", tfbgColor); 
-    UIManager.put("TextField.inactiveForeground", disabledColor); 
-    UIManager.put("TextField.light", null); 
-    UIManager.put("TextField.selectionBackground", fgColor); 
-    UIManager.put("TextField.selectionForeground", tfbgColor); 
-    UIManager.put("TextField.shadow", null); 
-    UIManager.put("TextArea.background", tfbgColor); 
-    UIManager.put("TextArea.caretForeground", fgColor); 
-    UIManager.put("TextArea.foreground", fgColor); 
-    UIManager.put("TextArea.inactiveForeground", disabledColor); 
-    UIManager.put("TextArea.selectionBackground", fgColor); 
-    UIManager.put("TextArea.selectionForeground", tfbgColor); 
-    UIManager.put("TextPane.background", tfbgColor); 
-    UIManager.put("TextPane.caretForeground", fgColor); 
-    UIManager.put("TextPane.foreground", fgColor); 
-    UIManager.put("TextPane.inactiveForeground", disabledColor); 
-    UIManager.put("TextPane.selectionBackground", fgColor); 
-    UIManager.put("TextPane.selectionForeground", tfbgColor); 
-    UIManager.put("FormattedTextField.background", tfbgColor); 
-    UIManager.put("FormattedTextField.caretForeground", fgColor); 
-    UIManager.put("FormattedTextField.foreground", fgColor); 
-    UIManager.put("FormattedTextField.inactiveBackground", tfbgColor); 
-    UIManager.put("FormattedTextField.inactiveForeground", disabledColor); 
-    UIManager.put("FormattedTextField.selectionBackground", fgColor); 
-    UIManager.put("FormattedTextField.selectionForeground", tfbgColor); 
-    UIManager.put("EditorPane.background", tfbgColor); 
-    UIManager.put("EditorPane.caretForeground", fgColor); 
-    UIManager.put("EditorPane.foreground", fgColor); 
-    UIManager.put("EditorPane.inactiveForeground", disabledColor); 
-    UIManager.put("EditorPane.selectionBackground", fgColor); 
-    UIManager.put("EditorPane.selectionForeground", tfbgColor);
-    UIManager.put("ProgressBar.background", bgColor); 
-    UIManager.put("ProgressBar.foreground", fgColor); 
-    UIManager.put("ProgressBar.selectionBackground",fgColor); 
-    UIManager.put("ProgressBar.selectionForeground", bgColor); 
-    UIManager.put("ScrollBar.background", null); 
-    UIManager.put("ScrollBar.darkShadow", null); 
-    UIManager.put("ScrollBar.foreground", null); 
-    UIManager.put("ScrollBar.highlight", null); 
-    UIManager.put("ScrollBar.shadow", null); 
-    UIManager.put("ScrollBar.thumb", null); 
-    UIManager.put("ScrollBar.thumbDarkShadow", null); 
-    UIManager.put("ScrollBar.thumbHighlight", null); 
-    UIManager.put("ScrollBar.thumbShadow", null); 
-    UIManager.put("ScrollBar.track", null); 
-    UIManager.put("ScrollBar.trackHighlight", null); 
-    UIManager.put("ScrollPane.background", null); 
-    UIManager.put("ScrollPane.foreground", null); 
-    UIManager.put("Slider.altTrackColor", null); 
-    UIManager.put("Slider.background", bgColor); 
-    UIManager.put("Slider.focus", null); 
-    UIManager.put("Slider.foreground", fgColor); 
-    UIManager.put("Slider.highlight", null); 
-    UIManager.put("Slider.shadow", null); 
-    UIManager.put("Slider.tickColor", null); 
     
-    UIManager.put("ColorChooser.background", bgColor); 
-    UIManager.put("ColorChooser.foreground", fgColor); 
-    UIManager.put("ColorChooser.swatchesDefaultRecentColor", null);
-    UIManager.put("PropSheet.disabledForeground", disabledColor); 
-    UIManager.put("PropSheet.selectedSetBackground", fgColor); 
-    UIManager.put("PropSheet.selectedSetForeground", bgColor); 
-    UIManager.put("PropSheet.selectionBackground", fgColor); 
-    UIManager.put("PropSheet.selectionForeground", bgColor); 
-    UIManager.put("PropSheet.setBackground", bgColor); 
-    UIManager.put("PropSheet.setForeground", fgColor); 
-    UIManager.put("Viewport.background", bgColor); 
-    UIManager.put("Viewport.foreground", fgColor); 
-    
-    UIManager.put("SplitPane.background", bgColor); 
-    UIManager.put("SplitPane.darkShadow", null); 
-    UIManager.put("SplitPane.dividerFocusColor", null); 
-    UIManager.put("SplitPane.highlight", null); 
-    UIManager.put("SplitPane.shadow", null); 
-    UIManager.put("SplitPaneDivider.draggingColor", null);
-    UIManager.put("Separator.background", bgColor); 
-    UIManager.put("Separator.foreground", fgColor); 
-    UIManager.put("Separator.highlight", null); 
-    UIManager.put("Separator.shadow", null); 
-    //Not Changed
-    UIManager.put("TabRenderer.selectedActivatedBackground", null); 
-    UIManager.put("TabRenderer.selectedActivatedForeground", null); 
-    UIManager.put("TabRenderer.selectedForeground", null); 
-    UIManager.put("Desktop.background", null); 
-    UIManager.put("DesktopIcon.background", null); 
-    UIManager.put("DesktopIcon.foreground", null); 
-    UIManager.put("InternalFrame.activeTitleBackground", null); 
-    UIManager.put("InternalFrame.activeTitleForeground", null); 
-    UIManager.put("InternalFrame.borderColor", null); 
-    UIManager.put("InternalFrame.borderDarkShadow", null); 
-    UIManager.put("InternalFrame.borderHighlight", null); 
-    UIManager.put("InternalFrame.borderLight", null); 
-    UIManager.put("InternalFrame.borderShadow", null); 
-    UIManager.put("InternalFrame.inactiveTitleBackground", null); 
-    UIManager.put("InternalFrame.inactiveTitleForeground", null); 
-    UIManager.put("Nb.ScrollPane.Border.color", null); 
-    UIManager.put("ToolBar.background", null); 
-    UIManager.put("ToolBar.borderColor", null); 
-    UIManager.put("ToolBar.darkShadow", null); 
-    UIManager.put("ToolBar.dockingBackground", null); 
-    UIManager.put("ToolBar.dockingForeground", null); 
-    UIManager.put("ToolBar.floatingBackground", null); 
-    UIManager.put("ToolBar.floatingForeground", null); 
-    UIManager.put("ToolBar.foreground", null); 
-    UIManager.put("ToolBar.highlight", null); 
-    UIManager.put("ToolBar.light", null); 
-    UIManager.put("ToolBar.shadow", null); 
-    UIManager.put("Tree.background", null); 
-    UIManager.put("Tree.dropCellBackground", null); 
-    UIManager.put("Tree.dropLineColor", null); 
-    UIManager.put("Tree.foreground", null); 
-    UIManager.put("Tree.hash", null); 
-    UIManager.put("Tree.line", null); 
-    UIManager.put("Tree.selectionBackground", null); 
-    UIManager.put("Tree.selectionBorderColor", null); 
-    UIManager.put("Tree.selectionForeground", null); 
-    UIManager.put("Tree.textBackground", null); 
-    UIManager.put("Tree.textForeground", null); 
-    UIManager.put("activeCaption", null); 
-    UIManager.put("activeCaptionBorder", null); 
-    UIManager.put("activeCaptionText", null); 
-    UIManager.put("desktop", null); 
-    UIManager.put("inactiveCaption", null); 
-    UIManager.put("inactiveCaptionBorder", null); 
-    UIManager.put("inactiveCaptionText", null); 
-    UIManager.put("info", null); 
-    UIManager.put("infoText", null); 
-    UIManager.put("menu", null); 
-    UIManager.put("menuText", null); 
-    UIManager.put("nb.errorForeground", null); 
-    UIManager.put("nb.explorer.unfocusedSelBg", null); 
-    UIManager.put("nb.warningForeground", null); 
-    UIManager.put("nbProgressBar.popupDynaText.foreground", null); 
-    UIManager.put("nbProgressBar.popupText.foreground", null); 
-    UIManager.put("nbProgressBar.popupText.selectBackground", null); 
-    UIManager.put("nbProgressBar.popupText.selectForeground", null); 
-    UIManager.put("scrollbar", btnbgColor); 
-    UIManager.put("text", fgColor); 
-    UIManager.put("textHighlight", null); 
-    UIManager.put("textHighlightText", null); 
-    UIManager.put("textInactiveText", disabledColor); 
-    UIManager.put("textText", null); 
-    UIManager.put("window", bgColor); 
-    UIManager.put("windowBorder", null); 
-    UIManager.put("windowText", fgColor); 
-     */
-    }
 
     private static void setSplitPaneDividerColor(JSplitPane splitPane, Color newDividerColor) {
         SplitPaneUI splitUI = splitPane.getUI();
@@ -787,7 +365,7 @@ public class Colorizer {
             Border newBorder = null;
             Border colorBorder = null;
 
-            class BGBorder implements Border {
+            final class BGBorder implements Border {
 
                 private Color color;
                 private final Insets NO_INSETS = new Insets(0, 0, 0, 0);

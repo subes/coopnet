@@ -19,7 +19,7 @@
 
 package coopnetclient.frames.clientframetabs;
 
-import coopnetclient.ErrorHandler;
+import coopnetclient.Err;
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ErrorPanelStyle;
@@ -30,10 +30,11 @@ import coopnetclient.frames.components.TabComponent;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.protocol.out.Protocol;
+import coopnetclient.utils.ErrThread;
 import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
-import coopnetclient.utils.SoundPlayer;
+import coopnetclient.utils.ui.SoundPlayer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
@@ -375,37 +376,33 @@ public final class TabOrganizer {
     }
 
     public static synchronized void openErrorPanel(final ErrorPanelStyle mode, final Throwable e) {
-        SwingUtilities.invokeLater(new Thread() {
+        SwingUtilities.invokeLater(new ErrThread() {
             private static final String CLIENT_TOO_OLD = "Client too old";
             private static final String ERROR = "Error";
 
             @Override
-            public void run() {
-                try {
-                    if (mode == ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH) {
-                        //Protocol version mismatch has higher priority
-                        errorPanel = new ErrorPanel(mode, null); //anyway no exception
-                        tabHolder.addTab(CLIENT_TOO_OLD, null, errorPanel);
+            public void handledRun() throws Throwable {
+                if (mode == ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH) {
+                    //Protocol version mismatch has higher priority
+                    errorPanel = new ErrorPanel(mode, null); //anyway no exception
+                    tabHolder.addTab(CLIENT_TOO_OLD, null, errorPanel);
+                    tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel),
+                            new TabComponent(CLIENT_TOO_OLD, Icons.errorIconSmall, errorPanel));
+                    tabHolder.setSelectedComponent(errorPanel);
+                } else {
+                    if (errorPanel == null || !errorPanel.hasException() && e != null) {
+                        errorPanel = new ErrorPanel(mode, e);
+                        tabHolder.addTab(ERROR, null, errorPanel);
                         tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel),
-                                new TabComponent(CLIENT_TOO_OLD, Icons.errorIconSmall, errorPanel));
+                                new TabComponent(ERROR, Icons.errorIconSmall, errorPanel));
                         tabHolder.setSelectedComponent(errorPanel);
                     } else {
-                        if (errorPanel == null || !errorPanel.hasException() && e != null) {
-                            errorPanel = new ErrorPanel(mode, e);
-                            tabHolder.addTab(ERROR, null, errorPanel);
-                            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(errorPanel),
-                                    new TabComponent(ERROR, Icons.errorIconSmall, errorPanel));
-                            tabHolder.setSelectedComponent(errorPanel);
-                        } else {
-                            Logger.log(LogTypes.WARNING,
-                                    "We don't need another error tab, this error may be caused by the first one!");
-                            tabHolder.setSelectedComponent(errorPanel);
-                        }
+                        Logger.log(LogTypes.WARNING,
+                                "We don't need another error tab, this error may be caused by the first one!");
+                        tabHolder.setSelectedComponent(errorPanel);
                     }
-                    FrameOrganizer.getClientFrame().repaint();
-                } catch (Exception e) {
-                    ErrorHandler.handleException(e);
                 }
+                FrameOrganizer.getClientFrame().repaint();
             }
         });
     }
@@ -418,18 +415,13 @@ public final class TabOrganizer {
     public static synchronized void openLoginPanel() {
         if (loginPanel == null) {
             //Thread is needed here to get rid of an exception at startup
-            SwingUtilities.invokeLater(new Thread() {
-
+            SwingUtilities.invokeLater(new ErrThread() {
                 @Override
-                public void run() {
-                    try {
-                        closeConnectingPanel();
-                        loginPanel = new LoginPanel();
-                        tabHolder.addTab("Login", loginPanel);
-                        tabHolder.setSelectedComponent(loginPanel);
-                    } catch (Exception e) {
-                        ErrorHandler.handleException(e);
-                    }
+                public void handledRun() throws Throwable {
+                    closeConnectingPanel();
+                    loginPanel = new LoginPanel();
+                    tabHolder.addTab("Login", loginPanel);
+                    tabHolder.setSelectedComponent(loginPanel);
                 }
             });
         } else {
@@ -446,17 +438,13 @@ public final class TabOrganizer {
     public static void openRegisterPanel(final String loginname) {
         if (registerPanel == null) {
             //Thread is needed here to get rid of an exception at startup
-            SwingUtilities.invokeLater(new Thread() {
+            SwingUtilities.invokeLater(new ErrThread() {
 
                 @Override
-                public void run() {
-                    try {
-                        registerPanel = new RegisterPanel(loginname);
-                        tabHolder.addTab("Register", registerPanel);
-                        tabHolder.setSelectedComponent(registerPanel);
-                    } catch (Exception e) {
-                        ErrorHandler.handleException(e);
-                    }
+                public void handledRun() throws Throwable {
+                    registerPanel = new RegisterPanel(loginname);
+                    tabHolder.addTab("Register", registerPanel);
+                    tabHolder.setSelectedComponent(registerPanel);
                 }
             });
         } else {
@@ -473,17 +461,12 @@ public final class TabOrganizer {
     public static void openConnectingPanel() {
         if (connectingPanel == null) {
             //Thread is needed here to get rid of an exception at startup
-            SwingUtilities.invokeLater(new Thread() {
-
+            SwingUtilities.invokeLater(new ErrThread() {
                 @Override
-                public void run() {
-                    try {
-                        connectingPanel = new ConnectingPanel();
-                        tabHolder.addTab("Connecting", connectingPanel);
-                        tabHolder.setSelectedComponent(connectingPanel);
-                    } catch (Exception e) {
-                        ErrorHandler.handleException(e);
-                    }
+                public void handledRun() throws Throwable {
+                    connectingPanel = new ConnectingPanel();
+                    tabHolder.addTab("Connecting", connectingPanel);
+                    tabHolder.setSelectedComponent(connectingPanel);
                 }
             });
         } else {
@@ -500,17 +483,13 @@ public final class TabOrganizer {
     public static void openPasswordRecoveryPanel() {
         if (passwordRecoveryPanel == null) {
             //Thread is needed here to get rid of an exception at startup
-            SwingUtilities.invokeLater(new Thread() {
+            SwingUtilities.invokeLater(new ErrThread() {
 
                 @Override
-                public void run() {
-                    try {
-                        passwordRecoveryPanel = new PasswordRecoveryPanel();
-                        tabHolder.addTab("Password recovery", passwordRecoveryPanel);
-                        tabHolder.setSelectedComponent(passwordRecoveryPanel);
-                    } catch (Exception e) {
-                        ErrorHandler.handleException(e);
-                    }
+                public void handledRun() throws Throwable {
+                    passwordRecoveryPanel = new PasswordRecoveryPanel();
+                    tabHolder.addTab("Password recovery", passwordRecoveryPanel);
+                    tabHolder.setSelectedComponent(passwordRecoveryPanel);
                 }
             });
         } else {
@@ -620,39 +599,35 @@ public final class TabOrganizer {
     }
 
     public static void closeAllTabs() {
-        SwingUtilities.invokeLater(new Thread() {
+        SwingUtilities.invokeLater(new ErrThread() {
 
             @Override
-            public void run() {
-                try {
-                    closeRoomPanel();
-                    closeBrowserPanel();
-                    closeErrorPanel();
-                    closeLoginPanel();
-                    closeTransferPanel();
-                    closeConnectingPanel();
-                    closePasswordRecoveryPanel();
-                    closeRegisterPanel();
-                    while (channelPanels.size() > 0) {
-                        closeChannelPanel(channelPanels.get(0));
-                    }
-                    while (privateChatPanels.size() > 0) {
-                        closePrivateChatPanel(privateChatPanels.get(0));
-                    }
+            public void handledRun() throws Throwable {
+                closeRoomPanel();
+                closeBrowserPanel();
+                closeErrorPanel();
+                closeLoginPanel();
+                closeTransferPanel();
+                closeConnectingPanel();
+                closePasswordRecoveryPanel();
+                closeRegisterPanel();
+                while (channelPanels.size() > 0) {
+                    closeChannelPanel(channelPanels.get(0));
+                }
+                while (privateChatPanels.size() > 0) {
+                    closePrivateChatPanel(privateChatPanels.get(0));
+                }
 
-                    //throw exception if this method doesnt work properly manually!
-                    //hopefully we get bugreports by this :)
-                    //tabHolder.removeAll() is bad practice and should not be used!
-                    if (tabHolder.getTabCount() > 0) {
-                        String text = "TabOrganizer.closeAllTabs() did not manually close all tabs!" +
-                                " The following tabs were still open:";
-                        for (int i = 0; i < tabHolder.getTabCount(); i++) {
-                            text += "\n\t\t" + tabHolder.getComponentAt(i).getClass().getName();
-                        }
-                        ErrorHandler.handleException(new IllegalStateException(text));
+                //throw exception if this method doesnt work properly manually!
+                //hopefully we get bugreports by this :)
+                //tabHolder.removeAll() is bad practice and should not be used!
+                if (tabHolder.getTabCount() > 0) {
+                    String text = "TabOrganizer.closeAllTabs() did not manually close all tabs!" +
+                            " The following tabs were still open:";
+                    for (int i = 0; i < tabHolder.getTabCount(); i++) {
+                        text += "\n\t\t" + tabHolder.getComponentAt(i).getClass().getName();
                     }
-                } catch (Throwable t) {
-                    ErrorHandler.handleException(t);
+                    Err.handle(new IllegalStateException(text));
                 }
             }
         });

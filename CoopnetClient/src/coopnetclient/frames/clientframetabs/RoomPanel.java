@@ -19,7 +19,7 @@
 package coopnetclient.frames.clientframetabs;
 
 import coopnetclient.Client;
-import coopnetclient.ErrorHandler;
+import coopnetclient.Err;
 import coopnetclient.Globals;
 import coopnetclient.frames.listeners.ChatInputKeyListener;
 import coopnetclient.frames.components.PlayerListPopupMenu;
@@ -31,7 +31,7 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.interfaces.ClosableTab;
 import coopnetclient.frames.components.ConnectingProgressBar;
-import coopnetclient.utils.SoundPlayer;
+import coopnetclient.utils.ui.SoundPlayer;
 import coopnetclient.frames.renderers.RoomPlayerStatusListCellRenderer;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.ui.Colorizer;
@@ -180,7 +180,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
                     Launcher.initialize(launchInfo);
                 } catch (Exception e) {
-                    ErrorHandler.handleException(e);
+                    Err.handle(e);
                 }
             }
         }.start();
@@ -302,7 +302,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                     Protocol.gameClosed(roomData.getChannel());
                     btn_gameSettings.setEnabled(true);
                 } catch (Exception e) {
-                    ErrorHandler.handleException(e);
+                    Err.handle(e);
                 }
             }
         }.start();
@@ -620,7 +620,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                 try {
                     showSettings();
                 } catch (Exception e) {
-                    ErrorHandler.handleException(e);
+                    Err.handle(e);
                 }
             }
         });

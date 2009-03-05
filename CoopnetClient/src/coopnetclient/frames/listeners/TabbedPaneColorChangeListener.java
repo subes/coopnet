@@ -19,6 +19,7 @@
 
 package coopnetclient.frames.listeners;
 
+import coopnetclient.utils.ui.Colors;
 import java.awt.Color;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -26,12 +27,12 @@ import javax.swing.event.ChangeListener;
 
 public class TabbedPaneColorChangeListener implements ChangeListener {
 
-    JTabbedPane parent;
-    Color unselectedBG;
+    private JTabbedPane parent;
+    private Color unselectedBG;
 
     public TabbedPaneColorChangeListener(JTabbedPane parent) {
         this.parent = parent;
-        unselectedBG = coopnetclient.utils.ui.Colorizer.getSelectionColor();
+        unselectedBG = Colors.getSelectionColor();
 
         updateBG();
     }

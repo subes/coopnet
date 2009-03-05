@@ -25,12 +25,12 @@ import coopnetclient.utils.Logger;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 
-public final class ErrorHandler {
+public final class Err {
 
-    private ErrorHandler() {
+    private Err() {
     }
 
-    public static void handleException(Throwable exc) {
+    public static void handle(Throwable exc) {
         if (exc == null) {
             return;
         }

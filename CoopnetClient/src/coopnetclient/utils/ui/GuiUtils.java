@@ -21,19 +21,24 @@ package coopnetclient.utils.ui;
 
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Window;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.SwingUtilities;
 
 public final class GuiUtils {
 
     private GuiUtils(){}
 
-    public static void setControlsEnabled(Container root, boolean enabled){
+    public static void setControlsEnabled(final Container root, final boolean enabled){
         if(root == null){
             return;
         }
-        setControlsEnabledRecursively(root, enabled);
+        SwingUtilities.invokeLater(new Thread(){
+            @Override
+            public void run() {
+                setControlsEnabledRecursively(root, enabled);
+            }
+        });
     }
 
     private static void setControlsEnabledRecursively(Container root, boolean enabled){

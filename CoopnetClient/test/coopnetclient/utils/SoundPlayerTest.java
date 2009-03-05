@@ -19,6 +19,7 @@
 
 package coopnetclient.utils;
 
+import coopnetclient.utils.ui.SoundPlayer;
 import coopnetclient.test.AbstractCoopnetClientTest;
 import coopnetclient.utils.settings.Settings;
 import org.junit.After;

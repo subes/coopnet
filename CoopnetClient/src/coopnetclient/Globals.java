@@ -31,6 +31,9 @@ import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.settings.Favourites;
 import coopnetclient.utils.settings.SettingsHelper;
+import coopnetclient.utils.ui.Colorizer;
+import coopnetclient.utils.ui.Colors;
+import coopnetclient.utils.ui.InactivityWatcher;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -139,7 +142,10 @@ public final class Globals {
         Settings.init();
         GameDatabase.init();
         Favourites.init();
+        Colors.init();
+        Colorizer.init();
         Hotkeys.init();
+        InactivityWatcher.init();
 
         //Set debug - do not disable again
         if (!debug) {

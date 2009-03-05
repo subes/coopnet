@@ -96,23 +96,15 @@ public final class Client {
      */
     public static void startup() {
 
-        Toolkit.getDefaultToolkit()
-                .addAWTEventListener(new InactivityWatcher(),
-                    AWTEvent.MOUSE_EVENT_MASK
-                    | AWTEvent.MOUSE_MOTION_EVENT_MASK
-                    | AWTEvent.MOUSE_WHEEL_EVENT_MASK
-                    | AWTEvent.KEY_EVENT_MASK);
-
         readServerAddress();
+        GameDatabase.loadVersion();
+        GameDatabase.load("", GameDatabase.dataFilePath);
+        GameDatabase.detectGames();
         SwingUtilities.invokeLater(new Thread() {
-
             @Override
             public void run() {
                 try {
-                    Colorizer.initLAF();
-                    GameDatabase.loadVersion();
-                    GameDatabase.load("", GameDatabase.dataFilePath);
-                    GameDatabase.detectGames();
+                    
                     SwingUtilities.invokeLater(new Runnable() {
 
                         @Override
@@ -128,7 +120,7 @@ public final class Client {
                     });
                     checkAndUpdateGameData();
                 } catch (Exception e) {
-                    ErrorHandler.handleException(e);
+                    Err.handle(e);
                 }
             }
         });
@@ -314,7 +306,7 @@ public final class Client {
                     JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
                             "You have an outdated version of the gamedata, but couldn't update it!",
                             "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
-                    ErrorHandler.handleException(e);
+                    Err.handle(e);
                 }
             }
         }.start();
@@ -364,7 +356,7 @@ public final class Client {
                                         }
                                     }
                                 } catch (Exception e) {
-                                    ErrorHandler.handleException(e);
+                                    Err.handle(e);
                                 }
                             }
                         }.start();

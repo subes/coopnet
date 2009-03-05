@@ -34,7 +34,7 @@ import coopnetclient.frames.clientframetabs.ChannelPanel;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.protocol.out.Message;
 import coopnetclient.utils.settings.Settings;
-import coopnetclient.utils.SoundPlayer;
+import coopnetclient.utils.ui.SoundPlayer;
 import coopnetclient.utils.ui.FrameIconFlasher;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.gamedatabase.GameDatabase;

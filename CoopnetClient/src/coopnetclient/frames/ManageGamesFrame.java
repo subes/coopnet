@@ -18,13 +18,14 @@
  */
 package coopnetclient.frames;
 
-import coopnetclient.ErrorHandler;
+import coopnetclient.Err;
 import coopnetclient.Globals;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.clientframetabs.ChannelPanel;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.frames.models.SortedListModel;
+import coopnetclient.utils.ErrThread;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Verification;
@@ -570,22 +571,17 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
     private void btn_browsePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browsePathActionPerformed
         if (lst_games.getSelectedValue() != null) {
-            new Thread() {
-
+            new ErrThread() {
                 @Override
-                public void run() {
-                    try {
-                        FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
-                        int returnVal = mfc.choose(Globals.getLastOpenedDir());
+                public void handledRun() throws Throwable {
+                    FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
+                    int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
-                        if (returnVal == FileChooser.SELECT_ACTION) {
-                            File file = mfc.getSelectedFile();
-                            tf_exePath.setText(file.getAbsolutePath());
-                            saveTempData();
-                        }//else cancelled
-                    } catch (Exception e) {
-                        ErrorHandler.handleException(e);
-                    }
+                    if (returnVal == FileChooser.SELECT_ACTION) {
+                        File file = mfc.getSelectedFile();
+                        tf_exePath.setText(file.getAbsolutePath());
+                        saveTempData();
+                    }//else cancelled
                 }
             }.start();
         }
@@ -627,22 +623,18 @@ public class ManageGamesFrame extends javax.swing.JFrame {
 
     private void btn_browseInstallPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browseInstallPathActionPerformed
         if (lst_games.getSelectedValue() != null) {
-            new Thread() {
+            new ErrThread() {
 
                 @Override
-                public void run() {
-                    try {
-                        FileChooser mfc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
-                        int returnVal = mfc.choose(Globals.getLastOpenedDir());
+                public void handledRun() throws Throwable {
+                    FileChooser mfc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
+                    int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
-                        if (returnVal == FileChooser.SELECT_ACTION) {
-                            File file = mfc.getSelectedFile();
-                            tf_installPath.setText(file.getAbsolutePath());
-                            saveTempData();
-                        }//else cancelled
-                    } catch (Exception e) {
-                        ErrorHandler.handleException(e);
-                    }
+                    if (returnVal == FileChooser.SELECT_ACTION) {
+                        File file = mfc.getSelectedFile();
+                        tf_installPath.setText(file.getAbsolutePath());
+                        saveTempData();
+                    }//else cancelled
                 }
             }.start();
         }
@@ -794,23 +786,18 @@ private void tf_parametersCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-F
 }//GEN-LAST:event_tf_parametersCaretUpdate
 
 private void btn_browseDosboxExecutableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browseDosboxExecutableActionPerformed
-    new Thread() {
+    new ErrThread() {
+        @Override
+        public void handledRun() throws Throwable {
+            FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
+            int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
-                @Override
-                public void run() {
-                    try {
-                        FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
-                        int returnVal = mfc.choose(Globals.getLastOpenedDir());
-
-                        if (returnVal == FileChooser.SELECT_ACTION) {
-                            File file = mfc.getSelectedFile();
-                            tf_dosboxExe.setText(file.getAbsolutePath());
-                        }//else cancelled
-                    } catch (Exception e) {
-                        ErrorHandler.handleException(e);
-                    }
-                }
-            }.start();
+            if (returnVal == FileChooser.SELECT_ACTION) {
+                File file = mfc.getSelectedFile();
+                tf_dosboxExe.setText(file.getAbsolutePath());
+            }//else cancelled
+        }
+    }.start();
 }//GEN-LAST:event_btn_browseDosboxExecutableActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

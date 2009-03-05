@@ -22,9 +22,9 @@ import coopnetclient.Globals;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.EscapeChars;
-import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.settings.Settings;
+import coopnetclient.utils.ui.Colors;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -43,7 +43,7 @@ public class RoomPlayerStatusListCellRenderer extends JLabel implements ListCell
     private Vector<String> readyList = new Vector<String>();
     private Vector<String> playingList = new Vector<String>();
     private Vector<String> awayList = new Vector<String>();
-    private static Border selectionBorder = BorderFactory.createLineBorder(Colorizer.getSelectionColor(), 2);
+    private static Border selectionBorder = BorderFactory.createLineBorder(Colors.getSelectionColor(), 2);
     private static Border normalBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
 
     public RoomPlayerStatusListCellRenderer() {

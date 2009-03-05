@@ -76,7 +76,7 @@ public class GameDatabase {
         return additionalParameters.get(ID);
     }
 
-    public static void ClearInstalledGameList() {
+    public static void clearInstalledGameList() {
         installedGameIDs.clear();
     }
 
@@ -412,11 +412,11 @@ public class GameDatabase {
     }
 
     public static synchronized void detectGames() {
-        ClearInstalledGameList();
+        clearInstalledGameList();
         try {
             xmlReader.parseGameData(null, dataFilePath, XMLReader.DETECT_GAMES);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.log(e);
         }
     }
 

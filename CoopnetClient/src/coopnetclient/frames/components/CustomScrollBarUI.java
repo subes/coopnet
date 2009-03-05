@@ -20,6 +20,7 @@
 package coopnetclient.frames.components;
 
 import coopnetclient.frames.components.CustomScrollBarArrowButton;
+import coopnetclient.utils.ui.Colors;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -29,9 +30,9 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 public class CustomScrollBarUI extends BasicScrollBarUI {
     
-    Color btnbg = coopnetclient.utils.ui.Colorizer.getButtonBackgroundColor(),
-          bg = coopnetclient.utils.ui.Colorizer.getTextfieldBackgroundColor(),
-          fg = coopnetclient.utils.ui.Colorizer.getForegroundColor();
+    private Color btnbg = Colors.getButtonBackgroundColor();
+    private Color bg = Colors.getTextfieldBackgroundColor();
+    private Color fg = Colors.getForegroundColor();
     
 // this draws scroller
     @Override

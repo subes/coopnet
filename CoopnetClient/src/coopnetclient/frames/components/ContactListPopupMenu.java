@@ -18,14 +18,14 @@
  */
 package coopnetclient.frames.components;
 
-import coopnetclient.ErrorHandler;
+import coopnetclient.Err;
 import coopnetclient.Globals;
-import coopnetclient.enums.ChatStyles;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.components.mutablelist.EditableJlist;
 import coopnetclient.frames.models.ContactListModel;
+import coopnetclient.utils.ErrThread;
 import coopnetclient.utils.MuteBanList;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.filechooser.FileChooser;
@@ -191,9 +191,9 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         super.setVisible(visible);
         
         if(visible == false && isClosing == false){
-            new Thread(){
+            new ErrThread(){
                 @Override
-                public void run() {
+                public void handledRun() throws Throwable {
                     isClosing = true;
                     try {
                         sleep(100);
@@ -278,27 +278,22 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
         } else if (e.getSource() == sendFile) {
             if (model.getStatus(player) != ContactListElementTypes.OFFLINE) {
 
-                new Thread() {
-
+                new ErrThread() {
                     @Override
-                    public void run() {
-                        try {
-                            File inputfile = null;
+                    public void handledRun() throws Throwable {
+                        File inputfile = null;
 
-                            FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
-                            int returnVal = mfc.choose(Globals.getLastOpenedDir());
+                        FileChooser mfc = new FileChooser(FileChooser.FILES_ONLY_MODE);
+                        int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
-                            if (returnVal == FileChooser.SELECT_ACTION) {
-                                inputfile = mfc.getSelectedFile();
-                                if (inputfile != null) {
-                                    if(TabOrganizer.sendFile(player, inputfile)){
-                                        Protocol.sendFile(player, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.settings.Settings.getFiletTansferPort() + "");
-                                        Globals.setLastOpenedDir(inputfile.getParent());
-                                    }
+                        if (returnVal == FileChooser.SELECT_ACTION) {
+                            inputfile = mfc.getSelectedFile();
+                            if (inputfile != null) {
+                                if(TabOrganizer.sendFile(player, inputfile)){
+                                    Protocol.sendFile(player, inputfile.getName(), inputfile.length() + "", coopnetclient.utils.settings.Settings.getFiletTansferPort() + "");
+                                    Globals.setLastOpenedDir(inputfile.getParent());
                                 }
                             }
-                        } catch (Exception e) {
-                            ErrorHandler.handleException(e);
                         }
                     }
                 }.start();

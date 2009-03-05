@@ -17,7 +17,7 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.utils;
+package coopnetclient.utils.ui;
 
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.*;
@@ -112,7 +112,7 @@ public class SoundPlayer {
                     try{
                         playSound(file);
                     }catch(Exception e){
-                        ErrorHandler.handleException(e);
+                        Err.handle(e);
                     }
                 }
             }.start();

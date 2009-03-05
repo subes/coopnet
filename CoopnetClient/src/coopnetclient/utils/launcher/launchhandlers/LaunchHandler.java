@@ -24,7 +24,7 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
-import coopnetclient.utils.SoundPlayer;
+import coopnetclient.utils.ui.SoundPlayer;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import java.io.IOException;

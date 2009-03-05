@@ -19,8 +19,9 @@
 
 package coopnetclient.frames.listeners;
 
-import coopnetclient.ErrorHandler;
+import coopnetclient.Err;
 import coopnetclient.protocol.out.Protocol;
+import coopnetclient.utils.ErrThread;
 import java.awt.Desktop;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -65,10 +66,10 @@ public class HyperlinkMouseListener extends MouseAdapter {
             AttributeSet a = el.getAttributes();
             final String href = (String) a.getAttribute(HTML.Attribute.HREF);
             if (href != null) {
-                new Thread(){
+                new ErrThread(){
                     @Override
-                    public void run() {
-                         openURL(href);
+                    public void handledRun() throws Throwable {
+                        openURL(href);
                     }
                 }.start();                
             }
@@ -98,7 +99,7 @@ public class HyperlinkMouseListener extends MouseAdapter {
         } catch (java.io.IOException ioe) {
             //do nothing cuz opera does this sometimes
         } catch (Exception e) {
-            ErrorHandler.handleException(e);
+            Err.handle(e);
         }
     }
 }

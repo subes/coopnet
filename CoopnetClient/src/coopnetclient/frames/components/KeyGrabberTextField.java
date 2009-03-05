@@ -22,6 +22,7 @@ package coopnetclient.frames.components;
 import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.hotkeys.Hotkeys;
+import coopnetclient.utils.ui.Colors;
 import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -87,8 +88,8 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
         Hotkeys.unbindHotKey(action);
         
         if (Settings.getColorizeBody()) {
-            setBackground(Colorizer.getSelectionColor());
-            setForeground(Colorizer.getForegroundColor());
+            setBackground(Colors.getSelectionColor());
+            setForeground(Colors.getForegroundColor());
         } else {
             setBackground((Color) UIManager.get("List.selectionBackground"));
             setForeground((Color) UIManager.get("List.selectionForeground"));
@@ -103,8 +104,8 @@ public class KeyGrabberTextField extends JTextField implements FocusListener, Ke
     @Override
     public void focusLost(FocusEvent e) {
         if (Settings.getColorizeBody()) {
-            setBackground(Colorizer.getTextfieldBackgroundColor());
-            setForeground(Colorizer.getForegroundColor());
+            setBackground(Colors.getTextfieldBackgroundColor());
+            setForeground(Colors.getForegroundColor());
         } else {
             setBackground((Color) UIManager.get("TextArea.background"));
             setForeground((Color) UIManager.get("TextArea.foreground"));

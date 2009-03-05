@@ -18,7 +18,7 @@
  */
 package coopnetclient.frames.clientframetabs;
 
-import coopnetclient.ErrorHandler;
+import coopnetclient.Err;
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
 import coopnetclient.frames.interfaces.ClosableTab;
@@ -348,7 +348,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
                             }
                         }
                     } catch (Exception e) {
-                        ErrorHandler.handleException(e);
+                        Err.handle(e);
                     }
                 }
             }.start();

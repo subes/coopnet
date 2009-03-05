@@ -19,7 +19,7 @@
 package coopnetclient.frames;
 
 import coopnetclient.utils.filechooser.FileChooser;
-import coopnetclient.ErrorHandler;
+import coopnetclient.Err;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.protocol.out.Protocol;
@@ -30,9 +30,11 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import coopnetclient.frames.listeners.ColorChooserButtonActionListener;
+import coopnetclient.utils.ErrThread;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.settings.Settings;
+import coopnetclient.utils.ui.Colors;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.SystemTray;
@@ -1082,23 +1084,18 @@ public class SettingsFrame extends javax.swing.JFrame {
 }//GEN-LAST:event_btn_apply_ActionPerformed
 
     private void btn_browseReceiveDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_browseReceiveDirActionPerformed
-        new Thread() {
-
+        new ErrThread() {
             @Override
-            public void run() {
-                try {
-                    File inputfile = null;
-                    FileChooser mfc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
-                    int returnVal = mfc.choose(Globals.getLastOpenedDir());
+            public void handledRun() throws Throwable {
+                File inputfile = null;
+                FileChooser mfc = new FileChooser(FileChooser.DIRECTORIES_ONLY_MODE);
+                int returnVal = mfc.choose(Globals.getLastOpenedDir());
 
-                    if (returnVal == FileChooser.SELECT_ACTION) {
-                        inputfile = mfc.getSelectedFile();
-                        if (inputfile != null) {
-                            tf_receiveDir.setText(inputfile.getPath());
-                        }
+                if (returnVal == FileChooser.SELECT_ACTION) {
+                    inputfile = mfc.getSelectedFile();
+                    if (inputfile != null) {
+                        tf_receiveDir.setText(inputfile.getPath());
                     }
-                } catch (Exception e) {
-                    ErrorHandler.handleException(e);
                 }
             }
         }.start();
@@ -1152,7 +1149,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
         }
 
         cmb_style.setEnabled(!cb_nativeStyle.isSelected());
-        if (Colorizer.getCurrentLAFisSupportedForColoring()) {
+        if (Colorizer.isCurrentLafSupportedForColoring()) {
             cb_colorizeBody.setEnabled(!cb_nativeStyle.isSelected());
         } else {
             cb_colorizeBody.setEnabled(false);
@@ -1243,7 +1240,7 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
             Settings.setSelectedLookAndFeel((String) cmb_style.getSelectedItem());
             Settings.setUseNativeLookAndFeel(cb_nativeStyle.isSelected());
 
-            if (Colorizer.getLAFisSupportedForColoring(cmb_style.getSelectedItem().toString())) {
+            if (Colorizer.isLafSupportedForColoring(cmb_style.getSelectedItem().toString())) {
                 Settings.setColorizeBody(cb_colorizeBody.isSelected());
             } else {
                 Settings.setColorizeBody(false);
@@ -1272,17 +1269,12 @@ private void cb_colorizeBodyActionPerformed(java.awt.event.ActionEvent evt) {//G
         }
 
         if (!error) {
-            SwingUtilities.invokeLater(new Thread() {
-
+            SwingUtilities.invokeLater(new ErrThread() {
                 @Override
-                public void run() {
-                    try {
-                        Colorizer.initColors();
-                        FrameOrganizer.recolorFrames();
-                        TabOrganizer.updateStyle();
-                    } catch (Exception e) {
-                        ErrorHandler.handleException(e);
-                    }
+                public void handledRun() throws Throwable {
+                    Colors.init();
+                    FrameOrganizer.recolorFrames();
+                    TabOrganizer.updateStyle();
                 }
             });
         }

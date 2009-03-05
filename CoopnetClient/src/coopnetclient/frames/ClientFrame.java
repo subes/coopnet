@@ -22,7 +22,7 @@ package coopnetclient.frames;
 import coopnetclient.frames.interfaces.ClosableTab;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.Client;
-import coopnetclient.ErrorHandler;
+import coopnetclient.Err;
 import coopnetclient.Globals;
 import coopnetclient.frames.clientframetabs.ChannelPanel;
 import coopnetclient.frames.clientframetabs.PrivateChatPanel;
@@ -850,7 +850,7 @@ public class ClientFrame extends javax.swing.JFrame {
                         }
                     }
                 } catch (Exception e) {
-                    ErrorHandler.handleException(e);
+                    Err.handle(e);
                 }
             }
         }.start();

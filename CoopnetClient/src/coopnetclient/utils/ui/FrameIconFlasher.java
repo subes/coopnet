@@ -20,7 +20,7 @@ package coopnetclient.utils.ui;
 
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.*;
-import coopnetclient.ErrorHandler;
+import coopnetclient.Err;
 import coopnetclient.Globals;
 import coopnetclient.frames.FrameOrganizer;
 import java.awt.Image;
@@ -89,7 +89,7 @@ public class FrameIconFlasher extends Thread {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handleException(e);
+            Err.handle(e);
         }
         flasher = null;
     }
