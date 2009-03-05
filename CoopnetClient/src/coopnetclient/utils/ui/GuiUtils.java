@@ -19,11 +19,11 @@
 
 package coopnetclient.utils.ui;
 
+import coopnetclient.threads.EdtRunner;
 import java.awt.Component;
 import java.awt.Container;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.SwingUtilities;
 
 public final class GuiUtils {
 
@@ -33,12 +33,12 @@ public final class GuiUtils {
         if(root == null){
             return;
         }
-        SwingUtilities.invokeLater(new Thread(){
+        new EdtRunner() {
             @Override
-            public void run() {
+            public void handledRun() throws Throwable {
                 setControlsEnabledRecursively(root, enabled);
             }
-        });
+        }.invokeLater();
     }
 
     private static void setControlsEnabledRecursively(Container root, boolean enabled){

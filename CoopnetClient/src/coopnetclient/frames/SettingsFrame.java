@@ -19,7 +19,6 @@
 package coopnetclient.frames;
 
 import coopnetclient.utils.filechooser.FileChooser;
-import coopnetclient.Err;
 import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.protocol.out.Protocol;
@@ -51,11 +50,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-//TODO read and save setting for hotkeys!
 public class SettingsFrame extends javax.swing.JFrame {
 
     private static final String CLOSE = "close";

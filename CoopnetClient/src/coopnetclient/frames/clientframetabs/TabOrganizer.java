@@ -30,7 +30,6 @@ import coopnetclient.frames.components.TabComponent;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.threads.ErrThread;
 import coopnetclient.utils.ui.Icons;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
@@ -45,7 +44,6 @@ import java.io.File;
 import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeListener;
 
 public final class TabOrganizer {
