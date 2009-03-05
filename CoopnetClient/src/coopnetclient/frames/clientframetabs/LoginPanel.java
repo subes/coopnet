@@ -277,18 +277,18 @@ private void btn_passwordRecoveryActionPerformed(java.awt.event.ActionEvent evt)
 private void pf_passwordCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_pf_passwordCaretUpdate
     String password = new String(pf_password.getPassword());
     if (Verification.verifyLoginName(tf_name.getText()) && Verification.verifyPassword(password)) {
-        enableButtons();
+        btn_login.setEnabled(true);
     } else {
-        disableButtons();
+        btn_login.setEnabled(false);
     }
 }//GEN-LAST:event_pf_passwordCaretUpdate
 
 private void tf_nameCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tf_nameCaretUpdate
     String password = new String(pf_password.getPassword());
     if (Verification.verifyLoginName(tf_name.getText()) && Verification.verifyPassword(password)) {
-        enableButtons();
+        btn_login.setEnabled(true);
     } else {
-        disableButtons();
+        btn_login.setEnabled(false);
     }
 }//GEN-LAST:event_tf_nameCaretUpdate
 
