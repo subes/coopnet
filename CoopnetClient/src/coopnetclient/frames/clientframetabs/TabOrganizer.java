@@ -496,6 +496,10 @@ public final class TabOrganizer {
         }
     }
 
+    public static PasswordRecoveryPanel getPasswordRecoveryPanel(){
+        return passwordRecoveryPanel;
+    }
+
     public static void closePasswordRecoveryPanel() {
         tabHolder.remove(passwordRecoveryPanel);
         passwordRecoveryPanel = null;

@@ -28,13 +28,14 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class EditProfileFrame extends javax.swing.JFrame {
+public class EditProfileFrame extends JFrame {
 
-    private static final String[] COUNTRIES = new String[]{
+    public static final String[] COUNTRIES = new String[]{
         "Select your country", "Abkhazia", "Afghanistan", "Akrotiri and Dhekelia",
         "Ĺland Islands", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla",
         "Antigua and Barbuda", "Argentina ", "Armenia ", "Aruba", "Ascension Island",

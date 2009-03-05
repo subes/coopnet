@@ -18,9 +18,11 @@
  */
 package coopnetclient.frames.clientframetabs;
 
+import coopnetclient.frames.EditProfileFrame;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Verification;
+import coopnetclient.utils.ui.GuiUtils;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
@@ -90,22 +92,24 @@ public class RegisterPanel extends javax.swing.JPanel {
         }
 
         if (!error) {
-            Protocol.register(name, password1, email, ingameName, (cmb_country.getSelectedIndex() == 0) ? "" : country, website);
-            coopnetclient.utils.settings.Settings.setLastLoginName(name);
             disableButtons();
+            Protocol.register(name, password1, email, ingameName,
+                    (cmb_country.getSelectedIndex() == 0) ? "" : country, website);
+            coopnetclient.utils.settings.Settings.setLastLoginName(name);
         }
     }
 
     public void showLoginNameUsedError() {
         tf_name.showErrorMessage("Name is already in use!");
+        enableButtons();
     }
 
     private void disableButtons() {
-        btn_send.setEnabled(false);
+        GuiUtils.setControlsEnabled(this, false);
     }
-    
+
     public void enableButtons() {
-        btn_send.setEnabled(true);
+        GuiUtils.setControlsEnabled(this, true);
     }
 
     /** This method is called from within the constructor to
@@ -222,7 +226,7 @@ public class RegisterPanel extends javax.swing.JPanel {
         lbl_country4.setLabelFor(cmb_country);
         lbl_country4.setText("Country:");
 
-        cmb_country.setModel(new javax.swing.DefaultComboBoxModel(CountryList));
+        cmb_country.setModel(new javax.swing.DefaultComboBoxModel(EditProfileFrame.COUNTRIES));
 
         lbl_website4.setDisplayedMnemonic(KeyEvent.VK_W);
         lbl_website4.setLabelFor(tf_website);
@@ -254,11 +258,11 @@ public class RegisterPanel extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_input4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btn_send)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 286, Short.MAX_VALUE)
                         .addComponent(btn_cancel))
                     .addGroup(pnl_input4Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
+                        .addComponent(lbl_Info, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE))
                     .addGroup(pnl_input4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(pnl_input4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,7 +296,7 @@ public class RegisterPanel extends javax.swing.JPanel {
                             .addComponent(pf_password1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_input4Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(lbl_error, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)))
+                        .addComponent(lbl_error, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -408,39 +412,5 @@ private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private coopnetclient.frames.components.ValidatorJTextField tf_name;
     private coopnetclient.frames.components.ValidatorJTextField tf_website;
     // End of variables declaration//GEN-END:variables
-    public static String[] CountryList = new String[]{"Select your country", "Abkhazia", "Afghanistan", "Akrotiri and Dhekelia", "Ĺland Islands", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla",
-        "Antigua and Barbuda", "Argentina ", "Armenia ", "Aruba", "Ascension Island",
-        "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados",
-        "Belarus", "Belgium", "Belize", "Benin ", "Bermuda", "Bhutan", "Bolivia", " Bosnia", "Botswana", "Brazil",
-        "Brunei", " Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde",
-        "Cayman Islands", "Central African Republic", "Chad", "Chile", "China", "ChristmasIsland",
-        "Cocos", "Colombia", "Comoros", "Congo", "Cook Islands", "Costa Rica", "Côte d'Ivoire",
-        "Croatia", "Cuba", "Cyprus", "Czech", "Denmark", "Djibouti", "Dominica", "Ecuador", "Egypt",
-        "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands",
-        "Faroe Islands", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany",
-        "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guam", "Guatemala", "Guernsey", "Guinea",
-        "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia",
-        "Iran", "Iraq", "Ireland", "Isle of Man", "Israel", "Italy", "Jamaica", "Japan", "Jersey",
-        "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia",
-        "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macao",
-        "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands",
-        "Mauritania", "Mauritius", "Mayotte", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia",
-        "Montenegro", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Nagorno-Karabakh", "Namibia", "Nauru",
-        "Nepal", "Netherlands", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue", "Norfolk Island",
-        "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru",
-        "Philippines", "Pitcairn", "Poland", "Portugal", "Pridnestrovie", "Puerto Rico", "Qatar",
-        "Romania", "Russia", "Rwanda", "Saint-Barthélemy", "Saint Helena", "Saint Kitts and Nevis",
-        "Saint Lucia", "Saint Martin", "Saint-Pierre and	Miquelon",
-        "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Săo Tomé and Príncipe",
-        "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia",
-        "Slovenia", "Solomon	Islands", "Somalia", "Somaliland", "South Africa", "South Ossetia",
-        "Spain", "SriLanka", "Sudan", "Suriname", "Svalbard", "Swaziland", "Sweden",
-        "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor",
-        "Togo", "Tokelau", "Tonga", "Trinidad and Tobago", "Tristan da Cunha",
-        "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos", "Tuvalu", "Uganda",
-        "Ukraine", "United Arab Emirates", "United Kingdom", "United States",
-        "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam",
-        "Virgin Islands", "Wallis and Futuna", "Western Sahara", "Yemen",
-        "Zambia", "Zimbabwe"
-    };
+    
 }

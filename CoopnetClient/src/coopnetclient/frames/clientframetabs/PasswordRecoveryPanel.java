@@ -21,9 +21,12 @@ package coopnetclient.frames.clientframetabs;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.protocol.out.Protocol;
+import coopnetclient.threads.ErrThread;
 import coopnetclient.utils.Verification;
+import coopnetclient.utils.ui.GuiUtils;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class PasswordRecoveryPanel extends javax.swing.JPanel {
 
@@ -60,22 +63,14 @@ public class PasswordRecoveryPanel extends javax.swing.JPanel {
                 "If the data is valid you will receive an E-Mail with your new password shortly!", "Request sent", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void disableButtons() {
+    private void temporarilyDisableButtons() {
         if (btn_send.isEnabled()) {
-            new Thread() {
-
+            new ErrThread() {
                 @Override
-                public void run() {
-                    btn_send.setEnabled(false);
-                    btn_cancel.setEnabled(false);
-                    try {
-                        sleep(1000);
-                    } catch (InterruptedException ex) {
-                    }
-                    if (btn_send != null) {
-                        btn_send.setEnabled(true);
-                        btn_cancel.setEnabled(true);
-                    }
+                public void handledRun() throws Throwable {
+                    GuiUtils.setControlsEnabled(TabOrganizer.getPasswordRecoveryPanel(), false);
+                    sleep(1000);
+                    GuiUtils.setControlsEnabled(TabOrganizer.getPasswordRecoveryPanel(), true);
                 }
             }.start();
         }
@@ -203,7 +198,7 @@ private void tf_emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_tf_emailActionPerformed
 
 private void btn_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_sendActionPerformed
-    disableButtons();
+    temporarilyDisableButtons();
     recovery();
 }//GEN-LAST:event_btn_sendActionPerformed
 

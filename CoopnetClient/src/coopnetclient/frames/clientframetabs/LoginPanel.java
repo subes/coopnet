@@ -18,9 +18,10 @@
  */
 package coopnetclient.frames.clientframetabs;
 
-import coopnetclient.frames.clientframetabs.TabOrganizer;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Verification;
+import coopnetclient.utils.ui.GuiUtils;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
@@ -28,7 +29,6 @@ public class LoginPanel extends javax.swing.JPanel {
 
     /** Creates new form LoginPanel */
     public LoginPanel() {
-
         initComponents();
         tf_name.setText(coopnetclient.utils.settings.Settings.getLastLoginName());
         cb_autoLogin.setSelected(coopnetclient.utils.settings.Settings.getAutoLogin());
@@ -57,19 +57,19 @@ public class LoginPanel extends javax.swing.JPanel {
             error = true;
         }
 
-        if(error){
+        if (error) {
             return;
         }
-        
+
         Protocol.login(name, passw);
         disableButtons();
-        coopnetclient.utils.settings.Settings.setLastLoginName(name);
-        coopnetclient.utils.settings.Settings.setAutoLogin(cb_autoLogin.isSelected());
+        Settings.setLastLoginName(name);
+        Settings.setAutoLogin(cb_autoLogin.isSelected());
 
-        if (coopnetclient.utils.settings.Settings.getAutoLogin()) {
-            coopnetclient.utils.settings.Settings.setLastLoginPassword(passw);
+        if (Settings.getAutoLogin()) {
+            Settings.setLastLoginPassword(passw);
         } else {
-            coopnetclient.utils.settings.Settings.setLastLoginPassword("");
+            Settings.setLastLoginPassword("");
         }
         showError(" ", Color.red);
     }
@@ -80,15 +80,11 @@ public class LoginPanel extends javax.swing.JPanel {
     }
 
     private void disableButtons() {
-        btn_login.setEnabled(false);
-        btn_register.setEnabled(false);
-        btn_passwordRecovery.setEnabled(false);
+        GuiUtils.setControlsEnabled(this, false);
     }
 
     public void enableButtons() {
-        btn_login.setEnabled(true);
-        btn_register.setEnabled(true);
-        btn_passwordRecovery.setEnabled(true);
+        GuiUtils.setControlsEnabled(this, true);
     }
 
     /** This method is called from within the constructor to
@@ -266,9 +262,9 @@ public class LoginPanel extends javax.swing.JPanel {
 }//GEN-LAST:event_btn_registerActionPerformed
 
     private void tf_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tf_nameActionPerformed
-        if(!btn_login.isEnabled()){
+        if (!btn_login.isEnabled()) {
             pf_password.requestFocusInWindow();
-        }else{
+        } else {
             btn_login.doClick();
         }
     }//GEN-LAST:event_tf_nameActionPerformed
@@ -280,23 +276,19 @@ private void btn_passwordRecoveryActionPerformed(java.awt.event.ActionEvent evt)
 
 private void pf_passwordCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_pf_passwordCaretUpdate
     String password = new String(pf_password.getPassword());
-    if( Verification.verifyLoginName(tf_name.getText())
-            && Verification.verifyPassword(password) )
-            {
-        btn_login.setEnabled(true);
-    }else{
-        btn_login.setEnabled(false);
+    if (Verification.verifyLoginName(tf_name.getText()) && Verification.verifyPassword(password)) {
+        enableButtons();
+    } else {
+        disableButtons();
     }
 }//GEN-LAST:event_pf_passwordCaretUpdate
 
 private void tf_nameCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tf_nameCaretUpdate
     String password = new String(pf_password.getPassword());
-    if( Verification.verifyLoginName(tf_name.getText())
-            && Verification.verifyPassword(password) )
-            {
-        btn_login.setEnabled(true);
-    }else{
-        btn_login.setEnabled(false);
+    if (Verification.verifyLoginName(tf_name.getText()) && Verification.verifyPassword(password)) {
+        enableButtons();
+    } else {
+        disableButtons();
     }
 }//GEN-LAST:event_tf_nameCaretUpdate
 

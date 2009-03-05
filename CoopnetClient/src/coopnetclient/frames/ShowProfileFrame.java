@@ -25,9 +25,10 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 
-public class ShowProfileFrame extends javax.swing.JFrame {
+public class ShowProfileFrame extends JFrame {
     
     /** Creates new form ShowProfile */
     public ShowProfileFrame(String name,String ingameName, String country, String webpage) {
