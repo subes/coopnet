@@ -25,33 +25,36 @@ import javax.swing.SwingUtilities;
 
 public abstract class EdtRunner extends ErrThread {
 
+    /**
+     * Calls invokeLater() internally.
+     */
     @Override
     public final synchronized void start() {
-        if(SwingUtilities.isEventDispatchThread()){
-            super.start();
-        }else{
-            //CHECKSTYLE:OFF
-            SwingUtilities.invokeLater(this);
-            //CHECKSTYLE:ON
-        }
+        this.invokeLater();
     }
 
+    /**
+     * Runs this Thread in EDT via invokeLater().
+     *
+     */
     public final void invokeLater(){
-        this.start();
+        //CHECKSTYLE:OFF
+        SwingUtilities.invokeLater(this);
+        //CHECKSTYLE:ON
     }
 
+    /**
+     * Runs this Thread in EDT via invokeAndWait().
+     *
+     * @throws java.lang.InterruptedException
+     */
     public final void invokeAndWait() throws InterruptedException {
-        if(SwingUtilities.isEventDispatchThread()){
-            super.start();
-            this.join();
-        }else{
-            try{
-                //CHECKSTYLE:OFF
-                SwingUtilities.invokeAndWait(this);
-                //CHECKSTYLE:ON
-            }catch(InvocationTargetException e){
-                Err.handle(e);
-            }
+        try{
+            //CHECKSTYLE:OFF
+            SwingUtilities.invokeAndWait(this);
+            //CHECKSTYLE:ON
+        }catch(InvocationTargetException e){
+            Err.handle(e);
         }
     }
 
