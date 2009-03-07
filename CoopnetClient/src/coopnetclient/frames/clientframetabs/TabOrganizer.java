@@ -74,12 +74,6 @@ public final class TabOrganizer {
         if (!Settings.getMultiChannel()) {
             TabOrganizer.closeAllButLastChannelPanel();
         }
-
-        if (Settings.getTrayIconEnabled()) {
-            FrameOrganizer.addTrayIcon();
-        } else {
-            FrameOrganizer.removeTrayIcon();
-        }
     }
 
     public static void openChannelPanel(String channelname) {

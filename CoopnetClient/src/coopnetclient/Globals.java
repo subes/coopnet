@@ -153,9 +153,6 @@ public final class Globals {
         }
 
         wineCommand = Settings.getWineCommand();
-
-        FrameOrganizer.init();
-
     }
 
     public static String getClientVersion(){

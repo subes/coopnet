@@ -19,13 +19,17 @@
 
 package coopnetclient.frames;
 
+import coopnetclient.Err;
 import coopnetclient.enums.LogTypes;
-import coopnetclient.frames.popupmenus.SystemTrayPopupMenu;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
+import coopnetclient.frames.popupmenus.TrayPopupMenu;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.ui.Colorizer;
+import coopnetclient.utils.ui.CoopnetTrayIcon;
 import coopnetclient.utils.ui.Icons;
+import java.awt.AWTException;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.SystemTray;
@@ -50,75 +54,50 @@ public final class FrameOrganizer {
     private static BugReportFrame bugReportFrame;
     private static TextPreviewFrame textPreviewFrame;
     private static MuteBanListFrame muteBanTableFrame;
-    private static SystemTray tray;
-    private static TrayIcon trayIcon;
-    private static SystemTrayPopupMenu trayPopup;
-    private static boolean trayAdded;
+    private static CoopnetTrayIcon trayIcon;
 
     private FrameOrganizer() {
+    }
+
+    public static void init(){
+        openClientFrame();
+        if (Settings.getFirstRun()) {
+            TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
+            Settings.setFirstRun(false);
+        }
+        initTrayIcon();
+    }
+
+    public static void cleanUp(){
+        if(trayIcon != null){
+            trayIcon.removeTrayIcon();
+            trayIcon = null;
+        }
     }
 
     public static void updateSettings(){
         getClientFrame().updateSettings();
 
-        if (trayPopup != null){
-            trayPopup.updateSettings();
+        initTrayIcon();
+
+        if (trayIcon != null){
+            trayIcon.updateSettings();
         }
     }
 
-    public static void init() {
-        //initialise and add trayicon if needed
-        if (SystemTray.isSupported()) {
-            tray = SystemTray.getSystemTray();
-
-            trayPopup = new SystemTrayPopupMenu();
-            trayIcon = new TrayIcon(Icons.coopnetNormalIcon.getImage(), "CoopnetClient", trayPopup);
-            trayIcon.setImageAutoSize(true);
-            trayIcon.addMouseListener(
-                new MouseAdapter() {
-
-                    @Override
-                    public void mouseEntered(MouseEvent evt) {
-                    }
-
-                    @Override
-                    public void mouseExited(MouseEvent evt) {
-                    }
-
-                    @Override
-                    public void mousePressed(MouseEvent evt) {
-                        if(evt.getButton() == MouseEvent.BUTTON1 && FrameOrganizer.getClientFrame() != null){
-                            if(FrameOrganizer.getClientFrame().isVisible()){
-                                FrameOrganizer.getClientFrame().setVisible(true);
-                                FrameOrganizer.getClientFrame().requestFocus();
-                            }else{
-                                FrameOrganizer.getClientFrame().setVisible(false);
-                            }
-                        }
-                    }
-                });
-        }
-    }
-
-    public static void addTrayIcon() {
-        try {
-            if (SystemTray.isSupported() && !trayAdded) {
-                tray.add(trayIcon);
-                trayAdded = true;
+    private static void initTrayIcon() {
+        try{
+            if(SystemTray.isSupported() && Settings.getTrayIconEnabled()){
+                trayIcon = new CoopnetTrayIcon();
+                trayIcon.addTrayIcon();
+            }else{
+                if(trayIcon != null){
+                    trayIcon.removeTrayIcon();
+                    trayIcon = null;
+                }
             }
-        } catch (Exception e) {
-            Logger.log(e);
-        }
-    }
-
-    public static void removeTrayIcon() {
-        if (SystemTray.isSupported()) {
-            try {
-                tray.remove(trayIcon);
-                trayAdded = false;
-            } catch (Exception e) {
-                Logger.log(e);
-            }
+        }catch(AWTException e){
+            Err.handle(e);
         }
     }
 
@@ -170,6 +149,19 @@ public final class FrameOrganizer {
         if (clientFrame != null) {
             clientFrame.dispose();
             clientFrame = null;
+        }
+    }
+
+    public static void showClientFrame() {
+        if(clientFrame != null){
+            FrameOrganizer.getClientFrame().setVisible(true);
+            FrameOrganizer.getClientFrame().requestFocus();
+        }
+    }
+
+    public static void hideClientFrame() {
+        if(clientFrame != null){
+            FrameOrganizer.getClientFrame().setVisible(false);
         }
     }
 

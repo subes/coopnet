@@ -25,16 +25,13 @@ import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.utils.ui.Colorizer;
-import coopnetclient.utils.FileDownloader;
 import coopnetclient.utils.Verification;
 import coopnetclient.protocol.out.Message;
-import coopnetclient.utils.ui.InactivityWatcher;
-import coopnetclient.utils.hotkeys.Hotkeys;
+import coopnetclient.threads.EdtRunner;
+import coopnetclient.utils.FileDownloader;
 import coopnetclient.utils.Logger;
-import java.awt.AWTEvent;
+import coopnetclient.utils.hotkeys.Hotkeys;
 import java.awt.SystemTray;
-import java.awt.Toolkit;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -100,30 +97,16 @@ public final class Client {
         GameDatabase.loadVersion();
         GameDatabase.load("", GameDatabase.dataFilePath);
         GameDatabase.detectGames();
-        SwingUtilities.invokeLater(new Thread() {
-            @Override
-            public void run() {
-                try {
-                    
-                    SwingUtilities.invokeLater(new Runnable() {
+        new EdtRunner(){
 
-                        @Override
-                        public void run() {
-                            FrameOrganizer.openClientFrame();
-                            if (Settings.getFirstRun()) {
-                                TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
-                                Settings.setFirstRun(false);
-                            }
-                            startConnection();
-                            checkAndUpdateClient();
-                        }
-                    });
-                    checkAndUpdateGameData();
-                } catch (Exception e) {
-                    Err.handle(e);
-                }
+            @Override
+            public void handledRun() throws Throwable {
+                FrameOrganizer.init();
+                startConnection();
+                checkAndUpdateClient();
             }
-        });
+            
+        }.invokeLater();
     }
 
     public static void startConnection() {
@@ -203,7 +186,7 @@ public final class Client {
             //close connection
             Client.stopConnection();
             //save sizes
-            coopnetclient.utils.settings.Settings.setMainFrameMaximised(FrameOrganizer.getClientFrame().getExtendedState());
+            Settings.setMainFrameMaximised(FrameOrganizer.getClientFrame().getExtendedState());
 
             if (FrameOrganizer.getClientFrame().getExtendedState() == javax.swing.JFrame.NORMAL) {
                 Settings.setMainFrameHeight(FrameOrganizer.getClientFrame().getHeight());
@@ -212,6 +195,7 @@ public final class Client {
             }
             //unbind hotkeys
             Hotkeys.cleanUp();
+            FrameOrganizer.cleanUp();
             System.exit(0);
         }
     }

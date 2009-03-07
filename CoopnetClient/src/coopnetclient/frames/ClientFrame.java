@@ -77,11 +77,6 @@ public class ClientFrame extends javax.swing.JFrame {
         refreshInstalledGames();
 
         updateSettings();
-
-        if (Settings.getTrayIconEnabled()) {
-            FrameOrganizer.addTrayIcon();
-        }
-
     }
 
     public QuickPanel getQuickPanel() {
@@ -777,7 +772,6 @@ public class ClientFrame extends javax.swing.JFrame {
     public void updateSettings() {
         mi_Sounds.setSelected(Settings.getSoundEnabled());
     }
-    //Only used by ClientFramePanelHandler!
 
     protected JTabbedPane getTabHolder() {
         return tabpn_tabs;

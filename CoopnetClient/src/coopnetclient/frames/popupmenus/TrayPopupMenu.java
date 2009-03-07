@@ -23,7 +23,6 @@ import coopnetclient.Globals;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.utils.settings.Settings;
 import java.awt.CheckboxMenuItem;
-import java.awt.Component;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
@@ -31,14 +30,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class SystemTrayPopupMenu extends PopupMenu implements ActionListener, ItemListener {
+public class TrayPopupMenu extends PopupMenu implements ActionListener, ItemListener {
 
     private CheckboxMenuItem mi_show;
     private MenuItem mi_quit;
     private CheckboxMenuItem mi_sounds;
 
-    public SystemTrayPopupMenu() {
-        mi_show = new CheckboxMenuItem("Show main frame");
+    public TrayPopupMenu() {
+        mi_show = new CheckboxMenuItem("Show Main Frame");
         mi_sounds = new CheckboxMenuItem("Sounds");
         mi_quit = new MenuItem("Quit");
         mi_quit.addActionListener(this);
@@ -55,19 +54,10 @@ public class SystemTrayPopupMenu extends PopupMenu implements ActionListener, It
 
     public void updateSettings(){
         mi_sounds.setState(Settings.getSoundEnabled());
-    }
-
-    @Override
-    public void show(Component origin, int x, int y) {
-        super.show(origin, x, y);
         if(FrameOrganizer.getClientFrame() != null){
-            mi_show.removeItemListener(this);
             mi_show.setState(FrameOrganizer.getClientFrame().isVisible());
-            mi_show.addItemListener(this);
         }
     }
-
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -83,11 +73,11 @@ public class SystemTrayPopupMenu extends PopupMenu implements ActionListener, It
             Globals.updateSettings();
         }else if (e.getSource().equals(mi_show)){
             if(mi_show.getState()){
-                FrameOrganizer.getClientFrame().setVisible(true);
-                FrameOrganizer.getClientFrame().requestFocus();
+                FrameOrganizer.showClientFrame();
             }else{
-                FrameOrganizer.getClientFrame().setVisible(false);
+                FrameOrganizer.hideClientFrame();
             }
         }
     }
+
 }
