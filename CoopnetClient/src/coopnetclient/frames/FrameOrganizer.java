@@ -30,6 +30,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -73,20 +75,25 @@ public final class FrameOrganizer {
             trayIcon = new TrayIcon(Icons.coopnetNormalIcon.getImage(), "CoopnetClient", trayPopup);
             trayIcon.setImageAutoSize(true);
             trayIcon.addMouseListener(
-                new java.awt.event.MouseAdapter() {
+                new MouseAdapter() {
 
                     @Override
-                    public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    public void mouseEntered(MouseEvent evt) {
                     }
 
                     @Override
-                    public void mouseExited(java.awt.event.MouseEvent evt) {
+                    public void mouseExited(MouseEvent evt) {
                     }
 
                     @Override
-                    public void mousePressed(java.awt.event.MouseEvent evt) {
-                        if (evt.getClickCount() >= 2) {
-                            FrameOrganizer.getClientFrame().setVisible(true);
+                    public void mousePressed(MouseEvent evt) {
+                        if(evt.getButton() == MouseEvent.BUTTON1 && FrameOrganizer.getClientFrame() != null){
+                            if(FrameOrganizer.getClientFrame().isVisible()){
+                                FrameOrganizer.getClientFrame().setVisible(true);
+                                FrameOrganizer.getClientFrame().requestFocus();
+                            }else{
+                                FrameOrganizer.getClientFrame().setVisible(false);
+                            }
                         }
                     }
                 });

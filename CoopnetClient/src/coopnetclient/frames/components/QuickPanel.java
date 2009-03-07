@@ -40,7 +40,7 @@ import javax.swing.JTextField;
 public class QuickPanel extends javax.swing.JPanel {
 
     private static ContactListPopupMenu popup;
-    ContactListModel model;
+    private ContactListModel model;
 
     /** Creates new form PlayerListPanel */
     public QuickPanel() {
