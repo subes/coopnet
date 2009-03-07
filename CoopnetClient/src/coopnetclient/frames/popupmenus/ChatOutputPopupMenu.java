@@ -17,7 +17,7 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.frames.components;
+package coopnetclient.frames.popupmenus;
 
 import coopnetclient.Globals;
 import java.awt.Component;

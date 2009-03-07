@@ -20,7 +20,7 @@ package coopnetclient.utils.ui;
 
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.frames.components.CustomScrollBarUI;
-import coopnetclient.frames.components.TextComponentPopupMenu;
+import coopnetclient.frames.popupmenus.TextComponentPopupMenu;
 import coopnetclient.frames.listeners.TabbedPaneColorChangeListener;
 import coopnetclient.utils.Logger;
 import java.awt.Color;
