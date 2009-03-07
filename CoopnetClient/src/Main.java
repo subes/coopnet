@@ -43,6 +43,7 @@ public final class Main {
     private static final String MULTIPLE_INSTANCES = "multipleInstances";
 
     private static boolean multipleInstances;
+    private static boolean safemode;
 
     private Main() {
     }
@@ -67,6 +68,10 @@ public final class Main {
 
         if(!multipleInstances){
             doIPC();
+        }
+
+        if(safemode){
+            SettingsHelper.resetSettings();
         }
 
         Logger.log("Starting ...");
@@ -105,7 +110,7 @@ public final class Main {
             CommandLine cmd = parser.parse(options, args);
 
             if(cmd.hasOption(SAFEMODE)){ //Reset has to be first
-                SettingsHelper.resetSettings();
+                safemode = true;
             }
             if(cmd.hasOption(HELP)){
                 printHelp(options);

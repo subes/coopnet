@@ -35,7 +35,7 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="183" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
                       <Component id="btn_ok" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -50,9 +50,9 @@
               <Component id="lbl_hint" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="cb_dontShowNextTime" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace pref="18" max="32767" attributes="0"/>
               <Component id="btn_ok" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -60,12 +60,12 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="lbl_hint">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;The Coopnet tray icon is enabled, so closing the main frame minimizes it to tray.&lt;br&gt;The tray icon can be disabled in the settings frame."/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;The Coopnet &lt;b&gt;tray icon&lt;/b&gt; is enabled,&lt;br&gt;so closing the main frame &lt;b&gt;minimizes&lt;/b&gt; it to tray instead.&lt;br&gt;The tray icon can be disabled in the settings frame."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="cb_dontShowNextTime">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Don&apos;t show again"/>
+        <Property name="text" type="java.lang.String" value="Don&apos;t show this again"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btn_ok">

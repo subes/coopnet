@@ -53,9 +53,9 @@ public class TrayIconHintDialog extends javax.swing.JDialog {
             }
         });
 
-        lbl_hint.setText("<html>The Coopnet tray icon is enabled, so closing the main frame minimizes it to tray.<br>The tray icon can be disabled in the settings frame.");
+        lbl_hint.setText("<html>The Coopnet <b>tray icon</b> is enabled,<br>so closing the main frame <b>minimizes</b> it to tray instead.<br>The tray icon can be disabled in the settings frame.");
 
-        cb_dontShowNextTime.setText("Don't show again");
+        cb_dontShowNextTime.setText("Don't show this again");
 
         btn_ok.setText("Ok");
         btn_ok.addActionListener(new java.awt.event.ActionListener() {
@@ -76,7 +76,7 @@ public class TrayIconHintDialog extends javax.swing.JDialog {
                             .addComponent(lbl_hint)
                             .addComponent(cb_dontShowNextTime)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(183, 183, 183)
+                        .addGap(117, 117, 117)
                         .addComponent(btn_ok)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -87,9 +87,9 @@ public class TrayIconHintDialog extends javax.swing.JDialog {
                 .addComponent(lbl_hint)
                 .addGap(18, 18, 18)
                 .addComponent(cb_dontShowNextTime)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(btn_ok)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();

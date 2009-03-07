@@ -58,6 +58,7 @@ public final class SettingsHelper {
     }
 
     public static void resetSettings() {
+        Logger.log("Resetting settings ...");
         data.clear();
         save();
         Favourites.resetFavourites();

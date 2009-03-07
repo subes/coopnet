@@ -133,7 +133,7 @@ public final class Settings {
     private final static String quickPanelToggleBarWidth = "QuickPanelToggleBarWidth";
     private final static int def_quickPanelToggleBarWidth = 10;
     private final static String trayIconEnabled = "TrayIcon";
-    private final static boolean def_trayIconEnabled = false;
+    private final static boolean def_trayIconEnabled = true;
     private final static String launchHotKeyMask = "HotKeyMask";
     private final static int def_launchHotKeyMask = 10;
     private final static String launchHotKey = "HotKey";

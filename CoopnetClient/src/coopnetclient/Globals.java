@@ -25,6 +25,7 @@ import coopnetclient.utils.settings.Settings;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.frames.models.TransferTableModel;
+import coopnetclient.threads.ErrThread;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.hotkeys.Hotkeys;
@@ -267,10 +268,9 @@ public final class Globals {
 
     public static void setThisPlayerInGameName(String value) {
         thisPlayerInGameName = value;
-        new Thread() {
-
+        new ErrThread() {
             @Override
-            public void run() {
+            public void handledRun() throws Throwable {
                 Launcher.updatePlayerName();
             }
         }.start();
