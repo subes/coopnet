@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-package coopnetclient.utils.ui;
+package coopnetclient.frames.popupmenus;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
@@ -30,13 +30,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class SystemTrayPopup extends PopupMenu implements ActionListener, ItemListener {
+public class SystemTrayPopupMenu extends PopupMenu implements ActionListener, ItemListener {
 
     private MenuItem mi_show;
     private MenuItem mi_quit;
     private CheckboxMenuItem mi_sounds;
 
-    public SystemTrayPopup() {
+    public SystemTrayPopupMenu() {
         mi_show = new MenuItem("Show main frame");
         mi_sounds = new CheckboxMenuItem("Sounds");
         mi_quit = new MenuItem("Quit");

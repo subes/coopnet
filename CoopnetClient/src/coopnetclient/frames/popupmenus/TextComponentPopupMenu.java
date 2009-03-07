@@ -35,7 +35,6 @@ public class TextComponentPopupMenu extends JPopupMenu implements ActionListener
     protected JTextComponent parent;
 
     protected JMenuItem selectAll;
-    protected JMenuItem deleteAll;
     protected JMenuItem cut;
     protected JMenuItem copy;
     protected JMenuItem paste;
@@ -46,8 +45,6 @@ public class TextComponentPopupMenu extends JPopupMenu implements ActionListener
         this.parent = parent;
 
         selectAll = new JMenuItem("Select All");
-        selectAll.addActionListener(this);
-        selectAll = new JMenuItem("Delect All");
         selectAll.addActionListener(this);
         cut = new JMenuItem("Cut");
         cut.addActionListener(this);
@@ -64,7 +61,6 @@ public class TextComponentPopupMenu extends JPopupMenu implements ActionListener
         this.add(delete);
         this.addSeparator();
         this.add(selectAll);
-        this.add(deleteAll);
     }
 
     @Override
@@ -80,13 +76,13 @@ public class TextComponentPopupMenu extends JPopupMenu implements ActionListener
                 copy.setEnabled(true);
             }
             delete.setEnabled(parent.isEditable());
-            deleteAll.setEnabled(parent.isEditable());
         }else{
             cut.setEnabled(false);
             copy.setEnabled(false);
             delete.setEnabled(false);
-            deleteAll.setEnabled(false);
         }
+
+        selectAll.setEnabled(parent.getText().length() > 0);
 
         Transferable contents = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(this);
         paste.setEnabled(parent.isEditable() && contents.isDataFlavorSupported(DataFlavor.stringFlavor));

@@ -20,12 +20,12 @@
 package coopnetclient.frames;
 
 import coopnetclient.enums.LogTypes;
+import coopnetclient.frames.popupmenus.SystemTrayPopupMenu;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.ui.Icons;
-import coopnetclient.utils.ui.SystemTrayPopup;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.SystemTray;
@@ -50,7 +50,7 @@ public final class FrameOrganizer {
     private static MuteBanListFrame muteBanTableFrame;
     private static SystemTray tray;
     private static TrayIcon trayIcon;
-    private static SystemTrayPopup trayPopup;
+    private static SystemTrayPopupMenu trayPopup;
     private static boolean trayAdded;
 
     private FrameOrganizer() {
@@ -69,7 +69,7 @@ public final class FrameOrganizer {
         if (SystemTray.isSupported()) {
             tray = SystemTray.getSystemTray();
 
-            trayPopup = new SystemTrayPopup();
+            trayPopup = new SystemTrayPopupMenu();
             trayIcon = new TrayIcon(Icons.coopnetNormalIcon.getImage(), "CoopnetClient", trayPopup);
             trayIcon.setImageAutoSize(true);
             trayIcon.addMouseListener(

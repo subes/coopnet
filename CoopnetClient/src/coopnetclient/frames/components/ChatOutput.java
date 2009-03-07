@@ -21,6 +21,7 @@ package coopnetclient.frames.components;
 
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
+import coopnetclient.frames.popupmenus.ChatOutputPopupMenu;
 import coopnetclient.utils.ui.ColoredChatHandler;
 import coopnetclient.utils.ui.StyledChatMessage;
 import java.awt.Rectangle;
