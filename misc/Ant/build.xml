@@ -21,7 +21,9 @@
         <ant dir="${nbproject.updater.dir}" target="clean"/>
         <delete dir="${client.release.dir}"/>
         <delete file="${nbproject.client.manifest}"/>
+        <touch file="${nbproject.client.manifest}"/>
         <delete file="${nbproject.updater.manifest}"/>
+        <touch file="${nbproject.updater.manifest}"/>
         <delete file="${packagingscripts.windows.name}"/>
     </target>
 
