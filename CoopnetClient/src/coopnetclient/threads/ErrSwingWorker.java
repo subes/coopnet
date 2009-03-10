@@ -19,7 +19,7 @@
 
 package coopnetclient.threads;
 
-import coopnetclient.Err;
+import coopnetclient.ErrorHandler;
 import java.util.List;
 import javax.swing.SwingWorker;
 
@@ -32,7 +32,7 @@ public abstract class ErrSwingWorker extends SwingWorker {
         try{
             return secureDoInBackground();
         }catch(Throwable e){
-            Err.handle(e);
+            ErrorHandler.handle(e);
             throw new Exception(e);
         }
     }
@@ -45,7 +45,7 @@ public abstract class ErrSwingWorker extends SwingWorker {
             super.done();
             handledDone();
         }catch(Throwable e){
-            Err.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -59,7 +59,7 @@ public abstract class ErrSwingWorker extends SwingWorker {
             super.finalize();
             handledFinalize();
         }catch(Throwable e){
-            Err.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
@@ -73,7 +73,7 @@ public abstract class ErrSwingWorker extends SwingWorker {
             super.process(chunks);
             handledProcess(chunks);
         }catch(Throwable e){
-            Err.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 

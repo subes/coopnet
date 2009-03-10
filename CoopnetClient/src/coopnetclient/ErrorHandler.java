@@ -20,18 +20,19 @@
 package coopnetclient;
 
 import coopnetclient.enums.ErrorPanelStyle;
+import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.Logger;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 
-public final class Err {
+public final class ErrorHandler {
 
-    private Err() {
+    private ErrorHandler() {
     }
 
     public static void handle(Throwable exc) {
-        if (exc == null) {
+        if (exc == null || FrameOrganizer.getClientFrame() == null) {
             return;
         }
 

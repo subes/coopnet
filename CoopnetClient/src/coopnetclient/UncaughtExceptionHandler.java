@@ -17,24 +17,18 @@
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package coopnetclient.threads;
+package coopnetclient;
 
-import coopnetclient.ErrorHandler;
 
-//CHECKSTYLE:OFF
-public abstract class ErrThread extends Thread {
-//CHECKSTYLE:ON
+public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 
-    @Override
-    public final void run() {
-        try{
-            super.run();
-            handledRun();
-        }catch(Throwable e){
-            ErrorHandler.handle(e);
-        }
+    public static void init(){
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler());
     }
 
-    public abstract void handledRun() throws Throwable;
+    @Override
+    public void uncaughtException(Thread t, Throwable e) {
+        ErrorHandler.handle(e);
+    }
 
 }

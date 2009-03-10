@@ -19,7 +19,7 @@
 
 package coopnetclient.frames.listeners;
 
-import coopnetclient.Err;
+import coopnetclient.ErrorHandler;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.threads.ErrThread;
 import java.awt.Desktop;
@@ -99,7 +99,7 @@ public class HyperlinkMouseListener extends MouseAdapter {
         } catch (java.io.IOException ioe) {
             //do nothing cuz opera does this sometimes
         } catch (Exception e) {
-            Err.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 }

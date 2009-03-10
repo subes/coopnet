@@ -98,14 +98,12 @@ public final class Client {
         GameDatabase.load("", GameDatabase.dataFilePath);
         GameDatabase.detectGames();
         new EdtRunner(){
-
             @Override
             public void handledRun() throws Throwable {
                 FrameOrganizer.init();
                 startConnection();
                 checkAndUpdateClient();
             }
-            
         }.invokeLater();
     }
 
@@ -290,7 +288,7 @@ public final class Client {
                     JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
                             "You have an outdated version of the gamedata, but couldn't update it!",
                             "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
-                    Err.handle(e);
+                    ErrorHandler.handle(e);
                 }
             }
         }.start();
@@ -340,7 +338,7 @@ public final class Client {
                                         }
                                     }
                                 } catch (Exception e) {
-                                    Err.handle(e);
+                                    ErrorHandler.handle(e);
                                 }
                             }
                         }.start();

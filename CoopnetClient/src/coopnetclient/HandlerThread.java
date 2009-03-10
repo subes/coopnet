@@ -93,7 +93,7 @@ public class HandlerThread extends Thread {
                             }
                         }
                     } catch (Exception e) {
-                        Err.handle(e);
+                        ErrorHandler.handle(e);
                     }
                 }
             };
@@ -118,7 +118,7 @@ public class HandlerThread extends Thread {
                             }
                         }
                     } catch (Exception e) {
-                        Err.handle(e);
+                        ErrorHandler.handle(e);
                     }
                 }
             }.start();
@@ -150,7 +150,7 @@ public class HandlerThread extends Thread {
                 //ErrorHandler decides if there is a need for the stacktrace,
                 //this helps looking at the log of a bugreport
                 //handle excptions
-                Err.handle(e);
+                ErrorHandler.handle(e);
             }
         }
         Logger.log(LogTypes.LOG, "HandlerThreads main loop ended");
@@ -311,7 +311,7 @@ public class HandlerThread extends Thread {
                 }
             } catch (Exception e) {
                 Logger.log(LogTypes.ERROR, "Failed to send: " + rawdata);
-                Err.handle(e);
+                ErrorHandler.handle(e);
             }
             return true;
         }

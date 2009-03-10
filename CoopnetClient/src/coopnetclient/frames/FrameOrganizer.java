@@ -19,7 +19,7 @@
 
 package coopnetclient.frames;
 
-import coopnetclient.Err;
+import coopnetclient.ErrorHandler;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.popupmenus.TrayPopupMenu;
@@ -97,7 +97,7 @@ public final class FrameOrganizer {
                 }
             }
         }catch(AWTException e){
-            Err.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 

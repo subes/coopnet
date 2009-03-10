@@ -18,7 +18,7 @@
  */
 package coopnetclient.frames;
 
-import coopnetclient.Err;
+import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.clientframetabs.TabOrganizer;

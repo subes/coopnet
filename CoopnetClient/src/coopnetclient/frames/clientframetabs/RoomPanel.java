@@ -19,7 +19,7 @@
 package coopnetclient.frames.clientframetabs;
 
 import coopnetclient.Client;
-import coopnetclient.Err;
+import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.frames.listeners.ChatInputKeyListener;
 import coopnetclient.frames.models.SortedListModel;
@@ -180,7 +180,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
                     Launcher.initialize(launchInfo);
                 } catch (Exception e) {
-                    Err.handle(e);
+                    ErrorHandler.handle(e);
                 }
             }
         }.start();
@@ -302,7 +302,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                     Protocol.gameClosed(roomData.getChannel());
                     btn_gameSettings.setEnabled(true);
                 } catch (Exception e) {
-                    Err.handle(e);
+                    ErrorHandler.handle(e);
                 }
             }
         }.start();
@@ -620,7 +620,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                 try {
                     showSettings();
                 } catch (Exception e) {
-                    Err.handle(e);
+                    ErrorHandler.handle(e);
                 }
             }
         });

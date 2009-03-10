@@ -112,7 +112,7 @@ public class SoundPlayer {
                     try{
                         playSound(file);
                     }catch(Exception e){
-                        Err.handle(e);
+                        ErrorHandler.handle(e);
                     }
                 }
             }.start();

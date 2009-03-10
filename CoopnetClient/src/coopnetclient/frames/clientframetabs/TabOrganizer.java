@@ -19,7 +19,7 @@
 
 package coopnetclient.frames.clientframetabs;
 
-import coopnetclient.Err;
+import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ErrorPanelStyle;
@@ -622,7 +622,7 @@ public final class TabOrganizer {
                     for (int i = 0; i < tabHolder.getTabCount(); i++) {
                         text += "\n\t\t" + tabHolder.getComponentAt(i).getClass().getName();
                     }
-                    Err.handle(new IllegalStateException(text));
+                    ErrorHandler.handle(new IllegalStateException(text));
                 }
             }
         }.invokeLater();

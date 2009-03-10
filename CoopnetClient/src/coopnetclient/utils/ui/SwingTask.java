@@ -20,7 +20,7 @@
 package coopnetclient.utils.ui;
 
 import coopnetclient.protocol.in.CommandHandler;
-import coopnetclient.Err;
+import coopnetclient.ErrorHandler;
 import coopnetclient.protocol.out.Protocol;
 import java.util.ArrayList;
 
@@ -58,7 +58,7 @@ public class SwingTask implements Runnable {
             String[] com = getParts(command);            
             CommandHandler.execute(com);
         } catch (Exception e) {
-            Err.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 }

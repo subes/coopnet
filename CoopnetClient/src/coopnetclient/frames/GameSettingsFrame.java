@@ -18,7 +18,7 @@
  */
 package coopnetclient.frames;
 
-import coopnetclient.Err;
+import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.MapLoaderTypes;
@@ -506,7 +506,7 @@ private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 try {
                     Launcher.instantLaunch(true);
                 } catch (Exception e) {
-                    Err.handle(e);
+                    ErrorHandler.handle(e);
                 }
             }
         }.start();

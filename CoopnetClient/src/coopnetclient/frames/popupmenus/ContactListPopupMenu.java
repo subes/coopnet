@@ -18,7 +18,7 @@
  */
 package coopnetclient.frames.popupmenus;
 
-import coopnetclient.Err;
+import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ContactListElementTypes;

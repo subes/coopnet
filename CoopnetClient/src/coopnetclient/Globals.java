@@ -139,6 +139,7 @@ public final class Globals {
             Logger.log(ex);
         }
 
+        UncaughtExceptionHandler.init();
         SettingsHelper.init();
         Settings.init();
         GameDatabase.init();

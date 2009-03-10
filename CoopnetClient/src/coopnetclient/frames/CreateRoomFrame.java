@@ -18,7 +18,7 @@
  */
 package coopnetclient.frames;
 
-import coopnetclient.Err;
+import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
@@ -352,7 +352,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                             Launcher.instantLaunch();
                         }
                     } catch (Exception e) {
-                        Err.handle(e);
+                        ErrorHandler.handle(e);
                     }
                 }
             }.start();
@@ -370,7 +370,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                             FrameOrganizer.openGameSettingsFrame(rd);
                         }
                     } catch (Exception e) {
-                        Err.handle(e);
+                        ErrorHandler.handle(e);
                     }
                 }
             }.start();

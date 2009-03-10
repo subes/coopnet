@@ -19,7 +19,7 @@
 
 package coopnetclient.threads;
 
-import coopnetclient.Err;
+import coopnetclient.ErrorHandler;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.SwingUtilities;
 
@@ -54,7 +54,7 @@ public abstract class EdtRunner extends ErrThread {
             SwingUtilities.invokeAndWait(this);
             //CHECKSTYLE:ON
         }catch(InvocationTargetException e){
-            Err.handle(e);
+            ErrorHandler.handle(e);
         }
     }
 
