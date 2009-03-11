@@ -62,7 +62,7 @@ public class ChannelPanel extends javax.swing.JPanel implements ClosableTab {
         renderer = new ChannelStatusListCellRenderer(users);
         initComponents();
         coopnetclient.utils.ui.Colorizer.colorize(this);
-
+        scrl_chatOutput.updateStyle();
         //Table
         rooms = new RoomTableModel(tbl_roomList, users);
         tbl_roomList.setModel(rooms);

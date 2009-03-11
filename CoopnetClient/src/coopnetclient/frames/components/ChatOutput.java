@@ -59,7 +59,8 @@ public class ChatOutput extends JScrollPane {
        
         messages = new ArrayList<StyledChatMessage>();
         StyledDocument doc = textPane.getStyledDocument();
-        ColoredChatHandler.setupStyles(doc);
+        //the next line prevents opening the forms that use this component
+        //ColoredChatHandler.setupStyles(doc);
     }
 
     public JTextPane getTextPane() {

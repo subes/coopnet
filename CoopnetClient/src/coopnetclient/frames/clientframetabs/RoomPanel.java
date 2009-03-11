@@ -74,6 +74,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         users.add(Globals.getThisPlayerLoginName());
 
         initComponents();
+        scrl_chatOutput.updateStyle();
 
         cb_useHamachi.setToolTipText("<html>Don't use this unless you have connection issues!" +
                     "<br>If you really need to use this, consult with the room host!" +
