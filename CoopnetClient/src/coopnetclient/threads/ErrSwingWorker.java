@@ -20,6 +20,7 @@
 package coopnetclient.threads;
 
 import coopnetclient.ErrorHandler;
+import coopnetclient.utils.Logger;
 import java.util.List;
 import javax.swing.SwingWorker;
 
@@ -27,17 +28,33 @@ import javax.swing.SwingWorker;
 public abstract class ErrSwingWorker extends SwingWorker {
 //CHECKSTYLE:ON
 
+    private boolean isCritical = true;
+
+    protected void setNonCritical() {
+        isCritical = false;
+    }
+
+    private void handle(Throwable t){
+        if(isCritical){
+            ErrorHandler.handle(t);
+        }else{
+            Logger.log(t);
+        }
+    }
+
     @Override
     protected final Object doInBackground() throws Exception {
         try{
             return handledDoInBackground();
         }catch(Throwable e){
-            ErrorHandler.handle(e);
+            handle(e);
             throw new Exception(e);
         }
     }
 
-    protected abstract Object handledDoInBackground() throws Exception;
+    protected Object handledDoInBackground() throws Exception{
+        return null;
+    }
 
     @Override
     protected final void done() {
@@ -45,7 +62,7 @@ public abstract class ErrSwingWorker extends SwingWorker {
             super.done();
             handledDone();
         }catch(Throwable e){
-            ErrorHandler.handle(e);
+            handle(e);
         }
     }
 
@@ -59,7 +76,7 @@ public abstract class ErrSwingWorker extends SwingWorker {
             super.finalize();
             handledFinalize();
         }catch(Throwable e){
-            ErrorHandler.handle(e);
+            handle(e);
         }
     }
 
@@ -73,7 +90,7 @@ public abstract class ErrSwingWorker extends SwingWorker {
             super.process(chunks);
             handledProcess(chunks);
         }catch(Throwable e){
-            ErrorHandler.handle(e);
+            handle(e);
         }
     }
 

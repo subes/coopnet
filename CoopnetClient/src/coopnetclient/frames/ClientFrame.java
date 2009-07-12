@@ -35,6 +35,7 @@ import coopnetclient.frames.components.FavMenuItem;
 import coopnetclient.frames.clientframetabs.LoginPanel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.utils.FileDownloader;
+import coopnetclient.utils.Updater;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.settings.Favourites;
 import java.awt.Color;
@@ -791,12 +792,12 @@ public class ClientFrame extends javax.swing.JFrame {
     private void tabpn_tabsComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tabpn_tabsComponentAdded
         TabOrganizer.putFocusOnTab(null);
         updateTabNavigationMenuItems();
-    }//GEN-LAST:event_tabpn_tabsComponentAdded
+    }                                         
 
     private void tabpn_tabsComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-LAST:event_tabpn_tabsComponentAdded
         TabOrganizer.putFocusOnTab(null);
         updateTabNavigationMenuItems();
-    }//GEN-LAST:event_tabpn_tabsComponentRemoved
+    }                                           
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Client.quit(false);
@@ -817,42 +818,14 @@ public class ClientFrame extends javax.swing.JFrame {
 
     private void mi_manageGamesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_manageGamesActionPerformed
         FrameOrganizer.openManageGamesFrame();
-    }//GEN-LAST:event_mi_manageGamesActionPerformed
+    }                                              
 
-    private void mi_guideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-LAST:event_mi_manageGamesActionPerformed
+    private void mi_guideActionPerformed(java.awt.event.ActionEvent evt) {                                              
         HyperlinkMouseListener.openURL("http://coopnet.sourceforge.net/guide.html");
     }//GEN-LAST:event_mi_manageGamesActionPerformed
 
-    public void invokeUpdate() {
-        new Thread() {
-
-            @Override
-            public void run() {
-                try {
-                    int n = JOptionPane.showConfirmDialog(null,
-                            "<html>Would you like to update your CoopnetClient now?<br>" +
-                            "(The client will close and update itself)", "Client outdated",
-                            JOptionPane.YES_NO_OPTION);
-                    if (n == JOptionPane.YES_OPTION) {
-                        try {
-                            FileDownloader.downloadFile("http://coopnet.sourceforge.net/latestUpdater.php",
-                                    Globals.getResourceAsString("CoopnetUpdater.jar"));
-                            Runtime rt = Runtime.getRuntime();
-                            rt.exec("java -jar CoopnetUpdater.jar", null, Client.getCurrentDirectory());
-                            Client.quit(true);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                } catch (Exception e) {
-                    ErrorHandler.handle(e);
-                }
-            }
-        }.start();
-    }
-
     private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_updateActionPerformed
-        invokeUpdate();
+        Updater.invokeUpdate();
     }//GEN-LAST:event_mi_updateActionPerformed
 
     private void mi_bugReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_bugReportActionPerformed
@@ -867,7 +840,7 @@ public class ClientFrame extends javax.swing.JFrame {
                 pnl_toggleQuickBarLeft.setBackground(getHoverEffectColor());
             }
         }
-    }//GEN-LAST:event_pnl_toggleQuickBarLeftMouseEntered
+    }                                                   
 
     private void pnl_toggleQuickBarLeftMouseExited(java.awt.event.MouseEvent evt) {//GEN-LAST:event_pnl_toggleQuickBarLeftMouseEntered
         if (Globals.getLoggedInStatus()) {
@@ -877,7 +850,7 @@ public class ClientFrame extends javax.swing.JFrame {
                 pnl_toggleQuickBarLeft.setBackground((Color) UIManager.get("Panel.background"));
             }
         }
-    }//GEN-LAST:event_pnl_toggleQuickBarLeftMouseExited
+    }                                                  
 
     private void pnl_toggleQuickBarLeftMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnl_toggleQuickBarLeftMousePressed
         if (Globals.getLoggedInStatus()) {

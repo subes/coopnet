@@ -16,25 +16,38 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.threads;
 
 import coopnetclient.ErrorHandler;
+import coopnetclient.utils.Logger;
 
 //CHECKSTYLE:OFF
 public abstract class ErrThread extends Thread {
 //CHECKSTYLE:ON
 
+    private boolean isCritical = true;
+
+    protected void setNonCritical() {
+        isCritical = false;
+    }
+
+    private void handle(Throwable t){
+        if (isCritical) {
+            ErrorHandler.handle(t);
+        } else {
+            Logger.log(t);
+        }
+    }
+
     @Override
     public final void run() {
-        try{
+        try {
             super.run();
             handledRun();
-        }catch(Throwable e){
-            ErrorHandler.handle(e);
+        } catch (Throwable e) {
+            handle(e);
         }
     }
 
     public abstract void handledRun() throws Throwable;
-
 }

@@ -26,6 +26,7 @@ import coopnetclient.frames.interfaces.ClosableTab;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.ui.FrameIconFlasher;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.Updater;
 import java.awt.event.KeyEvent;
 
 public class ErrorPanel extends javax.swing.JPanel implements ClosableTab {
@@ -179,7 +180,7 @@ public class ErrorPanel extends javax.swing.JPanel implements ClosableTab {
             Client.startConnection();
             btn_report.setEnabled(false);
         } else if (btn_report.getText().equals("Update")) {
-            FrameOrganizer.getClientFrame().invokeUpdate();
+            Updater.invokeUpdate();
             btn_report.setEnabled(false);
         } else {
             FrameOrganizer.openBugReportFrame(exception, trafficLog);

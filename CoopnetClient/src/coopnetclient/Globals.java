@@ -37,6 +37,7 @@ import coopnetclient.utils.ui.Colors;
 import coopnetclient.utils.ui.InactivityWatcher;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public final class Globals {
@@ -134,7 +135,7 @@ public final class Globals {
 
     public static void init() {
         try {
-            currentPath = Client.getCurrentDirectory().getCanonicalPath();
+            currentPath = getCurrentDirectory().getCanonicalPath();
         } catch (Exception ex) {
             Logger.log(ex);
         }
@@ -327,5 +328,14 @@ public final class Globals {
 
         FrameOrganizer.updateSettings();
         TabOrganizer.updateSettings();
+    }
+
+    public static File getCurrentDirectory() throws URISyntaxException {
+        File location = new File(Client.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+        if (location.isFile()) {
+            return location.getParentFile();
+        } else {
+            return location.getParentFile().getParentFile();//loc is build/classes
+        }
     }
 }

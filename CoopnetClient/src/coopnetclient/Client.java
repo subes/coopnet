@@ -31,6 +31,8 @@ import coopnetclient.threads.EdtRunner;
 import coopnetclient.threads.ErrThread;
 import coopnetclient.utils.FileDownloader;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.OnlineClientData;
+import coopnetclient.utils.Updater;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import java.awt.SystemTray;
 import java.io.BufferedOutputStream;
@@ -102,7 +104,7 @@ public final class Client {
             public void handledRun() throws Throwable {
                 FrameOrganizer.init();
                 startConnection();
-                checkAndUpdateClient();
+                Updater.checkAndUpdate();
             }
         }.invokeLater();
     }
@@ -289,58 +291,6 @@ public final class Client {
                             "You have an outdated version of the gamedata, but couldn't update it!",
                             "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
                     ErrorHandler.handle(e);
-                }
-            }
-        }.start();
-    }
-
-    public static File getCurrentDirectory() throws URISyntaxException {
-        File location = new File(Client.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-        if (location.isFile()) {
-            return location.getParentFile();
-        } else {
-            return location.getParentFile().getParentFile();//loc is build/classes
-        }
-    }
-
-    public static void checkAndUpdateClient() {
-        new Thread() {
-            @Override
-            public void run() {
-                URL url;
-                BufferedReader br = null;
-                try {
-                    url = new URL("http://coopnet.sourceforge.net/lastclientversion");
-                    br = new BufferedReader(new InputStreamReader(url.openStream()));
-                    String version = br.readLine();
-                    if (!Verification.verifyClientVersion(version)) {
-                        FrameOrganizer.getClientFrame().enableUpdate();
-                        new ErrThread() {
-                            @Override
-                            public void handledRun() {
-                                int n = JOptionPane.showConfirmDialog(null,
-                                        "<html>There is a new version of CoopnetClient available.<br>" +
-                                        "Would you like to update now?<br>" +
-                                        "The client will close and update itself.",
-                                        "Client update available", JOptionPane.YES_NO_OPTION);
-                                if (n == JOptionPane.YES_OPTION) {
-                                    try {
-                                        FileDownloader.downloadFile(
-                                                "http://coopnet.sourceforge.net/latestUpdater.php",
-                                                Globals.getResourceAsString("CoopnetUpdater.jar"));
-                                        Runtime rt = Runtime.getRuntime();
-                                        rt.exec("java -jar CoopnetUpdater.jar", null, getCurrentDirectory());
-                                        quit(true);
-                                    } catch (Exception ex) {
-                                        Logger.log(ex);
-                                    }
-                                }
-                            }
-                        }.start();
-                    }
-                } catch (Exception e) {
-                    Logger.log(e);
-                    return;
                 }
             }
         }.start();
