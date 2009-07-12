@@ -217,7 +217,7 @@
                       <Component id="btn_join" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btn_refresh" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="188" max="32767" attributes="0"/>
+                      <EmptySpace pref="178" max="32767" attributes="0"/>
                   </Group>
                   <Component id="scrl_roomList" alignment="0" pref="350" max="32767" attributes="0"/>
               </Group>
@@ -232,7 +232,7 @@
                           <Component id="btn_refresh" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="scrl_roomList" pref="156" max="32767" attributes="0"/>
+                      <Component id="scrl_roomList" pref="155" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

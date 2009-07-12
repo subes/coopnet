@@ -28,6 +28,7 @@ import java.util.Date;
 public final class Logger {
 
     private static final ArrayList<String> LOG = new ArrayList<String>();
+    private static final String STACKTRACE_AT = "\n\tat ";
     private static final int TAIL_LENGTH = 300;
 
     private Logger() {
@@ -93,9 +94,13 @@ public final class Logger {
 
         if (Globals.getDebug()) {
             if (type == LogTypes.ERROR) {
+                //CHECKSTYLE:OFF
                 System.err.println(entry);
+                //CHECKSTYLE:ON
             } else {
+                //CHECKSTYLE:OFF
                 System.out.println(entry);
+                //CHECKSTYLE:ON
             }
         }
         append(entry);
@@ -106,7 +111,7 @@ public final class Logger {
 
         StackTraceElement[] trace = exception.getStackTrace();
         for (int i = 0; i < trace.length; i++) {
-            entry += "\n\tat " + trace[i].toString();
+            entry += STACKTRACE_AT + trace[i].toString();
         }
 
         Throwable cause = exception.getCause();
@@ -114,7 +119,7 @@ public final class Logger {
             entry += "\nCaused by - " + cause.getClass().toString() + ": " + cause.getMessage();
             trace = cause.getStackTrace();
             for (int i = 0; i < trace.length; i++) {
-                entry += "\n\tat " + trace[i].toString();
+                entry += STACKTRACE_AT + trace[i].toString();
             }
 
             cause = cause.getCause();

@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.models;
 
 import java.util.ArrayList;
@@ -27,9 +26,14 @@ import javax.swing.table.DefaultTableModel;
 public class RoomTableModel extends DefaultTableModel {
 
     //dummy classes to associate with columns:
-    public static class RoomType{};
-    public static class RoomName{};
-    public static class PlayersInRoom{};
+    public static class RoomType {
+    };
+
+    public static class RoomName {
+    };
+
+    public static class PlayersInRoom {
+    };
 
     /*
      * launcehd status is indicated by +10 intvalue
@@ -43,9 +47,8 @@ public class RoomTableModel extends DefaultTableModel {
     public static final int NORMAL_PASSWORDED_ROOM_LAUNCHED = 11;
     public static final int INSTANT_UNPASSWORDED_ROOM = 2;
     public static final int INSTANT_PASSWORDED_ROOM = 3;
-    
 
-    private class  Room {
+    private class Room {
 
         private int type;
         private String name;
@@ -55,24 +58,25 @@ public class RoomTableModel extends DefaultTableModel {
         private boolean launched;
         private ArrayList<String> playersInRoom = new ArrayList<String>();
 
-        public Room(int type, String name,String modName, String hostName, int maxplayers) {
+        public Room(int type, String name, String modName, String hostName,
+                int maxplayers) {
             this.type = type;
             this.name = name;
             this.modName = modName;
             this.hostName = hostName;
             this.maxPlayers = maxplayers;
-            this.launched= false;
+            this.launched = false;
             playersInRoom.add(hostName);
         }
 
-        public boolean isLaunched(){
+        public boolean isLaunched() {
             return userDataModel.isPlaying(hostName);
         }
-        
-        public void setLaunched(boolean state){
-            launched=state;
+
+        public void setLaunched(boolean state) {
+            launched = state;
         }
-        
+
         public String getName() {
             return name;
         }
@@ -92,7 +96,7 @@ public class RoomTableModel extends DefaultTableModel {
         public String getUserlist() {
             String userlist = "";
             for (String username : playersInRoom) {
-                userlist += "<xmp>"+username+"</xmp><br>";
+                userlist += "<xmp>" + username + "</xmp><br>";
             }
             return userlist;
         }
@@ -106,7 +110,7 @@ public class RoomTableModel extends DefaultTableModel {
         }
 
         public void addPlayer(String name) {
-            if(!playersInRoom.contains(name)){
+            if (!playersInRoom.contains(name)) {
                 playersInRoom.add(name);
             }
         }
@@ -120,12 +124,10 @@ public class RoomTableModel extends DefaultTableModel {
     private ArrayList<Room> rooms;
     private javax.swing.JTable parent;
     private ChannelStatusListModel userDataModel;
-    
-
-    
 
     /** Creates a new instance of MyTableModel */
-    public RoomTableModel(javax.swing.JTable parent,ChannelStatusListModel userdatamodel) {
+    public RoomTableModel(javax.swing.JTable parent,
+            ChannelStatusListModel userdatamodel) {
         super();
         this.parent = parent;
         this.userDataModel = userdatamodel;
@@ -206,11 +208,12 @@ public class RoomTableModel extends DefaultTableModel {
     public Object getValueAt(int row, int col) {
         switch (col) {
             case 0:
-                if(rooms.get(row).isLaunched() && rooms.get(row).getType()< INSTANT_UNPASSWORDED_ROOM ){
-                    return rooms.get(row).getType()+10;
+                if (rooms.get(row).isLaunched() && rooms.get(row).getType() <
+                        INSTANT_UNPASSWORDED_ROOM) {
+                    return rooms.get(row).getType() + 10;
+                } else {
+                    return rooms.get(row).getType();
                 }
-                else
-                return rooms.get(row).getType();
             case 1:
                 return rooms.get(row).getName();
             case 2:
@@ -260,7 +263,7 @@ public class RoomTableModel extends DefaultTableModel {
         fireTableDataChanged();
     }
 
-    public String getSelectedHostName(){
+    public String getSelectedHostName() {
         int i = parent.getSelectedRow();
         i = parent.convertRowIndexToModel(i);
         if (i == -1) {
@@ -290,15 +293,17 @@ public class RoomTableModel extends DefaultTableModel {
         int i = parent.getSelectedRow();
         i = parent.convertRowIndexToModel(i);
         if (i != -1) {
-            return (rooms.get(i).getType() == NORMAL_PASSWORDED_ROOM) || (rooms.get(i).getType() == INSTANT_PASSWORDED_ROOM);
+            return (rooms.get(i).getType() == NORMAL_PASSWORDED_ROOM) || (rooms.
+                    get(i).getType() == INSTANT_PASSWORDED_ROOM);
         }
         return false;
     }
 
-    public void addRoomToTable(String name, String modName ,String hostName, int maxPlayers, int type) {
-        if( indexOf(hostName)== -1 ){
+    public void addRoomToTable(String name, String modName, String hostName,
+            int maxPlayers, int type) {
+        if (indexOf(hostName) == -1) {
             rooms.add(new Room(type, name, modName, hostName, maxPlayers));
-            fireTableRowsInserted(rooms.size()-1, rooms.size()-1);
+            fireTableRowsInserted(rooms.size() - 1, rooms.size() - 1);
         }
     }
 
@@ -321,15 +326,15 @@ public class RoomTableModel extends DefaultTableModel {
 
     public boolean updateName(String oldName, String newName) {
         boolean found = false;
-        for (int index = 0; index <rooms.size();++index) {
+        for (int index = 0; index < rooms.size(); ++index) {
             Room room = rooms.get(index);
-            boolean foundhere = room.updatename(oldName, newName) ;
+            boolean foundhere = room.updatename(oldName, newName);
             found = foundhere || found;
-            if(foundhere){
+            if (foundhere) {
                 fireTableCellUpdated(index, 2);
                 fireTableCellUpdated(index, 3);
             }
-        }        
+        }
         return found;
     }
 
@@ -341,8 +346,7 @@ public class RoomTableModel extends DefaultTableModel {
         return rooms.get(row).modName;
     }
 
-
-    public void setLaunchedStatus(String possibleHost, boolean newLaunchedState){
+    public void setLaunchedStatus(String possibleHost, boolean newLaunchedState) {
         int index = indexOf(possibleHost);
         if (index >= 0) {
             rooms.get(index).setLaunched(newLaunchedState);
