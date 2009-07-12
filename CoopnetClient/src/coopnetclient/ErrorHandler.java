@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient;
 
 import coopnetclient.enums.ErrorPanelStyle;
@@ -25,43 +24,53 @@ import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.Logger;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.nio.channels.ClosedChannelException;
 
 public final class ErrorHandler {
 
     private ErrorHandler() {
     }
 
-    public static void handle(Throwable exc) {
-        if (exc == null || FrameOrganizer.getClientFrame() == null) {
+    public static void handle(Throwable e) {
+        if (e == null || FrameOrganizer.getClientFrame() == null) {
+            //Shutting down, don't handle anything!
             return;
         }
 
-        //From now on we want to log any exception!
-        Logger.log(exc);
-        if (exc instanceof java.nio.channels.AsynchronousCloseException) {
+        Logger.log(e);
+
+        if (e instanceof IOException) {
+            handleIOException((IOException) e);
+        } else {
+            handleRegularException(e);
+        }
+    }
+
+    private static void handleIOException(IOException e) {
+
+        if (checkMessage(e, "socket closed")) {
+            // do nothing, happens when disconnecting
             return;
+        } else if (e instanceof ClosedChannelException) {
+            TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, e);
+        } else if (checkMessage(e, "Connection refused") ||
+                checkMessage(e, "timed out") ||
+                e instanceof SocketTimeoutException) {
+            TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_REFUSED, e);
+        } else if (checkMessage(e, "Connection reset") ||
+                checkMessage(e, "Connection lost") ||
+                checkMessage(e, "forcibly closed by the remote host")) {
+            TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, e);
+        } else {
+            TabOrganizer.openErrorPanel(ErrorPanelStyle.UNKNOWN_IO, e);
         }
+    }
 
-        if (exc instanceof java.nio.channels.ClosedChannelException) {
-            TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, exc);
-        } else if (exc instanceof IOException) {
-            if (exc.getMessage() != null && exc.getMessage().equals("socket closed")) {
-                return; // do nothing, happens when disconnecting
-            }
+    private static void handleRegularException(Throwable e) {
+        TabOrganizer.openErrorPanel(ErrorPanelStyle.UNKNOWN, e);
+    }
 
-            if (exc.getMessage() != null && exc.getMessage().contains("Connection refused")
-                    || exc.getMessage() != null && exc.getMessage().contains("timed out")
-                    || exc instanceof SocketTimeoutException) {
-                TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_REFUSED, exc);
-            } else if (exc.getMessage() != null && exc.getMessage().contains("Connection reset")
-                    || exc.getMessage() != null && exc.getMessage().contains("Connection lost")
-                    || exc.getMessage() != null && exc.getMessage().contains("forcibly closed by the remote host")) {
-                TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_RESET, exc);
-            } else {
-                TabOrganizer.openErrorPanel(ErrorPanelStyle.UNKNOWN_IO, exc);
-            }
-        } else { // regular errors
-            TabOrganizer.openErrorPanel(ErrorPanelStyle.UNKNOWN, exc);
-        }
+    private static boolean checkMessage(Throwable e, String contains) {
+        return e.getMessage() != null && e.getMessage().contains(contains);
     }
 }

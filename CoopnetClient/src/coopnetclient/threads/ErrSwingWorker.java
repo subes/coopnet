@@ -30,14 +30,14 @@ public abstract class ErrSwingWorker extends SwingWorker {
     @Override
     protected final Object doInBackground() throws Exception {
         try{
-            return secureDoInBackground();
+            return handledDoInBackground();
         }catch(Throwable e){
             ErrorHandler.handle(e);
             throw new Exception(e);
         }
     }
 
-    protected abstract Object secureDoInBackground() throws Exception;
+    protected abstract Object handledDoInBackground() throws Exception;
 
     @Override
     protected final void done() {
