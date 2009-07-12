@@ -46,13 +46,34 @@
 
     <!-- Checks for duplicate code, Simian is free to use in OpenSource projects! -->
     <!-- See http://www.redhillconsulting.com.au/products/simian/ -->
-    <module name="au.com.redhillconsulting.simian.SimianCheck"/>
+    <!--<module name="au.com.redhillconsulting.simian.SimianCheck"/>-->
     
     <!-- Ignore generated code by Matisse -->
     <module name="cz.sickboy.netbeans.checkstyle.extra.GeneratedUIFilter"/>
 
     <!-- Allow CHECKSTYLE:OFF and CHECKSTYLE:ON comments -->
     <module name="SuppressionCommentFilter"/>
+
+    <!-- Checks for Headers                                -->
+    <!-- See http://checkstyle.sf.net/config_header.html   -->
+    <module name="RegexpHeader">
+        <!-- The follow property value demonstrates the ability     -->
+        <!-- to have access to ANT properties. In this case it uses -->
+        <!-- the ${basedir} property to allow Checkstyle to be run  -->
+        <!-- from any directory within a project. See property      -->
+        <!-- expansion,                                             -->
+        <!-- http://checkstyle.sf.net/config.html#properties        -->
+        <property
+        name="headerFile"
+        value="${header.file}" />
+    </module>
+    
+    <module name="FileLength">
+          <property name="max" value="1000"/>
+    </module>
+    <module name="FileTabCharacter">
+        <property name="eachLine" value="true"/>
+    </module>
 
     <module name="TreeWalker">
 
@@ -98,26 +119,6 @@
         <module name="TypeName"/>
         <!--<module name="AbstractClassName"/>-->
         
-
-
-        <!-- Checks for Headers                                -->
-        <!-- See http://checkstyle.sf.net/config_header.html   -->
-        <module name="RegexpHeader">
-            <!-- The follow property value demonstrates the ability     -->
-            <!-- to have access to ANT properties. In this case it uses -->
-            <!-- the ${basedir} property to allow Checkstyle to be run  -->
-            <!-- from any directory within a project. See property      -->
-            <!-- expansion,                                             -->
-            <!-- http://checkstyle.sf.net/config.html#properties        -->
-            <property
-            name="headerFile"
-            value="${header.file}" />
-        </module>
-
-        <!-- Following interprets the header file as regular expressions. -->
-        <!-- <module name="RegexpHeader"/>                                -->
-
-
         <!-- Checks for imports                              -->
         <!-- See http://checkstyle.sf.net/config_import.html -->
         <module name="AvoidStarImport"/>
@@ -128,9 +129,6 @@
 
         <!-- Checks for Size Violations.                    -->
         <!-- See http://checkstyle.sf.net/config_sizes.html -->
-        <module name="FileLength">
-              <property name="max" value="1000"/>
-        </module>
         <module name="LineLength">
             <property name="max" value="120"/>
         </module>
@@ -150,18 +148,8 @@
         <module name="MethodParamPad"/>
         <!--<module name="NoWhitespaceAfter"/>-->
         <!--<module name="NoWhitespaceBefore"/>-->
-        <module name="OperatorWrap">
-            <property name="tokens" value="ASSIGN, BOR_ASSIGN, BSR_ASSIGN, BAND_ASSIGN, BXOR_ASSIGN, DIV_ASSIGN, MINUS_ASSIGN, MOD_ASSIGN, PLUS_ASSIGN, SL_ASSIGN, SR_ASSIGN, STAR_ASSIGN"/>
-            <property name="option" value="eol"/>
-        </module>
-        <module name="OperatorWrap">
-        <!-- Excluding PLUS (+) because Netbeans puts it on EOL for String, though for numerics, it should be NL (dunno how to force it)-->
-            <property name="tokens" value="BAND, BOR, BSR, BXOR, COLON, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, QUESTION, SL, SR, STAR"/>
-            <property name="option" value="nl"/>
-        </module>
         <module name="ParenPad"/>
         <module name="TypecastParenPad"/>
-        <module name="TabCharacter"/>
         <!--<module name="WhitespaceAfter"/>-->
         <!--<module name="WhitespaceAround"/>-->
 
@@ -251,41 +239,41 @@
         <module name="CyclomaticComplexity"/>
         <module name="NPathComplexity"/>
         <module name="JavaNCSS"/>
-        <module name="ClassFanOutComplexity"/>
+        <!--<module name="ClassFanOutComplexity"/>-->
         <module name="ClassDataAbstractionCoupling"/>
         
         <!-- Miscellaneous other checks.                   -->
         <!-- See http://checkstyle.sf.net/config_misc.html -->
         <module name="ArrayTypeStyle"/>
         <!--<module name="FinalParameters"/>-->
-        <!--<module name="GenericIllegalRegexp">
+        <!--<module name="RegexpSinglelineJava">
             <property name="ignoreComments" value="true"/>
             <property name="format" value="\s+$"/>
             <property name="message" value="Line has trailing spaces."/>
         </module>-->
-        <module name="GenericIllegalRegexp">
+        <module name="RegexpSinglelineJava">
             <!-- . matches any character, so we need to
                  escape it and use \. to match dots. -->
             <property name="format" value="System\.out\.print"/>
             <property name="message" value="Use Logger.log(msg) instead"/>
         </module>
-        <module name="GenericIllegalRegexp">
+        <module name="RegexpSinglelineJava">
             <property name="format" value="System\.err\.print"/>
             <property name="message" value="Use Logger.logErr(msg) instead"/>
         </module>
-        <module name="GenericIllegalRegexp">
+        <module name="RegexpSinglelineJava">
             <property name="format" value="\.printStackTrace"/>
             <property name="message" value="Use Logger.log(exc) instead"/>
         </module>
-        <module name="GenericIllegalRegexp">
+        <module name="RegexpSinglelineJava">
             <property name="format" value="(new|extends)[ ]*Thread"/>
             <property name="message" value="Use ErrThread instead"/>
         </module>
-        <module name="GenericIllegalRegexp">
+        <module name="RegexpSinglelineJava">
             <property name="format" value="(new|extends)[ ]*SwingWorker"/>
             <property name="message" value="Use ErrSwingWorker instead"/>
         </module>
-        <module name="GenericIllegalRegexp">
+        <module name="RegexpSinglelineJava">
             <property name="format" value="SwingUtilities\.(invokeAndWait|invokeLater)\("/>
             <property name="message" value="Use EdtRunner instead"/>
         </module>
