@@ -151,6 +151,7 @@ public final class CommandHandler {
                     }
                     if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().chat(information[0], information[1], ChatStyles.USER);
+                        TabOrganizer.markTab(TabOrganizer.getRoomPanel());
                     }
                     break;
                 case ADD_TO_PLAYERS:
@@ -274,9 +275,12 @@ public final class CommandHandler {
                     }
                     break;
                 case LEFT_CHANNEL:
-                    TabOrganizer.getChannelPanel(currentChannelName).removePlayerFromChannel(information[1]);
-                    if (Settings.getLogUserActivity() && !Globals.getThisPlayerLoginName().equals(information[1])) {
-                        TabOrganizer.getChannelPanel(currentChannelName).printMainChatMessage("", information[1] + " has left the channel.", ChatStyles.SYSTEM);
+                    ChannelPanel ch = TabOrganizer.getChannelPanel(currentChannelName);
+                    if (ch != null) {
+                        ch.removePlayerFromChannel(information[1]);
+                        if (Settings.getLogUserActivity() && !Globals.getThisPlayerLoginName().equals(information[1])) {
+                            TabOrganizer.getChannelPanel(currentChannelName).printMainChatMessage("", information[1] + " has left the channel.", ChatStyles.SYSTEM);
+                        }
                     }
                     break;
                 case CHAT_PRIVATE:

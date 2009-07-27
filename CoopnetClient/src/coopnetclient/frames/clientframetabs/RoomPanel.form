@@ -170,6 +170,9 @@
                       <Dimension value="[6, 24]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tp_chatInputFocusLost"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

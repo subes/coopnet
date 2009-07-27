@@ -52,6 +52,10 @@ public class ChatInputKeyListener implements KeyListener {
         lastMessageDate = System.currentTimeMillis();
     }
 
+    public void resetCTRLStatus(){
+        ctrlIsPressed = false;
+    }
+
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }

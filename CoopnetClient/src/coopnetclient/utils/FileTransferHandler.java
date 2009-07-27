@@ -100,7 +100,6 @@ public class FileTransferHandler {
                             sleep(1000);
                         } catch (Exception e) {
                         }
-                        //DO stuff
                         currenttime = System.currentTimeMillis();
                         long tmp = currenttime - speedtmptime;
                         int speed = (int) ((processedBytes - lastBytePosition) / tmp); //Byte per millisec / kilobyte per sec
@@ -109,7 +108,7 @@ public class FileTransferHandler {
                         progress = (int) ((((processedBytes) * 1.0) / (totalsize - firstByteToSend)) * 100);
                         feedBackProgress(progress);
 
-                        if (processedBytes > 0) {
+                        if (processedBytes > 0 && speed >0) {
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
                             feedBackTime((long) ((((totalsize - firstByteToSend) - processedBytes) / (speed * 1.0f)) / 1000.0f));
@@ -334,11 +333,11 @@ public class FileTransferHandler {
                     feedBackStatus(TransferStatuses.Transferring);
                     starttime = System.currentTimeMillis();
                     processedBytes = 0;
-                    int readedbyte;
+                    int readbyte;
                     int tmp = 0;
                     //Read data
-                    while (running && (readedbyte = bi.read()) != -1) {
-                        bo.write(readedbyte);
+                    while (running && (readbyte = bi.read()) != -1) {
+                        bo.write(readbyte);
                         ++processedBytes;
                         ++tmp;
                         if (tmp > FLUSH_INTERVAL) {
@@ -482,9 +481,9 @@ public class FileTransferHandler {
                         return;
                     }
 
-                    ByteBuffer temp = ByteBuffer.allocate(1000);
+                    ByteBuffer temp = ByteBuffer.allocate(1500);
                     bi = new BufferedInputStream(new FileInputStream(sentFile));
-                    int readedbyte;
+                    int readbyte;
                     //discard data that is not needed
                     long i = 1;
                     while ((i < firstByteToSend) && running) {
@@ -496,15 +495,15 @@ public class FileTransferHandler {
                     starttime = System.currentTimeMillis();
                     processedBytes = 0;
                     //Send data
-                    while ((readedbyte = bi.read()) != -1 && running) {
+                    while ((readbyte = bi.read()) != -1 && running) {
                         if (temp.position() < temp.capacity()) {
-                            temp.put((byte) readedbyte);
+                            temp.put((byte) readbyte);
                             ++processedBytes;
                         } else {
                             temp.flip();
                             socket.write(temp);
                             temp.rewind();
-                            temp.put((byte) readedbyte);
+                            temp.put((byte) readbyte);
                             ++processedBytes;
                         }
                     }
@@ -559,9 +558,9 @@ public class FileTransferHandler {
                         serverSocket.close();
                     }
                     bo = new BufferedOutputStream(socket.getOutputStream());
-                    ByteBuffer temp = ByteBuffer.allocate(1000);
+                    ByteBuffer temp = ByteBuffer.allocate(1500);
                     bi = new BufferedInputStream(new FileInputStream(sentFile));
-                    int readedbyte;
+                    int readbyte;
                     //discard data that is not needed
                     long i = 0;
                     while (i < firstByteToSend) {
@@ -574,14 +573,14 @@ public class FileTransferHandler {
                     starttime = System.currentTimeMillis();
                     int tmp = 0;
                     //Send data
-                    while ((readedbyte = bi.read()) != -1 && running) {
+                    while ((readbyte = bi.read()) != -1 && running) {
                         if (temp.position() < temp.capacity()) {
-                            temp.put((byte) readedbyte);
+                            temp.put((byte) readbyte);
                         } else {
                             temp.flip();
                             bo.write(temp.array(), 0, temp.limit());
                             temp.rewind();
-                            temp.put((byte) readedbyte);
+                            temp.put((byte) readbyte);
                         }
                         ++processedBytes;
                         ++tmp;

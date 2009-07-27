@@ -46,6 +46,7 @@ import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import javax.swing.DropMode;
@@ -449,6 +450,11 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         tp_chatInput.setMinimumSize(new java.awt.Dimension(6, 24));
         tp_chatInput.setNextFocusableComponent(tp_chatInput);
         tp_chatInput.setPreferredSize(new java.awt.Dimension(6, 24));
+        tp_chatInput.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tp_chatInputFocusLost(evt);
+            }
+        });
         scrl_chatInput.setViewportView(tp_chatInput);
 
         sp_chatVertical.setRightComponent(scrl_chatInput);
@@ -659,6 +665,14 @@ private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST
         lst_userList.clearSelection();
     }
 }//GEN-LAST:event_lst_userListMouseExited
+
+private void tp_chatInputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tp_chatInputFocusLost
+    for (KeyListener listener : tp_chatInput.getKeyListeners()) {
+        if (listener instanceof ChatInputKeyListener) {
+            ((ChatInputKeyListener) listener).resetCTRLStatus();
+        }
+    }
+}//GEN-LAST:event_tp_chatInputFocusLost
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_gameSettings;

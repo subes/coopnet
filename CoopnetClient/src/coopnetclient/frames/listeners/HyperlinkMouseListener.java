@@ -69,7 +69,7 @@ public class HyperlinkMouseListener extends MouseAdapter {
                 new ErrThread(){
                     @Override
                     public void handledRun() throws Throwable {
-                        openURL(href);
+                        openURL(href.trim());
                     }
                 }.start();                
             }

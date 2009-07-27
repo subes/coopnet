@@ -39,6 +39,7 @@ import coopnetclient.utils.ui.UserListFileDropHandler;
 import coopnetclient.utils.launcher.Launcher;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import javax.swing.DropMode;
 import javax.swing.JPanel;
@@ -340,6 +341,11 @@ public class ChannelPanel extends JPanel implements ClosableTab {
 
         tp_chatInput.setFocusCycleRoot(false);
         tp_chatInput.setPreferredSize(new java.awt.Dimension(6, 24));
+        tp_chatInput.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tp_chatInputFocusLost(evt);
+            }
+        });
         scrl_chatInput.setViewportView(tp_chatInput);
 
         sp_chatVertical.setRightComponent(scrl_chatInput);
@@ -483,7 +489,7 @@ public class ChannelPanel extends JPanel implements ClosableTab {
                     .addComponent(btn_join)
                     .addComponent(btn_refresh))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                .addComponent(scrl_roomList, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
         );
 
         pnl_roomActionsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_create, btn_join, btn_refresh});
@@ -619,6 +625,14 @@ private void lst_userListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST
 private void tbl_roomListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_roomListMousePressed
     enableButtons();
 }//GEN-LAST:event_tbl_roomListMousePressed
+
+private void tp_chatInputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tp_chatInputFocusLost
+    for (KeyListener listener : tp_chatInput.getKeyListeners()) {
+        if (listener instanceof ChatInputKeyListener) {
+            ((ChatInputKeyListener) listener).resetCTRLStatus();
+        }
+    }
+}//GEN-LAST:event_tp_chatInputFocusLost
 
     public int getChannelChatHorizontalposition() {
         return sp_chatHorizontal.getDividerLocation();

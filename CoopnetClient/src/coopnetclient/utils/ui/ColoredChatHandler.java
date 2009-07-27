@@ -26,6 +26,7 @@ import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Vector;
 import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
@@ -167,7 +168,17 @@ public class ColoredChatHandler {
                 String[] messageWords = message.split(" ");
                 StringBuilder messageBuffer = new StringBuilder();
                 int lastMessageStart = doc.getLength();
+                Vector<String> words = new Vector();
                 for (String word : messageWords) {
+                    while(word.contains("\n")){
+                        int idx = word.indexOf('\n');
+                        words.add(word.substring(0, idx));
+                        words.add("\n");
+                        word = word.substring(idx+1);
+                    }
+                    words.add(word.substring(0));
+                }
+                for (String word : words) {
                     //links
                     if (word.startsWith("http://") || word.startsWith("room://") || word.startsWith("www.")) {
                         //make message object from previous chunk
@@ -195,7 +206,9 @@ public class ColoredChatHandler {
                         doc.insertString(doc.getLength(), " ", doc.getStyle(messageStyle));
                         lastMessageStart = doc.getLength();
                     } else { //print normal text
-                        word += " ";
+                        if(word.trim().length()>0){
+                            word += " ";
+                        }
                         messageBuffer.append(word);
                         doc.insertString(doc.getLength(), word, doc.getStyle(messageStyle));
                     }
