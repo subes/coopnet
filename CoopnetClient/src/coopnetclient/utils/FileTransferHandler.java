@@ -42,6 +42,7 @@ public class FileTransferHandler {
     public static final int SEND_MODE = 1;
     public static final int RECIEVE_MODE = 2;
     public static final int FLUSH_INTERVAL = 1000000;
+    public static final int BUFFER_SIZE = 1500;//common MTU
     private static final Object lock = new Object();
     private int mode;
     private String fileName;
@@ -410,7 +411,7 @@ public class FileTransferHandler {
                     starttime = System.currentTimeMillis();
                     processedBytes = 0;
                     int tmp = 0;
-                    ByteBuffer buffer = ByteBuffer.allocate(1000);
+                    ByteBuffer buffer = ByteBuffer.allocate(BUFFER_SIZE);
                     buffer.rewind();
                     //Read data
                     while (running && ((socket.read(buffer)) != -1)) {
@@ -481,7 +482,7 @@ public class FileTransferHandler {
                         return;
                     }
 
-                    ByteBuffer temp = ByteBuffer.allocate(1500);
+                    ByteBuffer temp = ByteBuffer.allocate(BUFFER_SIZE);
                     bi = new BufferedInputStream(new FileInputStream(sentFile));
                     int readbyte;
                     //discard data that is not needed
@@ -501,7 +502,7 @@ public class FileTransferHandler {
                             ++processedBytes;
                         } else {
                             temp.flip();
-                            socket.write(temp);
+                            writeToSocketChannel(socket,temp);
                             temp.rewind();
                             temp.put((byte) readbyte);
                             ++processedBytes;
@@ -510,7 +511,7 @@ public class FileTransferHandler {
                     //send last chunk
                     if (temp.position() != 0) {
                         temp.flip();
-                        socket.write(temp);
+                        writeToSocketChannel(socket,temp);
                         temp.rewind();
                     }
 
@@ -558,7 +559,7 @@ public class FileTransferHandler {
                         serverSocket.close();
                     }
                     bo = new BufferedOutputStream(socket.getOutputStream());
-                    ByteBuffer temp = ByteBuffer.allocate(1500);
+                    ByteBuffer temp = ByteBuffer.allocate(BUFFER_SIZE);
                     bi = new BufferedInputStream(new FileInputStream(sentFile));
                     int readbyte;
                     //discard data that is not needed
@@ -628,5 +629,17 @@ public class FileTransferHandler {
                 running = false;
             }
         }.start();
+    }
+
+    private static void writeToSocketChannel(SocketChannel socket, ByteBuffer byteBuffer) throws IOException {
+        int readLength = byteBuffer.remaining();
+        long sentbytes;
+        ByteBuffer buffer;
+        int sendIdx = 0;
+        do {
+            buffer = ByteBuffer.wrap(byteBuffer.array(), sendIdx, readLength - sendIdx);
+            sentbytes = socket.write(buffer);
+            sendIdx += sentbytes;
+        } while (sendIdx < readLength);
     }
 }

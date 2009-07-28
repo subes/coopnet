@@ -42,9 +42,9 @@ public class HandlerThread extends Thread {
     private Charset charset = Charset.forName(CHARSET);
     private boolean running = true;
     private SocketChannel socketChannel;
-    public static final int WRITEBUFFER_SIZE = 400;
-    public static final int READBUFFER_SIZE = 400;
-    private static ByteBuffer readBuffer = ByteBuffer.allocate(READBUFFER_SIZE);
+    public static final int WRITEBUFFER_SIZE = 1500;//common MTU
+    public static final int READBUFFER_SIZE = 1500;
+    private ByteBuffer readBuffer = ByteBuffer.allocate(READBUFFER_SIZE);
     private CharsetDecoder decoder = charset.newDecoder();
     private CharsetEncoder encoder = charset.newEncoder();
     private ByteBuffer attachment = null;
@@ -301,10 +301,26 @@ public class HandlerThread extends Thread {
                 ByteBuffer byteBuffer = encoder.encode(charBuffer);
                 if (byteBuffer.limit() > WRITEBUFFER_SIZE) {
                     for (ByteBuffer piece : cutToLength(byteBuffer, WRITEBUFFER_SIZE)) {
-                        socketChannel.write(piece);
+                        int readLength = piece.remaining();
+                        long sentbytes;
+                        ByteBuffer buffer;
+                        int sendIdx = 0;
+                        do {
+                            buffer = ByteBuffer.wrap(piece.array(), sendIdx, readLength - sendIdx);
+                            sentbytes = socketChannel.write(buffer);
+                            sendIdx += sentbytes;
+                        } while (sendIdx < readLength);
                     }
                 } else {
-                    socketChannel.write(byteBuffer);
+                    int readLength = byteBuffer.remaining();
+                    long sentbytes;
+                    ByteBuffer buffer;
+                    int sendIdx = 0;
+                    do {
+                        buffer = ByteBuffer.wrap(byteBuffer.array(), sendIdx, readLength - sendIdx);
+                        sentbytes = socketChannel.write(buffer);
+                        sendIdx += sentbytes;
+                    } while (sendIdx < readLength);
                 }
                 synchronized (HandlerThread.class) {
                     lastMessageSentAt = System.currentTimeMillis();

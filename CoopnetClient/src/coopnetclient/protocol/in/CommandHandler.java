@@ -125,6 +125,14 @@ public final class CommandHandler {
                     Client.disconnect();
                     FrameOrganizer.getClientFrame().printSystemMessage("Server is shutting down!", true);
                     break;
+                case VERIFICATION_ERROR:
+                    if (TabOrganizer.getLoginPanel() != null) {
+                        TabOrganizer.getLoginPanel().showError("Verification failed!", Color.red);
+                        TabOrganizer.getLoginPanel().enableButtons();
+                    } else {
+                        TabOrganizer.openLoginPanel();
+                    }
+                    break;
                 default:break;
             }
         } else {//logged-in commands
