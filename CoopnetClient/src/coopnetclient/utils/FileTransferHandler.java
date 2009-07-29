@@ -109,7 +109,7 @@ public class FileTransferHandler {
                         progress = (int) ((((processedBytes) * 1.0) / (totalsize - firstByteToSend)) * 100);
                         feedBackProgress(progress);
 
-                        if (processedBytes > 0 && speed >0) {
+                        if (processedBytes > 0 && speed > 0) {
                             timeelapsed = currenttime - starttime;
                             timeelapsed = timeelapsed / 1000;
                             feedBackTime((long) ((((totalsize - firstByteToSend) - processedBytes) / (speed * 1.0f)) / 1000.0f));
@@ -502,7 +502,9 @@ public class FileTransferHandler {
                             ++processedBytes;
                         } else {
                             temp.flip();
-                            writeToSocketChannel(socket,temp);
+                            do {
+                                socket.write(temp);
+                            } while (temp.hasRemaining());
                             temp.rewind();
                             temp.put((byte) readbyte);
                             ++processedBytes;
@@ -511,7 +513,9 @@ public class FileTransferHandler {
                     //send last chunk
                     if (temp.position() != 0) {
                         temp.flip();
-                        writeToSocketChannel(socket,temp);
+                        do {
+                            socket.write(temp);
+                        } while (temp.hasRemaining());
                         temp.rewind();
                     }
 
@@ -629,17 +633,5 @@ public class FileTransferHandler {
                 running = false;
             }
         }.start();
-    }
-
-    private static void writeToSocketChannel(SocketChannel socket, ByteBuffer byteBuffer) throws IOException {
-        int readLength = byteBuffer.remaining();
-        long sentbytes;
-        ByteBuffer buffer;
-        int sendIdx = 0;
-        do {
-            buffer = ByteBuffer.wrap(byteBuffer.array(), sendIdx, readLength - sendIdx);
-            sentbytes = socket.write(buffer);
-            sendIdx += sentbytes;
-        } while (sendIdx < readLength);
     }
 }

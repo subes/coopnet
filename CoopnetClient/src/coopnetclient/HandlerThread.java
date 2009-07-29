@@ -301,26 +301,14 @@ public class HandlerThread extends Thread {
                 ByteBuffer byteBuffer = encoder.encode(charBuffer);
                 if (byteBuffer.limit() > WRITEBUFFER_SIZE) {
                     for (ByteBuffer piece : cutToLength(byteBuffer, WRITEBUFFER_SIZE)) {
-                        int readLength = piece.remaining();
-                        long sentbytes;
-                        ByteBuffer buffer;
-                        int sendIdx = 0;
                         do {
-                            buffer = ByteBuffer.wrap(piece.array(), sendIdx, readLength - sendIdx);
-                            sentbytes = socketChannel.write(buffer);
-                            sendIdx += sentbytes;
-                        } while (sendIdx < readLength);
+                            socketChannel.write(piece);
+                        } while (piece.hasRemaining());
                     }
                 } else {
-                    int readLength = byteBuffer.remaining();
-                    long sentbytes;
-                    ByteBuffer buffer;
-                    int sendIdx = 0;
                     do {
-                        buffer = ByteBuffer.wrap(byteBuffer.array(), sendIdx, readLength - sendIdx);
-                        sentbytes = socketChannel.write(buffer);
-                        sendIdx += sentbytes;
-                    } while (sendIdx < readLength);
+                        socketChannel.write(byteBuffer);
+                    } while (byteBuffer.hasRemaining());
                 }
                 synchronized (HandlerThread.class) {
                     lastMessageSentAt = System.currentTimeMillis();
