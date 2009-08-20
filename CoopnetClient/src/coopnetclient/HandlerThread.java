@@ -18,6 +18,7 @@
  */
 package coopnetclient;
 
+import coopnetclient.enums.ErrorPanelStyle;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
@@ -76,7 +77,13 @@ public class HandlerThread extends Thread {
         try {
             socketChannel = null;
             socketChannel = SocketChannel.open();
-            socketChannel.socket().connect(new InetSocketAddress(Globals.getServerIP(), Globals.getServerPort()), 15000);
+            try{
+                socketChannel.socket().connect(new InetSocketAddress(Globals.getServerIP(), Globals.getServerPort()), 15000);
+            }catch(Throwable e){
+                Client.disconnect();
+                TabOrganizer.openErrorPanel(ErrorPanelStyle.CONNECTION_REFUSED, e);
+                return;
+            }
             //start sender thread
             sender = new Thread() {
 
