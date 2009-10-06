@@ -35,6 +35,7 @@ import coopnetclient.frames.components.FavMenuItem;
 import coopnetclient.frames.clientframetabs.LoginPanel;
 import coopnetclient.frames.listeners.HyperlinkMouseListener;
 import coopnetclient.utils.FileDownloader;
+import coopnetclient.utils.OnlineClientData;
 import coopnetclient.utils.Updater;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.settings.Favourites;
@@ -821,7 +822,7 @@ public class ClientFrame extends javax.swing.JFrame {
     }                                              
 
     private void mi_guideActionPerformed(java.awt.event.ActionEvent evt) {                                              
-        HyperlinkMouseListener.openURL("http://coopnet.sourceforge.net/guide.html");
+        OnlineClientData.openBeginnersGuide();
     }//GEN-LAST:event_mi_manageGamesActionPerformed
 
     private void mi_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_updateActionPerformed
@@ -915,7 +916,7 @@ public class ClientFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_mi_makeHomeActionPerformed
 
     private void mi_faqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_faqActionPerformed
-        HyperlinkMouseListener.openURL("http://coopnet.sourceforge.net/faq.php");
+        OnlineClientData.openFaq();
     }//GEN-LAST:event_mi_faqActionPerformed
 
     private void mi_showTransfersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mi_showTransfersActionPerformed

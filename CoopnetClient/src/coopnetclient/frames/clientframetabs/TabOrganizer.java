@@ -55,7 +55,6 @@ public final class TabOrganizer {
     private static Vector<ChannelPanel> channelPanels = new Vector<ChannelPanel>();
     private static RoomPanel roomPanel;
     private static Vector<PrivateChatPanel> privateChatPanels = new Vector<PrivateChatPanel>();
-    private static BrowserPanel browserPanel;
     private static ErrorPanel errorPanel;
     private static LoginPanel loginPanel;
     private static RegisterPanel registerPanel;
@@ -344,30 +343,6 @@ public final class TabOrganizer {
         return null;
     }
 
-    public static void openBrowserPanel(String url) {
-        if (browserPanel == null) {
-            browserPanel = new BrowserPanel(url);
-
-            //panelHolder.addTab("Browser", browserPanel);
-            String title = "Beginner's Guide";
-
-            tabHolder.addTab(title, browserPanel); //For now this is ok
-            tabHolder.setTabComponentAt(tabHolder.indexOfComponent(browserPanel),
-                    new TabComponent(title, browserPanel));
-            tabHolder.setSelectedComponent(browserPanel);
-        } else {
-            tabHolder.setSelectedComponent(browserPanel);
-            browserPanel.openUrl(url);
-        }
-
-        FrameOrganizer.getClientFrame().repaint();
-    }
-
-    public static void closeBrowserPanel() {
-        tabHolder.remove(browserPanel);
-        browserPanel = null;
-    }
-
     public static synchronized void openErrorPanel(final ErrorPanelStyle mode, final Throwable e) {
         new EdtRunner(){
             private static final String CLIENT_TOO_OLD = "Client too old";
@@ -599,7 +574,6 @@ public final class TabOrganizer {
             @Override
             public void handledRun() throws Throwable {
                 closeRoomPanel();
-                closeBrowserPanel();
                 closeErrorPanel();
                 closeLoginPanel();
                 closeTransferPanel();

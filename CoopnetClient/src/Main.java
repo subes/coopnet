@@ -21,6 +21,7 @@ import coopnetclient.Client;
 import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.OnlineClientData;
 import coopnetclient.utils.ipc.IPC;
 import coopnetclient.utils.settings.SettingsHelper;
 import java.io.File;
@@ -118,9 +119,9 @@ public final class Main {
             }
             if(cmd.hasOption(SERVER)){
                 String value = cmd.getOptionValue(SERVER);
-                String ip = value.substring(0, value.indexOf(Client.IP_PORT_SEPARATOR));
+                String ip = value.substring(0, value.indexOf(OnlineClientData.IP_PORT_SEPARATOR));
                 Globals.setServerIP(ip);
-                int port = Integer.parseInt(value.substring(value.indexOf(Client.IP_PORT_SEPARATOR) + 1));
+                int port = Integer.parseInt(value.substring(value.indexOf(OnlineClientData.IP_PORT_SEPARATOR) + 1));
                 Globals.setServerPort(port);
             }
             if(cmd.hasOption(DEBUG)){

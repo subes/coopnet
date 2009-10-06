@@ -24,6 +24,7 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.popupmenus.TrayPopupMenu;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.OnlineClientData;
 import coopnetclient.utils.RoomData;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.ui.Colorizer;
@@ -62,7 +63,7 @@ public final class FrameOrganizer {
     public static void init(){
         openClientFrame();
         if (Settings.getFirstRun()) {
-            TabOrganizer.openBrowserPanel("http://coopnet.sourceforge.net/guide.html");
+            OnlineClientData.openBeginnersGuide();
             Settings.setFirstRun(false);
         }
         initTrayIcon();

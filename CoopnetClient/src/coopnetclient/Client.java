@@ -20,38 +20,26 @@ package coopnetclient;
 
 import coopnetclient.dialogs.TrayIconHintDialog;
 import coopnetclient.protocol.out.Protocol;
-import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.utils.Verification;
 import coopnetclient.protocol.out.Message;
 import coopnetclient.threads.EdtRunner;
-import coopnetclient.threads.ErrThread;
-import coopnetclient.utils.FileDownloader;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.OnlineClientData;
 import coopnetclient.utils.Updater;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import java.awt.SystemTray;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Enumeration;
 import javax.swing.JOptionPane;
 
 public final class Client {
-    public static final String IP_PORT_SEPARATOR = ":";
+
     private static final int QUIT_SLEEP = 500;
     private static final int STOPCONNECTION_SLEEP = 50;
-
     private static HandlerThread handlerThread;
 
     private Client() {
@@ -95,11 +83,10 @@ public final class Client {
      */
     public static void startup() {
 
-        readServerAddress();
-        GameDatabase.loadVersion();
-        GameDatabase.load("", GameDatabase.dataFilePath);
-        GameDatabase.detectGames();
-        new EdtRunner(){
+        OnlineClientData.readServerAddress();
+        OnlineClientData.checkAndUpdateGameData();
+        new EdtRunner() {
+
             @Override
             public void handledRun() throws Throwable {
                 FrameOrganizer.init();
@@ -156,8 +143,9 @@ public final class Client {
 
     public static void quit(boolean overrideMinimizeToTray) {
         //hide the mainframe: trayicon enabled
-        if (SystemTray.isSupported() && !overrideMinimizeToTray && Settings.getTrayIconEnabled()) {
-            if(Settings.getShowMinimizeToTrayHint()){
+        if (SystemTray.isSupported() && !overrideMinimizeToTray && Settings.
+                getTrayIconEnabled()) {
+            if (Settings.getShowMinimizeToTrayHint()) {
                 new TrayIconHintDialog(null, false);
             }
             FrameOrganizer.getClientFrame().setVisible(false);
@@ -186,113 +174,22 @@ public final class Client {
             //close connection
             Client.stopConnection();
             //save sizes
-            Settings.setMainFrameMaximised(FrameOrganizer.getClientFrame().getExtendedState());
+            Settings.setMainFrameMaximised(FrameOrganizer.getClientFrame().
+                    getExtendedState());
 
-            if (FrameOrganizer.getClientFrame().getExtendedState() == javax.swing.JFrame.NORMAL) {
-                Settings.setMainFrameHeight(FrameOrganizer.getClientFrame().getHeight());
-                Settings.setMainFrameWidth(FrameOrganizer.getClientFrame().getWidth());
-                Settings.setMainFrameMaximised(FrameOrganizer.getClientFrame().getExtendedState());
+            if (FrameOrganizer.getClientFrame().getExtendedState() ==
+                    javax.swing.JFrame.NORMAL) {
+                Settings.setMainFrameHeight(FrameOrganizer.getClientFrame().
+                        getHeight());
+                Settings.setMainFrameWidth(FrameOrganizer.getClientFrame().
+                        getWidth());
+                Settings.setMainFrameMaximised(FrameOrganizer.getClientFrame().
+                        getExtendedState());
             }
             //unbind hotkeys
             Hotkeys.cleanUp();
             FrameOrganizer.cleanUp();
             System.exit(0);
         }
-    }
-
-    private static void readServerAddress() {
-        String server = null;
-        //Determine server IP and Port
-        if (Globals.getServerIP() == null) {
-            try {
-                URL sourceforge = new URL("http://coopnet.sourceforge.net/CoopnetServer.txt");
-                BufferedReader br = new BufferedReader(new InputStreamReader(sourceforge.openStream()));
-
-                StringBuilder temp = new StringBuilder();
-                int c;
-                while ((c = br.read()) != -1) {
-                    temp.append((char) c);
-                }
-                br.close();
-                br = null;
-                server = temp.toString().trim();
-                Logger.log("Server address read: " + server);
-            } catch (Exception e) {
-                Logger.log(e);
-                server = null;
-            }
-
-            if (server != null) {
-                String ip = server.substring(0, server.indexOf(IP_PORT_SEPARATOR));
-                Globals.setServerIP(ip);
-                int port = Integer.parseInt(server.substring(server.indexOf(IP_PORT_SEPARATOR) + 1));
-                Globals.setServerPort(port);
-                Settings.setLastValidServerIP(ip);
-                Settings.setLastValidServerPort(port);
-            } else {
-                Globals.setServerIP(Settings.getLastValidServerIP());
-                Globals.setServerPort(Settings.getLastValidServerPort());
-            }
-        }
-    }
-
-    public static void checkAndUpdateGameData() {
-        new Thread() {
-
-            @Override
-            public void run() {
-                BufferedReader br = null;
-                try {
-                    try {
-                        URL url = new URL("http://coopnet.sourceforge.net/gamedata.xml");
-                        br = new BufferedReader(new InputStreamReader(url.openStream()));
-                    } catch (java.net.UnknownHostException e) {
-                        return;
-                    } catch (java.io.FileNotFoundException e) {
-                        return;
-                    } catch (java.net.ConnectException e) {
-                        return;
-                    }
-                    int lastversion = 0;
-                    String readHeader1 = br.readLine();
-                    String readHeader2 = br.readLine();
-                    String[] parts = readHeader2.split(" ");
-                    lastversion = new Integer(parts[1]);
-                    GameDatabase.loadVersion();
-                    if (GameDatabase.version < lastversion) {
-                        Logger.log(LogTypes.LOG, "Downloading new gamedata");
-                        BufferedOutputStream bo = null;
-                        File destfile = new File(GameDatabase.dataFilePath);
-                        if (!destfile.createNewFile()) {
-                            destfile.delete();
-                            destfile.createNewFile();
-                        }
-                        bo = new BufferedOutputStream(new FileOutputStream(destfile));
-                        //save version
-                        bo.write((readHeader1 + "\n").getBytes());
-                        bo.write((readHeader2 + "\n").getBytes());
-                        //save the rest
-                        int readedbyte;
-                        while ((readedbyte = br.read()) != -1) {
-                            bo.write(readedbyte);
-                        }
-                        bo.flush();
-                        try {
-                            br.close();
-                            bo.close();
-                        } catch (Exception ex) {
-                            Logger.log(ex);
-                        }
-                        GameDatabase.loadVersion();
-                        GameDatabase.load("", GameDatabase.dataFilePath);
-                    }
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
-                            "You have an outdated version of the gamedata, but couldn't update it!",
-                            "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
-                    ErrorHandler.handle(e);
-                }
-            }
-        }.start();
     }
 }
