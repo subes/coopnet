@@ -21,9 +21,6 @@ import java.io.File;
 
 public final class Main {
 
-    private static final String ONLINE_CLIENT_DATA =
-            "http://coopnet.svn.sourceforge.net/viewvc/coopnet/trunk/misc/OnlineClientData/";
-
     private Main() {
     }
     
@@ -33,7 +30,7 @@ public final class Main {
         try {
             mf = new MessageFrame();
             mf.setVisible(true);
-            String updateurl = ONLINE_CLIENT_DATA + "/LatestUpdater.php";
+            String updateurl = OnlineClientData.getLatestClientUrl();
             if (updateurl == null) {
                 throw new Exception("Can't find update URL!");
             }

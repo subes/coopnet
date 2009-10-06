@@ -65,9 +65,7 @@ public final class Updater {
                 confirmText,
                 confirmTitle, JOptionPane.YES_NO_OPTION);
         if (n == JOptionPane.YES_OPTION) {
-            FileDownloader.downloadFile(
-                    OnlineClientData.getLatestUpdater(),
-                    Globals.getResourceAsString("CoopnetUpdater.jar"));
+            OnlineClientData.downloadLatestUpdater("CoopnetUpdater.jar");
             Runtime rt = Runtime.getRuntime();
             rt.exec("java -jar CoopnetUpdater.jar", null, Globals.
                     getCurrentDirectory());

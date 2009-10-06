@@ -38,15 +38,29 @@ public final class OnlineClientData {
     public static final String IP_PORT_SEPARATOR = ":";
     private static final String ONLINE_CLIENT_DATA =
             "http://coopnet.svn.sourceforge.net/viewvc/coopnet/trunk/misc/OnlineClientData/";
+    private static final String WIKI_URL =
+            "http://sourceforge.net/apps/mediawiki/coopnet/index.php?title=";
 
     private OnlineClientData() {
     }
 
+    private static String extractFirstLine(String urlToFile) {
+        try {
+            URL url = new URL(urlToFile);
+            BufferedReader br = new BufferedReader(new InputStreamReader(url.
+                    openStream()));
+            return br.readLine();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static String getLatestUpdaterUrl() {
+        return extractFirstLine(ONLINE_CLIENT_DATA + "LatestUpdater.txt");
+    }
+
     public static String getClientVersion() throws Exception {
-        URL url = new URL(ONLINE_CLIENT_DATA + "LatestClientVersion.txt");
-        BufferedReader br = new BufferedReader(new InputStreamReader(url.
-                openStream()));
-        return br.readLine();
+        return extractFirstLine(ONLINE_CLIENT_DATA + "LatestClientVersion.txt");
     }
 
     public static void readServerAddress() {
@@ -95,23 +109,25 @@ public final class OnlineClientData {
     }
 
     private static String getFaqUrl() {
-        return ONLINE_CLIENT_DATA+"guide.php";
+        return WIKI_URL + "User_FAQ";
     }
 
-    public static void openFaq(){
+    public static void openFaq() {
         HyperlinkMouseListener.openURL(getFaqUrl());
     }
 
     private static String getBeginnersGuideUrl() {
-        return ONLINE_CLIENT_DATA+"faq.php";
+        return WIKI_URL + "Beginner%27s_Guide";
     }
 
-    public static void openBeginnersGuide(){
+    public static void openBeginnersGuide() {
         HyperlinkMouseListener.openURL(getBeginnersGuideUrl());
     }
 
-    public static String getLatestUpdater() {
-        return ONLINE_CLIENT_DATA + "latestUpdater.php";
+    public static void downloadLatestUpdater(String toFile) {
+        FileDownloader.downloadFile(
+                getLatestUpdaterUrl(),
+                Globals.getResourceAsString(toFile));
     }
 
     public static void checkAndUpdateGameData() {
@@ -119,53 +135,54 @@ public final class OnlineClientData {
 
             @Override
             public void handledRun() throws Throwable {
-                try{
-                URL url = new URL(ONLINE_CLIENT_DATA+"gamedata.xml");
-                BufferedReader br = new BufferedReader(new InputStreamReader(url.
-                        openStream()));
-                int lastversion = 0;
-                String readHeader1 = br.readLine();
-                String readHeader2 = br.readLine();
-                String[] parts = readHeader2.split(" ");
-                lastversion = new Integer(parts[1]);
-                GameDatabase.loadVersion();
-                if (GameDatabase.version < lastversion) {
-                    Logger.log(LogTypes.LOG, "Downloading new gamedata");
-                    BufferedOutputStream bo = null;
-                    File destfile = new File(GameDatabase.dataFilePath);
-                    if (!destfile.createNewFile()) {
-                        destfile.delete();
-                        destfile.createNewFile();
+                try {
+                    URL url = new URL(ONLINE_CLIENT_DATA + "gamedata.xml");
+                    BufferedReader br =
+                            new BufferedReader(new InputStreamReader(url.
+                            openStream()));
+                    int lastversion = 0;
+                    String readHeader1 = br.readLine();
+                    String readHeader2 = br.readLine();
+                    String[] parts = readHeader2.split(" ");
+                    lastversion = new Integer(parts[1]);
+                    GameDatabase.loadVersion();
+                    if (GameDatabase.version < lastversion) {
+                        Logger.log(LogTypes.LOG, "Downloading new gamedata");
+                        BufferedOutputStream bo = null;
+                        File destfile = new File(GameDatabase.dataFilePath);
+                        if (!destfile.createNewFile()) {
+                            destfile.delete();
+                            destfile.createNewFile();
+                        }
+                        bo =
+                                new BufferedOutputStream(new FileOutputStream(destfile));
+                        //save version
+                        bo.write((readHeader1 + "\n").getBytes());
+                        bo.write((readHeader2 + "\n").getBytes());
+                        //save the rest
+                        int readedbyte;
+                        while ((readedbyte = br.read()) != -1) {
+                            bo.write(readedbyte);
+                        }
+                        bo.flush();
+                        try {
+                            br.close();
+                            bo.close();
+                        } catch (Exception ex) {
+                            Logger.log(ex);
+                        }
                     }
-                    bo =
-                            new BufferedOutputStream(new FileOutputStream(destfile));
-                    //save version
-                    bo.write((readHeader1 + "\n").getBytes());
-                    bo.write((readHeader2 + "\n").getBytes());
-                    //save the rest
-                    int readedbyte;
-                    while ((readedbyte = br.read()) != -1) {
-                        bo.write(readedbyte);
-                    }
-                    bo.flush();
-                    try {
-                        br.close();
-                        bo.close();
-                    } catch (Exception ex) {
-                        Logger.log(ex);
-                    }
-                }
-                }catch(Exception e){
+                } catch (Exception e) {
                     JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
                             "You have an outdated version of the gamedata, but couldn't update it!",
                             "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
                     throw e;
-                }finally {
+                } finally {
                     GameDatabase.loadVersion();
                     GameDatabase.load("", GameDatabase.dataFilePath);
                     GameDatabase.detectGames();
                 }
-                
+
             }
         }.start();
     }
