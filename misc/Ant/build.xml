@@ -5,6 +5,12 @@
     <tstamp>
         <format property="TODAY_DE" pattern="dd.MM.yyyy" locale="de,DE"/>
     </tstamp>
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="lib/ant-contrib-0.6.jar"/>
+        </classpath>
+    </taskdef>
+
 
     <!-- Load properties. First user specific properties which will override common properties. -->
     <property file="${user.name}.properties"/> 
@@ -25,6 +31,7 @@
         <delete file="${nbproject.updater.manifest}"/>
         <touch file="${nbproject.updater.manifest}"/>
         <delete file="${packagingscripts.windows.name}"/>
+        <delete dir="${release.dir}"/>
     </target>
 
     <target name="-build">
@@ -103,6 +110,11 @@
             <substitution expression="${client.release.version}"/>
             <fileset file="${packagingscripts.windows.name}"/>
         </replaceregexp>
+        <replaceregexp byline="true">
+            <regexp pattern="\Q${OUTPUT_FILE}"/>
+            <substitution expression="${client.release.installer}"/>
+            <fileset file="${packagingscripts.windows.name}"/>
+        </replaceregexp>
         <exec executable="${commands.makensis}">
             <arg value="${packagingscripts.windows.name}"/>
         </exec>
@@ -111,11 +123,55 @@
     <target name="package" description="Creates the release package.">
         <delete file="${updater.release.jar}"/>
         <delete file="${client.release.zip}"/>
+        <delete file="${client.release.installer}"/>
         <antcall target="-clean"/>
         <antcall target="-build"/>
         <antcall target="-copy"/>
         <antcall target="-zip"/>
         <antcall target="-nsi"/>
+        <antcall target="-clean"/>
+    </target>
+
+    <target name="release" description="Releases the packages to Sourceforge.">
+        <!-- check if jsch is in classpath already -->
+        <if>
+            <not><available file="${user.home}/.ant/lib/jsch-0.1.42.jar" /></not>
+            <then>
+                <copy file="lib/jsch-0.1.42.jar" todir="${user.home}/.ant/lib"/>
+                <fail>Classpath needed modification for scp target to work, please restart the build.</fail>
+            </then>
+        </if>
+
+        <!-- ask user if he really wants to release -->
+        <input
+            message="Are you sure you want to release CoopnetClient-${client.release.version} and CoopnetUpdater-${updater.release.version} packages to sourceforge for project ${release.remote.project}?"
+            validargs="y,n"
+            addproperty="do.release"
+        />
+        <if>
+            <equals arg1="n" arg2="${do.release}"/>
+            <then>
+                <fail>Build aborted by user.</fail>
+            </then>
+        </if>
+
+        <input message="Please enter Sourceforge username:" addproperty="scp.user"/>
+        <input message="Please enter Sourceforge password:" addproperty="scp.pass"/>
+
+        <!-- prepare local dir -->
+        <antcall target="package"/>
+        <mkdir dir="${release.client.dir}/${client.release.version}" />
+        <mkdir dir="${release.updater.dir}/${updater.release.version}" />
+        <copy file="${client.release.zip}" todir="${release.client.dir}/${client.release.version}"/>
+        <copy file="${client.release.installer}" todir="${release.client.dir}/${client.release.version}"/>
+        <copy file="${updater.release.jar}" todir="${release.updater.dir}/${updater.release.version}"/>
+
+
+        <!-- copy to frs -->
+        <scp trust="true" todir="${scp.user},${release.remote.project}:${scp.pass}@${release.remote.host}:${release.remote.dir}">
+            <fileset dir="${release.dir}"/>
+        </scp>
+
         <antcall target="-clean"/>
     </target>
 

@@ -4,7 +4,7 @@
 Name "CoopnetClient ${VERSION}"
 
 ; The file to write
-OutFile "CoopnetClient-${VERSION}_Win32Installer.exe"
+OutFile "${OUTPUT_FILE}"
 
 ; The default installation directory
 InstallDir $PROGRAMFILES\Coopnet
