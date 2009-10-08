@@ -166,13 +166,24 @@
         <copy file="${client.release.installer}" todir="${release.client.dir}/${client.release.version}"/>
         <copy file="${updater.release.jar}" todir="${release.updater.dir}/${updater.release.version}"/>
 
-
         <!-- copy to frs -->
         <scp trust="true" todir="${scp.user},${release.remote.project}:${scp.pass}@${release.remote.host}:${release.remote.dir}">
             <fileset dir="${release.dir}"/>
         </scp>
 
         <antcall target="-clean"/>
+
+        <!-- update onlineclientdata -->
+        <echo append="false" file="../OnlineClientData/LatestClientVersion.txt" message="${client.release.version}"/>
+        <echo append="false" file="../OnlineClientData/LatestClient.txt" message="${release.client.download.link}"/>
+        <echo append="false" file="../OnlineClientData/LatestUpdater.txt" message="${release.updater.download.link}"/>
+        <copy overwrite="true" file="${nbproject.client.dir}/data/gamedata.xml" todir="../OnlineClientData/"/>
+        <echo message="" />
+        <echo message="" />
+        <echo message="" />
+        <echo message="" />
+        <echo message="" />
+        <echo message="../OnlineClientData has been updated, please commit the changes to make them available to clients." />
     </target>
 
 </project>
