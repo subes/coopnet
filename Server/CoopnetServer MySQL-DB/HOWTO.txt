@@ -1,0 +1,13 @@
+The scripts in this folder are developed for MySQL and tested in MySQL 5.0.
+
+To create all the stuff CoopnetServer needs, run the following scripts in the exact order:
+
+- Log in as the MySQL administrator ...
+1. createUserAndDatabase.sql
+- From here on you could switch to using the new coopnet user, or just keep running these as administrator ...
+2. createTables.sql
+3. createTriggers.sql
+4. createProcedures.sql
+
+If you deploy this database for a deployment server, you should aswell set up a cron job, that runs the script "deleteInactiveUsers.sql" periodically. Once a month to up to once a year should be enough.
+

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CoopnetServer" default="package" basedir=".">
+    <description>Used for making releases of JXGrabKey.</description>
+
+    <tstamp>
+        <format property="TODAY_DE" pattern="dd.MM.yyyy" locale="de,DE"/>
+    </tstamp>
+
+    <!-- Load properties. First user specific properties which will override common properties. -->
+    <property file="${user.name}.properties"/>
+    <property file="common.properties"/>
+
+    <target name="-init">
+        <mkdir dir="${server.release.dir}"/>
+        <mkdir dir="${server.release.dir.lib}"/>
+        <mkdir dir="${server.release.dir.data}"/>
+    </target>
+
+    <target name="-clean">
+        <ant dir="${nbproject.server.dir}" target="clean"/>
+        <delete dir="${server.release.dir}"/>
+        <delete file="${nbproject.server.manifest}"/>
+		 <touch file="${nbproject.server.manifest}"/>
+    </target>
+
+    <target name="-build">
+        <!-- create the manifest file for server -->
+        <manifest file="${nbproject.server.manifest}">
+            <attribute name="Built-By" value="${user.name} (${TODAY_DE})"/>
+            <attribute name="Specification-Title" value="Coopnet"/>
+            <attribute name="Specification-Version" value="${server.compatibility.version}"/>
+            <attribute name="Specification-Vendor" value="http://coopnet.sourceforge.net"/>
+            <attribute name="Implementation-Title" value="Coopnetserver"/>
+            <attribute name="Implementation-Version" value="${server.release.version}"/>
+            <attribute name="Implementation-Vendor" value="http://coopnet.sourceforge.net"/>
+        </manifest>
+        <!-- build server project -->
+        <ant dir="${nbproject.server.dir}" target="jar">
+            <property name="manifest.file" value="manifest.mf"/>
+            <property name="main.class" value="Main"/>
+        </ant>
+    </target>
+
+    <target name="-copy" depends="-init">
+        <!-- copy server jar -->
+        <copy todir="${server.release.dir}">
+            <fileset dir="${nbproject.server.dir.dist}">
+                <include name="**/*.jar"/>
+            </fileset>
+        </copy>
+        <!-- copy servers libs -->
+        <copy todir="${server.release.dir.lib}">
+            <fileset dir="${nbproject.server.dir.lib}"/>
+        </copy>
+        <!-- copy servers data -->
+        <copy todir="${server.release.dir.data}">
+            <fileset dir="${nbproject.server.dir.data}"/>
+        </copy>
+        <!-- copy servers releasefiles -->
+        <copy todir="${server.release.dir}">
+            <fileset dir="${releasefiles.dir}">
+                <exclude name="**/.svn"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="-zip">
+        <copydir src="${server.release.dir}" dest="${zip.dir}/${server.release.dir}"/>
+        <zip destfile="${server.release.zip}" basedir="${zip.dir}"/>
+        <delete dir="${zip.dir}"/>
+    </target>
+
+    <target name="package" description="Creates the release package.">
+        <delete file="${updater.release.jar}"/>
+        <delete file="${server.release.zip}"/>
+        <antcall target="-clean"/>
+        <antcall target="-build"/>
+        <antcall target="-copy"/>
+        <antcall target="-zip"/>
+        <antcall target="-clean"/>
+    </target>
+
+    <target name="initmysql" description="Creates the coopnet database and user in mysql.">
+        <input message="Please enter MySQL admin username:" addproperty="sql.user.used"/>
+        <input message="Please enter MySQL admin password:" addproperty="sql.pass.used"/>
+
+        <fileset dir="${sql.dir}" id="sql.scripts.src">
+            <include name="${sql.scripts.createUserAndDatabase}"/>
+        </fileset>
+        <fileset dir="." id="sql.scripts.copy">
+            <include name="${sql.scripts.createUserAndDatabase}"/>
+        </fileset>
+        <antcall target="-sql" inheritrefs="true"/>
+    </target>
+
+    <target name="initdb" description="Runs the tables, triggers and procedures scripts.">
+        <property name="sql.user.used" value="${sql.user}"/>
+        <property name="sql.pass.used" value="${sql.pass}"/>
+        <fileset dir="${sql.dir}" id="sql.scripts.src">
+            <include name="${sql.scripts.createTables}"/>
+            <include name="${sql.scripts.createTriggers}"/>
+            <include name="${sql.scripts.createProcedures}"/>
+        </fileset>
+        <fileset dir="." id="sql.scripts.copy">
+            <include name="${sql.scripts.createTables}"/>
+            <include name="${sql.scripts.createTriggers}"/>
+            <include name="${sql.scripts.createProcedures}"/>
+        </fileset>
+        <antcall target="-sql" inheritrefs="true"/>
+    </target>
+
+    <target name="-sql">
+        <!-- test if connection works -->
+        <sql driver="${sql.driver}" url="${sql.url}"
+            userid="${sql.user.used}" password="${sql.pass.used}"
+            delimiter="$$" onerror="abort"
+        >
+            <transaction/>
+            <classpath>
+                <pathelement location="${sql.jdbc.mysql}"/>
+            </classpath>
+        </sql>
+        <!-- copy scripts and comment out illegal statements -->
+        <copy todir=".">
+            <fileset refid="sql.scripts.src"/>
+        </copy>
+        <replaceregexp byline="true">
+            <regexp pattern="\QDELIMITER"/>
+            <substitution expression="-- DELIMITER"/>
+            <fileset refid="sql.scripts.copy"/>
+        </replaceregexp>
+        <!-- run scripts -->
+        <sql driver="${sql.driver}" url="${sql.url}" 
+            userid="${sql.user.used}" password="${sql.pass.used}"
+            delimiter="$$" onerror="continue"
+        >
+            <fileset refid="sql.scripts.copy"/>
+            <classpath>
+                <pathelement location="${sql.jdbc.mysql}"/>
+            </classpath>
+        </sql>
+        <!-- delete scripts -->
+        <delete>
+            <fileset refid="sql.scripts.copy"/>
+        </delete>
+    </target>
+
+</project>

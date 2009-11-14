@@ -1,0 +1,9 @@
+TODO:
+- set weigh for roomlist columns (fixed size for first if possible, and save them)
+- remake databases (some) with sql database
+- implement other type of game launches: WINSOCK
+- show errors while launching to user
+- create tags in repository server: revision 377 , client: revision 183 for 0.97.0
+- make spamchecker class
+- make badword filter class
+- find a workaround for nio not detecing connection drops caused by router failure, etc (replace heartbeat with that solution)
