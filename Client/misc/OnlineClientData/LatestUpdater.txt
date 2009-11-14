@@ -1,1 +1,1 @@
-http://dfn.dl.sourceforge.net/sourceforge/coopnet/CoopnetUpdater-4.jar
+http://dfn.dl.sourceforge.net/sourceforge/coopnet/CoopnetUpdater-5.jar
