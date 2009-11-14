@@ -25,7 +25,7 @@ import java.net.URL;
 public final class OnlineClientData {
 
     private static final String ONLINE_CLIENT_DATA =
-            "http://coopnet.svn.sourceforge.net/viewvc/coopnet/trunk/misc/OnlineClientData/";
+            "http://coopnet.svn.sourceforge.net/viewvc/coopnet/trunk/Client/misc/OnlineClientData/";
 
     private OnlineClientData() {
     }
