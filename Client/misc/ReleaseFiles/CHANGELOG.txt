@@ -1,3 +1,8 @@
+2009/11/14: CoopnetClient 0.102.2
+  - communication fix in server
+  - chat message fixes
+  - tray icon enhancements
+
 2009/02/22: CoopnetClient 0.102.1
   - fixed a bug where hamachi button did not get enabled sometimes
   - links no longer open three times
@@ -15,7 +20,7 @@
   - user activity logging
   - short name for games in tabs
   - safemode
-  - UI cahnges
+  - UI changes
   - client behaviour changes
   - different text color for contacts
 
