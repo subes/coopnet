@@ -67,8 +67,9 @@ public final class Updater {
         if (n == JOptionPane.YES_OPTION) {
             OnlineClientData.downloadLatestUpdater("CoopnetUpdater.jar");
             Runtime rt = Runtime.getRuntime();
-            rt.exec("java -jar CoopnetUpdater.jar", null, Globals.
+            Process p = rt.exec("java -jar CoopnetUpdater.jar", null, Globals.
                     getCurrentDirectory());
+            ProcessHelper.closeStreams(p);
             Client.quit(true);
         }
 

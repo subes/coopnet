@@ -24,6 +24,7 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.ProcessHelper;
 import coopnetclient.utils.ui.SoundPlayer;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
@@ -135,6 +136,7 @@ public abstract class LaunchHandler {
 
             Logger.log(LogTypes.LAUNCHER, command + "; ReturnCode = " + p.exitValue());
 
+            ProcessHelper.closeStreams(p);
             return p.exitValue() == 0;
 
         } catch (IOException ex) {

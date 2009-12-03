@@ -27,6 +27,7 @@ import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.clientframetabs.RoomPanel;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.ProcessHelper;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import java.io.BufferedReader;
@@ -269,6 +270,7 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             try {
                 Process pkill = Runtime.getRuntime().exec("pkill -f dplaysvr.exe");
                 pkill.waitFor();
+                ProcessHelper.closeStreams(pkill);
             } catch (Exception e) {
                 Logger.log(e);
             }
@@ -377,11 +379,6 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             room.displayReInit();
         }
 
-        if (jdplay != null) {
-            jdplay.destroy();
-            jdplay = null;
-        }
-
         if (out != null) {
             try {
                 out.close();
@@ -397,6 +394,12 @@ public class JDPlayLaunchHandler extends LaunchHandler {
             }
             in = null;
         }
+
+        if (jdplay != null) {
+            ProcessHelper.destroy(jdplay);
+            jdplay = null;
+        }
+
 
         if (room != null) {
             room.initLauncher();

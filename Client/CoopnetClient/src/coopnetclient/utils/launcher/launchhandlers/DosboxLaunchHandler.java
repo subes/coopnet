@@ -23,6 +23,7 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
+import coopnetclient.utils.ProcessHelper;
 import coopnetclient.utils.launcher.launchinfos.DosboxLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import java.io.File;
@@ -81,6 +82,7 @@ public class DosboxLaunchHandler extends LaunchHandler {
             FrameOrganizer.getGameSettingsFrame().setEnabledOfGameSettingsFrameSettings(true);
         }
 
+        ProcessHelper.closeStreams(p);
         return (p.exitValue() == 0 ? true : false);
     }
 

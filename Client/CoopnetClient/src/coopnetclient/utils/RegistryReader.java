@@ -76,7 +76,7 @@ public class RegistryReader {
 
     private static String retryRead(String fullpath) throws IOException{
         if(handler != null){
-            handler.destroy();
+            ProcessHelper.destroy(handler);
             handler = null;
         }
 
