@@ -1,4 +1,7 @@
 2009/11/14: CoopnetClient 0.102.2
+  - fixed possible memory leaks with ended processes not being cleaned up properly
+
+2009/11/14: CoopnetClient 0.102.2
   - communication fix in server
   - chat message fixes
   - tray icon enhancements
