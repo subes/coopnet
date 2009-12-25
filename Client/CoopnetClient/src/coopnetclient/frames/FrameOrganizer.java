@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames;
 
 import coopnetclient.ErrorHandler;
@@ -60,7 +59,7 @@ public final class FrameOrganizer {
     private FrameOrganizer() {
     }
 
-    public static void init(){
+    public static void init() {
         openClientFrame();
         if (Settings.getFirstRun()) {
             OnlineClientData.openBeginnersGuide();
@@ -69,35 +68,37 @@ public final class FrameOrganizer {
         initTrayIcon();
     }
 
-    public static void cleanUp(){
-        if(trayIcon != null){
+    public static void cleanUp() {
+        if (trayIcon != null) {
             trayIcon.removeTrayIcon();
             trayIcon = null;
         }
     }
 
-    public static void updateSettings(){
+    public static void updateSettings() {
         getClientFrame().updateSettings();
 
         initTrayIcon();
 
-        if (trayIcon != null){
+        if (trayIcon != null) {
             trayIcon.updateSettings();
         }
     }
 
     private static void initTrayIcon() {
-        try{
-            if(SystemTray.isSupported() && Settings.getTrayIconEnabled()){
-                trayIcon = new CoopnetTrayIcon();
-                trayIcon.addTrayIcon();
-            }else{
-                if(trayIcon != null){
+        try {
+            if (SystemTray.isSupported() && Settings.getTrayIconEnabled()) {
+                if (trayIcon == null) {
+                    trayIcon = new CoopnetTrayIcon();
+                    trayIcon.addTrayIcon();
+                }
+            } else {
+                if (trayIcon != null) {
                     trayIcon.removeTrayIcon();
                     trayIcon = null;
                 }
             }
-        }catch(AWTException e){
+        } catch (AWTException e) {
             ErrorHandler.handle(e);
         }
     }
@@ -154,14 +155,14 @@ public final class FrameOrganizer {
     }
 
     public static void showClientFrame() {
-        if(clientFrame != null){
+        if (clientFrame != null) {
             FrameOrganizer.getClientFrame().setVisible(true);
             FrameOrganizer.getClientFrame().requestFocus();
         }
     }
 
     public static void hideClientFrame() {
-        if(clientFrame != null){
+        if (clientFrame != null) {
             FrameOrganizer.getClientFrame().setVisible(false);
         }
     }
@@ -170,15 +171,18 @@ public final class FrameOrganizer {
         return clientFrame;
     }
 
-    public static void openShowProfileFrame(String name, String ingameName, String country, String webpage) {
+    public static void openShowProfileFrame(String name, String ingameName,
+            String country, String webpage) {
         if (showProfileFrame != null) {
             Point prevLocation = showProfileFrame.getLocation();
             showProfileFrame.dispose();
             showProfileFrame = null;
-            showProfileFrame = new ShowProfileFrame(name, ingameName, country, webpage);
+            showProfileFrame =
+                    new ShowProfileFrame(name, ingameName, country, webpage);
             setupFrame(showProfileFrame, prevLocation);
         } else {
-            showProfileFrame = new ShowProfileFrame(name, ingameName, country, webpage);
+            showProfileFrame =
+                    new ShowProfileFrame(name, ingameName, country, webpage);
             setupFrame(showProfileFrame);
         }
     }
@@ -214,16 +218,19 @@ public final class FrameOrganizer {
         }
     }
 
-    public static void openEditProfileFrame(String name, String ingamename, String email, String country, String webpage) {
+    public static void openEditProfileFrame(String name, String ingamename,
+            String email, String country, String webpage) {
         if (editProfileFrame != null) {
             Point prevLocation = editProfileFrame.getLocation();
             closeChangePasswordFrame();
             editProfileFrame.dispose();
             editProfileFrame = null;
-            editProfileFrame = new EditProfileFrame(name, ingamename, email, country, webpage);
+            editProfileFrame =
+                    new EditProfileFrame(name, ingamename, email, country, webpage);
             setupFrame(editProfileFrame, prevLocation);
         } else {
-            editProfileFrame = new EditProfileFrame(name, ingamename, email, country, webpage);
+            editProfileFrame =
+                    new EditProfileFrame(name, ingamename, email, country, webpage);
             setupFrame(editProfileFrame);
         }
     }
@@ -288,7 +295,7 @@ public final class FrameOrganizer {
                             gameSettingsFrame.setVisible(true);
                         } else {
                             gameSettingsFrame = new GameSettingsFrame(roomData);
-                        //Frame decides if visible
+                            //Frame decides if visible
                         }
                     }
                 });
@@ -312,7 +319,7 @@ public final class FrameOrganizer {
         }
     }
 
-    private static void checkRoomCreationFramesAlreadyOpen(){
+    private static void checkRoomCreationFramesAlreadyOpen() {
         if (createRoomFrame != null) {
             createRoomFrame.dispose();
             createRoomFrame = null;
