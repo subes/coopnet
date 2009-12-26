@@ -38,7 +38,7 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
         scrl_chatOutput.updateStyle();
         coopnetclient.utils.ui.Colorizer.colorize(this);
 
-        keyListener = new ChatInputKeyListener(2, partner);
+        keyListener = new ChatInputKeyListener(ChatInputKeyListener.PRIVATE_CHAT_MODE, partner);
         tp_chatInput.addKeyListener(keyListener);
         scrl_chatOutput.getTextPane().addKeyListener(new java.awt.event.KeyAdapter() {
 

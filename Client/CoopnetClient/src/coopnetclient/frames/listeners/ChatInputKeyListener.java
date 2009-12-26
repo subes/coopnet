@@ -32,7 +32,7 @@ public class ChatInputKeyListener implements KeyListener {
 
     public static final int CHANNEL_CHAT_MODE = 0;
     public static final int ROOM_CHAT_MODE = 1;
-    public static final int PRIVATE_CHAT_MODE = 3;
+    public static final int PRIVATE_CHAT_MODE = 2;
     public static final int MIN_MESSAGE_INTERVAL = 800; //ms
     public static final int MAX_ALLOWED_RAPID_MESSAGES = 3;
     public static final int[] MAXIMUM_MESSAGE_LENGTHS = {1000, 2500, 2500};
@@ -104,6 +104,7 @@ public class ChatInputKeyListener implements KeyListener {
                     //B - TODO if message is "long" check agains a pattern to see
                     //if its the same text repeated many times -> spam
 
+                    //C - disallow long messages
                     //check length
                     if (command.length() > MAXIMUM_MESSAGE_LENGTHS[mode]) {
                         if (mode == CHANNEL_CHAT_MODE) {
@@ -131,6 +132,12 @@ public class ChatInputKeyListener implements KeyListener {
                             source.setText("");
                             return;
                         }
+                        PrivateChatPanel privatechat = TabOrganizer.getPrivateChatPanel(name);
+
+                        if (privatechat != null) {
+                            privatechat.append(Globals.getThisPlayerLoginName(), msg, ChatStyles.WHISPER);
+                        }
+                        
                         Protocol.privateChat(name, msg);
                         source.setText("");
                         return;
