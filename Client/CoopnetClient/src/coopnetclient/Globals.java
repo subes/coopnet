@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public final class Globals {
 
@@ -63,6 +64,7 @@ public final class Globals {
     private static String currentPath = "";
     private static TransferTableModel transferModel = new TransferTableModel();
     private static ArrayList<String> higlightList = new ArrayList<String>();
+    private static LinkedList<String> sentMessages = new LinkedList<String>();
 
     private Globals() {
     }
@@ -156,6 +158,21 @@ public final class Globals {
         }
 
         wineCommand = Settings.getWineCommand();
+    }
+
+    public static synchronized String getLastSentMessage(int messageIndex){
+        return sentMessages.get(messageIndex) ;
+    }
+
+    public static synchronized int getLastSentMessageCount(){
+        return sentMessages.size();
+    }
+
+    public static synchronized void storeSentMessage(String msg){
+        sentMessages.add(msg);
+        if(sentMessages.size() >= 30){
+            sentMessages.removeFirst();
+        }
     }
 
     public static String getClientVersion(){

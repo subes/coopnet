@@ -143,7 +143,7 @@ public class ColoredChatHandler {
             }
 
             if (message.startsWith("/me")) {
-                tempname = "  **" + name;
+                tempname = "  **" + name+ " ";
                 message = message.substring(3);
             } else if (name.length() > 0) {
                 tempname = timeStamp + name + ": ";

@@ -45,6 +45,7 @@ public class ChatInputKeyListener implements KeyListener {
     private String prefix;
     private long lastMessageDate;
     private int spamCount;
+    private int messageLookBackIndex = -1;
 
     public ChatInputKeyListener(int mode, String prefix) {
         this.prefix = prefix; // players name in private chat or channel ID
@@ -52,7 +53,7 @@ public class ChatInputKeyListener implements KeyListener {
         lastMessageDate = System.currentTimeMillis();
     }
 
-    public void resetCTRLStatus(){
+    public void resetCTRLStatus() {
         ctrlIsPressed = false;
     }
 
@@ -68,14 +69,35 @@ public class ChatInputKeyListener implements KeyListener {
     public void keyPressed(KeyEvent e) {
         JTextPane source = (JTextPane) e.getSource();
         switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                if (messageLookBackIndex <= -1 || messageLookBackIndex >= Globals.getLastSentMessageCount()) {
+                    messageLookBackIndex = Globals.getLastSentMessageCount() - 1;
+                }
+                if (messageLookBackIndex >= 0 && source.getCaretPosition() == 0) {
+                    String message = Globals.getLastSentMessage(messageLookBackIndex);
+                    source.setText(message);
+                    source.setCaretPosition(0);
+                    messageLookBackIndex--;
+                }
+                break;
+            case KeyEvent.VK_DOWN:
+                if (messageLookBackIndex >= Globals.getLastSentMessageCount() || messageLookBackIndex <= -1) {
+                    messageLookBackIndex = 0;
+
+                }
+                if (messageLookBackIndex >= 0 && source.getCaretPosition() == 0) {
+                    String message = Globals.getLastSentMessage(messageLookBackIndex);
+                    source.setText(message);
+                    source.setCaretPosition(0);
+                    messageLookBackIndex++;
+                }
+                break;
             case KeyEvent.VK_CONTROL:
                 ctrlIsPressed = true;
                 break;
             case KeyEvent.VK_ENTER:
                 if (ctrlIsPressed) { //CTRL+ENTER prints new line
-                    if (source.getText().length() > 0 
-                            && !source.getText().startsWith("\n")
-                            && !source.getText().endsWith("\n\n")) {
+                    if (source.getText().length() > 0 && !source.getText().startsWith("\n") && !source.getText().endsWith("\n\n")) {
                         source.setText(source.getText() + "\n");
                     }
                 } else {
@@ -137,8 +159,9 @@ public class ChatInputKeyListener implements KeyListener {
                         if (privatechat != null) {
                             privatechat.append(Globals.getThisPlayerLoginName(), msg, ChatStyles.WHISPER);
                         }
-                        
+
                         Protocol.privateChat(name, msg);
+                        Globals.storeSentMessage(msg);
                         source.setText("");
                         return;
                     }
@@ -153,8 +176,10 @@ public class ChatInputKeyListener implements KeyListener {
                     //chat command
                     if (this.mode == CHANNEL_CHAT_MODE) { //main chat
                         Protocol.mainChat(prefix, command);
+                        Globals.storeSentMessage(command);
                     } else if (this.mode == ROOM_CHAT_MODE) { //room chat
                         Protocol.roomChat(command);
+                        Globals.storeSentMessage(command);
                     } else if (this.mode == PRIVATE_CHAT_MODE) { // private chat
 
                         PrivateChatPanel privatechat = TabOrganizer.getPrivateChatPanel(prefix);
@@ -163,9 +188,11 @@ public class ChatInputKeyListener implements KeyListener {
                             privatechat.append(Globals.getThisPlayerLoginName(), command, ChatStyles.WHISPER);
                         }
                         Protocol.privateChat(prefix, command);
+                        Globals.storeSentMessage(command);
                     }
                     source.setText("");
                 }
+                messageLookBackIndex = -1;
                 break;
             default:
                 break;
