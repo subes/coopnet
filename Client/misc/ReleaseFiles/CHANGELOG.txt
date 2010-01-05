@@ -1,3 +1,9 @@
+2010/01/05: CoopnetClient 0.103.0
+  - fixed parameter launch bug
+  - added chat message reposting
+  - fixed /me and private message bugs
+  - fixed tray icon bug
+
 2009/11/14: CoopnetClient 0.102.2
   - fixed possible memory leaks with ended processes not being cleaned up properly
 
