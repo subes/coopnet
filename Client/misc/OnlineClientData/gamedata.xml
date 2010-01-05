@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 31 -->
+<!--Version 32 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName,ShortName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?,(NoSpaces)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
@@ -2445,10 +2445,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
         <ShortName>Left 4 Dead</ShortName>
         <ChannelID>236</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
-        <InstantLaunch/>
-        <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Unreal Technology\Installed Apps\UT2004\Folder</RegKey>
-        </RegistryEntry>
+        <InstantLaunch/>        
         <Property>
             <PropertyName>EXE</PropertyName>
             <PropertyValue>hl2.exe</PropertyValue>
@@ -2822,5 +2819,118 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
             </NumberSetting>
         </Settings>
         </Mod>
+    </GameData>
+    <GameData>
+        <GameName>Left 4 Dead 2</GameName>
+        <ShortName>Left 4 Dead 2</ShortName>
+        <ChannelID>239</ChannelID>
+        <LaunchMethod>PARAMETER</LaunchMethod>
+        <InstantLaunch/>        
+        <Property>
+            <PropertyName>EXE</PropertyName>
+            <PropertyValue>hl2.exe</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPLOADERTYPE</PropertyName>
+            <PropertyValue>FILE</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPPATH</PropertyName>
+            <PropertyValue>left4dead2\maps</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>MAPEXT</PropertyName>
+            <PropertyValue>bsp</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue>-game left4dead2 -console -novid +sv_cheats 0 +sv_allow_lobby_connect_only 0 +z_difficulty {DIFFICULTY} +sv_lan 0 +map {MAP}.bsp +mp_gamemode {GAMETYPE} +name "{NAME}" +mp_chooseavatar "{TEAM}"</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue>-game left4dead2 -console -novid +connect {HOSTIP} +name "{NAME}" +mp_chooseavatar "{TEAM}"</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPASSWORDPATTERN</PropertyName>
+            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
+        </Property>
+        <Settings>
+            <ChoiceSetting>
+                <SettingName>Difficulty:</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>DIFFICULTY</KeyWord>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Easy</ChoiceDisplayName>
+                    <ChoiceRealValue>easy</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Normal</ChoiceDisplayName>
+                    <ChoiceRealValue>normal</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>hard</ChoiceDisplayName>
+                    <ChoiceRealValue>hard</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Impossible</ChoiceDisplayName>
+                    <ChoiceRealValue>impossible</ChoiceRealValue>
+                </ChoiceItem>
+            </ChoiceSetting>
+            <ChoiceSetting>
+                <SettingName>Gametype:</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>GAMETYPE</KeyWord>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Versus</ChoiceDisplayName>
+                    <ChoiceRealValue>versus</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Scavenge</ChoiceDisplayName>
+                    <ChoiceRealValue>scavenge</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Survival</ChoiceDisplayName>
+                    <ChoiceRealValue>survival</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Campaign</ChoiceDisplayName>
+                    <ChoiceRealValue>campaign</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Realism</ChoiceDisplayName>
+                    <ChoiceRealValue>realism</ChoiceRealValue>
+                </ChoiceItem>
+            </ChoiceSetting>
+            <ChoiceSetting>
+                <SettingName>Desired team:</SettingName>
+                <SettingType>CHOICE</SettingType>
+                <KeyWord>TEAM</KeyWord>
+                <IsLocalSetting/>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Coach</ChoiceDisplayName>
+                    <ChoiceRealValue>Coach</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Rochelle</ChoiceDisplayName>
+                    <ChoiceRealValue>Rochelle</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Ellis</ChoiceDisplayName>
+                    <ChoiceRealValue>Ellis</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Nick</ChoiceDisplayName>
+                    <ChoiceRealValue>Nick</ChoiceRealValue>
+                </ChoiceItem>
+                <ChoiceItem>
+                    <ChoiceDisplayName>Infected(versus mode only)</ChoiceDisplayName>
+                    <ChoiceRealValue>Infected</ChoiceRealValue>
+                </ChoiceItem>
+            </ChoiceSetting>
+        </Settings>
     </GameData>
 </GameDataBase>
