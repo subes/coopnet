@@ -18,7 +18,6 @@
  */
 package coopnetclient.utils.launcher.launchhandlers;
 
-import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.protocol.out.Protocol;
@@ -51,8 +50,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
         FrameOrganizer.getClientFrame().printSystemMessage(
                 "Launching game, please wait ...", false);
 
-        if (FrameOrganizer.getGameSettingsFrame() != null && launchInfo.
-                getRoomData().isHost()) {
+        if (FrameOrganizer.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()) {
             FrameOrganizer.getGameSettingsFrame().
                     setEnabledOfGameSettingsFrameSettings(false);
         }
@@ -77,14 +75,13 @@ public class ParameterLaunchHandler extends LaunchHandler {
             try {
                 p.exitValue();
                 throw new Exception("Game exited too fast!"); //caught by outer catch
-            } catch (IllegalStateException e) {
+            } catch (IllegalThreadStateException e) {
             }
 
             if (launchInfo.getRoomData().isHost() && !launchInfo.getRoomData().
                     isInstant()) {
                 Protocol.launch();
             }
-
             try {
                 p.waitFor();
             } catch (InterruptedException ex) {
@@ -97,8 +94,7 @@ public class ParameterLaunchHandler extends LaunchHandler {
             return false;
         }
 
-        if (FrameOrganizer.getGameSettingsFrame() != null && launchInfo.
-                getRoomData().isHost()) {
+        if (FrameOrganizer.getGameSettingsFrame() != null && launchInfo.getRoomData().isHost()) {
             FrameOrganizer.getGameSettingsFrame().
                     setEnabledOfGameSettingsFrameSettings(true);
         }
