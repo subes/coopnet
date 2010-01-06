@@ -167,7 +167,7 @@
         <copy file="${updater.release.jar}" todir="${release.updater.dir}/${updater.release.version}"/>
 
         <!-- copy to frs -->
-        <scp trust="true" todir="${scp.user},${release.remote.project}:${scp.pass}@${release.remote.host}:${release.remote.dir}">
+        <scp trust="true" failonerror="false" todir="${scp.user},${release.remote.project}:${scp.pass}@${release.remote.host}:${release.remote.dir}">
             <fileset dir="${release.dir}"/>
         </scp>
 
