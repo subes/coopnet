@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 32 -->
+<!--Version 33 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName,ShortName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?,(NoSpaces)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
@@ -44,7 +44,8 @@
         <ChannelID>FOT</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
         <WelcomeMessage>Welcome to the new home of the Fot community!
-Game time is around 16-24 GTM +1</WelcomeMessage>
+Game time is around 16-24 GMT +1
+Visit our forum at http://kecske85.valodi.hu/coop/forum/</WelcomeMessage>
         <Property>
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}</PropertyValue>
