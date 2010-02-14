@@ -20,7 +20,6 @@ package coopnetserver.data.channel;
 
 import coopnetserver.data.player.Player;
 import coopnetserver.enums.LogTypes;
-import coopnetserver.protocol.out.Protocol;
 import coopnetserver.utils.Logger;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -75,6 +74,6 @@ public class ChannelData {
 
     public static void removeChannel(String channel) {
         Channel ch = channels.get(channel);
-        channels.remove(ch);
+        channels.remove(ch.ID);
     }
 }

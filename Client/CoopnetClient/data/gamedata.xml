@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 31 -->
+<!--Version 32 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName,ShortName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?,(NoSpaces)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
@@ -2823,7 +2823,7 @@ Game time is around 16-24 GTM +1</WelcomeMessage>
     <GameData>
         <GameName>Left 4 Dead 2</GameName>
         <ShortName>Left 4 Dead 2</ShortName>
-        <ChannelID>238</ChannelID>
+        <ChannelID>239</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>        
         <Property>

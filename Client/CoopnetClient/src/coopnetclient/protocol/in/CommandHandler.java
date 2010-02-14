@@ -163,9 +163,11 @@ public final class CommandHandler {
                     }
                     break;
                 case ADD_TO_PLAYERS:
-                    TabOrganizer.getChannelPanel(currentChannelName).addPlayerToChannel(information[1]);
-                    if (Settings.getLogUserActivity() && !Globals.getThisPlayerLoginName().equals(information[1])) {
-                        TabOrganizer.getChannelPanel(currentChannelName).printMainChatMessage("", information[1] + " has entered the channel.", ChatStyles.SYSTEM);
+                    if (TabOrganizer.getChannelPanel(currentChannelName) != null) {
+                        TabOrganizer.getChannelPanel(currentChannelName).addPlayerToChannel(information[1]);
+                        if (Settings.getLogUserActivity() && !Globals.getThisPlayerLoginName().equals(information[1])) {
+                            TabOrganizer.getChannelPanel(currentChannelName).printMainChatMessage("", information[1] + " has entered the channel.", ChatStyles.SYSTEM);
+                        }
                     }
                     break;
                 case SET_GAMESETTING:
@@ -272,14 +274,16 @@ public final class CommandHandler {
                     }
                     break;
                 case ADD_ROOM:
-                    TabOrganizer.getChannelPanel(currentChannelName).addRoomToTable(
-                            information[1],
-                            GameDatabase.getModByIndex(currentChannelName, Integer.valueOf(information[5])),
-                            information[2],
-                            new Integer(information[3]),
-                            new Integer(information[4]));
-                    if (Settings.getSleepEnabled() && Globals.getSleepModeStatus()) {
-                        Globals.setSleepModeStatus(false);
+                    if (TabOrganizer.getChannelPanel(currentChannelName) != null) {
+                        TabOrganizer.getChannelPanel(currentChannelName).addRoomToTable(
+                                information[1],
+                                GameDatabase.getModByIndex(currentChannelName, Integer.valueOf(information[5])),
+                                information[2],
+                                new Integer(information[3]),
+                                new Integer(information[4]));
+                        if (Settings.getSleepEnabled() && Globals.getSleepModeStatus()) {
+                            Globals.setSleepModeStatus(false);
+                        }
                     }
                     break;
                 case LEFT_CHANNEL:
