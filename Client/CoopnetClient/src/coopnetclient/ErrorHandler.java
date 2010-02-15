@@ -41,7 +41,7 @@ public final class ErrorHandler {
 
         if (e instanceof IOException) {
             handleIOException((IOException) e);
-        } else {
+        } else if(!(e instanceof java.lang.OutOfMemoryError)){
             handleRegularException(e);
         }
     }
