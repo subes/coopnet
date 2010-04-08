@@ -30,12 +30,10 @@ public class Channel {
 
     public String ID = "";
     private Vector<Player> playersInChannel = new Vector<Player>();
-    private Vector<Room> roomsInChannel = new Vector<Room>();
-    public String name;
+    private Vector<Room> roomsInChannel = new Vector<Room>();    
 
     /** Creates a new instance of Channel */
-    public Channel(String name, String ID) {
-        this.name = name;
+    public Channel(String ID) {        
         this.ID = ID;
     }
 
@@ -74,7 +72,10 @@ public class Channel {
      */
     public void removePlayer(Player player) {
         if (playersInChannel.remove(player)) {
-            Protocol.removePlayerFromChannel(this, player);            
+            Protocol.removePlayerFromChannel(this, player);
+            if(playersInChannel.size() == 0){
+                ChannelData.removeChannel(this.ID);
+            }
         }
     }
 

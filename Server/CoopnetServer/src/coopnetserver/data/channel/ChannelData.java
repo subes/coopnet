@@ -19,10 +19,6 @@
 package coopnetserver.data.channel;
 
 import coopnetserver.data.player.Player;
-import coopnetserver.enums.LogTypes;
-import coopnetserver.utils.Logger;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.HashMap;
 
 public class ChannelData {
@@ -34,7 +30,12 @@ public class ChannelData {
     }
     
     public static Channel getChannel(String ID) {
-        return channels.get(ID);
+        Channel ch= channels.get(ID);
+        if(ch == null){
+            ch = new Channel(ID);
+            addChannel(ch);
+        }
+        return ch;
     }
 
     public static void addChannel(Channel channel) {
@@ -42,11 +43,11 @@ public class ChannelData {
     }
 
     public static void removePlayerFromAllChannels(Player player) {
-        for (Channel ch : channels.values()) {
+        for (Channel ch : channels.values().toArray(new Channel[channels.size()])) {
             ch.removePlayer(player);
         }
     }
-
+/*
     public static void load() {
         String input;
         boolean reading = true;
@@ -71,7 +72,7 @@ public class ChannelData {
             Logger.log(e);
         }
     }
-
+*/
     public static void removeChannel(String channel) {
         Channel ch = channels.get(channel);
         channels.remove(ch.ID);

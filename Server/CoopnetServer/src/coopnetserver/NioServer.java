@@ -336,7 +336,7 @@ public class NioServer extends ErrThread {
      * initialise the database and the server and start
      */
     public static void startup() {
-        ChannelData.load();
+        //ChannelData.load();
 
         //start the server
         new NioServer().start();

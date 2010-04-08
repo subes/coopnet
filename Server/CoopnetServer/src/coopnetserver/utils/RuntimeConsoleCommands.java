@@ -92,12 +92,12 @@ public final class RuntimeConsoleCommands {
                         pw.flush();
                         continue;
                     }
-
+/*
                     if (lastcommand.startsWith("reload channels")) {
                         ChannelData.load();
                         continue;
                     }
-
+*/
                     if (lastcommand.startsWith("start debug")) {
                         Globals.setDebug(true);
                         continue;
@@ -115,9 +115,9 @@ public final class RuntimeConsoleCommands {
                     }
 
                     if (lastcommand.startsWith("list channels")) {
-                        pw.println("OPEN CHANNELS:");
+                        pw.println("OPEN CHANNELS:<usercount>");
                         for (Channel ch : ChannelData.getChannels().values()) {
-                            pw.println(ch.name);
+                            pw.println(ch.ID+ ": " + ch.getPlayersInChannel().length);
                         }
                         pw.println("--");
                         pw.flush();
@@ -132,8 +132,7 @@ public final class RuntimeConsoleCommands {
                                 "\ronlinecount - the number of conencted cliens\n" +
                                 "\rlist channels - lists the open channels\n" +
                                 "\rstartdropping - start the connectiondropper thread\n" +
-                                "\rstopdropping - stops the connectiondropper thread\n" +
-                                "\rreload channels - scan the channellist file for new channels and add them\n");
+                                "\rstopdropping - stops the connectiondropper thread\n");
                         pw.flush();
                         continue;
                     }
