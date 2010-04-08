@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 33 -->
+<!--Version 34 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName,ShortName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?,(NoSpaces)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
@@ -2932,6 +2932,30 @@ Visit our forum at http://kecske85.valodi.hu/coop/forum/</WelcomeMessage>
                     <ChoiceRealValue>Infected</ChoiceRealValue>
                 </ChoiceItem>
             </ChoiceSetting>
+        </Settings>
+    </GameData>
+    <GameData>
+        <GameName>Dungeon Keeper</GameName>
+        <ShortName>DK</ShortName>
+        <ChannelID>240</ChannelID>
+        <LaunchMethod>DOS</LaunchMethod>
+        <WelcomeMessage>This game requires DOSBox to run! Please set the path to dosbox.exe
+        in options/manage games/environment tab!</WelcomeMessage>
+        <Property>
+            <PropertyName>LAUNCHPATTERN</PropertyName>
+            <PropertyValue>-c "CONFIG -set ipx=true" -c "IPXNET STARTSERVER {PORT}" -c "{GAMEEXE} "</PropertyValue>
+        </Property>
+        <Property>
+            <PropertyName>JOINPATTERN</PropertyName>
+            <PropertyValue>-c "CONFIG -set ipx=true" -c "IPXNET CONNECT {HOSTIP} {PORT}" -c "{GAMEEXE} "</PropertyValue>
+        </Property>
+        <Settings>
+            <NumberSetting>
+                <SettingName>Port:</SettingName>
+                <SettingType>TEXT</SettingType>
+                <KeyWord>PORT</KeyWord>
+                <SettingDefaultValue>2400</SettingDefaultValue>
+            </NumberSetting>
         </Settings>
     </GameData>
 </GameDataBase>
