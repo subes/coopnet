@@ -172,9 +172,13 @@ public final class OnlineClientData {
                             Logger.log(ex);
                         }
                     }
-                } catch (Exception e) {
+                }
+                catch (java.net.UnknownHostException unknownHost){
+                    Logger.log("Sourceforge is down, cannot update gamedata");
+                }
+                catch (Exception e) {
                     JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
-                            "You have an outdated version of the gamedata, but couldn't update it!",
+                            "The gamedata is outdated, but Coopnet couldn't update it!",
                             "Gamedata outdated", JOptionPane.INFORMATION_MESSAGE);
                     throw e;
                 } finally {

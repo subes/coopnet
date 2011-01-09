@@ -37,11 +37,11 @@ public final class Updater {
             public void handledRun() throws Throwable {
                 setNonCritical();
                 String version = OnlineClientData.getClientVersion();
-                if (!Verification.verifyClientVersion(version)) {
+                if (version != null && !Verification.verifyClientVersion(version)) {
                     FrameOrganizer.getClientFrame().enableUpdate();
                     update("Client update available",
-                            "<html>There is a new version of CoopnetClient available.<br>" +
-                            "Would you like to update now?<br>The client will close and update itself.");
+                            "<html>There is a new version of CoopnetClient available.<br>"
+                            + "Would you like to update now?<br>The client will close and update itself.");
                 }
             }
         }.start();
@@ -53,8 +53,8 @@ public final class Updater {
             @Override
             public void handledRun() throws Throwable {
                 setNonCritical();
-                update("Update Client", "<html>Would you like to update your CoopnetClient now?<br>" +
-                        "The client will close and update itself.");
+                update("Update Client", "<html>Would you like to update your CoopnetClient now?<br>"
+                        + "The client will close and update itself.");
             }
         }.start();
     }
@@ -67,8 +67,7 @@ public final class Updater {
         if (n == JOptionPane.YES_OPTION) {
             OnlineClientData.downloadLatestUpdater("CoopnetUpdater.jar");
             Runtime rt = Runtime.getRuntime();
-            Process p = rt.exec("java -jar CoopnetUpdater.jar", null, Globals.
-                    getCurrentDirectory());
+            Process p = rt.exec("java -jar CoopnetUpdater.jar", null, Globals.getCurrentDirectory());
             ProcessHelper.closeStreams(p);
             Client.quit(true);
         }
