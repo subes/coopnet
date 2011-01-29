@@ -37,7 +37,7 @@ public final class OnlineClientData {
 
     public static final String IP_PORT_SEPARATOR = ":";
     private static final String ONLINE_CLIENT_DATA =
-            "http://coopnet.svn.sourceforge.net/viewvc/coopnet/trunk/Client/misc/OnlineClientData/";
+            "https://coopnet.svn.sourceforge.net/svnroot/coopnet/trunk/Client/misc/OnlineClientData/";
     private static final String WIKI_URL =
             "http://sourceforge.net/apps/mediawiki/coopnet/index.php?title=";
 

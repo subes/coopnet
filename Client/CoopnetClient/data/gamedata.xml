@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 34 -->
+<!--Version 35 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName,ShortName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?,(NoSpaces)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
@@ -2957,5 +2957,18 @@ Visit our forum at http://kecske85.valodi.hu/coop/forum/</WelcomeMessage>
                 <SettingDefaultValue>2400</SettingDefaultValue>
             </NumberSetting>
         </Settings>
+    </GameData>
+    <GameData>
+        <GameName>Sid Meier's Alpha Centauri</GameName>
+        <ShortName>Alpha Centauri</ShortName>
+        <ChannelID>241</ChannelID>
+        <LaunchMethod>DIRECTPLAY</LaunchMethod>
+        <Property>
+            <PropertyName>GUID</PropertyName>
+            <PropertyValue>{AFDD4700-BA66-11d1-ADAB-00802965EC10}</PropertyValue>
+        </Property>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\DirectPlay\Applications\Sid Meier's Alpha Centauri\Path</RegKey>
+        </RegistryEntry>
     </GameData>
 </GameDataBase>
