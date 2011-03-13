@@ -43,9 +43,6 @@
         <ShortName>Fallout Tactics</ShortName>
         <ChannelID>FOT</ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
-        <WelcomeMessage>Welcome to the new home of the Fot community!
-Game time is around 16-24 GMT +1
-Visit our forum at http://kecske85.valodi.hu/coop/forum/</WelcomeMessage>
         <Property>
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CF}</PropertyValue>
