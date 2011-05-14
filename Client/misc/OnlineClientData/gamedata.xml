@@ -2968,34 +2968,4 @@
             <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\DirectPlay\Applications\Sid Meier's Alpha Centauri\Path</RegKey>
         </RegistryEntry>
     </GameData>
-    <GameData>
-        <GameName>Brink</GameName>
-        <ShortName>Brink</ShortName>
-        <ChannelID>242</ChannelID>
-        <LaunchMethod>PARAMETER</LaunchMethod>
-        <InstantLaunch/>
-        <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Brink_is1\InstallLocation</RegKey>
-        </RegistryEntry>
-        <Property>
-            <PropertyName>EXE</PropertyName>
-            <PropertyValue>brink.exe</PropertyValue>
-        </Property>        
-        <Property>
-            <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>+set com_bootlogo 0 +set net_server 1 +set net_serverPort 27015 +set net_serverPortMaster 27016 +exec server.cfg</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>JOINPATTERN</PropertyName>
-            <PropertyValue>+set com_bootlogo 0 +connect {HOSTIP}</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>HOSTPASSWORDPATTERN</PropertyName>
-            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>JOINPASSWORDPATTERN</PropertyName>
-            <PropertyValue>+password "{PASSWORD}"</PropertyValue>
-        </Property>
-    </GameData>
 </GameDataBase>
