@@ -105,7 +105,11 @@ public final class Globals {
         final String lineSeperator = System.getProperty("line.separator");
 
         if (lineSeperator.equals("\r\n")) {
-            operatingSystem = OperatingSystems.WINDOWS;
+            if(System.getProperty("os.name").toLowerCase().contains("windows 7")){
+                operatingSystem = OperatingSystems.WINDOWS_7;
+            }else{
+                operatingSystem = OperatingSystems.WINDOWS_XP;
+            }
         } else {
             if (lineSeperator.equals("\r")) {
                 //MacOS, currently treated as Linux coz unsupported
@@ -117,7 +121,7 @@ public final class Globals {
 
         Logger.log(LogTypes.LOG, "Operating System is " + operatingSystem.toString() + " (" + System.getProperty("os.name") + ")");
 
-        if (operatingSystem == OperatingSystems.WINDOWS) {
+        if (operatingSystem != OperatingSystems.LINUX) {
             lastOpenedDir = System.getenv("USERPROFILE");
         } else {
             lastOpenedDir = System.getenv("HOME");

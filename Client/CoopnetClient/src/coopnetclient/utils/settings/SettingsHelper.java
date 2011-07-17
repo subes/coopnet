@@ -40,7 +40,7 @@ public final class SettingsHelper {
 
     public static void init() {
 
-        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
+        if (Globals.getOperatingSystem() != OperatingSystems.LINUX) {
             settingsDir = System.getenv("APPDATA") + "/Coopnet";
         } else {
             final String home = System.getenv("HOME");

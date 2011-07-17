@@ -46,7 +46,7 @@ public class SoundPlayer {
     }
 
     public static void playLaunchSound() {
-        if(Settings.getSoundEnabled() && Globals.getOperatingSystem() != OperatingSystems.WINDOWS){
+        if(Settings.getSoundEnabled() && Globals.getOperatingSystem() == OperatingSystems.LINUX){
             while(soundsPlaying != 0){
                 try {
                     Thread.sleep(100);
@@ -54,9 +54,9 @@ public class SoundPlayer {
             }
         }
 
-        playSoundFile(Globals.getResourceAsString("data/sounds/launch.wav"), Globals.getOperatingSystem() == OperatingSystems.WINDOWS); //Don't fork a thread here
+        playSoundFile(Globals.getResourceAsString("data/sounds/launch.wav"), Globals.getOperatingSystem() != OperatingSystems.LINUX); //Don't fork a thread here
 
-        if(Settings.getSoundEnabled() && Globals.getOperatingSystem() != OperatingSystems.WINDOWS)
+        if(Settings.getSoundEnabled() && Globals.getOperatingSystem() == OperatingSystems.LINUX)
         {
             delayOtherSounds = true;
 

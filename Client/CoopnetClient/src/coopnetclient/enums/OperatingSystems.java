@@ -20,6 +20,7 @@
 package coopnetclient.enums;
 
 public enum OperatingSystems {
-    WINDOWS,
+    WINDOWS_XP,
+    WINDOWS_7,
     LINUX
 }

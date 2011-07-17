@@ -29,7 +29,7 @@ public final class Logger {
 
     private static final ArrayList<String> LOG = new ArrayList<String>();
     private static final String STACKTRACE_AT = "\n\tat ";
-    private static final int TAIL_LENGTH = 300;
+    private static final int TAIL_LENGTH = 600;
 
     private Logger() {
     }

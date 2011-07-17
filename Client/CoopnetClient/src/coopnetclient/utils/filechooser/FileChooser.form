@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.1" encoding="UTF-8" ?>
 
 <Form version="1.6" maxVersion="1.6" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
@@ -30,11 +30,11 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="cmb_places" pref="341" max="32767" attributes="0"/>
+                      <Component id="cmb_places" pref="343" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btn_up" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="scrl_display" alignment="0" pref="392" max="32767" attributes="0"/>
+                  <Component id="scrl_display" alignment="0" pref="394" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btn_select" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -42,7 +42,7 @@
                       <EmptySpace pref="173" max="32767" attributes="0"/>
                       <Component id="cb_showHidden" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="tf_currentDir" alignment="0" pref="392" max="32767" attributes="0"/>
+                  <Component id="tf_currentDir" alignment="0" pref="394" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>

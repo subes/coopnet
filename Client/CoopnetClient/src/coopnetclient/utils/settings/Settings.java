@@ -159,7 +159,7 @@ public final class Settings {
     }
 
     public static void init() {
-        if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS) {
+        if (Globals.getOperatingSystem() != OperatingSystems.LINUX) {
             String recvdir = RegistryReader.read(
                     "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows" +
                     "\\CurrentVersion\\Explorer\\Shell Folders\\Desktop");

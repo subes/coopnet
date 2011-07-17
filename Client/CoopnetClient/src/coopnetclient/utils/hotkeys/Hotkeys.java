@@ -35,7 +35,8 @@ public class Hotkeys {
     public static void init(){
         try {
             switch (Globals.getOperatingSystem()) {
-                case WINDOWS:
+                case WINDOWS_XP:
+                case WINDOWS_7:
                     System.load(Globals.getResourceAsString("lib/JIntellitype.dll"));
                     handler = new JIntellitypeHandler();
                     break;

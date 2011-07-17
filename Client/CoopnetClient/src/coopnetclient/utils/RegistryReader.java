@@ -16,134 +16,152 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.utils;
 
 import coopnetclient.Globals;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 public class RegistryReader {
 
-    private static Process handler;
-    private static OutputStream out;
-    private static BufferedReader in;
+    private static final String REG_UTIL = "reg ";
+    private static final String REG_QUERY_UTIL = "query \"";    
+    private static final String REG_WRITE_UTIL = "add \"";  
+    private static final String REG_VALUE_UTIL = "\" /v \"";    
+    private static final String REG_WRITE_DATA_UTIL = "\" /f /d ";
+    private static final String REGSTR_TOKEN = "REG_SZ";
+    private static final String REGDWORD_TOKEN = "REG_DWORD";
+    private static String command="";
 
-    private RegistryReader(){}
-
-    private static void init(){
-        String command = "";
-
-        if(Globals.getOperatingSystem() == OperatingSystems.LINUX){
-            command += Globals.getWineCommand();
-        }
-
-        command += " lib/registryreader.exe";
-
-        Logger.log(LogTypes.REGISTRY, command);
-
-        try{
-            handler = Runtime.getRuntime().exec(command);
-            out = handler.getOutputStream();
-            in = new BufferedReader(new InputStreamReader(handler.getInputStream()));
-        }catch(IOException ex){
-            Logger.log(ex);
-        }
-    }
-
-    public static String read(String fullpath) {
-        if(handler == null){
-            init();
-        }
-
-        try {
-            return communicateRead(fullpath);
-        } catch (IOException ex) {
-            Logger.log(ex);
-            try {
-                return retryRead(fullpath);
-            } catch (IOException ex1) {
-                Logger.log(ex1);
-                return null;
-            }
-        }
-    }
-
-    private static String retryRead(String fullpath) throws IOException{
-        if(handler != null){
-            ProcessHelper.destroy(handler);
-            handler = null;
-        }
-
-        if(out != null){
-            try {
-                out.close();
-            } catch (IOException ex) {}
-            out = null;
-        }
-
-        if(in != null){
-            try {
-                in.close();
-            } catch (IOException ex) {}
-            in = null;
-        }
-
-        init();
-
-        return communicateRead(fullpath);
-    }
-
-    private static String communicateRead(String fullpath) throws IOException{
-
-        write(fullpath);
-
-        String ret = read();
-
-        if(ret.startsWith("ERR")){
-            return null;
-        }else{
-            return ret;
-        }
-    }
-
-    private static void write(String toWrite) throws IOException{
-        if(!toWrite.endsWith("\n")){
-            toWrite += "\n";
-        }
-
-        Logger.log(LogTypes.REGISTRY, "OUT: "+toWrite);
-        out.write(toWrite.getBytes());
-        out.flush();
-
-        toWrite = "DONE\n";
-        Logger.log(LogTypes.REGISTRY, "OUT: "+toWrite);
-        out.write(toWrite.getBytes());
-        out.flush();
-    }
+    /*
+     * TODO add parameters to dplay games with "CommandLine" reg key
+     * TODO change all regkeys of dplay to directplay/appliactions
+     */
     
-    private static String read() throws IOException{
-        String ret = in.readLine();
-        Logger.log(LogTypes.REGISTRY, "IN: "+ret);
+    private RegistryReader() {
+    }
+
+    private static void init() {
+        if (Globals.getOperatingSystem() == OperatingSystems.LINUX) {
+            command += Globals.getWineCommand() + " ";
+        }
+
+        command += REG_UTIL;
+
+    }
+
+    public static String read(String fullPath) {
+        String ret = null;
+        try {
+            if (command.isEmpty()) {
+                init();
+            }
+            int idx = fullPath.lastIndexOf("\\");
+            String nodePath = fullPath.substring(0, idx);
+            String key = fullPath.substring(idx + 1);
+            String cmd = command +REG_QUERY_UTIL+ nodePath + REG_VALUE_UTIL + key+"\"";
+            
+            //remove Wow6432Node from registry path as it is still working well on XP without it
+            if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS_XP){
+                cmd = cmd.replace("Wow6432Node\\", "");
+            }
+            
+            Process process = Runtime.getRuntime().exec(cmd);
+           
+            Logger.log(LogTypes.REGISTRY, cmd);
+            StreamReader reader = new StreamReader(process.getInputStream());
+
+            process.waitFor();
+            reader.start();            
+            reader.join();
+
+            String result = reader.getResult();
+            int p = result.indexOf(REGSTR_TOKEN);
+            
+            if (p == -1) {
+                p = result.indexOf(REGDWORD_TOKEN);
+                if (p != -1) {
+                    //read double
+                    ret = result.substring(p + REGDWORD_TOKEN.length()).trim();
+                }
+            } else {
+                //read string
+                ret = result.substring(p + REGSTR_TOKEN.length()).trim();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        Logger.log(LogTypes.REGISTRY, ret==null?"null":ret);
         return ret;
     }
 
     public static String readAny(ArrayList<String> regkeys) {
-        if(regkeys == null){
+        if (regkeys == null) {
             return null;
         }
-        for(String key : regkeys ){
+        for (String key : regkeys) {
             String path = read(key);
-            if(path != null){
+            if (path != null) {
                 return path;
             }
         }
         return null;
     }
+    
+    public static void write(String nodePath,String keyName,String value) {
+        try {
+            if (command.isEmpty()) {
+                init();
+            }
+            
+            String cmd = command +REG_WRITE_UTIL+ nodePath + REG_VALUE_UTIL + keyName+REG_WRITE_DATA_UTIL + value + "\"" ;
+            
+            //remove Wow6432Node from registry path as it is still working well on XP without it
+            if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS_XP){
+                cmd = cmd.replace("Wow6432Node\\", "");
+            }
+            
+            Process process = Runtime.getRuntime().exec(cmd);           
+            Logger.log(LogTypes.REGISTRY, cmd);
+            process.waitFor();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+
+    static class StreamReader extends Thread {
+
+        private InputStream is;
+        private StringWriter sw;
+
+        StreamReader(InputStream is) {
+            this.is = is;
+            sw = new StringWriter();
+        }
+
+        @Override
+        public void run() {
+            try {
+                int c;
+                while ((c = is.read()) != -1) {
+                    sw.write(c);
+                }                
+            } catch (IOException e) {
+                
+                e.printStackTrace();
+                
+            }
+        }
+
+        String getResult() {
+            return sw.toString();
+        }
+    }
 }
