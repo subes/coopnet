@@ -32,13 +32,12 @@ public class RegistryReader {
     private static final String REG_QUERY_UTIL = "query \"";    
     private static final String REG_WRITE_UTIL = "add \"";  
     private static final String REG_VALUE_UTIL = "\" /v \"";    
-    private static final String REG_WRITE_DATA_UTIL = "\" /f /d ";
+    private static final String REG_WRITE_DATA_UTIL = "\" /f /d \"";
     private static final String REGSTR_TOKEN = "REG_SZ";
     private static final String REGDWORD_TOKEN = "REG_DWORD";
     private static String command="";
 
     /*
-     * TODO add parameters to dplay games with "CommandLine" reg key
      * TODO change all regkeys of dplay to directplay/appliactions
      */
     

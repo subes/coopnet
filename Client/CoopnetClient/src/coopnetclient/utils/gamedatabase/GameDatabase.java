@@ -108,10 +108,12 @@ public class GameDatabase {
             data.add(getGameName(ID));
         }
         for (String ID : localExecutablePath.keySet()) {
-            if (!data.contains(getGameName(ID))) {
-                data.add(getGameName(ID));
+            final String gameName = getGameName(ID);
+            if (gameName != null && !data.contains(gameName)) {
+                data.add(gameName);
             }
         }
+        
         Collections.sort(data);
         return data;
     }

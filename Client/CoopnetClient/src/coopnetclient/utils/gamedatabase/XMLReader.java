@@ -52,7 +52,7 @@ public class XMLReader {
                     public void run() {
                         try {
                             Logger.log(LogTypes.LOG, "Detecting games");
-                           // sp.parse(new File(loadFrom), new XmlHandler_DetectGames());
+                            sp.parse(new File(loadFrom), new XmlHandler_DetectGames());
                             Logger.log(LogTypes.LOG, "Done detecting games");
                             if (FrameOrganizer.getClientFrame() != null) {
                                 FrameOrganizer.getClientFrame().refreshInstalledGames();

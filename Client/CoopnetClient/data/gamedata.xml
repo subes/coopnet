@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--Version 38 -->
+<!--Version 40 -->
 <!DOCTYPE GameDataBase [
 <!ELEMENT GameDataBase (GameData)*>
 <!ELEMENT GameData (GameName,ShortName, ChannelID, LaunchMethod,(WelcomeMessage)?, (InstantLaunch)?,(NoSpaces)?, (Beta)?, (Property)*,RegistryEntry?, (Settings)?, (Mod)*)>
@@ -126,7 +126,7 @@
             <PropertyValue>{8701C5C1-337B-11d2-839B-00609707F508}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Age of Empires Expansion\1.0\EXE Path</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Age of Empires Expansion\Path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -139,7 +139,7 @@
             <PropertyValue>{C1B39B54-D152-49F0-8937-AF0D847668A4}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_CURRENT_USER\Software\Triumph Studios\Age of Wonders Shadow Magic\General\Root Directory</RegKey>
+            <RegKey>HKEY_CURRENT_USER\Software\Wow6432Node\Microsoft\DirectPlay8\Applications\{C1B39B54-D152-49F0-8937-AF0D847668A4}\ExecutablePath</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -165,7 +165,7 @@
             <PropertyValue>{41FD0FA2-2942-4DC4-B4C5-73D2C55F4C94}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\MechWarrior Mercenaries\EXE Path</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\DirectPlay\Applications\MechWarrior Mercenaries\path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -178,7 +178,7 @@
             <PropertyValue>{0808caa5-e62c-4691-8957-5d4524b922da}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Flight Simulator\9.0\EXE Path</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Microsoft Flight Simulator 2004\Path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -191,7 +191,7 @@
             <PropertyValue>{BF0613C0-DE79-11d0-99C9-00A02476AD4B}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\LucasArts Entertainment Company LLC\Star Wars JK II Jedi Outcast\1.0\Install Path</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Jedi Knight 1.0\Path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -217,7 +217,7 @@
             <PropertyValue>{95883290-2B70-459A-A5EE-7957E5991902}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\LucasArts Entertainment Company LLC\Star Wars Galactic Battlegrounds: Clone Campaigns\1.0\Install Path</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Application s\Star Wars Galactic Battlegrounds: Clone Campaigns\Path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -230,7 +230,7 @@
             <PropertyValue>{984F1F04-F9B9-4249-B94C-7D4444C95192}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\pyro studios\imperial glory\game\Path</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Imperial Glory\path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -243,7 +243,7 @@
             <PropertyValue>{B7C674E0-BD3A-11d1-B7C2-000021B56039}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\BGMain2.exe\Path</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\DirectPlay\Applications\Baldur's Gate\Path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -256,7 +256,7 @@
             <PropertyValue>{FA868461-5093-11D2-A073-000C09595CC3}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\DEEPRED\GAMES\RISKII\PATH</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\DirectPlay\Applications\RiskII\path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -295,7 +295,7 @@
             <PropertyValue>{6cd1c6e0-96fb-11d1-a268-00a02f29c995}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Monster Truck Madness\2.0\InstalledPath</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\DirectPlay\Applications\Monster Truck Madness 2\Path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -321,7 +321,7 @@
             <PropertyValue>{9F878D00-6CBB-11D1-9ABD-0060089877F0}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\MicroProse\MechWarrior 3\1.0\Program</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\DirectPlay\Applications\MechWarrior 3\Path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -334,7 +334,7 @@
             <PropertyValue>{6C63E49C-8BFC-44d4-A4E5-2E55472A93D3}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\MechWarrior Black Knight\EXE Path</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\DirectPlay\Applications\MechWarrior Black Knight\Path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -360,7 +360,7 @@
             <PropertyValue>{A569BB80-575D-11d1-9C11-008048A9B101}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\Software\The Bitmap Brothers\Steel Soldiers\1.00\Path</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Z: Steel Soldiers\Path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -386,7 +386,7 @@
             <PropertyValue>{0B7F6257-7A58-4843-8F1D-726CD9508A11}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\The Bitmap Brothers\WWII Frontline Command\1.00\ExePath</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\World War II: Frontline Command\Path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -568,7 +568,7 @@
             <PropertyValue>{379CCA80-8BDD-11d0-A078-004095E16EA0}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\Software\Interplay Productions\Starfleet Command\Path</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Starfleet Command\path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -594,7 +594,7 @@
             <PropertyValue>{23824CE0-7967-11D2-854E-00A0C9C87D36}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Shiny Entertainment\Sacrifice\InstallDir</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Sacrifice\path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -737,7 +737,7 @@
             <PropertyValue>{3ECA4780-0491-11d4-9F3E-0000E8EF2D27}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\Software\Virgin Interactive Entertainment\Magic and Mayhem 2\Path</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\DirectPlay8\Applications\{3ECA4780-0491-11d4-9F3E-0000E8EF2D27}\LauncherPath</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -827,6 +827,9 @@
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{BF0613C0-DE79-11d0-99C9-00A02476AD4B}</PropertyValue>
         </Property>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Jedi Knight 1.0\Path</RegKey>
+        </RegistryEntry>
     </GameData>
     <GameData>
         <GameName>Parkan: Iron Strategy</GameName>
@@ -850,6 +853,9 @@
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{4de1b25b-baf0-42f6-aac5-71405827e671}</PropertyValue>
         </Property>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Hotrod\Path</RegKey>
+        </RegistryEntry>
     </GameData>
     <GameData>
         <GameName>High Heat Major League Baseball 2002</GameName>
@@ -1030,7 +1036,7 @@
             <PropertyValue>{5506C240-59A1-11d4-9900-0050DA714697}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Hot Wheels\WilliamsF1 Team Driver\CWD</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\WilliamsF1 Team Driver\Path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -1238,7 +1244,7 @@
             <PropertyValue>{BFC600AA-611C-4689-A933-79f4-14B54A37}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\Software\Fireline\Pro Bass Fishing 2003\RunDir</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Pro Bass Fishing 2003\path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -1264,7 +1270,7 @@
             <PropertyValue>{379CCA80-8BDD-11d0-A078-004095E16EA6}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\Software\Fox Interactive\Aliens versus Predator\Path</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Aliens vs. Predator\path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -1278,19 +1284,6 @@
         </Property>
         <RegistryEntry>
             <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Conquest Frontier Wars\path</RegKey>
-        </RegistryEntry>
-    </GameData>
-    <GameData>
-        <GameName>Aliens vs. Predator Gold</GameName>
-        <ShortName>AvPGold</ShortName>
-        <ChannelID>192</ChannelID>
-        <LaunchMethod>DIRECTPLAY</LaunchMethod>
-        <Property>
-            <PropertyName>GUID</PropertyName>
-            <PropertyValue>{379CCA80-8BDD-11d0-A078-004095E16EA5}</PropertyValue>
-        </Property>
-        <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\Software\Fox Interactive\Aliens versus Predator\Path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -1342,7 +1335,7 @@
             <PropertyValue>{4287F2A7-93D2-4E94-93C6-21C865430D85}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_CURRENT_USER\Software\Triumph Studios\Age of Wonders II\General\Root Directory</RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Age of Wonders II\path</RegKey>
         </RegistryEntry>
     </GameData>
     <GameData>
@@ -1380,6 +1373,9 @@
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{8B9FBB48-E241-4F1D-9890-D2834A149FE4}</PropertyValue>
         </Property>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay8\Applications\{8B9FBB48-E241-4F1D-9890-D2834A149FE4}\ExecutablePath</RegKey>
+        </RegistryEntry>
     </GameData>
     <GameData>
         <GameName>Age of Wonders 3</GameName>
@@ -1390,6 +1386,9 @@
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{C1B39B54-D152-49F0-8937-AF0D847668A4}</PropertyValue>
         </Property>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Age of Wonders 3\path</RegKey>
+        </RegistryEntry>
     </GameData>
     <GameData>
         <GameName>Sudden Strike II</GameName>
@@ -1413,6 +1412,9 @@
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{BDEA2FDA-E5D5-44ed-9F9C-E90E472BACB5}</PropertyValue>
         </Property>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Disciples\Path</RegKey>
+        </RegistryEntry>
     </GameData>
     <GameData>
         <GameName>Earth 2150: The Moon Project</GameName>
@@ -1436,6 +1438,9 @@
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{6A470280-0790-11d3-9E1B-00A0C9A0F04F}</PropertyValue>
         </Property>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Sega Rally Championship 2\path</RegKey>
+        </RegistryEntry>
     </GameData>
     <GameData>
         <GameName>Star Trek: New Worlds</GameName>
@@ -1446,6 +1451,9 @@
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{d49f7be0-1e25-11d1-89b7-00c04fddfa8a}</PropertyValue>
         </Property>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\DirectPlay\Applications\STNW\path</RegKey>
+        </RegistryEntry>
     </GameData>
     <GameData>
         <GameName>MS Combat Flight Simulator 2</GameName>
@@ -1456,6 +1464,9 @@
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{BA361865-7A5C-40e7-881A-567C19A150A9}</PropertyValue>
         </Property>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\DirectPlay\Applications\Combat Flight Simulator 2\path</RegKey>
+        </RegistryEntry>
     </GameData>
     <GameData>
         <GameName>Legend of the Blademasters</GameName>
@@ -1466,6 +1477,9 @@
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{22D7E8EC-5BC0-11D3-A3F1-00105A0716C4}</PropertyValue>
         </Property>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\DirectPlay\Applications\Blademasters\path</RegKey>
+        </RegistryEntry>
     </GameData>
     <GameData>
         <GameName>Shadow Company</GameName>
@@ -1723,8 +1737,11 @@
             <PropertyName>GUID</PropertyName>
             <PropertyValue>{FBA662E0-904E-11D2-A07E-00C0DFA88F97}</PropertyValue>
         </Property>
-            </GameData>
-    <!--<GameData>
+        <RegistryEntry>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Abomination\Path</RegKey>
+        </RegistryEntry>
+    </GameData>
+    <GameData>
         <GameName>O.R.B.</GameName>
         <ChannelID></ChannelID>
         <LaunchMethod>DIRECTPLAY</LaunchMethod>
@@ -1733,9 +1750,9 @@
             <PropertyValue>{9F4AD6FC-D90D-4D58-8DAF-50021646D151}</PropertyValue>
         </Property>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\DirectPlay8\Applications\{9F4AD6FC-D90D-4D58-8DAF-50021646D151}\ExecutablePath </RegKey>
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay8\Applications\{9F4AD6FC-D90D-4D58-8DAF-50021646D151}\ExecutablePath</RegKey>
         </RegistryEntry>
-    </GameData>-->
+    </GameData>
     <GameData>
         <GameName>Quake 3</GameName>
         <ShortName>Quake 3</ShortName>
@@ -1823,7 +1840,7 @@
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27960</SettingDefaultValue>
-            </NumberSetting>            
+            </NumberSetting>
         </Settings>
     </GameData>
     <GameData>
@@ -1911,7 +1928,7 @@
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27960</SettingDefaultValue>
-            </NumberSetting>           
+            </NumberSetting>
         </Settings>
     </GameData>
     <GameData>
@@ -1921,7 +1938,7 @@
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Activision\Wolfenstein - Enemy Territory\InstallPath</RegKey>            
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Activision\Wolfenstein - Enemy Territory\InstallPath</RegKey>
         </RegistryEntry>
         <Property>
             <PropertyName>EXE</PropertyName>
@@ -2001,7 +2018,7 @@
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27960</SettingDefaultValue>
-            </NumberSetting>            
+            </NumberSetting>
         </Settings>
     </GameData>
     <GameData>
@@ -2011,7 +2028,7 @@
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
         <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\EA GAMES\Battlefield 1942\GAMEDIR</RegKey>            
+            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\EA GAMES\Battlefield 1942\GAMEDIR</RegKey>
         </RegistryEntry>
         <Property>
             <PropertyName>EXE</PropertyName>
@@ -2077,7 +2094,7 @@
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>14567</SettingDefaultValue>
-            </NumberSetting>            
+            </NumberSetting>
         </Settings>
     </GameData>
     <GameData>
@@ -2132,7 +2149,7 @@
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>27010</SettingDefaultValue>
-            </NumberSetting>            
+            </NumberSetting>
         </Settings>
         <Mod>
             <GameName>Wasteland</GameName>
@@ -2173,7 +2190,7 @@
     </GameData>
     <GameData>
         <GameName>Half-Life - Steam</GameName>
-         <ShortName>H-L Steam</ShortName>
+        <ShortName>H-L Steam</ShortName>
         <ChannelID>233</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
         <InstantLaunch/>
@@ -2333,7 +2350,7 @@
                 <ChoiceItem>
                     <ChoiceDisplayName>Search and Destroy</ChoiceDisplayName>
                     <ChoiceRealValue>sd</ChoiceRealValue>
-                </ChoiceItem>                
+                </ChoiceItem>
             </ChoiceSetting>
             <NumberSetting>
                 <SettingName>Goalscore:</SettingName>
@@ -2355,7 +2372,7 @@
                 <SettingType>TEXT</SettingType>
                 <KeyWord>PORT</KeyWord>
                 <SettingDefaultValue>28960</SettingDefaultValue>
-            </NumberSetting>            
+            </NumberSetting>
         </Settings>
     </GameData>
     <GameData>
@@ -2418,7 +2435,7 @@
                 <SettingName>Maxplayers:</SettingName>
                 <SettingType>NUMBER</SettingType>
                 <KeyWord>MAXPLAYERS</KeyWord>
-            </NumberSetting>            
+            </NumberSetting>
             <ChoiceSetting>
                 <SettingName>GameMode:</SettingName>
                 <SettingType>CHOICE</SettingType>
@@ -2435,7 +2452,7 @@
                     <ChoiceDisplayName>Teamplay</ChoiceDisplayName>
                     <ChoiceRealValue>+set teamplay 1</ChoiceRealValue>
                 </ChoiceItem>
-            </ChoiceSetting>            
+            </ChoiceSetting>
         </Settings>
     </GameData>
     <GameData>
@@ -2443,11 +2460,11 @@
         <ShortName>Left 4 Dead</ShortName>
         <ChannelID>236</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
-        <InstantLaunch/>        
+        <InstantLaunch/>
         <Property>
             <PropertyName>EXE</PropertyName>
             <PropertyValue>hl2.exe</PropertyValue>
-        </Property>        
+        </Property>
         <Property>
             <PropertyName>MAPLOADERTYPE</PropertyName>
             <PropertyValue>FILE</PropertyValue>
@@ -2532,7 +2549,8 @@
         <ChannelID>238</ChannelID>
         <LaunchMethod>DOS</LaunchMethod>
         <WelcomeMessage>This game requires DOSBox to run! Please set the path to dosbox.exe
-        in options/manage games/environment tab!</WelcomeMessage>
+        in options/manage games/environment tab!
+        </WelcomeMessage>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
             <PropertyValue>-c "CONFIG -set ipx=true" -c "IPXNET STARTSERVER {PORT}" -c "{GAMEEXE} /nointro"</PropertyValue>
@@ -2784,38 +2802,38 @@
         <Mod>
             <GameName>Alien Swarm</GameName>
             <Property>
-            <PropertyName>LAUNCHPATTERN</PropertyName>
-            <PropertyValue>server {MAP}?Listen?Name={NAME} -port={PORT} -Mod=AlienSwarm</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>JOINPATTERN</PropertyName>
-            <PropertyValue>{HOSTIP}:{PORT}/?Name={NAME} -Mod=AlienSwarm</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>MAPLOADERTYPE</PropertyName>
-            <PropertyValue>FILE</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>MAPPATH</PropertyName>
-            <PropertyValue>\AlienSwarm\Maps\</PropertyValue>
-        </Property>
-        <Property>
-            <PropertyName>MAPEXT</PropertyName>
-            <PropertyValue>ut2</PropertyValue>
-        </Property>
-        <Settings> 
-            <NumberSetting>
-                <SettingName>Maxplayers:</SettingName>
-                <SettingType>NUMBER</SettingType>
-                <KeyWord>MAXPLAYERS</KeyWord>
-            </NumberSetting>
-            <NumberSetting>
-                <SettingName>Port:</SettingName>
-                <SettingType>TEXT</SettingType>
-                <KeyWord>PORT</KeyWord>
-                <SettingDefaultValue>7777</SettingDefaultValue>
-            </NumberSetting>
-        </Settings>
+                <PropertyName>LAUNCHPATTERN</PropertyName>
+                <PropertyValue>server {MAP}?Listen?Name={NAME} -port={PORT} -Mod=AlienSwarm</PropertyValue>
+            </Property>
+            <Property>
+                <PropertyName>JOINPATTERN</PropertyName>
+                <PropertyValue>{HOSTIP}:{PORT}/?Name={NAME} -Mod=AlienSwarm</PropertyValue>
+            </Property>
+            <Property>
+                <PropertyName>MAPLOADERTYPE</PropertyName>
+                <PropertyValue>FILE</PropertyValue>
+            </Property>
+            <Property>
+                <PropertyName>MAPPATH</PropertyName>
+                <PropertyValue>\AlienSwarm\Maps\</PropertyValue>
+            </Property>
+            <Property>
+                <PropertyName>MAPEXT</PropertyName>
+                <PropertyValue>ut2</PropertyValue>
+            </Property>
+            <Settings>
+                <NumberSetting>
+                    <SettingName>Maxplayers:</SettingName>
+                    <SettingType>NUMBER</SettingType>
+                    <KeyWord>MAXPLAYERS</KeyWord>
+                </NumberSetting>
+                <NumberSetting>
+                    <SettingName>Port:</SettingName>
+                    <SettingType>TEXT</SettingType>
+                    <KeyWord>PORT</KeyWord>
+                    <SettingDefaultValue>7777</SettingDefaultValue>
+                </NumberSetting>
+            </Settings>
         </Mod>
     </GameData>
     <GameData>
@@ -2823,7 +2841,7 @@
         <ShortName>Left 4 Dead 2</ShortName>
         <ChannelID>239</ChannelID>
         <LaunchMethod>PARAMETER</LaunchMethod>
-        <InstantLaunch/>        
+        <InstantLaunch/>
         <Property>
             <PropertyName>EXE</PropertyName>
             <PropertyValue>hl2.exe</PropertyValue>
@@ -2937,7 +2955,8 @@
         <ChannelID>240</ChannelID>
         <LaunchMethod>DOS</LaunchMethod>
         <WelcomeMessage>This game requires DOSBox to run! Please set the path to dosbox.exe
-        in options/manage games/environment tab!</WelcomeMessage>
+        in options/manage games/environment tab!
+        </WelcomeMessage>
         <Property>
             <PropertyName>LAUNCHPATTERN</PropertyName>
             <PropertyValue>-c "CONFIG -set ipx=true" -c "IPXNET STARTSERVER {PORT}" -c "{GAMEEXE} "</PropertyValue>
@@ -2966,19 +2985,6 @@
         </Property>
         <RegistryEntry>
             <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\Sid Meier's Alpha Centauri\Path</RegKey>
-        </RegistryEntry>
-    </GameData>
-    <GameData>
-        <GameName>Fake</GameName>
-        <ShortName>Fake</ShortName>
-        <ChannelID>250</ChannelID>
-        <LaunchMethod>DIRECTPLAY</LaunchMethod>
-        <Property>
-            <PropertyName>GUID</PropertyName>
-            <PropertyValue>{BC3A2ACD-FB46-4c6b-8B5C-CD193C9805CE}</PropertyValue>
-        </Property>
-        <RegistryEntry>
-            <RegKey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\DirectPlay\Applications\fake\Path</RegKey>
         </RegistryEntry>
     </GameData>
 </GameDataBase>
