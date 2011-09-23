@@ -30,12 +30,7 @@ public class ChannelData {
     }
     
     public static Channel getChannel(String ID) {
-        Channel ch= channels.get(ID);
-        if(ch == null){
-            ch = new Channel(ID);
-            addChannel(ch);
-        }
-        return ch;
+        return channels.get(ID);
     }
 
     public static void addChannel(Channel channel) {

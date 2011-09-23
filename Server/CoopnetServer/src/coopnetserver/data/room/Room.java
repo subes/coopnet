@@ -20,7 +20,6 @@ package coopnetserver.data.room;
 
 import coopnetserver.data.channel.*;
 import coopnetserver.protocol.out.Protocol;
-import coopnetserver.data.*;
 import coopnetserver.data.player.Player;
 import coopnetserver.data.player.PlayerData;
 import java.util.HashMap;
@@ -32,13 +31,12 @@ import java.util.Vector;
  * Class implementing game rooms
  */
 public class Room {
-    
+
     public static final int NORMAL_UNPASSWORDED_ROOM = 0;
     public static final int NORMAL_PASSWORDED_ROOM = 1;
     public static final int INSTANT_UNPASSWORDED_ROOM = 2;
     public static final int INSTANT_PASSWORDED_ROOM = 3;
     public static final int LIMIT = 999;
-    
     //INSTANCE
     private String name;
     private long ID;
@@ -51,7 +49,7 @@ public class Room {
     private boolean searchEnabled;
     private String modIndex;
     private boolean instantlaunchenabled = false;
-    private HashMap<String,String> settings = new HashMap<String,String>();
+    private HashMap<String, String> settings = new HashMap<String, String>();
 
     /**
      * sends the launch command to every ready player in the room
@@ -64,11 +62,11 @@ public class Room {
                 }
                 player.setAway(false);
                 player.setPlaying(true);
-                if(!player.equals(host)){
+                if (!player.equals(host)) {
                     Protocol.launch(player);
                 }
                 Protocol.sendRoomPlayingStatusToRoom(this, player);
-                if(parent.containsPlayer(player)){
+                if (parent.containsPlayer(player)) {
                     Protocol.sendChannelPlayingStatus(parent, player);
                 }
                 player.sendMyContactStatusToMyContacts();
@@ -82,55 +80,55 @@ public class Room {
     public boolean passwordCheck(String pw) {
         return pw.equals(this.password);
     }
-    
-    public int getType(){
-        if(isPasswordProtected()){
-            if(instantlaunchenabled){
+
+    public int getType() {
+        if (isPasswordProtected()) {
+            if (instantlaunchenabled) {
                 return INSTANT_PASSWORDED_ROOM;
+            } else {
+                return NORMAL_PASSWORDED_ROOM;
             }
-            else return NORMAL_PASSWORDED_ROOM;
-        }
-        else{
-            if(instantlaunchenabled){
+        } else {
+            if (instantlaunchenabled) {
                 return INSTANT_UNPASSWORDED_ROOM;
+            } else {
+                return NORMAL_UNPASSWORDED_ROOM;
             }
-            else return NORMAL_UNPASSWORDED_ROOM;
         }
     }
-    
-    public long getID(){
+
+    public long getID() {
         return ID;
     }
-    
-    public void setID(long ID){
+
+    public void setID(long ID) {
         this.ID = ID;
     }
-    
-    public boolean isInstantLaunched(){
-        return  instantlaunchenabled;
+
+    public boolean isInstantLaunched() {
+        return instantlaunchenabled;
     }
-    
-    public void setInstantLaunchable(boolean value){
+
+    public void setInstantLaunchable(boolean value) {
         this.instantlaunchenabled = value;
     }
 
-
-    public void setSetting(String name,String value){
+    public void setSetting(String name, String value) {
         settings.put(name, value);
-        
+
         for (Player connection : players) {
             Protocol.sendSetting(connection.getConnection(), name, value);
         }
     }
-    
-    public String getSetting(String name){
+
+    public String getSetting(String name) {
         return settings.get(name);
     }
 
-    public Set<Entry<String,String>> getSettings(){
+    public Set<Entry<String, String>> getSettings() {
         return settings.entrySet();
     }
-    
+
     public String getModIndex() {
         return modIndex;
     }
@@ -178,7 +176,7 @@ public class Room {
         return host;
     }
 
-    public boolean isSearchEnabled(){
+    public boolean isSearchEnabled() {
         return searchEnabled;
     }
 
@@ -191,21 +189,62 @@ public class Room {
         }
         return true;
     }
-    
-    public String getPassword(){
+
+    public String getPassword() {
         return password;
     }
 
     /**
      * adds a new member to the room
      */
-    public void addPlayer(Player player) throws Exception {
+    public void addPlayer(Player player) {
         if (players.size() == maxPlayers) {
-            throw new Exception();
+            player.setCurrentRoom(null);
+            Protocol.errorRoomIsFull(player.getConnection());
+            return;
         }
+        if (player.getCurrentRoom() != null && player.getCurrentRoom().equals(this)) {
+            return;
+        }
+
+        if (host.isBanned(player.getPid())) {// is the player banned?
+            Protocol.errorYouAreBanned(player.getConnection());
+            return;
+        }
+
         Protocol.addMemberToRoom(this, player);
-        if(!players.contains(player)){
+        if (!players.contains(player)) {
             players.add(player);
+        }
+
+        player.setCurrentRoom(this);
+        player.setNotReady();
+        //joined, send data to client
+        if (isInstantLaunched()) {
+            //instant launch
+            Protocol.sendInstantLaunchCommand(player.getConnection(), this);
+            Protocol.sendJoinNotification(parent, host, player);
+            Protocol.sendChannelPlayingStatus(parent, player);
+        } else {
+            //normal join
+            Protocol.joinRoom(player.getConnection(), parent, this);
+            Protocol.sendJoinNotification(parent, host, player);
+            //send settings to newcommer
+            for (Entry<String, String> entry : getSettings()) {
+                Protocol.sendSetting(player.getConnection(), entry.getKey(), entry.getValue());
+            }
+            //refresh players list of room
+            for (Player member : player.getCurrentRoom().getPlayers()) {
+                if (member.isReady()) {
+                    Protocol.sendReadyStatus(player.getConnection(), member);
+                }
+                if (member.isPlaying()) {
+                    Protocol.sendRoomPlayingStatus(player.getConnection(), member);
+                }
+                if (member.isAway()) {
+                    Protocol.setAwayStatus(player, member);
+                }
+            }
         }
     }
 
@@ -221,19 +260,19 @@ public class Room {
             this.close();
         } else {
             players.remove(player);
-            if(!isInstantLaunched()){
+            if (!isInstantLaunched()) {
                 Protocol.removeMemberFromRoom(this, player);
-                Protocol.removePlayerFromRoomInList(parent, player.getCurrentRoom().getHost(), player);
+                Protocol.removePlayerFromRoomInList(parent, player.getCurrentRoom().host, player);
             }
         }
-        
+
         player.setCurrentRoom(null);
     }
 
     /**
      * returns a copy array with the members 
      */
-    public Player[] getPlayers() {        
+    public Player[] getPlayers() {
         Player[] copy = new Player[players.size()];
         return players.toArray(copy);
     }
@@ -244,20 +283,20 @@ public class Room {
      * the room is removed from its channel(parent).
      */
     public void close() {
-        Protocol.closeRoom(this,parent);
+        Protocol.closeRoom(this, parent);
         for (Player member : players) {
             Protocol.removePlayerFromRoomInList(parent, host, member);
             member.setCurrentRoom(null);
         }
         parent.closeRoom(this);
         RoomData.unRegisterRoom(this);
-        Protocol.removeRoom(parent, host);        
+        Protocol.removeRoom(parent, host);
     }
 
     /**
      * creates a new room
      */
-    public Room(String name, Player host, String password, int limit, Channel channel, boolean instantLaunch, String hamachiip,boolean doSearch) {
+    public Room(String name, Player host, String password, int limit, Channel channel, boolean instantLaunch, String hamachiip, boolean doSearch) {
         this.name = name;
         this.host = host;
         if (limit > LIMIT || limit < 0) {

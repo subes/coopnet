@@ -20,7 +20,6 @@ package coopnetserver.protocol.in;
 
 import coopnetserver.enums.ClientProtocolCommands;
 import coopnetserver.protocol.out.Protocol;
-import coopnetserver.protocol.*;
 import coopnetserver.*;
 import coopnetserver.data.room.Room;
 import coopnetserver.data.player.Player;
@@ -28,6 +27,7 @@ import coopnetserver.data.player.PlayerData;
 import coopnetserver.data.channel.ChannelData;
 import coopnetserver.data.channel.Channel;
 import coopnetserver.data.connection.Connection;
+import coopnetserver.data.room.RoomData;
 import coopnetserver.enums.TaskTypes;
 import coopnetserver.exceptions.VerificationException;
 import coopnetserver.utils.Logger;
@@ -43,40 +43,40 @@ import javax.mail.MessagingException;
  * analises and executes incomming commands
  */
 public class CommandHandler {
-    
+
     public static void executeCommand(Connection con, String[] data) throws SQLException, MessagingException, VerificationException {
         Player thisPlayer = con.getPlayer();
-        
+
         if (data[0].equals(Protocol.HEARTBEAT)) {
             Logger.logInTraffic(data, con);
             return;
         }
-        
-        try{
+
+        try {
             ClientProtocolCommands command = null;
-            try{
+            try {
                 command = ClientProtocolCommands.values()[Integer.parseInt(data[0])];
-            } catch(Exception e){
+            } catch (Exception e) {
                 //DROP because server accepts no other messages
                 Logger.logInTraffic(data, con);
-                TaskProcesser.addTask(new Task(TaskTypes.LOGOFF,con,new String[] {} ));
-                
-                String exceptionString = "Client sent unknown command!" +
-                        "\n\tData (length="+data.length+"):";
-                for(int i = 0; i < data.length; i++){
-                    exceptionString += "\n\t\t"+i+": "+data[i];
+                TaskProcesser.addTask(new Task(TaskTypes.LOGOFF, con, new String[]{}));
+
+                String exceptionString = "Client sent unknown command!"
+                        + "\n\tData (length=" + data.length + "):";
+                for (int i = 0; i < data.length; i++) {
+                    exceptionString += "\n\t\t" + i + ": " + data[i];
                 }
-                
+
                 throw new VerificationException(exceptionString);
             }
-            
-            String[] information = new String[data.length-1];
-            System.arraycopy(data, 1, information, 0, information.length);    
+
+            String[] information = new String[data.length - 1];
+            System.arraycopy(data, 1, information, 0, information.length);
 
             Logger.logInTraffic(command, information, con);
 
             if (thisPlayer == null) {
-                switch(command){
+                switch (command) {
                     case NEW_PLAYER:
                         //registration                        
                         CommandMethods.createPlayer(con, information);
@@ -87,22 +87,22 @@ public class CommandHandler {
                         return;
                     case QUIT:
                         //Put connection off
-                        TaskProcesser.addTask(new Task(TaskTypes.LOGOFF,con,new String[] {} ));
+                        TaskProcesser.addTask(new Task(TaskTypes.LOGOFF, con, new String[]{}));
                         return;
                     case PASSWORD_RECOVERY:
                         String[] playerData = Database.getPlayerDataByName(information[0]);
-                        
-                        if(playerData == null){
+
+                        if (playerData == null) {
                             return;
                         }
-                        
+
                         String email = playerData[4];
-                        if (email.equals(information[1])) {                            
+                        if (email.equals(information[1])) {
                             String newPassword = getRandomString(10);
                             long pid = Long.parseLong(playerData[0]);
                             Database.updatePassword(pid, PasswordEncrypter.encryptPassword(newPassword));
                             String loginname = playerData[1];
-                            MailSender.sendPasswordRecoveryMail(loginname, email, newPassword);                                      
+                            MailSender.sendPasswordRecoveryMail(loginname, email, newPassword);
                         }
                         return;
                     case CLIENTVERSION:
@@ -110,19 +110,19 @@ public class CommandHandler {
                         break;
                     default:
                         //DROP because server accepts no other messages
-                        TaskProcesser.addTask(new Task(TaskTypes.LOGOFF,con,new String[] {} ));
-                        //this might also happen when the user is logged off 
-                        //before the slow-task-proccessor executes it
-                        //so this shouldnt be mailed as a server bug
+                        TaskProcesser.addTask(new Task(TaskTypes.LOGOFF, con, new String[]{}));
+                    //this might also happen when the user is logged off
+                    //before the slow-task-proccessor executes it
+                    //so this shouldnt be mailed as a server bug
                         /*String exceptionString = "Client sent a prohibitted command: "+ command.toString() +
-                                "\n\tData (length="+data.length+"):";
-                        for(int i = 0; i < data.length; i++){
-                            exceptionString += "\n\t\t"+i+": "+data[i];
-                        }
-                        throw new VerificationException(exceptionString);*/
+                    "\n\tData (length="+data.length+"):";
+                    for(int i = 0; i < data.length; i++){
+                    exceptionString += "\n\t\t"+i+": "+data[i];
+                    }
+                    throw new VerificationException(exceptionString);*/
                 }
             } else {
-                switch(command){
+                switch (command) {
                     case CLIENTVERSION:
                         con.setClientVersion(information[0]);
                         return;
@@ -133,15 +133,17 @@ public class CommandHandler {
                     case JOIN_CHANNEL:
                         Channel requestedchannel = null;
                         requestedchannel = ChannelData.getChannel(information[0]);
-                        if (requestedchannel != null) {
-                            if (!(Arrays.asList(requestedchannel.getPlayersInChannel()).contains(thisPlayer))) {
-                                thisPlayer.joinChannel(requestedchannel);
-                                CommandMethods.refreshRoomsAndPlayers(thisPlayer, requestedchannel);
-                            }
+                        if (requestedchannel == null) {
+                            requestedchannel = new Channel(information[0]);
+                            ChannelData.addChannel(requestedchannel);
+                        }
+                        if (!(Arrays.asList(requestedchannel.getPlayersInChannel()).contains(thisPlayer))) {
+                            thisPlayer.joinChannel(requestedchannel);
+                            CommandMethods.refreshRoomsAndPlayers(thisPlayer, requestedchannel);
                         }
                         return;
                     case QUIT:
-                        TaskProcesser.addTask(new Task(TaskTypes.LOGOFF,con,new String[] {} ));
+                        TaskProcesser.addTask(new Task(TaskTypes.LOGOFF, con, new String[]{}));
                         return;
                     case LEAVE_CHANNEL:
                         Channel currentChannel = ChannelData.getChannel(information[0]);
@@ -171,9 +173,9 @@ public class CommandHandler {
                         return;
                     case WHISPER:
                         Player whisperTo = PlayerData.searchByName(information[0]);
-                        if(whisperTo != null){
+                        if (whisperTo != null) {
                             Protocol.privateMessage(whisperTo.getConnection(), thisPlayer, information[1]);
-                        }else{
+                        } else {
                             Protocol.sendWhisperToOfflineUser(thisPlayer, information[0]);
                         }
                         thisPlayer.setAway(false);
@@ -185,14 +187,14 @@ public class CommandHandler {
                             Protocol.kick(kickedone.getConnection());
                             kickedone.getCurrentRoom().removePlayer(kickedone);
                             kickedone.setCurrentRoom(null);
-                            Protocol.roomChat(kicker.getCurrentRoom(), null, kickedone.getLoginName()+" has been kicked!");
+                            Protocol.roomChat(kicker.getCurrentRoom(), null, kickedone.getLoginName() + " has been kicked!");
                         }
                         return;
-                    case BAN:                        
+                    case BAN:
                         Player bannedone = PlayerData.searchByName(information[0]);
                         if (bannedone != null && bannedone != thisPlayer) {
                             thisPlayer.ban(bannedone.getPid());
-                        }else{
+                        } else {
                             thisPlayer.ban(Database.getPID(information[0]));
                         }
                         Protocol.confirmBan(thisPlayer.getConnection(), information[0]);
@@ -201,25 +203,25 @@ public class CommandHandler {
                         Player unbannedone = PlayerData.searchByName(information[0]);
                         if (unbannedone != null) {
                             thisPlayer.unBan(unbannedone.getPid());
-                        }else{
+                        } else {
                             thisPlayer.unBan(Database.getPID(information[0]));
                         }
                         Protocol.confirmUnBan(thisPlayer.getConnection(), information[0]);
                         return;
-                    case MUTE:                        
+                    case MUTE:
                         Player mutedone = PlayerData.searchByName(information[0]);
                         if (mutedone != null) {
                             thisPlayer.mute(mutedone.getPid());
-                        }else{
+                        } else {
                             thisPlayer.mute(Database.getPID(information[0]));
                         }
                         Protocol.confirmMute(thisPlayer.getConnection(), information[0]);
                         return;
-                    case UNMUTE:                        
+                    case UNMUTE:
                         Player unmutedone = PlayerData.searchByName(information[0]);
                         if (unmutedone != null) {
                             thisPlayer.unMute(unmutedone.getPid());
-                        }else{
+                        } else {
                             thisPlayer.unMute(Database.getPID(information[0]));
                         }
                         Protocol.confirmUnMute(thisPlayer.getConnection(), information[0]);
@@ -228,16 +230,35 @@ public class CommandHandler {
                         CommandMethods.createRoom(thisPlayer, information);
                         return;
                     case JOIN_ROOM:
-                        CommandMethods.joinRoom(thisPlayer, information);
+                        String hostName = information[0];
+                        Player host = PlayerData.searchByName(hostName);
+                        if (host != null && host.getCurrentRoom() != null) {
+                            String password = information.length == 2 ? information[1] : "";
+                            CommandMethods.joinRoom(thisPlayer, host.getCurrentRoom(), password);
+                        } else {
+                            Protocol.errorRoomDoesNotExist(thisPlayer.getConnection());
+                        }
                         return;
                     case JOIN_ROOM_BY_ID:
-                        CommandMethods.joinRoom(thisPlayer, information);
+                        Room roomByID = RoomData.getRoomByID(Long.valueOf(information[0]));
+                        if (roomByID == null) {
+                            Protocol.errorRoomDoesNotExist(thisPlayer.getConnection());
+                        } else {
+                            String password = information.length == 2 ? information[1] : "";
+                            if (roomByID.isPasswordProtected() && password.length() == 0) {
+                                //send notification to user to give the password(send ID too)
+                                Protocol.requestPassword(thisPlayer.getConnection(), information[0]);
+                                return;
+                            } else {
+                                CommandMethods.joinRoom(thisPlayer, roomByID, password);
+                            }
+                        }
                         return;
                     case LEAVE_ROOM:
                         if (thisPlayer.getCurrentRoom() != null) {
                             thisPlayer.getCurrentRoom().removePlayer(thisPlayer);
                             thisPlayer.setAway(false);
-                        }                        
+                        }
                         return;
                     case CLOSE_ROOM:
                         if (thisPlayer.getCurrentRoom() != null) {
@@ -247,9 +268,9 @@ public class CommandHandler {
                         return;
                     case GAME_CLOSED:
                         Protocol.gameClosed(ChannelData.getChannel(information[0]), thisPlayer);
-                        thisPlayer.setPlaying(false);                
+                        thisPlayer.setPlaying(false);
                         thisPlayer.setSleepMode(false);
-                        if(thisPlayer.getCurrentRoom() != null && thisPlayer.getCurrentRoom().isInstantLaunched()){
+                        if (thisPlayer.getCurrentRoom() != null && thisPlayer.getCurrentRoom().isInstantLaunched()) {
                             thisPlayer.getCurrentRoom().removePlayer(thisPlayer);
                         }
                         thisPlayer.sendMyContactStatusToMyContacts();
@@ -258,7 +279,7 @@ public class CommandHandler {
                         CommandMethods.refreshRoomsAndPlayers(thisPlayer, ChannelData.getChannel(information[0]));
                         return;
                     case SET_GAMESETTING:
-                        if (thisPlayer.getCurrentRoom()!= null && thisPlayer.getCurrentRoom().getHost().equals(thisPlayer)) {
+                        if (thisPlayer.getCurrentRoom() != null && thisPlayer.getCurrentRoom().getHost().equals(thisPlayer)) {
                             thisPlayer.getCurrentRoom().setSetting(information[0], information[1]);
                         }
                         return;
@@ -268,18 +289,18 @@ public class CommandHandler {
                     case LAUNCH:
                         Room current = thisPlayer.getCurrentRoom();
                         if (current != null && current.getHost().equals(thisPlayer)) {
-                            current.launch();                            
+                            current.launch();
                         }
                         return;
                     case EDIT_PROFILE:
                         Protocol.editProfile(thisPlayer);
-                        return;                    
+                        return;
                     case REQUEST_PROFILE:
                         Player viewed = PlayerData.searchByName(information[0]);
                         if (viewed == null) {
-                            
+
                             String[] playerData = Database.getPlayerDataByName(information[0]);
-                            
+
                             /* From Player.java
                             this.pid = Long.parseLong(playerData[0]);
                             this.loginName = playerData[1];
@@ -288,8 +309,8 @@ public class CommandHandler {
                             this.email = playerData[4];                           
                             this.website = playerData[5];
                             this.country = playerData[6];
-                            */
-                            
+                             */
+
                             Protocol.showProfile(
                                     thisPlayer.getConnection(),
                                     playerData[1],
@@ -304,8 +325,8 @@ public class CommandHandler {
                                     viewed.getCountry(),
                                     viewed.getWebsite());
                         }
-                        return;                    
-                    case SAVE_PROFILE:                        
+                        return;
+                    case SAVE_PROFILE:
                         CommandMethods.saveProfile(con, thisPlayer, information);
                         return;
                     case SEND_FILE:
@@ -342,8 +363,8 @@ public class CommandHandler {
                         thisPlayer.setSleepModeEnabled(Boolean.valueOf(information[0]));
                         return;
                     case CHANGE_PASSWORD:
-                        if(!Verification.verifyPassword(information[1])){
-                            throw new VerificationException("Failure on password! "+information[1]);
+                        if (!Verification.verifyPassword(information[1])) {
+                            throw new VerificationException("Failure on password! " + information[1]);
                         }
 
                         if (thisPlayer.getPassword().equals(information[0])) {
@@ -355,20 +376,20 @@ public class CommandHandler {
                         return;
                     case INVITE_USER:
                         Player target = PlayerData.searchByName(information[0]);
-                        if(target == null){
+                        if (target == null) {
                             Protocol.sendWhisperToOfflineUser(thisPlayer, information[0]);
                             return;
                         }
-                        if(thisPlayer.getCurrentRoom()!=null){
+                        if (thisPlayer.getCurrentRoom() != null) {
                             Protocol.inviteUser(target.getConnection(), thisPlayer, thisPlayer.getCurrentRoom());
-                        } 
+                        }
                         return;
                     case SEND_CONTACT_REQUEST:
                         Player sendTo = PlayerData.searchByName(information[0]);
                         long sendToID;
-                        if(sendTo != null){
+                        if (sendTo != null) {
                             sendToID = sendTo.getPid();
-                        }else{
+                        } else {
                             sendToID = Long.valueOf(Database.getPlayerDataByName(information[0])[0]);
                         }
                         synchronized (thisPlayer.getContactList()) {
@@ -417,11 +438,11 @@ public class CommandHandler {
                         }
                         return;
                     case CREATE_GROUP:
-                        if(!Verification.verifyGroupName(information[0])){
-                            throw new VerificationException("Failure on groupname! "+information[0]);
+                        if (!Verification.verifyGroupName(information[0])) {
+                            throw new VerificationException("Failure on groupname! " + information[0]);
                         }
-                        if(thisPlayer.getContactList().groupExists(information[0])){
-                            throw new VerificationException("User wanted to create a group with a groupname that already exists! "+information[0]);
+                        if (thisPlayer.getContactList().groupExists(information[0])) {
+                            throw new VerificationException("User wanted to create a group with a groupname that already exists! " + information[0]);
                         }
                         synchronized (thisPlayer.getContactList()) {
                             thisPlayer.getContactList().createGroup(information[0]);
@@ -429,8 +450,8 @@ public class CommandHandler {
                         }
                         return;
                     case RENAME_GROUP:
-                        if(!Verification.verifyGroupName(information[1])){
-                            throw new VerificationException("Failure on groupname! "+information[1]);
+                        if (!Verification.verifyGroupName(information[1])) {
+                            throw new VerificationException("Failure on groupname! " + information[1]);
                         }
                         synchronized (thisPlayer.getContactList()) {
                             thisPlayer.getContactList().renameGroup(information[0], information[1]);
@@ -482,29 +503,28 @@ public class CommandHandler {
                         break;
                     default:
                         //DROP
-                        TaskProcesser.addTask(new Task(TaskTypes.LOGOFF,con,new String[] {} ));
-                        String exceptionString = "The command enum has a value that was not handled! "+command.toString() +
-                                "\n\tData (length="+data.length+"):";
-                        for(int i = 0; i < data.length; i++){
-                            exceptionString += "\n\t\t"+i+": "+data[i];
+                        TaskProcesser.addTask(new Task(TaskTypes.LOGOFF, con, new String[]{}));
+                        String exceptionString = "The command enum has a value that was not handled! " + command.toString()
+                                + "\n\tData (length=" + data.length + "):";
+                        for (int i = 0; i < data.length; i++) {
+                            exceptionString += "\n\t\t" + i + ": " + data[i];
                         }
                         throw new VerificationException(exceptionString);
                 }
             }
-        }catch(ArrayIndexOutOfBoundsException exc){
+        } catch (ArrayIndexOutOfBoundsException exc) {
             //DROP because server accepts no other messages
             Logger.log(exc, con);
-            TaskProcesser.addTask(new Task(TaskTypes.LOGOFF,con,new String[] {} ));
+            TaskProcesser.addTask(new Task(TaskTypes.LOGOFF, con, new String[]{}));
             throw new VerificationException("Player sent command with missing information!");
-        }
-        catch(SQLException sqlexc){
+        } catch (SQLException sqlexc) {
             Protocol.sendCrippledModeNotification(con);
             Logger.log(sqlexc, con);
             return;
         }
     }
-    
-    private static String getRandomString(int length){
+
+    private static String getRandomString(int length) {
         StringBuffer s = new StringBuffer();
         for (int i = 0; i < length; i++) {
             int nextChar = (int) (Math.random() * 62);
@@ -520,5 +540,4 @@ public class CommandHandler {
         }
         return s.toString();
     }
-    
 }
