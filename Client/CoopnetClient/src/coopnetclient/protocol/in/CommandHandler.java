@@ -96,6 +96,7 @@ public final class CommandHandler {
                     if (TabOrganizer.getLoginPanel() != null) {
                         TabOrganizer.getLoginPanel().showError("Wrong username/password, please try again!", Color.red);
                         TabOrganizer.getLoginPanel().enableButtons();
+                        TabOrganizer.getLoginPanel().requestFocus();
                     } else {
                         TabOrganizer.openLoginPanel();
                     }

@@ -366,6 +366,7 @@ public class GameDatabase {
             for (String regKey : GameDatabase.getRegEntry(gamename, null)) {
                 String installPath = RegistryReader.read(regKey);
                 if (installPath != null) {
+                    //TODO remove trailing seperator
                     return installPath;
                 }
             }
@@ -410,6 +411,7 @@ public class GameDatabase {
             if (getLaunchMethod(ID) == LaunchMethods.DIRECTPLAY) {
                 for (String regKey : GameDatabase.getRegEntry(gamename, modName)) {
                     String installPath = RegistryReader.read(regKey);
+                    //TODO remove trailing seperator
                     if (installPath != null) {
                         int idx = regKey.lastIndexOf("\\");
                         String fileNameRegKey = regKey.substring(0, idx) + "\\File";

@@ -39,7 +39,11 @@ public class LoginPanel extends javax.swing.JPanel {
 
     @Override
     public void requestFocus() {
-        tf_name.requestFocusInWindow();
+        if(tf_name.getText().isEmpty()){
+                tf_name.requestFocusInWindow();
+        }else{
+           pf_password.requestFocusInWindow();
+        }
     }
 
     private void login() {
