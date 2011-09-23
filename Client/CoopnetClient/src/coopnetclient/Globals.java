@@ -65,6 +65,7 @@ public final class Globals {
     private static TransferTableModel transferModel = new TransferTableModel();
     private static ArrayList<String> higlightList = new ArrayList<String>();
     private static LinkedList<String> sentMessages = new LinkedList<String>();
+    private static LinkedList<String> visitedURLs = new LinkedList<String>();
 
     private Globals() {
     }
@@ -357,6 +358,16 @@ public final class Globals {
             return location.getParentFile();
         } else {
             return location.getParentFile().getParentFile();//loc is build/classes
+        }
+    }
+
+    public static boolean isVisitedURL(String url){
+        return visitedURLs.contains(url);
+    }
+
+    public static void addVisitedURL(String url){
+        if(!visitedURLs.contains(url)){
+            visitedURLs.add(url);
         }
     }
 }

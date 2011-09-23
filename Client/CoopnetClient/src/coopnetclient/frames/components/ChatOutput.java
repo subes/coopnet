@@ -55,10 +55,12 @@ public class ChatOutput extends JScrollPane {
         this.setAutoscrolls(true);
         textPane.setEditable(false);
         textPane.setAutoscrolls(true);
-        textPane.addMouseListener(new HyperlinkMouseListener());
+        HyperlinkMouseListener hyperlinkMouseListener = new HyperlinkMouseListener();
+        textPane.addMouseListener(hyperlinkMouseListener);
+        textPane.addMouseMotionListener(hyperlinkMouseListener);
        
         messages = new ArrayList<StyledChatMessage>();
-        StyledDocument doc = textPane.getStyledDocument();
+        //StyledDocument doc = textPane.getStyledDocument();
         //the next line prevents opening the forms that use this component
         //ColoredChatHandler.setupStyles(doc);
     }

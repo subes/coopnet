@@ -16,12 +16,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Coopnet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package coopnetclient.frames.listeners;
 
 import coopnetclient.ErrorHandler;
+import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.threads.ErrThread;
+import coopnetclient.utils.Logger;
+import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -38,8 +40,30 @@ import javax.swing.text.html.HTML;
 
 public class HyperlinkMouseListener extends MouseAdapter {
 
+    private String lastVisitedURL;
+    private long listVisitedTS;
+
     @Override
     public void mouseMoved(MouseEvent ev) {
+        Logger.log("MouseMoved");
+        JTextPane editor = (JTextPane) ev.getSource();
+        Point pt = new Point(ev.getX(), ev.getY());
+        int pos = editor.viewToModel(pt);
+        if (pos >= 0) {
+            Document doc = editor.getDocument();
+           
+            DefaultStyledDocument hdoc = (DefaultStyledDocument) doc;
+            Element el = hdoc.getCharacterElement(pos);
+            AttributeSet a = el.getAttributes();
+            final String href = (String) a.getAttribute(HTML.Attribute.HREF);
+            if (href != null) {
+                //change cursor to hand                
+                editor.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            } else {
+                //change cursor back to normal                
+                editor.setCursor(null);
+            }
+        }
     }
 
     /**
@@ -66,21 +90,35 @@ public class HyperlinkMouseListener extends MouseAdapter {
             AttributeSet a = el.getAttributes();
             final String href = (String) a.getAttribute(HTML.Attribute.HREF);
             if (href != null) {
-                new ErrThread(){
+                new ErrThread() {
+
                     @Override
                     public void handledRun() throws Throwable {
-                        openURL(href.trim());
+                        String url = href.trim();
+                        Globals.addVisitedURL(url);
+                        if(lastVisitedURL != null && lastVisitedURL.equals(url)){
+                            if(listVisitedTS + 1000 > System.currentTimeMillis() ){
+                                //prevent accidental double clicks
+                                return;
+                            }else{
+                                listVisitedTS = System.currentTimeMillis();
+                            }
+                        }else{
+                            lastVisitedURL = url;
+                        }
+
+                        openURL(url);
                     }
-                }.start();                
+                }.start();
             }
         }
     }
 
     public static void openURL(String address) {
-        if(address!=null && address.startsWith("room://")){
+        if (address != null && address.startsWith("room://")) {
             Protocol.joinRoomByID(address.substring(7), "");
             return;
-        }        
+        }
         try {
             Desktop desktop = null;
             if (Desktop.isDesktopSupported()) {
