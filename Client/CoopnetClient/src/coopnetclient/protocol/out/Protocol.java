@@ -150,8 +150,8 @@ public class Protocol {
         new Message(ClientProtocolCommands.SET_SLEEP, String.valueOf(enabled));
     }
 
-    public static void joinRoom(String channelName, String hostname, String password) {
-        String[] info = {GameDatabase.getIDofGame(channelName), hostname, password};
+    public static void joinRoom(String hostname, String password) {
+        String[] info = {hostname, password};
         new Message(ClientProtocolCommands.JOIN_ROOM, info);
     }
 

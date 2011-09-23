@@ -22,7 +22,6 @@ import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.threads.ErrThread;
-import coopnetclient.utils.Logger;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.Point;
@@ -45,13 +44,11 @@ public class HyperlinkMouseListener extends MouseAdapter {
 
     @Override
     public void mouseMoved(MouseEvent ev) {
-        Logger.log("MouseMoved");
         JTextPane editor = (JTextPane) ev.getSource();
         Point pt = new Point(ev.getX(), ev.getY());
         int pos = editor.viewToModel(pt);
         if (pos >= 0) {
             Document doc = editor.getDocument();
-           
             DefaultStyledDocument hdoc = (DefaultStyledDocument) doc;
             Element el = hdoc.getCharacterElement(pos);
             AttributeSet a = el.getAttributes();
@@ -106,7 +103,6 @@ public class HyperlinkMouseListener extends MouseAdapter {
                         }else{
                             lastVisitedURL = url;
                         }
-
                         openURL(url);
                     }
                 }.start();

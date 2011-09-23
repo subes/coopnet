@@ -521,7 +521,7 @@ public class ChannelPanel extends JPanel implements ClosableTab {
             String tmp = null;
             tmp = rooms.getSelectedHostName();
             if (tmp != null) {
-                Protocol.joinRoom(this.name, tmp, "");
+                Protocol.joinRoom(tmp, "");
                 disableButtons();
             }
         } catch (Exception e) {
