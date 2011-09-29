@@ -124,7 +124,9 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         Colorizer.colorize(this);
 
         chat("", theRoomData.getRoomName(), ChatStyles.USER);
-        chat("", "room://" + theRoomData.getRoomID(), ChatStyles.USER);
+
+        String channelID = GameDatabase.getShortName(theRoomData.getChannel()).replaceAll(" ", "_");
+        chat("", "room://" +channelID + "/" + theRoomData.getRoomID(), ChatStyles.USER);
 
         prgbar_connecting.setVisible(false);
 

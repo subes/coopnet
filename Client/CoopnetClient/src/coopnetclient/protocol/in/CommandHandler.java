@@ -537,7 +537,7 @@ public final class CommandHandler {
                     Globals.getContactList().removePendingRequest(information[0]);
                     break;
                 case ROOM_INVITE:
-                    FrameOrganizer.getClientFrame().printPrivateChatMessage(information[0], "Come to my room room://" + information[1] + " at " + GameDatabase.getGameName(information[2]));
+                    FrameOrganizer.getClientFrame().printPrivateChatMessage(information[0], "Come to my room room://" + GameDatabase.getShortName( GameDatabase.getGameName(information[2])).replaceAll(" ", "_")+"/"+information[1] );
                     break;
                 case YOUR_IP_IS:
                     Globals.setClientIP(information[0]);
