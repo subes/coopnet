@@ -52,10 +52,6 @@
         <copy todir="${server.release.dir.lib}">
             <fileset dir="${nbproject.server.dir.lib}"/>
         </copy>
-        <!-- copy servers data -->
-        <copy todir="${server.release.dir.data}">
-            <fileset dir="${nbproject.server.dir.data}"/>
-        </copy>
         <!-- copy servers releasefiles -->
         <copy todir="${server.release.dir}">
             <fileset dir="${releasefiles.dir}">
