@@ -32,6 +32,7 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -253,9 +254,9 @@ public class Protocol {
         new Message(to, from, ServerProtocolCommands.ROOM_INVITE, info);
     }
 
-    public static void gameClosed(Channel to, Player roomHost){
-        String[] info = {to.ID,roomHost.getLoginName()};
-        for (Player p : to.getPlayersInChannel()) {
+    public static void gameClosed(String channelID, Player roomHost, Player[] recipients){
+        String[] info = {channelID,roomHost.getLoginName()};
+        for (Player p : recipients) {
             new Message(p.getConnection(), ServerProtocolCommands.GAME_CLOSED, info);
         }
     }

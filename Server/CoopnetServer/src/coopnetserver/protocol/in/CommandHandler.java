@@ -267,7 +267,17 @@ public class CommandHandler {
                         }
                         return;
                     case GAME_CLOSED:
-                        Protocol.gameClosed(ChannelData.getChannel(information[0]), thisPlayer);
+                        Channel ch = ChannelData.getChannel(information[0]);
+                        Player[] recipients = null;
+                        if(ch!= null){
+                            recipients = ch.getPlayersInChannel();
+                        }
+                        else if(thisPlayer.getCurrentRoom() != null){
+                            recipients = thisPlayer.getCurrentRoom().getPlayers();
+                        }else{
+                            recipients = new Player[0];
+                        }
+                        Protocol.gameClosed(information[0], thisPlayer,recipients);
                         thisPlayer.setPlaying(false);
                         thisPlayer.setSleepMode(false);
                         if (thisPlayer.getCurrentRoom() != null && thisPlayer.getCurrentRoom().isInstantLaunched()) {
