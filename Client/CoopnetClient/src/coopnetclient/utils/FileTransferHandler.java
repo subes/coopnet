@@ -101,7 +101,7 @@ public class FileTransferHandler {
                         int speed = (int) ((processedBytes - lastBytePosition) / tmp); //Byte per millisec / kilobyte per sec
                         feedBackSpeed(speed);
                         speedtmptime = currenttime;
-                        progress = (int) ((((processedBytes) * 1.0) / (totalsize - firstByteToSend)) * 100);
+                        progress = (int) ((((firstByteToSend + processedBytes) * 1.0) / (totalsize )) * 100);
                         feedBackProgress(progress);
 
                         if (processedBytes > 0 && speed > 0) {
