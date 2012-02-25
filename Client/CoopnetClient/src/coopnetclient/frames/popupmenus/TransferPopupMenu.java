@@ -52,7 +52,7 @@ public class TransferPopupMenu extends JPopupMenu implements ActionListener {
         this.add(new JSeparator());
         remove = makeMenuItem("Remove transfer");
         this.add(remove);
-        clear = makeMenuItem("Remove all ended transfers");
+        clear = makeMenuItem("Remove all inactive transfers");
         this.add(clear);
     }
 
@@ -98,7 +98,7 @@ public class TransferPopupMenu extends JPopupMenu implements ActionListener {
             }
         } else if (command.equals("Remove transfer")) {
             Globals.getTransferModel().removeTransfer(index);
-        } else if (command.equals("Remove all ended transfers")) {
+        } else if (command.equals("Remove all inactive transfers")) {
             Globals.getTransferModel().removeAllEndedTransfers();
         }
     }

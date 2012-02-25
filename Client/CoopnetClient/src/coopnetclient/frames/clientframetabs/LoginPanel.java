@@ -147,6 +147,11 @@ public class LoginPanel extends javax.swing.JPanel {
                 pf_passwordFocusGained(evt);
             }
         });
+        pf_password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pf_passwordKeyPressed(evt);
+            }
+        });
 
         btn_login.setMnemonic(KeyEvent.VK_L);
         btn_login.setText("Login");
@@ -289,12 +294,6 @@ private void pf_passwordCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIR
     } else {
         btn_login.setEnabled(false);
     }
-    if (toolkit.getLockingKeyState(KeyEvent.VK_CAPS_LOCK)) {
-        lbl_loginError.setForeground(Color.BLACK);
-        lbl_loginError.setText("Warning: Caps Lock is ON!");
-    } else {
-        lbl_loginError.setText("");
-    }
 }//GEN-LAST:event_pf_passwordCaretUpdate
 
 private void tf_nameCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_tf_nameCaretUpdate
@@ -314,13 +313,16 @@ private void tf_nameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:even
 private void pf_passwordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pf_passwordFocusGained
     pf_password.setSelectionStart(0);
     pf_password.setSelectionEnd(pf_password.getPassword().length);
-    if (toolkit.getLockingKeyState(KeyEvent.VK_CAPS_LOCK)) {
-        lbl_loginError.setForeground(Color.BLACK);
-        lbl_loginError.setText("Warning: Caps Lock is ON!");
-    } else {
-        lbl_loginError.setText("");
-    }
 }//GEN-LAST:event_pf_passwordFocusGained
+
+    private void pf_passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pf_passwordKeyPressed
+        if (toolkit.getLockingKeyState(KeyEvent.VK_CAPS_LOCK)) {
+            lbl_loginError.setForeground(Color.BLACK);
+            lbl_loginError.setText("Warning: Caps Lock is ON!");
+        } else {
+            lbl_loginError.setText("");
+        }
+    }//GEN-LAST:event_pf_passwordKeyPressed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_login;
     private javax.swing.JButton btn_passwordRecovery;
