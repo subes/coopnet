@@ -40,11 +40,8 @@ public class RegistryReaderTest extends AbstractCoopnetClientTest {
         fullpath = "SOFTWARE";
         Assert.assertNull(RegistryReader.read(fullpath));
 
-        try{
-            fullpath = null;
-            RegistryReader.read(fullpath);
-            Assert.fail();
-        }catch(NullPointerException e){}
+        fullpath = null;
+        Assert.assertNull(RegistryReader.read(fullpath));
 
         fullpath = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion";
         Assert.assertNull(RegistryReader.read(fullpath));

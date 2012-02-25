@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -56,7 +57,7 @@ public class TransferTableModel extends DefaultTableModel {
             this.peerName = peer;
             this.fileName = filename;
             this.ID = UUID.randomUUID();
-            this.handler = new FileTransferHandler(ID,peer, sentFile);
+            this.handler = new FileTransferHandler(ID, peer, sentFile);
             this.status = TransferStatuses.Waiting;
             this.render = new TransferStatusButtonComponent();
         }
@@ -69,6 +70,7 @@ public class TransferTableModel extends DefaultTableModel {
             this.status = TransferStatuses.Waiting;
             this.handler = new FileTransferHandler(ID, peerName, size, fileName, ip, port);
             this.render = new TransferStatusButtonComponent();
+            this.handler.setResuming(true);//default resume
         }
 
         public void startSend(String ip, String port, long firstByte) {
@@ -80,22 +82,23 @@ public class TransferTableModel extends DefaultTableModel {
         }
     }
     //end of inner class
-    private String[] columnNames = {"Type", "Status", "Peer", "Filename",  "Progress", "Time left", "Speed"};
+    private String[] columnNames = {"Type", "Status", "Peer", "Filename", "Progress", "Time left", "Speed"};
     private ArrayList<Transfer> transfers;
-
 
     {
         transfers = new ArrayList<Transfer>();
     }
 
-    /** Creates a new instance of MyTableModel */
+    /**
+     * Creates a new instance of MyTableModel
+     */
     public TransferTableModel() {
         super();
     }
 
-    public boolean isAnyTransferActive(){
-        for(Transfer t : transfers){
-            if(t.status == TransferStatuses.Starting || t.status == TransferStatuses.Transferring){
+    public boolean isAnyTransferActive() {
+        for (Transfer t : transfers) {
+            if (t.status == TransferStatuses.Starting || t.status == TransferStatuses.Transferring) {
                 return true;
             }
         }
@@ -106,7 +109,7 @@ public class TransferTableModel extends DefaultTableModel {
         if (!findActiveSendTransfer(peer, filename)) {
             Transfer t = new Transfer(peer, filename, sentFile);
             transfers.add(0, t);
-            fireTableRowsInserted(0,0);
+            fireTableRowsInserted(0, 0);
             return true;
         } else {
             JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
@@ -119,14 +122,14 @@ public class TransferTableModel extends DefaultTableModel {
     public void addRecieveTransfer(String sender, String size, String filename, String ip, String port) {
         Transfer t = new Transfer(sender, Long.valueOf(size), filename, ip, port);
         transfers.add(0, t);
-        fireTableRowsInserted(0,0);
+        fireTableRowsInserted(0, 0);
     }
 
     public void acceptFile(int index) {
         Transfer t = transfers.get(index);
         if (t.status == TransferStatuses.Waiting) {
             t.handler.startRecieve();
-        }else{
+        } else {
             Logger.log(LogTypes.WARNING, "Cant accept file, bad status:" + t.status);
         }
         fireTableCellUpdated(index, 1);
@@ -183,7 +186,7 @@ public class TransferTableModel extends DefaultTableModel {
     public void peerCancelledTransfer(String peerName, String fileName) {
         Transfer tf = null;
         for (Transfer t : transfers) {
-            if ( t.peerName.equals(peerName) && t.fileName.equals(fileName) &&(t.status == TransferStatuses.Waiting || t.status == TransferStatuses.Starting || t.status == TransferStatuses.Transferring || t.status == TransferStatuses.Error || t.status == TransferStatuses.Failed)) {
+            if (t.peerName.equals(peerName) && t.fileName.equals(fileName) && (t.status == TransferStatuses.Waiting || t.status == TransferStatuses.Starting || t.status == TransferStatuses.Transferring || t.status == TransferStatuses.Error || t.status == TransferStatuses.Failed)) {
                 tf = t;
             }
         }
@@ -249,8 +252,8 @@ public class TransferTableModel extends DefaultTableModel {
         return transfers.get(index).status;
     }
 
-    public File getDestFile(int index) throws IOException{
-        switch(transfers.get(index).type){
+    public File getDestFile(int index) throws IOException {
+        switch (transfers.get(index).type) {
             case RECIEVE_TYPE:
                 return transfers.get(index).handler.getDestinationFile();
             case SEND_TYPE:
@@ -283,7 +286,7 @@ public class TransferTableModel extends DefaultTableModel {
     public void updateProgress(UUID ID, int value) {
         for (Transfer t : transfers) {
             if (t.ID.equals(ID)) {
-                if(t.progress < value){
+                if (t.progress < value) {
                     t.progress = value;
                     fireTableCellUpdated(transfers.indexOf(t), 4);
                 }
@@ -380,10 +383,10 @@ public class TransferTableModel extends DefaultTableModel {
         fireTableRowsDeleted(index, index);
     }
 
-    public void removeAllEndedTransfers(){
-        for(int i = 0; i <transfers.size(); ){
+    public void removeAllEndedTransfers() {
+        for (int i = 0; i < transfers.size();) {
             Transfer t = transfers.get(i);
-            switch(t.status){
+            switch (t.status) {
                 case Cancelled:
                 case Error:
                 case Failed:
@@ -406,24 +409,24 @@ public class TransferTableModel extends DefaultTableModel {
     }
 
     @Override
-    public void fireTableCellUpdated(int row, int col){
+    public void fireTableCellUpdated(int row, int col) {
         super.fireTableCellUpdated(row, col);
-        if(TabOrganizer.getTransferPanel()!=null &&col == 1){
+        if (TabOrganizer.getTransferPanel() != null && col == 1) {
             TabOrganizer.getTransferPanel().rowUpdated(row);
         }
     }
 
-     @Override
-    public void fireTableRowsDeleted(int start, int end){
+    @Override
+    public void fireTableRowsDeleted(int start, int end) {
         super.fireTableRowsDeleted(start, end);
         TabOrganizer.getTransferPanel().UpdateDetails();
     }
 
-    public int getTransferType(int idx){
+    public int getTransferType(int idx) {
         return transfers.get(idx).type;
     }
 
-    public boolean getResume(int idx){
+    public boolean getResume(int idx) {
         return transfers.get(idx).handler.getResuming();
     }
 
@@ -439,6 +442,15 @@ public class TransferTableModel extends DefaultTableModel {
         fireTableDataChanged();
     }
 
+    public boolean destFileExists(int idx) {
+        try {
+            File file = transfers.get(idx).handler.getDestFile();
+            return file != null && file.exists();
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
     private String getTimeLeft(long timeInSeconds) {
         final int seconds;
         final int minutes;
@@ -448,6 +460,6 @@ public class TransferTableModel extends DefaultTableModel {
         minutes = (int) (timeInSeconds % 60);
         timeInSeconds = timeInSeconds / 60;
         hours = (int) timeInSeconds;
-        return (hours + ":" + minutes + ":" + seconds);
+        return ((hours < 10 ? "0" : "") + hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
     }
 }

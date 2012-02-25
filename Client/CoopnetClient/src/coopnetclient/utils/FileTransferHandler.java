@@ -18,17 +18,12 @@
  */
 package coopnetclient.utils;
 
-import coopnetclient.utils.settings.Settings;
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.protocol.out.Protocol;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import coopnetclient.utils.settings.Settings;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -134,11 +129,7 @@ public class FileTransferHandler {
 
     public boolean setResuming(boolean value) {
         resuming = value;
-        if (!resuming) {
-            firstByteToSend = 0;
-        } else {
-            setResuming();
-        }
+        setResuming();
         return resuming;
     }
 
@@ -195,29 +186,34 @@ public class FileTransferHandler {
         }
     }
 
-    private boolean setResuming() {
+    private void setResuming() {
         try {
             File checkthis = getDestFile();
+            if(!checkthis.exists()){
+                firstByteToSend = 0;
+                resuming = false;
+                return;
+            }
             long currentsize = checkthis.length();
             if (totalsize <= currentsize) {
                 firstByteToSend = 0;
                 JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
-                        "<html>The existing file is larger or equal to the file sent!<br>Probably not the same file!",
+                        "<html>The existing file is larger or equal to the file sent!<br>Creating new file!",
                         "Cannot resume file!", JOptionPane.ERROR_MESSAGE);
-                return false;
+                firstByteToSend = 0;
+                resuming = false;
+                return;
             }
             firstByteToSend = currentsize + 1;
             resuming = true;
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
             firstByteToSend = 0;
             resuming = false;
-            return false;
         }
     }
 
-    private File getDestFile() throws IOException {
+    public File getDestFile() throws IOException {
         File dest;
         String fullpath = savePath;
         if (!(new File(fullpath).exists())) {

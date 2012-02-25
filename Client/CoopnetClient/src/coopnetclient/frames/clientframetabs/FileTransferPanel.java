@@ -21,12 +21,12 @@ package coopnetclient.frames.clientframetabs;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
 import coopnetclient.enums.TransferStatuses;
+import coopnetclient.frames.components.TransferStatusButtonComponent;
 import coopnetclient.frames.interfaces.ClosableTab;
 import coopnetclient.frames.models.TransferTableModel;
+import coopnetclient.frames.popupmenus.TransferPopupMenu;
 import coopnetclient.frames.renderers.TableTextCellRenderer;
 import coopnetclient.frames.renderers.TransferProgressRenderer;
-import coopnetclient.frames.components.TransferStatusButtonComponent;
-import coopnetclient.frames.popupmenus.TransferPopupMenu;
 import coopnetclient.frames.renderers.TransferStatusRenderer;
 import coopnetclient.frames.renderers.TransferTypeRenderer;
 import coopnetclient.utils.Verification;
@@ -237,6 +237,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
         pnl_details.add(btn_browse, gridBagConstraints);
 
         cb_resume.setMnemonic(KeyEvent.VK_R);
+        cb_resume.setSelected(true);
         cb_resume.setText("Resume file");
         cb_resume.setFocusable(false);
         cb_resume.setNextFocusableComponent(tbl_transfers);
@@ -397,7 +398,7 @@ public class FileTransferPanel extends javax.swing.JPanel implements ClosableTab
                 TransferStatuses status = model.getTransferStatus(idx);
                 switch (status) {
                     case Waiting:
-                        cb_resume.setEnabled(true);
+                        cb_resume.setEnabled(model.destFileExists(idx));//if file already exists
                         btn_browse.setEnabled(true);
                         tf_savePath.setEnabled(true);
                         break;

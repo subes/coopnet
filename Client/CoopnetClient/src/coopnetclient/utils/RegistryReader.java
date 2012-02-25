@@ -29,18 +29,17 @@ import java.util.ArrayList;
 public class RegistryReader {
 
     private static final String REG_UTIL = "reg ";
-    private static final String REG_QUERY_UTIL = "query \"";    
-    private static final String REG_WRITE_UTIL = "add \"";  
-    private static final String REG_VALUE_UTIL = "\" /v \"";    
+    private static final String REG_QUERY_UTIL = "query \"";
+    private static final String REG_WRITE_UTIL = "add \"";
+    private static final String REG_VALUE_UTIL = "\" /v \"";
     private static final String REG_WRITE_DATA_UTIL = "\" /f /d \"";
     private static final String REGSTR_TOKEN = "REG_SZ";
     private static final String REGDWORD_TOKEN = "REG_DWORD";
-    private static String command="";
+    private static String command = "";
 
     /*
      * TODO change all regkeys of dplay to directplay/appliactions
      */
-    
     private RegistryReader() {
     }
 
@@ -60,27 +59,30 @@ public class RegistryReader {
                 init();
             }
             int idx = fullPath.lastIndexOf("\\");
+            if (idx == -1) {
+                return null;
+            }
             String nodePath = fullPath.substring(0, idx);
             String key = fullPath.substring(idx + 1);
-            String cmd = command +REG_QUERY_UTIL+ nodePath + REG_VALUE_UTIL + key+"\"";
-            
+            String cmd = command + REG_QUERY_UTIL + nodePath + REG_VALUE_UTIL + key + "\"";
+
             //remove Wow6432Node from registry path as it is still working well on XP without it
-            if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS_XP){
+            if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS_XP || Globals.getOperatingSystem() == OperatingSystems.LINUX) {
                 cmd = cmd.replace("Wow6432Node\\", "");
             }
-            
+
             Process process = Runtime.getRuntime().exec(cmd);
-           
+
             Logger.log(LogTypes.REGISTRY, cmd);
             StreamReader reader = new StreamReader(process.getInputStream());
 
             process.waitFor();
-            reader.start();            
+            reader.start();
             reader.join();
 
             String result = reader.getResult();
             int p = result.indexOf(REGSTR_TOKEN);
-            
+
             if (p == -1) {
                 p = result.indexOf(REGDWORD_TOKEN);
                 if (p != -1) {
@@ -94,8 +96,10 @@ public class RegistryReader {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        Logger.log(LogTypes.REGISTRY, ret==null?"null":ret);
+        if (ret != null && ret.length() == 0) {
+            ret = null;
+        }
+        Logger.log(LogTypes.REGISTRY, ret == null ? "null" : ret);
         return ret;
     }
 
@@ -111,29 +115,28 @@ public class RegistryReader {
         }
         return null;
     }
-    
-    public static void write(String nodePath,String keyName,String value) {
+
+    public static void write(String nodePath, String keyName, String value) {
         try {
             if (command.isEmpty()) {
                 init();
             }
-            
-            String cmd = command +REG_WRITE_UTIL+ nodePath + REG_VALUE_UTIL + keyName+REG_WRITE_DATA_UTIL + value + "\"" ;
-            
+
+            String cmd = command + REG_WRITE_UTIL + nodePath + REG_VALUE_UTIL + keyName + REG_WRITE_DATA_UTIL + value + "\"";
+
             //remove Wow6432Node from registry path as it is still working well on XP without it
-            if(Globals.getOperatingSystem() == OperatingSystems.WINDOWS_XP){
+            if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS_XP) {
                 cmd = cmd.replace("Wow6432Node\\", "");
             }
-            
-            Process process = Runtime.getRuntime().exec(cmd);           
+
+            Process process = Runtime.getRuntime().exec(cmd);
             Logger.log(LogTypes.REGISTRY, cmd);
             process.waitFor();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     static class StreamReader extends Thread {
 
@@ -151,11 +154,11 @@ public class RegistryReader {
                 int c;
                 while ((c = is.read()) != -1) {
                     sw.write(c);
-                }                
+                }
             } catch (IOException e) {
-                
+
                 e.printStackTrace();
-                
+
             }
         }
 
