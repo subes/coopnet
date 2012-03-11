@@ -67,5 +67,6 @@ public enum ClientProtocolCommands {
     UNMUTE,
     REQUEST_PROFILE,     
     SAVE_PROFILE,
-    PASSWORD_RECOVERY
+    PASSWORD_RECOVERY,
+    CONNECTION_TEST_REQUEST
 }

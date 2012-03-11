@@ -20,22 +20,13 @@ package coopnetclient.frames;
 
 import coopnetclient.ErrorHandler;
 import coopnetclient.enums.LogTypes;
-import coopnetclient.frames.clientframetabs.TabOrganizer;
-import coopnetclient.frames.popupmenus.TrayPopupMenu;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.OnlineClientData;
 import coopnetclient.utils.RoomData;
 import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.ui.CoopnetTrayIcon;
-import coopnetclient.utils.ui.Icons;
-import java.awt.AWTException;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 

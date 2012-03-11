@@ -20,7 +20,6 @@ package coopnetclient.protocol.in;
 
 import coopnetclient.Client;
 import coopnetclient.Globals;
-import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.ContactListElementTypes;
 import coopnetclient.enums.LogTypes;
@@ -29,19 +28,20 @@ import coopnetclient.frames.ChangePasswordFrame;
 import coopnetclient.frames.EditProfileFrame;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.GameSettingsFrame;
-import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.clientframetabs.ChannelPanel;
+import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.protocol.out.Message;
-import coopnetclient.utils.settings.Settings;
-import coopnetclient.utils.ui.SoundPlayer;
-import coopnetclient.utils.ui.FrameIconFlasher;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
-import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.MuteBanList;
 import coopnetclient.utils.RoomData;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.launcher.TempGameSettings;
+import coopnetclient.utils.settings.Settings;
+import coopnetclient.utils.ui.FrameIconFlasher;
+import coopnetclient.utils.ui.SoundPlayer;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
@@ -105,8 +105,8 @@ public final class CommandHandler {
                     TabOrganizer.closeRegisterPanel();
                     TabOrganizer.openLoginPanel();
                     JOptionPane.showMessageDialog(FrameOrganizer.getClientFrame(),
-                            "<html><b>Thank you for registering!</b>\n" +
-                            "You may login now.", "Successfully registered",
+                            "<html><b>Thank you for registering!</b>\n"
+                            + "You may login now.", "Successfully registered",
                             JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case LOGINNAME_IN_USE:
@@ -134,7 +134,11 @@ public final class CommandHandler {
                         TabOrganizer.openLoginPanel();
                     }
                     break;
-                default:break;
+                case YOUR_IP_IS:
+                    Globals.setClientIP(information[0]);
+                    break;
+                default:
+                    break;
             }
         } else {//logged-in commands
             String currentChannelName = null; //current channelname , correct where its expected, garbage otherwise
@@ -186,14 +190,15 @@ public final class CommandHandler {
                     GameDatabase.load(currentChannelName, GameDatabase.dataFilePath);
                     TabOrganizer.openChannelPanel(currentChannelName);
                     cp = TabOrganizer.getChannelPanel(currentChannelName);
-                    for(int i = 1; i < information.length;++i){
+                    for (int i = 1; i < information.length; ++i) {
                         cp.addPlayerToChannel(information[i]);
                     }
                     break;
                 case JOIN_ROOM:
-                    RoomData rd = new RoomData(false, currentChannelName, Integer.valueOf(information[4]), information[1], information[2], Integer.valueOf(information[3]), information[5], information[6], Long.valueOf(information[7]), information[8], Boolean.valueOf(information[9]), false);
+                    RoomData rd = new RoomData(false, currentChannelName, Integer.valueOf(information[3]), Protocol.decodeIPMap(information[1]), Integer.valueOf(information[2]), information[4], information[5], Long.valueOf(information[6]), information[7], Boolean.valueOf(information[8]), false);
                     TabOrganizer.openRoomPanel(rd);
-                    for(int i = 10;i < information.length;++i){
+                    //add players to room
+                    for (int i = 9; i < information.length; ++i) {
                         TabOrganizer.getRoomPanel().addMember(information[i]);
                     }
                     break;
@@ -240,7 +245,7 @@ public final class CommandHandler {
                     FrameOrganizer.showWrongPasswordNotification();
                     break;
                 case CREATE_ROOM:
-                    rd = new RoomData(true, currentChannelName, Integer.valueOf(information[2]), Globals.getClientIP(), Client.getHamachiAddress(), Integer.valueOf(information[1]), Globals.getThisPlayerLoginName(), information[3], Long.valueOf(information[4]), information[5], Boolean.valueOf(information[6]), false);
+                    rd = new RoomData(true, currentChannelName, Integer.valueOf(information[2]), Globals.getInterfaceIPMap(), Integer.valueOf(information[1]), Globals.getThisPlayerLoginName(), information[3], Long.valueOf(information[4]), information[5], Boolean.valueOf(information[6]), false);
                     TabOrganizer.openRoomPanel(rd);
                     break;
                 case LEAVE_ROOM:
@@ -361,14 +366,14 @@ public final class CommandHandler {
                 case PASSWORD_CHANGED:
                     FrameOrganizer.closeChangePasswordFrame();
                     EditProfileFrame editProfile = FrameOrganizer.getEditProfileFrame();
-                    if(editProfile != null && !editProfile.isDirty()){
+                    if (editProfile != null && !editProfile.isDirty()) {
                         FrameOrganizer.closeEditProfileFrame();
                     }
                     FrameOrganizer.getClientFrame().printSystemMessage("Password has been changed!", false);
                     break;
                 case ERROR_INCORRECT_PASSWORD:
                     ChangePasswordFrame pwFrame = FrameOrganizer.getChangePasswordFrame();
-                    if(pwFrame != null){
+                    if (pwFrame != null) {
                         pwFrame.showIncorrectPassword();
                     }
                     break;
@@ -481,8 +486,8 @@ public final class CommandHandler {
                         @Override
                         public void run() {
                             String gameName = GameDatabase.getGameName(tmp[0]);
-                            String modName = GameDatabase.getModByIndex(gameName, new Integer(tmp[1]));
-                            RoomData rdt = new RoomData(false, gameName, Integer.valueOf(tmp[1]), tmp[2], tmp[2], -1, "", "", 0l, tmp[3], false, true);
+                            RoomData rdt = new RoomData(false, gameName, Integer.valueOf(tmp[1]), Protocol.decodeIPMap(tmp[2]), -1, "", "", 0l, tmp[3], false, true);
+                            //TODO select default interface from new setting
                             boolean launch = Launcher.initInstantLaunch(rdt);
                             if (launch) {
                                 int idx = 5;//start of settigns
@@ -537,10 +542,7 @@ public final class CommandHandler {
                     Globals.getContactList().removePendingRequest(information[0]);
                     break;
                 case ROOM_INVITE:
-                    FrameOrganizer.getClientFrame().printPrivateChatMessage(information[0], "Come to my room room://" + GameDatabase.getShortName( GameDatabase.getGameName(information[2])).replaceAll(" ", "_")+"/"+information[1] );
-                    break;
-                case YOUR_IP_IS:
-                    Globals.setClientIP(information[0]);
+                    FrameOrganizer.getClientFrame().printPrivateChatMessage(information[0], "Come to my room room://" + GameDatabase.getShortName(GameDatabase.getGameName(information[2])).replaceAll(" ", "_") + "/" + information[1]);
                     break;
                 case SETAWAYSTATUS:
                     for (int j = 0; (cp = TabOrganizer.getChannelPanel(j)) != null; ++j) {
@@ -557,6 +559,9 @@ public final class CommandHandler {
                     if (TabOrganizer.getRoomPanel() != null) {
                         TabOrganizer.getRoomPanel().unSetAway(information[0]);
                     }
+                    break;
+                case CONNECTION_TEST_REQUEST:
+                    CommandMethods.testConnection(information);
                     break;
                 default:
                     Logger.log(LogTypes.ERROR, "Server sent a command which wasn't handled!");

@@ -21,7 +21,6 @@ package coopnetclient;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.OperatingSystems;
 import coopnetclient.frames.FrameOrganizer;
-import coopnetclient.utils.settings.Settings;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.frames.models.ContactListModel;
 import coopnetclient.frames.models.TransferTableModel;
@@ -31,6 +30,7 @@ import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
 import coopnetclient.utils.settings.Favourites;
+import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.settings.SettingsHelper;
 import coopnetclient.utils.ui.Colorizer;
 import coopnetclient.utils.ui.Colors;
@@ -39,12 +39,17 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public final class Globals {
 
     //Increment this, when changes to the protocol commands have been done
     public static final String DEVELOPMENT_VERSION = "DEVELOPMENT";
+    public static final String INTERNET_INTERFACE_NAME = "Internet";
+    public static final String HAMACHI_INTERFACE_NAME = "hamachi";
+    public static final String TUNNGLE_INTERFACE_NAME = "tunngle";
     private static String compatibilityVersion;
     private static String clientVersion;
     private static OperatingSystems operatingSystem;
@@ -84,21 +89,23 @@ public final class Globals {
         lastRoomName = theLastRoomName;
     }
 
-    /*******************************************************************/
+    /**
+     * ****************************************************************
+     */
     public static void preInit() {
         //Detect Clientversion
         Package thisPackage = Globals.class.getPackage();
         String implementationVersion = thisPackage.getImplementationVersion();
-        if(implementationVersion != null){
+        if (implementationVersion != null) {
             clientVersion = implementationVersion;
-        }else{
+        } else {
             clientVersion = DEVELOPMENT_VERSION;
         }
         //Detect Compatibilityversion
         String specificationVersion = thisPackage.getSpecificationVersion();
-        if(specificationVersion != null){
+        if (specificationVersion != null) {
             compatibilityVersion = specificationVersion;
-        }else{
+        } else {
             compatibilityVersion = DEVELOPMENT_VERSION;
         }
 
@@ -106,9 +113,9 @@ public final class Globals {
         final String lineSeperator = System.getProperty("line.separator");
 
         if (lineSeperator.equals("\r\n")) {
-            if(System.getProperty("os.name").toLowerCase().contains("windows 7")){
+            if (System.getProperty("os.name").toLowerCase().contains("windows 7")) {
                 operatingSystem = OperatingSystems.WINDOWS_7;
-            }else{
+            } else {
                 operatingSystem = OperatingSystems.WINDOWS_XP;
             }
         } else {
@@ -135,7 +142,7 @@ public final class Globals {
      * @param compatibilityVersion
      * @param clientVersion
      */
-    public static void overrideVersion(String compatibilityVersion, String clientVersion){
+    public static void overrideVersion(String compatibilityVersion, String clientVersion) {
         Globals.compatibilityVersion = compatibilityVersion;
         Globals.clientVersion = clientVersion;
     }
@@ -165,26 +172,26 @@ public final class Globals {
         wineCommand = Settings.getWineCommand();
     }
 
-    public static synchronized String getLastSentMessage(int messageIndex){
-        return sentMessages.get(messageIndex) ;
+    public static synchronized String getLastSentMessage(int messageIndex) {
+        return sentMessages.get(messageIndex);
     }
 
-    public static synchronized int getLastSentMessageCount(){
+    public static synchronized int getLastSentMessageCount() {
         return sentMessages.size();
     }
 
-    public static synchronized void storeSentMessage(String msg){
+    public static synchronized void storeSentMessage(String msg) {
         sentMessages.add(msg);
-        if(sentMessages.size() >= 30){
+        if (sentMessages.size() >= 30) {
             sentMessages.removeFirst();
         }
     }
 
-    public static String getClientVersion(){
+    public static String getClientVersion() {
         return clientVersion;
     }
 
-    public static String getCompatibilityVersion(){
+    public static String getCompatibilityVersion() {
         return compatibilityVersion;
     }
 
@@ -293,6 +300,7 @@ public final class Globals {
     public static void setThisPlayerInGameName(String value) {
         thisPlayerInGameName = value;
         new ErrThread() {
+
             @Override
             public void handledRun() throws Throwable {
                 Launcher.updatePlayerName();
@@ -361,13 +369,39 @@ public final class Globals {
         }
     }
 
-    public static boolean isVisitedURL(String url){
+    public static boolean isVisitedURL(String url) {
         return visitedURLs.contains(url);
     }
 
-    public static void addVisitedURL(String url){
-        if(!visitedURLs.contains(url)){
+    public static void addVisitedURL(String url) {
+        if (!visitedURLs.contains(url)) {
             visitedURLs.add(url);
         }
+    }
+
+    public static Map<String, String> getInterfaceIPMap() {
+        Map<String, String> interfaceToIP = new HashMap<String, String>();
+        interfaceToIP.put(INTERNET_INTERFACE_NAME, clientIP);
+        String hamachiIP = Client.getInterfaceAddress(HAMACHI_INTERFACE_NAME);
+        if (hamachiIP != null) {
+            interfaceToIP.put(HAMACHI_INTERFACE_NAME, hamachiIP);
+        }
+        String tunngleIP = Client.getInterfaceAddress(TUNNGLE_INTERFACE_NAME);
+        if (tunngleIP != null) {
+            interfaceToIP.put(TUNNGLE_INTERFACE_NAME, tunngleIP);
+        }
+        return interfaceToIP;
+    }
+    
+    
+    public static Map<String, String> getMatchingInterfaceIPMap(Map<String, String> hostsIPMap){
+        Map<String, String> matchingIntefaceMap = new HashMap<String,String>();
+        Map<String, String> localMap= getInterfaceIPMap();
+        for (String key : hostsIPMap.keySet()) {
+            if(localMap.containsKey(key)){
+                matchingIntefaceMap.put(key, hostsIPMap.get(key));
+            }
+        }
+        return matchingIntefaceMap;
     }
 }

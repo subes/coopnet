@@ -19,21 +19,21 @@
 package coopnetserver.protocol.out;
 
 import coopnetserver.Globals;
-import coopnetserver.enums.ServerProtocolCommands;
-import coopnetserver.protocol.*;
-import coopnetserver.data.channel.ChannelData;
-import coopnetserver.data.room.Room;
-import coopnetserver.data.player.Player;
 import coopnetserver.data.channel.Channel;
+import coopnetserver.data.channel.ChannelData;
 import coopnetserver.data.connection.Connection;
+import coopnetserver.data.player.Player;
+import coopnetserver.data.room.Room;
 import coopnetserver.enums.ContactListElementTypes;
+import coopnetserver.enums.ServerProtocolCommands;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 import java.sql.SQLException;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 
 public class Protocol {
@@ -58,6 +58,24 @@ public class Protocol {
         }
     }
 
+    public static String encodeIPMap(Map<String,String> source){
+        StringBuilder sb = new StringBuilder();
+        for (String key : source.keySet()) {
+            sb.append(key + "=" + source.get(key)+";");
+        }
+        return sb.toString();
+    }
+    
+    public static Map<String,String> decodeIPMap(String input){
+        Map<String,String> map = new HashMap<String,String>();
+        String[] entries = input.split(";");
+        for (String entry : entries) {
+            String[] pair = entry.split("=");
+            map.put(pair[0], pair[1]);
+        }
+        return map;
+    }
+    
     public static void sendProtocolVersion(Connection to){
         new Message(to, ServerProtocolCommands.COMPATIBILITY_VERSION, Globals.getCompatibilityVersion());
     }
@@ -189,7 +207,7 @@ public class Protocol {
     public static void sendInstantLaunchCommand(Connection to, Room room) {
         String[] info1 = {room.parent.ID,
                         room.getModIndex(), 
-                        room.getHost().getConnection().getIpAddress(),
+                        encodeIPMap(room.getInterfaceIPs()),
                         room.getPassword() };
         String[] info2 = new String[info1.length + 2*(room.getSettings().size())];
         System.arraycopy(info1, 0, info2, 0,info1.length );
@@ -434,8 +452,7 @@ public class Protocol {
 
     public static void joinRoom(Connection to, Channel on, Room room) {
         String[] info = {on.ID,
-                        room.getHost().getConnection().getIpAddress(),
-                        room.getHamachiIp(),
+                        encodeIPMap(room.getInterfaceIPs()),
                         String.valueOf(room.getLimit()),
                         String.valueOf(room.getModIndex()),
                         room.getHost().getLoginName(),
@@ -531,6 +548,10 @@ public class Protocol {
 
     public static void sendRemoveRequest(Player to, Player who){
         new Message(to.getConnection(), ServerProtocolCommands.REMOVE_CONTACT_REQUEST, who.getLoginName());
+    }
+    
+    public static void sendConnectionTestRequest(Player to,String[] info) {
+        new Message(to.getConnection(), ServerProtocolCommands.CONNECTION_TEST_REQUEST, info);
     }
     
 }

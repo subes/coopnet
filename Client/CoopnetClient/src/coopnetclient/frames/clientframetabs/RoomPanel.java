@@ -18,37 +18,37 @@
  */
 package coopnetclient.frames.clientframetabs;
 
-import coopnetclient.Client;
 import coopnetclient.ErrorHandler;
 import coopnetclient.Globals;
-import coopnetclient.frames.listeners.ChatInputKeyListener;
-import coopnetclient.frames.models.SortedListModel;
-import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.FrameOrganizer;
-import coopnetclient.frames.interfaces.ClosableTab;
 import coopnetclient.frames.components.ConnectingProgressBar;
+import coopnetclient.frames.interfaces.ClosableTab;
+import coopnetclient.frames.listeners.ChatInputKeyListener;
+import coopnetclient.frames.models.SortedListModel;
 import coopnetclient.frames.popupmenus.PlayerListPopupMenu;
-import coopnetclient.utils.ui.SoundPlayer;
 import coopnetclient.frames.renderers.RoomPlayerStatusListCellRenderer;
-import coopnetclient.utils.gamedatabase.GameDatabase;
-import coopnetclient.utils.ui.Colorizer;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RoomData;
-import coopnetclient.utils.ui.UserListFileDropHandler;
+import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.hotkeys.Hotkeys;
 import coopnetclient.utils.launcher.Launcher;
-import coopnetclient.utils.launcher.launchinfos.DosboxLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.DirectPlayLaunchInfo;
+import coopnetclient.utils.launcher.launchinfos.DosboxLaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.LaunchInfo;
 import coopnetclient.utils.launcher.launchinfos.ParameterLaunchInfo;
+import coopnetclient.utils.ui.Colorizer;
+import coopnetclient.utils.ui.SoundPlayer;
+import coopnetclient.utils.ui.UserListFileDropHandler;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DropMode;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
@@ -77,10 +77,12 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         initComponents();
         scrl_chatOutput.updateStyle();
 
-        cb_useHamachi.setToolTipText("<html>Don't use this unless you have connection issues!" +
+        cmb_interface.setToolTipText("<html>Don't use this unless you have connection issues!" +
                     "<br>If you really need to use this, consult with the room host!" +
-                    "<br>Both you and the host have to be connected to the same hamachi network!" +
+                    "<br>Both you and the host have to be connected to the same VPN network!" +
                     "<br>Otherwise it won't work!");
+        cmb_interface.setVisible(false);
+        lbl_interface.setVisible(false);
 
         if (roomData.isHost()) {
             popup = new PlayerListPopupMenu(true, lst_userList);
@@ -133,13 +135,11 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         decideGameSettingsButtonVisility();
     }
 
-    private void detectHamachi(){
-        if (Client.getHamachiAddress().length() <= 0 || roomData.isHost()) {
-            cb_useHamachi.setVisible(false);
-            cb_useHamachi.setEnabled(false);
-        } else if (roomData.getHamachiIP().length() > 0) {
-            cb_useHamachi.setVisible(true);
-            cb_useHamachi.setEnabled(true);
+    private void detectVPN(){
+        if (cmb_interface.getItemCount() == 1 || roomData.isHost()) {//hosting, or only internet interface available
+            cmb_interface.setEnabled(false);
+        } else if (cmb_interface.getItemCount() > 1) {
+            cmb_interface.setEnabled(true);
         }
     }
 
@@ -225,7 +225,8 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     public void convertToJoinPanel() {
         btn_launch.setVisible(false);
-        cb_useHamachi.setVisible(true);
+        cmb_interface.setVisible(true);
+        lbl_interface.setVisible(true);
     }
 
     public void setGameSetting(String key, String value) {
@@ -333,7 +334,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
                     launchDisablerThread.cancel(true);
                 }
                 btn_launch.setEnabled(false);
-                cb_useHamachi.setEnabled(false);
+                cmb_interface.setEnabled(false);
             }
         });
     }
@@ -342,7 +343,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         btn_ready.setText(READY);
         btn_ready.setEnabled(true);
 
-        detectHamachi();
+        detectVPN();
 
         if (wasReadyBeforeReInit) {
             flipReadyStatus();
@@ -367,9 +368,10 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         scrl_chatInput = new javax.swing.JScrollPane();
         tp_chatInput = new javax.swing.JTextPane();
         scrl_chatOutput = new coopnetclient.frames.components.ChatOutput();
-        cb_useHamachi = new javax.swing.JCheckBox();
         btn_gameSettings = new javax.swing.JButton();
         prgbar_connecting = new coopnetclient.frames.components.ConnectingProgressBar();
+        cmb_interface = new javax.swing.JComboBox();
+        lbl_interface = new javax.swing.JLabel();
 
         setFocusable(false);
         setNextFocusableComponent(tp_chatInput);
@@ -386,6 +388,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
         add(btn_ready, gridBagConstraints);
@@ -467,28 +470,11 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.gridwidth = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
         add(sp_chatHorizontal, gridBagConstraints);
-
-        cb_useHamachi.setMnemonic(KeyEvent.VK_H);
-        cb_useHamachi.setText("use Hamachi");
-        cb_useHamachi.setToolTipText("<html>The host doesn't have Hamachi installed!");
-        cb_useHamachi.setEnabled(false);
-        cb_useHamachi.setFocusable(false);
-        cb_useHamachi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cb_useHamachiActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
-        add(cb_useHamachi, gridBagConstraints);
 
         btn_gameSettings.setMnemonic(KeyEvent.VK_G);
         btn_gameSettings.setText("Game Settings");
@@ -505,11 +491,32 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
         add(btn_gameSettings, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
         add(prgbar_connecting, gridBagConstraints);
+
+        cmb_interface.setModel(new DefaultComboBoxModel(Globals.getMatchingInterfaceIPMap(roomData.getInterfaceIPs()).keySet().toArray()));
+        cmb_interface.setSelectedItem(Globals.INTERNET_INTERFACE_NAME);
+        cmb_interface.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_interfaceActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
+        add(cmb_interface, gridBagConstraints);
+
+        lbl_interface.setText("Connect on:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 0);
+        add(lbl_interface, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void clickedbtn_launch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_launch
@@ -604,23 +611,6 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         }
 }//GEN-LAST:event_lst_userListMouseClicked
 
-    private void cb_useHamachiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_useHamachiActionPerformed
-        displayReInit();
-        if (cb_useHamachi.isSelected()) {
-            Logger.log(LogTypes.LOG, "Hamachi support turning on");
-            cb_useHamachi.setEnabled(false);
-            roomData.setUseHamachi(true);
-            initLauncher();
-            cb_useHamachi.setEnabled(true);
-        } else {
-            Logger.log(LogTypes.LOG, "Hamachi support turning off");
-            cb_useHamachi.setEnabled(false);
-            roomData.setUseHamachi(false);
-            initLauncher();
-            cb_useHamachi.setEnabled(true);
-        }
-}//GEN-LAST:event_cb_useHamachiActionPerformed
-
     private void btn_gameSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_gameSettingsActionPerformed
         SwingUtilities.invokeLater(new Thread() {
 
@@ -676,11 +666,22 @@ private void tp_chatInputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:e
     }
 }//GEN-LAST:event_tp_chatInputFocusLost
 
+    private void cmb_interfaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_interfaceActionPerformed
+        displayReInit();        
+        String newInterface = cmb_interface.getSelectedItem().toString();
+        Logger.log(LogTypes.LOG, "Changing interface to: "+newInterface);
+        cmb_interface.setEnabled(false);
+        roomData.setInterfaceKey(newInterface);
+        initLauncher();
+        cmb_interface.setEnabled(false);
+    }//GEN-LAST:event_cmb_interfaceActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_gameSettings;
     private javax.swing.JButton btn_launch;
     private javax.swing.JButton btn_ready;
-    private javax.swing.JCheckBox cb_useHamachi;
+    private javax.swing.JComboBox cmb_interface;
+    private javax.swing.JLabel lbl_interface;
     private javax.swing.JList lst_userList;
     private coopnetclient.frames.components.ConnectingProgressBar prgbar_connecting;
     private javax.swing.JScrollPane scrl_chatInput;

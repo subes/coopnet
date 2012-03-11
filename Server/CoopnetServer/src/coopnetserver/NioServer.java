@@ -18,13 +18,12 @@
  */
 package coopnetserver;
 
-import coopnetserver.protocol.out.Protocol;
-import coopnetserver.data.channel.ChannelData;
 import coopnetserver.data.connection.Connection;
 import coopnetserver.data.connection.ConnectionData;
 import coopnetserver.enums.LogTypes;
 import coopnetserver.enums.TaskTypes;
 import coopnetserver.protocol.out.Message;
+import coopnetserver.protocol.out.Protocol;
 import coopnetserver.utils.Database;
 import coopnetserver.utils.ErrThread;
 import coopnetserver.utils.Logger;

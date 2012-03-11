@@ -97,5 +97,6 @@ public enum ServerProtocolCommands {
     ROOM_INVITE,
     YOUR_IP_IS,
     SETAWAYSTATUS,
-    UNSETAWAYSTATUS
+    UNSETAWAYSTATUS,
+    CONNECTION_TEST_REQUEST
 }

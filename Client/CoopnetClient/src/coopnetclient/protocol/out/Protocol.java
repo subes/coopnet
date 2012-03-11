@@ -18,21 +18,21 @@
  */
 package coopnetclient.protocol.out;
 
-import coopnetclient.protocol.*;
-import coopnetclient.*;
-import coopnetclient.enums.ChatStyles;
+import coopnetclient.Globals;
 import coopnetclient.enums.ClientProtocolCommands;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.RoomData;
-import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.Verification;
 import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.utils.launcher.Launcher;
+import coopnetclient.utils.settings.Settings;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
+import java.util.HashMap;
+import java.util.Map;
 import passwordencrypter.PasswordEncrypter;
 
 public class Protocol {
@@ -46,7 +46,6 @@ public class Protocol {
     public static byte[] ENCODED_MESSAGE_DELIMITER;
     //Heartbeat character
     public static final String HEARTBEAT = "\u2665";
-    
 
     static {
         try {
@@ -57,6 +56,24 @@ public class Protocol {
         }
     }
 
+    public static String encodeIPMap(Map<String,String> source){
+        StringBuilder sb = new StringBuilder();
+        for (String key : source.keySet()) {
+            sb.append(key + "=" + source.get(key)+";");
+        }
+        return sb.toString();
+    }
+    
+    public static Map<String,String> decodeIPMap(String input){
+        Map<String,String> map = new HashMap<String,String>();
+        String[] entries = input.split(";");
+        for (String entry : entries) {
+            String[] pair = entry.split("=");
+            map.put(pair[0], pair[1]);
+        }
+        return map;
+    }
+    
     public static void sendVersion() {
         new Message(ClientProtocolCommands.CLIENTVERSION, Globals.getClientVersion());
     }
@@ -137,7 +154,7 @@ public class Protocol {
     }
 
     public static void createRoom(RoomData rd) {
-        final String[] info = {GameDatabase.getIDofGame(rd.getChannel()), rd.getRoomName(), rd.getPassword(), String.valueOf(rd.getMaxPlayers()), String.valueOf(rd.isInstant()), Client.getHamachiAddress(), String.valueOf(rd.getModIndex()), String.valueOf(rd.isDoSearch())};
+        final String[] info = {GameDatabase.getIDofGame(rd.getChannel()), rd.getRoomName(), rd.getPassword(), String.valueOf(rd.getMaxPlayers()), String.valueOf(rd.isInstant()), encodeIPMap(Globals.getInterfaceIPMap()), String.valueOf(rd.getModIndex()), String.valueOf(rd.isDoSearch())};
         new Message(ClientProtocolCommands.CREATE_ROOM, info);
     }
 
@@ -288,5 +305,13 @@ public class Protocol {
     public static void sendFile(String reciever, String fileName, String sizeInBytes, String port) {
         String[] info = {reciever, fileName, sizeInBytes, port};
         new Message(ClientProtocolCommands.SEND_FILE, info);
+    }
+
+    public static void sendConnectionTestRequest(String IP, String[] ports) {
+        String[] info = new String[ports.length + 1];
+        info[0] = IP;
+        System.arraycopy(ports, 0, info, 1, ports.length);
+        
+        new Message(ClientProtocolCommands.CONNECTION_TEST_REQUEST, info);
     }
 }

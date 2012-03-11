@@ -19,8 +19,8 @@
 
 package coopnetclient.utils.ui;
 
-import coopnetclient.protocol.in.CommandHandler;
 import coopnetclient.ErrorHandler;
+import coopnetclient.protocol.in.CommandHandler;
 import coopnetclient.protocol.out.Protocol;
 import java.util.ArrayList;
 

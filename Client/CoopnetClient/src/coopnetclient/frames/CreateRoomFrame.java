@@ -330,7 +330,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
         btn_create.setEnabled(false);
         if (btn_create.getText().equals("Create")) {
             //normal lobby stuff
-            RoomData rd = new RoomData(true, channel, modindex, "", "", (Integer) spn_maxPlayers.getValue(), "", tf_name.getText(), 0l, passw, cb_searchEnabled.isSelected(), cb_instantroom.isSelected());
+            RoomData rd = new RoomData(true, channel, modindex, Globals.getInterfaceIPMap(),(Integer) spn_maxPlayers.getValue(), "", tf_name.getText(), 0l, passw, cb_searchEnabled.isSelected(), cb_instantroom.isSelected());
             Protocol.createRoom(rd);
             FrameOrganizer.closeRoomCreationFrame();
             Globals.setLastRoomName(tf_name.getText());
@@ -345,7 +345,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     try {
-                        RoomData rd = new RoomData(true, channel, modindex, "", "", (Integer) spn_maxPlayers.getValue(), "", tf_name.getText(), 0l, passw, cb_searchEnabled.isSelected(), cb_instantroom.isSelected());
+                        RoomData rd = new RoomData(true, channel, modindex, Globals.getInterfaceIPMap(), (Integer) spn_maxPlayers.getValue(), "", tf_name.getText(), 0l, passw, cb_searchEnabled.isSelected(), cb_instantroom.isSelected());
                         boolean launch = Launcher.initInstantLaunch(rd);
                         if (launch) {
                             Launcher.instantLaunch();
@@ -363,7 +363,7 @@ public class CreateRoomFrame extends javax.swing.JFrame {
                 @Override
                 public void run() {
                     try {
-                        RoomData rd = new RoomData(true, channel, modindex, "", "", (Integer) spn_maxPlayers.getValue(), "", tf_name.getText(), 0l, passw, cb_searchEnabled.isSelected(), cb_instantroom.isSelected());
+                        RoomData rd = new RoomData(true, channel, modindex, Globals.getInterfaceIPMap(), (Integer) spn_maxPlayers.getValue(), "", tf_name.getText(), 0l, passw, cb_searchEnabled.isSelected(), cb_instantroom.isSelected());
                         boolean launch = Launcher.initInstantLaunch(rd);
                         if (launch) {
                             FrameOrganizer.openGameSettingsFrame(rd);

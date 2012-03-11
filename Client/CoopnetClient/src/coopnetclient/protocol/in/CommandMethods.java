@@ -25,6 +25,9 @@ import coopnetclient.enums.LogTypes;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.Verification;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.channels.SocketChannel;
 
 public class CommandMethods {
     protected static void checkProtocolVersion(String version){
@@ -33,5 +36,28 @@ public class CommandMethods {
             Client.disconnect();
             TabOrganizer.openErrorPanel(ErrorPanelStyle.PROTOCOL_VERSION_MISMATCH, null);
         }
+    }
+    
+    public static void testConnection(final String[] info) {
+        //info[0]: IP 
+        //the rest: port numbers to connect to
+        new Thread() {
+            public void run() {
+                String IP = info[0];
+                for (int i = 1; i < info.length; i++) {
+                    try {
+                        SocketChannel socket = SocketChannel.open();
+                        socket.configureBlocking(true);
+                        Logger.log("Connectiontest connecting to: " + info[i]);
+                        socket.connect(new InetSocketAddress(IP, new Integer(info[i])));
+                        Logger.log("Connectiontest successull on: " + ((InetSocketAddress) socket.getRemoteAddress()).getPort());
+                        socket.close();
+                    } catch (IOException exception) {
+                        //ignore
+                        exception.printStackTrace();
+                    }
+                }
+            }
+        }.start();
     }
 }

@@ -19,17 +19,16 @@
 package coopnetclient;
 
 import coopnetclient.dialogs.TrayIconHintDialog;
-import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.FrameOrganizer;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
-import coopnetclient.utils.settings.Settings;
-import coopnetclient.utils.gamedatabase.GameDatabase;
 import coopnetclient.protocol.out.Message;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.threads.EdtRunner;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.OnlineClientData;
 import coopnetclient.utils.Updater;
 import coopnetclient.utils.hotkeys.Hotkeys;
+import coopnetclient.utils.settings.Settings;
 import java.awt.SystemTray;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -57,13 +56,13 @@ public final class Client {
         }
     }
 
-    public static String getHamachiAddress() {
+    public static String getInterfaceAddress(String interfaceName) {
         String ip = "";
         try {
             Enumeration nifEnm = NetworkInterface.getNetworkInterfaces();
             while (nifEnm.hasMoreElements()) {
                 NetworkInterface nif = (NetworkInterface) nifEnm.nextElement();
-                if (nif.getDisplayName().toLowerCase().contains("hamachi")) {
+                if (nif.getDisplayName().toLowerCase().contains(interfaceName)) {
                     Enumeration<InetAddress> iadrs = nif.getInetAddresses();
                     while (iadrs.hasMoreElements()) {
                         InetAddress iadr = iadrs.nextElement();

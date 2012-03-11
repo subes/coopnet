@@ -18,19 +18,22 @@
  */
 package coopnetserver.protocol.in;
 
-import coopnetserver.data.channel.ChannelData;
-import coopnetserver.data.player.PlayerData;
-import coopnetserver.data.room.RoomData;
 import coopnetserver.data.channel.Channel;
+import coopnetserver.data.channel.ChannelData;
 import coopnetserver.data.connection.Connection;
-import coopnetserver.data.room.Room;
 import coopnetserver.data.player.Player;
+import coopnetserver.data.player.PlayerData;
+import coopnetserver.data.room.Room;
 import coopnetserver.exceptions.VerificationException;
-import coopnetserver.utils.Verification;
-import coopnetserver.utils.Database;
 import coopnetserver.protocol.out.Protocol;
+import coopnetserver.utils.Database;
+import coopnetserver.utils.Logger;
+import coopnetserver.utils.Verification;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.channels.SocketChannel;
 import java.sql.SQLException;
-import java.util.Map.Entry;
+import java.util.Map;
 
 public class CommandMethods {
 
@@ -120,7 +123,6 @@ public class CommandMethods {
                 logined.sendMyContactStatusToMyContacts();
                 //send the muta/ban data
                 Protocol.sendMuteBanData(logined);
-                Protocol.sendIP(con, con.getIpAddress());
                 if (information.length > 3) { //playing status sent
                     logined.setPlaying(Boolean.valueOf(information[2]));
                     logined.setPlayingOnChannel(ChannelData.getChannel(information[3]));
@@ -169,7 +171,7 @@ public class CommandMethods {
         }
         boolean instantLaunch = Boolean.parseBoolean(information[4]);
         boolean doSearch = Boolean.parseBoolean(information[7]);
-        String hamachiip = information[5];
+        Map<String,String> interfaceIps = Protocol.decodeIPMap(information[5]);
         String modindex = information[6];
 
         Room newroom = new Room(name, //name
@@ -178,7 +180,7 @@ public class CommandMethods {
                 limit, //maxplayers
                 currentChannel,//the channel that the room is in
                 instantLaunch,
-                hamachiip,
+                interfaceIps,
                 doSearch); // ip on hamachi
 
         newroom.setModIndex(modindex);
@@ -241,5 +243,29 @@ public class CommandMethods {
         }
         thisPlayer.setCountry(country);
         Protocol.confirmProfileChange(con);
+    }
+
+    public static void testConnection(final String[] info) {
+        //info[0]: IP 
+        //the rest: port numbers to connect to
+        new Thread() {
+
+            public void run() {
+                String IP = info[0];
+                for (int i = 1; i < info.length; i++) {
+                    try {
+                        SocketChannel socket = SocketChannel.open();
+                        socket.configureBlocking(true);
+                        Logger.log("Connectiontest connecting to: " + info[i]);
+                        socket.connect(new InetSocketAddress(IP, new Integer(info[i])));
+                        Logger.log("Connectiontest successull on: " + ((InetSocketAddress) socket.getRemoteAddress()).getPort());
+                        socket.close();
+                    } catch (IOException exception) {
+                        //ignore
+                        exception.printStackTrace();
+                    }
+                }
+            }
+        }.start();
     }
 }

@@ -19,18 +19,19 @@
 
 package coopnetclient.utils;
 
+import coopnetclient.Globals;
 import coopnetclient.utils.gamedatabase.GameDatabase;
+import java.util.Map;
 
 public class RoomData {
 
     private boolean isHost;
     private boolean doSearch;
     private boolean isInstant;
-    private boolean useHamachi = false;
+    private String interfaceKey = Globals.INTERNET_INTERFACE_NAME;
     private String channel;    
     private String modName;
-    private String IP;
-    private String hamachiIP;
+    private Map<String,String> interfaceIPs;
     private String hostName;
     private String roomName;
     private String password;
@@ -38,13 +39,12 @@ public class RoomData {
     private int modIndex;
     private long roomID;
 
-    public RoomData(boolean isHost, String channel, int modIndex, String ip, String hamachiIp, int maxPlayers , String hostName,String roomName,long ID,String password, boolean doSearch,boolean isInstant){
+    public RoomData(boolean isHost, String channel, int modIndex, Map<String,String> interfaceIPs, int maxPlayers , String hostName,String roomName,long ID,String password, boolean doSearch,boolean isInstant){
         this.isHost = isHost;
         this.doSearch = doSearch;
         this.channel = channel;
         this.modIndex = modIndex;
-        this.IP = ip;
-        this.hamachiIP = hamachiIp;
+        this.interfaceIPs = interfaceIPs;
         this.hostName = hostName;
         this.roomName = roomName;
         this.password = password;
@@ -91,19 +91,7 @@ public class RoomData {
     }
 
     public String getIP() {
-        if(useHamachi){
-            return hamachiIP;
-        }else{
-            return IP;
-        }
-    }
-
-    public String getHamachiIP() {
-        return hamachiIP;
-    }
-
-    public void setHamachiIP(String hamachiIP) {
-        this.hamachiIP = hamachiIP;
+        return interfaceIPs.get(getInterfaceKey());
     }
 
     public String getHostName() {
@@ -162,18 +150,15 @@ public class RoomData {
         this.isInstant = isInstant;
     }
 
-    /**
-     * @return the useHamachi
-     */
-    public boolean useHamachi() {
-        return useHamachi;
+    public String getInterfaceKey() {
+        return interfaceKey;
     }
 
-    /**
-     * @param useHamachi the useHamachi to set
-     */
-    public void setUseHamachi(boolean useHamachi) {
-        this.useHamachi = useHamachi;
+    public void setInterfaceKey(String interfaceKey) {
+        this.interfaceKey = interfaceKey;
     }
 
+    public Map<String, String> getInterfaceIPs() {
+        return interfaceIPs;
+    }
 }

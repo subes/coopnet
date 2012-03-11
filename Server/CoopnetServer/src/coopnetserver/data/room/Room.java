@@ -18,11 +18,12 @@
  */
 package coopnetserver.data.room;
 
-import coopnetserver.data.channel.*;
-import coopnetserver.protocol.out.Protocol;
+import coopnetserver.data.channel.Channel;
 import coopnetserver.data.player.Player;
 import coopnetserver.data.player.PlayerData;
+import coopnetserver.protocol.out.Protocol;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Vector;
@@ -45,12 +46,31 @@ public class Room {
     private Vector<Player> players = new Vector<Player>();
     private int maxPlayers = LIMIT;
     public Channel parent;
-    private String hamachiIp;
+    private Map<String,String> interfaceIPs;
     private boolean searchEnabled;
     private String modIndex;
     private boolean instantlaunchenabled = false;
     private HashMap<String, String> settings = new HashMap<String, String>();
 
+    /**
+     * creates a new room
+     */
+    public Room(String name, Player host, String password, int limit, Channel channel, boolean instantLaunch, Map<String,String> interfaceIPs, boolean doSearch) {
+        this.name = name;
+        this.host = host;
+        if (limit > LIMIT || limit < 0) {
+            limit = LIMIT;
+        }
+        this.maxPlayers = limit;
+        this.password = password;
+        players.add(host);
+        parent = channel;
+        this.instantlaunchenabled = instantLaunch;
+        this.interfaceIPs = interfaceIPs;
+        this.searchEnabled = doSearch;
+        RoomData.registerRoom(this);
+    }
+    
     /**
      * sends the launch command to every ready player in the room
      */
@@ -142,10 +162,6 @@ public class Room {
      */
     public String getName() {
         return name;
-    }
-
-    public String getHamachiIp() {
-        return hamachiIp;
     }
 
     /**
@@ -279,7 +295,7 @@ public class Room {
 
     /**
      * closes this room.
-     * all members are notifyed.
+     * all members are notified.
      * the room is removed from its channel(parent).
      */
     public void close() {
@@ -293,22 +309,7 @@ public class Room {
         Protocol.removeRoom(parent, host);
     }
 
-    /**
-     * creates a new room
-     */
-    public Room(String name, Player host, String password, int limit, Channel channel, boolean instantLaunch, String hamachiip, boolean doSearch) {
-        this.name = name;
-        this.host = host;
-        if (limit > LIMIT || limit < 0) {
-            limit = LIMIT;
-        }
-        this.maxPlayers = limit;
-        this.password = password;
-        players.add(host);
-        parent = channel;
-        this.instantlaunchenabled = instantLaunch;
-        this.hamachiIp = hamachiip;
-        this.searchEnabled = doSearch;
-        RoomData.registerRoom(this);
+    public Map<String, String> getInterfaceIPs() {
+        return interfaceIPs;
     }
 }

@@ -105,7 +105,8 @@ public class BugReportFrame extends javax.swing.JFrame {
 
         report += "\n\nCountry and Language codes:\n\t" + System.getProperty("user.country") + "-" + System.getProperty("user.language");
 
-        report += "\n\nHamachi:\n\t" + ((Client.getHamachiAddress().length()>0)?"found":"not found");
+        report += "\n\nHamachi:\n\t" + ((Client.getInterfaceAddress(Globals.HAMACHI_INTERFACE_NAME).length()>0)?"found":"not found");
+        report += "\n\nTunngle:\n\t" + ((Client.getInterfaceAddress(Globals.TUNNGLE_INTERFACE_NAME).length()>0)?"found":"not found");
 
         //EMail
         if (tf_email.getText().length() > 0) {

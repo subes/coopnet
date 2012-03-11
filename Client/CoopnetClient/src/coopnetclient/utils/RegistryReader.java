@@ -67,7 +67,7 @@ public class RegistryReader {
             String cmd = command + REG_QUERY_UTIL + nodePath + REG_VALUE_UTIL + key + "\"";
 
             //remove Wow6432Node from registry path as it is still working well on XP without it
-            if (Globals.getOperatingSystem() == OperatingSystems.WINDOWS_XP || Globals.getOperatingSystem() == OperatingSystems.LINUX) {
+            if (Globals.getOperatingSystem() != OperatingSystems.WINDOWS_7) {
                 cmd = cmd.replace("Wow6432Node\\", "");
             }
 

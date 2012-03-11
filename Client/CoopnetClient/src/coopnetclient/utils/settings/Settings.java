@@ -121,7 +121,7 @@ public final class Settings {
     private final static String wineCommand = "WineCommand";
     private final static String def_wineComamnd = "wine";
     private final static String fileTransferPort = "FiletransferPort";
-    private final static int def_fileTransferPort = 2300;
+    private final static int def_fileTransferPort = 2400;
     private final static String quickPanelPostionIsLeft = "QuickPanelPositionIsLeft";
     private final static boolean def_quickPanelPostionIsLeft = true;
     private final static String quickPanelDividerWidth = "QuckPanelDividerWidth";

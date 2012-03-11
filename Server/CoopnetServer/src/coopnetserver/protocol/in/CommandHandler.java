@@ -18,23 +18,20 @@
  */
 package coopnetserver.protocol.in;
 
-import coopnetserver.enums.ClientProtocolCommands;
-import coopnetserver.protocol.out.Protocol;
-import coopnetserver.*;
-import coopnetserver.data.room.Room;
+import coopnetserver.Task;
+import coopnetserver.TaskProcesser;
+import coopnetserver.data.channel.Channel;
+import coopnetserver.data.channel.ChannelData;
+import coopnetserver.data.connection.Connection;
 import coopnetserver.data.player.Player;
 import coopnetserver.data.player.PlayerData;
-import coopnetserver.data.channel.ChannelData;
-import coopnetserver.data.channel.Channel;
-import coopnetserver.data.connection.Connection;
+import coopnetserver.data.room.Room;
 import coopnetserver.data.room.RoomData;
+import coopnetserver.enums.ClientProtocolCommands;
 import coopnetserver.enums.TaskTypes;
 import coopnetserver.exceptions.VerificationException;
-import coopnetserver.utils.Logger;
-import coopnetserver.utils.Verification;
-import coopnetserver.utils.Database;
-import coopnetserver.utils.MailSender;
-import coopnetserver.utils.PasswordEncrypter;
+import coopnetserver.protocol.out.Protocol;
+import coopnetserver.utils.*;
 import java.sql.SQLException;
 import java.util.Arrays;
 import javax.mail.MessagingException;
@@ -107,6 +104,11 @@ public class CommandHandler {
                         return;
                     case CLIENTVERSION:
                         con.setClientVersion(information[0]);
+                        //reply with IP on handshake
+                        Protocol.sendIP(con, con.getIpAddress());
+                        break;
+                    case CONNECTION_TEST_REQUEST:
+                        CommandMethods.testConnection(information);
                         break;
                     default:
                         //DROP because server accepts no other messages
@@ -114,12 +116,14 @@ public class CommandHandler {
                     //this might also happen when the user is logged off
                     //before the slow-task-proccessor executes it
                     //so this shouldnt be mailed as a server bug
-                        /*String exceptionString = "Client sent a prohibitted command: "+ command.toString() +
-                    "\n\tData (length="+data.length+"):";
-                    for(int i = 0; i < data.length; i++){
-                    exceptionString += "\n\t\t"+i+": "+data[i];
-                    }
-                    throw new VerificationException(exceptionString);*/
+                        /*
+                     * String exceptionString = "Client sent a prohibitted
+                     * command: "+ command.toString() + "\n\tData
+                     * (length="+data.length+"):"; for(int i = 0; i <
+                     * data.length; i++){ exceptionString += "\n\t\t"+i+":
+                     * "+data[i]; } throw new
+                     * VerificationException(exceptionString);
+                     */
                 }
             } else {
                 switch (command) {
@@ -269,15 +273,14 @@ public class CommandHandler {
                     case GAME_CLOSED:
                         Channel ch = ChannelData.getChannel(information[0]);
                         Player[] recipients = null;
-                        if(ch!= null){
+                        if (ch != null) {
                             recipients = ch.getPlayersInChannel();
-                        }
-                        else if(thisPlayer.getCurrentRoom() != null){
+                        } else if (thisPlayer.getCurrentRoom() != null) {
                             recipients = thisPlayer.getCurrentRoom().getPlayers();
-                        }else{
+                        } else {
                             recipients = new Player[0];
                         }
-                        Protocol.gameClosed(information[0], thisPlayer,recipients);
+                        Protocol.gameClosed(information[0], thisPlayer, recipients);
                         thisPlayer.setPlaying(false);
                         thisPlayer.setSleepMode(false);
                         if (thisPlayer.getCurrentRoom() != null && thisPlayer.getCurrentRoom().isInstantLaunched()) {
@@ -311,14 +314,13 @@ public class CommandHandler {
 
                             String[] playerData = Database.getPlayerDataByName(information[0]);
 
-                            /* From Player.java
-                            this.pid = Long.parseLong(playerData[0]);
-                            this.loginName = playerData[1];
-                            this.ingameName = playerData[2];
-                            this.password = playerData[3];
-                            this.email = playerData[4];                           
-                            this.website = playerData[5];
-                            this.country = playerData[6];
+                            /*
+                             * From Player.java this.pid =
+                             * Long.parseLong(playerData[0]); this.loginName =
+                             * playerData[1]; this.ingameName = playerData[2];
+                             * this.password = playerData[3]; this.email =
+                             * playerData[4]; this.website = playerData[5];
+                             * this.country = playerData[6];
                              */
 
                             Protocol.showProfile(
@@ -510,6 +512,13 @@ public class CommandHandler {
                         break;
                     case UNSETAWAYSTATUS:
                         thisPlayer.setAway(false);
+                        break;
+                    case CONNECTION_TEST_REQUEST:
+                        if (thisPlayer.getCurrentRoom() == null) {
+                            CommandMethods.testConnection(information);
+                        } else {
+                            Protocol.sendConnectionTestRequest(thisPlayer.getCurrentRoom().getHost(),information);
+                        }
                         break;
                     default:
                         //DROP
