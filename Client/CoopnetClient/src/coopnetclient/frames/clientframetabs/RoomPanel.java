@@ -342,6 +342,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
     public void initDone() {
         btn_ready.setText(READY);
         btn_ready.setEnabled(true);
+        cmb_interface.setEnabled(true);
 
         detectVPN();
 
@@ -499,6 +500,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
         cmb_interface.setModel(new DefaultComboBoxModel(Globals.getMatchingInterfaceIPMap(roomData.getInterfaceIPs()).keySet().toArray()));
         cmb_interface.setSelectedItem(Globals.INTERNET_INTERFACE_NAME);
+        cmb_interface.setEnabled(false);
         cmb_interface.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_interfaceActionPerformed(evt);
@@ -545,6 +547,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
 
     private void clickedbtn_ready(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clickedbtn_ready
         btn_ready.setEnabled(false);
+        cmb_interface.setEnabled(false);
         readyDisablerThread = new SwingWorker() {
 
             @Override
@@ -557,6 +560,7 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
             protected void done() {
                 if (!isCancelled()) {
                     btn_ready.setEnabled(true);
+                    cmb_interface.setEnabled(true);
                 }
             }
         };
