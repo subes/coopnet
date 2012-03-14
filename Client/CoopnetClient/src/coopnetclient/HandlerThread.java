@@ -20,9 +20,9 @@ package coopnetclient;
 
 import coopnetclient.enums.ErrorPanelStyle;
 import coopnetclient.enums.LogTypes;
-import coopnetclient.protocol.out.Protocol;
 import coopnetclient.frames.clientframetabs.TabOrganizer;
 import coopnetclient.protocol.out.Message;
+import coopnetclient.protocol.out.Protocol;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.ui.SwingTask;
 import java.io.IOException;
@@ -322,7 +322,7 @@ public class HandlerThread extends Thread {
                 }
             } catch (Exception e) {
                 Logger.log(LogTypes.ERROR, "Failed to send: " + rawdata);
-                ErrorHandler.handle(e);
+                ErrorHandler.handle(e);               
             }
             return true;
         }

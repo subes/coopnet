@@ -258,11 +258,12 @@ public class CommandMethods {
                         socket.configureBlocking(true);
                         Logger.log("Connectiontest connecting to: " + info[i]);
                         socket.connect(new InetSocketAddress(IP, new Integer(info[i])));
-                        Logger.log("Connectiontest successull on: " + ((InetSocketAddress) socket.getRemoteAddress()).getPort());
+                        Logger.log("Connectiontest successull on: " + info[i]);
                         socket.close();
                     } catch (IOException exception) {
                         //ignore
                         exception.printStackTrace();
+                        break;
                     }
                 }
             }

@@ -383,11 +383,11 @@ public final class Globals {
         Map<String, String> interfaceToIP = new HashMap<String, String>();
         interfaceToIP.put(INTERNET_INTERFACE_NAME, clientIP);
         String hamachiIP = Client.getInterfaceAddress(HAMACHI_INTERFACE_NAME);
-        if (hamachiIP != null) {
+        if (hamachiIP != null && hamachiIP.length() > 0) {
             interfaceToIP.put(HAMACHI_INTERFACE_NAME, hamachiIP);
         }
         String tunngleIP = Client.getInterfaceAddress(TUNNGLE_INTERFACE_NAME);
-        if (tunngleIP != null) {
+        if (tunngleIP != null && tunngleIP.length() >0) {
             interfaceToIP.put(TUNNGLE_INTERFACE_NAME, tunngleIP);
         }
         return interfaceToIP;

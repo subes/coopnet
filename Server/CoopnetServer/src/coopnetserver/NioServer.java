@@ -309,6 +309,7 @@ public class NioServer extends ErrThread {
                             //save remaining data
                             key.attach(tmp);
                         } catch (Exception e) {
+                            e.printStackTrace();
                             key.cancel();
                             Connection con = ConnectionData.getConnection(key);
                             if(con != null){
