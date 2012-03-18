@@ -57,7 +57,7 @@ public final class Client {
     }
 
     public static String getInterfaceAddress(String interfaceName) {
-        String ip = "";
+        String ip = null;
         try {
             Enumeration nifEnm = NetworkInterface.getNetworkInterfaces();
             while (nifEnm.hasMoreElements()) {
@@ -66,9 +66,13 @@ public final class Client {
                     Enumeration<InetAddress> iadrs = nif.getInetAddresses();
                     while (iadrs.hasMoreElements()) {
                         InetAddress iadr = iadrs.nextElement();
-                        ip = iadr.getHostAddress();
-                        return ip;
+                        String ipStr = iadr.getHostAddress();
+                        //only want IPv4
+                        if(ip == null || ipStr.length() < ip.length()){
+                            ip = ipStr;
+                        }
                     }
+                    return ip;
                 }
             }
         } catch (Exception ex) {

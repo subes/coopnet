@@ -18,20 +18,14 @@
  */
 package coopnetclient.utils.gamedatabase;
 
-import coopnetclient.*;
+import coopnetclient.Globals;
 import coopnetclient.enums.LaunchMethods;
 import coopnetclient.enums.LogTypes;
 import coopnetclient.enums.MapLoaderTypes;
 import coopnetclient.utils.Logger;
 import coopnetclient.utils.RegistryReader;
 import coopnetclient.utils.settings.SettingsHelper;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

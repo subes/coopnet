@@ -317,7 +317,6 @@ public class NioServer extends ErrThread {
                             }else{
                                 ConnectionData.removeConnection(key);
                             }
-                            //logOff(key);//TODO dont log off directly
                             // client is no longer active
                             if (!(e.getMessage() != null && (e.getMessage().contains("reset by peer") || e.getMessage().contains("closed by the remote host") || e.getMessage().contains("terminated by the client.")))) {                               
                                 Logger.log(e, con);

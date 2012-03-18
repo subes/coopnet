@@ -18,12 +18,13 @@
  */
 package coopnetserver.utils;
 
-import coopnetserver.protocol.out.Protocol;
+import coopnetserver.ConnectionDropper;
+import coopnetserver.Globals;
+import coopnetserver.data.channel.Channel;
+import coopnetserver.data.channel.ChannelData;
 import coopnetserver.data.player.Player;
 import coopnetserver.data.player.PlayerData;
-import coopnetserver.data.channel.ChannelData;
-import coopnetserver.data.channel.Channel;
-import coopnetserver.*;
+import coopnetserver.protocol.out.Protocol;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -92,12 +93,7 @@ public final class RuntimeConsoleCommands {
                         pw.flush();
                         continue;
                     }
-/*
-                    if (lastcommand.startsWith("reload channels")) {
-                        ChannelData.load();
-                        continue;
-                    }
-*/
+
                     if (lastcommand.startsWith("start debug")) {
                         Globals.setDebug(true);
                         continue;

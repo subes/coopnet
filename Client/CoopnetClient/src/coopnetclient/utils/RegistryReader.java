@@ -37,9 +37,6 @@ public class RegistryReader {
     private static final String REGDWORD_TOKEN = "REG_DWORD";
     private static String command = "";
 
-    /*
-     * TODO change all regkeys of dplay to directplay/appliactions
-     */
     private RegistryReader() {
     }
 
