@@ -24,15 +24,17 @@ import coopnetclient.frames.popupmenus.ChatOutputPopupMenu;
 import coopnetclient.utils.ui.ColoredChatHandler;
 import coopnetclient.utils.ui.StyledChatMessage;
 import java.awt.Rectangle;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.text.StyledDocument;
-import javax.swing.text.ViewFactory;
-import java.awt.Dimension;
 import javax.swing.SizeRequirements;
 import javax.swing.text.Element;
+import javax.swing.text.StyledDocument;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 import javax.swing.text.html.HTMLEditorKit;
@@ -124,7 +126,21 @@ public class ChatOutput extends JScrollPane {
         HyperlinkMouseListener hyperlinkMouseListener = new HyperlinkMouseListener();
         textPane.addMouseListener(hyperlinkMouseListener);
         textPane.addMouseMotionListener(hyperlinkMouseListener);
+        
+        textPane.addFocusListener(new FocusListener() {
 
+            @Override
+            public void focusGained(FocusEvent e) {
+                //ignore
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                //clear selection
+                textPane.setSelectionStart(textPane.getCaretPosition());
+                textPane.setSelectionEnd(textPane.getCaretPosition());
+            }
+        });
         messages = new ArrayList<StyledChatMessage>();
         //StyledDocument doc = textPane.getStyledDocument();
         //the next line prevents opening the forms that use this component

@@ -1,1 +1,1 @@
-http://dfn.dl.sourceforge.net/sourceforge/coopnet/coopnetclient-0.104.1_all.zip
+http://dfn.dl.sourceforge.net/sourceforge/coopnet/coopnetclient-0.105.0_all.zip
