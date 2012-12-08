@@ -51,6 +51,8 @@ public class ColoredChatHandler {
     private static String highlightedFriendMessageStyleName = "hl_friend_message";
     private static String systemNameStyleName = "system";
     private static String systemMessageStyleName = "systemmessage";
+    private static String historyNameStyleName = "history";
+    private static String historyMessageStyleName = "historymessage";
     private static String whisperNameStyleName = "whispername";
     private static String highlightedWhisperNameStyleName = "hl_whispername";
     private static String whisperMessageStyleName = "whispermessage";
@@ -88,6 +90,10 @@ public class ColoredChatHandler {
                 case SYSTEM:
                     nameStyle = systemNameStyleName;
                     messageStyle = systemMessageStyleName;
+                    break;
+                case HISTORY:
+                    nameStyle = historyNameStyleName;
+                    messageStyle = historyMessageStyleName;
                     break;
                 case WHISPER:
                 case USER:
@@ -248,6 +254,8 @@ public class ColoredChatHandler {
         doc.removeStyle(highlightedhlinkStyleName);
         doc.removeStyle(systemNameStyleName);
         doc.removeStyle(systemMessageStyleName);
+        doc.removeStyle(historyNameStyleName);
+        doc.removeStyle(historyMessageStyleName);
         doc.removeStyle(whisperNameStyleName);
         doc.removeStyle(highlightedWhisperMessageStyleName);
         doc.removeStyle(defaultNameStyleName);
@@ -268,6 +276,8 @@ public class ColoredChatHandler {
         Style hl_hlinkStyle = doc.addStyle(highlightedhlinkStyleName, hlinkStyle);
         Style systemNameStyle = doc.addStyle(systemNameStyleName, null);
         Style systemMessageStyle = doc.addStyle(systemMessageStyleName, null);
+        Style historyNameStyle = doc.addStyle(historyNameStyleName, null);
+        Style historyMessageStyle = doc.addStyle(historyMessageStyleName, historyNameStyle);
         Style whisperNameStyle = doc.addStyle(whisperNameStyleName, myNameStyle);
         Style hl_whisperNameStyle = doc.addStyle(highlightedWhisperNameStyleName, whisperNameStyle);
         Style whisperMessageStyle = doc.addStyle(whisperMessageStyleName, messageStyle);
@@ -286,6 +296,7 @@ public class ColoredChatHandler {
         StyleConstants.setBackground(hl_whisperNameStyle, highlightingColor);
         StyleConstants.setBackground(hl_whisperMessageStyle, highlightingColor);
         StyleConstants.setBackground(hl_myNameStyle, highlightingColor);
+        
 
         //init link style
         StyleConstants.setForeground(hlinkStyle, Color.BLUE);
@@ -293,6 +304,8 @@ public class ColoredChatHandler {
         //other styles
         //note: styles have a hierarchic structure, only top levels and odd styles need to be set
         if (coopnetclient.utils.settings.Settings.getColorizeText()) {
+            StyleConstants.setForeground(historyNameStyle, coopnetclient.utils.settings.Settings.getHistoryMessageColor());
+            StyleConstants.setForeground(historyMessageStyle, coopnetclient.utils.settings.Settings.getHistoryMessageColor());
             StyleConstants.setForeground(systemNameStyle, coopnetclient.utils.settings.Settings.getSystemMessageColor());
             StyleConstants.setForeground(systemMessageStyle, coopnetclient.utils.settings.Settings.getSystemMessageColor());
             StyleConstants.setForeground(myNameStyle, coopnetclient.utils.settings.Settings.getYourUsernameColor());
@@ -303,6 +316,8 @@ public class ColoredChatHandler {
             StyleConstants.setForeground(friendNameStyle, coopnetclient.utils.settings.Settings.getFriendUsernameColor());
             StyleConstants.setForeground(friendMessageStyle, coopnetclient.utils.settings.Settings.getFriendMessageColor());
         }
+        StyleConstants.setFontFamily(historyMessageStyle, "monospaced");
+        StyleConstants.setFontFamily(historyNameStyle, "monospaced");
         StyleConstants.setFontFamily(systemMessageStyle, "monospaced");
         StyleConstants.setFontFamily(systemNameStyle, "monospaced");
         StyleConstants.setFontFamily(myNameStyle, coopnetclient.utils.settings.Settings.getNameStyle());
@@ -312,6 +327,8 @@ public class ColoredChatHandler {
         StyleConstants.setFontFamily(defaultNameStyle, coopnetclient.utils.settings.Settings.getNameStyle());
         StyleConstants.setFontFamily(defaultMessageStyle, coopnetclient.utils.settings.Settings.getMessageStyle());
 
+        StyleConstants.setFontSize(historyNameStyle, coopnetclient.utils.settings.Settings.getNameSize());
+        StyleConstants.setFontSize(historyMessageStyle, coopnetclient.utils.settings.Settings.getMessageSize());
         StyleConstants.setFontSize(systemNameStyle, coopnetclient.utils.settings.Settings.getNameSize());
         StyleConstants.setFontSize(systemMessageStyle, coopnetclient.utils.settings.Settings.getMessageSize());
         StyleConstants.setFontSize(myNameStyle, coopnetclient.utils.settings.Settings.getNameSize());

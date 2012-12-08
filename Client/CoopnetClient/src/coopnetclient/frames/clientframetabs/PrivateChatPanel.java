@@ -21,25 +21,44 @@ package coopnetclient.frames.clientframetabs;
 import coopnetclient.protocol.out.Protocol;
 import coopnetclient.enums.ChatStyles;
 import coopnetclient.enums.MuteBanStatuses;
+import coopnetclient.frames.components.HistoryLogger;
 import coopnetclient.frames.interfaces.ClosableTab;
 import coopnetclient.utils.MuteBanList;
 import coopnetclient.frames.listeners.ChatInputKeyListener;
 import java.awt.event.KeyEvent;
+import coopnetclient.Globals;
+import coopnetclient.utils.settings.Settings;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab {
 
     private String partner;
     private ChatInputKeyListener keyListener;
+    private HistoryLogger history;
 
     /** Creates new form PrivateChatPanel */
-    public PrivateChatPanel(String partner) {
+    public PrivateChatPanel(String partner) throws IOException {
         this.partner = partner;
         initComponents();
+        history = new HistoryLogger(Globals.getThisPlayerLoginName(),partner);
         scrl_chatOutput.updateStyle();
         coopnetclient.utils.ui.Colorizer.colorize(this);
 
         keyListener = new ChatInputKeyListener(ChatInputKeyListener.PRIVATE_CHAT_MODE, partner);
         tp_chatInput.addKeyListener(keyListener);
+        if(Settings.getShowHistoryLog()){
+            if(!history.isEmpty()){
+                List<String> messages = history.printall();
+                for(int i=0;i<messages.size();i++){
+                    scrl_chatOutput.printChatMessage("", messages.get(i), ChatStyles.HISTORY);
+                }
+            }
+        }
+            
+        
         scrl_chatOutput.getTextPane().addKeyListener(new java.awt.event.KeyAdapter() {
 
             @Override
@@ -98,9 +117,20 @@ public class PrivateChatPanel extends javax.swing.JPanel implements ClosableTab 
             scrl_chatOutput.getTextPane().setBackground(coopnetclient.utils.settings.Settings.getBackgroundColor());
         }
     }
+    
+    
+    
 
-    public void append(String sender, String message, ChatStyles style) {
+    public void append(String sender, String message, ChatStyles style){
         scrl_chatOutput.printChatMessage(sender, message, style);
+        if(Settings.getShowHistoryLog()){
+            try {
+                history.addMessage(sender+": "+message);
+            } catch (IOException ex) {
+                Logger.getLogger(PrivateChatPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
     }
 
     /** This method is called from within the constructor to

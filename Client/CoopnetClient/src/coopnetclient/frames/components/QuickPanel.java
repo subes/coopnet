@@ -32,7 +32,10 @@ import coopnetclient.utils.ui.Icons;
 import java.awt.Cursor;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DropMode;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -250,7 +253,11 @@ private void lst_contactListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-F
             if (model.getStatus(selected) != ContactListElementTypes.OFFLINE
                     && model.getStatus(selected) != ContactListElementTypes.GROUPNAME_OPEN
                     && model.getStatus(selected) != ContactListElementTypes.GROUPNAME_CLOSED) {
-                TabOrganizer.openPrivateChatPanel(selected, true);
+                    try {
+                        TabOrganizer.openPrivateChatPanel(selected, true);
+                    } catch (IOException ex) {
+                        Logger.getLogger(QuickPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
             }
         }
     }

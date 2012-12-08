@@ -47,7 +47,9 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DropMode;
 import javax.swing.SwingUtilities;
@@ -610,7 +612,11 @@ public class RoomPanel extends javax.swing.JPanel implements ClosableTab {
         } else if (evt.getClickCount() == 2 && evt.getButton() == MouseEvent.BUTTON1) {
             String name = (String) lst_userList.getSelectedValue();
             if (name != null && !name.equals("") && !name.equals(Globals.getThisPlayerLoginName())) {
-                TabOrganizer.openPrivateChatPanel(name, true);
+                try {
+                    TabOrganizer.openPrivateChatPanel(name, true);
+                } catch (IOException ex) {
+                    java.util.logging.Logger.getLogger(RoomPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 }//GEN-LAST:event_lst_userListMouseClicked

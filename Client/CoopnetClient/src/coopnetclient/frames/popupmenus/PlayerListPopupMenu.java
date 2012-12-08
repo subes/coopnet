@@ -28,6 +28,9 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
@@ -143,7 +146,11 @@ public class PlayerListPopupMenu extends JPopupMenu implements ActionListener {
         } else if (e.getSource() == addContact){
             Protocol.addToContacts(player);
         } else if (e.getSource() == whisper) {
-            TabOrganizer.openPrivateChatPanel(player, true);
+            try {
+                TabOrganizer.openPrivateChatPanel(player, true);
+            } catch (IOException ex) {
+                Logger.getLogger(PlayerListPopupMenu.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else if (e.getSource() == showProfile) {
             Protocol.requestProfile(player);
         } else if (e.getSource() == roomInvite) {

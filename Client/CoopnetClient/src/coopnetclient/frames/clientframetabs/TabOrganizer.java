@@ -41,6 +41,7 @@ import coopnetclient.threads.EdtRunner;
 import java.awt.Component;
 import java.awt.Font;
 import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -284,7 +285,7 @@ public final class TabOrganizer {
         return roomPanel;
     }
 
-    public static void openPrivateChatPanel(String title, boolean setFocus) {
+    public static void openPrivateChatPanel(String title, boolean setFocus) throws IOException {
         int index = tabHolder.indexOfTab(title);
         if (index == -1) {
             PrivateChatPanel pc = new PrivateChatPanel(title);

@@ -24,5 +24,6 @@ public enum ChatStyles {
     SYSTEM,
     USER,
     WHISPER,
-    WHISPER_NOTIFICATION
+    WHISPER_NOTIFICATION,
+    HISTORY // added
 }

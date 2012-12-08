@@ -41,6 +41,8 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.util.logging.Level;
 import javax.swing.DropMode;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -576,7 +578,11 @@ public class ChannelPanel extends JPanel implements ClosableTab {
             String selectedname = (String) lst_userList.getSelectedValue();
             if (selectedname != null && !selectedname.equals("") &&
                     !selectedname.equals(Globals.getThisPlayerLoginName())) {
-                TabOrganizer.openPrivateChatPanel(selectedname, true);
+                try {
+                    TabOrganizer.openPrivateChatPanel(selectedname, true);
+                } catch (IOException ex) {
+                    java.util.logging.Logger.getLogger(ChannelPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 TabOrganizer.putFocusOnTab(selectedname);
             }
         }

@@ -78,6 +78,10 @@ public final class Settings {
     private final static Color def_otherUsernamesColor = new Color(0, 51, 255);
     private final static String friendUsernameColor = "FriendUsernameColor";
     private final static Color def_friendUsernameColor = Color.GREEN.darker();
+    
+    private final static String historyMessageColor = "HistoryMessageColor";
+    private final static Color def_historyMessageColor = Color.GRAY;
+    
     private final static String systemMessageColor = "SystemMessageColor";
     private final static Color def_systemMessageColor = new Color(200, 0, 0);
     private final static String whisperMessageColor = "WhisperMessageColor";
@@ -154,6 +158,9 @@ public final class Settings {
     private final static boolean def_DOSBoxFullscreen = false;
     private final static String SHOW_MINIMIZE_TO_TRAY_HINT = "ShowMinimizeToTrayHint";
     private final static boolean DEF_SHOW_MINIMIZE_TO_TRAY_HINT = true;
+    
+    private final static String SHOW_HISTORY_LOG = "ShowHistoryLog";
+    private final static boolean DEF_SHOW_HISTORY_LOG = true;
 
     private Settings() {
     }
@@ -468,6 +475,15 @@ public final class Settings {
         SettingsHelper.writeSetting(otherUsernamesColor, String.valueOf(color.getRGB()));
     }
 
+    //historyMessageColor
+    public static Color getHistoryMessageColor() {
+        return SettingsHelper.readColor(historyMessageColor, def_historyMessageColor);
+    }
+
+    public static void setHistoryMessageColor(Color color) {
+        SettingsHelper.writeSetting(historyMessageColor, String.valueOf(color.getRGB()));
+    }
+
     //systemMessageColor
     public static Color getSystemMessageColor() {
         return SettingsHelper.readColor(systemMessageColor, def_systemMessageColor);
@@ -650,5 +666,15 @@ public final class Settings {
     public static boolean getShowMinimizeToTrayHint() {
         return SettingsHelper.readBoolean(SHOW_MINIMIZE_TO_TRAY_HINT,
                 DEF_SHOW_MINIMIZE_TO_TRAY_HINT);
+    }
+
+    public static void setShowHistoryLog(boolean value) {
+        SettingsHelper.writeSetting(SHOW_HISTORY_LOG,
+                String.valueOf(value));
+    }
+
+    public static boolean getShowHistoryLog() {
+        return SettingsHelper.readBoolean(SHOW_HISTORY_LOG,
+                DEF_SHOW_HISTORY_LOG);
     }
 }

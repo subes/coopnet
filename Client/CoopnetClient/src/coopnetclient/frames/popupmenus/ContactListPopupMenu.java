@@ -33,8 +33,11 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -254,7 +257,11 @@ public class ContactListPopupMenu extends JPopupMenu implements ActionListener {
             }
         } else if (e.getSource() == whisper) {
             if (model.getStatus(player) != ContactListElementTypes.OFFLINE) {
-                TabOrganizer.openPrivateChatPanel(player, true);
+                try {
+                    TabOrganizer.openPrivateChatPanel(player, true);
+                } catch (IOException ex) {
+                    Logger.getLogger(ContactListPopupMenu.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } else if (e.getSource() == nudge) {
             Protocol.nudge(player);

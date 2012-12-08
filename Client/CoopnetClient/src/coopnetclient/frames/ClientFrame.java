@@ -40,6 +40,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
@@ -174,7 +175,7 @@ public class ClientFrame extends javax.swing.JFrame {
         }
     }
 
-    public void printPrivateChatMessage(String sender, String message) {
+    public void printPrivateChatMessage(String sender, String message) throws IOException {
 
         PrivateChatPanel privatechat = TabOrganizer.getPrivateChatPanel(sender);
         if (privatechat == null) {//tab doesnt exist, must add it

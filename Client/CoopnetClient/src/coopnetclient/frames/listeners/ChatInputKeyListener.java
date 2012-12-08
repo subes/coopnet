@@ -158,6 +158,7 @@ public class ChatInputKeyListener implements KeyListener {
 
                         if (privatechat != null) {
                             privatechat.append(Globals.getThisPlayerLoginName(), msg, ChatStyles.WHISPER);
+                            
                         }
 
                         Protocol.privateChat(name, msg);

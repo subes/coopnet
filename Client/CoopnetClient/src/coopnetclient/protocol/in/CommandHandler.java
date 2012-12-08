@@ -43,6 +43,7 @@ import coopnetclient.utils.settings.Settings;
 import coopnetclient.utils.ui.FrameIconFlasher;
 import coopnetclient.utils.ui.SoundPlayer;
 import java.awt.Color;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /**
@@ -50,7 +51,7 @@ import javax.swing.JOptionPane;
  */
 public final class CommandHandler {
 
-    public static void execute(String[] data) {
+    public static void execute(String[] data) throws IOException {
         ServerProtocolCommands command = null;
         ChannelPanel cp;
 
